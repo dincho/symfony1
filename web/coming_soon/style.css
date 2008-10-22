@@ -1,0 +1,251 @@
+/* main */
+* html #tlc, * html #trc {height: 1%;}
+body
+{
+	margin: 0;
+	padding: 0;
+	background-color: white;
+	font-size: 10px;
+	text-align: center; 
+	color:#877f75;
+	font-family: Arial;
+}
+
+body .bigfield
+{
+	background-color:#363639;
+	border:1px solid #7995ae;
+	color:#aca49c;
+	width:185px;
+	font-size:14px;
+}
+
+body .send
+{
+	background-image: url(images/input/save.gif);
+	border:0px;
+	color:#fff;
+	width:46px;
+	height:28px;
+	cursor:pointer;
+}
+
+#index_image img
+{
+	float:left;
+	padding:2px;
+}
+
+#index_image
+{
+	width:312px;
+	height:290px;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#index_image.coming_soon
+{
+	width:312px;
+	height:375px;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#363639;
+	font-size:14px;
+	color:#d3d3d3;
+}
+
+#coming_soon_email_block
+{
+	clear:both;
+	font-size:14px;
+	color:#d3d3d3;
+	padding:3px;
+}
+
+#coming_soon_email_block input.bigfield
+{
+	float:left;
+	margin:4px;
+	margin-top:15px;
+}
+
+#coming_soon_email_block input.send
+{
+	float:right;
+	margin:4px;
+	margin-top:15px;
+	margin-right:8px;
+}
+/*index*/
+
+/*container*/
+#box
+{
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;	
+	margin-top: 10px;
+	padding: 0;
+	text-align: left;
+	width:80%;				/* <-- use this to tie width to viewport size */
+	width: 830px;				/* <-- use this for a set width */
+	background: #2b2b2b;
+}
+
+#header
+{
+	height:60px;
+	width:100%;
+}
+ 	
+#content
+	{
+	padding:25px;
+	padding-top:10px;
+	text-align:center;
+	}
+	
+#header_text.index
+{
+	text-align:center;
+	font-size:11px;
+	color:#fff;
+	margin-top:10px;
+}
+
+#coming_soon
+{
+	text-align:center;
+	padding-top:45px;
+	height:400px;
+	width:100%;
+	font-size:11px
+}
+
+#coming_soon form
+{
+	margin:0px;
+}
+
+#coming_soon_email
+{
+	background-color:#363639;
+	height:60px;
+	width:310px;
+	margin: 0 auto;
+}
+
+#content h1
+{
+	margin:0px;
+	color:#FFF;
+	font-weight: bold;
+	font-size: 1.2em;
+	font-family: helvetica, geneva, arial, sans-serif;
+}
+		
+#content p
+{
+	color:#FFF;
+	font-size: 1em;
+	line-height: 1.3em;
+	font-family: arial, helvetica, sans-serif;
+}
+
+p#message {
+	margin: 0 auto;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: center;
+}
+
+p#message.msg_ok {
+	color: #61D76C;
+}
+
+p#message.msg_error {
+	color: #F00;
+}
+
+/* ---=== border code follows ===--- */
+/*
+	tlc = top left corner
+	trc = top right corner
+	blc = bottom left corner
+	brc = bottom right corner
+	lb = left border
+	rb = right border
+	tb = top border
+	bb = bottom border 
+*/
+
+#tlc, #trc, #blc, #brc
+	{
+	background-color: transparent;
+	background-repeat: no-repeat;
+	}
+
+#tlc
+	{
+	background-image:url(images/box_corners/tlc.gif);
+	background-position: 0% 0%;
+	}
+
+#trc
+	{
+	background-image:url(images/box_corners/trc.gif);
+	background-position: 100% 0%;
+	}
+	
+#blc
+	{
+	background-image:url(images/box_corners/blc.gif);
+	background-position: 0% 100%;
+	}
+
+#brc
+	{
+	background-image:url(images/box_corners/brc.gif);
+	background-position: 100% 100%;
+	}
+
+#tb, #bb
+	{
+	background-color: transparent;
+	background-repeat: repeat-x;
+	}
+			
+#fix
+{
+	background-attachment:fixed;
+}			
+
+#tb
+	{
+	background-image:url(images/box_corners/tb.gif);
+	background-position: 0px 0px;
+	}
+
+#bb
+	{
+	background-image:url(images/box_corners/bb.gif);
+	background-position: 50% 100%;
+	}
+	
+#rb
+	{
+	background-image:url(images/box_corners/r.gif);
+	background-position: 100% 0%;
+	background-repeat: repeat-y;
+	}
+
+#lb
+	{
+	background-color: #2b2b2b;
+	background-image:url(images/box_corners/l.gif);
+	background-position: 0% 100%;
+	background-repeat: repeat-y;
+	}

@@ -1,0 +1,13 @@
+Catalogue:
+  1:
+    name:        messages.en_US
+    source_lang: en_US
+    target_lang: en_US
+    cat_id:      1
+  2:
+    name:        messages.bg_BG
+    source_lang: en_US
+    target_lang: bg_BG
+    cat_id:      2
+
+

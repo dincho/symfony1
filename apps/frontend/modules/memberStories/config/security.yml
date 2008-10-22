@@ -1,0 +1,4 @@
+index:
+  is_secure: off
+read:
+  is_secure: off

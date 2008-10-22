@@ -1,0 +1,19 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      sfSetting
+    theme:            default
+    credentials:      [ admin ]
+
+    list:
+      title:          Settings list
+      display:	      [ =name, value, env, description ]
+
+    edit:
+      title:          edit %%name%% setting value
+      fields:
+        env:             { help: for instance all or env or prod }
+        name:            
+        description:     { type: textarea_tag, params: size=80x3 }
+        created_user_id: { params: disabled=true }
+        updated_user_id: { params: disabled=true }

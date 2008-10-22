@@ -1,0 +1,68 @@
+<?php use_helper('dtForm', 'Javascript', 'Object'); ?>
+
+<?php echo __('Here you may change your registration information.') ?><br />
+<span><?php echo __('Make changes and click save.') ?></span>
+
+<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
+    <fieldset>
+        <?php echo pr_label_for('email', 'Your email address') ?>
+        <?php echo object_input_tag($member, 'getEmail') ?><br />    
+        
+        <?php echo pr_label_for('password', 'Create Password') ?>
+        <?php echo input_password_tag('password') ?><br />
+        
+        <?php echo pr_label_for('repeat_password', 'Repeat Password') ?>
+        <?php echo input_password_tag('repeat_password') ?><br />
+        
+        <?php echo pr_label_for('looking_for', 'You are') ?>
+        <?php echo select_tag('looking_for', looking_for_options()) ?><br />
+        
+        <?php echo pr_label_for('country', 'Country of Residence') ?>
+        <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
+        
+        <?php echo pr_label_for('state', 'State/ Province etc.') ?>
+        <?php echo pr_select_state_tag($member->getCountry(), 'state', $member->getStateId()) ?><br />
+        
+        <?php echo pr_label_for('district', 'District/ County etc.') ?>
+        <?php echo object_input_tag($member, 'getDistrict') ?><br />
+        
+        <?php echo pr_label_for('city', 'City') ?>
+        <?php echo object_input_tag($member, 'getCity') ?><br />
+        
+        <?php echo pr_label_for('zip', 'Zip Code') ?>
+        <?php echo object_input_tag($member, 'getZip') ?><br />
+        
+        <?php echo pr_label_for('nationality', 'Nationality') ?>
+        <?php echo object_input_tag($member, 'getNationality') ?><br />
+        
+        <?php echo pr_label_for('language', 'Native Language') ?>
+        <?php echo pr_select_language_tag('language', ($member->getLanguage()) ? $member->getLanguage() : 'en') ?><br />
+                
+    </fieldset>
+    <fieldset>
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
+        <?php echo submit_tag('Save', array('class' => 'save')) ?>
+    </fieldset>
+</form>
+
+<?php include_partial('content/footer_menu') ?>
+
+<?php echo observe_field('country', array(
+    'success'  => 'updateStates(request, json)',
+    'url'      => 'ajax/getStatesByCountry',
+    'with'     => "'country=' + value",
+)) ?>
+
+<?php echo javascript_tag("
+function updateStates(request, json)
+{
+  var nbElementsInResponse = json.length;
+  var S = $('state');
+  S.options.length = 0;  
+  
+  for (var i = 0; i < nbElementsInResponse; i++)
+  {
+     S.options[i] = new Option(json[i].title, json[i].id);
+  }
+}
+") ?>

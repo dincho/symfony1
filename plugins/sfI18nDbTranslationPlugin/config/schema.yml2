@@ -1,0 +1,19 @@
+propel:
+  catalogue:
+    cat_id:         { type: integer, size: 11,  required: true, autoincrement: true, primaryKey: true }
+    name:           { type: varchar, size: 100, required: true,  default: '' }
+    source_lang:    { type: varchar, size: 100, required: true,  default: '' }
+    target_lang:    { type: varchar, size: 100, required: true,  default: '' }
+    date_created:   { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:  { type: integer, size: 11, required: true,  default: 0 }
+    author:         { type: varchar, size: 255, required: true,  default: '' }
+  trans_unit:
+    msg_id:         { type: integer, size: 11, required: true, autoincrement: true, primaryKey: true }
+    cat_id:         { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
+    source:         { type: longvarchar, required: true  }
+    target:         { type: longvarchar, required: true  }
+    comments:       { type: longvarchar }
+    author:         { type: varchar, size: 255, required: true, default: ''}
+    translated:     { type: boolean, required: true, default: false }
+    date_created:   { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:  { type: integer, size: 11, required: true,  default: 0 }

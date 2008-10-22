@@ -1,0 +1,8 @@
+all:
+  default_culture:     en
+  source:              MySQL
+  database:            mysql://pr:polish@localhost/polish_romance
+  debug:               off
+  cache:               on
+  untranslated_prefix: "[T]"
+  untranslated_suffix: "[/T]"

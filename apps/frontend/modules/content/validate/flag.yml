@@ -1,0 +1,6 @@
+fillin:
+  enabled: true
+fields:
+  flag_category:
+    required:
+        msg:    Please select flag caetgory.

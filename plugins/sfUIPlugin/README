@@ -1,0 +1,71 @@
+= sfUIPlugin =
+A plugin for constructing data_grids. Improvements will be made.
+
+== Installation ==
+Run the following command:
+{{{
+symfony plugin-install http://plugins.symfony-project.com/sfUIPlugin
+}}}
+
+== Usage ==
+Simple example:
+{{{
+#!php
+echo object_data_grid(
+                       $users,  // $users => [id=10, name=John; id=20, name=Peter]
+                       array("ID" => "1", "NAME" => "1", "ACTIONS" => "2"),
+                       array("getId", "getName"),
+                       array("/user/show?id={getId}"),
+                       array("Edit"  => "@edit?id={getId}",   // @edit => /user/edit
+                             "Delete" => "@delete?id={getId}+Are you sure you want to delete {getNome}?"),   // @delete => /user/delete
+                       array("30%", "70%", "")
+                     );
+}}}
+Displays something like this:
+{{{
+#!html
+<table border="1">
+	<tr>
+		<th colspan="1" width="30%">ID</th>
+		<th colspan="1" width="70%">NAME</th>
+		<th colspan="2">ACTIONS</th>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>John</td>
+		<td><?php echo link_to("Edit", "/user/edit?id=10") ?></td>
+		<td><?php echo link_to("Delete", "/user/delete?id=10", array("confirm" => "Are you sure you want to delete John?")) ?></td>
+	</tr>
+	<tr>
+		<td>20</td>
+		<td>Peter</td>
+		<td><?php echo link_to("Edit", "/user/edit?id=20") ?></td>
+		<td><?php echo link_to("Delete", "/user/delete?id=20", array("confirm" => "Are you sure you want to delete Peter?")) ?></td>
+	</tr>
+</table>
+}}}
+
+For more information, see the function comment below:
+{{{
+/**
+ * This function create an object table list.
+ *
+ * @param  array    $objects       Listed objects as an array.
+ * @param  array    $headers       Associative array where the keys are the text and
+ *                                      the values are the number of colspan.
+ * @param  array    $values        Array with the methods used as values in the cells.
+ * 										One entry for each column.
+ * @param  array    $links         Array with possible links. One string for each cell. If you don't want a
+ * 										link, keep it empty string or null. If you put something between curly
+ *  									brackets, it'll be parsed as a object method.
+ * @param  array    $actions       Array of actions you want, where the key is the action and
+ * 										the value is the link for the action. It has the same rules as $links
+ * 										for curly bracktes.
+ * @param  array    $sizes         Array with the size of each column. One entry for each column.
+ * @param  string   $header_class  CSS class for the header.
+ * @param  string   $class1        CSS class for odd rows.
+ * @param  string   $class2        CSS class for even rows.
+ * @return string   $empty_text    The text it'll appear if the object array is empty
+ */
+function object_data_grid($objects, $headers, $values, $links = array(), $actions = array(), $sizes = array(), $header_class = null, $class1 = null, $class2 = null, $empty_text = "Empty")
+}}}

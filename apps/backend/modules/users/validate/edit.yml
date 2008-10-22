@@ -1,0 +1,23 @@
+fillin:
+  enabled: true
+fields:
+  first_name:
+    required:
+      msg:       This field cannot be left blank
+  last_name:
+    required:
+      msg:       This field cannot be left blank
+  email:
+    required:
+      msg:       This field cannot be left blank  
+    sfEmailValidator:
+      strict:       true
+      email_error:  This email address is invalid      
+  password:
+    group:      password_group
+  password2:
+    group:      password_group
+    group_msg:  Please retype the password
+    sfCompareValidator:
+      check:  password
+      compare_error:  The two passwords do not match

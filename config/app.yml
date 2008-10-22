@@ -1,0 +1,10 @@
+default:
+    mail:
+        host:      mail.bonex.us
+        port:      993
+        username:  autocheck@polishromance.com
+        password:  dincho
+        from:      PolishRomance.com
+        smtp_host:  mail.vhostbg.com
+        smtp_username:  pop3@xbuv.com
+        smtp_password:  pop3

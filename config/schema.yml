@@ -1,0 +1,323 @@
+propel:
+  session_storage:
+    sess_id:              { type: varchar, size: 255, required: true }
+    sess_data:            { type: longvarchar, required: true }
+    sess_time:            { type: bigint, size: 20, required: true }
+    user_id:              { type: integer, required: false, default: null }
+  user: #admin users
+    id:
+    username:             { type: varchar, size: 20, required: true }
+    password:             { type: char, size: 40, required: true } #sha1
+    first_name:           { type: varchar, size: 80, required: true }  
+    last_name:            { type: varchar, size: 80, required: true }
+    email:                { type: varchar, size: 255, required: true }
+    phone:                { type: varchar, size: 20, required: true }
+    must_change_pwd:      { type: boolean, default: false, required: true }
+    is_superuser:         { type: boolean, default: false, required: true }
+    is_enabled:           { type: boolean, default: false, required: true }
+    last_login:           { type: timestamp }
+    created_at:
+  state:
+    id:
+    country:              { type: char, size: 2, required: true, index: true }
+    title:                { type: varchar, size: 255, required: true }    
+  member:
+    id:
+    member_status_id:         { type: integer, required: false, foreignTable: member_status, foreignReference: id, onDelete: restrict }
+    username:                 { type: varchar, size: 20, required: true }
+    password:                 { type: char, size: 40, required: true } #sha1
+    new_password:             { type: char, size: 40, required: false } #sha1 temp password used for container before password confirmation
+    must_change_pwd:          { type: boolean, default: false, required: true } #force member to change password on next login 
+    first_name:               { type: varchar, size: 80, required: true }  
+    last_name:                { type: varchar, size: 80, required: true }
+    email:                    { type: varchar, size: 255, required: true }
+    tmp_email:                { type: varchar, size: 255, required: true } #temp field used for changging emails
+    confirmed_email:          { type: char, size: 1, required: false } #field used for email confirmation; C - current, N - new  
+    sex:                      { type: char, size: 1, required: true }
+    looking_for:              { type: char, size: 1, required: true }
+    reviewed_by_id:           { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
+    reviewed_at:              { type: timestamp, required: false }
+    is_starred:               { type: boolean, default: false, required: true }
+    country:                  { type: char, size: 2, required: true }
+    state_id:                 { type: integer, required: false, foreignTable: state, foreignReference: id, onDelete: restrict }
+    district:                 { type: varchar, size: 100, required: true }
+    city:                     { type: varchar, size: 60, required: true } #the longest city name in the world have 58 chars
+    zip:                      { type: integer, size: 10, required: true }
+    nationality:              { type: varchar, size: 255, required: true }
+    language:                 { type: varchar, size: 3, required: true }
+    birthday:                 { type: bu_date }
+    dont_display_zodiac:      { type: boolean, required: true, default: false }
+    us_citizen:               { type: boolean, required: false, default: null }
+    email_notifications:      { type: tinyint, required: true, default: 0 }
+    dont_use_photos:          { type: boolean, required: true, default: 0 }
+    contact_only_full_members:  { type: boolean, required: true, default: 0 }
+    youtube_vid:              { type: varchar, size: 20, required: false } #YouTube video ID
+    essay_headline:           { type: varchar, size: 255 }
+    essay_introduction:       { type: longvarchar }
+    search_criteria_id:       { type: integer, required: false, foreignTable: search_criteria, foreignReference: id, onDelete: setnull }
+    subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
+    sub_auto_renew:           { type: boolean, required: true, default: true }
+    member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
+    last_activity:            { type: timestamp } #timestamp of last sent message
+    last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
+    last_flagged:			  { type: timestamp } #timestamp of the last flag
+    last_login:               { type: timestamp }
+    created_at:
+  member_status:
+    id:
+    title:                    { type: varchar, size: 255 }
+  #split table with all counters of each member
+  #this is "lite" variant since is it too slow to use COUNT over flags  and messages table,
+  #each time when we need this values
+  member_counter:
+    id:
+    current_flags:            { type: integer, required: true, default: 0 }
+    total_flags:              { type: integer, required: true, default: 0 }
+    sent_flags:               { type: integer, required: true, default: 0 }
+    sent_winks:               { type: integer, required: true, default: 0 }
+    received_winks:           { type: integer, required: true, default: 0 }
+    sent_messages:            { type: integer, required: true, default: 0 }
+    received_messages:        { type: integer, required: true, default: 0 }
+    reply_messages:           { type: integer, required: true, default: 0 }
+    unsuspensions:            { type: integer, required: true, default: 0 }
+    assistant_contacts:       { type: integer, required: true, default: 0 }
+    profile_views:            { type: integer, required: true, default: 0 }
+    made_profile_views:       { type: integer, required: true, default: 0 }
+    hotlist:                  { type: integer, required: true, default: 0 }
+    on_others_hotlist:        { type: integer, required: true, default: 0 }
+  member_note:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    user_id:                  { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
+    text:                     { type: longvarchar, required: true }
+    created_at:
+  desc_question:
+    id:
+    title:                    { type: varchar, size: 255 }
+    search_title:             { type: varchar, size: 255 }
+    desc_title:               { type: varchar, size: 255 }
+    factor_title:             { type: varchar, size: 255 }
+    type:                     { type: varchar, size: 50 }
+  desc_answer:
+    id:
+    desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
+    title:                    { type: longvarchar } #longvarchar because of personality
+    search_title:             { type: varchar, size: 255 }
+  member_desc_answer:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
+    desc_answer_id:           { type: integer, required: false, default: null }
+    other:                    { type: varchar, size: 255 }
+    custom:                   { type: varchar, size: 255 } #some custom answers depending from type, e.g. serialized array
+  search_criteria:
+    id:
+    ages:                     { type: longvarchar }
+    ages_weight:              { type: tinyint, required: true }
+  search_crit_desc:
+    id:
+    search_criteria_id:       { type: integer, required: true, foreignTable: search_criteria, foreignReference: id, onDelete: cascade }
+    desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
+    desc_answers:             { type: longvarchar, required: false }
+    match_weight:             { type: tinyint, required: true }
+  member_photo:
+    id:
+    member_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade }
+    file:                     { type: varchar, size: 255 }
+    cropped:                  { type: varchar, size: 255 }
+    is_main:                  { type: boolean, required: true, default: false }
+  imbra_question:
+    id:
+    title:                    { type: longvarchar, required: false }
+    explain_title:            { type: longvarchar, required: false }
+    positive_answer:          { type: longvarchar, required: false }
+    negative_answer:          { type: longvarchar, required: false }
+  imbra_status:
+    id:
+    title:                    { type: varchar, size: 80 }
+  imbra_reply_template:
+    id:
+    title:                    { type: varchar, size: 255 }
+    subject:                  { type: varchar, size: 255 }
+    body:                     { type: longvarchar }
+    mail_from:                { type: varchar, size: 255 }
+    reply_to:                 { type: varchar, size: 255 }
+    bcc:                      { type: varchar, size: 255 }
+  member_imbra:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    imbra_status_id:          { type: integer, required: true, foreignTable: imbra_status, foreignReference: id, onDelete: restrict }
+    text:                     { type: longvarchar }
+    name:                     { type: varchar, size: 100 }
+    dob:                      { type: varchar, size: 100 }
+    address:                  { type: varchar, size: 255 }
+    city:                     { type: varchar, size: 100 }
+    state_id:
+    zip:                      { type: varchar, size: 20 }                  
+    phone:                    { type: varchar, size: 30 }                  
+    created_at:
+  member_imbra_answer:
+    id:
+    member_imbra_id:          { type: integer, required: true, foreignTable: member_imbra, foreignReference: id, onDelete: cascade }
+    imbra_question_id:        { type: integer, required: true, foreignTable: imbra_question, foreignReference: id, onDelete: cascade }
+    answer:                   { type: boolean, default: false, required: true }
+    explanation:              { type: longvarchar }
+  profile_view:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade } #viewed member/profile id
+    created_at:
+  block:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    created_at:    
+  subscription:
+    id:
+    title:                    { type: varchar, size: 255 }
+    can_post_photo:           { type: boolean, default: false, required: true }
+    post_photos:              { type: integer, default: 0, required: true }
+    can_wink:                 { type: boolean, default: false, required: true }
+    winks:                    { type: integer, default: 0, required: true }
+    can_read_messages:        { type: boolean, default: false, required: true }
+    read_messages:            { type: integer, default: 0, required: true }
+    can_reply_messages:       { type: boolean, default: false, required: true }
+    reply_messages:           { type: integer, default: 0, required: true }
+    can_send_messages:        { type: boolean, default: false, required: true }
+    send_messages:            { type: integer, default: 0, required: true }
+    can_see_viewed:           { type: boolean, default: false, required: true }
+    see_viewed:               { type: integer, default: 0, required: true }
+    can_contact_assistant:    { type: boolean, default: false, required: true }
+    contact_assistant:        { type: integer, default: 0, required: true }
+    period1_from:             integer
+    period1_to:               integer
+    period1_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
+    period2_from:             integer
+    period2_to:               integer
+    period2_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
+    period3_from:             integer
+    period3_to:               integer
+    period3_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
+    pre_approve:              { type: boolean, default: false, required: true }
+  subscription_history:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: cascade }
+    created_at:
+  member_status_history:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    member_status_id:         { type: integer, required: true, foreignTable: member_status, foreignReference: id, onDelete: cascade }
+    created_at:
+  message:
+    id:
+    from_member_id:           { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    to_member_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    subject:                  { type: varchar, size: 255 }
+    content:                  { type: longvarchar }
+    sent_box:                 { type: boolean, default: false, required: true }
+    is_read:                  { type: boolean, default: false, required: true }
+    is_reviewed:              { type: boolean, default: false, required: true }
+    created_at:
+  hotlist:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    created_at:    
+  wink:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    created_at:    
+  feedback:
+    id:
+    mailbox:                  { type: tinyint, required: true, default: 1 } #default to INBOX
+    member_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: setnull }
+    mail_from:                varchar(255)
+    name_from:                varchar(255)
+    mail_to:                  varchar(255)
+    name_to:                  varchar(255)
+    bcc:                      { type: varchar, size: 255 }
+    subject:                  varchar(255)
+    body:                     longvarchar
+    is_read:                  { type: boolean, default: false, required: true }
+    created_at:
+  flag_category:
+    id:
+    title:                    { type: varchar, size: 255 }
+  flag:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    flagger_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    flag_category_id:         { type: integer, required: true, foreignTable: flag_category, foreignReference: id, onDelete: restrict }
+    comment:                  { type: varchar, size: 255 }
+    is_history:               { type: boolean, required: true, default: false }
+    created_at:
+  suspended_by_flag:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    confirmed_at:             { type: timestamp }
+    confirmed_by:             { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
+    created_at:
+  catalogue:
+    cat_id:         { type: integer, size: 11,  required: true, autoincrement: true, primaryKey: true }
+    name:           { type: varchar, size: 100, required: true,  default: '' }
+    source_lang:    { type: varchar, size: 100, required: true,  default: '' }
+    target_lang:    { type: varchar, size: 100, required: true,  default: '' }
+    date_created:   { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:  { type: integer, size: 11, required: true,  default: 0 }
+    author:         { type: varchar, size: 255, required: true,  default: '' }
+  trans_unit:
+    id:
+    cat_id:         { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
+    source:         { type: longvarchar, required: true  }
+    target:         { type: longvarchar, required: true  }
+    comments:       { type: longvarchar }
+    author:         { type: varchar, size: 255, required: true, default: ''}
+    translated:     { type: boolean, required: true, default: false }
+    date_created:   { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:  { type: integer, size: 11, required: true,  default: 0 }
+  static_page:
+    id:
+    slug:           { type: varchar, size: 255, required: true }
+  static_page_i18n:
+    link_name:      { type: varchar, size: 100, required: false }
+    title:          { type: varchar, size: 255, required: true }
+    keywords:       { type: varchar, size: 255, required: false }
+    description:    { type: longvarchar, required: false }
+    content:        { type: longvarchar, required: true }
+  member_story:
+    id:
+    slug:           { type: varchar, size: 255, required: true }
+    sort_order:     { type: integer, size: 11, required: true, default: 0 }
+  member_story_i18n:
+    link_name:      { type: varchar, size: 100, required: true }
+    title:          { type: varchar, size: 255, required: true }
+    keywords:       { type: varchar, size: 255, required: true }
+    description:    { type: longvarchar, required: true }
+    content:        { type: longvarchar, required: true }
+  notification:
+    id:
+    name:           { type: varchar, size: 255 }
+    send_from:      { type: varchar, size: 255 }
+    send_to:        { type: varchar, size: 255 }
+    reply_to:       { type: varchar, size: 255 }
+    bcc:            { type: varchar, size: 255 }
+    trigger_name:   { type: varchar, size: 255 }
+    subject:        { type: varchar, size: 255 }
+    body:           { type: longvarchar }
+    is_active:      { type: boolean, required: true, default: false }
+    to_admins:      { type: boolean, required: true, default: false }
+    days:           { type: integer }
+    whn:            { type: char, size: 1 } # when ... before after X days
+  notification_event:
+    id:
+    notification_id:
+    event:           { type: tinyint }
+
+# NOTE: This is used only for model generation once!!!    
+#  matches:
+#    member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+#    member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+#    score:          { type: integer, required: true }
+#    reverse_score:  { type: integer, required: true }

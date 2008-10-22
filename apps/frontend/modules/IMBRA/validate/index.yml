@@ -1,0 +1,8 @@
+fillin:
+  enabled: true
+fields:
+    answers:
+        required:
+            msg: Please answer to all IMBRA questions. If some of your answers is yes, please give explanation/description.
+
+

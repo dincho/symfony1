@@ -1,0 +1,21 @@
+title:
+    class:  titleFilter
+rendering: ~
+web_debug: ~
+security:  ~
+
+# generally, you will want to insert your own filters here
+mustChangePwd:
+    enabled: yes
+    class:  mustChangePwdFilter
+    param:
+        password_action: editProfile/registration
+status:
+    class:  statusFilter
+referer:
+    class:  refererFilter
+
+cache:     ~
+common:    ~
+flash:     ~
+execution: ~

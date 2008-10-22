@@ -1,0 +1,35 @@
+fillin:
+  enabled: true
+fields:
+  first_name:
+    required:
+      msg:       This field cannot be left blank
+  last_name:
+    required:
+      msg:       This field cannot be left blank
+  email:
+    required:
+      msg:       This field cannot be left blank  
+    sfEmailValidator:
+      strict:       true
+      email_error:  This email address is invalid      
+  username:
+    required:
+      msg:       This field cannot be left blank
+    sfRegexValidator:
+        match:        Yes
+        match_error:  Allowed chars are [a-z][0-9] and underscore, min 4 chars max 20
+        pattern:      /^[a-z0-9_]{4,20}$/      
+    sfPropelUniqueValidator:
+      class:        User
+      column:       username
+      unique_error: This username already exists.
+  password:
+    required:
+      msg:  Please enter a password
+  password2:
+    required:
+      msg:  Please retype the password
+    sfCompareValidator:
+      check:  password
+      compare_error:  The two passwords do not match

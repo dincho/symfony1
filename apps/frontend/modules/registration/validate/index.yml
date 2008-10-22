@@ -1,0 +1,21 @@
+fillin:
+  enabled: true
+fields:
+  language:
+    required:
+        msg:    Please select your language.
+  country:
+    required:
+        msg:    Please select your country of residence
+  city:
+    required:
+      msg:  Please provide city where live.
+  zip:
+    required:
+      msg:  Please provide your zip/ postal code.
+  nationality:
+    required:
+      msg:  Please provide your nationality.
+  first_name:
+    required:
+      msg:  Please provide your first name

@@ -1,0 +1,873 @@
+---
+MemberStatus: 
+  MemberStatus_1: 
+    title: Active
+  MemberStatus_2: 
+    title: Suspended
+  MemberStatus_3: 
+    title: Canceled
+  MemberStatus_4: 
+    title: Abandoned
+  MemberStatus_5: 
+    title: Pending
+  MemberStatus_6: 
+    title: Deleted
+User: 
+  User_1: 
+    username: admin
+    password: admin
+    first_name: Polish
+    last_name: Admin
+    email: admin@polishromance.com
+    phone: 
+    must_change_pwd: 0
+    is_superuser: 1
+    is_enabled: 1
+    last_login: 2008-08-01 08:33:44
+State: 
+  State_1: 
+    country: us
+    title: Alabama
+  State_2: 
+    country: us
+    title: Florida
+Subscription: 
+  Subscription_1: 
+    title: Free Membership
+    can_post_photo: 0
+    post_photos: 1
+    can_wink: 0
+    winks: 1
+    can_read_messages: 0
+    read_messages: 1
+    can_reply_messages: 0
+    reply_messages: 1
+    can_send_messages: 0
+    send_messages: 1
+    can_see_viewed: 0
+    see_viewed: 1
+    can_contact_assistant: 0
+    contact_assistant: 1
+    period1_from: 1
+    period1_to: 6
+    period1_price: 99999.99
+    period2_from: 7
+    period2_to: 12
+    period2_price: 99999.99
+    period3_from: 13
+    period3_to: 999
+    period3_price: 99999.99
+    pre_approve: 1
+  Subscription_2: 
+    title: Paid Membership
+    can_post_photo: 1
+    post_photos: 100
+    can_wink: 1
+    winks: 100
+    can_read_messages: 1
+    read_messages: 100
+    can_reply_messages: 1
+    reply_messages: 100
+    can_send_messages: 1
+    send_messages: 100
+    can_see_viewed: 1
+    see_viewed: 100
+    can_contact_assistant: 1
+    contact_assistant: 100
+    period1_from: 1
+    period1_to: 6
+    period1_price: 99999.99
+    period2_from: 7
+    period2_to: 12
+    period2_price: 99999.99
+    period3_from: 13
+    period3_to: 999
+    period3_price: 99999.99
+    pre_approve: 0
+  Subscription_3: 
+    title: Complimentary Membership
+    can_post_photo: 1
+    post_photos: 100
+    can_wink: 1
+    winks: 100
+    can_read_messages: 1
+    read_messages: 100
+    can_reply_messages: 1
+    reply_messages: 100
+    can_send_messages: 1
+    send_messages: 100
+    can_see_viewed: 1
+    see_viewed: 100
+    can_contact_assistant: 1
+    contact_assistant: 100
+    period1_from: 1
+    period1_to: 6
+    period1_price: 99999.99
+    period2_from: 7
+    period2_to: 12
+    period2_price: 99999.99
+    period3_from: 13
+    period3_to: 999
+    period3_price: 99999.99
+    pre_approve: 0
+FlagCategory: 
+  FlagCategory_1: 
+    title: Inappropriate Content
+  FlagCategory_2: 
+    title: Spam
+  FlagCategory_3: 
+    title: Scam
+  FlagCategory_4: 
+    title: Other
+ImbraStatus: 
+  ImbraStatus_1: 
+    title: Approved
+  ImbraStatus_2: 
+    title: Pending
+  ImbraStatus_3: 
+    title: Denied
+MatchWeight: 
+  MatchWeight_1: 
+    title: Very important
+    number: 21
+  MatchWeight_2: 
+    title: Important
+    number: 8
+  MatchWeight_3: 
+    title: Somehow important
+    number: 3
+  MatchWeight_4: 
+    title: Not important
+    number: 1
+StaticPage: 
+  StaticPage_1: 
+    slug: about_us
+  StaticPage_2: 
+    slug: contact_us
+  StaticPage_3: 
+    slug: frequently_asked_questions
+  StaticPage_4: 
+    slug: for_law_enforcement
+  StaticPage_5: 
+    slug: free_european_passport
+  StaticPage_6: 
+    slug: help
+  StaticPage_7: 
+    slug: how_it_works
+  StaticPage_8: 
+    slug: IMBRA
+  StaticPage_9: 
+    slug: user_agreement
+  StaticPage_10: 
+    slug: privacy_policy
+  StaticPage_11: 
+    slug: copyright
+  StaticPage_12: 
+    slug: site_map
+  StaticPage_13: 
+    slug: affiliates
+StaticPageI18n: 
+  StaticPageI18n_1_bg: 
+    id: StaticPage_1
+    culture: bg
+    link_name: За Нас
+    title: За Нас
+    keywords: За Нас, информация
+    description: За Нас, информация
+    content: Някво инфо за нас ..
+  StaticPageI18n_1_en: 
+    id: StaticPage_1
+    culture: en
+    link_name: About Us
+    title: About Us
+    keywords: About Us
+    description: |
+      About Us
+      
+    content: Some content for about us
+  StaticPageI18n_2_en: 
+    id: StaticPage_2
+    culture: en
+    link_name: 
+    title: Contact Us
+    keywords: 
+    description: 
+    content: |
+      <p class="contact_us"><strong>General Questions:</strong><br />info (at) PolishRomance.com </p>
+      <p class="contact_us"><strong>Customer Support:</strong><br />support (at) PolishRomance.com </p>
+      <p class="contact_us"><strong>Billing Questions:</strong><br />billing (at) PolishRomance.com </p>
+      <p class="contact_us"><strong>Feedback and Great Ideas:</strong><br />feedback (at) PolishRomance.com </p>
+  StaticPageI18n_3_en: 
+    id: StaticPage_3
+    culture: en
+    link_name: 
+    title: FAQs
+    keywords: 
+    description: 
+    content: |
+      <span class="faqs"><a href="#1">&bull; I do not know even one word in Polish. Do you think this will be a problem in communication with Polish woman?</a><br /></span>
+      <span class="faqs"><a href="#2">&bull; Let's say she invites me to Poland. How do I go about going there? I've never been to Poland before!</a></span>
+      <p>If your question isn't here, please <a href="contact_us.shtml" class="sec_link">contact us</a>.</p>
+      <span class="faq_title"><a name="1"></a>I do not know even one word in Polish. Do you think this will be a problem in communication with Polish woman?</span>
+      <span class="description">No, Polish woman who use this website speak at least basic English. When you meet her, ask her to teach you some Polish. This will open a new field for flirting and getting to know each other better.</span>
+      <span class="faq_title"><a name="2"></a>Let's say she invites me to Poland. How do I go about going there? I've never been to Poland before!</span>
+      <span class="description">Unlike Ukraine or Russia, Poland is relatively safe European country. Of course you always have to be careful, but no more than when going to Spain or Germany or, say Pittsburgh. There are some safety precautions though that apply to dating in or traveling any place in the world, be it New York, Warsaw or Paris. First, before going, write a note to your friend, sister etc. showing name, telephone number and address of the person who invited you. Where are you going and when are you planning to be back. Second, do not go straight to her house, however excited that would seem - book a room in the nearby hotel and invite her to hotel restaurant for the first meeting. You should also consider hiring recommended private guide or respectful tourist office to help you organize your visit. Please see articles section for more advice on going to Poland and read our Online Safety section. </span><br /><br />
+      <a href="#" class="sec_link">Back to Top</a>
+  StaticPageI18n_4_en: 
+    id: StaticPage_4
+    culture: en
+    link_name: 
+    title: For Law Enforcement
+    keywords: 
+    description: 
+    content: |
+      <p class="imbra">It is our intention to fully comply with the law in every detail. We will appreciate any comments or feedback: please contact us at <span class="for_law">Legal at PolishRomance dot com.</span></p>
+      <p class="imbra">Special note for US immigration enforcement: our website was created with built-in full compliance with <span class="for_law">US International Marriage Broker Regulation Act of 2005 (IMBRA)</span>. We will appreciate your comments and feedback. Please contact us at <span class="for_law">Legal at PolishRomance dot com</span>.</p>
+  StaticPageI18n_5_en: 
+    id: StaticPage_5
+    culture: en
+    link_name: 
+    title: Free European Passport?
+    keywords: 
+    description: 
+    content: 
+  StaticPageI18n_6_en: 
+    id: StaticPage_6
+    culture: en
+    link_name: 
+    title: Help
+    keywords: 
+    description: 
+    content: |
+      <table width="700" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+      <td style="padding: 25 0 0 0;">
+      <a href="#1" class="linksubdash">&bull;&nbsp;I forgot my password</a><br>
+      <a href="#2" class="linksubdash">&bull;&nbsp;I cannot contact other member, even though I'm logged in.</a><br>
+      <a href="#3" class="linksubdash">&bull;&nbsp;Special note to AOL users</a><br>
+      <a href="#4" class="linksubdash">&bull;&nbsp;How do I sing up?</a><br>
+      <a href="#5" class="linksubdash">&bull;&nbsp;How do I unsubscribe?</a><br>
+      
+      <a href="#6" class="linksubdash">&bull;&nbsp;Can I delete my account?</a><br>
+      <p>
+      If your question isn't here, please <a href="contact_us_m.shtml" class="actions">contact us</a>.
+      
+      <p>
+      <a name="1" class="label">I forgot my password.</a><br>
+      <span class="textbig">If this happens, the remedy is to request a new one. The new, temporary password will be sent to you email address. Click here to request new password or here to log in. If you</span>
+      
+      <p>
+      
+      <a name="2" class="label">I cannot contact other member, even though I'm logged in.</a><br>
+      <span class="textbig">There are couple of things you can do:
+      
+      <ol type="a">
+      <li> Activate your account. Registration is not the end of the process. You have to activate your account by clicking on a link in the message that our system sent you upon your registration. You have to go to your mailbox (in hotmail, or yahoo etc.), find an email from us, and click on a link provided in it. AOL users cannot click (that's the way AOL works...) - they have to copy the link, paste it into the address field of their internet browser and press Go/ Enter.
+      <li> Check your Junk Mail Folder. Due to aggressive anti-spam policies of Yahoo, Hotmail and other internet providers, our Activation Email may have ended up in your Junk Mail. Find it and mark as "Not Spam".
+      <li> Caps Lock. Make sure Caps Lock is off. If it's on, you may be entering wrong password or email address into the LOG IN area.
+      <li> Password. Make sure you're entering the same password as you used for registration process. If you forgot your password, please go to the Main Page, click LOG IN, and then choose "Forgot your password? Click here". Or click on Log In Failure and follow the instructions.
+      <li> Email Address. Make sure you're entering the same email address as you used for registration process.
+      <li> Internet Settings. In your internet program/ browser (you're probably using Internet Explorer) go to Tools, then choose Internet Settings and then check Privacy and Security Settings. They should be set up to Medium or Medium High. Cookies enabled.
+      Please check your security settings Make sure you </span>
+      </ol>
+      <p>
+      
+      <a name="3" class="label">Special note to AOL users</a><br>
+      <span class="textbig">A small percentage of America Online users may experience problems when using some of our features, experiencing blank white pages or lack of confirmation. If you are one of them then you have the following two options that may solve these problems.
+      Please understand that our website is complete, everything here is working fine and accessed by millions around the world .. the problem you are experiencing, if any, is simply with your AOL built in browser and not with the structure of our site. Using the independent browser instead of the built-in AOL browser can solve many problems associated with accessing the World Wide Web through AOL... In few words we can say that AOL still has a long way to go before it can provide the same access to the internet, trouble free for its customers.
+      <p>
+      OPTION #1. Simply connect to the internet using any other Internet Service Provider such as Juno.com, MSN.com, or Earthlink.net and you will have none of the problems that you currently may be experiencing.<br>
+      OPTION #2. If you do not wish to use switch to another Internet service provider then you can download and install a stand-alone version of Internet Explorer Web browser.
+      <p>
+      Here is the simplest way to proceed, Download the latest version of Microsoft's free browser Internet Explorer, security updates and service packs. http://www.microsoft.com/windows/ie/default.htm
+      Install the downloaded browser software on your computer. (You'll find installation instructions at the Internet Explorer download Web site.)
+      After you successfully install your new browser, restart your computer.
+      Sign on to AOL and stay at the AOL Welcome page. (Note: You must sign on to AOL before proceeding.)
+      Keep AOL running in the background (you can just minimize the window) and start your newly installed Internet Explorer. The new browser will use your AOL connection... but you will see for yourself what you have been missing by using AOL built in browser.
+      If you wish to cancel your AOL account, call 1-888-265-8008. Or mail AOL at P.O. Box 1600/ Ogden, UT 84401 or FAX 801-622-7969. Specify that you're cancelling, give your full name, phone number and address, and either the primary billing contact's AOL screenname or the last four digits of the current payment method.
+      </span>
+      <p>
+      
+      <a name="4" class="label">How do I sing up?</a><br>
+      <span class="textbig">Click <a href="#" class="linksubdash">here</a> and follow the instructions.</span>
+      
+      <p>
+      
+      <a name="5" class="label">How do I unsubscribe?</a><br>
+      <span class="textbig">Go to <a href="dashboard.shtml" class="linksubdash">Dashboard</a>, select Subscription and set Auto-Renewal to 'off'.</span>
+      
+      <p>
+      
+      <a name="6" class="label">Can I delete my account?</a><br>
+      <span class="textbig">Sure. Go to Dashboard and select Delete. To hide the account temporarily you may want to deactivate the account instead of deleting.</span>
+      
+      <p><a href="help.shtml" class="actions">Back to Top</a>
+      </td>
+      </tr>
+      <tr>
+      <td height="19"></td>
+      </tr>
+      </table>
+      
+  StaticPageI18n_7_en: 
+    id: StaticPage_7
+    culture: en
+    link_name: 
+    title: How it works
+    keywords: 
+    description: 
+    content: 
+  StaticPageI18n_8_en: 
+    id: StaticPage_8
+    culture: en
+    link_name: IMBRA
+    title: IMBRA
+    keywords: IMBRA
+    description: IMBRA
+    content: |
+      <span class="imbra">If you are not a US citizen or US permanent resident, you don't need to read this page.</span>
+      <p class="imbra">In March 2005 US Congress introduced a law that puts certain requirements on US men before they can date and marry foreign women. Our website fully complies with this law and you will be able to legally sponsor your future wife if you decide to do so.</p>
+      <p class="imbra">This law, called International Marriage Broker Regulation Act of 2005 (or simply IMBRA), has received widespread criticism from both Internet users as well as from owners of Internet dating services throughout the United States. </p>
+      <p class="imbra">Instead of adding to this criticism, we simply created a website that fully complies with IMBRA. Please note that using online service that do not comply with IMBRA, may jeopardize any plans for marriage with your non-US fiancee. Some website only say they comply with IMBRA, but in fact they don't. We recommend that you call your nearest Customs and Immigration Bureau to find out if the website you're going to use is on the "black list". If it is, don't use it. </p>
+      <p class="imbra">Further reading: original text of International Marriage Broker Regulation Act of 2005 </p>
+      <p class="imbra">US men on IMBRA: <a href="http://www.IMBRA.org" target="_blank">www.IMBRA.org</a></p>
+  StaticPageI18n_9_en: 
+    id: StaticPage_9
+    culture: en
+    link_name: 
+    title: Terms of Use
+    keywords: 
+    description: 
+    content: |
+      <span class="last_update">Last amended on July, 2007</span>
+      <p>Please read this document carefully.</p>
+      <p>If you're:</p>
+      <ul class="please_read">
+      <li>18 or younger, or </li>
+      <li>married, or </li>
+      <li>have been convicted or charged with sex or violent crime or offence,<br />you are not allowed to use this service - <a href="http://www.google.com" class="sec_link_small">please click here to leave now</a>.</li>
+      </ul>
+      Welcome to PolishRomance.com's website ("PolishRomance.com" or the "Service", or "us", or "we"), an online dating service that provides adults with an opportunity to contact each other via the Internet. PolishRomance.com is provided by FutuRise Interactive, an England and Wales business located in London, United Kingdom. This Terms of Service / Membership Agreement ("Agreement") is a legal agreement between you and PolishRomance.com. Please read these terms and conditions carefully before using this Website. Using this Website indicates that you accept these terms without modification regardless of whether or not you choose to register with us as a member and constitutes you being a party to this Agreement. If you do not accept these terms, do not use this Website and click here to leave now. Once you have completed your online registration procedure, your membership has been activated and you have entered into a legally binding contract for the provision of the Service.
+      <span class="rule_title">1. Eligibility</span>
+      <span class="rule_description">MINORS MAY NOT BECOME MEMBERS. When you register, and from time to time thereafter, PolishRomance.com will require that you provide sufficient information to indicate that you are at least 18 years old. By becoming a member, you represent and warrant that you are at least 18 years old, that you are not married, and that you are not a convicted sex offender (or someone charged wit sex offence), and, that you have not been charged with or convicted any offence or crime of violence.</span>
+      <span class="rule_title">2. Electronic Form</span>
+      <span class="rule_description">By accessing the Service or becoming a Member of the Service, you consent to have this Agreement provided to you in electronic form.</span>
+      <span class="rule_title">3. Modification of the Agreement</span>
+      <span class="rule_description">You understand and agree that PolishRomance.com may amend or modify these Terms or impose new conditions at any time by updating these Terms. Any use of the Service after such updating shall be deemed to constitute your acceptance of such amendments, modifications, or new conditions. Should you object to any such modifications to these Terms or if you are dissatisfied with the Service at anytime or for any reason, your sole and exclusive remedy is to discontinue using the Service.</span>
+      <span class="rule_title">4. Registration and Subscription</span>
+      <span class="rule_description">You may become a member of the Service at no cost. As a member you will have the ability to participate in some, but not all, of the features and services available within the Service. In order to access additional features and services, including the ability to communicate with other members, you must become a paying subscriber to the Service. Please see our billing details for a description of the current continuous service rates. This rate list is part of this Agreement. We can change the subscription fees for the Service at any time but we will give you reasonable notice of this before we do so. If you are unhappy with any subscription fee changes you may terminate your membership by writing to our address listed below or by going here. </span>
+      <span class="rule_title">5. Current Information Required</span>
+      <span class="rule_description">You must provide current, complete and accurate information for your billing account. You must promptly update all information to keep your billing account current, complete and accurate (such as a change in billing address, credit card number, or credit card expiration date), and you must promptly notify PolishRomance.com if your payment method is cancelled (e.g., for loss or theft) or if you become aware of a potential breach of security, such as the unauthorized disclosure or use of your user name or password. Changes to such information can be made on the website. If you fail to provide PolishRomance.com any of the foregoing information, you agree that PolishRomance.com may continue charging you for any use of the service under your billing account unless you have terminated your subscription for the service (confirmed in writing upon request by PolishRomance.com).</span>
+      <span class="rule_title">6. Scope of Service</span>
+      <span class="rule_description">The Service enables you to contact other members. PolishRomance.com is not a marriage brokering service and is not obligated to successfully broker any other members for you.</span>
+      <span class="rule_title">7. Recurring Billing</span>
+      <span class="rule_description">Most subscription plans to the Service consist of an initial period, for which there is a one time charge, followed by recurring period charges as agreed to by you. By entering into this Agreement, you acknowledge that your subscription has an initial and recurring payment feature and you accept responsibility for all recurring charges prior to cancellation and authorize PolishRomance.com to levy such charges. PolishRomance.com may submit periodic charges (e.g., monthly) without further authorization from you, until you provide prior notice (confirmed in writing upon request by PolishRomance.com, email form being acceptable) that you have terminated this authorization or wish to change your payment method. Such notice will not affect charges submitted before PolishRomance.com reasonably could act. To terminate your authorization or change your payment method, go to http://www.PolishRomance.com.</span>
+      <span class="rule_title">8. Postponed commencement of the Service</span>
+      <span class="rule_description">Although this Agreement will remain in full force and effect while you are a member of the Service, under the United Kingdom Consumer Protection (Distance Selling) Regulations 2000 (as amended), you can postpone commencement of the Service until the seven working day cooling-off period has expired. However, if you choose to become a member and enter the Website, you are electing to commence the Service immediately and you thereby waive any right to cancel the Service under the above Regulations.</span>
+      <span class="rule_title">9. Termination</span>
+      <span class="rule_description">You may terminate your membership at any time, for any reason, effective upon receipt by us of your written or email notice of termination. You may contact us at our address listed below or you may email us here.<br /><br />PolishRomance.com reserves the right, without notice and in its sole discretion, to terminate or cancel your agreement or restrict your access rights to the Service at any time and immediately. PolishRomance.com reserves the right at any time to modify or discontinue the Service and you agree that PolishRomance.com shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Service.<br /><br />If we may immediately terminate your membership and your access to the Service at any time because you have breached this Agreement and will send you notice of termination at the email address you provide in your application for membership or such other email address as you may later provide to us. If we terminate your membership of the Service because you have breached the Agreement, we will NOT refund any pre-payments made by you.<br /><br />If you terminate your subscription, your subscription will remain active until the end of the period through which you had paid prior to your termination. In the case of violation of one or more of the terms of this Agreement by you, we may block your account, delete prohibited content, and prevent publication of all or part of your Portrait. We may also block your access to all or part of the Service, either permanently or temporarily.<br /><br />PolishRomance.com may deactivate the accounts of members who have not used the Service for a period of six months or more (as calculated by the date of last connection to the Service) unless you are a paying subscriber.<br /><br /></span>
+      <span class="rule_title">10. Non Commercial Use by Members and Non-Transferability</span>
+      <span class="rule_description">The Website is for the personal use of individual members only and may not be used in connection with any commercial endeavors. Organizations, companies, and/or businesses may not become members and should not use the Service or the Website for any purpose. Illegal and/or unauthorized uses of the Website, including collecting user-names and/or email addresses of members by electronic or other means for the purpose of sending unsolicited email and unauthorized framing of or linking to the Website will be investigated, and appropriate legal action will be taken, including without limitation, civil, criminal, and injunctive redress.</span>
+      <span class="rule_title">11. Non-Transferability of Member's Rights</span>
+      <span class="rule_description">You may not authorize others to use your membership and you may not assign or otherwise transfer your account to any other person or entity.</span>
+      <span class="rule_title">12. Online Conduct and Content Posted</span>
+      <span class="rule_description">You are solely responsible for the content and information you publish or display on the Service or transmit to other members. You will not post on the Service or transmit to other members, or others, any defamatory, inaccurate, abusive, obscene, profane, offensive, sexually oriented, threatening, harassing, racially offensive, or illegal material, or any material that infringes or violates another party's rights (including, but not limited to, intellectual property rights, and rights of privacy and publicity). You will use the Service in a manner consistent with any and all applicable laws and regulations. You will not include in your personal profile any sexual references or offensive sexually suggestive or connotative language, and you will not post any photos containing nudity or pornographic images. PolishRomance.com reserves the right to reject, deactivate or delete any profile or photo that does not comply with these prohibitions. You will not engage in advertising to, or solicitation of, other members to buy or sell any products or services through the Service. You will not transmit any chain letters or junk e-mail to other members. You will not post, distribute, or reproduce in any way, any copyrighted material, trademarks, or other proprietary information without obtaining the prior consent of the owner of such proprietary rights. You are solely responsible for your interactions with other members. PolishRomance.com reserves the right, but has no obligation, to monitor disputes between you and other members.<br /><br />International Users. The Service is offered from the operations of PolishRomance.com in the United Kingdom. PolishRomance.com makes no representation that the Service is appropriate or available in other locations. If you access the Service from locations outside the United Kingdom, you do so on your own initiative and are responsible for compliance with local laws, if and to the extent local laws are applicable. As a member, you agree that PolishRomance.com may collect, use and transfer your personal information as described in the PolishRomance.com Privacy Policy (as in effect from time to time), including transfer outside the country where you live. <br /><br />You understand and agree that PolishRomance.com may review and delete any content, winks, messages, double-blind emails, photos or Portraits (collectively, "Content"), in each case in whole or in part, that in the sole judgment of PolishRomance.com violate this Agreement or which might be offensive, illegal, or that might violate the rights, harm, or threaten the safety of Members.<br /><br />By posting Content to any public area of PolishRomance.com, you automatically grant, and you represent and warrant that you have the right to grant, to PolishRomance.com, its affiliates, licensees and successors, an irrevocable, perpetual, non-exclusive, fully paid, worldwide license to use, copy, perform, display, reproduce, adapt, modify and distribute such information and content and to prepare derivative works of, or incorporate into other works, such information and content, and to grant and authorize sublicenses of the foregoing. You further represent and warrant that public posting and use of your content by PolishRomance.com will not infringe or violate the rights of any third party.<br /><br />The following is a partial list of the kind of Content that is illegal or prohibited on the Website. PolishRomance.com reserves the right to investigate and take appropriate legal action in its sole discretion against anyone who violates this provision, including without limitation, removing the offending communication from the Service and terminating the membership of such violators. It includes, but is not limited to, Content that: is patently offensive to the online community, such as Content that promotes racism, bigotry, hatred or physical harm of any kind against any group or individual; harasses or advocates harassment of another person; involves the transmission of "junk mail", "chain letters," or unsolicited mass mailing or "spamming"; promotes information that you know is false, misleading or promotes illegal activities or conduct that is abusive, threatening, obscene, defamatory or libelous; promotes an illegal or unauthorized copy of another person's copyrighted work, such as providing pirated computer programs or links to them, providing information to circumvent manufacture-installed copy-protect devices, or providing pirated images, audio or video, or links to pirated images, audio or video files; contains restricted or password only access pages, or hidden pages or images (those not linked to or from another accessible page); provides material that exploits people under the age of 18 in a sexual or violent manner, or solicits personal information from anyone under the age of 18; provides instructional information about illegal activities such as making or buying illegal weapons, violating someone's privacy, or providing or creating computer viruses; solicits passwords or personal identifying information for commercial or unlawful purposes from other users; and engages in commercial activities and/or sales without our prior written consent such as contests, sweepstakes, barter, advertising, and pyramid schemes. Your use of the Service, including but not limited to the Content you post on the Service, must be in accordance with any and all applicable laws and regulations.<br /><br />You may not engage in advertising to, or solicitation of, other Members. This includes but is not limited to solicitation or advertising to buy or sell any products or services through the Service or to attend parties or other social functions or networking for commercial purposes. You may not transmit any chain letters or junk email to other Members. Although PolishRomance.com cannot monitor the conduct of its Members off the Website, it is also a violation of these rules to use any information obtained from the Service in order to harass, abuse, or harm another person, or in order to contact, advertise to, solicit, or sell to any Member without their prior explicit consent. In order to protect our Members from such advertising or solicitation, we reserves the right to restrict the number of emails which a Member may send to other Members in any 24-hour period to a number which we deem appropriate in our sole discretion.<br /><br />All information you include in your Member Portrait must be accurate, current and complete.</span>
+      <span class="rule_title">13. Modifications to Service and Service access</span>
+      <span class="rule_description">While PolishRomance.com endeavors to ensure that this Website is normally available 24 hours a day, we do not guarantee that it will be uninterrupted or error free. Access to this Website may be suspended temporarily and without notice in the case of system failure, maintenance or repair or for reasons beyond our control. PolishRomance.com reserves the right at any time to modify or discontinue, temporarily or permanently, the Service (or any part thereof) with or without notice. You agree that PolishRomance.com shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Service. </span>
+      <span class="rule_title">14. Blocking of IP Addresses</span>
+      <span class="rule_description">To protect the integrity of the Service, PolishRomance.com reserves the right at any time in its sole discretion to block certain IP addresses from accessing the Service.</span>
+      <span class="rule_title">15. Indemnification</span>
+      <span class="rule_description">You will defend, indemnify, and hold harmless PolishRomance.com, its officers, directors, shareholders, employees, agents and third parties, for any losses, costs, liabilities and expenses (including reasonable attorneys' fees) relating to or arising out of your use of the Service, including without limitation any breach by you of these Terms. <br /><br />In the event that a claim or action is brought against us from your activities or use of the Website or the Service, including any breach by you of this Agreement or any charges or complaints made by other parties against you, you agree to pay, hold harmless and defend us in the claim or action. You also agree to cooperate as fully as reasonably required in the defence of any claim and allow us to assume the exclusive defence and control of the matter.</span>
+      <span class="rule_title">16. Online Content - Waiver of Responsibility</span>
+      <span class="rule_description">Opinions, stories, articles, advice, statements, offers, or other information or content made available through the Service are those of their respective authors, and not of PolishRomance.com, and should not necessarily be relied upon. Such authors are solely responsible for such content. PolishRomance.com does not guarantee the accuracy, completeness, or usefulness of any information on the Service. It neither adopts nor endorses, nor is responsible for the accuracy or reliability of any opinion, advice, or statement made on the Service. Under no circumstances will PolishRomance.com be responsible for any loss or damage resulting from anyone's reliance on information, or other content posted on the Service, or transmitted to PolishRomance.com members.</span>
+      <span class="rule_title">17. Privacy and Disclosure of Personal Information</span>
+      <span class="rule_description">PolishRomance.com is not responsible for the use of any personal information that you may choose to disclose on the Service. Please carefully select the type of personal information that you post on the Service or release to others. PolishRomance.com reserves the right, but has no obligation, to monitor the materials posted in the public or other areas of the Service. PolishRomance.com shall have the right to remove any such material that violates, or is alleged to violate, any applicable law or this Agreement; however, you remain solely responsible for the content of the materials you post in the public or areas of the Service and for your e-mail messages sent through the Service.<br /><br />Privacy. Use of the Website and/or the Service is also governed by our Privacy Policy. The personal information (including sensitive personal information) you provide to us will be stored on our computers. You consent to us using this information to build up a Portrait of interests, preferences and browsing patterns and to allow you to participate in the Services. If you are located outside the United Kingdom, please note that the information you provide is might be sent outside the United Kingdom to United States, or other country, where some servers of our hosting providers might be located. In case the information is sent to the United States, PLEASE BE AWARE THAT THE LAWS OF UNITED STATES ARE GENERALLY NOT REGARDED AS PROVIDING 'ADEQUATE' DATA PROTECTION AS CONTEMPLATED UNDER ARTICLE 25 OF THE EUROPEAN UNION'S DATA PROTECTION DIRECTIVE (95/46/EC). BY BECOMING A MEMBER OF THE SERVICE, YOU ARE CONSENTING TO (i) THE TRANSFER OF YOUR PERSONAL INFORMATION TO THE UNITED STATES; (ii) USE IN THAT COUNTRY; AND (iii) TRANSFER OF YOUR PERSONAL INFORMATION TO THIRD PARTIES AS MAY BE INVOLVED IN THE PROVISION AND OPERATION OF THE SERVICES, IN ACCORDANCE WITH OUR PRIVACY POLICY. </span>
+      <span class="rule_title">18. Account and password Security</span>
+      <span class="rule_description">You are responsible for maintaining the confidentiality of your account and password, and you agree to accept the responsibility for all activities that occur under your account or password. PolishRomance.com reserves the right, in its sole discretion, to deactivate, suspend, delete or otherwise refuse the service, close your account, and remove or edit entries on any of the public or private areas of the Service. You agree to (a) immediately notify PolishRomance.com of any unauthorized use of your user-name or password or any other breach of security, and (b) ensure that you exit from your account at the end of each session. PolishRomance.com will not be liable for any loss or damage arising from your failure to comply with this provision. You should use particular caution when accessing your account from a public or shared computer so that others are not able to view or record your password or other personal information. If you share your computer with others, you may wish to consider disabling your auto-sign in feature if you have linked your Microsoft .Net Passport to your PolishRomance.com account.</span>
+      <span class="rule_title">19. Proprietary Rights</span>
+      <span class="rule_description">PolishRomance.com owns and retains certain proprietary rights in the Service. The Service contains copyrighted material, trademarks, and other proprietary information of PolishRomance.com and its licensors. In addition, members may post copyrighted or proprietary information, which has copyright or other protection whether or not it is identified as copyrighted. Except for that information which is in the public domain, or for which you have been given permission, you will not copy, modify, publish, transmit, distribute, perform, display, or sell any such proprietary information. By posting information, a photograph or content to any public area of PolishRomance.com, you automatically grant, represent, and warrant that you have the right to grant, to PolishRomance.com and other members an irrevocable, perpetual, non-exclusive, fully-paid, worldwide license to use, copy, perform, display and distribute such information and content and to prepare derivative works of, or incorporate into other works, such information and content, and to grant and authorize sub-licenses of the foregoing.</span>
+      <span class="rule_title">20. Severance</span>
+      <span class="rule_description">If any part of this Agreement is determined to be invalid or unenforceable pursuant to applicable law including, but not limited to, the warranty disclaimers and liability limitations set forth above, then the invalid or unenforceable provision will be deemed superseded by a valid, enforceable provision that most closely matches the intent of the original provision and the remainder of the Agreement shall continue in effect.</span>
+      <span class="rule_title">21. Assignment</span>
+      <span class="rule_description">PolishRomance.com may, and you may not, assign, convey, subcontract or delegate rights, duties or obligations hereunder. </span>
+      <span class="rule_title">22. Copyright Infringement Take-down Procedures</span>
+      <span class="rule_description">If you find any material for which you hold the copyright posted to PolishRomance.com's Website without your permission, you may file a copyright infringement notification with PolishRomance.com. To file a copyright infringement notification with us, you will need to send a written communication to PolishRomance.com that includes substantially the following (please consult your legal counsel or see the Copyright Act to confirm these requirements): 1. A physical or electronic signature of a person authorized to act on behalf of the owner of the right that is allegedly infringed. 2. Identification of the copyrighted work claimed to have been infringed or a representative list of such works at the PolishRomance.com website. 3. Identification of the material that is claimed to be infringing or to be the subject of infringing activity and that is to be removed or access to which is to be disabled, and information reasonably sufficient to permit PolishRomance.com to locate the material. Providing URLs in the body of an email is the best way to help us locate content quickly. 4. Information reasonably sufficient to permit PolishRomance.com to contact the complaining party, such as an address, telephone number, and, if available, an electronic mail address at which the complaining party may be contacted. 5. A statement that the complaining party has a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law. 6. A statement that the information in the notification is accurate, and under penalty of perjury, that the complaining party is authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.<br /><br />Such written notice should be sent to our designated agent as follows:<br />Email: copyright@PolishRomance.com<br /><br />Please also note that any person who knowingly materially misrepresents that material or activity is infringing may be subject to liability.</span>
+      <span class="rule_title">23. Disclaimer of Warranties</span>
+      <span class="rule_description">Use of the Service is at your sole risk. All content and services provided by PolishRomance.com on the Service is provided "as is" and on an "as available basis." Neither PolishRomance.com nor any of its affiliates, subsidiaries, or designees nor any of their respective officers, directors, employees, agents, third-party content providers, designers, contractors, distributors, merchants, advertisers, sponsors, licensors or the like (collectively, "Affiliates") warrant that use of the Service will be uninterrupted or error-free. Neither PolishRomance.com nor its Affiliates warrant the accuracy, integrity or completeness of the content provided on the Service. PolishRomance.com DISCLAIMS ALL WARRANTIES, EXPRESS, IMPLIED OR STATUTORY, INCLUDING THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT.</span>
+      <span class="rule_title">24. Limitation of Liability</span>
+      <span class="rule_description">In no event will PolishRomance.com be liable for any direct, incidental, consequential, or indirect damages (including, but not limited to, damages for loss of data, loss of programs, cost of procurement of substitute services or service interruptions) arising out of the use of or inability to use the Service, even if PolishRomance.com or its agents or representatives know or have been advised of the possibility of such damages. PolishRomance.com's liability to you for any cause whatsoever, and regardless of the form of the action, will at all times be limited to the amount paid, if any, by you to PolishRomance.com for the Service during the term of membership. In addition, PolishRomance.com disclaims all liability, regardless of the form of action, for the acts or omissions of other members or users (including unauthorized users) of the Service. Certain jurisdictions limit the applicability of warranty, disclaimers, and limitations of liability so the above disclaimers of warranty and limitations of liability may not apply to you. </span>
+      <span class="rule_title">25. Jurisdiction</span>
+      <span class="rule_description">These Terms are governed by the laws of England and Wales. If there is any dispute about or involving the Website and/or the Service, by using the Website, you agree that the dispute will be governed by the laws of England and Wales without regard to its conflict of law provisions. You agree to personal jurisdiction by and venue in the courts of London, United Kingdom.</span>
+      <span class="rule_title">26. Class Action Waiver</span>
+      <span class="rule_description">You may only bring claims in an individual capacity and not as a class representative or a class member in a class or representative action. If an arbitrator determines that your waiver of any ability to participate in class or representative actions is unenforceable under applicable law, the foregoing arbitration agreement will not apply, and you and we agree that such claims will be resolved by a court of appropriate jurisdiction, other than a small claims court.</span>
+      <span class="rule_title">27. Entire Agreement</span>
+      <span class="rule_description">This Agreement, accepted upon use of the Website and further affirmed by becoming a member of the Service, contains the entire agreement between you and PolishRomance.com regarding the use of the Website and/or the Service. If any provision of this Agreement is held invalid, the remainder of this Agreement shall continue in full force and effect.</span>
+      <span class="rule_title">28. Contact Information</span>
+      <span class="rule_description">If you have any questions about the rights and restrictions above, please contact us at legal@PolishRomance.com or here. Please contact us with any questions regarding this agreement. PolishRomance.com is a trademark of PolishRomance.com and FutuRise Interactive, London, UK. </span>
+      <span class="rule_title">29. Complaints</span>
+      <span class="rule_description">To resolve a complaint regarding the Service, you should first contact PolishRomance.com Customer Support at support@PolishRomance.com. </span><br />
+      <a href="#" class="sec_link">Back to Top</a>
+  StaticPageI18n_10_en: 
+    id: StaticPage_10
+    culture: en
+    link_name: 
+    title: Privacy Policy
+    keywords: 
+    description: 
+    content: |
+      <span class="last_update">last update July 2, 2007</span>
+      <span class="rule_title"></span>
+      <span class="rule_description">Our Statement: We don't collect any personal information other than the one you provide. We don't give this information away to anybody. If we decide to do so, we will ask you for permission or at least give you an ability to opt out. Now, please read our full privacy policy. By using our website you agree to comply with it.<br /><br />PolishRomance.com will not sell, rent, or give away any of your personal information without your consent. If on occasion we may need to provide information you supply us to external parties, we will provide you explicit notice and the ability to opt-out. PolishRomance.com may need to purge information from its system from time to time, and does not promise to keep any information beyond what is required by applicable law or regulation. </span>
+      <span class="rule_title">Age Restrictions</span>
+      <span class="rule_description">All adults above the age of 18 are welcome to explore the site and use its features and services. As per the Children's Online Privacy Protection Act, any information we receive from people we believe to be minors will be purged from our database. </span>
+      <span class="rule_title">Our Security Precautions</span>
+      <span class="rule_description">PolishRomance.com applies best industry standards to protect the information you provided against the loss, misuse and alteration. This includes the use of encryption (SSL) to secure commerce transactions whenever sensitive information, such as financial data, is transmitted between your computer and the PolishRomance.com. Although we will exercise reasonable care in providing secure transmission of information between your computer and our servers, we cannot ensure or warrant the security of any information transmitted to us over the Internet and we accept no liability for any unintentional disclosure. </span>
+      <span class="rule_title">Public Forums</span>
+      <span class="rule_description">PolishRomance.com may provide message boards or ability to comment to its users and visitors. Please remember that any information that is disclosed in these areas becomes public information and you should exercise caution when deciding to disclose any personal information. </span>
+      <span class="rule_title">Invite a friend</span>
+      <span class="rule_description">PolishRomance.com encourages you to refer a friend to our service. In order to do so you have to provide us with friend's name and email address. We will keep this information in our database and send that person an email containing your name and inviting them to visit our site. This email will also include a quick and easy way for them to remove their information from our database, if they desire. We ask that you do not abuse this feature by entering names and addresses of those who would not be interested in online dating.</span>
+      <span class="rule_title">Your IP Address</span>
+      <span class="rule_description">Like most e-commerce websites, each time you visit the PolishRomance.com, we automatically collect your IP address and the web page from which you came. We may use this information to diagnose problems with the PolishRomance.com's website, as well as to help identify you and to gather demographic information about you.</span>
+      <span class="rule_title">Cookies</span>
+      <span class="rule_description">Our site uses "cookies" to provide a better service to our users. Cookies are placed by your browser on your computer's hard drive to assign a unique identification for your computer. PolishRomance.com never stores information we consider personal or private in a cookie. This eliminates the chance of other sites learning your personal or private information. Instead, we use cookies to help direct you to the appropriate part of our web site. For example, a cookie may indicate that you are a repeated visitor to our site. We will then use that information to present you with more informative pages customized to your preferences. Our goal is to use cookies to provide a personally customized and easy-to-use service. If you do not want PolishRomance.com or other websites to use cookies, you can disable them within your browser. To log onto our website you must have cookies enabled. Our profile viewing and matching application will not work without cookies. If you'd specifically like to delete all cookies PolishRomance.com has placed on your browser, please go to your browser's settings, select the cookies you want to delete, and select delete. Be aware that this will reset your session, disable auto-login, and may adversely affect other functions on the website.</span>
+      <span class="rule_title">Corrections to Personal Information</span>
+      <span class="rule_description">This web site makes it easy to correct any mistakes in your personal information at any time. Whenever possible, we will give you an opportunity to review and change any information you provide to us.</span>
+      <span class="rule_title">Data Aggregation</span>
+      <span class="rule_description">PolishRomance.com may aggregate data we acquire about our customers. If we assemble this sort of data and provide it to external parties, your personal information (such as your name, email address, IP address, etc.) will never be attached to or included in the aggregated data.</span>
+      <span class="rule_title">Promotional Partners</span>
+      <span class="rule_description">From time to time, PolishRomance.com may notify you about an offer from one of our promotional partners via our website. While we may target particular types of users for these offers, we will do all of the targeting within our system. Our business partners will not have any access to the targeting information, including the names of the people who may be interested in a particular product or service. Until you affirmatively respond to a promotional offer, we will not reveal any identifying information about you to any of these partners.</span>
+      <span class="rule_title">Third Party Websites</span>
+      <span class="rule_description">PolishRomance.com's website contains links to the sites of third parties. Please be aware that we are not responsible for the privacy practices of these external sites. We encourage users to be aware when they leave our website, and to read the privacy statements of other websites. We cannot guarantee that these third parties abide by the privacy principles outlined here.</span>
+      <span class="rule_title">Court Orders</span>
+      <span class="rule_description">It is possible that PolishRomance.com may be required by court order to provide information contained on our website. PolishRomance.com may also be required to provide information pursuant to law, applicable regulation, subpoena or other legal process. If we are ever required to provide information under these circumstances, we will, whenever possible, inform all users whose information we are compelled to reveal. </span>
+      <span class="rule_title">Notification of Changes</span>
+      <span class="rule_description">We will always maintain the overriding principle that we will not sell, rent, or give away any personal information you share with us without your consent. We do not believe we will need to change that principle going forward. However, if we do need to change any other aspect of the policy, we will post changes on the website. If you have any questions or concerns about our privacy policy, please can contact us at info@PolishRomance.com.com. You can also send us mail to:</span>
+      <span class="rule_title">Legal Department</span>
+      <span class="rule_description">PolishRomance.com.com, legal@PolishRomance.com</span>
+  StaticPageI18n_11_en: 
+    id: StaticPage_11
+    culture: en
+    link_name: 
+    title: Copyright
+    keywords: 
+    description: 
+    content: 
+  StaticPageI18n_12_en: 
+    id: StaticPage_12
+    culture: en
+    link_name: 
+    title: Site Map
+    keywords: 
+    description: 
+    content: |
+      <ul class="site_map">
+      <li><a href="index.shtml" class="sec_link">Home </a></li>
+      <li><a href="why_i_love_polish_woman.shtml" class="sec_link">Member Stories</a> </li>
+      <li><a href="public_join_now.shtml" class="sec_link">Join Now</a></li>
+      <li><a href="signin.shtml" class="sec_link">Sign In</a></li>
+      <li><a href="forgot_password.shtml" class="sec_link">Forgot Your Password?</a></li>
+      </ul>
+      <ul class="site_map">
+      <li><a href="about_us.shtml" class="sec_link">About Us</a></li>
+      <li><a href="how_it_works.shtml" class="sec_link">How it Works</a></li>
+      <li><a href="faqs.shtml" class="sec_link">FAQs</a></li>
+      <li><a href="help.shtml" class="sec_link">Help</a></li>
+      <li><a href="for_law_enforcement.shtml" class="sec_link">For Law Enforcement</a></li>
+      </ul>
+      <ul class="site_map">
+      <li><a href="user_agreement.shtml" class="sec_link">Terms of Use/ User Agreement</a>  </li>
+      <li><a href="privacy_policy.shtml" class="sec_link">Privacy Policy</a></li>
+      <li><a href="sitemap.shtml" class="sec_link">Site Map</a></li>
+      <li><a href="imbra_legalities.shtml" class="sec_link">IMBRA</a></li>
+      <li><a href="tell_friend.shtml" class="sec_link">Tell a Friend</a> </li>
+      <li><a href="contact_us.shtml" class="sec_link">Contact Us</a></li>
+      </ul>
+  StaticPageI18n_13_en: 
+    id: StaticPage_13
+    culture: en
+    link_name: 
+    title: Affiliates
+    keywords: 
+    description: 
+    content: This page is for our affiliates
+DescQuestion: 
+  DescQuestion_1: 
+    title: What's your marital status?
+    search_title:
+    desc_title: Matrial Status 
+    type: radio
+  DescQuestion_2: 
+    title: Do you have children?
+    search_title:
+    desc_title: Children 
+    type: radio
+  DescQuestion_3: 
+    title: What's you're living situation?
+    search_title: 
+    desc_title: Living Situation
+    type: radio
+  DescQuestion_4: 
+    title: >
+      Do you want to have children in the
+      future?
+    search_title: 
+    desc_title: Future children
+    type: radio
+  DescQuestion_5: 
+    title: What's your education?
+    search_title: 
+    desc_title: Education
+    type: radio
+  DescQuestion_6: 
+    title: What's your annual income?
+    search_title: 
+    desc_title: Yearly income
+    type: radio
+  DescQuestion_7: 
+    title: What's your religion?
+    search_title: 
+    desc_title: Religion
+    type: radio
+  DescQuestion_8: 
+    title: What's your ethnicity?
+    search_title: 
+    desc_title: Ethnicity
+    type: radio
+  DescQuestion_9: 
+    title: Have you ever smoked?
+    search_title: 
+    desc_title: Smoking
+    type: radio
+  DescQuestion_10: 
+    title: Do you drink?
+    search_title: 
+    desc_title: Drinks
+    type: radio
+  DescQuestion_11: 
+    title: What's your weight?
+    search_title: 
+    desc_title: Weight
+    type: select
+  DescQuestion_12: 
+    title: What's your height?
+    search_title: 
+    desc_title: Height
+    type: select
+  DescQuestion_13: 
+    title: What's the color of your eyes?
+    search_title: 
+    desc_title: Eye's color
+    type: radio
+  DescQuestion_14: 
+    title: What's the color of your hair?
+    search_title: 
+    desc_title: Hair color
+    type: radio
+DescAnswer:
+  DescAnswer_1: 
+    desc_question_id: DescQuestion_1
+    title: Never married
+    search_title: 
+  DescAnswer_2: 
+    desc_question_id: DescQuestion_1
+    title: Widow(er)
+    search_title: 
+  DescAnswer_3: 
+    desc_question_id: DescQuestion_1
+    title: Divorced
+    search_title: 
+  DescAnswer_4: 
+    desc_question_id: DescQuestion_1
+    title: Separated
+    search_title: 
+  DescAnswer_5: 
+    desc_question_id: DescQuestion_2
+    title: No, I don't have children
+    search_title: 
+  DescAnswer_6: 
+    desc_question_id: DescQuestion_2
+    title: Yes, living with me
+    search_title: 
+  DescAnswer_8: 
+    desc_question_id: DescQuestion_2
+    title: Yes, not living with me
+    search_title: Yes, not living with me
+  DescAnswer_9: 
+    desc_question_id: DescQuestion_2
+    title: Yes, sometimes living with me
+    search_title: 
+  DescAnswer_10: 
+    desc_question_id: DescQuestion_3
+    title: I own my place
+    search_title: 
+  DescAnswer_11: 
+    desc_question_id: DescQuestion_3
+    title: I rent my place
+    search_title: 
+  DescAnswer_12: 
+    desc_question_id: DescQuestion_3
+    title: I live with my parents
+    search_title: 
+  DescAnswer_13: 
+    desc_question_id: DescQuestion_3
+    title: I live with roommate(s)/ friend(s)
+    search_title: 
+  DescAnswer_14: 
+    desc_question_id: DescQuestion_4
+    title: "Yes"
+    search_title: 
+  DescAnswer_15: 
+    desc_question_id: DescQuestion_4
+    title: Maybe
+    search_title: 
+  DescAnswer_16: 
+    desc_question_id: DescQuestion_4
+    title: "No"
+    search_title: 
+  DescAnswer_17: 
+    desc_question_id: DescQuestion_5
+    title: Some High School
+    search_title: 
+  DescAnswer_18: 
+    desc_question_id: DescQuestion_5
+    title: High School
+    search_title: 
+  DescAnswer_19: 
+    desc_question_id: DescQuestion_5
+    title: Student
+    search_title: 
+  DescAnswer_20: 
+    desc_question_id: DescQuestion_5
+    title: Some university
+    search_title: 
+  DescAnswer_21: 
+    desc_question_id: DescQuestion_5
+    title: Associate degree
+    search_title: 
+  DescAnswer_22: 
+    desc_question_id: DescQuestion_5
+    title: Undergraduate degree
+    search_title: 
+  DescAnswer_23: 
+    desc_question_id: DescQuestion_5
+    title: Master degree
+    search_title: 
+  DescAnswer_24: 
+    desc_question_id: DescQuestion_5
+    title: Graduate degree
+    search_title: 
+  DescAnswer_25: 
+    desc_question_id: DescQuestion_5
+    title: PhD
+    search_title: 
+  DescAnswer_26: 
+    desc_question_id: DescQuestion_6
+    title: $0 - $50,000
+    search_title: 
+  DescAnswer_27: 
+    desc_question_id: DescQuestion_6
+    title: $50,00l - $100,000
+    search_title: 
+  DescAnswer_28: 
+    desc_question_id: DescQuestion_6
+    title: $100,001 - $250,000
+    search_title: 
+  DescAnswer_29: 
+    desc_question_id: DescQuestion_6
+    title: More than $250,000
+    search_title: 
+  DescAnswer_30: 
+    desc_question_id: DescQuestion_7
+    title: Agnostic
+    search_title: 
+  DescAnswer_31: 
+    desc_question_id: DescQuestion_7
+    title: Buddhist
+    search_title: 
+  DescAnswer_32: 
+    desc_question_id: DescQuestion_7
+    title: Catholic (Christian Roman-Catholic)
+    search_title: 
+  DescAnswer_33: 
+    desc_question_id: DescQuestion_7
+    title: Christian Protestant
+    search_title: 
+  DescAnswer_34: 
+    desc_question_id: DescQuestion_7
+    title: Hindu
+    search_title: 
+  DescAnswer_35: 
+    desc_question_id: DescQuestion_7
+    title: Jehova's Witness
+    search_title: 
+  DescAnswer_36: 
+    desc_question_id: DescQuestion_7
+    title: Jewish
+    search_title: 
+  DescAnswer_37: 
+    desc_question_id: DescQuestion_7
+    title: Mormon
+    search_title: 
+  DescAnswer_38: 
+    desc_question_id: DescQuestion_7
+    title: Muslim
+    search_title: 
+  DescAnswer_39: 
+    desc_question_id: DescQuestion_7
+    title: Orthodox (Eastern/ Oriental/ Christian)
+    search_title: 
+  DescAnswer_40: 
+    desc_question_id: DescQuestion_7
+    title: Scientology
+    search_title: 
+  DescAnswer_41: 
+    desc_question_id: DescQuestion_8
+    title: White
+    search_title: White
+  DescAnswer_42: 
+    desc_question_id: DescQuestion_8
+    title: Hispanic or Latino
+    search_title: Hispanic or Latino
+  DescAnswer_43: 
+    desc_question_id: DescQuestion_8
+    title: >
+      Middle Eastern (Arab/ Israeli (Semetic)/
+      Turkic/ etc)
+    search_title: 
+  DescAnswer_44: 
+    desc_question_id: DescQuestion_8
+    title: >
+      South Asian (Indian/ Pakistani/
+      Bangladeshi)
+    search_title: 
+  DescAnswer_45: 
+    desc_question_id: DescQuestion_8
+    title: Native American/ Native Indian
+    search_title: 
+  DescAnswer_46: 
+    desc_question_id: DescQuestion_8
+    title: Asian
+    search_title: 
+  DescAnswer_47: 
+    desc_question_id: DescQuestion_8
+    title: >
+      African or Caribbean (including
+      African-American)
+    search_title: 
+  DescAnswer_48: 
+    desc_question_id: DescQuestion_8
+    title: Pacific Islander
+    search_title: 
+  DescAnswer_49: 
+    desc_question_id: DescQuestion_9
+    title: Never smoked
+    search_title: 
+  DescAnswer_51: 
+    desc_question_id: DescQuestion_9
+    title: "Had smoked in the past, but I don't anymore"
+    search_title: 
+  DescAnswer_52: 
+    desc_question_id: DescQuestion_9
+    title: I smoke now, but I'm trying to quit
+    search_title: 
+  DescAnswer_53: 
+    desc_question_id: DescQuestion_9
+    title:  I smoke and I like it
+    search_title: 
+  DescAnswer_54: 
+    desc_question_id: DescQuestion_10
+    title: Never
+    search_title: 
+  DescAnswer_55: 
+    desc_question_id: DescQuestion_10
+    title: Yes, occassionally
+    search_title: 
+  DescAnswer_56: 
+    desc_question_id: DescQuestion_10
+    title: Yes, often
+    search_title: 
+  DescAnswer_57: 
+    desc_question_id: DescQuestion_10
+    title: Yes, daily
+    search_title: 
+  DescAnswer_58: 
+    desc_question_id: DescQuestion_11
+    title: 110lbs (50kg)
+    search_title: 
+  DescAnswer_59: 
+    desc_question_id: DescQuestion_11
+    title: 130lbs (59kg)
+    search_title: 
+  DescAnswer_60: 
+    desc_question_id: DescQuestion_11
+    title: 155lbs (70kg)
+    search_title: 
+  DescAnswer_61: 
+    desc_question_id: DescQuestion_11
+    title: 175lbs (80kg)
+    search_title: 
+  DescAnswer_62: 
+    desc_question_id: DescQuestion_12
+    title: 5' 3" (160cm)
+    search_title: 
+  DescAnswer_63: 
+    desc_question_id: DescQuestion_12
+    title: 5' 11" (180cm)
+    search_title: 
+  DescAnswer_64: 
+    desc_question_id: DescQuestion_12
+    title: 6' 7" (201cm)
+    search_title: 
+  DescAnswer_65: 
+    desc_question_id: DescQuestion_13
+    title: Blue
+    search_title: 
+  DescAnswer_66: 
+    desc_question_id: DescQuestion_13
+    title: Brown
+    search_title: 
+  DescAnswer_67: 
+    desc_question_id: DescQuestion_13
+    title: Gray
+    search_title: 
+  DescAnswer_68: 
+    desc_question_id: DescQuestion_13
+    title: Green
+    search_title: 
+  DescAnswer_69: 
+    desc_question_id: DescQuestion_13
+    title: Hazel
+    search_title: 
+  DescAnswer_70: 
+    desc_question_id: DescQuestion_14
+    title: Black
+    search_title: 
+  DescAnswer_71: 
+    desc_question_id: DescQuestion_14
+    title: Blonde
+    search_title: 
+  DescAnswer_72: 
+    desc_question_id: DescQuestion_14
+    title: Brown
+    search_title: 
+  DescAnswer_73: 
+    desc_question_id: DescQuestion_14
+    title: Gray
+    search_title: 
+  DescAnswer_74: 
+    desc_question_id: DescQuestion_14
+    title: Red
+    search_title: 
+  DescAnswer_75: 
+    desc_question_id: DescQuestion_14
+    title: Salt pepper
+    search_title: 
+  DescAnswer_76: 
+    desc_question_id: DescQuestion_14
+    title: White
+    search_title: 
+  DescAnswer_77: 
+    desc_question_id: DescQuestion_14
+    title: Well... bald!
+    search_title: 
+    

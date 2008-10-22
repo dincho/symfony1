@@ -1,0 +1,6 @@
+joinNow:
+    is_secure: off
+verifyYourEmail:
+    is_secure: off
+activate:
+    is_secure: off

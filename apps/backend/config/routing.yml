@@ -1,0 +1,45 @@
+# URL's for sfDbBasedSecurityPlugin
+list_groups:
+  url:   /groups
+  param: { module: sfNewSecurityGroups, action: list }
+
+show_group:
+  url:   /groups/show/:id
+  param: { module: sfNewSecurityGroups, action: show }
+
+create_group:
+  url:   /groups/create
+  param: { module: sfNewSecurityGroups, action: create }
+
+new_group:
+  url:   /groups/new
+  param: { module: sfNewSecurityGroups, action: new }
+
+edit_group:
+  url:   /groups/edit/:id
+  param: { module: sfNewSecurityGroups, action: edit }
+  
+update_group:
+  url:   /groups/update
+  param: { module: sfNewSecurityGroups, action: update }
+  
+delete_group:
+  url:   /groups/delete
+  param: { module: sfNewSecurityGroups, action: delete }
+  
+# default rules
+homepage:
+  url:   /
+  param: { module: dashboard, action: index }
+
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default }
+
+default_index:
+  url:   /:module
+  param: { action: list }
+
+default:
+  url:   /:module/:action/*
+

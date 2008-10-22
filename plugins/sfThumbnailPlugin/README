@@ -1,0 +1,19 @@
+= sfThumbnailPlugin plugin =
+
+The `sfThumbnailPlugin` creates thumbnails.
+
+== Installation ==
+
+  * Install the plugin
+  
+  {{{
+    symfony plugin-install http://plugins.symfony-project.com/sfThumbnailPlugin
+  }}}
+
+  * Clear you cache
+
+  {{{
+    symfony cc
+  }}}
+
+  * You're done.

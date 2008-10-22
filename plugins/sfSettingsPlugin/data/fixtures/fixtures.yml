@@ -1,0 +1,11 @@
+sfSetting:
+  version:
+    name:    VERSION
+    value:   1.0.0
+    env:     all
+    description: project version
+  author:
+    name:    AUTHOR
+    value:   Voznyak Nazar
+    env:     all
+    description: project author

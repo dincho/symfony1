@@ -1,0 +1,313 @@
+.form {
+  font-size: 13px;
+  font-family: Ariel, Helvetica, sans-serif;
+}
+
+.form_fields label, .form_fields input, .form_fields select {
+  display: block;
+  width: 200px;
+  float: left;
+  margin-bottom: 5px;
+  font-family: Ariel, Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+.form_fields input, .form_fields select, .form_fields textarea {
+  border: 1px solid #9DB2C7;
+  margin-right: 2px;
+  background-color: #EFEFEF;
+}
+
+.form_fields input:focus, .form_fields select:focus, .form_fields textarea:focus {
+	background-color: white;
+}
+	
+.form_fields select {
+  width: 204px;
+}
+
+.form_fields textarea {
+  float: left;
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-family: Ariel, Helvetica, sans-serif;
+}
+
+.form_fields input.hidden {
+  border: 0;
+}
+
+.form_fields label {
+  text-align: right;
+  padding-right: 10px;
+  color: #9F9F9F;
+  font-weight: normal;
+}
+
+.email_fields input, .email_fields textarea {
+	width: 650px;
+}
+
+.email_fields textarea {
+	height: 300px;
+}
+
+#save_as_new_template { width: 200px; }
+.form br {
+  clear: left;
+}
+
+
+.form_fields var {
+  float: left;
+  font-style: normal;
+}
+
+.form fieldset { 
+  text-align: center;
+  padding: 0.5em;
+}
+
+.form input.hidden {
+  border: 0;
+}
+
+.form_fields .checkbox {
+  width: 15px;
+  margin: 3px 5px 0 0;
+}
+
+.form input.radio {
+  margin: 3px 5px 0 0;
+  width: 13px;
+}
+
+div.legend {
+  background-color: #C3C3C3;
+  font-weight: bold;
+  padding: 5px 0 5px 20px;
+  margin-bottom: 20px;
+}
+
+.actions, fieldset.actions {
+  background-color: #EAEAEA;
+  text-align: left;
+  padding: 4px 0 4px 210px;  
+}
+
+.actions input, .actions button {
+  margin-right: 15px;
+}
+
+.top_actions td {
+  text-align: right;
+  padding: 0 0 20px 15px;
+  background-color: white;
+}
+
+#self_description_form label {
+  text-align: left;
+  font-weight: normal;
+  width: auto;
+}
+
+label.full_row {
+	float: none;
+	text-align: left;
+	background-color: #F4F4F4;
+	color: black;
+	padding: 3px;
+	width: auto;
+	font-weight: normal;
+}
+
+#self_description_form fieldset.actions {
+	padding-left: 20px;
+}
+
+.date_tag_wrap {
+	text-align: left;
+}
+
+.date_tag_wrap select {
+	float: none;
+	display: inline;
+	width: auto;
+}
+
+.photo_slot {
+  text-align: left;
+  float: left;
+  padding: 0 10px;	
+}
+
+.form_fields .bool_select { width: 50px; }
+.form_fields .limit_input { width: 50px; }
+.form_fields .period_input { width: 30px; }
+
+#limit_label {
+	text-align: left;
+	padding-left: 65px;
+}
+
+.subscription_periods label {
+	width: auto;
+	padding: 0 2px;
+}
+
+/* customer file uploads */
+/* DEPRECATED */
+/*
+.upload_slot {
+	float: left;
+	margin: 15px 0 0 10px;
+	background-color: #EFEFEF;
+	padding: 41px 0 40px 20px;
+	width: 120px;
+}
+
+.upload_slot .upload_file {
+  height: 20px;
+  font-size: 11px;
+  border: 1px solid #999;
+  float: none;
+  margin: 0 15px;
+}
+
+div.fileinputs {
+  position: relative;
+}
+
+div.fakefile {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+.fakefile input { width: 50px; margin: 0 0 0 0; height: 15px; font-size: 10px; padding: 0;}
+.fakefile img { text-align: left; }
+
+input.file {
+  position: relative;
+  text-align: left;
+  float: none;
+  height: 17px;
+  font-size: 10px;
+  -moz-opacity:0 ;
+  filter:alpha(opacity: 0);
+  opacity: 0;
+  z-index: 2;
+}
+
+.upload_slot p { margin: 0; padding: 0; text-align: left; padding-left: 15px;}
+*/
+
+#photo_edit {
+  text-align: left;	
+}
+
+.selected_photo { border: 1px solid yellow; }
+.note {
+	text-align: left;
+	font-style: italic;
+	font-size: 0.9em;
+}
+
+/* Form Errors */
+.form-errors
+{
+  margin: 10px 0;
+  background-color: #ffc;
+  padding: 0;
+  color: red;
+}
+
+.form-errors h3
+{
+  padding: 6px 20px 6px 25px;
+  font-size: 11px;
+  color: #fff;
+  /* background: #f33 url(/sf/sf_admin/images/error.png) no-repeat 5px 2px; */
+  background: #CC0000 url(/images/dialog-error.png) 5px 3px no-repeat;
+  margin: 0 !important;
+}
+
+.form-errors dl
+{
+  padding: 5px;
+  border: 1px solid #f33;
+  border-top: none;
+  margin: 0;
+}
+
+.form-errors dt
+{
+  font-weight: bold;
+  float: left;
+  padding-right: 5px;
+  text-align: right;
+  width: 200px;
+}
+
+.form-errors dd
+{
+  margin: 0;
+}
+
+/* fields errors */
+
+input.field_error, select.field_error, textarea.field_error {
+  border: 1px solid #CC8F8F;
+  background-color: #F5E9E9;
+}
+
+
+#search_filter {
+	display: block;
+	margin-bottom: 20px;
+}
+
+#search_filter fieldset {
+	display:  inline;
+}
+
+#search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select {
+  border: 1px solid #9DB2C7;
+  margin-right: 2px;
+  background-color: #EFEFEF;	
+}
+
+#search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select, #search_filter fieldset.search_fields label {
+	width: 150px;
+	text-align: left;
+	color: black;
+	
+}
+
+#search_filter label {
+	margin: 0;
+}
+
+.filter_right {
+	float: right;
+	padding: 20px 0 0 0;
+}
+
+#per_page_form {
+	float: left;
+	text-align: left;
+}
+
+#per_page_form input {
+	width: 30px;
+}
+
+#per_page_form label {
+	text-align: left;
+	width: auto;
+	font-weight: normal;
+	padding: 0 5px;
+}
+
+.marked { width: 20px; }

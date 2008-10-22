@@ -1,0 +1,1032 @@
+
+# This is a fix for InnoDB in MySQL >= 4.1.x
+# It "suspends judgement" for fkey relationships until are tables are set.
+SET FOREIGN_KEY_CHECKS = 0;
+
+#-----------------------------------------------------------------------------
+#-- session_storage
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `session_storage`;
+
+
+CREATE TABLE `session_storage`
+(
+	`sess_id` VARCHAR(255)  NOT NULL,
+	`sess_data` TEXT  NOT NULL,
+	`sess_time` BIGINT(20)  NOT NULL,
+	`user_id` INTEGER default null,
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- user
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user`;
+
+
+CREATE TABLE `user`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(20)  NOT NULL,
+	`password` CHAR(40)  NOT NULL,
+	`first_name` VARCHAR(80)  NOT NULL,
+	`last_name` VARCHAR(80)  NOT NULL,
+	`email` VARCHAR(255)  NOT NULL,
+	`phone` VARCHAR(20)  NOT NULL,
+	`must_change_pwd` INTEGER default 0 NOT NULL,
+	`is_superuser` INTEGER default 0 NOT NULL,
+	`is_enabled` INTEGER default 0 NOT NULL,
+	`last_login` DATETIME,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- state
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `state`;
+
+
+CREATE TABLE `state`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`country` CHAR(2)  NOT NULL,
+	`title` VARCHAR(255)  NOT NULL,
+	PRIMARY KEY (`id`),
+	KEY `state_country_index`(`country`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member`;
+
+
+CREATE TABLE `member`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_status_id` INTEGER,
+	`username` VARCHAR(20)  NOT NULL,
+	`password` CHAR(40)  NOT NULL,
+	`new_password` CHAR(40),
+	`must_change_pwd` INTEGER default 0 NOT NULL,
+	`first_name` VARCHAR(80)  NOT NULL,
+	`last_name` VARCHAR(80)  NOT NULL,
+	`email` VARCHAR(255)  NOT NULL,
+	`tmp_email` VARCHAR(255)  NOT NULL,
+	`confirmed_email` CHAR(1),
+	`sex` CHAR(1)  NOT NULL,
+	`looking_for` CHAR(1)  NOT NULL,
+	`reviewed_by_id` INTEGER,
+	`reviewed_at` DATETIME,
+	`is_starred` INTEGER default 0 NOT NULL,
+	`country` CHAR(2)  NOT NULL,
+	`state_id` INTEGER,
+	`district` VARCHAR(100)  NOT NULL,
+	`city` VARCHAR(60)  NOT NULL,
+	`zip` INTEGER(10)  NOT NULL,
+	`nationality` VARCHAR(255)  NOT NULL,
+	`language` VARCHAR(3)  NOT NULL,
+	`birthday` DATE,
+	`dont_display_zodiac` INTEGER default 0 NOT NULL,
+	`us_citizen` INTEGER default 0,
+	`email_notifications` TINYINT default 0 NOT NULL,
+	`dont_use_photos` INTEGER default 0 NOT NULL,
+	`contact_only_full_members` INTEGER default 0 NOT NULL,
+	`youtube_vid` VARCHAR(20),
+	`essay_headline` VARCHAR(255),
+	`essay_introduction` TEXT,
+	`search_criteria_id` INTEGER,
+	`subscription_id` INTEGER  NOT NULL,
+	`sub_auto_renew` INTEGER default 1 NOT NULL,
+	`member_counter_id` INTEGER  NOT NULL,
+	`last_activity` DATETIME,
+	`last_status_change` DATETIME,
+	`last_flagged` DATETIME,
+	`last_login` DATETIME,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `member_FI_1` (`member_status_id`),
+	CONSTRAINT `member_FK_1`
+		FOREIGN KEY (`member_status_id`)
+		REFERENCES `member_status` (`id`)
+		ON DELETE RESTRICT,
+	INDEX `member_FI_2` (`reviewed_by_id`),
+	CONSTRAINT `member_FK_2`
+		FOREIGN KEY (`reviewed_by_id`)
+		REFERENCES `user` (`id`)
+		ON DELETE SET NULL,
+	INDEX `member_FI_3` (`state_id`),
+	CONSTRAINT `member_FK_3`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+		ON DELETE RESTRICT,
+	INDEX `member_FI_4` (`search_criteria_id`),
+	CONSTRAINT `member_FK_4`
+		FOREIGN KEY (`search_criteria_id`)
+		REFERENCES `search_criteria` (`id`)
+		ON DELETE SET NULL,
+	INDEX `member_FI_5` (`subscription_id`),
+	CONSTRAINT `member_FK_5`
+		FOREIGN KEY (`subscription_id`)
+		REFERENCES `subscription` (`id`)
+		ON DELETE RESTRICT,
+	INDEX `member_FI_6` (`member_counter_id`),
+	CONSTRAINT `member_FK_6`
+		FOREIGN KEY (`member_counter_id`)
+		REFERENCES `member_counter` (`id`)
+		ON DELETE RESTRICT
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_status
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_status`;
+
+
+CREATE TABLE `member_status`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_counter
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_counter`;
+
+
+CREATE TABLE `member_counter`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`current_flags` INTEGER default 0 NOT NULL,
+	`total_flags` INTEGER default 0 NOT NULL,
+	`sent_flags` INTEGER default 0 NOT NULL,
+	`sent_winks` INTEGER default 0 NOT NULL,
+	`received_winks` INTEGER default 0 NOT NULL,
+	`sent_messages` INTEGER default 0 NOT NULL,
+	`received_messages` INTEGER default 0 NOT NULL,
+	`reply_messages` INTEGER default 0 NOT NULL,
+	`unsuspensions` INTEGER default 0 NOT NULL,
+	`assistant_contacts` INTEGER default 0 NOT NULL,
+	`profile_views` INTEGER default 0 NOT NULL,
+	`made_profile_views` INTEGER default 0 NOT NULL,
+	`hotlist` INTEGER default 0 NOT NULL,
+	`on_others_hotlist` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_note
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_note`;
+
+
+CREATE TABLE `member_note`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`user_id` INTEGER,
+	`text` TEXT  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `member_note_FI_1` (`member_id`),
+	CONSTRAINT `member_note_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_note_FI_2` (`user_id`),
+	CONSTRAINT `member_note_FK_2`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
+		ON DELETE SET NULL
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- desc_question
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `desc_question`;
+
+
+CREATE TABLE `desc_question`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	`search_title` VARCHAR(255),
+	`desc_title` VARCHAR(255),
+	`factor_title` VARCHAR(255),
+	`type` VARCHAR(50),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- desc_answer
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `desc_answer`;
+
+
+CREATE TABLE `desc_answer`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`desc_question_id` INTEGER  NOT NULL,
+	`title` TEXT,
+	`search_title` VARCHAR(255),
+	PRIMARY KEY (`id`),
+	INDEX `desc_answer_FI_1` (`desc_question_id`),
+	CONSTRAINT `desc_answer_FK_1`
+		FOREIGN KEY (`desc_question_id`)
+		REFERENCES `desc_question` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_desc_answer
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_desc_answer`;
+
+
+CREATE TABLE `member_desc_answer`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`desc_question_id` INTEGER  NOT NULL,
+	`desc_answer_id` INTEGER default null,
+	`other` VARCHAR(255),
+	`custom` VARCHAR(255),
+	PRIMARY KEY (`id`),
+	INDEX `member_desc_answer_FI_1` (`member_id`),
+	CONSTRAINT `member_desc_answer_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_desc_answer_FI_2` (`desc_question_id`),
+	CONSTRAINT `member_desc_answer_FK_2`
+		FOREIGN KEY (`desc_question_id`)
+		REFERENCES `desc_question` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- search_criteria
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `search_criteria`;
+
+
+CREATE TABLE `search_criteria`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`ages` TEXT,
+	`ages_weight` TINYINT  NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- search_crit_desc
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `search_crit_desc`;
+
+
+CREATE TABLE `search_crit_desc`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`search_criteria_id` INTEGER  NOT NULL,
+	`desc_question_id` INTEGER  NOT NULL,
+	`desc_answers` TEXT,
+	`match_weight` TINYINT  NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `search_crit_desc_FI_1` (`search_criteria_id`),
+	CONSTRAINT `search_crit_desc_FK_1`
+		FOREIGN KEY (`search_criteria_id`)
+		REFERENCES `search_criteria` (`id`)
+		ON DELETE CASCADE,
+	INDEX `search_crit_desc_FI_2` (`desc_question_id`),
+	CONSTRAINT `search_crit_desc_FK_2`
+		FOREIGN KEY (`desc_question_id`)
+		REFERENCES `desc_question` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_photo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_photo`;
+
+
+CREATE TABLE `member_photo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER,
+	`file` VARCHAR(255),
+	`cropped` VARCHAR(255),
+	`is_main` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `member_photo_FI_1` (`member_id`),
+	CONSTRAINT `member_photo_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- imbra_question
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `imbra_question`;
+
+
+CREATE TABLE `imbra_question`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` TEXT,
+	`explain_title` TEXT,
+	`positive_answer` TEXT,
+	`negative_answer` TEXT,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- imbra_status
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `imbra_status`;
+
+
+CREATE TABLE `imbra_status`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(80),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- imbra_reply_template
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `imbra_reply_template`;
+
+
+CREATE TABLE `imbra_reply_template`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`mail_from` VARCHAR(255),
+	`reply_to` VARCHAR(255),
+	`bcc` VARCHAR(255),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_imbra
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_imbra`;
+
+
+CREATE TABLE `member_imbra`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`imbra_status_id` INTEGER  NOT NULL,
+	`text` TEXT,
+	`name` VARCHAR(100),
+	`dob` VARCHAR(100),
+	`address` VARCHAR(255),
+	`city` VARCHAR(100),
+	`state_id` INTEGER,
+	`zip` VARCHAR(20),
+	`phone` VARCHAR(30),
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `member_imbra_FI_1` (`member_id`),
+	CONSTRAINT `member_imbra_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_imbra_FI_2` (`imbra_status_id`),
+	CONSTRAINT `member_imbra_FK_2`
+		FOREIGN KEY (`imbra_status_id`)
+		REFERENCES `imbra_status` (`id`)
+		ON DELETE RESTRICT,
+	INDEX `member_imbra_FI_3` (`state_id`),
+	CONSTRAINT `member_imbra_FK_3`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_imbra_answer
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_imbra_answer`;
+
+
+CREATE TABLE `member_imbra_answer`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_imbra_id` INTEGER  NOT NULL,
+	`imbra_question_id` INTEGER  NOT NULL,
+	`answer` INTEGER default 0 NOT NULL,
+	`explanation` TEXT,
+	PRIMARY KEY (`id`),
+	INDEX `member_imbra_answer_FI_1` (`member_imbra_id`),
+	CONSTRAINT `member_imbra_answer_FK_1`
+		FOREIGN KEY (`member_imbra_id`)
+		REFERENCES `member_imbra` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_imbra_answer_FI_2` (`imbra_question_id`),
+	CONSTRAINT `member_imbra_answer_FK_2`
+		FOREIGN KEY (`imbra_question_id`)
+		REFERENCES `imbra_question` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- profile_view
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `profile_view`;
+
+
+CREATE TABLE `profile_view`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`profile_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `profile_view_FI_1` (`member_id`),
+	CONSTRAINT `profile_view_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `profile_view_FI_2` (`profile_id`),
+	CONSTRAINT `profile_view_FK_2`
+		FOREIGN KEY (`profile_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- block
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `block`;
+
+
+CREATE TABLE `block`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`profile_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `block_FI_1` (`member_id`),
+	CONSTRAINT `block_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `block_FI_2` (`profile_id`),
+	CONSTRAINT `block_FK_2`
+		FOREIGN KEY (`profile_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- subscription
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `subscription`;
+
+
+CREATE TABLE `subscription`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	`can_post_photo` INTEGER default 0 NOT NULL,
+	`post_photos` INTEGER default 0 NOT NULL,
+	`can_wink` INTEGER default 0 NOT NULL,
+	`winks` INTEGER default 0 NOT NULL,
+	`can_read_messages` INTEGER default 0 NOT NULL,
+	`read_messages` INTEGER default 0 NOT NULL,
+	`can_reply_messages` INTEGER default 0 NOT NULL,
+	`reply_messages` INTEGER default 0 NOT NULL,
+	`can_send_messages` INTEGER default 0 NOT NULL,
+	`send_messages` INTEGER default 0 NOT NULL,
+	`can_see_viewed` INTEGER default 0 NOT NULL,
+	`see_viewed` INTEGER default 0 NOT NULL,
+	`can_contact_assistant` INTEGER default 0 NOT NULL,
+	`contact_assistant` INTEGER default 0 NOT NULL,
+	`period1_from` INTEGER,
+	`period1_to` INTEGER,
+	`period1_price` DECIMAL(7,2) default 0 NOT NULL,
+	`period2_from` INTEGER,
+	`period2_to` INTEGER,
+	`period2_price` DECIMAL(7,2) default 0 NOT NULL,
+	`period3_from` INTEGER,
+	`period3_to` INTEGER,
+	`period3_price` DECIMAL(7,2) default 0 NOT NULL,
+	`pre_approve` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- subscription_history
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `subscription_history`;
+
+
+CREATE TABLE `subscription_history`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`subscription_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `subscription_history_FI_1` (`member_id`),
+	CONSTRAINT `subscription_history_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `subscription_history_FI_2` (`subscription_id`),
+	CONSTRAINT `subscription_history_FK_2`
+		FOREIGN KEY (`subscription_id`)
+		REFERENCES `subscription` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_status_history
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_status_history`;
+
+
+CREATE TABLE `member_status_history`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`member_status_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `member_status_history_FI_1` (`member_id`),
+	CONSTRAINT `member_status_history_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_status_history_FI_2` (`member_status_id`),
+	CONSTRAINT `member_status_history_FK_2`
+		FOREIGN KEY (`member_status_id`)
+		REFERENCES `member_status` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- message
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `message`;
+
+
+CREATE TABLE `message`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`from_member_id` INTEGER  NOT NULL,
+	`to_member_id` INTEGER  NOT NULL,
+	`subject` VARCHAR(255),
+	`content` TEXT,
+	`sent_box` INTEGER default 0 NOT NULL,
+	`is_read` INTEGER default 0 NOT NULL,
+	`is_reviewed` INTEGER default 0 NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `message_FI_1` (`from_member_id`),
+	CONSTRAINT `message_FK_1`
+		FOREIGN KEY (`from_member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `message_FI_2` (`to_member_id`),
+	CONSTRAINT `message_FK_2`
+		FOREIGN KEY (`to_member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- hotlist
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `hotlist`;
+
+
+CREATE TABLE `hotlist`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`profile_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `hotlist_FI_1` (`member_id`),
+	CONSTRAINT `hotlist_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `hotlist_FI_2` (`profile_id`),
+	CONSTRAINT `hotlist_FK_2`
+		FOREIGN KEY (`profile_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- wink
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `wink`;
+
+
+CREATE TABLE `wink`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`profile_id` INTEGER  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `wink_FI_1` (`member_id`),
+	CONSTRAINT `wink_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `wink_FI_2` (`profile_id`),
+	CONSTRAINT `wink_FK_2`
+		FOREIGN KEY (`profile_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- feedback
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `feedback`;
+
+
+CREATE TABLE `feedback`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`mailbox` TINYINT default 1 NOT NULL,
+	`member_id` INTEGER,
+	`mail_from` VARCHAR(255),
+	`name_from` VARCHAR(255),
+	`mail_to` VARCHAR(255),
+	`name_to` VARCHAR(255),
+	`bcc` VARCHAR(255),
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`is_read` INTEGER default 0 NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `feedback_FI_1` (`member_id`),
+	CONSTRAINT `feedback_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE SET NULL
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- flag_category
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `flag_category`;
+
+
+CREATE TABLE `flag_category`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- flag
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `flag`;
+
+
+CREATE TABLE `flag`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`flagger_id` INTEGER  NOT NULL,
+	`flag_category_id` INTEGER  NOT NULL,
+	`comment` VARCHAR(255),
+	`is_history` INTEGER default 0 NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `flag_FI_1` (`member_id`),
+	CONSTRAINT `flag_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `flag_FI_2` (`flagger_id`),
+	CONSTRAINT `flag_FK_2`
+		FOREIGN KEY (`flagger_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `flag_FI_3` (`flag_category_id`),
+	CONSTRAINT `flag_FK_3`
+		FOREIGN KEY (`flag_category_id`)
+		REFERENCES `flag_category` (`id`)
+		ON DELETE RESTRICT
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- suspended_by_flag
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `suspended_by_flag`;
+
+
+CREATE TABLE `suspended_by_flag`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`confirmed_at` DATETIME,
+	`confirmed_by` INTEGER,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `suspended_by_flag_FI_1` (`member_id`),
+	CONSTRAINT `suspended_by_flag_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `suspended_by_flag_FI_2` (`confirmed_by`),
+	CONSTRAINT `suspended_by_flag_FK_2`
+		FOREIGN KEY (`confirmed_by`)
+		REFERENCES `user` (`id`)
+		ON DELETE SET NULL
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- catalogue
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `catalogue`;
+
+
+CREATE TABLE `catalogue`
+(
+	`cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(100) default '' NOT NULL,
+	`source_lang` VARCHAR(100) default '' NOT NULL,
+	`target_lang` VARCHAR(100) default '' NOT NULL,
+	`date_created` INTEGER(11) default 0 NOT NULL,
+	`date_modified` INTEGER(11) default 0 NOT NULL,
+	`author` VARCHAR(255) default '' NOT NULL,
+	PRIMARY KEY (`cat_id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- trans_unit
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `trans_unit`;
+
+
+CREATE TABLE `trans_unit`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`cat_id` INTEGER(11) default 1 NOT NULL,
+	`source` TEXT  NOT NULL,
+	`target` TEXT  NOT NULL,
+	`comments` TEXT,
+	`author` VARCHAR(255) default '' NOT NULL,
+	`translated` INTEGER default 0 NOT NULL,
+	`date_created` INTEGER(11) default 0 NOT NULL,
+	`date_modified` INTEGER(11) default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `trans_unit_FI_1` (`cat_id`),
+	CONSTRAINT `trans_unit_FK_1`
+		FOREIGN KEY (`cat_id`)
+		REFERENCES `catalogue` (`cat_id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- static_page
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `static_page`;
+
+
+CREATE TABLE `static_page`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`slug` VARCHAR(255)  NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- static_page_i18n
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `static_page_i18n`;
+
+
+CREATE TABLE `static_page_i18n`
+(
+	`link_name` VARCHAR(100),
+	`title` VARCHAR(255)  NOT NULL,
+	`keywords` VARCHAR(255),
+	`description` TEXT,
+	`content` TEXT  NOT NULL,
+	`id` INTEGER  NOT NULL,
+	`culture` VARCHAR(7)  NOT NULL,
+	PRIMARY KEY (`id`,`culture`),
+	CONSTRAINT `static_page_i18n_FK_1`
+		FOREIGN KEY (`id`)
+		REFERENCES `static_page` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_story
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_story`;
+
+
+CREATE TABLE `member_story`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`slug` VARCHAR(255)  NOT NULL,
+	`sort_order` INTEGER(11) default 0 NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_story_i18n
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_story_i18n`;
+
+
+CREATE TABLE `member_story_i18n`
+(
+	`link_name` VARCHAR(100)  NOT NULL,
+	`title` VARCHAR(255)  NOT NULL,
+	`keywords` VARCHAR(255)  NOT NULL,
+	`description` TEXT  NOT NULL,
+	`content` TEXT  NOT NULL,
+	`id` INTEGER  NOT NULL,
+	`culture` VARCHAR(7)  NOT NULL,
+	PRIMARY KEY (`id`,`culture`),
+	CONSTRAINT `member_story_i18n_FK_1`
+		FOREIGN KEY (`id`)
+		REFERENCES `member_story` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- notification
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `notification`;
+
+
+CREATE TABLE `notification`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	`send_from` VARCHAR(255),
+	`send_to` VARCHAR(255),
+	`reply_to` VARCHAR(255),
+	`bcc` VARCHAR(255),
+	`trigger_name` VARCHAR(255),
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`is_active` INTEGER default 0 NOT NULL,
+	`to_admins` INTEGER default 0 NOT NULL,
+	`days` INTEGER,
+	`whn` CHAR(1),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- notification_event
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `notification_event`;
+
+
+CREATE TABLE `notification_event`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`notification_id` INTEGER,
+	`event` TINYINT,
+	PRIMARY KEY (`id`),
+	INDEX `notification_event_FI_1` (`notification_id`),
+	CONSTRAINT `notification_event_FK_1`
+		FOREIGN KEY (`notification_id`)
+		REFERENCES `notification` (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- groups
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `groups`;
+
+
+CREATE TABLE `groups`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`group_name` VARCHAR(100)  NOT NULL,
+	`group_description` TEXT,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `groups_group_name_unique` (`group_name`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- permissions
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `permissions`;
+
+
+CREATE TABLE `permissions`
+(
+	`id` INTEGER  NOT NULL,
+	`group_id` INTEGER  NOT NULL,
+	INDEX `permissions_FI_1` (`id`),
+	CONSTRAINT `permissions_FK_1`
+		FOREIGN KEY (`id`)
+		REFERENCES `user` (`id`)
+		ON DELETE CASCADE,
+	INDEX `permissions_FI_2` (`group_id`),
+	CONSTRAINT `permissions_FK_2`
+		FOREIGN KEY (`group_id`)
+		REFERENCES `groups` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- group_and_action
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `group_and_action`;
+
+
+CREATE TABLE `group_and_action`
+(
+	`action` VARCHAR(200)  NOT NULL,
+	`group_id` INTEGER  NOT NULL,
+	PRIMARY KEY (`action`,`group_id`),
+	INDEX `group_and_action_FI_1` (`group_id`),
+	CONSTRAINT `group_and_action_FK_1`
+		FOREIGN KEY (`group_id`)
+		REFERENCES `groups` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- sf_setting
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `sf_setting`;
+
+
+CREATE TABLE `sf_setting`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`env` VARCHAR(10),
+	`name` VARCHAR(40),
+	`value` VARCHAR(100),
+	`description` VARCHAR(255),
+	`created_user_id` INTEGER,
+	`updated_user_id` INTEGER,
+	`created_at` DATETIME,
+	`updated_at` DATETIME,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+# This restores the fkey checks, after having unset them earlier
+SET FOREIGN_KEY_CHECKS = 1;
