@@ -16,6 +16,10 @@ define('SF_DEBUG',       1);
 
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 
+$image_fixtures_dir = sfConfig::get('sf_data_dir').DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR;
+//echo $image_fixtures_dir . "\n";
+//print_r(glob($image_fixtures_dir .'/M/*.jpg'));
+//exit();
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
@@ -26,8 +30,8 @@ $user_ids = array(1);
 $countries = array('PL', 'BG', 'US');
 $languages = array('pl', 'bg', 'en');
 $us_states = array('AL', 'FL');
-$photos['M'] = array('1216898077_BW_DAVE_GRADUATE_5X7_UPRIGHT.jpg', '1216898164_kevinrosseel_K_dark_MN.jpg', '1216898206_stockvault_6130_20070301.jpg', '1216898268_stockvault_8978_20071127.jpg', '1216898326_stockvault_11145_20080428.jpg');
-$photos['F'] = array('1216897623_DSC02303_a.jpg', '1216897680_DSC03304.jpg', '1216897735_Elisha_Cuthbert_Toro_Photoshoot_07.jpg', '1216897932_IMG_7002a.jpg', '1216897969_IMGP2027.jpg', '1216898004_stockvault_8187_20070722.jpg', '1216898043_stockvault_11016_20080407.jpg');
+$photos['M'] = glob($image_fixtures_dir .'/M/*.jpg');
+$photos['F'] = glob($image_fixtures_dir .'/F/*.jpg');
 
 for( $i=0; $i<50; $i++):
 
@@ -102,12 +106,16 @@ $counter->setCurrentFlags(0); //set 1 field, so save to work
 $counter->save();
 $member->setMemberCounter($counter);
 
-//add a photo
-$rand_photo = array_rand($photos[$sex]);
-$photo = new MemberPhoto();
-$photo->setFile($photos[$sex][$rand_photo]);
-$photo->setIsMain(true);
-$member->addMemberPhoto($photo);
+//add 5 photos
+for($p=1; $p<=3; $p++)
+{
+    $rand_photo = array_rand($photos[$sex]);
+    $photo = new MemberPhoto();
+    $photo->updateImageFromFile('file', $photos[$sex][$rand_photo]);
+    if( $i==1 ) $photo->setIsMain(true);
+    $member->addMemberPhoto($photo);
+}
+
 
 //Q&A
 $descQuestions = DescQuestionPeer::doSelect(new Criteria());
@@ -128,5 +136,5 @@ foreach ($descQuestions as $descQuestion)
 
 //saving
 $member->save();
-
+echo "Generated member: " . $member->getUsername() . "\n";
 endfor;

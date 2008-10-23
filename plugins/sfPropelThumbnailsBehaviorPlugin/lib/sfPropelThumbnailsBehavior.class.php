@@ -52,6 +52,7 @@ class sfPropelThumbnailsBehavior
   
   public function getImageUrlPath($object, $column = null, $thumbnail = null, $absolute = false)
   {
+      if( !$this->getImageFilename($object, $column) ) $column = 'file'; //default to file if no column exists
     if( $thumbnail )
     {
       
@@ -100,8 +101,8 @@ class sfPropelThumbnailsBehavior
       
       $thumbnail = new sfThumbnail(700, 700);
       $thumbnail->loadFile($tmp_file);
-      
       $thumbnail->save($newFile);
+      
       chmod($newFile, 0666);
             
       //$Request->moveFile($ImageField, $newFile);
@@ -117,24 +118,27 @@ class sfPropelThumbnailsBehavior
     }
   }
   
-  public function updateImageFromFileSystem($object, $ImagePath, $CreateThumbnails = true)
+  public function updateImageFromFile($object, $column = 'file', $ImagePath, $CreateThumbnails = true)
   {
-    throw new Exception('Please fix me, i`m not working as expected');
-    $file = basename($ImagePath);
-    
     if (filesize($ImagePath))
     {
-      $object->deleteImage();
+      $object->deleteImage($column);
+      
+      $file = basename($ImagePath);
       $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
       $ext = substr($file, strrpos($file, '.'));
       //$ext = $Request->getFileExtension($file);
       
       $newFile = $object->getImagesPath().$FileName.$ext;
-      //$Request->moveFile($ImageField, $newFile);
-      //echo $newFile;exit();
       if(!file_exists($object->getImagesPath())) mkdir($object->getImagesPath(), 0777, true);
-      copy($ImagePath, $newFile);
-      $object->setImage($FileName.$ext);
+      
+      $thumbnail = new sfThumbnail(700, 700);
+      $thumbnail->loadFile($ImagePath);
+      $thumbnail->save($newFile);
+
+      $class = get_class($object);
+      $method = 'set'.call_user_func(array($class.'Peer', 'translateFieldName'), $column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME);
+      call_user_func(array($object, $method), $FileName.$ext);
       
       if( $CreateThumbnails ) $object->createThumbnails($column);     
     }

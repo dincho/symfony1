@@ -10,7 +10,7 @@ sfPropelBehavior::registerMethods('thumbnails', array(
   array('sfPropelThumbnailsBehavior', 'deleteThumbnails'),
   array('sfPropelThumbnailsBehavior', 'deleteImage'),
   array('sfPropelThumbnailsBehavior', 'updateImageFromRequest'),
-  array('sfPropelThumbnailsBehavior', 'updateImageFromFileSystem'),
+  array('sfPropelThumbnailsBehavior', 'updateImageFromFile'),
 ));
 
 sfPropelBehavior::registerHooks('thumbnails', array(

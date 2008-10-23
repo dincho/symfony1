@@ -45,14 +45,16 @@ class MemberPhoto extends BaseMemberPhoto
 	    }
 	}
 	
-	/*
-	 * Get URL of the image 
-	 * priority => 1.cropped, 2.not-cropped
-	 * Using "file" as default column for non exsisting columns
-	 */
+    /**
+     * Short alias of the behavior method
+     *
+     * @param string $size
+     * @param string $column
+     * @return string
+     */
 	public function getImg($size = null, $column = 'cropped')
 	{
-	    return ($this->getImageFilename($column)) ? $this->getImageUrlPath($column, $size) : $this->getImageUrlPath('file', $size);
+	    return $this->getImageUrlPath($column, $size);
 	}
 }
 
