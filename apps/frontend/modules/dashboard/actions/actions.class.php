@@ -258,8 +258,51 @@ class dashboardActions extends sfActions
         }
         
         $this->search_criteria = $search_criteria;
-        $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_crit_desc = $search_criteria->getSearchCritDescsArray();
+    }
+    
+    public function validateSearchCriteria()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $questions = DescQuestionPeer::doSelect(new Criteria());
+            $answers = $this->getRequestParameter('answers', array());
+            
+            $has_error = false;
+            foreach ($questions as $question)
+            {
+                if( $question->getIsRequired() && !isset($answers[$question->getId()]) )
+                {
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
+                    $has_error = true;
+                }
+            }
+            
+            if ($has_error)
+            {
+                $this->setFlash('dont_show_errors', true);
+                $this->setFlash('msg_error', 'You must fill out the missing information below indicated in red.');
+                return false;
+            }
+        }
+        
+        return true;
+      
+    }
+    
+    public function handleErrorSearchCriteria()
+    {
+        $member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($member);
+        
+        $this->search_criteria = $member->getSearchCriteria();
+        if( !$this->search_criteria ) $this->search_criteria = new SearchCriteria();
+        
+        $this->questions = DescQuestionPeer::doSelect(new Criteria());
+        $this->answers = DescAnswerPeer::getAnswersAssoc();
+        $this->member_crit_desc = $this->search_criteria->getSearchCritDescsArray();
+        
+        return sfView::SUCCESS;
     }
 }

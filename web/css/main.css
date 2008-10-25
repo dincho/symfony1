@@ -1690,7 +1690,7 @@ span {
     font-size: 11px;
 }
 
-#secondary_container span.title {
+label.title {
     margin-top: 40px;
     height: 16px;
     line-height: 16px;
@@ -1702,6 +1702,10 @@ span {
     padding-left: 6px;
 }
 
+label.error {
+    background-color: #a51d1f;
+}
+    
 #secondary_container span.title_first {
     margin-top: 10px;
     height: 16px;
@@ -1745,7 +1749,7 @@ span {
 }
 
 /* personality */
-#self_desc_form label span {
+#self_desc_form label span123 {
     font-size: 11px;
     margin-left: 25px;
     display: block;

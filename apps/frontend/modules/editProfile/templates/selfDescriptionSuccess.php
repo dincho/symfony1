@@ -22,7 +22,7 @@
     </span>
     
     <?php foreach ($questions as $question): ?>
-      <span class="title"><?php echo ++$i; ?>. <?php echo $question->getTitle() ?> <span>(select one)</span></span>
+      <span class="title"><?php echo ++$i; ?>. <?php echo $question->getTitle() ?> <span><?php echo ($question->getIsRequired()) ? __('(select one)') : __('(optional, select one)')?></span></span>
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo radiobutton_tag('answers['. $question->getid() .']', 
