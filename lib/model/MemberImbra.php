@@ -25,8 +25,11 @@ class MemberImbra extends BaseMemberImbra
     {
         $c = new Criteria();
         $c->addJoin(MemberImbraAnswerPeer::MEMBER_IMBRA_ID, MemberImbraPeer::ID);
+        $c->addJoin(MemberImbraAnswerPeer::IMBRA_QUESTION_ID, ImbraQuestionPeer::ID);
         $c->add(MemberImbraPeer::MEMBER_ID, $this->getMemberId());
         $c->add(MemberImbraAnswerPeer::ANSWER, true);
+        $c->add(ImbraQuestionPeer::POSITIVE_ANSWER, null, Criteria::ISNOTNULL);
+        $c->add(ImbraQuestionPeer::NEGATIVE_ANSWER, null, Criteria::ISNOTNULL);
         $answers = MemberImbraAnswerPeer::doCount($c);
         return ($answers > 0) ? true : false;
     }

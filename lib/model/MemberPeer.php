@@ -48,8 +48,8 @@ class MemberPeer extends BaseMemberPeer
         $startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
         $c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
         $c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID, Criteria::LEFT_JOIN);
-        $c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-        $c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+        $c->addJoin(MemberPeer::STATE_ID, StatePeer::ID, Criteria::LEFT_JOIN);
+        $c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID, Criteria::LEFT_JOIN);
         $c->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
         $c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
         $rs = BasePeer::doSelect($c, $con);

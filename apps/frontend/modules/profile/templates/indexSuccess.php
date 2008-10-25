@@ -108,3 +108,14 @@
     <p><?php echo $member->getEssayIntroduction() ?></p>
     <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
+
+<?php if( $imbra ): ?>
+    <a name="profile_imbra_info" class="sec_link" onclick="show_hide('profile_imbra_details')">[<span id="imbra_info_tick">-</span>]&nbsp;<?php echo __('IMBRA Information') ?></a>
+    <div id="profile_imbra_details">
+        <p class="profile_imbra_version">
+            <?php echo __('Member since: ' . $member->getCreatedAt('m/d/y')) ?><br />
+            <?php echo __('Imbra updated %TIMES% times. Most recently on %IMBRA_DATE%', array('%TIMES%' => $member->countMemberImbras(), '%IMBRA_DATE%' => $imbra->getCreatedAt('m/d/Y'))) ?>
+        </p>
+        <?php echo $sf_data->getRaw('imbra')->getText(); ?> 
+    </div>
+<?php endif; ?>

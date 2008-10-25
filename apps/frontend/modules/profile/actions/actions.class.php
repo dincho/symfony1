@@ -14,6 +14,8 @@ class profileActions extends sfActions
     {
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
         $this->getResponse()->addJavascript('profile_desc_map.js');
+        $this->getResponse()->addJavascript('show_hide');
+        
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
         $this->forward404Unless($member);
         
@@ -55,6 +57,14 @@ class profileActions extends sfActions
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
         $this->header_title = Tools::truncate($member->getEssayHeadline(), 40) . ' / ' . $member->getUsername() . ' /  ' . $member->getAge();
         $this->member = $member;
+        
+        //IMBRA
+        $this->imbra = $member->getLastImbra($approved = true);
+        if ($this->imbra)
+        {
+            $this->imbra_questions = ImbraQuestionPeer::doSelect(new Criteria());
+            $this->imbra_answers = $this->imbra->getImbraAnswersArray();
+        }
     }
 
     public function executeSignIn()

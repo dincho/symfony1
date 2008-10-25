@@ -27,7 +27,7 @@ class memberStoriesActions extends sfActions
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
         
-        $this->stories = MemberStoryPeer::doSelect($c);
+        $this->stories = MemberStoryPeer::doSelectWithI18n($c, 'en');
     }
 
     public function executeAdd()

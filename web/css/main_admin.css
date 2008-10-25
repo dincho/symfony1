@@ -169,7 +169,7 @@ tbody tr:hover {
 	
 }
 
-#bottom_menu span {
+#bottom_menu span.bottom_menu_title {
   float: left;
   background-color: #C3C3C3;
   margin-right: 5px;

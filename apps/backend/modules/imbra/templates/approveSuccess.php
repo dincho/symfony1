@@ -7,7 +7,8 @@
   
   <div class="legend">Username: <?php echo $member->getUsername(); ?></div>
   <fieldset class="form_fields">
-    <?php echo textarea_tag('text', $imbra->getText(), 'cols=55 rows=33') ?><br />
+    <?php $imbra_text = get_partial('imbra_text', array('member' => $member, 'imbra' => $imbra)); ?>
+    <?php echo textarea_tag('text', $imbra_text, 'cols=75 rows=33') ?><br />
   </fieldset> 
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'imbra/edit?cancel=1&member_id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>

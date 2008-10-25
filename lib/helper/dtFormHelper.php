@@ -15,24 +15,10 @@ function error_class($field, $just_the_class_name = false)
   }
 }
 
-function object_bool_select_tag($object, $method, $options = array(), $default_value = 0)
+function object_bool_select_tag($object, $method, $select_options = array(1 => 'yes', 0 => 'no'), $options = array(), $default_value = 0)
 {
 	$options['class'] = 'bool_select';
   $options = _parse_attributes($options);
-
-  
-/*  $related_class = _get_option($options, 'related_class', false);
-  if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
-  {
-    $related_class = $match[1];
-  }*/
-
-  //$peer_method = _get_option($options, 'peer_method');
-
-  //$text_method = _get_option($options, 'text_method');
-
-  //$select_options = _get_options_from_objects(sfContext::getInstance()->retrieveObjects($related_class, $peer_method), $text_method);
-  $select_options = array(1 => 'yes', 0 => 'no');
 
   if (is_object($object))
   {

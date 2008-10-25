@@ -57,7 +57,7 @@ class membersActions extends sfActions
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinAll');
-        $pager->setPeerCountMethod('doCountJoinAll');
+        $pager->setPeerCountMethod('doCount');
         $pager->init();
         $this->pager = $pager;
         
@@ -73,22 +73,6 @@ class membersActions extends sfActions
     {
         $this->member = new Member();
         $this->setTemplate('edit');
-    }
-
-    public function executeEditOOOLD()
-    {
-        $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
-        $this->forward404Unless($this->member);
-        $this->getUser()->getBC()->add(array('name' => $this->member->getUsername(), 'uri' => 'members/edit?id=' . $this->member->getId()));
-        $section = $this->getRequestParameter('section', 'overview');
-        $method = 'edit' . ucfirst($section);
-        if (is_callable(array($this, $method)))
-        {
-            call_user_func(array($this, $method));
-        } else
-        {
-            $this->forward404();
-        }
     }
 
     public function executeEdit()
@@ -133,7 +117,7 @@ class membersActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setCountry($this->getRequestParameter('country'));
-            $this->member->setStateId($this->getRequestParameter('state_id'));
+            if($this->getRequestParameter('state_id')) $this->member->setStateId($this->getRequestParameter('state_id'));
             $this->member->setDistrict($this->getRequestParameter('district'));
             $this->member->setCity($this->getRequestParameter('city'));
             $this->member->setZip($this->getRequestParameter('zip'));
@@ -375,6 +359,11 @@ class membersActions extends sfActions
                     $this->left_menu_selected = 'Paid Members';            	    
             	;
             	break;
+            	case SubscriptionPeer::VIP:
+                    $bc->add(array('name' => 'VIP Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::VIP));
+                    $this->left_menu_selected = 'VIP Members';            	    
+            	;
+            	break;
             	
             	default:
                     $bc->add(array('name' => 'Free Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE));
@@ -420,11 +409,6 @@ class membersActions extends sfActions
                     $this->left_menu_selected = 'Suspended Members';          	    
             	;
             	break;
-            	case MemberStatusPeer::DELETED:
-                    $bc->add(array('name' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DELETED));
-                    $this->left_menu_selected = 'Deleted Members';          	    
-            	;
-            	break;
             	case MemberStatusPeer::ABANDONED:
                     $bc->add(array('name' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED));
                     $this->left_menu_selected = 'Abandoned Registration';          	    
@@ -432,7 +416,7 @@ class membersActions extends sfActions
             	break;
             	
             	default:
-                    $bc->add(array('name' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING));
+                    $bc->add(array('name' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED));
                     $this->left_menu_selected = 'Not Activated Members';              	    
         		;
             	break;
@@ -451,6 +435,16 @@ class membersActions extends sfActions
             $c->add(MemberCounterPeer::CURRENT_FLAGS, 0, Criteria::GREATER_THAN);
             $bc->add(array('name' => 'Flagged Members', 'uri' => 'members/list?filter=filter&filters[flagged]=1'));
             $this->left_menu_selected = 'Flagged Members'; 
+        }
+        
+        if( isset($this->filters['canceled']) )
+        {
+            $crit = $c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED);
+            $crit->addOr($c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED_BY_MEMBER));
+            $c->add($crit);
+            
+            $bc->add(array('name' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[deleted]=1'));
+            $this->left_menu_selected = 'Deleted Members'; 
         }
         
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) )

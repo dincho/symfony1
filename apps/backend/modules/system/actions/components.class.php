@@ -43,6 +43,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
                                            array('title' => 'States', 'uri' => 'states/list'),
+                                           array('title' => 'System Notifications', 'uri' => 'notifications/list'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            array('title' => 'Groups', 'uri' => 'groups/list'),
@@ -74,12 +75,14 @@ class systemComponents extends sfComponents
                                            array('title' => 'Female Members', 'uri' => 'members/list?filter=filter&filters[sex]=f'),
                                            array('title' => 'Free Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE),
                                            array('title' => 'Paid Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::PAID),
+                                           array('title' => 'VIP Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::VIP),
                                            array('title' => 'Comp Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::COMP),
                                            array('title' => 'Polish Members', 'uri' => 'members/list?filter=filter&filters[country]=PL'),
                                            array('title' => 'Foreign (US) Members', 'uri' => 'members/list?filter=filter&filters[country]=US'),
                                            array('title' => 'Foreign (Non-US) Members', 'uri' => 'members/list?filter=filter&filters[country]=NON-US'),
                                            array('title' => 'Suspended Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::SUSPENDED),
                                            array('title' => 'Flagged Members', 'uri' => 'members/list?filter=filter&filters[flagged]=1'),
+                                           array('title' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[canceled]=1'),
                                            array('title' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'),
                                            array('title' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
                                            array('title' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED),
@@ -93,6 +96,7 @@ class systemComponents extends sfComponents
     $full_menu['staticPages'] = $full_menu['content'];
     $full_menu['memberStories'] = $full_menu['content'];
     $full_menu['states'] = $full_menu['content'];
+    $full_menu['notifications'] = $full_menu['content'];
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
     if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;

@@ -4,11 +4,12 @@
     <table class="zebra">
         <thead>
             <tr class="top_actions">
-                <td colspan="3"><?php echo button_to ('New', 'memberStories/add') ?></td>
+                <td colspan="4"><?php echo button_to ('New', 'memberStories/add') ?></td>
             </tr>            
             <tr>
                 <th></th>
                 <th>Sort Order</th>
+                <th>Name</th>
                 <th>URL Name</th>
             </tr>
         </thead>
@@ -17,6 +18,7 @@
         <tr rel="<?php echo url_for('memberStories/edit?id=' . $story->getId()) ?>">
             <td class="marked"><?php echo checkbox_tag('marked[]', $story->getId(), null) ?></td>
             <td class="marked"><?php echo input_tag('sort['.$story->getId().']', $story->getSortOrder(), 'style=width: 15px') ?>
+            <td><?php echo $story->getTitle(); ?></td>
             <td><?php echo $story->getSlug(); ?>.html</td>
         </tr>
     <?php endforeach; ?>

@@ -2,8 +2,8 @@
 <?php echo form_tag('profile/signIn', array('id' => 'sign_in')) ?>
     <fieldset>
         <legend>Sign in to continue...</legend>
-        <label for="email">Email</label> <input type="text" name="email" class="input_text_width" size="20" /><br />
-        <label for="password">Password</label> <input type="password" name="password" class="input_text_width" size="20" /><br />
+        <label for="email">Email</label> <input type="text" name="email" class="input_text_width" value="Camila_White@polishromance.com" /><br />
+        <label for="password">Password</label> <input type="password" name="password" class="input_text_width" size="20" value="Camila_White" /><br />
         <span><?php echo link_to('Forgot your Password?', 'profile/forgotYourPassword', array('class' => 'sec_link_small')) ?></span>
     </fieldset>
     <input type="submit" class="sign_in" value="" /><br />

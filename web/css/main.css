@@ -321,6 +321,21 @@ body .send_mini {
     text-align: center;
 }
 
+#content h1 {
+    margin: 0px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#content p {
+    color: #FFF;
+    font-size: 1em;
+    line-height: 1.3em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #secondary_container {
     padding-top: 35px;
     margin: 0 25px;
@@ -1670,7 +1685,7 @@ span {
     background-color: #a51d1f;
 }
 
-#secondary_container span.public_reg_notice {
+.public_reg_notice {
     color: #e0b400;
     font-size: 11px;
 }
@@ -3258,7 +3273,35 @@ div.profile_id_search {
     padding-right: 20px;
 }
 
-/* END right */ /* END profile */
+/* END right */ 
+
+/* Profile IMBRA */
+
+#profile_imbra_details {
+    background-color: #3D3D3D;
+    color:  #D3D3D3;
+    padding: 10px;
+}
+
+#profile_imbra_details p {
+    color:  #D3D3D3;
+    font-size: 11px;
+}
+
+#profile_imbra_details .profile_imbra_version {
+    font-size: 10px;
+    color:  #92897E;
+    padding-bottom: 10px;
+}
+
+#profile_imbra_details p.public_reg_notice {
+    color:  #E0B400;
+}
+    
+/* END profile IMBRA */
+
+
+/* END profile */
 #affiliates {
     padding-top: 40px;
     margin-left: 22px;
@@ -3808,20 +3851,7 @@ div.profile_id_search {
     font-weight: bold;
 }
 
-#content h1 {
-    margin: 0px;
-    color: #FFF;
-    font-weight: bold;
-    font-size: 1.2em;
-    font-family: Arial, Helvetica, sans-serif;
-}
 
-#content p {
-    color: #FFF;
-    font-size: 1em;
-    line-height: 1.3em;
-    font-family: Arial, Helvetica, sans-serif;
-}
 
 /* ---=== border code follows ===--- */ /*
 	tlc = top left corner

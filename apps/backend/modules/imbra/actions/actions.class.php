@@ -60,9 +60,12 @@ class imbraActions extends sfActions
     public function executeEdit ()
     {
         $this->forward404Unless($this->member);
+        
+        /*
         $c = new Criteria();
         $c->addDescendingOrderByColumn(MemberImbraPeer::CREATED_AT);
         $c->setLimit(11);
+        */
         $this->imbras = $this->member->getMemberImbras();
         $this->forward404Unless($this->imbras);
         $this->imbra = ($this->getRequestParameter('id')) ? MemberImbraPeer::retrieveByPK($this->getRequestParameter('id')) : $this->imbras[0];
@@ -92,8 +95,7 @@ class imbraActions extends sfActions
         $this->forward404Unless($this->imbras);
         $this->imbra = MemberImbraPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($this->imbra);
-        //$this->getUser()->getBC()->add(array('name' => 'Pending', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'));
-        //$this->left_menu_selected = 'Pending';
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->imbra->setText($this->getRequestParameter('text'));
