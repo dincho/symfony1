@@ -929,9 +929,9 @@ body .send_mini {
     border: 2px solid #000;
 }
 
-#dashboard-container div.left,#dashboard-container div.right {
+#dashboard-container div.left, #dashboard-container div.right {
     float: left;
-    width: 325px;
+    width: 340px;
     height: 225px;
     background-color: #000000;
     padding: 12px;
@@ -1008,7 +1008,7 @@ body .send_mini {
 #dashboard-container div.bottom {
     clear: both;
     height: 155px;
-    width: 706px;
+    width: 710px;
     background-color: #000;
     border-top: 1px solid #4F4F4F;
     padding: 10px;

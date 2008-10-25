@@ -40,5 +40,7 @@
         <?php endforeach; ?>        
     </div>
 </div>
-<?php include_partial('content/footer_menu') ?>
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
 
