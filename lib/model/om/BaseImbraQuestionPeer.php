@@ -13,7 +13,7 @@ abstract class BaseImbraQuestionPeer {
 	const CLASS_DEFAULT = 'lib.model.ImbraQuestion';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -35,23 +35,26 @@ abstract class BaseImbraQuestionPeer {
 	const NEGATIVE_ANSWER = 'imbra_question.NEGATIVE_ANSWER';
 
 	
+	const ONLY_EXPLAIN = 'imbra_question.ONLY_EXPLAIN';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'ExplainTitle', 'PositiveAnswer', 'NegativeAnswer', ),
-		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID, ImbraQuestionPeer::TITLE, ImbraQuestionPeer::EXPLAIN_TITLE, ImbraQuestionPeer::POSITIVE_ANSWER, ImbraQuestionPeer::NEGATIVE_ANSWER, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'explain_title', 'positive_answer', 'negative_answer', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'ExplainTitle', 'PositiveAnswer', 'NegativeAnswer', 'OnlyExplain', ),
+		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID, ImbraQuestionPeer::TITLE, ImbraQuestionPeer::EXPLAIN_TITLE, ImbraQuestionPeer::POSITIVE_ANSWER, ImbraQuestionPeer::NEGATIVE_ANSWER, ImbraQuestionPeer::ONLY_EXPLAIN, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'explain_title', 'positive_answer', 'negative_answer', 'only_explain', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'ExplainTitle' => 2, 'PositiveAnswer' => 3, 'NegativeAnswer' => 4, ),
-		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID => 0, ImbraQuestionPeer::TITLE => 1, ImbraQuestionPeer::EXPLAIN_TITLE => 2, ImbraQuestionPeer::POSITIVE_ANSWER => 3, ImbraQuestionPeer::NEGATIVE_ANSWER => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'explain_title' => 2, 'positive_answer' => 3, 'negative_answer' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'ExplainTitle' => 2, 'PositiveAnswer' => 3, 'NegativeAnswer' => 4, 'OnlyExplain' => 5, ),
+		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID => 0, ImbraQuestionPeer::TITLE => 1, ImbraQuestionPeer::EXPLAIN_TITLE => 2, ImbraQuestionPeer::POSITIVE_ANSWER => 3, ImbraQuestionPeer::NEGATIVE_ANSWER => 4, ImbraQuestionPeer::ONLY_EXPLAIN => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'explain_title' => 2, 'positive_answer' => 3, 'negative_answer' => 4, 'only_explain' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -114,6 +117,8 @@ abstract class BaseImbraQuestionPeer {
 		$criteria->addSelectColumn(ImbraQuestionPeer::POSITIVE_ANSWER);
 
 		$criteria->addSelectColumn(ImbraQuestionPeer::NEGATIVE_ANSWER);
+
+		$criteria->addSelectColumn(ImbraQuestionPeer::ONLY_EXPLAIN);
 
 	}
 

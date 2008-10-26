@@ -357,6 +357,7 @@ CREATE TABLE `imbra_question`
 	`explain_title` TEXT,
 	`positive_answer` TEXT,
 	`negative_answer` TEXT,
+	`only_explain` INTEGER default 0 NOT NULL,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 

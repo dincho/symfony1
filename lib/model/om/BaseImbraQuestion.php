@@ -27,6 +27,10 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 	
 	protected $negative_answer;
 
+
+	
+	protected $only_explain = false;
+
 	
 	protected $collMemberImbraAnswers;
 
@@ -72,6 +76,13 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 	{
 
 		return $this->negative_answer;
+	}
+
+	
+	public function getOnlyExplain()
+	{
+
+		return $this->only_explain;
 	}
 
 	
@@ -155,6 +166,16 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setOnlyExplain($v)
+	{
+
+		if ($this->only_explain !== $v || $v === false) {
+			$this->only_explain = $v;
+			$this->modifiedColumns[] = ImbraQuestionPeer::ONLY_EXPLAIN;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -169,11 +190,13 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 			$this->negative_answer = $rs->getString($startcol + 4);
 
+			$this->only_explain = $rs->getBoolean($startcol + 5);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ImbraQuestion object", $e);
 		}
@@ -364,6 +387,9 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 			case 4:
 				return $this->getNegativeAnswer();
 				break;
+			case 5:
+				return $this->getOnlyExplain();
+				break;
 			default:
 				return null;
 				break;
@@ -379,6 +405,7 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 			$keys[2] => $this->getExplainTitle(),
 			$keys[3] => $this->getPositiveAnswer(),
 			$keys[4] => $this->getNegativeAnswer(),
+			$keys[5] => $this->getOnlyExplain(),
 		);
 		return $result;
 	}
@@ -409,6 +436,9 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 			case 4:
 				$this->setNegativeAnswer($value);
 				break;
+			case 5:
+				$this->setOnlyExplain($value);
+				break;
 		} 	}
 
 	
@@ -421,6 +451,7 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[2], $arr)) $this->setExplainTitle($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setPositiveAnswer($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setNegativeAnswer($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setOnlyExplain($arr[$keys[5]]);
 	}
 
 	
@@ -433,6 +464,7 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ImbraQuestionPeer::EXPLAIN_TITLE)) $criteria->add(ImbraQuestionPeer::EXPLAIN_TITLE, $this->explain_title);
 		if ($this->isColumnModified(ImbraQuestionPeer::POSITIVE_ANSWER)) $criteria->add(ImbraQuestionPeer::POSITIVE_ANSWER, $this->positive_answer);
 		if ($this->isColumnModified(ImbraQuestionPeer::NEGATIVE_ANSWER)) $criteria->add(ImbraQuestionPeer::NEGATIVE_ANSWER, $this->negative_answer);
+		if ($this->isColumnModified(ImbraQuestionPeer::ONLY_EXPLAIN)) $criteria->add(ImbraQuestionPeer::ONLY_EXPLAIN, $this->only_explain);
 
 		return $criteria;
 	}
@@ -470,6 +502,8 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		$copyObj->setPositiveAnswer($this->positive_answer);
 
 		$copyObj->setNegativeAnswer($this->negative_answer);
+
+		$copyObj->setOnlyExplain($this->only_explain);
 
 
 		if ($deepCopy) {

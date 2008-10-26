@@ -42,5 +42,7 @@ class ImbraQuestionMapBuilder {
 
 		$tMap->addColumn('NEGATIVE_ANSWER', 'NegativeAnswer', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('ONLY_EXPLAIN', 'OnlyExplain', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} 
 } 
