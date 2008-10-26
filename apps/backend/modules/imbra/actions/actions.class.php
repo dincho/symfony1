@@ -60,12 +60,6 @@ class imbraActions extends sfActions
     public function executeEdit ()
     {
         $this->forward404Unless($this->member);
-        
-        /*
-        $c = new Criteria();
-        $c->addDescendingOrderByColumn(MemberImbraPeer::CREATED_AT);
-        $c->setLimit(11);
-        */
         $this->imbras = $this->member->getMemberImbras();
         $this->forward404Unless($this->imbras);
         $this->imbra = ($this->getRequestParameter('id')) ? MemberImbraPeer::retrieveByPK($this->getRequestParameter('id')) : $this->imbras[0];
@@ -78,12 +72,30 @@ class imbraActions extends sfActions
         $this->imbra = MemberImbraPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($this->imbra);
         $this->template = ImbraReplyTemplatePeer::retrieveByPK(1);
+        
+        if( !$this->template ) $this->template = new ImbraReplyTemplate();
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             if ($this->getRequestParameter('save_as_new_template'))
             {
                 $this->saveTemplate();
             }
+            
+            $mail = new prMail();
+            $mail->setFrom($this->getRequestParameter('send_from'));
+            $mail->addReplyTo($this->getRequestParameter('reply_to'));
+            if( $this->getRequestParameter('bcc')) $mail->addBcc($this->getRequestParameter('bcc'));
+            $mail->addAddress($this->member->getEmail(), $this->member->getFullName());
+            
+            $mail->setSubject($this->getRequestParameter('subject'));
+            $mail->setBody($this->getRequestParameter('body'));
+            $mail->Send();
+            
+            $this->imbra->setImbraStatusId(ImbraStatusPeer::DENIED);
+            $this->imbra->save();
+            
+            $this->setFlash('msg_ok', 'IMBRA application have been denied.');
             $this->redirect('imbra/list');
         }
     }
