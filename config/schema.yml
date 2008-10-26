@@ -98,6 +98,7 @@ propel:
     desc_title:               { type: varchar, size: 255 }
     factor_title:             { type: varchar, size: 255 }
     type:                     { type: varchar, size: 50 }
+    is_required:              { type: boolean, required: true, default: true }
   desc_answer:
     id:
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }

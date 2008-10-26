@@ -1,4 +1,4 @@
-ALTER TABLE `member` ADD `sub_auto_renew` INTEGER default 1 NOT NULL;
+ALTER TABLE `desc_question` ADD `is_required` INTEGER default 1 NOT NULL;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)

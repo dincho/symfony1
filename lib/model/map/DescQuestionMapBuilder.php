@@ -44,5 +44,7 @@ class DescQuestionMapBuilder {
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::VARCHAR, false, 50);
 
+		$tMap->addColumn('IS_REQUIRED', 'IsRequired', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} 
 } 

@@ -226,6 +226,7 @@ CREATE TABLE `desc_question`
 	`desc_title` VARCHAR(255),
 	`factor_title` VARCHAR(255),
 	`type` VARCHAR(50),
+	`is_required` INTEGER default 1 NOT NULL,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
