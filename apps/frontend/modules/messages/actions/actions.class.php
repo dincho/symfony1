@@ -9,7 +9,7 @@ class messagesActions extends sfActions
     
     public function executeIndex()
     {
-        $this->getResponse()->addJavascript('show_hide_messages');
+        $this->getResponse()->addJavascript('show_hide_tick');
         $c = new Criteria();
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->add(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());

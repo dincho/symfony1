@@ -133,6 +133,7 @@ propel:
     explain_title:            { type: longvarchar, required: false }
     positive_answer:          { type: longvarchar, required: false }
     negative_answer:          { type: longvarchar, required: false }
+    only_explain:             { type: boolean, required: true, default: false }
   imbra_status:
     id:
     title:                    { type: varchar, size: 80 }

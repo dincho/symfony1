@@ -10,8 +10,14 @@
 class ImbraQuestion extends BaseImbraQuestion
 {
 
+    /**
+     * Use getOnlyExplain method
+     *
+     * @deprecated added new field in the table only_explain
+     */
     public function hasBothAnswers()
     {
+        throw new sfException('Use getOnlyExplain method');
         return (! is_null($this->getNegativeAnswer()) && ! is_null($this->getPositiveAnswer()));
     }
 
@@ -21,10 +27,10 @@ class ImbraQuestion extends BaseImbraQuestion
         $params = array();
         sfLoader::loadHelpers(array('I18N'));
         
-        if (isset($member_answers[$this->getId()]))
+        if (isset($member_answers[$this->getId()]) || $this->getOnlyExplain())
         {
             $params['{explanation}'] = $member_answers[$this->getId()]->getExplanation();
-            $text = ($member_answers[$this->getId()]->getAnswer() == 1) ? $this->getPositiveAnswer() : $this->getNegativeAnswer();
+            $text = ($this->getOnlyExplain() || $member_answers[$this->getId()]->getAnswer() == 1) ? $this->getPositiveAnswer() : $this->getNegativeAnswer();
         }
         
         $params['{Name}'] = $member->getFullName();

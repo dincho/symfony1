@@ -5,7 +5,7 @@
 <span><?php echo __('Note: You will able to change this information later.') ?></span>
 <?php echo form_tag('registration/selfDescription', array('id' => 'self_desc_form')) ?>
     <?php $i=1; ?>
-    <span class="title">1. What's your birthday? <span><?php echo __('(If you\'re not 19 or older, you are not allowed to be here - you must leave now!)') ?></span></span>
+    <label class="title">1. What's your birthday? <span><?php echo __('(If you\'re not 19 or older, you are not allowed to be here - you must leave now!)') ?></span></label>
     <span class="date_tag_wrap">
         <?php $date_value = ($member->getBirthday()) ? $member->getBirthday() : '01-01-' . (date('Y')-18); ?>
         <?php echo input_date_tag('birth_day', $date_value,  array('date_seperator' => '', 
@@ -22,7 +22,7 @@
     </span>
     
     <?php foreach ($questions as $question): ?>
-      <span class="title"><?php echo ++$i; ?>. <?php echo $question->getTitle() ?> <span>(select one)</span></span>
+      <label class="title"><?php echo ++$i; ?>. <?php echo $question->getTitle() ?> <span>(select one)</span></label>
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo radiobutton_tag('answers['. $question->getid() .']', 

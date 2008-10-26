@@ -110,12 +110,19 @@
 </div>
 
 <?php if( $imbra ): ?>
-    <a name="profile_imbra_info" class="sec_link" onclick="show_hide('profile_imbra_details')">[<span id="imbra_info_tick">-</span>]&nbsp;<?php echo __('IMBRA Information') ?></a>
+
+    <a name="profile_imbra_info" class="sec_link"><?php echo link_to_function('[<span id="profile_imbra_details_tick">-</span>] ' . __('IMBRA Information'), 'show_hide_tick("profile_imbra_details")', 'class=sec_link') ?></a>
     <div id="profile_imbra_details">
         <p class="profile_imbra_version">
             <?php echo __('Member since: ' . $member->getCreatedAt('m/d/y')) ?><br />
             <?php echo __('Imbra updated %TIMES% times. Most recently on %IMBRA_DATE%', array('%TIMES%' => $member->countMemberImbras(), '%IMBRA_DATE%' => $imbra->getCreatedAt('m/d/Y'))) ?>
         </p>
-        <?php echo $sf_data->getRaw('imbra')->getText(); ?> 
+        <?php echo $sf_data->getRaw('imbra')->getText(); ?>
+        <p>
+            <?php echo $imbra->getName() ?><br />
+            <?php echo $imbra->getCreatedAt('%B %d, %Y') ?><br />
+            <?php echo __('Born ') .  $imbra->getDob()?><br />
+            <?php printf('%s, %s, USA', $imbra->getCity(), $imbra->getState()->getTitle() ) ?>
+        </p>
     </div>
 <?php endif; ?>

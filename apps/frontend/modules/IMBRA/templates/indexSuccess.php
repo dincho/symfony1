@@ -7,20 +7,20 @@
     <span class="public_reg_notice"><strong><?php echo __('Required by United States\' International Marriage Broker Regulation Act of 2005 ') ?></strong><?php echo __('Due to the new legislation effective since March 6, 2006, the International Marriage Broker Act of 20005 (so called IMBRA), we must collect the following background information from each customer interested in using our services. We also have to make an electronic search on the National Sex Offender public registry and pertinent State Sex Offender public registry. This information will be translated to Polish and presented to any Polish women (or a men, if you\'re woman) who tries to contact you, or wants to reply to your message, or simply receives your message. In addition to your background check information, we will present a foreign person with the information in Polish, about legal rights and resources for immigrant victims of domestic violence. According to this law, we also have to inform you, whether it applies to you or not, that after filing a petition for a K nonimmigrant visa, you will be subject to a criminal background check.<br /><br />If you answer "YES" to any of the questions below, please provide a Detailed Statement of Explanation and Information, or alternatively any Necessary Optional Documentation. Additional documents may require a translation fee.') ?></span>
     <hr />
     <?php $request_answers = $sf_request->getParameter('answers') ?>
-    <?php foreach ($imbra_questions as $question): ?>
+    <?php foreach ($sf_data->getRaw('imbra_questions') as $question): ?>
         <?php echo pr_label_for('answers[' . $question->getId() . ']', $question->getTitle()); ?><br />
-        <?php if( $question->hasBothAnswers() ): ?>
+        <?php if( !$question->getOnlyExplain() ): ?>
             <?php echo label_for('answers[' . $question->getId() . ']', 'No') ?>
             <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 0, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 0), array('onchange' => 'imbra_explain('. $question->getId().', this.value)') ) ?>
                     
             <?php echo label_for('answers[' . $question->getId() . ']', 'Yes') ?>
             <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 1, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 1), array('onchange' => 'imbra_explain('. $question->getId().', this.value)')) ?><br />
-            <?php echo pr_label_for('explains[' . $question->getId() . ']', $question->getExplainTitle(), array('style' => ($question->hasBothAnswers() && (!isset($imbra_answers[$question->getId()]) || $imbra_answers[$question->getId()]->getAnswer() == 0) && (!isset($request_answers[$question->getId()]) || $request_answers[$question->getId()] == 0) ) ? 'display: none;' : '' )) ?><br />
+            <?php echo pr_label_for('explains[' . $question->getId() . ']', $question->getExplainTitle(), array('style' => (!$question->getOnlyExplain() && (!isset($imbra_answers[$question->getId()]) || $imbra_answers[$question->getId()]->getAnswer() == 0) && (!isset($request_answers[$question->getId()]) || $request_answers[$question->getId()] == 0) ) ? 'display: none;' : '' )) ?><br />
         <?php endif; ?>
         
         <?php echo textarea_tag('explains[' . $question->getId() . ']', 
                    (isset($imbra_answers[$question->getId()])) ? $imbra_answers[$question->getId()]->getExplanation() : null, 
-                   array('style' => ($question->hasBothAnswers() && (!isset($imbra_answers[$question->getId()]) || $imbra_answers[$question->getId()]->getAnswer() == 0) && (!isset($request_answers[$question->getId()]) || $request_answers[$question->getId()] == 0) ) ? 'display: none;' : '' )) ?>
+                   array('style' => (!$question->getOnlyExplain() && (!isset($imbra_answers[$question->getId()]) || $imbra_answers[$question->getId()]->getAnswer() == 0) && (!isset($request_answers[$question->getId()]) || $request_answers[$question->getId()] == 0) ) ? 'display: none;' : '' )) ?>
         <hr />
     <?php endforeach; ?>
     

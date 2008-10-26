@@ -1,8 +1,25 @@
 fillin:
   enabled: true
 fields:
-    answers:
+    name:
         required:
-            msg: Please answer to all IMBRA questions. If some of your answers is yes, please give explanation/description.
-
+            msg: Please type your name
+    dob:
+        required:
+            msg: Please type your date of birth
+    address:
+        required:
+            msg: Please type your address
+    city:
+        required:
+            msg: Please type your city
+    state_id:
+        required:
+            msg: Please select your state
+    zip:
+        required:
+            msg: Please type your zip code
+    phone:
+        required:
+            msg: Please type your telephone number
 

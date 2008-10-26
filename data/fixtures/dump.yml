@@ -126,19 +126,6 @@ ImbraStatus:
     title: Pending
   ImbraStatus_3: 
     title: Denied
-MatchWeight: 
-  MatchWeight_1: 
-    title: Very important
-    number: 21
-  MatchWeight_2: 
-    title: Important
-    number: 8
-  MatchWeight_3: 
-    title: Somehow important
-    number: 3
-  MatchWeight_4: 
-    title: Not important
-    number: 1
 StaticPage: 
   StaticPage_1: 
     slug: about_us

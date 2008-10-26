@@ -2,7 +2,7 @@
 
 <?php if( count($received_messages) > 0): ?>
 <div class="text_1 messages_show_hide">
-    <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_messages("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice">Received Messages</span>
+    <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice">Received Messages</span>
 </div>
 <?php echo form_tag('messages/delete', array('id' => 'messages_form')) ?>
     <fieldset class="text_1">
@@ -27,7 +27,7 @@
 
 <?php if( count($sent_messages) > 0): ?>
 <div class="text_1 messages_show_hide">
-    <?php echo link_to_function('[<span id="messages_form_sent_tick">+</span>]', 'show_hide_messages("messages_form_sent")', 'class=sec_link') ?> <span class="public_reg_notice">Sent Messages</span>
+    <?php echo link_to_function('[<span id="messages_form_sent_tick">+</span>]', 'show_hide_tick("messages_form_sent")', 'class=sec_link') ?> <span class="public_reg_notice">Sent Messages</span>
 </div>
 
 <?php echo form_tag('messages/delete', array('id' => 'messages_form_sent', 'style' => 'display: none;')) ?>    

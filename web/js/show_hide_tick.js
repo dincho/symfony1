@@ -1,4 +1,4 @@
-function show_hide_messages (id)
+function show_hide_tick (id)
 {
   s = document.getElementById(id).style;
   tick_id = id + "_tick";

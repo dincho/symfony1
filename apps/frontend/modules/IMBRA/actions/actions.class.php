@@ -13,6 +13,9 @@ class IMBRAActions extends sfActions
     public function executeIndex()
     {
         $member = $this->getUser()->getProfile();
+        //$this->imbra_questions = ImbraQuestionPeer::doSelect(new Criteria());
+        $questions = ImbraQuestionPeer::getAllAssocWithID();
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $new_imbra = new MemberImbra();
@@ -26,22 +29,26 @@ class IMBRAActions extends sfActions
             $new_imbra->setZip($this->getRequestParameter('zip'));
             $new_imbra->setPhone($this->getRequestParameter('phone'));
             $explains = $this->getRequestParameter('explains');
-            foreach ($this->getRequestParameter('answers', array()) as $question_id => $answer)
+            
+            $answers = $this->getRequestParameter('answers', array());
+            foreach ( $questions as $question )
             {
+                $answer = (isset($answers[$question->getId()])) ? $answers[$question->getId()] : 0;
                 $member_answer = new MemberImbraAnswer();
                 $member_answer->setMemberImbra($new_imbra);
-                $member_answer->setImbraQuestionId($question_id);
+                $member_answer->setImbraQuestionId($question->getId());
                 $member_answer->setAnswer($answer);
-                $expl = ((int) $answer == 1) ? $explains[$question_id] : null;
+                $expl = ( (int) $answer == 1 || $question->getOnlyExplain() ) ? $explains[$question->getId()] : null;
                 $member_answer->setExplanation($expl);
-                $member_answer->save();
+                $member_answer->save();                    
+
             }
             $new_imbra->save();
             
             $this->redirect('dashboard/index');
         }
         $this->imbra = $member->getLastImbra();
-        $this->imbra_questions = ImbraQuestionPeer::doSelect(new Criteria());
+        $this->imbra_questions = $questions;
         if ($this->imbra)
         {
             $this->imbra_answers = $this->imbra->getImbraAnswersArray();
@@ -64,12 +71,12 @@ class IMBRAActions extends sfActions
             {
                 if (! isset($answers[$question->getId()]) || is_null($answers[$question->getId()]))
                 {
-                    if ($question->hasBothAnswers() || (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
+                    if (!$question->getOnlyExplain() || (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                     {
                         $has_error = true;
                         $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
                     }
-                } elseif (($answers[$question->getId()] == 1 || ! $question->hasBothAnswers()) && (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
+                } elseif (($answers[$question->getId()] == 1 || $question->getOnlyExplain()) && (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                 {
                     $has_error = true;
                     $this->getRequest()->setError('explains[' . $question->getId() . ']', 'required');

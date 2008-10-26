@@ -21,7 +21,7 @@ class registrationActions extends sfActions
             $member = new Member();
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
-            $member->setTmpPassword($this->getRequestParameter('password')); //keep in tmp field until email confirmation
+            $member->setNewPassword($this->getRequestParameter('password')); //keep in tmp field until email confirmation
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->setSubscriptionId(SubscriptionPeer::FREE);
             
@@ -64,8 +64,8 @@ class registrationActions extends sfActions
         $hash = sha1(SALT . $member->getUsername() . SALT);
         $this->forward404Unless($this->getRequestParameter('hash') == $hash);
         
-        $member->setPassword($member->getTmpPassword(), false);
-        $member->setTmpPassword(NULL);
+        $member->setPassword($member->getNewPassword(), false);
+        $member->setNewPassword(NULL);
         $member->save();
         
         //log in the member so he/she can continue with registration
