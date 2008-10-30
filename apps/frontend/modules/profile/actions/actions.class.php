@@ -72,6 +72,16 @@ class profileActions extends sfActions
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         $this->header_title = 'Member Sign In';
+        
+        //@TODO THIS IS ONLY FOR TESTS, REMOVETE FOR PRODUCTION
+        $c_test = new Criteria();
+        $c_test->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c_test->addAscendingOrderByColumn('RAND()');
+        
+        $this->test_member = MemberPeer::doSelectOne($c_test);
+        
+        //END @TODO
+        
         if ($this->getRequest()->getMethod() != sfRequest::POST)
         {
             if ($this->getUser()->isAuthenticated())
@@ -80,10 +90,6 @@ class profileActions extends sfActions
                     $this->executeSignout();
                 $this->redirect('@homepage');
             }
-            //helps to redirect to requested page
-        //$referer_rel = $_SERVER["REQUEST_URI"];
-        //$referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
-        //$this->getRequest()->setAttribute('referer', $referer_abs);
         } else
         {
             $member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));

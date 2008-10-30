@@ -40,15 +40,15 @@
                 </div>
                 <div id="center">
                     <div id="index_image">
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
-                        <a href=""><img src="/images/pic/index_img1.gif" alt="" border="0" /></a>
+                        <?php echo link_to(image_tag('static/homepage/image_1.jpg'), 'search/public?looking_for=F') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_2.jpg'), 'search/public?looking_for=M') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_3.jpg'), 'search/public?looking_for=F') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_4.jpg'), 'search/public?looking_for=M') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_5.jpg'), 'search/public?looking_for=F') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_6.jpg'), 'search/public?looking_for=M') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_7.jpg'), 'search/public?looking_for=F') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_8.jpg'), 'search/public?looking_for=M') ?>
+                        <?php echo link_to(image_tag('static/homepage/image_9.jpg'), 'search/public?looking_for=F') ?>
                     </div>
                     <div id="under_index_image">
                         <h2><?php echo __('BROWSE FOR FREE NOW') ?></h2>

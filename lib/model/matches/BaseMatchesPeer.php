@@ -138,6 +138,37 @@ class BaseMatchesPeer
         }
     }
 
+    public static function doCountJoinMemberRelatedByMember2Id(Criteria $criteria, $distinct = true, $con = null)
+    {
+        $criteria = clone $criteria;
+        
+        $criteria->clearSelectColumns()->clearOrderByColumns();
+        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers()))
+        {
+            $criteria->addSelectColumn(MatchesPeer::COUNT_DISTINCT);
+        } else
+        {
+            $criteria->addSelectColumn(MatchesPeer::COUNT);
+        }
+        
+        foreach ($criteria->getGroupByColumns() as $column)
+        {
+            $criteria->addSelectColumn($column);
+        }
+        
+        $criteria->addJoin(MatchesPeer::MEMBER2_ID, MemberPeer::ID);
+        
+        $rs = MatchesPeer::doSelectRS($criteria, $con);
+        if ($rs->next())
+        {
+            return $rs->getInt(1);
+        } else
+        {
+            return 0;
+        }
+    }
+        
+
     public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
     {
         $c = clone $c;

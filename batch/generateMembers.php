@@ -32,19 +32,20 @@ $languages = array('pl', 'bg', 'en');
 $us_states = array('AL', 'FL');
 $photos['M'] = glob($image_fixtures_dir .'/M/*.jpg');
 $photos['F'] = glob($image_fixtures_dir .'/F/*.jpg');
+$sex_arr = array("F", "M");
+$descQuestions = DescQuestionPeer::doSelect(new Criteria());
+$descAnswers = DescAnswerPeer::getAnswersAssoc();
+$weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
+$generate_number = isset($argv[1]) ? min((int) $argv[1], 600) : 10; //default 10, max 600 cause of memory overload
 
-for( $i=0; $i<50; $i++):
 
-//$rand = Tools::generateString(4);
+for( $i=1; $i<=$generate_number; $i++):
 
 srand((float) microtime() * 10000000);
-$sex_arr = array("F", "M");
 $sex = $sex_arr[rand(0,1)];
 
 $first_name = RandomGenerator::getFirstname($sex);
 $surname = RandomGenerator::getSurname();
-//$first_name_l = strtolower($first_name);
-//$surname_l = strtolower($surname);
 $username = $first_name . '_' . $surname;
 
 $member = new Member();
@@ -60,6 +61,11 @@ $member->setMemberStatusId(rand(1,6));
 $member->setLastStatusChange(Tools::randomTimestamp());
 $member->setEssayHeadline(RandomGenerator::getSentence());
 $member->setEssayIntroduction(RandomGenerator::getSentence(50, 20));
+if( rand(0, 1))
+{
+    $member->setYoutubeVid(($sex == 'F') ? 'y9Epdt8e1h8' : 'd8krIwgzJEA');
+}
+
 // fifthy/fifthy
 if( rand(0,1) )
 {
@@ -87,14 +93,6 @@ $member->setSubscriptionId(rand(1,3));
 $member->setCreatedAt(Tools::randomTimestamp());
 $member->setLastActivity(Tools::randomTimestamp());
 
-/*
-$search = new SearchCriteria();
-$search->setAgeMin(18);
-$search->setAgeMax(30);
-$search->save();
-$member->setSearchCriteria($search);
-*/
-
 $status_history = new MemberStatusHistory();
 $status_history->setMemberStatusId(MemberStatusPeer::ABANDONED);
 $status_history->setCreatedAt(Tools::randomTimestamp());
@@ -116,25 +114,53 @@ for($p=1; $p<=3; $p++)
     $member->addMemberPhoto($photo);
 }
 
-
 //Q&A
-$descQuestions = DescQuestionPeer::doSelect(new Criteria());
+foreach ($descQuestions as $descQuestion)
+{
+    if ( array_key_exists($descQuestion->getId(), $descAnswers) && count($descAnswers[$descQuestion->getId()]) > 1 && $descQuestion->getType() != 'other_langs')
+    {
+        $rand_answer_n = array_rand($descAnswers[$descQuestion->getId()]);
+        $member_answer = new MemberDescAnswer();
+        $member_answer->setDescQuestionId($descQuestion->getId());
+        $member_answer->setDescAnswerId($descAnswers[$descQuestion->getId()][$rand_answer_n]->getId());
+        $member->addMemberDescAnswer($member_answer);           
+    }
+}
+
+//Search Criteria
+$search = new SearchCriteria();
+
+$age_min = rand(18, 90);
+$search->setAges($age_min . ',' . rand($age_min, 90));
+$search->setAgesWeight(array_rand($weights));
+$search->save();
+$member->setSearchCriteria($search);
 
 foreach ($descQuestions as $descQuestion)
 {
-    $descAnswers = $descQuestion->getDescAnswers();
-    if ( count($descAnswers) > 1 && $descQuestion->getType() != 'other_langs')
+    if ( array_key_exists($descQuestion->getId(), $descAnswers) && count($descAnswers[$descQuestion->getId()]) > 1 && $descQuestion->getType() != 'other_langs')
     {
-        $rand_answer_n = array_rand($descAnswers);
-        $member_answer = new MemberDescAnswer();
-        $member_answer->setDescQuestionId($descQuestion->getId());
-        $member_answer->setDescAnswerId($descAnswers[$rand_answer_n]->getId());
-        $member->addMemberDescAnswer($member_answer);           
-    }
-
+        $rand_answer_n1 = array_rand($descAnswers[$descQuestion->getId()]);
+        $rand_answer_n2 = array_rand($descAnswers[$descQuestion->getId()]);
+        $search_crit_desc = new SearchCritDesc();
+        $search_crit_desc->setSearchCriteriaId($search->getId());
+        $search_crit_desc->setDescQuestionId($descQuestion->getId());     
+        $search_crit_desc->setDescAnswers($descAnswers[$descQuestion->getId()][$rand_answer_n1]->getId() . ',' . $descAnswers[$descQuestion->getId()][$rand_answer_n2]->getId());
+        $search_crit_desc->setMatchWeight(array_rand($weights));
+        $search_crit_desc->save();
+    }    
 }
 
 //saving
 $member->save();
-echo "Generated member: " . $member->getUsername() . "\n";
+echo "Generated member - $i: " . $member->getUsername() . "\n";
+
+//free some memory
+unset($member);
+unset($counter);
+unset($status_history);
+unset($photo);
+unset($member_answer);
+unset($search);
+
 endfor;

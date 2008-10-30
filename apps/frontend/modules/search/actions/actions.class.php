@@ -17,8 +17,22 @@ class searchActions extends sfActions
             ->add(array('name' => 'search', 'uri' => 'search/index'));
         $this->processFilters();
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
+        if( !isset($this->filters['location']) ) $this->filters['location'] = 0;
     }
     
+    public function executePublic()
+    {
+        $this->getUser()->getBC()->clear()
+            ->add(array('name' => 'home', 'uri' => '@homepage'))
+            ->add(array('name' => 'search', 'uri' => 'search/public'));
+            
+        $c = new Criteria();
+        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
+        //$c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c->setLimit(12);
+        
+        $this->members = MemberPeer::doSelectJoinAll($c);     
+    }
     
     public function executeIndex()
     {
@@ -80,13 +94,31 @@ class searchActions extends sfActions
         
     }
     
-    protected function initPager(Criteria $c, $peedMethod = 'doSelect')
+    
+    public function executeSelectCountries()
+    {
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
+            $this->getUser()->getAttributeHolder()->add($this->getRequestParameter('countries'), 'frontend/search/countries');
+            
+            $this->redirect($this->getUser()->getRefererUrl());
+        }
+        
+        $this->selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
+        $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+        $this->countries = $c->getCountries();
+        asort($this->countries);
+    }
+    
+    protected function initPager(Criteria $c, $peedMethod = 'doSelect', $countMethod = 'doCount')
     {
         $pager = new sfPropelPager('Matches', 12);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod($peedMethod);
-        $pager->setPeerCountMethod('doCount');
+        $pager->setPeerMethod('doSelectJoinMemberRelatedByMember2Id');
+        $pager->setPeerCountMethod('doCountJoinMemberRelatedByMember2Id');
         $pager->init();
         $this->pager = $pager;        
     }
@@ -109,6 +141,34 @@ class searchActions extends sfActions
     
     protected function addFiltersCriteria(Criteria $c)
     {
-
+        if( isset($this->filters['only_with_video']) )
+        {
+            $c->add(MemberPeer::YOUTUBE_VID, NULL, Criteria::ISNOTNULL);
+        }
+        
+        switch ($this->filters['location'])
+        {
+            //in selected countries only
+            case 1:
+                $selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
+                if( !empty($selected_countries) )
+                {
+                    $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
+                }
+                break;
+            //in my state only
+            case 2:
+                $crit = $c->getNewCriterion(MemberPeer::STATE_ID, $this->getUser()->getProfile()->getStateId());
+                break;
+            default:
+                break;
+        }
+        
+        if( $this->filters['location'] != 0 && isset($this->filters['include_poland']) )
+        {
+            $crit2 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
+            $crit->addOr($crit2);
+        }
+        if( isset( $crit) ) $c->add($crit);
     }
 }
