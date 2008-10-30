@@ -230,19 +230,18 @@ class registrationActions extends sfActions
             //if the form is submited by "Save and continue" button
             if( !$this->getRequestParameter('commit') )
             {
-                if( $this->member->countMemberPhotos() > 0 )
+                if( is_null($this->member->getUsCitizen()) && $this->member->getCountry() == 'US' )
                 {
-                    if( is_null($this->member->getUsCitizen()) && $this->member->getCountry() == 'US' )
-                    {
-                        $this->redirect('editProfile/imbra');
-                    } else {
-                        //activate the member
-                        if( $this->member->getMemberStatusId()  == MemberStatusPeer::ABANDONED) $this->member->setMemberStatusId(MemberStatusPeer::ACTIVE);
-                        $this->redirect('dashboard/index');                        
-                    }
+                    $this->redirect('editProfile/imbra');
                 } else {
-                    $this->getRequest()->setError('photos', 'At least 1 photograph is required in order to continue.');
-                }                
+                    //activate the member
+                    if( $this->member->getMemberStatusId()  == MemberStatusPeer::ABANDONED) 
+                    {
+                        $this->member->setMemberStatusId(MemberStatusPeer::ACTIVE);
+                        $this->member->save();
+                    }
+                    $this->redirect('dashboard/index');                        
+                }
             } //else the upload button is pressed "commit", so show the photos ..
 
         }

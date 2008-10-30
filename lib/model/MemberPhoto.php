@@ -9,6 +9,8 @@
  */ 
 class MemberPhoto extends BaseMemberPhoto
 {
+    public $no_photo = false;
+    
 	public function updateCroppedImage($sizes)
 	{
 		//delete old image
@@ -54,7 +56,13 @@ class MemberPhoto extends BaseMemberPhoto
      */
 	public function getImg($size = null, $column = 'cropped')
 	{
-	    return $this->getImageUrlPath($column, $size);
+	    if( $this->no_photo )
+	    {
+	        return 'static/member_photo/' . $this->getMember()->getSex() . '/no_photo_' . $size . '.jpg';
+	    } else {
+	        return $this->getImageUrlPath($column, $size);
+	    }
+	    
 	}
 }
 

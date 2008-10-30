@@ -17,9 +17,6 @@ define('SF_DEBUG',       1);
 require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 
 $image_fixtures_dir = sfConfig::get('sf_data_dir').DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR;
-//echo $image_fixtures_dir . "\n";
-//print_r(glob($image_fixtures_dir .'/M/*.jpg'));
-//exit();
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
@@ -104,7 +101,7 @@ $counter->setCurrentFlags(0); //set 1 field, so save to work
 $counter->save();
 $member->setMemberCounter($counter);
 
-//add 5 photos
+//add 3 photos
 for($p=1; $p<=3; $p++)
 {
     $rand_photo = array_rand($photos[$sex]);

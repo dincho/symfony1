@@ -138,11 +138,18 @@ class Member extends BaseMember
         $c = new Criteria();
         $c->add(MemberPhotoPeer::MEMBER_ID, $this->getId());
         $c->addDescendingOrderByColumn(MemberPhotoPeer::IS_MAIN);
-        //$c->add(MemberPhotoPeer::IS_MAIN, true);
         $c->setLimit(1);
         
         $photos = MemberPhotoPeer::doSelect($c);
-        return ( $photos ) ? $photos[0] : null;
+        if ( $photos )
+        {
+            return $photos[0];
+        } else {
+            $photo = new MemberPhoto();
+            $photo->setMember($this);
+            $photo->no_photo = true;
+            return $photo;
+        }
     }
     
     public function getGAddress()
