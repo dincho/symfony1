@@ -55,6 +55,7 @@ propel:
     essay_headline:           { type: varchar, size: 255 }
     essay_introduction:       { type: longvarchar }
     search_criteria_id:       { type: integer, required: false, foreignTable: search_criteria, foreignReference: id, onDelete: setnull }
+    main_photo_id:            { type: integer, required: false, foreignTable: member_photo, foreignReference: id, onDelete: setnull }
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
     sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }

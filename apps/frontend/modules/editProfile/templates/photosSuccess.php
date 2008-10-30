@@ -8,9 +8,9 @@
         <div id="photos">
             <?php foreach ($photos as $photo): ?>
               <div class="photo">
-                <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->getIsMain()) ?>
-                <?php if( $photo->getIsMain()): ?>
-                    <label for="main_photo">Main Photo</label>
+                <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain()) ?>
+                <?php if( $photo->isMain()): ?>
+                    <label for="main_photo"><?php echo __('Main Photo') ?></label>
                 <?php endif; ?><br />
                   <span>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>

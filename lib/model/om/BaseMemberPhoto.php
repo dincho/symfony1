@@ -31,6 +31,12 @@ abstract class BaseMemberPhoto extends BaseObject  implements Persistent {
 	protected $aMember;
 
 	
+	protected $collMembers;
+
+	
+	protected $lastMemberCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -278,6 +284,14 @@ abstract class BaseMemberPhoto extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collMembers !== null) {
+				foreach($this->collMembers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -326,6 +340,14 @@ abstract class BaseMemberPhoto extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collMembers !== null) {
+					foreach($this->collMembers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -468,6 +490,15 @@ abstract class BaseMemberPhoto extends BaseObject  implements Persistent {
 		$copyObj->setIsMain($this->is_main);
 
 
+		if ($deepCopy) {
+									$copyObj->setNew(false);
+
+			foreach($this->getMembers() as $relObj) {
+				$copyObj->addMember($relObj->copy($deepCopy));
+			}
+
+		} 
+
 		$copyObj->setNew(true);
 
 		$copyObj->setId(NULL); 
@@ -518,6 +549,286 @@ abstract class BaseMemberPhoto extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aMember;
+	}
+
+	
+	public function initMembers()
+	{
+		if ($this->collMembers === null) {
+			$this->collMembers = array();
+		}
+	}
+
+	
+	public function getMembers($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+			   $this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				MemberPeer::addSelectColumns($criteria);
+				$this->collMembers = MemberPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				MemberPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+					$this->collMembers = MemberPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+		return $this->collMembers;
+	}
+
+	
+	public function countMembers($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+		return MemberPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMember(Member $l)
+	{
+		$this->collMembers[] = $l;
+		$l->setMemberPhoto($this);
+	}
+
+
+	
+	public function getMembersJoinMemberStatus($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinMemberStatus($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinMemberStatus($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
+	}
+
+
+	
+	public function getMembersJoinUser($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
+	}
+
+
+	
+	public function getMembersJoinState($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinState($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinState($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
+	}
+
+
+	
+	public function getMembersJoinSearchCriteria($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinSearchCriteria($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinSearchCriteria($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
+	}
+
+
+	
+	public function getMembersJoinSubscription($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinSubscription($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinSubscription($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
+	}
+
+
+	
+	public function getMembersJoinMemberCounter($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMembers === null) {
+			if ($this->isNew()) {
+				$this->collMembers = array();
+			} else {
+
+				$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+				$this->collMembers = MemberPeer::doSelectJoinMemberCounter($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->getId());
+
+			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
+				$this->collMembers = MemberPeer::doSelectJoinMemberCounter($criteria, $con);
+			}
+		}
+		$this->lastMemberCriteria = $criteria;
+
+		return $this->collMembers;
 	}
 
 

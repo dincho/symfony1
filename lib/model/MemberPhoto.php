@@ -32,19 +32,23 @@ class MemberPhoto extends BaseMemberPhoto
 	
 	public function setAsMainPhoto()
 	{
-	    if( !$this->getIsMain() )
-	    {
-            $select = new Criteria();
-            $select->add(MemberPhotoPeer::MEMBER_ID, $this->getMemberId());
-            
-            $update = new Criteria();
-            $update->add(MemberPhotoPeer::IS_MAIN, null);
-            //MemberPhotoPeer::doUpdate($select, $update, Propel::getConnection());
-            BasePeer::doUpdate($select, $update, Propel::getConnection());
-            
-            $this->setIsMain(true);
-            $this->save();	        
-	    }
+        $member = $this->getMember();
+        if ( $this->getId() != $member->getMainPhotoId() )
+        {
+            $member->setMemberPhoto($this);
+            $member->save();
+        }
+	}
+	
+	/* proxy so old code to work, remove it some day */
+	public function getIsMainPhoto()
+	{
+	    return $this->getIsMain();
+	}
+	
+	public function isMain()
+	{
+	    return ( $this->getMember()->getMainPhotoId() == $this->getId() );
 	}
 	
     /**

@@ -141,6 +141,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
+	protected $main_photo_id;
+
+
+	
 	protected $subscription_id;
 
 
@@ -182,6 +186,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	
 	protected $aSearchCriteria;
+
+	
+	protected $aMemberPhoto;
 
 	
 	protected $aSubscription;
@@ -559,6 +566,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->search_criteria_id;
+	}
+
+	
+	public function getMainPhotoId()
+	{
+
+		return $this->main_photo_id;
 	}
 
 	
@@ -1202,6 +1216,26 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setMainPhotoId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->main_photo_id !== $v) {
+			$this->main_photo_id = $v;
+			$this->modifiedColumns[] = MemberPeer::MAIN_PHOTO_ID;
+		}
+
+		if ($this->aMemberPhoto !== null && $this->aMemberPhoto->getId() !== $v) {
+			$this->aMemberPhoto = null;
+		}
+
+	} 
+	
 	public function setSubscriptionId($v)
 	{
 
@@ -1407,27 +1441,29 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->search_criteria_id = $rs->getInt($startcol + 32);
 
-			$this->subscription_id = $rs->getInt($startcol + 33);
+			$this->main_photo_id = $rs->getInt($startcol + 33);
 
-			$this->sub_auto_renew = $rs->getBoolean($startcol + 34);
+			$this->subscription_id = $rs->getInt($startcol + 34);
 
-			$this->member_counter_id = $rs->getInt($startcol + 35);
+			$this->sub_auto_renew = $rs->getBoolean($startcol + 35);
 
-			$this->last_activity = $rs->getTimestamp($startcol + 36, null);
+			$this->member_counter_id = $rs->getInt($startcol + 36);
 
-			$this->last_status_change = $rs->getTimestamp($startcol + 37, null);
+			$this->last_activity = $rs->getTimestamp($startcol + 37, null);
 
-			$this->last_flagged = $rs->getTimestamp($startcol + 38, null);
+			$this->last_status_change = $rs->getTimestamp($startcol + 38, null);
 
-			$this->last_login = $rs->getTimestamp($startcol + 39, null);
+			$this->last_flagged = $rs->getTimestamp($startcol + 39, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 40, null);
+			$this->last_login = $rs->getTimestamp($startcol + 40, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 41, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 41; 
+						return $startcol + 42; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -1549,6 +1585,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 					$affectedRows += $this->aSearchCriteria->save($con);
 				}
 				$this->setSearchCriteria($this->aSearchCriteria);
+			}
+
+			if ($this->aMemberPhoto !== null) {
+				if ($this->aMemberPhoto->isModified()) {
+					$affectedRows += $this->aMemberPhoto->save($con);
+				}
+				$this->setMemberPhoto($this->aMemberPhoto);
 			}
 
 			if ($this->aSubscription !== null) {
@@ -1795,6 +1838,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			if ($this->aSearchCriteria !== null) {
 				if (!$this->aSearchCriteria->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aSearchCriteria->getValidationFailures());
+				}
+			}
+
+			if ($this->aMemberPhoto !== null) {
+				if (!$this->aMemberPhoto->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aMemberPhoto->getValidationFailures());
 				}
 			}
 
@@ -2094,27 +2143,30 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				return $this->getSearchCriteriaId();
 				break;
 			case 33:
-				return $this->getSubscriptionId();
+				return $this->getMainPhotoId();
 				break;
 			case 34:
-				return $this->getSubAutoRenew();
+				return $this->getSubscriptionId();
 				break;
 			case 35:
-				return $this->getMemberCounterId();
+				return $this->getSubAutoRenew();
 				break;
 			case 36:
-				return $this->getLastActivity();
+				return $this->getMemberCounterId();
 				break;
 			case 37:
-				return $this->getLastStatusChange();
+				return $this->getLastActivity();
 				break;
 			case 38:
-				return $this->getLastFlagged();
+				return $this->getLastStatusChange();
 				break;
 			case 39:
-				return $this->getLastLogin();
+				return $this->getLastFlagged();
 				break;
 			case 40:
+				return $this->getLastLogin();
+				break;
+			case 41:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -2160,14 +2212,15 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[30] => $this->getEssayHeadline(),
 			$keys[31] => $this->getEssayIntroduction(),
 			$keys[32] => $this->getSearchCriteriaId(),
-			$keys[33] => $this->getSubscriptionId(),
-			$keys[34] => $this->getSubAutoRenew(),
-			$keys[35] => $this->getMemberCounterId(),
-			$keys[36] => $this->getLastActivity(),
-			$keys[37] => $this->getLastStatusChange(),
-			$keys[38] => $this->getLastFlagged(),
-			$keys[39] => $this->getLastLogin(),
-			$keys[40] => $this->getCreatedAt(),
+			$keys[33] => $this->getMainPhotoId(),
+			$keys[34] => $this->getSubscriptionId(),
+			$keys[35] => $this->getSubAutoRenew(),
+			$keys[36] => $this->getMemberCounterId(),
+			$keys[37] => $this->getLastActivity(),
+			$keys[38] => $this->getLastStatusChange(),
+			$keys[39] => $this->getLastFlagged(),
+			$keys[40] => $this->getLastLogin(),
+			$keys[41] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -2283,27 +2336,30 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setSearchCriteriaId($value);
 				break;
 			case 33:
-				$this->setSubscriptionId($value);
+				$this->setMainPhotoId($value);
 				break;
 			case 34:
-				$this->setSubAutoRenew($value);
+				$this->setSubscriptionId($value);
 				break;
 			case 35:
-				$this->setMemberCounterId($value);
+				$this->setSubAutoRenew($value);
 				break;
 			case 36:
-				$this->setLastActivity($value);
+				$this->setMemberCounterId($value);
 				break;
 			case 37:
-				$this->setLastStatusChange($value);
+				$this->setLastActivity($value);
 				break;
 			case 38:
-				$this->setLastFlagged($value);
+				$this->setLastStatusChange($value);
 				break;
 			case 39:
-				$this->setLastLogin($value);
+				$this->setLastFlagged($value);
 				break;
 			case 40:
+				$this->setLastLogin($value);
+				break;
+			case 41:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -2346,14 +2402,15 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[30], $arr)) $this->setEssayHeadline($arr[$keys[30]]);
 		if (array_key_exists($keys[31], $arr)) $this->setEssayIntroduction($arr[$keys[31]]);
 		if (array_key_exists($keys[32], $arr)) $this->setSearchCriteriaId($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setSubscriptionId($arr[$keys[33]]);
-		if (array_key_exists($keys[34], $arr)) $this->setSubAutoRenew($arr[$keys[34]]);
-		if (array_key_exists($keys[35], $arr)) $this->setMemberCounterId($arr[$keys[35]]);
-		if (array_key_exists($keys[36], $arr)) $this->setLastActivity($arr[$keys[36]]);
-		if (array_key_exists($keys[37], $arr)) $this->setLastStatusChange($arr[$keys[37]]);
-		if (array_key_exists($keys[38], $arr)) $this->setLastFlagged($arr[$keys[38]]);
-		if (array_key_exists($keys[39], $arr)) $this->setLastLogin($arr[$keys[39]]);
-		if (array_key_exists($keys[40], $arr)) $this->setCreatedAt($arr[$keys[40]]);
+		if (array_key_exists($keys[33], $arr)) $this->setMainPhotoId($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setSubscriptionId($arr[$keys[34]]);
+		if (array_key_exists($keys[35], $arr)) $this->setSubAutoRenew($arr[$keys[35]]);
+		if (array_key_exists($keys[36], $arr)) $this->setMemberCounterId($arr[$keys[36]]);
+		if (array_key_exists($keys[37], $arr)) $this->setLastActivity($arr[$keys[37]]);
+		if (array_key_exists($keys[38], $arr)) $this->setLastStatusChange($arr[$keys[38]]);
+		if (array_key_exists($keys[39], $arr)) $this->setLastFlagged($arr[$keys[39]]);
+		if (array_key_exists($keys[40], $arr)) $this->setLastLogin($arr[$keys[40]]);
+		if (array_key_exists($keys[41], $arr)) $this->setCreatedAt($arr[$keys[41]]);
 	}
 
 	
@@ -2394,6 +2451,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::ESSAY_HEADLINE)) $criteria->add(MemberPeer::ESSAY_HEADLINE, $this->essay_headline);
 		if ($this->isColumnModified(MemberPeer::ESSAY_INTRODUCTION)) $criteria->add(MemberPeer::ESSAY_INTRODUCTION, $this->essay_introduction);
 		if ($this->isColumnModified(MemberPeer::SEARCH_CRITERIA_ID)) $criteria->add(MemberPeer::SEARCH_CRITERIA_ID, $this->search_criteria_id);
+		if ($this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)) $criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->main_photo_id);
 		if ($this->isColumnModified(MemberPeer::SUBSCRIPTION_ID)) $criteria->add(MemberPeer::SUBSCRIPTION_ID, $this->subscription_id);
 		if ($this->isColumnModified(MemberPeer::SUB_AUTO_RENEW)) $criteria->add(MemberPeer::SUB_AUTO_RENEW, $this->sub_auto_renew);
 		if ($this->isColumnModified(MemberPeer::MEMBER_COUNTER_ID)) $criteria->add(MemberPeer::MEMBER_COUNTER_ID, $this->member_counter_id);
@@ -2495,6 +2553,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setEssayIntroduction($this->essay_introduction);
 
 		$copyObj->setSearchCriteriaId($this->search_criteria_id);
+
+		$copyObj->setMainPhotoId($this->main_photo_id);
 
 		$copyObj->setSubscriptionId($this->subscription_id);
 
@@ -2735,6 +2795,35 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aSearchCriteria;
+	}
+
+	
+	public function setMemberPhoto($v)
+	{
+
+
+		if ($v === null) {
+			$this->setMainPhotoId(NULL);
+		} else {
+			$this->setMainPhotoId($v->getId());
+		}
+
+
+		$this->aMemberPhoto = $v;
+	}
+
+
+	
+	public function getMemberPhoto($con = null)
+	{
+		if ($this->aMemberPhoto === null && ($this->main_photo_id !== null)) {
+						include_once 'lib/model/om/BaseMemberPhotoPeer.php';
+
+			$this->aMemberPhoto = MemberPhotoPeer::retrieveByPK($this->main_photo_id, $con);
+
+			
+		}
+		return $this->aMemberPhoto;
 	}
 
 	

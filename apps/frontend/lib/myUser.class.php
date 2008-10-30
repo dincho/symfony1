@@ -27,7 +27,7 @@ class myUser extends sfBasicSecurityUser
     {
         if (is_null($this->profile))
         {
-            $this->profile = MemberPeer::retrieveByPK($this->getId());
+            $this->profile = MemberPeer::retrieveByPkJoinAll($this->getId());
         }
         return $this->profile;
     }

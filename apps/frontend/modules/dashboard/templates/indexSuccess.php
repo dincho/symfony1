@@ -20,26 +20,26 @@
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
-            <?php foreach ($messages as $message): ?>
-                <?php echo link_to(image_tag($message->getMemberRelatedByFromMemberId()->getMainPhoto()->getImg('30x30')), '@profile?username=' . $message->getMemberRelatedByFromMemberId()->getUsername()) ?>
+            <?php foreach ($messages as $message_profile): ?>
+                <?php echo link_to(image_tag($message_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $message_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Winks ( %count% )', array('%count%' => $winks_cnt)), '@winks', array('class' => 'sec_link menu_title')) ?>
-            <?php foreach ($winks as $wink): ?>
-                <?php echo link_to(image_tag($wink->getMemberRelatedByProfileId()->getMainPhoto()->getImg('30x30')), '@profile?username=' . $wink->getMemberRelatedByProfileId()->getUsername()) ?>
+            <?php foreach ($winks as $wink_profile): ?>
+                <?php echo link_to(image_tag($wink_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $wink_profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Hotlist ( %count% )', array('%count%' => $hotlist_cnt)), '@hotlist', array('class' => 'sec_link menu_title')) ?>
-            <?php foreach ($hotlist as $hotlist_row): ?>
-                <?php echo link_to(image_tag($hotlist_row->getMemberRelatedByProfileId()->getMainPhoto()->getImg('30x30')), '@profile?username=' . $hotlist_row->getMemberRelatedByProfileId()->getUsername()) ?>
+            <?php foreach ($hotlist as $hotlist_profile): ?>
+                <?php echo link_to(image_tag($hotlist_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $hotlist_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
-            <?php foreach ($visits as $visit): ?>
-                <?php echo link_to(image_tag($visit->getMemberRelatedByMemberId()->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit->getMemberRelatedByMemberId()->getUsername()) ?>
+            <?php foreach ($visits as $visit_profile): ?>
+                <?php echo link_to(image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
@@ -87,8 +87,8 @@
     <?php if( count($recent_visits) > 0 ): ?>
         <div class="bottom">
             <strong><?php echo __('Recently viewed profiles:') ?></strong>
-            <?php foreach ($recent_visits as $recent_visit): ?>
-                <?php $profile = $recent_visit->getMemberRelatedByProfileId(); ?>
+            <?php foreach ($recent_visits as $profile): ?>
+                <?php //$profile = $recent_visit->getMemberRelatedByProfileId(); ?>
                 <div class="photo">
                     <?php echo link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?username=' . $profile->getUsername()) ?>
                     <p><?php echo link_to($profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?></p>

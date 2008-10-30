@@ -135,15 +135,9 @@ class Member extends BaseMember
     
     public function getMainPhoto()
     {
-        $c = new Criteria();
-        $c->add(MemberPhotoPeer::MEMBER_ID, $this->getId());
-        $c->addDescendingOrderByColumn(MemberPhotoPeer::IS_MAIN);
-        $c->setLimit(1);
-        
-        $photos = MemberPhotoPeer::doSelect($c);
-        if ( $photos )
+        if ( !is_null($this->getMainPhotoId()) )
         {
-            return $photos[0];
+            return $this->getMemberPhoto();
         } else {
             $photo = new MemberPhoto();
             $photo->setMember($this);

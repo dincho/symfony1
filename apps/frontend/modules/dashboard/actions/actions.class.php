@@ -24,58 +24,63 @@ class dashboardActions extends sfActions
         $c = new Criteria();
         $c->add(MessagePeer::TO_MEMBER_ID, $member->getId());
         $c->add(MessagePeer::SENT_BOX, false);
+        $c->addJoin(MemberPeer::ID, MessagePeer::FROM_MEMBER_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(MessagePeer::IS_READ);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->setLimit(5);
         
-        $this->messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);
-        $this->messages_cnt = MessagePeer::doCountJoinMemberRelatedByFromMemberId($cc);
+        $this->messages = MemberPeer::doSelectJoinMemberPhoto($c);
+        $this->messages_cnt = MemberPeer::doCount($cc);
 
         //winks
         $c = new Criteria();
         $c->add(WinkPeer::MEMBER_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, WinkPeer::PROFILE_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $c->setLimit(5);
         
-        $this->winks = WinkPeer::doSelectJoinMemberRelatedByProfileId($c);
-        $this->winks_cnt = WinkPeer::doCountJoinMemberRelatedByProfileId($cc);
+        $this->winks = MemberPeer::doSelectJoinMemberPhoto($c);
+        $this->winks_cnt = MemberPeer::doCount($cc);
         
         //hotlist
         $c = new Criteria();
         $c->add(HotlistPeer::MEMBER_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, HotlistPeer::PROFILE_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $c->setLimit(5);
         
-        $this->hotlist = HotlistPeer::doSelectJoinMemberRelatedByProfileId($c);
-        $this->hotlist_cnt = HotlistPeer::doCountJoinMemberRelatedByProfileId($cc);
+        $this->hotlist = MemberPeer::doSelectJoinMemberPhoto($c);
+        $this->hotlist_cnt = MemberPeer::doCount($cc);
         
         //visitors
         $c = new Criteria();
         $c->add(ProfileViewPeer::PROFILE_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, ProfileViewPeer::MEMBER_ID);
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit(5);
         
-        $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
-        $cnt_rs = ProfileViewPeer::doSelectRS($cc);
+        $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
+        $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
         
         //recent visits
         $c = new Criteria();
         $c->add(ProfileViewPeer::MEMBER_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, ProfileViewPeer::PROFILE_ID);
         $c->addGroupByColumn(ProfileViewPeer::PROFILE_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit(7);
         
-        $this->recent_visits = ProfileViewPeer::doSelectJoinMemberRelatedByProfileId($c);
+        $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
     }
     
     public function executeVisitors()

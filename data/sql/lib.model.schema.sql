@@ -102,6 +102,7 @@ CREATE TABLE `member`
 	`essay_headline` VARCHAR(255),
 	`essay_introduction` TEXT,
 	`search_criteria_id` INTEGER,
+	`main_photo_id` INTEGER,
 	`subscription_id` INTEGER  NOT NULL,
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
 	`member_counter_id` INTEGER  NOT NULL,
@@ -131,13 +132,18 @@ CREATE TABLE `member`
 		FOREIGN KEY (`search_criteria_id`)
 		REFERENCES `search_criteria` (`id`)
 		ON DELETE SET NULL,
-	INDEX `member_FI_5` (`subscription_id`),
+	INDEX `member_FI_5` (`main_photo_id`),
 	CONSTRAINT `member_FK_5`
+		FOREIGN KEY (`main_photo_id`)
+		REFERENCES `member_photo` (`id`)
+		ON DELETE SET NULL,
+	INDEX `member_FI_6` (`subscription_id`),
+	CONSTRAINT `member_FK_6`
 		FOREIGN KEY (`subscription_id`)
 		REFERENCES `subscription` (`id`)
 		ON DELETE RESTRICT,
-	INDEX `member_FI_6` (`member_counter_id`),
-	CONSTRAINT `member_FK_6`
+	INDEX `member_FI_7` (`member_counter_id`),
+	CONSTRAINT `member_FK_7`
 		FOREIGN KEY (`member_counter_id`)
 		REFERENCES `member_counter` (`id`)
 		ON DELETE RESTRICT

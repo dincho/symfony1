@@ -14,18 +14,17 @@ class profileActions extends sfActions
     {
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
         $this->getResponse()->addJavascript('profile_desc_map.js');
-        //$this->getResponse()->addJavascript('show_hide');
         $this->getResponse()->addJavascript('show_hide_tick');
         
-        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
         
         //add a visit
         if( $this->getUser()->getId() != $member->getId() ) //not looking himself
         {
             $visit = new ProfileView();
-            $visit->setMemberId($this->getUser()->getId());
-            $visit->setProfileId($member->getId());
+            $visit->setMemberRelatedByMemberId($this->getUser()->getProfile());
+            $visit->setMemberRelatedByProfileId($member);
             $visit->save();            
         }
 
@@ -79,7 +78,7 @@ class profileActions extends sfActions
         $c_test->addAscendingOrderByColumn('RAND()');
         
         $this->test_member = MemberPeer::doSelectOne($c_test);
-        
+        if( !$this->test_member ) $this->test_member = new Member();
         //END @TODO
         
         if ($this->getRequest()->getMethod() != sfRequest::POST)

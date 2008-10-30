@@ -1,4 +1,9 @@
-ALTER TABLE `desc_question` ADD `is_required` INTEGER default 1 NOT NULL;
+ALTER TABLE `member` ADD `main_photo_id` INTEGER;
+ALTER TABLE `member` ADD  INDEX `member_FI_7` (`member_counter_id`);
+ALTER TABLE `member` ADD CONSTRAINT `member_FK_5`
+		FOREIGN KEY (`main_photo_id`)
+		REFERENCES `member_photo` (`id`)
+		ON DELETE SET NULL;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -26,6 +31,12 @@ ALTER TABLE `group_and_action` ADD CONSTRAINT `group_and_action_FK_1`
 /* old definition: text
    new definition: VARCHAR(1000) */
 ALTER TABLE `groups` CHANGE `group_description` `group_description` VARCHAR(1000);
+/* old definition: (`subscription_id`)
+   new definition: (`main_photo_id`) */
+ALTER TABLE `member` DROP INDEX member_FI_5,        ADD  INDEX `member_FI_5` (`main_photo_id`);
+/* old definition: (`member_counter_id`)
+   new definition: (`subscription_id`) */
+ALTER TABLE `member` DROP INDEX member_FI_6,        ADD  INDEX `member_FI_6` (`subscription_id`);
 /* old definition: int(10) NOT NULL
    new definition: INTEGER(10)  NOT NULL */
 ALTER TABLE `member` CHANGE `zip` `zip` INTEGER(10)  NOT NULL;

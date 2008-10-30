@@ -107,7 +107,7 @@ for($p=1; $p<=3; $p++)
     $rand_photo = array_rand($photos[$sex]);
     $photo = new MemberPhoto();
     $photo->updateImageFromFile('file', $photos[$sex][$rand_photo]);
-    if( $i==1 ) $photo->setIsMain(true);
+    if( $p==1 ) $member->setMemberPhoto($photo);
     $member->addMemberPhoto($photo);
 }
 
