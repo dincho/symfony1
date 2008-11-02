@@ -95,6 +95,49 @@ class searchActions extends sfActions
     }
     
     
+    public function executeSelectAreas()
+    {
+        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
+        $this->getResponse()->addJavascript('areas_map.js');
+        $country = $this->getRequestParameter('country');
+        $polish_cities = $this->getRequestParameter('polish_cities');
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $areas = $this->getRequestParameter('areas', array());
+            $countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
+            
+            if(!$polish_cities && count($areas) > 0 && !in_array($country, $countries))
+            {
+                $countries[] = $country;
+                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
+                $this->getUser()->getAttributeHolder()->add($countries, 'frontend/search/countries'); 
+            }
+            
+            if( $polish_cities )
+            {
+                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/polish_areas');
+                $this->getUser()->getAttributeHolder()->add($areas, 'frontend/search/polish_areas');                  
+            } else {
+                $selected_areas[$country] = $areas;
+                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/areas');
+                $this->getUser()->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');                
+            }
+
+            $this->redirect($this->getUser()->getRefererUrl());
+        }
+        
+        if( $polish_cities )
+        {
+            $this->selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
+        } else {
+            $selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/areas');
+            $this->selected_areas = isset($selected_areas[$country]) ? $selected_areas[$country] : array();
+        }
+        
+        $this->areas = StatePeer::getAllByCountry($country);
+    }
+    
     public function executeSelectCountries()
     {
         
@@ -103,13 +146,14 @@ class searchActions extends sfActions
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
             $this->getUser()->getAttributeHolder()->add($this->getRequestParameter('countries'), 'frontend/search/countries');
             
-            $this->redirect($this->getUser()->getRefererUrl());
+            $this->redirect('search/index');
         }
         
         $this->selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
         $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
         $this->countries = $c->getCountries();
         asort($this->countries);
+        $this->states = StatePeer::getCountriesWithStates();
     }
     
     protected function initPager(Criteria $c, $peedMethod = 'doSelect', $countMethod = 'doCount')
@@ -153,7 +197,24 @@ class searchActions extends sfActions
                 $selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
                 if( !empty($selected_countries) )
                 {
-                    $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
+                    $selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/areas');
+                    foreach ($selected_countries as $key => $selected_country)
+                    {
+                        if( array_key_exists($selected_country, $selected_areas) )
+                        {
+                            $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_country);
+                            $crit->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $selected_areas[$selected_country], Criteria::IN));
+                            //$crit->addOr($crit2);
+                            
+                            unset($selected_countries[$key]);
+                        }
+                    }
+                    if( isset($crit) )
+                    {
+                        $crit->addOr($c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN));    
+                    } else {
+                        $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
+                    }
                 }
                 break;
             //in my state only
@@ -166,8 +227,13 @@ class searchActions extends sfActions
         
         if( $this->filters['location'] != 0 && isset($this->filters['include_poland']) )
         {
-            $crit2 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
-            $crit->addOr($crit2);
+            $polish_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
+            $crit3 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
+            if( count($polish_areas) > 0 )
+            {
+                $crit3->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $polish_areas, Criteria::IN));  
+            }
+            $crit->addOr($crit3);
         }
         if( isset( $crit) ) $c->add($crit);
     }

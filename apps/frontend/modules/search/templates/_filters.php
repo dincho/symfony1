@@ -13,12 +13,11 @@
         <span><?php echo link_to(__('Select Countries'), 'search/selectCountries') ?></span>
         
         <?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ) ?>
-        <label for="filter_location_2"><?php echo __('In my state/province only') ?></label>
+        <label for="filter_location_2"><?php echo __('In my area only') ?></label>
         
         <?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland'])  ) ?>
         <label for="filters_include_poland"><?php echo __('Include matches in Poland') ?></label>
-        
-        <span><a href="#">Select Cities</a></span>
+        <span><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1') ?></span>
     </p>
     <div id="input_matches_button">
         <?php echo submit_tag('', array('class' => 'public_matches_search', 'name' => 'filter')) ?>

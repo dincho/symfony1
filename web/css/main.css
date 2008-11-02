@@ -363,14 +363,14 @@ body .send_mini {
     font-size: 11px;
 }
 
-#filter {
+#areas {
     margin: 0px;
     padding: 0px;
-    height: 900px;
     text-align: left;
+    float: left;
 }
 
-#filter legend {
+#areas legend {
     color: #e0b400;
     margin: 0px;
     margin-left: -6px;
@@ -378,58 +378,23 @@ body .send_mini {
     margin-top: 9px;
 }
 
-#filter.usa {
-    margin: 0px;
-    padding: 0px;
-    height: 1150px;
-    text-align: left;
-}
 
-#filter.uk {
-    margin: 0px;
-    padding: 0px;
-    height: 2430px;
-    text-align: left;
-}
-
-#filter.ireland {
-    margin: 0px;
-    padding: 0px;
-    height: 630px;
-    text-align: left;
-}
-
-#filter.canada {
-    margin: 0px;
-    padding: 0px;
-    height: 500px;
-    text-align: left;
-}
-
-#filter a:link .slf,#filter a:visited .slf,#filter a:active .slf {
+#areas a.slf, #areas a.slf:visited, #areas a.slf:active {
     color: #92897e;
 }
 
-#filter a:hover .slf {
+#areas a.slf:hover {
     color: #92897e;
     text-decoration: underline;
 }
 
-#filter div.left {
-    float: left;
-    margin: 0px;
-    width: 220px;
-}
-
-#filter div.left fieldset {
+#areas fieldset {
     border: 0;
 }
 
-#filter div.right {
-    float: left;
+#areas_map {
+    float: right;
     width: 450px;
-    margin-left: 40px;
-    height: 350px;
 }
 
 #countries {
