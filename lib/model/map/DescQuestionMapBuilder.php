@@ -46,5 +46,7 @@ class DescQuestionMapBuilder {
 
 		$tMap->addColumn('IS_REQUIRED', 'IsRequired', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('SELECT_GREATHER', 'SelectGreather', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} 
 } 

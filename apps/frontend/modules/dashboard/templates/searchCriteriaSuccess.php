@@ -19,7 +19,7 @@
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
                                      $answer->getId(),
-                                     ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId())) ? true : false) ?>
+                                     ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId())) ? true : false, ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
           <label><?php echo html_entity_decode($answer->getSearchTitle(), null, 'utf-8') ?></label><br />
         <?php endforeach; ?>
         <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> - any option is fine<br />

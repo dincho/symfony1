@@ -233,6 +233,7 @@ CREATE TABLE `desc_question`
 	`factor_title` VARCHAR(255),
 	`type` VARCHAR(50),
 	`is_required` INTEGER default 1 NOT NULL,
+	`select_greather` INTEGER default 0 NOT NULL,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 

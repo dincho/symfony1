@@ -13,7 +13,7 @@ abstract class BaseDescQuestionPeer {
 	const CLASS_DEFAULT = 'lib.model.DescQuestion';
 
 	
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 8;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -41,23 +41,26 @@ abstract class BaseDescQuestionPeer {
 	const IS_REQUIRED = 'desc_question.IS_REQUIRED';
 
 	
+	const SELECT_GREATHER = 'desc_question.SELECT_GREATHER';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'SearchTitle', 'DescTitle', 'FactorTitle', 'Type', 'IsRequired', ),
-		BasePeer::TYPE_COLNAME => array (DescQuestionPeer::ID, DescQuestionPeer::TITLE, DescQuestionPeer::SEARCH_TITLE, DescQuestionPeer::DESC_TITLE, DescQuestionPeer::FACTOR_TITLE, DescQuestionPeer::TYPE, DescQuestionPeer::IS_REQUIRED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'search_title', 'desc_title', 'factor_title', 'type', 'is_required', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'SearchTitle', 'DescTitle', 'FactorTitle', 'Type', 'IsRequired', 'SelectGreather', ),
+		BasePeer::TYPE_COLNAME => array (DescQuestionPeer::ID, DescQuestionPeer::TITLE, DescQuestionPeer::SEARCH_TITLE, DescQuestionPeer::DESC_TITLE, DescQuestionPeer::FACTOR_TITLE, DescQuestionPeer::TYPE, DescQuestionPeer::IS_REQUIRED, DescQuestionPeer::SELECT_GREATHER, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'search_title', 'desc_title', 'factor_title', 'type', 'is_required', 'select_greather', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'SearchTitle' => 2, 'DescTitle' => 3, 'FactorTitle' => 4, 'Type' => 5, 'IsRequired' => 6, ),
-		BasePeer::TYPE_COLNAME => array (DescQuestionPeer::ID => 0, DescQuestionPeer::TITLE => 1, DescQuestionPeer::SEARCH_TITLE => 2, DescQuestionPeer::DESC_TITLE => 3, DescQuestionPeer::FACTOR_TITLE => 4, DescQuestionPeer::TYPE => 5, DescQuestionPeer::IS_REQUIRED => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'search_title' => 2, 'desc_title' => 3, 'factor_title' => 4, 'type' => 5, 'is_required' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'SearchTitle' => 2, 'DescTitle' => 3, 'FactorTitle' => 4, 'Type' => 5, 'IsRequired' => 6, 'SelectGreather' => 7, ),
+		BasePeer::TYPE_COLNAME => array (DescQuestionPeer::ID => 0, DescQuestionPeer::TITLE => 1, DescQuestionPeer::SEARCH_TITLE => 2, DescQuestionPeer::DESC_TITLE => 3, DescQuestionPeer::FACTOR_TITLE => 4, DescQuestionPeer::TYPE => 5, DescQuestionPeer::IS_REQUIRED => 6, DescQuestionPeer::SELECT_GREATHER => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'search_title' => 2, 'desc_title' => 3, 'factor_title' => 4, 'type' => 5, 'is_required' => 6, 'select_greather' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
@@ -124,6 +127,8 @@ abstract class BaseDescQuestionPeer {
 		$criteria->addSelectColumn(DescQuestionPeer::TYPE);
 
 		$criteria->addSelectColumn(DescQuestionPeer::IS_REQUIRED);
+
+		$criteria->addSelectColumn(DescQuestionPeer::SELECT_GREATHER);
 
 	}
 

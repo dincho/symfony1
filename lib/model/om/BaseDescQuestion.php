@@ -35,6 +35,10 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 	
 	protected $is_required = true;
 
+
+	
+	protected $select_greather = false;
+
 	
 	protected $collDescAnswers;
 
@@ -106,6 +110,13 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_required;
+	}
+
+	
+	public function getSelectGreather()
+	{
+
+		return $this->select_greather;
 	}
 
 	
@@ -215,6 +226,16 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setSelectGreather($v)
+	{
+
+		if ($this->select_greather !== $v || $v === false) {
+			$this->select_greather = $v;
+			$this->modifiedColumns[] = DescQuestionPeer::SELECT_GREATHER;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -233,11 +254,13 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 
 			$this->is_required = $rs->getBoolean($startcol + 6);
 
+			$this->select_greather = $rs->getBoolean($startcol + 7);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 8; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating DescQuestion object", $e);
 		}
@@ -466,6 +489,9 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 			case 6:
 				return $this->getIsRequired();
 				break;
+			case 7:
+				return $this->getSelectGreather();
+				break;
 			default:
 				return null;
 				break;
@@ -483,6 +509,7 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 			$keys[4] => $this->getFactorTitle(),
 			$keys[5] => $this->getType(),
 			$keys[6] => $this->getIsRequired(),
+			$keys[7] => $this->getSelectGreather(),
 		);
 		return $result;
 	}
@@ -519,6 +546,9 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 			case 6:
 				$this->setIsRequired($value);
 				break;
+			case 7:
+				$this->setSelectGreather($value);
+				break;
 		} 	}
 
 	
@@ -533,6 +563,7 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setFactorTitle($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setType($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setIsRequired($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSelectGreather($arr[$keys[7]]);
 	}
 
 	
@@ -547,6 +578,7 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(DescQuestionPeer::FACTOR_TITLE)) $criteria->add(DescQuestionPeer::FACTOR_TITLE, $this->factor_title);
 		if ($this->isColumnModified(DescQuestionPeer::TYPE)) $criteria->add(DescQuestionPeer::TYPE, $this->type);
 		if ($this->isColumnModified(DescQuestionPeer::IS_REQUIRED)) $criteria->add(DescQuestionPeer::IS_REQUIRED, $this->is_required);
+		if ($this->isColumnModified(DescQuestionPeer::SELECT_GREATHER)) $criteria->add(DescQuestionPeer::SELECT_GREATHER, $this->select_greather);
 
 		return $criteria;
 	}
@@ -588,6 +620,8 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 		$copyObj->setType($this->type);
 
 		$copyObj->setIsRequired($this->is_required);
+
+		$copyObj->setSelectGreather($this->select_greather);
 
 
 		if ($deepCopy) {
