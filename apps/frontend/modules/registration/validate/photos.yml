@@ -6,5 +6,15 @@ fields:
           match:        Yes
           match_error:  Please ented full YouTube url, e.g. http://www.youtube.com/watch?v=n9hZxeVJXfk
           pattern:      /http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9]+/si
-
-
+    new_photo:
+        file: true 
+        sfFileValidator:
+          mime_types:
+            - 'image/jpeg'
+            - 'image/png'
+            - 'image/x-png'
+            - 'image/pjpeg'
+            - 'image/gif'
+          mime_types_error: Only PNG, JPEG and GIF images are allowed
+          max_size:         3145728
+          max_size_error:   Max image size is 3MB
