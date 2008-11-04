@@ -44,6 +44,8 @@ class MemberCounterMapBuilder {
 
 		$tMap->addColumn('RECEIVED_WINKS', 'ReceivedWinks', 'int', CreoleTypes::INTEGER, true, null);
 
+		$tMap->addColumn('READ_MESSAGES', 'ReadMessages', 'int', CreoleTypes::INTEGER, true, null);
+
 		$tMap->addColumn('SENT_MESSAGES', 'SentMessages', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('RECEIVED_MESSAGES', 'ReceivedMessages', 'int', CreoleTypes::INTEGER, true, null);

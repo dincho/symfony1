@@ -22,7 +22,7 @@ At least 1 photograph is required in order to continue.<br />
         </div>
     <?php endif; ?>
     <br />
-    <p class="note"><?php echo __('Note: You can upload up to 6 photos') ?></p>
+    <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <?php echo pr_label_for('new_photo', 'New Photo:') ?><br />
     <?php echo input_file_tag('new_photo', array('class' => '')) ?>
     <?php echo submit_tag('Upload') ?><br /><br />

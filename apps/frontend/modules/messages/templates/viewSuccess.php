@@ -17,11 +17,13 @@
             <p><?php echo __('Sent:') . '&nbsp;' . format_date_pr($message->getCreatedAt(null)); ?></p>
             <p><?php echo __('Subject:') . '&nbsp;' . $message->getSubject() ?></p>
     </div>
-    <div class="message_desc"><?php echo $message->getContent(); ?></div>
+    <div class="message_desc"><?php echo strip_tags($sf_data->getRaw('message')->getContent(), '<br>'); ?></div>
     <div class="actions">
       <?php echo button_to('', 'messages/delete?selected[]=' . $message->getId(), array('class' => 'delete', 'confirm' => 'Are you sure you want to delete this message?')) ?>
       <?php echo button_to('', 'messages/index', 'class=close') ?>
-      <?php echo button_to('', 'messages/send?reply=1&profile_id=' . $message->getMemberRelatedByFromMemberId()->getId(), 'class=reply') ?>
+      <?php if( !$message->getIsReplied() ): ?>
+        <?php echo button_to('', 'messages/reply?profile_id=' . $message->getMemberRelatedByFromMemberId()->getId() . '&id=' . $message->getId(), 'class=reply') ?>
+      <?php endif; ?>
     </div>
 </div>
 <?php slot('footer_menu') ?>

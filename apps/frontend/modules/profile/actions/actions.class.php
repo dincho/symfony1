@@ -45,6 +45,7 @@ class profileActions extends sfActions
         $c->add($crit);
         $c->addOr($crit2);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
+        $c->setLimit(5);
         $this->recent_conversations = MessagePeer::doSelect($c);
         //self description+answers
         /*
@@ -76,9 +77,7 @@ class profileActions extends sfActions
         $c_test = new Criteria();
         $c_test->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
         $c_test->addAscendingOrderByColumn('RAND()');
-        
         $this->test_member = MemberPeer::doSelectOne($c_test);
-        if( !$this->test_member ) $this->test_member = new Member();
         //END @TODO
         
         if ($this->getRequest()->getMethod() != sfRequest::POST)

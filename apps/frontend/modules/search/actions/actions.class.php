@@ -52,6 +52,13 @@ class searchActions extends sfActions
 
     public function executeCriteria()
     {
+        $this->has_criteria = true;
+        if( !$this->getUser()->getProfile()->getSearchCriteriaId() )
+        {
+            $this->has_criteria = false;
+            return sfView::SUCCESS;
+        }
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -72,6 +79,13 @@ class searchActions extends sfActions
     
     public function executeMatches()
     {
+        $this->has_criteria = true;
+        if( !$this->getUser()->getProfile()->getSearchCriteriaId() )
+        {
+            $this->has_criteria = false;
+            return sfView::SUCCESS;
+        }
+                
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -86,12 +100,23 @@ class searchActions extends sfActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $this->initPager($c, 'doSelectJoinMemberRelatedByMember2Id');          
+        if( strlen($this->getRequestParameter('keyword')) > 3 )
+        {
+            $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->getRequestParameter('keyword') . '%', Criteria::LIKE);
+            $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->getRequestParameter('keyword') . '%', Criteria::LIKE));
+            $c->add($crit);
+        }
+        
+        $this->initPager($c);          
     }
+    
     
     public function executeProfileID()
     {
-        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('profile_id'));
+        }
     }
     
     

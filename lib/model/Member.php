@@ -194,5 +194,16 @@ class Member extends BaseMember
         
         return true;
     }
+    
+    public function hasBlockFor($member_id)
+    {
+        $c = new Criteria();
+        $c->add(BlockPeer::MEMBER_ID, $this->getId());
+        $c->add(BlockPeer::PROFILE_ID, $member_id);
+        
+        $cnt = BlockPeer::doCount($c);
+        
+        return ( $cnt > 0) ? true : false;
+    }
 
 }

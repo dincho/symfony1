@@ -48,6 +48,8 @@ class MessageMapBuilder {
 
 		$tMap->addColumn('IS_REVIEWED', 'IsReviewed', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('IS_REPLIED', 'IsReplied', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

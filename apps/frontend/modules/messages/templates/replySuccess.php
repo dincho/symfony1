@@ -1,8 +1,8 @@
 <?php use_helper('Javascript', 'dtForm') ?>
 <span><?php echo __('Message will be automatically saved to drafts every 1 minute') ?></span>
-<?php echo form_tag('messages/send', 'id=post_story_container') ?>
-    <?php echo input_hidden_tag('profile_id', $profile->getId(), 'class=hidden') ?>
-    <?php echo input_hidden_tag('reply', $sf_request->getParameter('reply'), 'class=hidden') ?>
+<?php echo form_tag('messages/reply', 'id=post_story_container') ?>
+    <?php echo input_hidden_tag('id', $message->getId(), 'class=hidden') ?>
+    <?php $profile =  $message->getMemberRelatedByFromMemberId(); ?>
 	<fieldset class="background_000">
         <?php echo pr_label_for('to', 'To:') ?>
 		<span class="msg_to"><?php echo $profile->getUsername() ?></span><br /><br />
@@ -20,7 +20,7 @@
         <?php endif; ?>
 	</fieldset>
 	<fieldset class="background_000">
-		<label><?php echo link_to(__('Cancel'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=sec_link') ?></label>
+		<label><?php echo link_to_function(__('Cancel'), 'window.history.go(-1)', 'class=sec_link') ?></label>
 		<?php echo submit_tag('', 'class=send_mini') ?><br />
 	</fieldset>
 </form>

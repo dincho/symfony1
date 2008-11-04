@@ -9,7 +9,7 @@
  */ 
 class MessagePeer extends BaseMessagePeer
 {
-    public static function send($from_id, $to_id, $subject = '', $content = '')
+    public static function send($from_id, $to_id, $subject = '', $content = '', $inc_counter = true)
     {
         //add to recepient
         $message = new Message();
@@ -24,7 +24,7 @@ class MessagePeer extends BaseMessagePeer
         $sent_message->setSentBox(true);
         
         //save objects
-        $message->save();
+        $message->save(null, $inc_counter);
         $sent_message->save(null, false);
         
         return $sent_message->getId();

@@ -248,6 +248,39 @@ class registrationActions extends sfActions
         
         $this->photos = $this->member->getMemberPhotos();
     }
+
+    public function validatePhotos()
+    {
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            $member = MemberPeer::retrieveByPK($this->getUser()->getId());
+            $subscription = $member->getSubscription();
+            $cnt_photos = $member->countMemberPhotos();
+            
+            if( !$subscription->getCanPostPhoto() )
+            {
+                $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
+                return false;                
+            }
+            
+            if( $cnt_photos >= $subscription->getPostPhotos() )
+            {
+                $this->getRequest()->setError('subscription', 'For the feature that you want want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                return false;                
+            }
+        }
+        
+        return true;
+    }
+
+    public function handleErrorPhotos()
+    {
+        $this->setLayout('simple');
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($this->member); //just in case
+        $this->photos = $this->member->getMemberPhotos();
+        return sfView::SUCCESS;        
+    }
     
     public function executeDeletePhoto()
     {

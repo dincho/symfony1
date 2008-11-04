@@ -1,12 +1,31 @@
+<?php use_helper('Date') ?>
+
 <?php include_partial('searchTypes'); ?>
 
-<form action="">
-    <label for="id_user">Enter profile ID, e.g. "999 9999"</label><input type="text" class="input_text_width" id="id_user" />
+<form action="<?php echo url_for('search/profileID')?>" method="post">
+    <label for="profile_id"><?php echo __('Enter profile ID, e.g. "999 9999"') ?></label>
+    <input type="text" name="profile_id" class="input_text_width" id="profile_id" />
     <input type="submit" value="" class="public_matches_search" />
 </form>
 
-<?php if( isset($pager) ): ?>
-    <?php include_partial('results', array('pager' => $pager, 'route' => 'search/profileId')); ?>
+<br /><br />
+
+<?php if( isset($member) ): ?>
+<div class="member">
+        <div class="member_box">
+            <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
+            <?php echo image_tag($member->getMainPhoto()->getImg('100x100'), array('style' => 'vertical-align:middle;')) ?>
+            
+            <div class="profile_info_matches">
+                <strong><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></strong><br />
+                <?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
+                <?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?><br />
+                <b><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></b><br />
+            </div>
+        </div>
+</div>
 <?php endif; ?>
+
+
 
 

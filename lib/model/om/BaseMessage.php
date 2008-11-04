@@ -41,6 +41,10 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 	
+	protected $is_replied = false;
+
+
+	
 	protected $created_at;
 
 	
@@ -109,6 +113,13 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_reviewed;
+	}
+
+	
+	public function getIsReplied()
+	{
+
+		return $this->is_replied;
 	}
 
 	
@@ -252,6 +263,16 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setIsReplied($v)
+	{
+
+		if ($this->is_replied !== $v || $v === false) {
+			$this->is_replied = $v;
+			$this->modifiedColumns[] = MessagePeer::IS_REPLIED;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -289,13 +310,15 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 			$this->is_reviewed = $rs->getBoolean($startcol + 7);
 
-			$this->created_at = $rs->getTimestamp($startcol + 8, null);
+			$this->is_replied = $rs->getBoolean($startcol + 8);
+
+			$this->created_at = $rs->getTimestamp($startcol + 9, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 10; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Message object", $e);
 		}
@@ -515,6 +538,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				return $this->getIsReviewed();
 				break;
 			case 8:
+				return $this->getIsReplied();
+				break;
+			case 9:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -535,7 +561,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$keys[5] => $this->getSentBox(),
 			$keys[6] => $this->getIsRead(),
 			$keys[7] => $this->getIsReviewed(),
-			$keys[8] => $this->getCreatedAt(),
+			$keys[8] => $this->getIsReplied(),
+			$keys[9] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -576,6 +603,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				$this->setIsReviewed($value);
 				break;
 			case 8:
+				$this->setIsReplied($value);
+				break;
+			case 9:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -593,7 +623,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setSentBox($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setIsRead($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setIsReviewed($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIsReplied($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
 	}
 
 	
@@ -609,6 +640,7 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MessagePeer::SENT_BOX)) $criteria->add(MessagePeer::SENT_BOX, $this->sent_box);
 		if ($this->isColumnModified(MessagePeer::IS_READ)) $criteria->add(MessagePeer::IS_READ, $this->is_read);
 		if ($this->isColumnModified(MessagePeer::IS_REVIEWED)) $criteria->add(MessagePeer::IS_REVIEWED, $this->is_reviewed);
+		if ($this->isColumnModified(MessagePeer::IS_REPLIED)) $criteria->add(MessagePeer::IS_REPLIED, $this->is_replied);
 		if ($this->isColumnModified(MessagePeer::CREATED_AT)) $criteria->add(MessagePeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -653,6 +685,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$copyObj->setIsRead($this->is_read);
 
 		$copyObj->setIsReviewed($this->is_reviewed);
+
+		$copyObj->setIsReplied($this->is_replied);
 
 		$copyObj->setCreatedAt($this->created_at);
 

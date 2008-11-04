@@ -13,7 +13,7 @@ abstract class BaseMessagePeer {
 	const CLASS_DEFAULT = 'lib.model.Message';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 10;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -44,6 +44,9 @@ abstract class BaseMessagePeer {
 	const IS_REVIEWED = 'message.IS_REVIEWED';
 
 	
+	const IS_REPLIED = 'message.IS_REPLIED';
+
+	
 	const CREATED_AT = 'message.CREATED_AT';
 
 	
@@ -52,18 +55,18 @@ abstract class BaseMessagePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'FromMemberId', 'ToMemberId', 'Subject', 'Content', 'SentBox', 'IsRead', 'IsReviewed', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID, MessagePeer::FROM_MEMBER_ID, MessagePeer::TO_MEMBER_ID, MessagePeer::SUBJECT, MessagePeer::CONTENT, MessagePeer::SENT_BOX, MessagePeer::IS_READ, MessagePeer::IS_REVIEWED, MessagePeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'from_member_id', 'to_member_id', 'subject', 'content', 'sent_box', 'is_read', 'is_reviewed', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'FromMemberId', 'ToMemberId', 'Subject', 'Content', 'SentBox', 'IsRead', 'IsReviewed', 'IsReplied', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MessagePeer::ID, MessagePeer::FROM_MEMBER_ID, MessagePeer::TO_MEMBER_ID, MessagePeer::SUBJECT, MessagePeer::CONTENT, MessagePeer::SENT_BOX, MessagePeer::IS_READ, MessagePeer::IS_REVIEWED, MessagePeer::IS_REPLIED, MessagePeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'from_member_id', 'to_member_id', 'subject', 'content', 'sent_box', 'is_read', 'is_reviewed', 'is_replied', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'FromMemberId' => 1, 'ToMemberId' => 2, 'Subject' => 3, 'Content' => 4, 'SentBox' => 5, 'IsRead' => 6, 'IsReviewed' => 7, 'CreatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID => 0, MessagePeer::FROM_MEMBER_ID => 1, MessagePeer::TO_MEMBER_ID => 2, MessagePeer::SUBJECT => 3, MessagePeer::CONTENT => 4, MessagePeer::SENT_BOX => 5, MessagePeer::IS_READ => 6, MessagePeer::IS_REVIEWED => 7, MessagePeer::CREATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'from_member_id' => 1, 'to_member_id' => 2, 'subject' => 3, 'content' => 4, 'sent_box' => 5, 'is_read' => 6, 'is_reviewed' => 7, 'created_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'FromMemberId' => 1, 'ToMemberId' => 2, 'Subject' => 3, 'Content' => 4, 'SentBox' => 5, 'IsRead' => 6, 'IsReviewed' => 7, 'IsReplied' => 8, 'CreatedAt' => 9, ),
+		BasePeer::TYPE_COLNAME => array (MessagePeer::ID => 0, MessagePeer::FROM_MEMBER_ID => 1, MessagePeer::TO_MEMBER_ID => 2, MessagePeer::SUBJECT => 3, MessagePeer::CONTENT => 4, MessagePeer::SENT_BOX => 5, MessagePeer::IS_READ => 6, MessagePeer::IS_REVIEWED => 7, MessagePeer::IS_REPLIED => 8, MessagePeer::CREATED_AT => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'from_member_id' => 1, 'to_member_id' => 2, 'subject' => 3, 'content' => 4, 'sent_box' => 5, 'is_read' => 6, 'is_reviewed' => 7, 'is_replied' => 8, 'created_at' => 9, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
@@ -132,6 +135,8 @@ abstract class BaseMessagePeer {
 		$criteria->addSelectColumn(MessagePeer::IS_READ);
 
 		$criteria->addSelectColumn(MessagePeer::IS_REVIEWED);
+
+		$criteria->addSelectColumn(MessagePeer::IS_REPLIED);
 
 		$criteria->addSelectColumn(MessagePeer::CREATED_AT);
 

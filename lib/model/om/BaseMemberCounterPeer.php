@@ -13,7 +13,7 @@ abstract class BaseMemberCounterPeer {
 	const CLASS_DEFAULT = 'lib.model.MemberCounter';
 
 	
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 16;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -36,6 +36,9 @@ abstract class BaseMemberCounterPeer {
 
 	
 	const RECEIVED_WINKS = 'member_counter.RECEIVED_WINKS';
+
+	
+	const READ_MESSAGES = 'member_counter.READ_MESSAGES';
 
 	
 	const SENT_MESSAGES = 'member_counter.SENT_MESSAGES';
@@ -70,18 +73,18 @@ abstract class BaseMemberCounterPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CurrentFlags', 'TotalFlags', 'SentFlags', 'SentWinks', 'ReceivedWinks', 'SentMessages', 'ReceivedMessages', 'ReplyMessages', 'Unsuspensions', 'AssistantContacts', 'ProfileViews', 'MadeProfileViews', 'Hotlist', 'OnOthersHotlist', ),
-		BasePeer::TYPE_COLNAME => array (MemberCounterPeer::ID, MemberCounterPeer::CURRENT_FLAGS, MemberCounterPeer::TOTAL_FLAGS, MemberCounterPeer::SENT_FLAGS, MemberCounterPeer::SENT_WINKS, MemberCounterPeer::RECEIVED_WINKS, MemberCounterPeer::SENT_MESSAGES, MemberCounterPeer::RECEIVED_MESSAGES, MemberCounterPeer::REPLY_MESSAGES, MemberCounterPeer::UNSUSPENSIONS, MemberCounterPeer::ASSISTANT_CONTACTS, MemberCounterPeer::PROFILE_VIEWS, MemberCounterPeer::MADE_PROFILE_VIEWS, MemberCounterPeer::HOTLIST, MemberCounterPeer::ON_OTHERS_HOTLIST, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'current_flags', 'total_flags', 'sent_flags', 'sent_winks', 'received_winks', 'sent_messages', 'received_messages', 'reply_messages', 'unsuspensions', 'assistant_contacts', 'profile_views', 'made_profile_views', 'hotlist', 'on_others_hotlist', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CurrentFlags', 'TotalFlags', 'SentFlags', 'SentWinks', 'ReceivedWinks', 'ReadMessages', 'SentMessages', 'ReceivedMessages', 'ReplyMessages', 'Unsuspensions', 'AssistantContacts', 'ProfileViews', 'MadeProfileViews', 'Hotlist', 'OnOthersHotlist', ),
+		BasePeer::TYPE_COLNAME => array (MemberCounterPeer::ID, MemberCounterPeer::CURRENT_FLAGS, MemberCounterPeer::TOTAL_FLAGS, MemberCounterPeer::SENT_FLAGS, MemberCounterPeer::SENT_WINKS, MemberCounterPeer::RECEIVED_WINKS, MemberCounterPeer::READ_MESSAGES, MemberCounterPeer::SENT_MESSAGES, MemberCounterPeer::RECEIVED_MESSAGES, MemberCounterPeer::REPLY_MESSAGES, MemberCounterPeer::UNSUSPENSIONS, MemberCounterPeer::ASSISTANT_CONTACTS, MemberCounterPeer::PROFILE_VIEWS, MemberCounterPeer::MADE_PROFILE_VIEWS, MemberCounterPeer::HOTLIST, MemberCounterPeer::ON_OTHERS_HOTLIST, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'current_flags', 'total_flags', 'sent_flags', 'sent_winks', 'received_winks', 'read_messages', 'sent_messages', 'received_messages', 'reply_messages', 'unsuspensions', 'assistant_contacts', 'profile_views', 'made_profile_views', 'hotlist', 'on_others_hotlist', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CurrentFlags' => 1, 'TotalFlags' => 2, 'SentFlags' => 3, 'SentWinks' => 4, 'ReceivedWinks' => 5, 'SentMessages' => 6, 'ReceivedMessages' => 7, 'ReplyMessages' => 8, 'Unsuspensions' => 9, 'AssistantContacts' => 10, 'ProfileViews' => 11, 'MadeProfileViews' => 12, 'Hotlist' => 13, 'OnOthersHotlist' => 14, ),
-		BasePeer::TYPE_COLNAME => array (MemberCounterPeer::ID => 0, MemberCounterPeer::CURRENT_FLAGS => 1, MemberCounterPeer::TOTAL_FLAGS => 2, MemberCounterPeer::SENT_FLAGS => 3, MemberCounterPeer::SENT_WINKS => 4, MemberCounterPeer::RECEIVED_WINKS => 5, MemberCounterPeer::SENT_MESSAGES => 6, MemberCounterPeer::RECEIVED_MESSAGES => 7, MemberCounterPeer::REPLY_MESSAGES => 8, MemberCounterPeer::UNSUSPENSIONS => 9, MemberCounterPeer::ASSISTANT_CONTACTS => 10, MemberCounterPeer::PROFILE_VIEWS => 11, MemberCounterPeer::MADE_PROFILE_VIEWS => 12, MemberCounterPeer::HOTLIST => 13, MemberCounterPeer::ON_OTHERS_HOTLIST => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'current_flags' => 1, 'total_flags' => 2, 'sent_flags' => 3, 'sent_winks' => 4, 'received_winks' => 5, 'sent_messages' => 6, 'received_messages' => 7, 'reply_messages' => 8, 'unsuspensions' => 9, 'assistant_contacts' => 10, 'profile_views' => 11, 'made_profile_views' => 12, 'hotlist' => 13, 'on_others_hotlist' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CurrentFlags' => 1, 'TotalFlags' => 2, 'SentFlags' => 3, 'SentWinks' => 4, 'ReceivedWinks' => 5, 'ReadMessages' => 6, 'SentMessages' => 7, 'ReceivedMessages' => 8, 'ReplyMessages' => 9, 'Unsuspensions' => 10, 'AssistantContacts' => 11, 'ProfileViews' => 12, 'MadeProfileViews' => 13, 'Hotlist' => 14, 'OnOthersHotlist' => 15, ),
+		BasePeer::TYPE_COLNAME => array (MemberCounterPeer::ID => 0, MemberCounterPeer::CURRENT_FLAGS => 1, MemberCounterPeer::TOTAL_FLAGS => 2, MemberCounterPeer::SENT_FLAGS => 3, MemberCounterPeer::SENT_WINKS => 4, MemberCounterPeer::RECEIVED_WINKS => 5, MemberCounterPeer::READ_MESSAGES => 6, MemberCounterPeer::SENT_MESSAGES => 7, MemberCounterPeer::RECEIVED_MESSAGES => 8, MemberCounterPeer::REPLY_MESSAGES => 9, MemberCounterPeer::UNSUSPENSIONS => 10, MemberCounterPeer::ASSISTANT_CONTACTS => 11, MemberCounterPeer::PROFILE_VIEWS => 12, MemberCounterPeer::MADE_PROFILE_VIEWS => 13, MemberCounterPeer::HOTLIST => 14, MemberCounterPeer::ON_OTHERS_HOTLIST => 15, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'current_flags' => 1, 'total_flags' => 2, 'sent_flags' => 3, 'sent_winks' => 4, 'received_winks' => 5, 'read_messages' => 6, 'sent_messages' => 7, 'received_messages' => 8, 'reply_messages' => 9, 'unsuspensions' => 10, 'assistant_contacts' => 11, 'profile_views' => 12, 'made_profile_views' => 13, 'hotlist' => 14, 'on_others_hotlist' => 15, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
 	);
 
 	
@@ -146,6 +149,8 @@ abstract class BaseMemberCounterPeer {
 		$criteria->addSelectColumn(MemberCounterPeer::SENT_WINKS);
 
 		$criteria->addSelectColumn(MemberCounterPeer::RECEIVED_WINKS);
+
+		$criteria->addSelectColumn(MemberCounterPeer::READ_MESSAGES);
 
 		$criteria->addSelectColumn(MemberCounterPeer::SENT_MESSAGES);
 

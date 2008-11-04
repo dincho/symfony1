@@ -1,0 +1,9 @@
+fillin:
+  enabled: true
+fields:
+  subject:
+    required:
+        msg:    Please enter message subject.
+  description:
+    required:
+        msg:    Please enter message body.

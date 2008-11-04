@@ -33,6 +33,10 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 
 
 	
+	protected $read_messages = 0;
+
+
+	
 	protected $sent_messages = 0;
 
 
@@ -119,6 +123,13 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 	{
 
 		return $this->received_winks;
+	}
+
+	
+	public function getReadMessages()
+	{
+
+		return $this->read_messages;
 	}
 
 	
@@ -277,6 +288,22 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 		if ($this->received_winks !== $v || $v === 0) {
 			$this->received_winks = $v;
 			$this->modifiedColumns[] = MemberCounterPeer::RECEIVED_WINKS;
+		}
+
+	} 
+	
+	public function setReadMessages($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->read_messages !== $v || $v === 0) {
+			$this->read_messages = $v;
+			$this->modifiedColumns[] = MemberCounterPeer::READ_MESSAGES;
 		}
 
 	} 
@@ -441,29 +468,31 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 
 			$this->received_winks = $rs->getInt($startcol + 5);
 
-			$this->sent_messages = $rs->getInt($startcol + 6);
+			$this->read_messages = $rs->getInt($startcol + 6);
 
-			$this->received_messages = $rs->getInt($startcol + 7);
+			$this->sent_messages = $rs->getInt($startcol + 7);
 
-			$this->reply_messages = $rs->getInt($startcol + 8);
+			$this->received_messages = $rs->getInt($startcol + 8);
 
-			$this->unsuspensions = $rs->getInt($startcol + 9);
+			$this->reply_messages = $rs->getInt($startcol + 9);
 
-			$this->assistant_contacts = $rs->getInt($startcol + 10);
+			$this->unsuspensions = $rs->getInt($startcol + 10);
 
-			$this->profile_views = $rs->getInt($startcol + 11);
+			$this->assistant_contacts = $rs->getInt($startcol + 11);
 
-			$this->made_profile_views = $rs->getInt($startcol + 12);
+			$this->profile_views = $rs->getInt($startcol + 12);
 
-			$this->hotlist = $rs->getInt($startcol + 13);
+			$this->made_profile_views = $rs->getInt($startcol + 13);
 
-			$this->on_others_hotlist = $rs->getInt($startcol + 14);
+			$this->hotlist = $rs->getInt($startcol + 14);
+
+			$this->on_others_hotlist = $rs->getInt($startcol + 15);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 15; 
+						return $startcol + 16; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating MemberCounter object", $e);
 		}
@@ -658,30 +687,33 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 				return $this->getReceivedWinks();
 				break;
 			case 6:
-				return $this->getSentMessages();
+				return $this->getReadMessages();
 				break;
 			case 7:
-				return $this->getReceivedMessages();
+				return $this->getSentMessages();
 				break;
 			case 8:
-				return $this->getReplyMessages();
+				return $this->getReceivedMessages();
 				break;
 			case 9:
-				return $this->getUnsuspensions();
+				return $this->getReplyMessages();
 				break;
 			case 10:
-				return $this->getAssistantContacts();
+				return $this->getUnsuspensions();
 				break;
 			case 11:
-				return $this->getProfileViews();
+				return $this->getAssistantContacts();
 				break;
 			case 12:
-				return $this->getMadeProfileViews();
+				return $this->getProfileViews();
 				break;
 			case 13:
-				return $this->getHotlist();
+				return $this->getMadeProfileViews();
 				break;
 			case 14:
+				return $this->getHotlist();
+				break;
+			case 15:
 				return $this->getOnOthersHotlist();
 				break;
 			default:
@@ -700,15 +732,16 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 			$keys[3] => $this->getSentFlags(),
 			$keys[4] => $this->getSentWinks(),
 			$keys[5] => $this->getReceivedWinks(),
-			$keys[6] => $this->getSentMessages(),
-			$keys[7] => $this->getReceivedMessages(),
-			$keys[8] => $this->getReplyMessages(),
-			$keys[9] => $this->getUnsuspensions(),
-			$keys[10] => $this->getAssistantContacts(),
-			$keys[11] => $this->getProfileViews(),
-			$keys[12] => $this->getMadeProfileViews(),
-			$keys[13] => $this->getHotlist(),
-			$keys[14] => $this->getOnOthersHotlist(),
+			$keys[6] => $this->getReadMessages(),
+			$keys[7] => $this->getSentMessages(),
+			$keys[8] => $this->getReceivedMessages(),
+			$keys[9] => $this->getReplyMessages(),
+			$keys[10] => $this->getUnsuspensions(),
+			$keys[11] => $this->getAssistantContacts(),
+			$keys[12] => $this->getProfileViews(),
+			$keys[13] => $this->getMadeProfileViews(),
+			$keys[14] => $this->getHotlist(),
+			$keys[15] => $this->getOnOthersHotlist(),
 		);
 		return $result;
 	}
@@ -743,30 +776,33 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 				$this->setReceivedWinks($value);
 				break;
 			case 6:
-				$this->setSentMessages($value);
+				$this->setReadMessages($value);
 				break;
 			case 7:
-				$this->setReceivedMessages($value);
+				$this->setSentMessages($value);
 				break;
 			case 8:
-				$this->setReplyMessages($value);
+				$this->setReceivedMessages($value);
 				break;
 			case 9:
-				$this->setUnsuspensions($value);
+				$this->setReplyMessages($value);
 				break;
 			case 10:
-				$this->setAssistantContacts($value);
+				$this->setUnsuspensions($value);
 				break;
 			case 11:
-				$this->setProfileViews($value);
+				$this->setAssistantContacts($value);
 				break;
 			case 12:
-				$this->setMadeProfileViews($value);
+				$this->setProfileViews($value);
 				break;
 			case 13:
-				$this->setHotlist($value);
+				$this->setMadeProfileViews($value);
 				break;
 			case 14:
+				$this->setHotlist($value);
+				break;
+			case 15:
 				$this->setOnOthersHotlist($value);
 				break;
 		} 	}
@@ -782,15 +818,16 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setSentFlags($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setSentWinks($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setReceivedWinks($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSentMessages($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setReceivedMessages($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setReplyMessages($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setUnsuspensions($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setAssistantContacts($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setProfileViews($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setMadeProfileViews($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setHotlist($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setOnOthersHotlist($arr[$keys[14]]);
+		if (array_key_exists($keys[6], $arr)) $this->setReadMessages($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSentMessages($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setReceivedMessages($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setReplyMessages($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setUnsuspensions($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setAssistantContacts($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setProfileViews($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setMadeProfileViews($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setHotlist($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setOnOthersHotlist($arr[$keys[15]]);
 	}
 
 	
@@ -804,6 +841,7 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberCounterPeer::SENT_FLAGS)) $criteria->add(MemberCounterPeer::SENT_FLAGS, $this->sent_flags);
 		if ($this->isColumnModified(MemberCounterPeer::SENT_WINKS)) $criteria->add(MemberCounterPeer::SENT_WINKS, $this->sent_winks);
 		if ($this->isColumnModified(MemberCounterPeer::RECEIVED_WINKS)) $criteria->add(MemberCounterPeer::RECEIVED_WINKS, $this->received_winks);
+		if ($this->isColumnModified(MemberCounterPeer::READ_MESSAGES)) $criteria->add(MemberCounterPeer::READ_MESSAGES, $this->read_messages);
 		if ($this->isColumnModified(MemberCounterPeer::SENT_MESSAGES)) $criteria->add(MemberCounterPeer::SENT_MESSAGES, $this->sent_messages);
 		if ($this->isColumnModified(MemberCounterPeer::RECEIVED_MESSAGES)) $criteria->add(MemberCounterPeer::RECEIVED_MESSAGES, $this->received_messages);
 		if ($this->isColumnModified(MemberCounterPeer::REPLY_MESSAGES)) $criteria->add(MemberCounterPeer::REPLY_MESSAGES, $this->reply_messages);
@@ -852,6 +890,8 @@ abstract class BaseMemberCounter extends BaseObject  implements Persistent {
 		$copyObj->setSentWinks($this->sent_winks);
 
 		$copyObj->setReceivedWinks($this->received_winks);
+
+		$copyObj->setReadMessages($this->read_messages);
 
 		$copyObj->setSentMessages($this->sent_messages);
 

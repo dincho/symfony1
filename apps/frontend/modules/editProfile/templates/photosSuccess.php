@@ -15,13 +15,13 @@
                   <span>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
-                <?php echo button_to('', 'profile/deletePhoto?id=' . $photo->getId(), array('class' => 'delete', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
+                <?php echo button_to('', 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'delete', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
               </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
     <br />
-    <p class="note"><?php echo __('Note: You can upload up to 6 photos') ?></p>
+    <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <label for="new_photo"><?php echo __('New Photo:') ?></label><br />
     <?php echo input_file_tag('new_photo', array('class' => '')) ?>
     <?php echo submit_tag('Upload', 'id=upload') ?><br /><br />

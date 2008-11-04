@@ -210,6 +210,24 @@ class dashboardActions extends sfActions
         }
     }
     
+    public function validateContactYourAssistant()
+    {
+        $subscription = $this->getUser()->getProfile()->getSubscription();
+        if( !$subscription->getCanContactAssistant() )
+        {
+            $this->getRequest()->setError('subscription', 'In order to contact assistant you need to upgrade your membership.');
+            return false;
+        }
+                
+        if( $this->getUser()->getProfile()->getCounter('AssistantContacts') >= $subscription->getContactAssistant() )
+        {
+            $this->getRequest()->setError('subscription', 'For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            return false;            
+        }
+                
+        return true;
+    }
+    
     public function handleErrorContactYourAssistant()
     {
         return sfView::SUCCESS;
