@@ -47,6 +47,20 @@ class contentActions extends sfActions
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
     }
 
+    public function validateFlag()
+    {
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
+                
+        if( $this->getUser()->getId() == $profile->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $profile->getUsername() );
+        }
+
+        return true;
+    }
+    
     public function handleErrorFlag()
     {
         $this->profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));

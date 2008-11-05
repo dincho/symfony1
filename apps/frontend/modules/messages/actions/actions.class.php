@@ -159,6 +159,13 @@ class messagesActions extends sfActions
         $this->profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($this->profile);
         
+            
+        if( $this->getUser()->getId() == $this->profile->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $this->profile->getUsername() );
+        }
+                
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $send_msg_id = MessagePeer::send($this->getUser()->getId(), $this->getRequestParameter('profile_id'), 

@@ -10,16 +10,18 @@
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
             <?php echo image_tag('full_member.gif') ?>
-        <?php else: ?>
+        <?php elseif(false): //this functionality is scheduled for v1.0 (ticket #3)?>
             <a href="#"><?php echo image_tag('buy_gift_' . $member->getSex() . '.gif') ?></a>
         <?php endif; ?>
         
     </span>
     <div id="profile_double_box">
         <div class="left">
+            <?php if( $sf_user->getId() != $member->getId() ): ?>
             She matches you 67%<br />
             You match her 34%<br />
             Your combined match is 40%
+            <?php endif; ?>
         </div>
         <div class="right">
             <?php echo __('Last log in: ') ?>

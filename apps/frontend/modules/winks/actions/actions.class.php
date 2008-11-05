@@ -50,6 +50,12 @@ class winksActions extends sfActions
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
         
+        if( $this->getUser()->getId() == $profile->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $profile->getUsername() );
+        }
+        
         $subscription = $this->getUser()->getProfile()->getSubscription();
         
         if( !$subscription->getCanWink() )

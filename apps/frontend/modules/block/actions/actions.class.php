@@ -35,6 +35,13 @@ class blockActions extends sfActions
     {
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
+        
+        if( $this->getUser()->getId() == $profile->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $profile->getUsername() );
+        }
+                
         $c = new Criteria();
         $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
         $c->add(BlockPeer::PROFILE_ID, $profile->getId());
