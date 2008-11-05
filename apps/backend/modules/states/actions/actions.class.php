@@ -10,6 +10,11 @@
 class statesActions extends sfActions
 {
 
+    public function preExecute()
+    {
+        $this->top_menu_selected = 'content';
+    }
+    
     public function executeList()
     {
         $this->states = StatePeer::doSelect(new Criteria());

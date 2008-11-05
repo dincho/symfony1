@@ -5,7 +5,7 @@ class systemComponents extends sfComponents
   {
     $this->menu = array(array('title' => 'Dashboard', 'uri' => 'dashboard/index'),
                          array('title' => 'Members', 'uri' => 'members/list'),
-                         array('title' => 'Content', 'uri' => 'content/list'),
+                         array('title' => 'Content', 'uri' => 'staticPages/list'),
                          array('title' => 'Subscriptions', 'uri' => 'subscriptions/list'),
                          array('title' => 'Messages', 'uri' => 'messages/list'),
                          array('title' => 'Feedback', 'uri' => 'feedback/list'),
@@ -44,6 +44,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
                                            array('title' => 'States', 'uri' => 'states/list'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
+                                           array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            array('title' => 'Groups', 'uri' => 'groups/list'),
@@ -97,6 +98,8 @@ class systemComponents extends sfComponents
     $full_menu['memberStories'] = $full_menu['content'];
     $full_menu['states'] = $full_menu['content'];
     $full_menu['notifications'] = $full_menu['content'];
+    $full_menu['descQuestions'] = $full_menu['content'];
+    $full_menu['descAnswers'] = $full_menu['content'];
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
     if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;

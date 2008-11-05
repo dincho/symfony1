@@ -11,6 +11,11 @@
 class notificationsActions extends sfActions
 {
 
+    public function preExecute()
+    {
+        $this->top_menu_selected = 'content';
+    }
+    
     public function executeList()
     {
         $c = new Criteria();
