@@ -18,12 +18,13 @@
         <label for="name">Name:</label>
         <?php echo object_input_tag($notification, 'getName', error_class('name')) ?><br />
 
-        
         <label for="send_from">Send from address:</label>
         <?php echo object_input_tag($notification, 'getSendFrom', error_class('send_from')) ?><br />
         
-        <label for="send_to">Send to address:</label>
-        <?php echo object_input_tag($notification, 'getSendTo', error_class('send_to')) ?><br />
+        <?php if( $notification->getToAdmins() ): ?>
+            <label for="send_to">Send to address:</label>
+            <?php echo object_input_tag($notification, 'getSendTo', error_class('send_to')) ?><br />
+        <?php endif; ?>
         
         <label for="bcc">Bcc:</label>
         <?php echo object_input_tag($notification, 'getBcc', error_class('bcc')) ?><br />

@@ -32,7 +32,7 @@ class notificationsActions extends sfActions
         {
             $notification->setName($this->getRequestParameter('name'));
             $notification->setSendFrom($this->getRequestParameter('send_from'));
-            $notification->setSendTo($this->getRequestParameter('send_to'));
+            if( $notification->getToAdmins() ) $notification->setSendTo($this->getRequestParameter('send_to'));
             $notification->setReplyTo($this->getRequestParameter('reply_to'));
             $notification->setBcc($this->getRequestParameter('bcc'));
             $notification->setSubject($this->getRequestParameter('subject'));
