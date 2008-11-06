@@ -1,5 +1,5 @@
 <div id="bottom_menu">
-  <span>Edit:</span>
+  <span class="bottom_menu_title">Edit:</span>
   <ul>
     <li><?php echo link_to('Overview', 'members/edit?id=' . $member_id) ?>&nbsp;|</li>
     <li><?php echo link_to('Registration', 'members/editRegistration?id=' . $member_id) ?>&nbsp;|</li>

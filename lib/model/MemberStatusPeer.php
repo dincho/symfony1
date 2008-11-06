@@ -16,4 +16,6 @@ class MemberStatusPeer extends BaseMemberStatusPeer
     const DEACTIVATED         = 5;
     const FLAGGED             = 6;
     const CANCELED_BY_MEMBER  = 7;
+    const PENDING             = 8;
+    const DENIED              = 9;
 }

@@ -87,6 +87,8 @@ class systemComponents extends sfComponents
                                            array('title' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'),
                                            array('title' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
                                            array('title' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED),
+                                           array('title' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING),
+                                           array('title' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED),
                                            ),
                         
                       );

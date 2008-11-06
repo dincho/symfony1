@@ -47,7 +47,7 @@ propel:
     language:                 { type: varchar, size: 3, required: true }
     birthday:                 { type: bu_date }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
-    us_citizen:               { type: boolean, required: false, default: null }
+    us_citizen:               { type: boolean, required: false }
     email_notifications:      { type: tinyint, required: true, default: 0 }
     dont_use_photos:          { type: boolean, required: true, default: 0 }
     contact_only_full_members:  { type: boolean, required: true, default: 0 }

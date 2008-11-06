@@ -63,12 +63,6 @@ class membersActions extends sfActions
         
     }
 
-    public function executeShow()
-    {
-        $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
-        $this->forward404Unless($this->member);
-    }
-
     public function executeCreate()
     {
         $this->member = new Member();
@@ -412,6 +406,16 @@ class membersActions extends sfActions
             	case MemberStatusPeer::ABANDONED:
                     $bc->add(array('name' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED));
                     $this->left_menu_selected = 'Abandoned Registration';          	    
+            	;
+            	break;
+            	case MemberStatusPeer::PENDING:
+                    $bc->add(array('name' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING));
+                    $this->left_menu_selected = 'Pending Registration';          	    
+            	;
+            	break;
+            	case MemberStatusPeer::DENIED:
+                    $bc->add(array('name' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED));
+                    $this->left_menu_selected = 'Denied Registration';          	    
             	;
             	break;
             	

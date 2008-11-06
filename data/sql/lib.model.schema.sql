@@ -94,7 +94,7 @@ CREATE TABLE `member`
 	`language` VARCHAR(3)  NOT NULL,
 	`birthday` DATE,
 	`dont_display_zodiac` INTEGER default 0 NOT NULL,
-	`us_citizen` INTEGER default 0,
+	`us_citizen` INTEGER,
 	`email_notifications` TINYINT default 0 NOT NULL,
 	`dont_use_photos` INTEGER default 0 NOT NULL,
 	`contact_only_full_members` INTEGER default 0 NOT NULL,

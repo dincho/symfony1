@@ -15,6 +15,7 @@ class Events
     const NEW_EMAIL_CONFIRMED = 5; //when email confirmation is done, and email is changed.
     const ACCOUNT_DELETE_BY_MEMBER = 6;
     const TELL_FRIEND = 7;
+    const REGISTRATION_APPROVE = 8;
 
     public static function triggerJoin($member)
     {
@@ -77,7 +78,13 @@ class Events
         self::executeNotifications(self::TELL_FRIEND, $global_vars, $friend_email, null, $email);
     }
     
-    
+    public static function triggerRegistrationApprove($member)
+    {
+        sfLoader::loadHelpers(array('Url'));
+        
+        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
+        self::executeNotifications(self::REGISTRATION_APPROVE, $global_vars, $member->getEmail(), $member);
+    }
     
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {

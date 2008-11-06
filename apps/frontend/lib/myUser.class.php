@@ -31,7 +31,7 @@ class myUser extends sfBasicSecurityUser
         }
         return $this->profile;
     }
-    
+
     public function SignIn($member)
     {
         $this->setAuthenticated(true);
@@ -39,19 +39,44 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('username', $member->getUsername());
         $this->setAttribute('member_id', $member->getId());
         $this->setAttribute('status_id', $member->getMemberStatusId());
-        $this->setAttribute('must_change_pwd', $member->getMustChangePwd());        
+        $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
     }
-    
+
     public function SignOut()
     {
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
-        $this->setAuthenticated(false);        
+        $this->setAuthenticated(false);
     }
-    
+
     public function getRefererUrl()
     {
         $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
         return isset($stack[1]) ? $stack[1] : null;
+    }
+
+    public function completeRegistration()
+    {
+        $member = $this->getProfile();
+        $action = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
+        
+        if ($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
+        {
+            if ($member->mustFillIMBRA())
+            {
+                $action->redirect('IMBRA/index');
+            } else {
+                if ($member->getSubscription()->getPreApprove())
+                {
+                    $member->changeStatus(MemberStatusPeer::PENDING);
+                } else {
+                    $member->changeStatus(MemberStatusPeer::ACTIVE);
+                    $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
+                }
+                $member->save();
+                $this->setAttribute('status_id', $member->getMemberStatusId());
+                $action->redirect('@dashboard');
+            }
+        }
     }
 }

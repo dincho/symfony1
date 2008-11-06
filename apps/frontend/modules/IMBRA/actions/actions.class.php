@@ -44,7 +44,7 @@ class IMBRAActions extends sfActions
 
             }
             $new_imbra->save();
-            
+            $this->getUser()->completeRegistration();
             $this->redirect('dashboard/index');
         }
         $this->imbra = $member->getLastImbra();
@@ -118,6 +118,7 @@ class IMBRAActions extends sfActions
             {
                 $member->setUsCitizen(false);
                 $member->save();
+                $this->getUser()->completeRegistration();
                 $this->redirect('dashboard/index');
             }
             if ($us_citizen == 1)

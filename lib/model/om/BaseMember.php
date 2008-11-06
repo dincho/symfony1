@@ -109,7 +109,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
-	protected $us_citizen = true;
+	protected $us_citizen;
 
 
 	
@@ -1105,7 +1105,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	public function setUsCitizen($v)
 	{
 
-		if ($this->us_citizen !== $v || $v === true) {
+		if ($this->us_citizen !== $v) {
 			$this->us_citizen = $v;
 			$this->modifiedColumns[] = MemberPeer::US_CITIZEN;
 		}

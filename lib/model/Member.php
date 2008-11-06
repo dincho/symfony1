@@ -79,6 +79,11 @@ class Member extends BaseMember
     {
         if ($this->getMemberStatusId() != $StatusId)
         {
+            if( ($this->getMemberStatusId() == MemberStatusPeer::PENDING ) && $StatusId == MemberStatusPeer::ACTIVE )
+            {
+                Events::triggerRegistrationApprove($this);
+            }
+            
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
             $this->addMemberStatusHistory($history);
@@ -179,22 +184,6 @@ class Member extends BaseMember
         return ($this->getYoutubeVid() ) ? 'http://www.youtube.com/watch?v=' . $this->getYoutubeVid() : null;
     }
     
-    public function canSendMessageTo(BaseMember $profile)
-    {
-        if( false )
-        {
-            //1. is the other member active ?
-            //2. has blocked this member ?
-            //3. wants to receive messages only from paid members ?
-            //4. is the subscription limit is out ?
-            //5. is other member subscription accept messages ?
-            
-            return false;
-        }
-        
-        return true;
-    }
-    
     public function hasBlockFor($member_id)
     {
         $c = new Criteria();
@@ -205,5 +194,9 @@ class Member extends BaseMember
         
         return ( $cnt > 0) ? true : false;
     }
-
+    
+    public function mustFillIMBRA()
+    {
+        return ( is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
+    }
 }

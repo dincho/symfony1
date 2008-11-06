@@ -230,22 +230,9 @@ class registrationActions extends sfActions
             //if the form is submited by "Save and continue" button
             if( !$this->getRequestParameter('commit') )
             {
-                if( is_null($this->member->getUsCitizen()) && $this->member->getCountry() == 'US' )
-                {
-                    $this->redirect('editProfile/imbra');
-                } else {
-                    //activate the member
-                    if( $this->member->getMemberStatusId()  == MemberStatusPeer::ABANDONED) 
-                    {
-                        $this->member->setMemberStatusId(MemberStatusPeer::ACTIVE);
-                        $this->member->save();
-                    }
-                    $this->redirect('dashboard/index');                        
-                }
+                $this->getUser()->completeRegistration();
             } //else the upload button is pressed "commit", so show the photos ..
-
         }
-        
         $this->photos = $this->member->getMemberPhotos();
     }
 
