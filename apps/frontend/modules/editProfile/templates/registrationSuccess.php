@@ -20,7 +20,7 @@
         <?php echo pr_label_for('country', 'Country of Residence') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         
-        <?php echo pr_label_for('state', 'State/ Province etc.') ?>
+        <?php echo pr_label_for('state', 'Area') ?>
         <?php echo pr_select_state_tag($member->getCountry(), 'state', $member->getStateId()) ?><br />
         
         <?php echo pr_label_for('district', 'District/ County etc.') ?>

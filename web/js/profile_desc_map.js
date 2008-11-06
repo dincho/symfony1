@@ -27,7 +27,7 @@ function show_profile_map(address, cityInfo)
       
 					var marker = new GMarker(point, prIcon);
 					map.addOverlay(marker);
-					if(cityInfo) marker.openInfoWindowHtml(cityInfo);
+					//if(cityInfo) marker.openInfoWindowHtml(cityInfo);
                 }
             }
         );

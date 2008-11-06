@@ -28,13 +28,12 @@ web_email:
     param: { module: content, action: emails, sf_culture: en  }
 
 dashboard:
-    url: /dashboard/*
+    url: /dashboard
     param: { module: dashboard, action: index, sf_culture: en  }
                     
 matches:
     url:    /:sf_culture/matches
-    requirements: { sf_culture: (?:en|pl|bg) }
-    param:  { module: matches, action: index, sf_culture: en  }
+    param:  { module: search, action: index, sf_culture: en  }
     
 visitors:
     url:    /:sf_culture/dashboard/visitors

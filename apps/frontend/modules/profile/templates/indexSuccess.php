@@ -44,8 +44,8 @@
             <br class="clear" />
             <dl>
                 <dt><?php echo __('Country') ?></dt><dd><?php echo format_country($member->getCountry()) ?></dd>
-                <dt><?php echo __('State/Province') ?></dt><dd><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?></dd>
-                <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?> <a href="#" class="sec_link">(other profiles from this city)</a></dd>
+                <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?>&nbsp;<?php echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getStateId(), 'class=sec_link') ?></dd>
+                <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?></dd>
                 <?php if( !$member->getDontDisplayZodiac() ): ?>
                     <dt><?php echo __('Zodiac') ?></dt><dd><?php echo $member->getZodiac()->getSign() ?></dd>
                 <?php endif; ?>
