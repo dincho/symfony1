@@ -961,6 +961,23 @@ CREATE TABLE `notification_event`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
+#-- web_email
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `web_email`;
+
+
+CREATE TABLE `web_email`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`hash` CHAR(40)  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
 #-- groups
 #-----------------------------------------------------------------------------
 

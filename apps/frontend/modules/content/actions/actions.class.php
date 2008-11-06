@@ -139,4 +139,14 @@ class contentActions extends sfActions
     {
         
     }
+    
+    public function executeEmails()
+    {
+         $email = WebEmailPeer::retrieveByHash($this->getRequestParameter('hash'));
+         $this->forward404Unless($email);
+         
+         $this->setLayout('simple_small');
+         $this->header_title = $email->getSubject();
+         $this->content = $email->getBody();
+    }
 }

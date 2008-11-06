@@ -22,7 +22,11 @@ profile:
     url:   /:sf_culture/profile/:username
     requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: profile, action: index, sf_culture: en  }
-            
+
+web_email:
+    url: /emails/:hash
+    param: { module: content, action: emails, sf_culture: en  }
+                    
 matches:
     url:    /:sf_culture/matches
     requirements: { sf_culture: (?:en|pl|bg) }

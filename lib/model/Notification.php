@@ -11,9 +11,6 @@ class Notification extends BaseNotification
 {
     public function execute($global_vars, $addresses = null, $object = null, $mail_from = null)
     {
-        //this must be implemented in prMail i think ... its more easy.
-        //$body .= '<br /><br /><a href="http://PolishRomance.com/">PolishRomance.com</a><br /><br /><br />';
-        //$body .= '<small>This message was sent by request to {EMAIL}. If you believe you received this message by error, it is safe to just ignore it.</small>';        
         $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
         
         if( !is_null($object) )
@@ -52,6 +49,7 @@ class Notification extends BaseNotification
             $mail->addAddress($this->getSendTo());
         } else {
             $mail->addAddresses($addresses);
+            $mail->CopyToWeb();
         }
         
         $mail->send();

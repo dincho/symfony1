@@ -3,7 +3,8 @@ class prMail extends sfMail
 {
     //used to container the recepient
     //since the phpmailer property is protected
-    //private $to;
+    private $to;
+    private $copy_to_web = false;
     
     public function __construct()
     {
@@ -30,9 +31,14 @@ class prMail extends sfMail
         parent::initialize();
     }
     
+    public function CopyToWeb($bool = true)
+    {
+        $this->copy_to_web = $bool;
+    }
+    
     public function addAddress($address, $name = null)
     {
-        //$this->to = $address;
+        $this->to = $address;
         parent::addAddress($address, $name);
     }
     
@@ -43,9 +49,23 @@ class prMail extends sfMail
         $this->clearAddresses();
         $this->addAddress('dincho.todorov@bonex.us', 'Dincho Todorov');
         
-/*        $body = $this->getBody();
-        $body .= '<br /><br /><br /><small>This email was send to ' .$this->to . '</small>';
-        $this->setBody($body);*/
+        $body = $this->getBody();
+        $body .= '<br /><br /><br /><br /><a href="http://PolishRomance.com/">PolishRomance.com</a><br /><br />';
+        $body .= '<small>This message was sent by request to ' . $this->to . '. If you believe you received this message by error, it is safe to just ignore it.</small>'; 
+        $this->setBody($body);        
+        
+        
+        if( $this->copy_to_web )
+        {
+            $webemail = new WebEmail();
+            $webemail->setSubject($this->getSubject());
+            $webemail->setBody($this->getBody());
+            $webemail->save();
+            
+            $body = '(If you have problems viewing this message, please <a href="http://PolishRomance.com/emails/'. $webemail->getHash() .'">click here</a>)<br /><br /><br />' . $this->getBody();
+            $this->setBody($body);
+        }
+        
         parent::send();
     }
 }

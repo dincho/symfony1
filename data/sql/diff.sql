@@ -1,5 +1,5 @@
 ALTER TABLE `member` ADD  INDEX `member_FI_7` (`member_counter_id`);
-ALTER TABLE `message` ADD `is_replied` INTEGER default 0 NOT NULL;
+ALTER TABLE `web_email` ADD `hash` CHAR(40)  NOT NULL;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)

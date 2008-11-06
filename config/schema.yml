@@ -320,6 +320,12 @@ propel:
     id:
     notification_id:
     event:           { type: tinyint }
+  web_email:
+    id:
+    subject:        { type: varchar, size: 255 }
+    body:           { type: longvarchar }
+    hash:           { type: char, size: 40, required: true } #sha1
+    created_at:
 
 # NOTE: This is used only for model generation once!!!    
 #  matches:
