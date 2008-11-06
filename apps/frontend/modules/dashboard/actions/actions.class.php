@@ -91,8 +91,22 @@ class dashboardActions extends sfActions
         $c->add(ProfileViewPeer::PROFILE_ID, $this->getUser()->getId());
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
+        $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
+    }
+    
+    public function validateVisitors()
+    {
+        //subscription limits/restrictions ?
+        $subscription = $this->getUser()->getProfile()->getSubscription();
+        if( !$subscription->getCanSeeViewed() )
+        {
+            $this->setFlash('msg_error', 'In order to see who viewed your profile you need to upgrade your membership.');
+            $this->redirect('@dashboard');
+        }
+        
+        return true;
     }
     
     public function executeDeactivate()

@@ -26,6 +26,10 @@ profile:
 web_email:
     url: /emails/:hash
     param: { module: content, action: emails, sf_culture: en  }
+
+dashboard:
+    url: /dashboard/*
+    param: { module: dashboard, action: index, sf_culture: en  }
                     
 matches:
     url:    /:sf_culture/matches
