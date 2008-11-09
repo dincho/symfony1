@@ -80,4 +80,25 @@ class myUser extends sfBasicSecurityUser
             }
         }
     }
+    
+    public function viewProfile($profile)
+    {
+        $views = $this->getAttributeHolder()->getAll('frontend/viewed_profiles', array());
+        if( $this->getId() != $profile->getId() && !in_array($profile->getId(), $views) ) //not looking himself and not already been here
+        {
+            $views[] = $profile->getId();
+            $this->getAttributeHolder()->removeNamespace('frontend/viewed_profiles');
+            $this->getAttributeHolder()->add($views, 'frontend/viewed_profiles');
+            
+            if ($this->isAuthenticated())
+            {
+                $visit = new ProfileView();
+                $visit->setMemberRelatedByMemberId($this->getProfile());
+                $visit->setMemberRelatedByProfileId($profile);
+                $visit->save();
+            } else {
+                $profile->incCounter('ProfileViews');
+            }
+        }
+    }
 }

@@ -6,3 +6,5 @@ forgotPasswordConfirm:
     is_secure:  off
 confirmNewPassword:
     is_secure: off
+index:
+    is_secure: off

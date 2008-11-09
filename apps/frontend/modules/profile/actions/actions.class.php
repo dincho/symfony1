@@ -20,13 +20,7 @@ class profileActions extends sfActions
         $this->forward404Unless($member);
         
         //add a visit
-        if( $this->getUser()->getId() != $member->getId() ) //not looking himself
-        {
-            $visit = new ProfileView();
-            $visit->setMemberRelatedByMemberId($this->getUser()->getProfile());
-            $visit->setMemberRelatedByProfileId($member);
-            $visit->save();            
-        }
+        $this->getUser()->viewProfile($member);
 
         //last login/currently online
         $c = new Criteria();
