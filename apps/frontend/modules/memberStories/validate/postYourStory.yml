@@ -1,0 +1,16 @@
+fillin:
+    enabled:    true
+fields:
+  story_title:
+    required:
+      msg:    Please enter a title.
+  your_story:
+    required:
+        msg:    Please enter a content.
+  tos:
+    required:
+        msg: You must agree to Terms of Use and Privacy Policy to continue.        
+  email:
+    sfEmailValidator:
+      strict:       true
+      email_error:  Please provide email address in correct format.

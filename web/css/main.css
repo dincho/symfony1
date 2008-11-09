@@ -2936,7 +2936,7 @@ div.profile_id_search {
     background-color: #a51d1f;
 }
 
-#post_story_container fieldset input,#post_story_container textarea {
+#post_story_container fieldset input, #post_story_container fieldset textarea {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;

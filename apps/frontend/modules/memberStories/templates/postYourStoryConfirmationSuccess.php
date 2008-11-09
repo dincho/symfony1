@@ -1,0 +1,4 @@
+<?php echo __('Our team will review your story and hopefully it will be available online soon.') ?><br /><br />
+<?php echo __('Please note that according to our %link_to_privacy_policy%  and %link_to_user_agreement%, we reserve the right to cut, edit or otherwise change your story without any explanation. We may also take your story off our site at any time or not publish it at all. We also do not respond to any queries related to the stories, except for request to take the story off the site. In order to do so however, you must write to us from the same email address as you entered while submitting the story', 
+                                    array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement', array('class' => 'sec_link')),
+                                          '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy', array('class' => 'sec_link')))) ?>
