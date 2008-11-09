@@ -1,13 +1,15 @@
 <?php
 
 /**
- * generateMessages batch script
+ * Abandoned members report script - cron
  *
  * Here goes a brief description of the purpose of the batch script
  *
  * @package    pr
  * @subpackage batch
  * @version    $Id$
+ * 
+ * Run each hour
  */
 
 define('SF_ROOT_DIR',    realpath(dirname(__file__).'/..'));
@@ -22,20 +24,15 @@ $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-$members = MemberPeer::doSelect(new Criteria());
-$cnt = count($members);
+$notification = NotificationPeer::retrieveByPK(NotificationPeer::ABANDONED_REGISTRATION);
 
-for($i=0; $i<$cnt; $i++)
+if ( $notification->getIsActive() )
 {
-    $member = $members[$i];
+    $c = new Criteria();
+    $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ABANDONED);
+    $c->add(MemberPeer::CREATED_AT, 'TIMESTAMPDIFF(HOUR, '. MemberPeer::CREATED_AT .', '. Criteria::CURRENT_TIMESTAMP.') BETWEEN 24 AND 25', Criteria::CUSTOM);
+    $members = MemberPeer::doSelect($c);
     
-    for($j=0; $j<5; $j++) //generate 5 messages per member
-    {
-        srand((float) microtime() * 10000000);
-        
-        $rand_member = $members[rand(0, $cnt-1)];
-        
-        MessagePeer::send($rand_member, $member, RandomGenerator::getSentence(), RandomGenerator::generate('br'));
-    }
-    
+    foreach ($members as $member) Events::triggerAbandonedRegistration($member);
 }
+

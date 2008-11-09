@@ -8,6 +8,6 @@
     <?php endif; ?>
     <br /><br />
     <?php if(!$sf_request->getParameter('no_links')): ?>
-        <?php echo link_to('see all messages of this sender', 'messages/member?id=' . $message->getMember()->getId()) . '&nbsp;|&nbsp;' . link_to('see the whole conversation', 'messages/conversation?id=' . $message->getId()) ?>
+        <?php echo link_to('see all messages of this sender', 'messages/member?id=' . $message->getFromMemberId()) . '&nbsp;|&nbsp;' . link_to('see the whole conversation', 'messages/conversation?id=' . $message->getId()) ?>
     <?php endif; ?>
 <?php endif; ?>

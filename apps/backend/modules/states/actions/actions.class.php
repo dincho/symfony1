@@ -12,7 +12,7 @@ class statesActions extends sfActions
 
     public function preExecute()
     {
-        $this->top_menu_selected = 'content';
+        $this->top_menu_selected = 'staticPages';
     }
     
     public function executeList()

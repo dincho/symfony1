@@ -81,7 +81,7 @@ class Member extends BaseMember
         {
             if( ($this->getMemberStatusId() == MemberStatusPeer::PENDING ) && $StatusId == MemberStatusPeer::ACTIVE )
             {
-                Events::triggerRegistrationApprove($this);
+                Events::triggerWelcomeApproved($this);
             }
             
             $history = new MemberStatusHistory();
@@ -198,5 +198,25 @@ class Member extends BaseMember
     public function mustFillIMBRA()
     {
         return ( is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
+    }
+    
+    public function getNbUnreadMessages()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::TO_MEMBER_ID, $this->getId());
+        $c->add(MessagePeer::SENT_BOX, false);
+        $c->add(MessagePeer::IS_READ, false);
+        
+        return MessagePeer::doCount($c);
+    }
+    
+    public function getNbSendMessagesToday()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::FROM_MEMBER_ID, $this->getId());
+        $c->add(MessagePeer::SENT_BOX, true);
+        $c->add(MessagePeer::CREATED_AT, 'DATE(' . MessagePeer::CREATED_AT .') = CURRENT_DATE()', Criteria::CUSTOM);
+        
+        return MessagePeer::doCount($c);        
     }
 }

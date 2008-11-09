@@ -71,6 +71,7 @@ class myUser extends sfBasicSecurityUser
                     $member->changeStatus(MemberStatusPeer::PENDING);
                 } else {
                     $member->changeStatus(MemberStatusPeer::ACTIVE);
+                    Events::triggerWelcome($member);
                     $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
                 }
                 $member->save();

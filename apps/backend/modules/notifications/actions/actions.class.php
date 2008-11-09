@@ -13,7 +13,7 @@ class notificationsActions extends sfActions
 
     public function preExecute()
     {
-        $this->top_menu_selected = 'content';
+        $this->top_menu_selected = 'staticPages';
     }
     
     public function executeList()
@@ -39,7 +39,7 @@ class notificationsActions extends sfActions
             $notification->setBody($this->getRequestParameter('notification_body'));
             $notification->setIsActive($this->getRequestParameter('is_active', 0));
             $notification->setDays($this->getRequestParameter('days', 0));
-            if($this->getRequestParameter('days', 0) == 0) $notification->setWhn(($this->getRequestParameter('days', 0) == 0) ? null : $this->getRequestParameter('whn'));
+            $notification->setWhn(($this->getRequestParameter('days', 0) == 0) ? null : $this->getRequestParameter('whn'));
             $notification->save();
             
             $this->setFlash('msg_ok', 'Your changes have been saved');

@@ -137,16 +137,23 @@ class profileActions extends sfActions
         $this->getUser()->getBC()->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
-            if ($member)
+            //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
+            $c = new Criteria();
+            $c->add(MemberPeer::EMAIL, $this->getRequestParameter('email'));
+            $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+            $c->setLimit(1);
+            $member = MemberPeer::doSelectOne($c);
+            
+            if ( $member )
             {
-                //send temp pass
+                //set temp pass
                 $new_pass = Tools::generateString(8);
                 $member->setPassword($new_pass);
-                Events::triggerForgotPassword($member, $new_pass);
+                Events::triggerForgotPassword($member);
                 $member->save();
-                $this->redirect('profile/forgotPasswordInfo');
             }
+            
+            $this->redirect('profile/forgotPasswordInfo');
         }
     }
 
@@ -176,7 +183,7 @@ class profileActions extends sfActions
         $member->setMustChangePwd(true);
         $member->save();
         
-        $user = $this->getUser()->SignIn($member);
+        $this->getUser()->SignIn($member);
         $this->redirect('dashboard/index');
     }
     

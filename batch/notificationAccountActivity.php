@@ -1,13 +1,15 @@
 <?php
 
 /**
- * imbra_test batch script
+ * Registration Reminder batch script - cron
  *
  * Here goes a brief description of the purpose of the batch script
  *
  * @package    pr
  * @subpackage batch
  * @version    $Id$
+ * 
+ * Running once a day
  */
 
 define('SF_ROOT_DIR',    realpath(dirname(__file__).'/..'));
@@ -22,22 +24,14 @@ $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-//$member = MemberPeer::retrieveByPK(1);
-//$member = new Member();
+$notification = NotificationPeer::retrieveByPK(NotificationPeer::ACCOUNT_ACTIVITY);
 
-$imbra = new MemberImbra();
-//$imbra = MemberImbraPeer::retrieveByPK(5);
-$imbra->setImbraStatusId(2);
-//$imbra->addVersion();
-$imbra->setText('version 5');
+if ( $notification->getIsActive() )
+{
+    $c = new Criteria();
+    $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+    $members = MemberPeer::doSelect($c);
+    
+    foreach ($members as $member) Events::triggerAccountActivity($member);
+}
 
-$answer = new MemberImbraAnswer();
-$answer->setAnswer(true);
-$answer->setImbraQuestionId(1);
-$imbra->addMemberImbraAnswer($answer);
-
-
-
-$member = MemberPeer::retrieveByPK(1);
-$member->addMemberImbra($imbra);
-$member->save();

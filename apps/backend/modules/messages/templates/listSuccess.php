@@ -20,7 +20,7 @@
   </thead>
   <tbody>
   <?php foreach ($pager->getResults() as $message): ?>
-  <?php $member = $message->getMember(); //shortcut ?>
+  <?php $member = $message->getMemberRelatedByFromMemberId(); //shortcut ?>
   <tr class="remote_function" rel="<?php echo remote_function(array('url' => 'ajax/getMessageById?details=1&id=' . $message->getId(), 'update' => 'preview')); ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
@@ -29,7 +29,7 @@
     <td><?php echo $member->getSex() ?></td>
     <td><?php echo $member->getEmail() ?></td>
     <td><?php echo $member->getLastActivity('m/d/Y') ?></td>
-    <td><?php echo $message->getRecipient()->getUsername() ?></td>
+    <td><?php echo $message->getMemberRelatedByToMemberId()->getUsername() ?></td>
     <td class="profile_link"><?php echo link_to('Profile', '#') ?></td>
     <td class="preview_button">
         <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>

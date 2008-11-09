@@ -23,9 +23,9 @@
                 
                 <td>
                     <?php if( $received_only ): ?>
-                        <?php echo $message->getMember()->getUsername() ?>
+                        <?php echo $message->getMemberRelatedByFromMemberId()->getUsername() ?>
                     <?php else: ?>
-                        <?php echo $message->getRecipient()->getUsername() ?>
+                        <?php echo $message->getMemberRelatedByToMemberId()->getUsername() ?>
                     <?php endif; ?>
                 </td>
                 

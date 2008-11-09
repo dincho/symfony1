@@ -43,7 +43,7 @@
     </table>
 </div>
 <div id="bottom_menu">
-  <span>View:</span>
+  <span class="bottom_menu_title">View:</span>
   <ul>
       <?php if( $sf_request->getParameter('received_only') ): ?>
         <li><?php echo link_to('Sent', 'messages/member?id=' . $member->getId()) ?></li>

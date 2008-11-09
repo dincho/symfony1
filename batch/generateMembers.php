@@ -40,6 +40,7 @@ for( $i=1; $i<=$generate_number; $i++):
 
 srand((float) microtime() * 10000000);
 $sex = $sex_arr[rand(0,1)];
+$looking_for = $sex_arr[rand(0,1)];
 
 $first_name = RandomGenerator::getFirstname($sex);
 $surname = RandomGenerator::getSurname();
@@ -54,6 +55,7 @@ $member->setEmail($username .  '@polishromance.com');
 $member->setBirthday(date('Y-m-d',Tools::randomTimestamp('1 January 1950', '1 January 1990')));
 $member->setLastLogin(Tools::randomTimestamp('1 January 2006', '1 August 2008'));
 $member->setSex($sex);
+$member->setLookingFor($looking_for);
 $member->setMemberStatusId(rand(1,6));
 $member->setLastStatusChange(Tools::randomTimestamp());
 $member->setEssayHeadline(RandomGenerator::getSentence());

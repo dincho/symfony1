@@ -23,7 +23,7 @@ class statusFilter extends sfFilter
                 $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
                 switch ($user->getAttribute('status_id')) {
                     case MemberStatusPeer::ABANDONED:
-                        if ($module != 'registration' && $module != 'IMBRA')
+                        if ($module != 'registration' && $module != 'IMBRA' )
                         {
                             $member = $context->getUser()->getProfile();
                             //take decision on witch step is the registration procces

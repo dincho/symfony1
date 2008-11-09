@@ -38,9 +38,16 @@
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
-            <?php foreach ($visits as $visit_profile): ?>
-                <?php echo link_to(image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
-            <?php endforeach; ?>
+            <?php if( $member->getSubscription()->getCanSeeViewed() ): ?>
+                <?php foreach ($visits as $visit_profile): ?>
+                    <?php echo link_to(image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <?php $max_no_photos = min($visits_cnt, 5); ?>
+                <?php for($i=0; $i<$max_no_photos; $i++): ?>
+                    <?php echo link_to(image_tag('static/member_photo/' . $member->getLookingFor() .'/no_photo_30x30.jpg'), '@visitors') ?>
+                <?php endfor; ?>
+            <?php endif; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Blocked Members'), '@blocked_members', 'class=sec_link_brown') ?>

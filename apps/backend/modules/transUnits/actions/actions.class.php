@@ -19,7 +19,7 @@ class transUnitsActions extends sfActions
         }
             
         $this->left_menu_selected = 'Translation Units';
-        $this->top_menu_selected = 'content';
+        $this->top_menu_selected = 'staticPages';
         
         $bc = $this->getUser()->getBC();
         $bc->replaceFirst(array('name' => 'Translation Units', 'uri' => 'transUnits/list'));        

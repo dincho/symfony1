@@ -9,14 +9,15 @@
  */ 
 class MessagePeer extends BaseMessagePeer
 {
-    public static function send($from_id, $to_id, $subject = '', $content = '', $inc_counter = true)
+    public static function send(BaseMember $from_member, BaseMember $to_member, $subject = '', $content = '', $reply_to = null)
     {
         //add to recepient
         $message = new Message();
-        $message->setFromMemberId($from_id);
-        $message->setToMemberId($to_id);
+        $message->setFromMemberId($from_member->getId());
+        $message->setToMemberId($to_member->getId());
         $message->setSubject($subject);
         $message->setContent($content);
+        $message->isReply(!is_null($reply_to));
         
         
         //save to sent box
@@ -24,9 +25,11 @@ class MessagePeer extends BaseMessagePeer
         $sent_message->setSentBox(true);
         
         //save objects
-        $message->save(null, $inc_counter);
-        $sent_message->save(null, false);
+        $message->save();
+        $sent_message->save();
         
-        return $sent_message->getId();
-    }    
+        Events::triggerFirstContact($message);
+        
+        return $sent_message;
+    }
 }

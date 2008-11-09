@@ -68,6 +68,8 @@ class dashboardActions extends sfActions
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit(5);
         
+        //@TODO to be test for performance
+        //if( $member->getSubscription()->getCanSeeViewed() ) $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
@@ -120,6 +122,8 @@ class dashboardActions extends sfActions
             {
                 $member->changeStatus(MemberStatusPeer::DEACTIVATED);
                 $this->setFlash('msg_ok', 'Your profile status have been updated.');
+                Events::triggerAccountDeactivation($member);
+                
             } elseif( $this->getRequestParameter('deactivate_profile') == 0 && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
             {
                 $member->changeStatus(MemberStatusPeer::ACTIVE);

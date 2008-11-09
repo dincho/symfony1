@@ -38,6 +38,10 @@ class contentActions extends sfActions
             $counter->setTotalFlags($counter->getTotalFlags()+1);
             $counter->save();
             
+            //@TODO
+            $SCAM_FLAGS = 3; //this must be moved to some backend setting
+            if( $counter->getCurrentFlags() == $SCAM_FLAGS ) Events::triggerScamActivity($this->profile, $counter->getCurrentFlags());
+            
             $this->getUser()->getProfile()->incCounter('SentFlags');
             
             $this->setFlash('msg_ok', 'Thanks for taking time to report the profile! We appreciate it.');

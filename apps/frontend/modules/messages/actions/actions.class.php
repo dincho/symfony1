@@ -58,7 +58,7 @@ class messagesActions extends sfActions
     {
         $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($message);
-        if( !$message->getIsRead() )
+        if( !$message->getIsRead() && !$message->getSentBox() )
         {
             $subscription = $this->getUser()->getProfile()->getSubscription();
             if( !$subscription->getCanReadMessages() )
@@ -89,15 +89,8 @@ class messagesActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $send_msg_id = MessagePeer::send($this->getUser()->getId(), $message->getFromMemberId(), 
-                            $this->getRequestParameter('subject'), $this->getRequestParameter('content'), $inc_counter = false);
-            
-            $message->getMemberRelatedByFromMemberId()->incCounter('ReceivedMessages');
-            $message->getMemberRelatedByToMemberId()->incCounter('ReplyMessages');
-            $message->setIsReplied(true);
-            $message->save();
-            
-            $this->sendConfirmation($send_msg_id);
+            $send_msg = $message->reply($this->getRequestParameter('subject'), $this->getRequestParameter('content'));
+            $this->sendConfirmation($send_msg->getId());
         }
         
         $this->message = $message;
@@ -168,10 +161,10 @@ class messagesActions extends sfActions
                 
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $send_msg_id = MessagePeer::send($this->getUser()->getId(), $this->getRequestParameter('profile_id'), 
+            $send_msg = MessagePeer::send($this->getUser()->getProfile(), $this->profile, 
                             $this->getRequestParameter('subject'), $this->getRequestParameter('content'));
         	
-            $this->sendConfirmation($send_msg_id);
+            $this->sendConfirmation($send_msg->getId());
         }
     }
 

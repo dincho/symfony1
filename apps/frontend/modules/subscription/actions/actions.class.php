@@ -42,6 +42,11 @@ class subscriptionActions extends sfActions
 
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            if( $this->getRequestParameter('sub_auto_renew') == 0 && $this->member->getSubAutoRenew() == 1)
+            {
+                Events::triggerAutoRenew($this->member);
+            }
+            
             $this->member->setSubAutoRenew($this->getRequestParameter('sub_auto_renew'));
             $this->member->save();
             

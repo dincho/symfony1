@@ -22,6 +22,7 @@ class messagesActions extends sfActions
     {
         $this->getResponse()->addJavascript('preview.js');
         $c = new Criteria();
+        $c->add(MessagePeer::SENT_BOX, true);
         $this->addFiltersCriteria($c);
         
         $per_page = ( $this->getRequestParameter('per_page', 0) <= 0 ) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
@@ -29,8 +30,8 @@ class messagesActions extends sfActions
         $pager = new sfPropelPager('Message', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod('doSelectJoinAll');
-        $pager->setPeerCountMethod('doCountJoinAll');
+        $pager->setPeerMethod('doSelectJoinMemberRelatedByFromMemberId');
+        $pager->setPeerCountMethod('doCount');
         $pager->init();
         $this->pager = $pager;
                 
@@ -53,13 +54,16 @@ class messagesActions extends sfActions
         if( $this->getRequestParameter('received_only') )
         {
             $c->add(MessagePeer::TO_MEMBER_ID, $this->member->getId());
+            $c->add(MessagePeer::SENT_BOX, false);
+            //$c->add(Messa)
             //$bc->add(array('name' => 'Received', 'uri' => 'messages/member?received_only=1&id=' . $this->member->getId()));
         } else {
             $c->add(MessagePeer::FROM_MEMBER_ID, $this->member->getId());
+            $c->add(MessagePeer::SENT_BOX, false);
             //$bc->add(array('name' => 'Sent', 'uri' => 'messages/member?id=' . $this->member->getId()));
         }
         
-        $this->messages = MessagePeer::doSelectJoinAll($c);        
+        $this->messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);        
     }
     
     public function executeDelete()
@@ -89,11 +93,11 @@ class messagesActions extends sfActions
         
         if( $this->getRequestParameter('received_only') )
         {
-            $sender = $message->getRecipient();
-            $recipient = $message->getMember();
+            $sender = $message->getMemberRelatedByToMemberId();
+            $recipient = $message->getMemberRelatedByFromMemberId();
         } else {
-            $sender = $message->getMember();
-            $recipient = $message->getRecipient();
+            $sender = $message->getMemberRelatedByFromMemberId();
+            $recipient = $message->getMemberRelatedByToMemberId();
         }
         
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $recipient->getId());
@@ -106,6 +110,7 @@ class messagesActions extends sfActions
         $c->addOr($crit2);
         
         $c->addAscendingOrderByColumn(MessagePeer::CREATED_AT);
+        $c->add(MessagePeer::SENT_BOX, false);
         
         $this->messages = MessagePeer::doSelect($c);
         
