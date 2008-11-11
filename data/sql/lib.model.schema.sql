@@ -299,6 +299,7 @@ CREATE TABLE `search_criteria`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`ages` TEXT,
 	`ages_weight` TINYINT  NOT NULL,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
@@ -975,6 +976,32 @@ CREATE TABLE `web_email`
 	`hash` CHAR(40)  NOT NULL,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_match
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_match`;
+
+
+CREATE TABLE `member_match`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member1_id` INTEGER  NOT NULL,
+	`member2_id` INTEGER  NOT NULL,
+	`pct` TINYINT default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `member_match_FI_1` (`member1_id`),
+	CONSTRAINT `member_match_FK_1`
+		FOREIGN KEY (`member1_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `member_match_FI_2` (`member2_id`),
+	CONSTRAINT `member_match_FK_2`
+		FOREIGN KEY (`member2_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

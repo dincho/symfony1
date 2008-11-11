@@ -317,6 +317,18 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	protected $lastSuspendedByFlagCriteria = null;
 
 	
+	protected $collMemberMatchsRelatedByMember1Id;
+
+	
+	protected $lastMemberMatchRelatedByMember1IdCriteria = null;
+
+	
+	protected $collMemberMatchsRelatedByMember2Id;
+
+	
+	protected $lastMemberMatchRelatedByMember2IdCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -1780,6 +1792,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collMemberMatchsRelatedByMember1Id !== null) {
+				foreach($this->collMemberMatchsRelatedByMember1Id as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collMemberMatchsRelatedByMember2Id !== null) {
+				foreach($this->collMemberMatchsRelatedByMember2Id as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -2019,6 +2047,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 				if ($this->collSuspendedByFlags !== null) {
 					foreach($this->collSuspendedByFlags as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMemberMatchsRelatedByMember1Id !== null) {
+					foreach($this->collMemberMatchsRelatedByMember1Id as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMemberMatchsRelatedByMember2Id !== null) {
+					foreach($this->collMemberMatchsRelatedByMember2Id as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2654,6 +2698,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			foreach($this->getSuspendedByFlags() as $relObj) {
 				$copyObj->addSuspendedByFlag($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMemberMatchsRelatedByMember1Id() as $relObj) {
+				$copyObj->addMemberMatchRelatedByMember1Id($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMemberMatchsRelatedByMember2Id() as $relObj) {
+				$copyObj->addMemberMatchRelatedByMember2Id($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -4597,6 +4649,146 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$this->lastSuspendedByFlagCriteria = $criteria;
 
 		return $this->collSuspendedByFlags;
+	}
+
+	
+	public function initMemberMatchsRelatedByMember1Id()
+	{
+		if ($this->collMemberMatchsRelatedByMember1Id === null) {
+			$this->collMemberMatchsRelatedByMember1Id = array();
+		}
+	}
+
+	
+	public function getMemberMatchsRelatedByMember1Id($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberMatchPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMemberMatchsRelatedByMember1Id === null) {
+			if ($this->isNew()) {
+			   $this->collMemberMatchsRelatedByMember1Id = array();
+			} else {
+
+				$criteria->add(MemberMatchPeer::MEMBER1_ID, $this->getId());
+
+				MemberMatchPeer::addSelectColumns($criteria);
+				$this->collMemberMatchsRelatedByMember1Id = MemberMatchPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MemberMatchPeer::MEMBER1_ID, $this->getId());
+
+				MemberMatchPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMemberMatchRelatedByMember1IdCriteria) || !$this->lastMemberMatchRelatedByMember1IdCriteria->equals($criteria)) {
+					$this->collMemberMatchsRelatedByMember1Id = MemberMatchPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMemberMatchRelatedByMember1IdCriteria = $criteria;
+		return $this->collMemberMatchsRelatedByMember1Id;
+	}
+
+	
+	public function countMemberMatchsRelatedByMember1Id($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberMatchPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MemberMatchPeer::MEMBER1_ID, $this->getId());
+
+		return MemberMatchPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMemberMatchRelatedByMember1Id(MemberMatch $l)
+	{
+		$this->collMemberMatchsRelatedByMember1Id[] = $l;
+		$l->setMemberRelatedByMember1Id($this);
+	}
+
+	
+	public function initMemberMatchsRelatedByMember2Id()
+	{
+		if ($this->collMemberMatchsRelatedByMember2Id === null) {
+			$this->collMemberMatchsRelatedByMember2Id = array();
+		}
+	}
+
+	
+	public function getMemberMatchsRelatedByMember2Id($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberMatchPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMemberMatchsRelatedByMember2Id === null) {
+			if ($this->isNew()) {
+			   $this->collMemberMatchsRelatedByMember2Id = array();
+			} else {
+
+				$criteria->add(MemberMatchPeer::MEMBER2_ID, $this->getId());
+
+				MemberMatchPeer::addSelectColumns($criteria);
+				$this->collMemberMatchsRelatedByMember2Id = MemberMatchPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MemberMatchPeer::MEMBER2_ID, $this->getId());
+
+				MemberMatchPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMemberMatchRelatedByMember2IdCriteria) || !$this->lastMemberMatchRelatedByMember2IdCriteria->equals($criteria)) {
+					$this->collMemberMatchsRelatedByMember2Id = MemberMatchPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMemberMatchRelatedByMember2IdCriteria = $criteria;
+		return $this->collMemberMatchsRelatedByMember2Id;
+	}
+
+	
+	public function countMemberMatchsRelatedByMember2Id($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberMatchPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MemberMatchPeer::MEMBER2_ID, $this->getId());
+
+		return MemberMatchPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMemberMatchRelatedByMember2Id(MemberMatch $l)
+	{
+		$this->collMemberMatchsRelatedByMember2Id[] = $l;
+		$l->setMemberRelatedByMember2Id($this);
 	}
 
 

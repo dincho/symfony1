@@ -219,4 +219,15 @@ class Member extends BaseMember
         
         return MessagePeer::doCount($c);        
     }
+    
+    public function updateMatches()
+    {
+        $connection = Propel::getConnection();
+        $query = 'CALL update_matches(%d, %d)';
+        $query = sprintf($query, $this->getId(), 21);
+        $statement = $connection->prepareStatement($query);
+        $statement->executeQuery();
+        
+        return true;
+    }
 }

@@ -18,9 +18,9 @@
     <div id="profile_double_box">
         <div class="left">
             <?php if( $sf_user->getId() != $member->getId() ): ?>
-            She matches you 67%<br />
-            You match her 34%<br />
-            Your combined match is 40%
+            <?php echo __('%she_he% matches you: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
+            <?php echo __('You match %her_him%: %MATCH%%', array('%MATCH%' => $match->getPct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />            
+            <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedMatch()) ) ?><br />            
             <?php endif; ?>
         </div>
         <div class="right">

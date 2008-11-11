@@ -294,6 +294,8 @@ class dashboardActions extends sfActions
             $member->setSearchCriteriaId($search_criteria->getId());
             $member->save();
             
+            $member->updateMatches();
+            
             $this->setFlash('msg_ok', 'Your search criteria have been updated.');
             $this->redirect('dashboard/index');            
         }

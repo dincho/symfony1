@@ -19,6 +19,10 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 	
 	protected $ages_weight;
 
+
+	
+	protected $updated_at;
+
 	
 	protected $collMembers;
 
@@ -56,6 +60,28 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 	{
 
 		return $this->ages_weight;
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -107,6 +133,23 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = SearchCriteriaPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -117,11 +160,13 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 
 			$this->ages_weight = $rs->getInt($startcol + 2);
 
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+						return $startcol + 4; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SearchCriteria object", $e);
 		}
@@ -179,6 +224,11 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
       }
     }
 
+
+    if ($this->isModified() && !$this->isColumnModified(SearchCriteriaPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
 
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
@@ -322,6 +372,9 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 			case 2:
 				return $this->getAgesWeight();
 				break;
+			case 3:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -335,6 +388,7 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getAges(),
 			$keys[2] => $this->getAgesWeight(),
+			$keys[3] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -359,6 +413,9 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 			case 2:
 				$this->setAgesWeight($value);
 				break;
+			case 3:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -369,6 +426,7 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setAges($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setAgesWeight($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
 	}
 
 	
@@ -379,6 +437,7 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SearchCriteriaPeer::ID)) $criteria->add(SearchCriteriaPeer::ID, $this->id);
 		if ($this->isColumnModified(SearchCriteriaPeer::AGES)) $criteria->add(SearchCriteriaPeer::AGES, $this->ages);
 		if ($this->isColumnModified(SearchCriteriaPeer::AGES_WEIGHT)) $criteria->add(SearchCriteriaPeer::AGES_WEIGHT, $this->ages_weight);
+		if ($this->isColumnModified(SearchCriteriaPeer::UPDATED_AT)) $criteria->add(SearchCriteriaPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -412,6 +471,8 @@ abstract class BaseSearchCriteria extends BaseObject  implements Persistent {
 		$copyObj->setAges($this->ages);
 
 		$copyObj->setAgesWeight($this->ages_weight);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		if ($deepCopy) {

@@ -13,7 +13,7 @@ abstract class BaseSearchCriteriaPeer {
 	const CLASS_DEFAULT = 'lib.model.SearchCriteria';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -29,23 +29,26 @@ abstract class BaseSearchCriteriaPeer {
 	const AGES_WEIGHT = 'search_criteria.AGES_WEIGHT';
 
 	
+	const UPDATED_AT = 'search_criteria.UPDATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Ages', 'AgesWeight', ),
-		BasePeer::TYPE_COLNAME => array (SearchCriteriaPeer::ID, SearchCriteriaPeer::AGES, SearchCriteriaPeer::AGES_WEIGHT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'ages', 'ages_weight', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Ages', 'AgesWeight', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (SearchCriteriaPeer::ID, SearchCriteriaPeer::AGES, SearchCriteriaPeer::AGES_WEIGHT, SearchCriteriaPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'ages', 'ages_weight', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Ages' => 1, 'AgesWeight' => 2, ),
-		BasePeer::TYPE_COLNAME => array (SearchCriteriaPeer::ID => 0, SearchCriteriaPeer::AGES => 1, SearchCriteriaPeer::AGES_WEIGHT => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'ages' => 1, 'ages_weight' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Ages' => 1, 'AgesWeight' => 2, 'UpdatedAt' => 3, ),
+		BasePeer::TYPE_COLNAME => array (SearchCriteriaPeer::ID => 0, SearchCriteriaPeer::AGES => 1, SearchCriteriaPeer::AGES_WEIGHT => 2, SearchCriteriaPeer::UPDATED_AT => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'ages' => 1, 'ages_weight' => 2, 'updated_at' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
@@ -104,6 +107,8 @@ abstract class BaseSearchCriteriaPeer {
 		$criteria->addSelectColumn(SearchCriteriaPeer::AGES);
 
 		$criteria->addSelectColumn(SearchCriteriaPeer::AGES_WEIGHT);
+
+		$criteria->addSelectColumn(SearchCriteriaPeer::UPDATED_AT);
 
 	}
 

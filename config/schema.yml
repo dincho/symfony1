@@ -118,6 +118,7 @@ propel:
     id:
     ages:                     { type: longvarchar }
     ages_weight:              { type: tinyint, required: true }
+    updated_at:
   search_crit_desc:
     id:
     search_criteria_id:       { type: integer, required: true, foreignTable: search_criteria, foreignReference: id, onDelete: cascade }
@@ -326,10 +327,8 @@ propel:
     body:           { type: longvarchar }
     hash:           { type: char, size: 40, required: true } #sha1
     created_at:
-
-# NOTE: This is used only for model generation once!!!    
-#  matches:
-#    member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-#    member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-#    score:          { type: integer, required: true }
-#    reverse_score:  { type: integer, required: true }
+  member_match:
+    id:
+    member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    pct:            { type: tinyint, required: true, default: 0 }

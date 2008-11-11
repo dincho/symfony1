@@ -26,7 +26,8 @@ class profileActions extends sfActions
         $c = new Criteria();
         $c->add(SessionStoragePeer::USER_ID, $member->getId());
         $this->sessions = SessionStoragePeer::doCount($c);
-        //recent conversatoions
+        
+        //recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
         $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $this->getUser()->getId()));
@@ -41,12 +42,13 @@ class profileActions extends sfActions
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->setLimit(5);
         $this->recent_conversations = MessagePeer::doSelect($c);
-        //self description+answers
-        /*
+
         $c = new Criteria();
-        $c->add(MemberDescAnswerPeer::MEMBER_ID, $this->getUser()->getId());
-        $this->memberDescAnswers = MemberDescAnswerPeer::doSelectJoinAll($c);
-        */
+        $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
+        $c->add(MemberMatchPeer::MEMBER2_ID, $member->getId());
+        $c->setLimit(1);
+        $this->match = MemberMatchPeer::doSelectOne($c);
+        
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());

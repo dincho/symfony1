@@ -20,6 +20,7 @@ class searchActions extends sfActions
         if( !isset($this->filters['location']) ) $this->filters['location'] = 0;
     }
     
+    /* we need this after BETA period
     public function executePublic()
     {
         $this->getUser()->getBC()->clear()
@@ -33,6 +34,7 @@ class searchActions extends sfActions
         
         $this->members = MemberPeer::doSelectJoinAll($c);     
     }
+    */
     
     public function executeIndex()
     {
@@ -46,7 +48,7 @@ class searchActions extends sfActions
         $this->addFiltersCriteria($c);
         
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-        $this->initPager($c, 'doSelectJoinMemberRelatedByMember2Id');
+        $this->initPager($c);
     }
     
 
@@ -63,7 +65,7 @@ class searchActions extends sfActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $c->addDescendingOrderByColumn('total_score');
+        $c->addDescendingOrderByColumn(MemberMatchPeer::PCT);
         $this->initPager($c);
     }
     
@@ -73,7 +75,7 @@ class searchActions extends sfActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $c->addDescendingOrderByColumn('reverse_score');
+        $c->addDescendingOrderByColumn('reverse_pct');
         $this->initPager($c);        
     }
     
@@ -90,7 +92,7 @@ class searchActions extends sfActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $c->addDescendingOrderByColumn('combined_score');
+        $c->addDescendingOrderByColumn('(pct+reverse_pct)');
         $this->initPager($c);          
     }
     
@@ -100,16 +102,14 @@ class searchActions extends sfActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        if( strlen($this->getRequestParameter('keyword')) > 3 )
+        if( isset($this->filters['keyword']) && strlen($this->filters['keyword']) > 3 )
         {
-            $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->getRequestParameter('keyword') . '%', Criteria::LIKE);
-            $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->getRequestParameter('keyword') . '%', Criteria::LIKE));
+            $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->filters['keyword'] . '%', Criteria::LIKE);
+            $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
             $c->add($crit);
+            $this->initPager($c);            
         }
-        
-        $this->initPager($c);          
     }
-    
     
     public function executeProfileID()
     {
@@ -181,13 +181,14 @@ class searchActions extends sfActions
         $this->states = StatePeer::getCountriesWithStates();
     }
     
-    protected function initPager(Criteria $c, $peedMethod = 'doSelect', $countMethod = 'doCount')
+    protected function initPager(Criteria $c)
     {
-        $pager = new sfPropelPager('Matches', 12);
+        $pager = new sfPropelPager('MemberMatch', 12);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinMemberRelatedByMember2Id');
         $pager->setPeerCountMethod('doCountJoinMemberRelatedByMember2Id');
+        $pager->setMaxRecordLimit(600); //max 600 results due to FS
         $pager->init();
         $this->pager = $pager;        
     }
@@ -205,7 +206,7 @@ class searchActions extends sfActions
     
     protected function addGlobalCriteria(Criteria $c)
     {
-       $c->add(MatchesPeer::MEMBER1_ID, $this->getUser()->getId()); 
+       $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
     }
     
     protected function addFiltersCriteria(Criteria $c)
@@ -250,7 +251,7 @@ class searchActions extends sfActions
                 break;
         }
         
-        if( $this->filters['location'] != 0 && isset($this->filters['include_poland']) )
+        if( isset($crit) && $this->filters['location'] != 0 && isset($this->filters['include_poland']) )
         {
             $polish_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
             $crit3 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
@@ -258,6 +259,7 @@ class searchActions extends sfActions
             {
                 $crit3->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $polish_areas, Criteria::IN));  
             }
+                               
             $crit->addOr($crit3);
         }
         if( isset( $crit) ) $c->add($crit);

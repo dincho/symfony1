@@ -3783,7 +3783,7 @@ div.profile_id_search {
     line-height: 17px;
 }
 
-#middle_right ul a:link,a:visited,a:active {
+#middle_right ul a:link, #middle_right ul a:visited, #middle_right ul a:active {
     text-align: left;
     color: #877f75;
     text-decoration: none;

@@ -38,5 +38,7 @@ class SearchCriteriaMapBuilder {
 
 		$tMap->addColumn('AGES_WEIGHT', 'AgesWeight', 'int', CreoleTypes::TINYINT, true, null);
 
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 	} 
 } 

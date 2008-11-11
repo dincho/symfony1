@@ -7,7 +7,7 @@
     <?php echo input_tag('answers[ages][]', $search_criteria->getAgeValue(0), array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
     <?php echo input_tag('answers[ages][]', $search_criteria->getAgeValue(1), array('class' => 'age')) ?><br />
     <label for="answers_ages"><?php echo __('the "age factor" is: ') ?></label>
-    <?php echo pr_select_match_weight('weights[ages]', false, array('class' => 'fieldweight')) ?>                        
+    <?php echo pr_select_match_weight('weights[ages]', $search_criteria->getAgesWeight(), array('class' => 'fieldweight')) ?>                        
     
     <?php foreach ($questions as $question): ?>
       
