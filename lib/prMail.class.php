@@ -46,8 +46,8 @@ class prMail extends sfMail
     {
         //@TODO only for test purposes 
         //remove this when going to work with real emails
-        $this->clearAddresses();
-        $this->addAddress('dincho.todorov@bonex.us', 'Dincho Todorov');
+        //$this->clearAddresses();
+        //$this->addAddress('dincho.todorov@bonex.us', 'Dincho Todorov');
         
         $body = $this->getBody();
         $body .= '<br /><br /><br /><br /><a href="http://PolishRomance.com/">PolishRomance.com</a><br /><br />';

@@ -1,3 +1,8 @@
 .svn
 /cache/*
 /log/*
+.DS_Store
+.project
+.cache
+.settings
+/data/fixtures/images/*

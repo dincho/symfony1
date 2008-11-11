@@ -70,10 +70,12 @@ class profileActions extends sfActions
         $this->header_title = 'Member Sign In';
         
         //@TODO THIS IS ONLY FOR TESTS, REMOVETE FOR PRODUCTION
+        /*
         $c_test = new Criteria();
         $c_test->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
         $c_test->addAscendingOrderByColumn('RAND()');
         $this->test_member = MemberPeer::doSelectOne($c_test);
+        */
         //END @TODO
         
         if ($this->getRequest()->getMethod() != sfRequest::POST)
