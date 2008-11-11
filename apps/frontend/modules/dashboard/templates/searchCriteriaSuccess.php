@@ -2,13 +2,7 @@
 
 <?php echo __("In order to match you with your Polish singles, we need to know WHO YOU'RE LOOKING FOR."); ?>
 <?php echo form_tag('dashboard/searchCriteria', array('id' => 'self_desc_form', 'name' => 'self_desc_form')) ?>
-    <?php $i=1; ?>
-    <span class="title_first"><?php echo $i; ?>. <?php echo __('You\'re looking for someone aged:') ?></span>
-    <?php echo input_tag('answers[ages][]', $search_criteria->getAgeValue(0), array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
-    <?php echo input_tag('answers[ages][]', $search_criteria->getAgeValue(1), array('class' => 'age')) ?><br />
-    <label for="answers_ages"><?php echo __('the "age factor" is: ') ?></label>
-    <?php echo pr_select_match_weight('weights[ages]', $search_criteria->getAgesWeight(), array('class' => 'fieldweight')) ?>                        
-    
+    <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
       
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
@@ -50,7 +44,15 @@
         <?php echo input_hidden_tag('answers['. $question->getid() .']', 1 ,array('class' => 'hidden')) ?><br />
         <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle()) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
-        
+      
+      <?php elseif( $question->getType() == 'age'): ?>
+        <?php $label_title =  ++$i .'. '. $question->getSearchTitle(); ?>
+        <?php $label_class = ($i == 1) ? 'title_first'  : 'title'; ?>
+        <?php echo pr_label_for('answers[' . $question->getId() . ']', $label_title, array('class' => $label_class)) ?>
+        <?php echo input_tag('answers['. $question->getid() .'][]', $search_criteria->getAgeValue(0), array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
+        <?php echo input_tag('answers['. $question->getid() .'][]', $search_criteria->getAgeValue(1), array('class' => 'age')) ?><br />
+        <label for="answers_ages"><?php echo __('the "age factor" is: ') ?></label>
+        <?php echo pr_select_match_weight('weights['. $question->getid() .']', $search_criteria->getAgesWeight(), array('class' => 'fieldweight')) ?>        
       <?php endif; ?>
       
     <?php endforeach; ?>

@@ -1670,7 +1670,7 @@ label.error {
     background-color: #a51d1f;
 }
     
-#secondary_container span.title_first {
+#secondary_container span.title_first, #secondary_container label.title_first {
     margin-top: 10px;
     height: 16px;
     line-height: 16px;

@@ -101,16 +101,9 @@ class editProfileActions extends sfActions
         $this->forward404Unless($this->member); //just in case
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $birthday_arr = $this->getRequestParameter('birth_day');
-            $birthday = $birthday_arr['year'] . '-' . $birthday_arr['month'] . '-' . $birthday_arr['day'];
-            $this->member->setBirthDay($birthday);
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
-            /*
-            $c = new Criteria();
-            $c->add(MemberDescAnswerPeer::MEMBER_ID, $this->getUser()->getId());
-            MemberDescAnswerPeer::doDelete($c);
-            */
+
             foreach ($this->getRequestParameter('answers') as $question_id => $value)
             {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
@@ -121,6 +114,12 @@ class editProfileActions extends sfActions
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
+                } elseif($q->getType() == 'age')
+                {
+                    $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));
+                    $m_answer->setCustom($birthday);
+                    $m_answer->setDescAnswerId(null);
+                    $this->member->setBirthDay($birthday);
                 } else
                 {
                     $m_answer->setDescAnswerId($value);

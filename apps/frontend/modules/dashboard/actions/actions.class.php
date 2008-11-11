@@ -269,11 +269,13 @@ class dashboardActions extends sfActions
 
             $search_criteria->clear();
             
+            /*
             if( array_key_exists('ages', $member_answers))
             {
                 $search_criteria->setAges( implode(',',array_values($member_answers['ages'])) );
                 $search_criteria->setAgesWeight($member_match_weights['ages']);
             }
+            */
 
             $search_criteria->save();
             
@@ -288,6 +290,12 @@ class dashboardActions extends sfActions
                     $search_crit_desc->setDescAnswers(implode(',', $member_answers_vals));
                     $search_crit_desc->setMatchWeight( $member_match_weights[$question->getId()] );
                     $search_crit_desc->save();
+                    
+                    if( $question->getType() == 'age')
+                    {
+                        $search_criteria->setAges( implode(',',array_values($member_answers[$question->getId()])) );
+                        $search_criteria->setAgesWeight($member_match_weights[$question->getId()]);                        
+                    } 
                 }
             }
             
