@@ -16,8 +16,9 @@ class searchActions extends sfActions
             ->add(array('name' => 'dashboard', 'uri' => 'dashboard/index'))
             ->add(array('name' => 'search', 'uri' => 'search/index'));
         $this->processFilters();
-        $this->filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
-        if( !isset($this->filters['location']) ) $this->filters['location'] = 0;
+        $filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
+        if( !isset($filters['location']) ) $filters['location'] = 0;
+        $this->filters = $filters;
     }
     
     /* we need this after BETA period
@@ -38,7 +39,7 @@ class searchActions extends sfActions
     
     public function executeIndex()
     {
-        $this->forward($this->getModuleName(), 'MostRecent');
+        $this->forward($this->getModuleName(), 'mostRecent');
     }
     
     public function executeMostRecent()

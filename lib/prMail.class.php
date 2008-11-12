@@ -11,14 +11,14 @@ class prMail extends sfMail
         parent::__construct();
         
         //print_r($this->getMailer());exit();
-        $this->mailer->SMTPDebug = true;
-        //$this->mailer->port = 925;
+        //$this->mailer->SMTPDebug = true;
+        $this->mailer->port = 25;
         //$this->mailer->SMTPSecurity = 'ssl';
         
-        $this->setMailer('mail');
-        //$this->setHostname(sfConfig::get('app_mail_smtp_host'));
-        //$this->setUsername(sfConfig::get('app_mail_smtp_username'));
-        //$this->setPassword(sfConfig::get('app_mail_smtp_password'));
+        $this->setMailer(sfConfig::get('app_mail_mailer', 'mail'));
+        $this->setHostname(sfConfig::get('app_mail_smtp_host', 'localhost'));
+        $this->setUsername(sfConfig::get('app_mail_smtp_username'));
+        $this->setPassword(sfConfig::get('app_mail_smtp_password'));
         
         $this->setCharset('utf-8');
         $this->setContentType('text/html');

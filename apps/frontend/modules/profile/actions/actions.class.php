@@ -22,11 +22,6 @@ class profileActions extends sfActions
         //add a visit
         $this->getUser()->viewProfile($member);
 
-        //last login/currently online
-        $c = new Criteria();
-        $c->add(SessionStoragePeer::USER_ID, $member->getId());
-        $this->sessions = SessionStoragePeer::doCount($c);
-        
         //recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());

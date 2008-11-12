@@ -20,6 +20,15 @@ class dashboardActions extends sfActions
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
         $this->member = $member;
+        
+        //matches
+        $c = new Criteria();
+        $c->add(MemberMatchPeer::MEMBER1_ID, $member->getId());        
+        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
+        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+        $c->setLimit(5);
+        $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
+        
         //messages
         $c = new Criteria();
         $c->add(MessagePeer::TO_MEMBER_ID, $member->getId());
@@ -268,7 +277,7 @@ class dashboardActions extends sfActions
             $member_match_weights = $this->getRequestParameter('weights');
 
             $search_criteria->clear();
-            
+            $search_criteria->setUpdatedAt(time());
             /*
             if( array_key_exists('ages', $member_answers))
             {

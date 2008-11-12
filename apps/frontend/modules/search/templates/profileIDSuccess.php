@@ -1,4 +1,4 @@
-<?php use_helper('Date') ?>
+<?php use_helper('prDate') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -20,7 +20,8 @@
                 <strong><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></strong><br />
                 <?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
                 <?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?><br />
-                <b><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></b><br />
+                <?php $when =  ($member->isLoggedIn()) ? 'Online' : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
+                <b><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></b><br />
             </div>
         </div>
 </div>

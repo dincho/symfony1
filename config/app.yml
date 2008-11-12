@@ -5,6 +5,7 @@ default:
         username:  autocheck@polishromance.com
         password:  dincho
         from:      PolishRomance.com
-        smtp_host:  mail.vhostbg.com
-        smtp_username:  pop3@xbuv.com
-        smtp_password:  pop3
+        mailer:    smtp
+        smtp_host:  72.68.67.18
+        #smtp_username:  autocheck@polishromance.com
+        #smtp_password:  dincho

@@ -12,11 +12,9 @@
         <div class="go-to"><?php echo __('Go to:') ?></div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
-            <a href="#"><img src="/images/pic/dashboard_pic.gif" alt="" border="0" /></a>
-            <a href="#"><img src="/images/pic/dashboard_pic.gif" alt="" border="0" /></a>
-            <a href="#"><img src="/images/pic/dashboard_pic.gif" alt="" border="0" /></a>
-            <a href="#"><img src="/images/pic/dashboard_pic.gif" alt="" border="0" /></a>
-            <a href="#"><img src="/images/pic/dashboard_pic.gif" alt="" border="0" /></a>
+            <?php foreach ($matches as $match_profile): ?>
+                <?php echo link_to(image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
+            <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>

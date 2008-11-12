@@ -6,3 +6,4 @@
 .cache
 .settings
 /data/fixtures/images/*
+/web/uploads/*

@@ -230,4 +230,13 @@ class Member extends BaseMember
         
         return true;
     }
+    
+    public function isLoggedIn()
+    {
+        $c = new Criteria();
+        $c->add(SessionStoragePeer::USER_ID, $this->getId());
+        $nb_sessions = SessionStoragePeer::doCount($c);
+
+        return ( $nb_sessions > 0 ) ? true : false;
+    }
 }
