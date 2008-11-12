@@ -38,37 +38,41 @@
                 <?php echo form_tag('registration/joinNow') ?>
                     <fieldset>
                         <?php echo pr_label_for('username'); ?>
-                        <?php echo input_tag('username') ?><br />
+                        <?php echo input_tag('username') ?><br class="clear" />
                         
-                        <label for="check_available" class="check_available">
+                        <?php echo pr_label_for('butt_availability', '', array('class' => 'check_available')) ?>
                         <?php echo link_to_remote(image_tag('input/butt_availability.gif'), array(
                             'update' => 'ajax_response',
                             'url'    => 'ajax/usernameExists',
                             'with'     => "'username=' + $('username').value",
-                        )) ?>                          
-                        </label>
+                        ), array('class' => 'butt_availability')) ?><br class="clear" />
                                                                 
                         <?php echo pr_label_for('email', 'Your email') ?>
-                        <?php echo input_tag('email') ?><br />
+                        <?php echo input_tag('email') ?><br class="clear" />
                         
                         <?php echo pr_label_for('password', 'Create Password') ?>
-                        <?php echo input_password_tag('password') ?><br />
+                        <?php echo input_password_tag('password') ?><br class="clear" />
                         
                         <?php echo pr_label_for('repeat_password', 'Repeat Password') ?>
-                        <?php echo input_password_tag('repeat_password') ?><br />
+                        <?php echo input_password_tag('repeat_password') ?><br class="clear" />
                         
                         <?php echo pr_label_for('looking_for', 'You are') ?>
-                        <?php echo select_tag('looking_for', looking_for_options()) ?><br />
+                        <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
                         
                         <?php $tos_text = __('I am 18 or older and I agree to the <a href="user_agreement.shtml" class="textsub">Terms of Use</a> and <a href="privacy_policy.shtml" class="textsub">Privacy Policy</a>.', 
                                             array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
                                                   '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>
-                        <?php echo pr_label_for('tos', $tos_text, array('class' => 'terms'), false) ?>
-                        <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>
+                        
+                        <div class="tos_contaner">
+                            <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>
+                            <?php echo pr_label_for('tos', $tos_text, array('class' => 'terms'), false) ?>
+                        </div>
                         
                     </fieldset>
-                    <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit')) ?>
+                    <div class="reg_submit_container">
+                        <?php echo image_tag('go.gif', array('name' => 'go', 'id' => 'reg_submit')) ?>
+                    </div>
                 </form>
             </div>
         </div>
