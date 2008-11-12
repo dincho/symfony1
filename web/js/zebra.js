@@ -44,10 +44,6 @@ function stripe(table) {
        // or backgroundColor style
        if ( ! trs[i].style.backgroundColor) {
      
-         //if( even ) trs[i].className = 'even';
-
-         
-         
          if( trs[i].getAttribute('rel') )
          {
 	         // get all the cells in this row...
@@ -67,18 +63,10 @@ function stripe(table) {
 	              
 	              if( remote_function ) 
 	              {
-	                //alert(the_link);
-	                //window.location.href = "http://abv.bg";
-	                //mytd.onclick = function(){ alert('test'); return false;};
 	                mytd.onclick = function() { eval(this.parentNode.getAttribute('rel')); return false; };
 	              } else {
 	                mytd.onclick = function(){ window.location.href= this.parentNode.getAttribute('rel'); return false;};
 	              }
-	              
-	              window.console.log(mytd.onclick);
-	             //mytd.style.backgroundColor = even ? evenColor : oddColor;
-	             //mytd.className = 'even';
-	           
 	           }
 	         }
 	       }
@@ -91,9 +79,6 @@ function stripe(table) {
 			    }
 			}
        }
-       
-
-         
        // flip from odd to even, or vice-versa
        even =  ! even;
      }
