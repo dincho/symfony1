@@ -35,7 +35,7 @@
         <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
                             array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
                                   '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>
-        <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos'), false) ?>
+        <?php echo pr_label_for('terms', $tos_text, array('class' => 'tos'), false) ?>
         <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input')) ?>
         <?php echo submit_tag('', array('class' => 'submit_join')) ?>
     </fieldset>

@@ -2536,6 +2536,7 @@ div.profile_id_search {
     width: 238px;
     height: 35px;
     background-color: #363639;
+    line-height: 14px;
 }
 
 #register #terms {
@@ -2562,10 +2563,13 @@ div.profile_id_search {
     padding: 0 2px;
 }
 
-#reg_submit {
+#register #reg_submit {
     border: 0px;
     cursor: pointer;
-    margin-top: 45px;
+    margin-top: 50px;
+    background: url(/images/go.gif) no-repeat;
+    width: 58px;
+    height: 33px;
 }
 
 #register input {

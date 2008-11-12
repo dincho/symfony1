@@ -60,9 +60,9 @@
                         <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
                         
-                        <?php $tos_text = __('I am 18 or older and I agree to the <a href="user_agreement.shtml" class="textsub">Terms of Use</a> and <a href="privacy_policy.shtml" class="textsub">Privacy Policy</a>.', 
-                                            array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
-                                                  '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>
+                        <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
+                                            array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement', array('class' => 'textsub')),
+                                                  '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'), array('class' => 'textsub'))) ?>
                         
                         <div class="tos_contaner">
                             <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>
@@ -71,7 +71,7 @@
                         
                     </fieldset>
                     <div class="reg_submit_container">
-                        <?php echo image_tag('go.gif', array('name' => 'go', 'id' => 'reg_submit')) ?>
+                        <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit')) ?>
                     </div>
                 </form>
             </div>
