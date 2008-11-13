@@ -21,42 +21,51 @@ class subscriptionsActions extends sfActions
 
   public function executeEdit()
   {
-    $subscription = SubscriptionPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($subscription);
+    //$subscription = SubscriptionPeer::retrieveByPk($this->getRequestParameter('id'));
+    //$this->forward404Unless($subscription);
+    $subscriptions = SubscriptionPeer::doSelect(new Criteria());
     
     if( $this->getRequest()->getMethod() == sfRequest::POST )
     {
-	    //$subscription->setTitle($this->getRequestParameter('title'));
-	    $subscription->setCanPostPhoto($this->getRequestParameter('can_post_photo', 0));
-	    $subscription->setPostPhotos($this->getRequestParameter('post_photos'));
-	    $subscription->setCanWink($this->getRequestParameter('can_wink', 0));
-	    $subscription->setWinks($this->getRequestParameter('winks'));
-	    $subscription->setCanReadMessages($this->getRequestParameter('can_read_messages', 0));
-	    $subscription->setReadMessages($this->getRequestParameter('read_messages'));
-	    $subscription->setCanReplyMessages($this->getRequestParameter('can_reply_messages', 0));
-	    $subscription->setReplyMessages($this->getRequestParameter('reply_messages'));
-	    $subscription->setCanSendMessages($this->getRequestParameter('can_send_messages', 0));
-	    $subscription->setSendMessages($this->getRequestParameter('send_messages'));
-	    $subscription->setCanSeeViewed($this->getRequestParameter('can_see_viewed', 0));
-	    $subscription->setSeeViewed($this->getRequestParameter('see_viewed'));
-	    $subscription->setCanContactAssistant($this->getRequestParameter('can_contact_assistant', 0));
-	    $subscription->setContactAssistant($this->getRequestParameter('contact_assistant'));
-	    $subscription->setPeriod1From($this->getRequestParameter('period1_from'));
-	    $subscription->setPeriod1To($this->getRequestParameter('period1_to'));
-	    $subscription->setPeriod1Price($this->getRequestParameter('period1_price'));
-	    $subscription->setPeriod2From($this->getRequestParameter('period2_from'));
-	    $subscription->setPeriod2To($this->getRequestParameter('period2_to'));
-	    $subscription->setPeriod2Price($this->getRequestParameter('period2_price'));
-	    $subscription->setPeriod3From($this->getRequestParameter('period3_from'));
-	    $subscription->setPeriod3To($this->getRequestParameter('period3_to'));
-	    $subscription->setPeriod3Price($this->getRequestParameter('period3_price'));
-	    $subscription->setPreApprove($this->getRequestParameter('pre_approve', 0));
-	
-	    $subscription->save();
-	
+        //print_r($_POST);exit();
+        $req_subs = $this->getRequestParameter('subs');
+        foreach ($subscriptions as $subscription)
+        {
+            if( array_key_exists($subscription->getId(), $req_subs) )
+            {
+                $subscription->setCanPostPhoto($req_subs[$subscription->getId()]['can_post_photo']);
+                $subscription->setPostPhotos($req_subs[$subscription->getId()]['post_photos']);
+                $subscription->setCanWink($req_subs[$subscription->getId()]['can_wink']);
+                $subscription->setWinks($req_subs[$subscription->getId()]['winks']);
+                $subscription->setCanReadMessages($req_subs[$subscription->getId()]['can_read_messages']);
+                $subscription->setReadMessages($req_subs[$subscription->getId()]['read_messages']);
+                $subscription->setCanReplyMessages($req_subs[$subscription->getId()]['can_reply_messages']);
+                $subscription->setReplyMessages($req_subs[$subscription->getId()]['reply_messages']);
+                $subscription->setCanSendMessages($req_subs[$subscription->getId()]['can_send_messages']);
+                $subscription->setSendMessages($req_subs[$subscription->getId()]['send_messages']);
+                $subscription->setCanSeeViewed($req_subs[$subscription->getId()]['can_see_viewed']);
+                $subscription->setSeeViewed($req_subs[$subscription->getId()]['see_viewed']);
+                $subscription->setCanContactAssistant($req_subs[$subscription->getId()]['can_contact_assistant']);
+                $subscription->setContactAssistant($req_subs[$subscription->getId()]['contact_assistant']);
+                
+                $subscription->setPeriod1From($this->getRequestParameter('period1_from'));
+                $subscription->setPeriod1To($this->getRequestParameter('period1_to'));
+                $subscription->setPeriod1Price($req_subs[$subscription->getId()]['period1_price']);
+                $subscription->setPeriod2From($this->getRequestParameter('period2_from'));
+                $subscription->setPeriod2To($this->getRequestParameter('period2_to'));
+                $subscription->setPeriod2Price($req_subs[$subscription->getId()]['period2_price']);
+                $subscription->setPeriod3From($this->getRequestParameter('period3_from'));
+                $subscription->setPeriod3To($this->getRequestParameter('period3_to'));
+                $subscription->setPeriod3Price($req_subs[$subscription->getId()]['period3_price']);
+                $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
+                $subscription->save();                
+            }
+        }
+        
 	    return $this->redirect('subscriptions/list');
     }
     
-    $this->sub = $subscription;
+    $this->subscriptions = $subscriptions;
+    $this->sub1 = $subscriptions[0];
   }
 }
