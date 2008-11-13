@@ -27,17 +27,24 @@ class editProfileActions extends sfActions
                 $member->setTmpEmail($this->getRequestParameter('email'));
                 Events::triggerNewEmailConfirm($member);
             }
+            
             if ($this->getRequestParameter('password')) //password changed
             {
-                $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
-                                in to our website. We have sent you an email. Please go to the message and confirm the change. Until 
-                                you do so, you will have to use your current password to log in.  
-                                Thank you for understanding.<br /><br />';
-                $member->setNewPassword($this->getRequestParameter('password'));
-                $member->setMustChangePwd(false);
-                $this->getUser()->setAttribute('must_change_pwd', false);
-                Events::triggerNewPasswordConfirm($member);
+                if( $this->getUser()->getAttribute('must_change_pwd', false)) //comming from forgot password
+                {
+                    $member->setPassword($this->getRequestParameter('password'));
+                    $member->setMustChangePwd(false);
+                    $this->getUser()->setAttribute('must_change_pwd', false);                    
+                } else {
+                    $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
+                                    in to our website. We have sent you an email. Please go to the message and confirm the change. Until 
+                                    you do so, you will have to use your current password to log in.  
+                                    Thank you for understanding.<br /><br />';
+                    $member->setNewPassword($this->getRequestParameter('password'));
+                    Events::triggerNewPasswordConfirm($member);
+                }
             }
+            
             $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
             $member->setSex($sex_looking[0]);
             $member->setLookingFor($sex_looking[1]);
@@ -52,8 +59,7 @@ class editProfileActions extends sfActions
             //$member->setLastName($this->getRequestParameter('last_name'));
             $member->save();
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
-            if ($flash_error)
-                $this->setFlash('msg_error', $flash_error);
+            if ($flash_error) $this->setFlash('msg_error', $flash_error);
             $this->redirect('dashboard/index'); //the dashboard
         }
         $this->member = $member;
