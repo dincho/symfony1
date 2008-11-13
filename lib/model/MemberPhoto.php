@@ -30,13 +30,13 @@ class MemberPhoto extends BaseMemberPhoto
 	  $this->createThumbnails('cropped');
 	}
 	
-	public function setAsMainPhoto()
+	public function setAsMainPhoto($save_member = true)
 	{
         $member = $this->getMember();
         if ( $this->getId() != $member->getMainPhotoId() )
         {
             $member->setMemberPhoto($this);
-            $member->save();
+            if($save_member) $member->save();
         }
 	}
 	

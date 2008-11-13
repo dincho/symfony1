@@ -171,28 +171,32 @@ class editProfileActions extends sfActions
         $this->forward404Unless($this->member); //just in case
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            if ($this->getRequest()->getFileSize('new_photo'))
+            if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))
             {
                 $new_photo = new MemberPhoto();
                 $new_photo->setMember($this->member);
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
+                
+                if( $this->member->countMemberPhotos() == 1 ) $this->member->setMemberPhoto($new_photo);
             }
+            
             //set main photo
             if ($this->getRequestParameter('main_photo'))
             {
                 $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo)
-                    $photo->setAsMainPhoto();
+                if ($photo) $this->member->setMemberPhoto($photo);
             }
+            
             //YouTube Video
             $youtube_url = $this->getRequestParameter('youtube_url');
             $matches = array();
             preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9]+)#i', $youtube_url, $matches);
             $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
             $this->member->save();
+            
             //if the form is submited by "Save and continue" button
-            if (! $this->getRequestParameter('commit'))
+            if (!$this->getRequestParameter('commit'))
             {
                 $this->redirect('dashboard/index');
             } //else the upload button is pressed "commit", so show the photos ..
@@ -202,7 +206,8 @@ class editProfileActions extends sfActions
 
     public function validatePhotos()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        //validate only if uploading photos
+        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('commit'))
         {
             $member = MemberPeer::retrieveByPK($this->getUser()->getId());
             $subscription = $member->getSubscription();
@@ -216,7 +221,7 @@ class editProfileActions extends sfActions
             
             if( $cnt_photos >= $subscription->getPostPhotos() )
             {
-                $this->getRequest()->setError('subscription', 'For the feature that you want want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                $this->getRequest()->setError('subscription', 'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
                 return false;                
             }
         }
@@ -232,6 +237,7 @@ class editProfileActions extends sfActions
         $this->photos = $this->member->getMemberPhotos();
         return sfView::SUCCESS;
     }
+    
 
     public function executeDeletePhoto()
     {
@@ -240,10 +246,13 @@ class editProfileActions extends sfActions
         $c->add(MemberPhotoPeer::ID, $this->getRequestParameter('id'));
         $photo = MemberPhotoPeer::doSelectOne($c);
         $this->forward404Unless($photo);
+        
         $photo->delete();
+        
         $this->setFlash('msg_ok', 'Your photo has been deleted.');
         $this->redirect('editProfile/photos');
     }
+    
 
     public function validateDeletePhoto()
     {
@@ -256,6 +265,7 @@ class editProfileActions extends sfActions
         }
         return true;
     }
+    
 
     public function handleErrorDeletePhoto()
     {
