@@ -30,4 +30,19 @@ class StatePeer extends BaseStatePeer
 	    
 	    return $ret;
 	}
+	
+	public static function getAssocByCountry($country)
+	{
+	    $c = new Criteria();
+        $c->add(StatePeer::COUNTRY, $country);
+        $states = StatePeer::doSelect($c);
+        
+        $ret = array();
+        foreach ($states as $state)
+        {
+            $ret[$state->getId()] = $state;
+        }
+        
+        return $ret;
+	}
 }

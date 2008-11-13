@@ -42,7 +42,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
                                            array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
-                                           array('title' => 'States', 'uri' => 'states/list'),
+                                           array('title' => 'Areas', 'uri' => 'areas/edit'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
                                            ),
