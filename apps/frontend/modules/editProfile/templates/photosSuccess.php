@@ -4,9 +4,10 @@
 <?php echo __('Use these formats only: jpg, png and gif.') ?><br /><br />
                 
 <?php echo form_tag('editProfile/photos', array('multipart' => true)) ?>
-    <?php if(count($photos) > 0): ?>
-        <div id="photos">
-            <?php foreach ($photos as $photo): ?>
+    <?php $cnt_photos = count($photos); ?>
+    <?php if($cnt_photos > 0): ?>
+        <div class="photos">
+            <?php $i=1;foreach ($photos as $photo): ?>
               <div class="photo">
                 <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain()) ?>
                 <?php if( $photo->isMain()): ?>
@@ -17,10 +18,15 @@
                   </span>
                 <?php echo button_to('', 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'delete', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
               </div>
+        <?php if( $i++ % 5 == 0 && $i < $cnt_photos): ?>
+        </div>
+        <div class="photos">
+        <?php endif; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <br />
+    <br class="clear" />
+    
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <label for="new_photo"><?php echo __('New Photo:') ?></label><br />
     <?php echo input_file_tag('new_photo', array('class' => '')) ?>
