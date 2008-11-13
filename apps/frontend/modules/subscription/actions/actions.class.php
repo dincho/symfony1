@@ -12,7 +12,10 @@ class subscriptionActions extends sfActions
 
     public function executeIndex()
     {
-        $this->subscriptions = SubscriptionPeer::doSelect(new Criteria());
+        $c = new Criteria();
+        $c->add(SubscriptionPeer::ID, array(SubscriptionPeer::FREE, SubscriptionPeer::PAID), Criteria::IN);
+        $this->subscriptions = SubscriptionPeer::doSelect($c);
+        
         $this->member = $this->getUser()->getProfile();
         $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
         
@@ -20,6 +23,8 @@ class subscriptionActions extends sfActions
         {
             $subscription = SubscriptionPeer::retrieveByPK($this->getRequestParameter('subscription_id'));
             $this->forward404Unless($subscription);
+            if( !in_array($subscription->getId(), array(SubscriptionPeer::FREE, SubscriptionPeer::PAID))) $this->forward404();
+            
             if ($subscription->getPeriod1Price() > 0)
             {
                 $this->redirect('subscription/payment?subscription_id=' . $subscription->getId());

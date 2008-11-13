@@ -727,6 +727,7 @@ body .send_mini {
     margin: 0 auto;
     padding: 0;
     border: 0;
+    width: 400px;
 }
 
 #subscription span.type {
