@@ -48,16 +48,14 @@ class editProfileActions extends sfActions
             $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
             $member->setSex($sex_looking[0]);
             $member->setLookingFor($sex_looking[1]);
-            $member->setLanguage($this->getRequestParameter('language'));
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state'));
             $member->setDistrict($this->getRequestParameter('district'));
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
-            //$member->setFirstName($this->getRequestParameter('first_name'));
-            //$member->setLastName($this->getRequestParameter('last_name'));
             $member->save();
+            
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
             if ($flash_error) $this->setFlash('msg_error', $flash_error);
             $this->redirect('dashboard/index'); //the dashboard
@@ -121,6 +119,11 @@ class editProfileActions extends sfActions
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
+                } elseif( $q->getType() == 'native_lang')
+                {
+                    $m_answer->setCustom($value);
+                    $m_answer->setDescAnswerId(null);
+                    $this->member->setLanguage($value);
                 } elseif($q->getType() == 'age')
                 {
                     $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));

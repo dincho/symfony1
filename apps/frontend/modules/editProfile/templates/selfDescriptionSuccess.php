@@ -12,7 +12,7 @@
       <?php elseif( $question->getType() == 'select' && isset($answers[$question->getId()]) ): ?>
         <?php include_partial('editProfile/question_type_select', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
       <?php elseif( $question->getType() == 'native_lang' ): ?>
-        <?php echo pr_select_language_tag('answers['. $question->getid() .']', $member->getLanguage() ) ?><br />
+        <?php echo pr_select_language_tag('answers['. $question->getid() .']', ( isset($member_answers[$question->getId()]) ) ? $member_answers[$question->getId()]->getCustom() : null) ?><br />
       <?php elseif( $question->getType() == 'age' ): ?>
         <?php include_partial('editProfile/question_type_age', array('member' => $member, 'question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
       <?php elseif( $question->getType() == 'other_langs' ): ?>

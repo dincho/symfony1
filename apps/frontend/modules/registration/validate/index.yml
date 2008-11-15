@@ -1,9 +1,6 @@
 fillin:
   enabled: true
 fields:
-  language:
-    required:
-        msg:    Please select your language.
   country:
     required:
         msg:    Please select your country of residence

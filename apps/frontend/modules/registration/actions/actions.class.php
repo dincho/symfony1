@@ -89,7 +89,6 @@ class registrationActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $member->setLanguage($this->getRequestParameter('language'));
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state'));
             $member->setDistrict($this->getRequestParameter('district'));
@@ -141,6 +140,11 @@ class registrationActions extends sfActions
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
+                } elseif( $q->getType() == 'native_lang')
+                {
+                    $m_answer->setCustom($value);
+                    $m_answer->setDescAnswerId(null);
+                    $this->member->setLanguage($value);                  
                 } elseif($q->getType() == 'age')
                 {
                     $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));

@@ -56,8 +56,9 @@
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
                             <dt><?php echo $question->getDescTitle() ?></dt><dd><?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?></dd>
                         <?php endif; ?>
+                    <?php elseif( $question->getType() == 'native_lang' ): ?>
+                    <dt><?php echo __('Language'); ?></dt><dd><?php echo format_language($member_answers[$question->getId()]->getCustom()) ?> (native)</dd>
                     <?php elseif( $question->getType() == 'other_langs' ): ?>
-                        <dt><?php echo __('Language'); ?></dt><dd><?php echo format_language($member->getLanguage()) ?> (native)</dd>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
                             <?php $lang_answers = $member_answers[$question->getId()]->getOtherLangs(); ?>
                             <?php foreach ($lang_answers as $lang_answer): ?>

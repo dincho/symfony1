@@ -34,10 +34,6 @@
         
         <?php echo pr_label_for('nationality', 'Nationality') ?>
         <?php echo object_input_tag($member, 'getNationality') ?><br />
-        
-        <?php echo pr_label_for('language', 'Native Language') ?>
-        <?php echo pr_select_language_tag('language', ($member->getLanguage()) ? $member->getLanguage() : 'en') ?><br />
-                
     </fieldset>
     <fieldset>
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />

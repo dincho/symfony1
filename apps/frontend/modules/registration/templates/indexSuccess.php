@@ -5,9 +5,6 @@
 <span><?php echo __('Note: You will be able to update this information later.') ?></span>
 <?php echo form_tag('registration/index', array('id' => 'public_reg_form')) ?>
     <fieldset>
-        <?php echo pr_label_for('language', 'Language') ?>
-        <?php echo pr_select_language_tag('language', ($member->getLanguage()) ? $member->getLanguage() : 'en') ?><br />
-        
         <?php echo pr_label_for('country', 'Country of Residence') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         

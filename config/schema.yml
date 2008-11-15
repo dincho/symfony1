@@ -44,7 +44,7 @@ propel:
     city:                     { type: varchar, size: 60, required: true } #the longest city name in the world have 58 chars
     zip:                      { type: integer, size: 10, required: true }
     nationality:              { type: varchar, size: 255, required: true }
-    language:                 { type: varchar, size: 3, required: true }
+    language:                 { type: varchar, size: 3, required: true } #this filed is currently used only for match engine
     birthday:                 { type: bu_date }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
     us_citizen:               { type: boolean, required: false }
