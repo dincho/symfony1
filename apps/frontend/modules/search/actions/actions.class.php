@@ -56,7 +56,7 @@ class searchActions extends sfActions
     public function executeCriteria()
     {
         $this->has_criteria = true;
-        if( !$this->getUser()->getProfile()->getSearchCriteriaId() )
+        if( !$this->getUser()->getProfile()->hasSearchCriteria() )
         {
             $this->has_criteria = false;
             return sfView::SUCCESS;
@@ -83,7 +83,7 @@ class searchActions extends sfActions
     public function executeMatches()
     {
         $this->has_criteria = true;
-        if( !$this->getUser()->getProfile()->getSearchCriteriaId() )
+        if( !$this->getUser()->getProfile()->hasSearchCriteria() )
         {
             $this->has_criteria = false;
             return sfView::SUCCESS;
@@ -119,7 +119,6 @@ class searchActions extends sfActions
             $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('profile_id'));
         }
     }
-    
     
     public function executeSelectAreas()
     {
@@ -182,6 +181,29 @@ class searchActions extends sfActions
         $this->states = StatePeer::getCountriesWithStates();
     }
     
+    public function executeAreaFilter()
+    {
+        $state = StatePeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($state);
+        
+        $country = $state->getCountry();
+        
+        $countries[] = $country;
+        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
+        $this->getUser()->getAttributeHolder()->add($countries, 'frontend/search/countries');
+        
+        $selected_areas[$country] = array($state->getId());
+        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/areas');
+        $this->getUser()->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');
+        
+        
+        $filters = array('location' => 1);
+        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
+        $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
+                    
+        $this->redirect('search/mostRecent');
+    }
+    
     protected function initPager(Criteria $c)
     {
         $pager = new sfPropelPager('MemberMatch', 12);
@@ -203,7 +225,6 @@ class searchActions extends sfActions
             $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
         }
     }         
-    
     
     protected function addGlobalCriteria(Criteria $c)
     {

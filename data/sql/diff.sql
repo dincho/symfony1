@@ -1,5 +1,23 @@
-ALTER TABLE `member` ADD  INDEX `member_FI_7` (`member_counter_id`);
-ALTER TABLE `search_criteria` ADD `updated_at` DATETIME;
+
+CREATE TABLE `search_crit_desc`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`desc_question_id` INTEGER  NOT NULL,
+	`desc_answers` TEXT,
+	`match_weight` TINYINT  NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `search_crit_desc_FI_1` (`member_id`),
+	CONSTRAINT `search_crit_desc_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `search_crit_desc_FI_2` (`desc_question_id`),
+	CONSTRAINT `search_crit_desc_FK_2`
+		FOREIGN KEY (`desc_question_id`)
+		REFERENCES `desc_question` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -16,7 +34,6 @@ ALTER TABLE `catalogue` CHANGE `date_created` `date_created` INTEGER(11) default
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `catalogue` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;
-DROP TABLE `dincho_test`;
 /* old definition: CONSTRAINT `group_and_action_FK_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE
    new definition: CONSTRAINT `group_and_action_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -28,17 +45,15 @@ ALTER TABLE `group_and_action` ADD CONSTRAINT `group_and_action_FK_1`
 /* old definition: text
    new definition: VARCHAR(1000) */
 ALTER TABLE `groups` CHANGE `group_description` `group_description` VARCHAR(1000);
-/* old definition: (`subscription_id`)
+ALTER TABLE `member` DROP FOREIGN KEY `member_FK_4`;
+/* old definition: (`search_criteria_id`)
    new definition: (`main_photo_id`) */
-ALTER TABLE `member` DROP INDEX member_FI_5,        ADD  INDEX `member_FI_5` (`main_photo_id`);
-/* old definition: (`member_counter_id`)
-   new definition: (`subscription_id`) */
-ALTER TABLE `member` DROP INDEX member_FI_6,        ADD  INDEX `member_FI_6` (`subscription_id`);
+ALTER TABLE `member` DROP INDEX member_FI_4,        ADD  INDEX `member_FI_4` (`main_photo_id`);
 ALTER TABLE `member` DROP INDEX member_FK_7;
-ALTER TABLE `member` DROP INDEX search_criteria_id;
 /* old definition: int(10) NOT NULL
    new definition: INTEGER(10)  NOT NULL */
 ALTER TABLE `member` CHANGE `zip` `zip` INTEGER(10)  NOT NULL;
+ALTER TABLE `member` DROP `search_criteria_id`;
 ALTER TABLE `member_desc_answer` DROP INDEX member_id;
 ALTER TABLE `member_match` DROP INDEX member1_id;
 ALTER TABLE `member_match` DROP INDEX pct;
@@ -58,7 +73,6 @@ ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
    new definition: (`group_id`) */
 ALTER TABLE `permissions` DROP INDEX permissions_FI_1,        ADD  INDEX `permissions_FI_1` (`group_id`);
 ALTER TABLE `permissions` DROP INDEX permissions_FI_2;
-ALTER TABLE `search_crit_desc` DROP INDEX search_criteria_id;
 /* old definition: decimal(7,2) NOT NULL default '0.00'
    new definition: DECIMAL(7,2) default 0 NOT NULL */
 ALTER TABLE `subscription` CHANGE `period1_price` `period1_price` DECIMAL(7,2) default 0 NOT NULL;

@@ -80,6 +80,7 @@ class membersActions extends sfActions
                 $this->member->setLastName($this->getRequestParameter('last_name'));
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
+                $this->member->changeSubscription($this->getRequestParameter('subscription_id'));
                 $this->member->save();
                 $this->setFlash('msg_ok', 'Your changes have been saved');
                 $this->redirect('members/edit?id=' . $this->member->getId());               
@@ -111,7 +112,7 @@ class membersActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setCountry($this->getRequestParameter('country'));
-            if($this->getRequestParameter('state_id')) $this->member->setStateId($this->getRequestParameter('state_id'));
+            $this->member->setStateId( ($this->getRequestParameter('state_id')) ? $this->getRequestParameter('state_id') : null);
             $this->member->setDistrict($this->getRequestParameter('district'));
             $this->member->setCity($this->getRequestParameter('city'));
             $this->member->setZip($this->getRequestParameter('zip'));
@@ -128,13 +129,7 @@ class membersActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $birthday_arr = $this->getRequestParameter('birth_day');
-            $birthday = $birthday_arr['year'] . '-' . $birthday_arr['month'] . '-' . $birthday_arr['day'];
-            $this->member->setBirthDay($birthday);
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
-            $this->member->save();
-            
-            //update member self description Q/A
             $this->member->clearDescAnswers();
             
             foreach ($this->getRequestParameter('answers') as $question_id => $value)
@@ -142,20 +137,28 @@ class membersActions extends sfActions
                 $q = DescQuestionPeer::retrieveByPK($question_id);
                 
                 $m_answer = new MemberDescAnswer();
-                $m_answer->setDescQuestionId($question_id);
+                $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->member->getId());
                                     
-                if( $q->getType() == 'other_langs' )
+                if ($q->getType() == 'other_langs')
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
-                } else {
+                } elseif($q->getType() == 'age')
+                {
+                    $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));
+                    $m_answer->setCustom($birthday);
+                    $m_answer->setDescAnswerId(null);
+                    $this->member->setBirthDay($birthday);
+                } else
+                {
                     $m_answer->setDescAnswerId($value);
                 }
                 
                 $m_answer->save();
             }
             
+            $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');
             //$this->redirect('members/editSelfDescription?id=' . $this->member->getId());
         }
@@ -232,46 +235,37 @@ class membersActions extends sfActions
     public function executeEditSearchCriteria()
     {
         $this->getUser()->getBC()->add(array('name' => 'Search Criteria', 'uri' => 'members/editSearchCriteria?id=' . $this->member->getId()));
-        $c = new Criteria();
-        $c->addJoin(DescQuestionPeer::ID, SearchCritDescPeer::DESC_QUESTION_ID, Criteria::LEFT_JOIN);
-        //$c->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID, Criteria::LEFT_JOIN);
-        //$c->add(SearchCriteriaPeer::ID, $this->member->getSearchCriteriaId());
-        $this->questions = DescQuestionPeer::doSelect($c);
+        $this->getResponse()->addJavascript('SC_select_all');
+        
+        $questions = DescQuestionPeer::doSelect(new Criteria());
+        $this->questions = $questions;
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            //echo "<pre>";print_r($_POST);exit();
+            $member_answers = $this->getRequestParameter('answers', array());
+            $member_match_weights = $this->getRequestParameter('weights');
             $this->member->clearSearchCriteria();
-            $answers_array = $this->getRequestParameter('answers');
-            $weights_array = $this->getRequestParameter('weights');
-            $search_criteria = new SearchCriteria();
-            $search_criteria->setAgeMin(19);
-            //$search_criteria->save();
-            //die($search_criteria->getId());
-            foreach ($answers_array as $question_id => $answers)
+            
+            foreach ($questions as $question)
             {
-                if (array_key_exists('from', $answers) && array_key_exists('to', $answers)) //select box with range
+                if( array_key_exists($question->getId(), $member_answers) )
                 {
-                    $answers = range($answers['from'], $answers['to']);
+                    $search_crit_desc = new SearchCritDesc();
+                    $search_crit_desc->setMemberId($this->member->getId());
+                    $search_crit_desc->setDescQuestionId($question->getId());
+                    $member_answers_vals = ( is_array($member_answers[$question->getId()]) ) ? array_values($member_answers[$question->getId()]) : (array) $member_answers[$question->getId()];
+                    $search_crit_desc->setDescAnswers(implode(',', $member_answers_vals));
+                    $search_crit_desc->setMatchWeight( $member_match_weights[$question->getId()] );
+                    $search_crit_desc->save();
                 }
-                $answers_value = (is_array($answers)) ? implode(',', $answers) : $answers;
-                //echo "<pre>";print_r($answers_value);exit();
-                $member_answer = new SearchCritDesc();
-                //$member_answer->setSearchCriteriaId($search_criteria->getId());
-                $member_answer->setDescQuestionId(
-                        $question_id);
-                $member_answer->setDescAnswers($answers_value);
-                if (array_key_exists($question_id, $weights_array))
-                    $member_answer->setMatchWeightId($weights_array[$question_id]);
-                    //$member_answer->save();
-                $search_criteria->addSearchCritDesc(
-                        $member_answer);
             }
-            $search_criteria->save();
-            $this->member->setSearchCriteria($search_criteria);
-            $this->member->save();
+            
+            $this->member->updateMatches();
             $this->setFlash('msg_ok', 'Your changes have been saved');
-            //$this->redirect('members/editSearchCriteria?id='.$this->member->getId());      
         }
+        
+        $this->answers = DescAnswerPeer::getAnswersAssoc();
+        $this->member_crit_desc = $this->member->getSearchCritDescsArray();        
     }
 
     public function executeEditStatusHistory()

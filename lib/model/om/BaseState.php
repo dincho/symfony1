@@ -592,41 +592,6 @@ abstract class BaseState extends BaseObject  implements Persistent {
 
 
 	
-	public function getMembersJoinSearchCriteria($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseMemberPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collMembers === null) {
-			if ($this->isNew()) {
-				$this->collMembers = array();
-			} else {
-
-				$criteria->add(MemberPeer::STATE_ID, $this->getId());
-
-				$this->collMembers = MemberPeer::doSelectJoinSearchCriteria($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(MemberPeer::STATE_ID, $this->getId());
-
-			if (!isset($this->lastMemberCriteria) || !$this->lastMemberCriteria->equals($criteria)) {
-				$this->collMembers = MemberPeer::doSelectJoinSearchCriteria($criteria, $con);
-			}
-		}
-		$this->lastMemberCriteria = $criteria;
-
-		return $this->collMembers;
-	}
-
-
-	
 	public function getMembersJoinMemberPhoto($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseMemberPeer.php';

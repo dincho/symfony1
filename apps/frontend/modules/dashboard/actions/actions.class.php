@@ -268,58 +268,33 @@ class dashboardActions extends sfActions
         $questions = DescQuestionPeer::doSelect(new Criteria());
         $this->questions = $questions;
         
-        $search_criteria = $member->getSearchCriteria();
-        if( !$search_criteria ) $search_criteria = new SearchCriteria();
-        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $member_answers = $this->getRequestParameter('answers', array());
             $member_match_weights = $this->getRequestParameter('weights');
-
-            $search_criteria->clear();
-            $search_criteria->setUpdatedAt(time());
-            /*
-            if( array_key_exists('ages', $member_answers))
-            {
-                $search_criteria->setAges( implode(',',array_values($member_answers['ages'])) );
-                $search_criteria->setAgesWeight($member_match_weights['ages']);
-            }
-            */
-
-            $search_criteria->save();
+            $member->clearSearchCriteria();
             
             foreach ($questions as $question)
             {
                 if( array_key_exists($question->getId(), $member_answers) )
                 {
                     $search_crit_desc = new SearchCritDesc();
-                    $search_crit_desc->setSearchCriteriaId($search_criteria->getId());
+                    $search_crit_desc->setMemberId($member->getId());
                     $search_crit_desc->setDescQuestionId($question->getId());
                     $member_answers_vals = ( is_array($member_answers[$question->getId()]) ) ? array_values($member_answers[$question->getId()]) : (array) $member_answers[$question->getId()];
                     $search_crit_desc->setDescAnswers(implode(',', $member_answers_vals));
                     $search_crit_desc->setMatchWeight( $member_match_weights[$question->getId()] );
                     $search_crit_desc->save();
-                    
-                    if( $question->getType() == 'age')
-                    {
-                        $search_criteria->setAges( implode(',',array_values($member_answers[$question->getId()])) );
-                        $search_criteria->setAgesWeight($member_match_weights[$question->getId()]);                        
-                    } 
                 }
             }
             
-            $member->setSearchCriteriaId($search_criteria->getId());
-            $member->save();
-            
             $member->updateMatches();
-            
             $this->setFlash('msg_ok', 'Your search criteria have been updated.');
             $this->redirect('dashboard/index');            
         }
         
-        $this->search_criteria = $search_criteria;
         $this->answers = DescAnswerPeer::getAnswersAssoc();
-        $this->member_crit_desc = $search_criteria->getSearchCritDescsArray();
+        $this->member_crit_desc = $member->getSearchCritDescsArray();
     }
     
     public function validateSearchCriteria()
@@ -356,12 +331,9 @@ class dashboardActions extends sfActions
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
         
-        $this->search_criteria = $member->getSearchCriteria();
-        if( !$this->search_criteria ) $this->search_criteria = new SearchCriteria();
-        
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
-        $this->member_crit_desc = $this->search_criteria->getSearchCritDescsArray();
+        $this->member_crit_desc = $member->getSearchCritDescsArray();
         
         return sfView::SUCCESS;
     }

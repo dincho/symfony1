@@ -154,4 +154,5 @@ table tr td {
 .nopadding     { padding:0; }
 .noindent      { margin-left:0;padding-left:0; }
 .nobullet      { list-style:none;list-style-image:none; }
+.nofloat       { float: none; }
 .hidden        { display: none; }

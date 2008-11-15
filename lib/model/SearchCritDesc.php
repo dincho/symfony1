@@ -22,5 +22,9 @@ class SearchCritDesc extends BaseSearchCritDesc
         return (array_key_exists($key, $answers)) ? $answers[$key] : null;
     }
     
-    
+    public function getAgeValue($key = 0)
+    {
+        $ages = explode(',',$this->getDescAnswers());
+        return ( !empty($ages) && array_key_exists($key, $ages)) ? $ages[$key] : false;
+    }     
 }

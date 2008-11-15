@@ -69,7 +69,7 @@ all:
     validation_error_id_prefix: error_for_
 
     # Cache settings
-    cache:                  off       # Enable the template cache
+    cache:                  on       # Enable the template cache
     etag:                   on        # Enable etag handling
 
     # Logging and debugging settings

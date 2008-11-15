@@ -54,7 +54,6 @@ propel:
     youtube_vid:              { type: varchar, size: 20, required: false } #YouTube video ID
     essay_headline:           { type: varchar, size: 255 }
     essay_introduction:       { type: longvarchar }
-    search_criteria_id:       { type: integer, required: false, foreignTable: search_criteria, foreignReference: id, onDelete: setnull }
     main_photo_id:            { type: integer, required: false, foreignTable: member_photo, foreignReference: id, onDelete: setnull }
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
     sub_auto_renew:           { type: boolean, required: true, default: true }
@@ -114,14 +113,9 @@ propel:
     desc_answer_id:           { type: integer, required: false, default: null }
     other:                    { type: varchar, size: 255 }
     custom:                   { type: varchar, size: 255 } #some custom answers depending from type, e.g. serialized array
-  search_criteria:
-    id:
-    ages:                     { type: longvarchar }
-    ages_weight:              { type: tinyint, required: true }
-    updated_at:
   search_crit_desc:
     id:
-    search_criteria_id:       { type: integer, required: true, foreignTable: search_criteria, foreignReference: id, onDelete: cascade }
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
     desc_answers:             { type: longvarchar, required: false }
     match_weight:             { type: tinyint, required: true }

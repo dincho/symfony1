@@ -13,7 +13,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 
 
 	
-	protected $search_criteria_id;
+	protected $member_id;
 
 
 	
@@ -28,7 +28,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 	protected $match_weight;
 
 	
-	protected $aSearchCriteria;
+	protected $aMember;
 
 	
 	protected $aDescQuestion;
@@ -47,10 +47,10 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getSearchCriteriaId()
+	public function getMemberId()
 	{
 
-		return $this->search_criteria_id;
+		return $this->member_id;
 	}
 
 	
@@ -91,7 +91,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setSearchCriteriaId($v)
+	public function setMemberId($v)
 	{
 
 		
@@ -100,13 +100,13 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->search_criteria_id !== $v) {
-			$this->search_criteria_id = $v;
-			$this->modifiedColumns[] = SearchCritDescPeer::SEARCH_CRITERIA_ID;
+		if ($this->member_id !== $v) {
+			$this->member_id = $v;
+			$this->modifiedColumns[] = SearchCritDescPeer::MEMBER_ID;
 		}
 
-		if ($this->aSearchCriteria !== null && $this->aSearchCriteria->getId() !== $v) {
-			$this->aSearchCriteria = null;
+		if ($this->aMember !== null && $this->aMember->getId() !== $v) {
+			$this->aMember = null;
 		}
 
 	} 
@@ -169,7 +169,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->search_criteria_id = $rs->getInt($startcol + 1);
+			$this->member_id = $rs->getInt($startcol + 1);
 
 			$this->desc_question_id = $rs->getInt($startcol + 2);
 
@@ -272,11 +272,11 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aSearchCriteria !== null) {
-				if ($this->aSearchCriteria->isModified()) {
-					$affectedRows += $this->aSearchCriteria->save($con);
+			if ($this->aMember !== null) {
+				if ($this->aMember->isModified()) {
+					$affectedRows += $this->aMember->save($con);
 				}
-				$this->setSearchCriteria($this->aSearchCriteria);
+				$this->setMember($this->aMember);
 			}
 
 			if ($this->aDescQuestion !== null) {
@@ -335,9 +335,9 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aSearchCriteria !== null) {
-				if (!$this->aSearchCriteria->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSearchCriteria->getValidationFailures());
+			if ($this->aMember !== null) {
+				if (!$this->aMember->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aMember->getValidationFailures());
 				}
 			}
 
@@ -375,7 +375,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getSearchCriteriaId();
+				return $this->getMemberId();
 				break;
 			case 2:
 				return $this->getDescQuestionId();
@@ -397,7 +397,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 		$keys = SearchCritDescPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getSearchCriteriaId(),
+			$keys[1] => $this->getMemberId(),
 			$keys[2] => $this->getDescQuestionId(),
 			$keys[3] => $this->getDescAnswers(),
 			$keys[4] => $this->getMatchWeight(),
@@ -420,7 +420,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setSearchCriteriaId($value);
+				$this->setMemberId($value);
 				break;
 			case 2:
 				$this->setDescQuestionId($value);
@@ -439,7 +439,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 		$keys = SearchCritDescPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setSearchCriteriaId($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setMemberId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setDescQuestionId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDescAnswers($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setMatchWeight($arr[$keys[4]]);
@@ -451,7 +451,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 		$criteria = new Criteria(SearchCritDescPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(SearchCritDescPeer::ID)) $criteria->add(SearchCritDescPeer::ID, $this->id);
-		if ($this->isColumnModified(SearchCritDescPeer::SEARCH_CRITERIA_ID)) $criteria->add(SearchCritDescPeer::SEARCH_CRITERIA_ID, $this->search_criteria_id);
+		if ($this->isColumnModified(SearchCritDescPeer::MEMBER_ID)) $criteria->add(SearchCritDescPeer::MEMBER_ID, $this->member_id);
 		if ($this->isColumnModified(SearchCritDescPeer::DESC_QUESTION_ID)) $criteria->add(SearchCritDescPeer::DESC_QUESTION_ID, $this->desc_question_id);
 		if ($this->isColumnModified(SearchCritDescPeer::DESC_ANSWERS)) $criteria->add(SearchCritDescPeer::DESC_ANSWERS, $this->desc_answers);
 		if ($this->isColumnModified(SearchCritDescPeer::MATCH_WEIGHT)) $criteria->add(SearchCritDescPeer::MATCH_WEIGHT, $this->match_weight);
@@ -485,7 +485,7 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setSearchCriteriaId($this->search_criteria_id);
+		$copyObj->setMemberId($this->member_id);
 
 		$copyObj->setDescQuestionId($this->desc_question_id);
 
@@ -518,32 +518,32 @@ abstract class BaseSearchCritDesc extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setSearchCriteria($v)
+	public function setMember($v)
 	{
 
 
 		if ($v === null) {
-			$this->setSearchCriteriaId(NULL);
+			$this->setMemberId(NULL);
 		} else {
-			$this->setSearchCriteriaId($v->getId());
+			$this->setMemberId($v->getId());
 		}
 
 
-		$this->aSearchCriteria = $v;
+		$this->aMember = $v;
 	}
 
 
 	
-	public function getSearchCriteria($con = null)
+	public function getMember($con = null)
 	{
-		if ($this->aSearchCriteria === null && ($this->search_criteria_id !== null)) {
-						include_once 'lib/model/om/BaseSearchCriteriaPeer.php';
+		if ($this->aMember === null && ($this->member_id !== null)) {
+						include_once 'lib/model/om/BaseMemberPeer.php';
 
-			$this->aSearchCriteria = SearchCriteriaPeer::retrieveByPK($this->search_criteria_id, $con);
+			$this->aMember = MemberPeer::retrieveByPK($this->member_id, $con);
 
 			
 		}
-		return $this->aSearchCriteria;
+		return $this->aMember;
 	}
 
 	

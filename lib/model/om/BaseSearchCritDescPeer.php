@@ -23,7 +23,7 @@ abstract class BaseSearchCritDescPeer {
 	const ID = 'search_crit_desc.ID';
 
 	
-	const SEARCH_CRITERIA_ID = 'search_crit_desc.SEARCH_CRITERIA_ID';
+	const MEMBER_ID = 'search_crit_desc.MEMBER_ID';
 
 	
 	const DESC_QUESTION_ID = 'search_crit_desc.DESC_QUESTION_ID';
@@ -40,17 +40,17 @@ abstract class BaseSearchCritDescPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'SearchCriteriaId', 'DescQuestionId', 'DescAnswers', 'MatchWeight', ),
-		BasePeer::TYPE_COLNAME => array (SearchCritDescPeer::ID, SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCritDescPeer::DESC_QUESTION_ID, SearchCritDescPeer::DESC_ANSWERS, SearchCritDescPeer::MATCH_WEIGHT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'search_criteria_id', 'desc_question_id', 'desc_answers', 'match_weight', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'DescQuestionId', 'DescAnswers', 'MatchWeight', ),
+		BasePeer::TYPE_COLNAME => array (SearchCritDescPeer::ID, SearchCritDescPeer::MEMBER_ID, SearchCritDescPeer::DESC_QUESTION_ID, SearchCritDescPeer::DESC_ANSWERS, SearchCritDescPeer::MATCH_WEIGHT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'desc_question_id', 'desc_answers', 'match_weight', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'SearchCriteriaId' => 1, 'DescQuestionId' => 2, 'DescAnswers' => 3, 'MatchWeight' => 4, ),
-		BasePeer::TYPE_COLNAME => array (SearchCritDescPeer::ID => 0, SearchCritDescPeer::SEARCH_CRITERIA_ID => 1, SearchCritDescPeer::DESC_QUESTION_ID => 2, SearchCritDescPeer::DESC_ANSWERS => 3, SearchCritDescPeer::MATCH_WEIGHT => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'search_criteria_id' => 1, 'desc_question_id' => 2, 'desc_answers' => 3, 'match_weight' => 4, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'DescQuestionId' => 2, 'DescAnswers' => 3, 'MatchWeight' => 4, ),
+		BasePeer::TYPE_COLNAME => array (SearchCritDescPeer::ID => 0, SearchCritDescPeer::MEMBER_ID => 1, SearchCritDescPeer::DESC_QUESTION_ID => 2, SearchCritDescPeer::DESC_ANSWERS => 3, SearchCritDescPeer::MATCH_WEIGHT => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'desc_question_id' => 2, 'desc_answers' => 3, 'match_weight' => 4, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
@@ -107,7 +107,7 @@ abstract class BaseSearchCritDescPeer {
 
 		$criteria->addSelectColumn(SearchCritDescPeer::ID);
 
-		$criteria->addSelectColumn(SearchCritDescPeer::SEARCH_CRITERIA_ID);
+		$criteria->addSelectColumn(SearchCritDescPeer::MEMBER_ID);
 
 		$criteria->addSelectColumn(SearchCritDescPeer::DESC_QUESTION_ID);
 
@@ -201,7 +201,7 @@ abstract class BaseSearchCritDescPeer {
 	}
 
 	
-	public static function doCountJoinSearchCriteria(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinMember(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
@@ -217,7 +217,7 @@ abstract class BaseSearchCritDescPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$criteria->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 
 		$rs = SearchCritDescPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -257,7 +257,7 @@ abstract class BaseSearchCritDescPeer {
 
 
 	
-	public static function doSelectJoinSearchCriteria(Criteria $c, $con = null)
+	public static function doSelectJoinMember(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -267,9 +267,9 @@ abstract class BaseSearchCritDescPeer {
 
 		SearchCritDescPeer::addSelectColumns($c);
 		$startcol = (SearchCritDescPeer::NUM_COLUMNS - SearchCritDescPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		SearchCriteriaPeer::addSelectColumns($c);
+		MemberPeer::addSelectColumns($c);
 
-		$c->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$c->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -281,7 +281,7 @@ abstract class BaseSearchCritDescPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -289,7 +289,7 @@ abstract class BaseSearchCritDescPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 										$temp_obj2->addSearchCritDesc($obj1); 					break;
 				}
@@ -367,7 +367,7 @@ abstract class BaseSearchCritDescPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$criteria->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 
 		$criteria->addJoin(SearchCritDescPeer::DESC_QUESTION_ID, DescQuestionPeer::ID);
 
@@ -392,13 +392,13 @@ abstract class BaseSearchCritDescPeer {
 		SearchCritDescPeer::addSelectColumns($c);
 		$startcol2 = (SearchCritDescPeer::NUM_COLUMNS - SearchCritDescPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + SearchCriteriaPeer::NUM_COLUMNS;
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
 		DescQuestionPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + DescQuestionPeer::NUM_COLUMNS;
 
-		$c->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$c->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 
 		$c->addJoin(SearchCritDescPeer::DESC_QUESTION_ID, DescQuestionPeer::ID);
 
@@ -416,7 +416,7 @@ abstract class BaseSearchCritDescPeer {
 
 
 					
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -426,7 +426,7 @@ abstract class BaseSearchCritDescPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSearchCritDesc($obj1); 					break;
 				}
@@ -467,7 +467,7 @@ abstract class BaseSearchCritDescPeer {
 
 
 	
-	public static function doCountJoinAllExceptSearchCriteria(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptMember(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
@@ -511,7 +511,7 @@ abstract class BaseSearchCritDescPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$criteria->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 
 		$rs = SearchCritDescPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -523,7 +523,7 @@ abstract class BaseSearchCritDescPeer {
 
 
 	
-	public static function doSelectJoinAllExceptSearchCriteria(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptMember(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -591,10 +591,10 @@ abstract class BaseSearchCritDescPeer {
 		SearchCritDescPeer::addSelectColumns($c);
 		$startcol2 = (SearchCritDescPeer::NUM_COLUMNS - SearchCritDescPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + SearchCriteriaPeer::NUM_COLUMNS;
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-		$c->addJoin(SearchCritDescPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
+		$c->addJoin(SearchCritDescPeer::MEMBER_ID, MemberPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -608,7 +608,7 @@ abstract class BaseSearchCritDescPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -618,7 +618,7 @@ abstract class BaseSearchCritDescPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSearchCritDesc($obj1);
 					break;

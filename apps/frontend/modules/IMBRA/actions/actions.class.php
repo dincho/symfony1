@@ -111,7 +111,7 @@ class IMBRAActions extends sfActions
     public function executeConfirmImbraStatus()
     {
         $us_citizen = $this->getRequestParameter('US_citizen', null);
-        if (! is_null($us_citizen))
+        if ( !is_null($us_citizen) )
         {
             $member = $this->getUser()->getProfile();
             if ($us_citizen == 0)
@@ -125,7 +125,7 @@ class IMBRAActions extends sfActions
             {
                 $member->setUsCitizen(true);
                 $member->save();
-                $this->redirect('editProfile/imbra');
+                $this->redirect('IMBRA/index');
             }
         }
     }

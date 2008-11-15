@@ -137,10 +137,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
-	protected $search_criteria_id;
-
-
-	
 	protected $main_photo_id;
 
 
@@ -185,9 +181,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	protected $aState;
 
 	
-	protected $aSearchCriteria;
-
-	
 	protected $aMemberPhoto;
 
 	
@@ -207,6 +200,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	
 	protected $lastMemberDescAnswerCriteria = null;
+
+	
+	protected $collSearchCritDescs;
+
+	
+	protected $lastSearchCritDescCriteria = null;
 
 	
 	protected $collMemberPhotos;
@@ -571,13 +570,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->essay_introduction;
-	}
-
-	
-	public function getSearchCriteriaId()
-	{
-
-		return $this->search_criteria_id;
 	}
 
 	
@@ -1208,26 +1200,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setSearchCriteriaId($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->search_criteria_id !== $v) {
-			$this->search_criteria_id = $v;
-			$this->modifiedColumns[] = MemberPeer::SEARCH_CRITERIA_ID;
-		}
-
-		if ($this->aSearchCriteria !== null && $this->aSearchCriteria->getId() !== $v) {
-			$this->aSearchCriteria = null;
-		}
-
-	} 
-	
 	public function setMainPhotoId($v)
 	{
 
@@ -1451,31 +1423,29 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->essay_introduction = $rs->getString($startcol + 31);
 
-			$this->search_criteria_id = $rs->getInt($startcol + 32);
+			$this->main_photo_id = $rs->getInt($startcol + 32);
 
-			$this->main_photo_id = $rs->getInt($startcol + 33);
+			$this->subscription_id = $rs->getInt($startcol + 33);
 
-			$this->subscription_id = $rs->getInt($startcol + 34);
+			$this->sub_auto_renew = $rs->getBoolean($startcol + 34);
 
-			$this->sub_auto_renew = $rs->getBoolean($startcol + 35);
+			$this->member_counter_id = $rs->getInt($startcol + 35);
 
-			$this->member_counter_id = $rs->getInt($startcol + 36);
+			$this->last_activity = $rs->getTimestamp($startcol + 36, null);
 
-			$this->last_activity = $rs->getTimestamp($startcol + 37, null);
+			$this->last_status_change = $rs->getTimestamp($startcol + 37, null);
 
-			$this->last_status_change = $rs->getTimestamp($startcol + 38, null);
+			$this->last_flagged = $rs->getTimestamp($startcol + 38, null);
 
-			$this->last_flagged = $rs->getTimestamp($startcol + 39, null);
+			$this->last_login = $rs->getTimestamp($startcol + 39, null);
 
-			$this->last_login = $rs->getTimestamp($startcol + 40, null);
-
-			$this->created_at = $rs->getTimestamp($startcol + 41, null);
+			$this->created_at = $rs->getTimestamp($startcol + 40, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 42; 
+						return $startcol + 41; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -1592,13 +1562,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setState($this->aState);
 			}
 
-			if ($this->aSearchCriteria !== null) {
-				if ($this->aSearchCriteria->isModified()) {
-					$affectedRows += $this->aSearchCriteria->save($con);
-				}
-				$this->setSearchCriteria($this->aSearchCriteria);
-			}
-
 			if ($this->aMemberPhoto !== null) {
 				if ($this->aMemberPhoto->isModified()) {
 					$affectedRows += $this->aMemberPhoto->save($con);
@@ -1642,6 +1605,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			if ($this->collMemberDescAnswers !== null) {
 				foreach($this->collMemberDescAnswers as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collSearchCritDescs !== null) {
+				foreach($this->collSearchCritDescs as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1863,12 +1834,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aSearchCriteria !== null) {
-				if (!$this->aSearchCriteria->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSearchCriteria->getValidationFailures());
-				}
-			}
-
 			if ($this->aMemberPhoto !== null) {
 				if (!$this->aMemberPhoto->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aMemberPhoto->getValidationFailures());
@@ -1903,6 +1868,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 				if ($this->collMemberDescAnswers !== null) {
 					foreach($this->collMemberDescAnswers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSearchCritDescs !== null) {
+					foreach($this->collSearchCritDescs as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2184,33 +2157,30 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				return $this->getEssayIntroduction();
 				break;
 			case 32:
-				return $this->getSearchCriteriaId();
-				break;
-			case 33:
 				return $this->getMainPhotoId();
 				break;
-			case 34:
+			case 33:
 				return $this->getSubscriptionId();
 				break;
-			case 35:
+			case 34:
 				return $this->getSubAutoRenew();
 				break;
-			case 36:
+			case 35:
 				return $this->getMemberCounterId();
 				break;
-			case 37:
+			case 36:
 				return $this->getLastActivity();
 				break;
-			case 38:
+			case 37:
 				return $this->getLastStatusChange();
 				break;
-			case 39:
+			case 38:
 				return $this->getLastFlagged();
 				break;
-			case 40:
+			case 39:
 				return $this->getLastLogin();
 				break;
-			case 41:
+			case 40:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -2255,16 +2225,15 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[29] => $this->getYoutubeVid(),
 			$keys[30] => $this->getEssayHeadline(),
 			$keys[31] => $this->getEssayIntroduction(),
-			$keys[32] => $this->getSearchCriteriaId(),
-			$keys[33] => $this->getMainPhotoId(),
-			$keys[34] => $this->getSubscriptionId(),
-			$keys[35] => $this->getSubAutoRenew(),
-			$keys[36] => $this->getMemberCounterId(),
-			$keys[37] => $this->getLastActivity(),
-			$keys[38] => $this->getLastStatusChange(),
-			$keys[39] => $this->getLastFlagged(),
-			$keys[40] => $this->getLastLogin(),
-			$keys[41] => $this->getCreatedAt(),
+			$keys[32] => $this->getMainPhotoId(),
+			$keys[33] => $this->getSubscriptionId(),
+			$keys[34] => $this->getSubAutoRenew(),
+			$keys[35] => $this->getMemberCounterId(),
+			$keys[36] => $this->getLastActivity(),
+			$keys[37] => $this->getLastStatusChange(),
+			$keys[38] => $this->getLastFlagged(),
+			$keys[39] => $this->getLastLogin(),
+			$keys[40] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -2377,33 +2346,30 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setEssayIntroduction($value);
 				break;
 			case 32:
-				$this->setSearchCriteriaId($value);
-				break;
-			case 33:
 				$this->setMainPhotoId($value);
 				break;
-			case 34:
+			case 33:
 				$this->setSubscriptionId($value);
 				break;
-			case 35:
+			case 34:
 				$this->setSubAutoRenew($value);
 				break;
-			case 36:
+			case 35:
 				$this->setMemberCounterId($value);
 				break;
-			case 37:
+			case 36:
 				$this->setLastActivity($value);
 				break;
-			case 38:
+			case 37:
 				$this->setLastStatusChange($value);
 				break;
-			case 39:
+			case 38:
 				$this->setLastFlagged($value);
 				break;
-			case 40:
+			case 39:
 				$this->setLastLogin($value);
 				break;
-			case 41:
+			case 40:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -2445,16 +2411,15 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[29], $arr)) $this->setYoutubeVid($arr[$keys[29]]);
 		if (array_key_exists($keys[30], $arr)) $this->setEssayHeadline($arr[$keys[30]]);
 		if (array_key_exists($keys[31], $arr)) $this->setEssayIntroduction($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setSearchCriteriaId($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setMainPhotoId($arr[$keys[33]]);
-		if (array_key_exists($keys[34], $arr)) $this->setSubscriptionId($arr[$keys[34]]);
-		if (array_key_exists($keys[35], $arr)) $this->setSubAutoRenew($arr[$keys[35]]);
-		if (array_key_exists($keys[36], $arr)) $this->setMemberCounterId($arr[$keys[36]]);
-		if (array_key_exists($keys[37], $arr)) $this->setLastActivity($arr[$keys[37]]);
-		if (array_key_exists($keys[38], $arr)) $this->setLastStatusChange($arr[$keys[38]]);
-		if (array_key_exists($keys[39], $arr)) $this->setLastFlagged($arr[$keys[39]]);
-		if (array_key_exists($keys[40], $arr)) $this->setLastLogin($arr[$keys[40]]);
-		if (array_key_exists($keys[41], $arr)) $this->setCreatedAt($arr[$keys[41]]);
+		if (array_key_exists($keys[32], $arr)) $this->setMainPhotoId($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setSubscriptionId($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setSubAutoRenew($arr[$keys[34]]);
+		if (array_key_exists($keys[35], $arr)) $this->setMemberCounterId($arr[$keys[35]]);
+		if (array_key_exists($keys[36], $arr)) $this->setLastActivity($arr[$keys[36]]);
+		if (array_key_exists($keys[37], $arr)) $this->setLastStatusChange($arr[$keys[37]]);
+		if (array_key_exists($keys[38], $arr)) $this->setLastFlagged($arr[$keys[38]]);
+		if (array_key_exists($keys[39], $arr)) $this->setLastLogin($arr[$keys[39]]);
+		if (array_key_exists($keys[40], $arr)) $this->setCreatedAt($arr[$keys[40]]);
 	}
 
 	
@@ -2494,7 +2459,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::YOUTUBE_VID)) $criteria->add(MemberPeer::YOUTUBE_VID, $this->youtube_vid);
 		if ($this->isColumnModified(MemberPeer::ESSAY_HEADLINE)) $criteria->add(MemberPeer::ESSAY_HEADLINE, $this->essay_headline);
 		if ($this->isColumnModified(MemberPeer::ESSAY_INTRODUCTION)) $criteria->add(MemberPeer::ESSAY_INTRODUCTION, $this->essay_introduction);
-		if ($this->isColumnModified(MemberPeer::SEARCH_CRITERIA_ID)) $criteria->add(MemberPeer::SEARCH_CRITERIA_ID, $this->search_criteria_id);
 		if ($this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)) $criteria->add(MemberPeer::MAIN_PHOTO_ID, $this->main_photo_id);
 		if ($this->isColumnModified(MemberPeer::SUBSCRIPTION_ID)) $criteria->add(MemberPeer::SUBSCRIPTION_ID, $this->subscription_id);
 		if ($this->isColumnModified(MemberPeer::SUB_AUTO_RENEW)) $criteria->add(MemberPeer::SUB_AUTO_RENEW, $this->sub_auto_renew);
@@ -2596,8 +2560,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 		$copyObj->setEssayIntroduction($this->essay_introduction);
 
-		$copyObj->setSearchCriteriaId($this->search_criteria_id);
-
 		$copyObj->setMainPhotoId($this->main_photo_id);
 
 		$copyObj->setSubscriptionId($this->subscription_id);
@@ -2626,6 +2588,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			foreach($this->getMemberDescAnswers() as $relObj) {
 				$copyObj->addMemberDescAnswer($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSearchCritDescs() as $relObj) {
+				$copyObj->addSearchCritDesc($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getMemberPhotos() as $relObj) {
@@ -2818,35 +2784,6 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aState;
-	}
-
-	
-	public function setSearchCriteria($v)
-	{
-
-
-		if ($v === null) {
-			$this->setSearchCriteriaId(NULL);
-		} else {
-			$this->setSearchCriteriaId($v->getId());
-		}
-
-
-		$this->aSearchCriteria = $v;
-	}
-
-
-	
-	public function getSearchCriteria($con = null)
-	{
-		if ($this->aSearchCriteria === null && ($this->search_criteria_id !== null)) {
-						include_once 'lib/model/om/BaseSearchCriteriaPeer.php';
-
-			$this->aSearchCriteria = SearchCriteriaPeer::retrieveByPK($this->search_criteria_id, $con);
-
-			
-		}
-		return $this->aSearchCriteria;
 	}
 
 	
@@ -3144,6 +3081,111 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$this->lastMemberDescAnswerCriteria = $criteria;
 
 		return $this->collMemberDescAnswers;
+	}
+
+	
+	public function initSearchCritDescs()
+	{
+		if ($this->collSearchCritDescs === null) {
+			$this->collSearchCritDescs = array();
+		}
+	}
+
+	
+	public function getSearchCritDescs($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSearchCritDescPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSearchCritDescs === null) {
+			if ($this->isNew()) {
+			   $this->collSearchCritDescs = array();
+			} else {
+
+				$criteria->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+
+				SearchCritDescPeer::addSelectColumns($criteria);
+				$this->collSearchCritDescs = SearchCritDescPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+
+				SearchCritDescPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSearchCritDescCriteria) || !$this->lastSearchCritDescCriteria->equals($criteria)) {
+					$this->collSearchCritDescs = SearchCritDescPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSearchCritDescCriteria = $criteria;
+		return $this->collSearchCritDescs;
+	}
+
+	
+	public function countSearchCritDescs($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseSearchCritDescPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+
+		return SearchCritDescPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addSearchCritDesc(SearchCritDesc $l)
+	{
+		$this->collSearchCritDescs[] = $l;
+		$l->setMember($this);
+	}
+
+
+	
+	public function getSearchCritDescsJoinDescQuestion($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSearchCritDescPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSearchCritDescs === null) {
+			if ($this->isNew()) {
+				$this->collSearchCritDescs = array();
+			} else {
+
+				$criteria->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+
+				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinDescQuestion($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+
+			if (!isset($this->lastSearchCritDescCriteria) || !$this->lastSearchCritDescCriteria->equals($criteria)) {
+				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinDescQuestion($criteria, $con);
+			}
+		}
+		$this->lastSearchCritDescCriteria = $criteria;
+
+		return $this->collSearchCritDescs;
 	}
 
 	

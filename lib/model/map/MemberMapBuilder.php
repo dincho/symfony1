@@ -96,8 +96,6 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('ESSAY_INTRODUCTION', 'EssayIntroduction', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addForeignKey('SEARCH_CRITERIA_ID', 'SearchCriteriaId', 'int', CreoleTypes::INTEGER, 'search_criteria', 'ID', false, null);
-
 		$tMap->addForeignKey('MAIN_PHOTO_ID', 'MainPhotoId', 'int', CreoleTypes::INTEGER, 'member_photo', 'ID', false, null);
 
 		$tMap->addForeignKey('SUBSCRIPTION_ID', 'SubscriptionId', 'int', CreoleTypes::INTEGER, 'subscription', 'ID', true, null);

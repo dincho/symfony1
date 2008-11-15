@@ -101,7 +101,6 @@ CREATE TABLE `member`
 	`youtube_vid` VARCHAR(20),
 	`essay_headline` VARCHAR(255),
 	`essay_introduction` TEXT,
-	`search_criteria_id` INTEGER,
 	`main_photo_id` INTEGER,
 	`subscription_id` INTEGER  NOT NULL,
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
@@ -127,23 +126,18 @@ CREATE TABLE `member`
 		FOREIGN KEY (`state_id`)
 		REFERENCES `state` (`id`)
 		ON DELETE RESTRICT,
-	INDEX `member_FI_4` (`search_criteria_id`),
+	INDEX `member_FI_4` (`main_photo_id`),
 	CONSTRAINT `member_FK_4`
-		FOREIGN KEY (`search_criteria_id`)
-		REFERENCES `search_criteria` (`id`)
-		ON DELETE SET NULL,
-	INDEX `member_FI_5` (`main_photo_id`),
-	CONSTRAINT `member_FK_5`
 		FOREIGN KEY (`main_photo_id`)
 		REFERENCES `member_photo` (`id`)
 		ON DELETE SET NULL,
-	INDEX `member_FI_6` (`subscription_id`),
-	CONSTRAINT `member_FK_6`
+	INDEX `member_FI_5` (`subscription_id`),
+	CONSTRAINT `member_FK_5`
 		FOREIGN KEY (`subscription_id`)
 		REFERENCES `subscription` (`id`)
 		ON DELETE RESTRICT,
-	INDEX `member_FI_7` (`member_counter_id`),
-	CONSTRAINT `member_FK_7`
+	INDEX `member_FI_6` (`member_counter_id`),
+	CONSTRAINT `member_FK_6`
 		FOREIGN KEY (`member_counter_id`)
 		REFERENCES `member_counter` (`id`)
 		ON DELETE RESTRICT
@@ -288,22 +282,6 @@ CREATE TABLE `member_desc_answer`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
-#-- search_criteria
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `search_criteria`;
-
-
-CREATE TABLE `search_criteria`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`ages` TEXT,
-	`ages_weight` TINYINT  NOT NULL,
-	`updated_at` DATETIME,
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
 #-- search_crit_desc
 #-----------------------------------------------------------------------------
 
@@ -313,15 +291,15 @@ DROP TABLE IF EXISTS `search_crit_desc`;
 CREATE TABLE `search_crit_desc`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`search_criteria_id` INTEGER  NOT NULL,
+	`member_id` INTEGER  NOT NULL,
 	`desc_question_id` INTEGER  NOT NULL,
 	`desc_answers` TEXT,
 	`match_weight` TINYINT  NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `search_crit_desc_FI_1` (`search_criteria_id`),
+	INDEX `search_crit_desc_FI_1` (`member_id`),
 	CONSTRAINT `search_crit_desc_FK_1`
-		FOREIGN KEY (`search_criteria_id`)
-		REFERENCES `search_criteria` (`id`)
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
 		ON DELETE CASCADE,
 	INDEX `search_crit_desc_FI_2` (`desc_question_id`),
 	CONSTRAINT `search_crit_desc_FK_2`

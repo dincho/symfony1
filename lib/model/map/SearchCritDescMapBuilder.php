@@ -34,7 +34,7 @@ class SearchCritDescMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('SEARCH_CRITERIA_ID', 'SearchCriteriaId', 'int', CreoleTypes::INTEGER, 'search_criteria', 'ID', true, null);
+		$tMap->addForeignKey('MEMBER_ID', 'MemberId', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
 
 		$tMap->addForeignKey('DESC_QUESTION_ID', 'DescQuestionId', 'int', CreoleTypes::INTEGER, 'desc_question', 'ID', true, null);
 

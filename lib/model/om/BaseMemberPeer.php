@@ -13,7 +13,7 @@ abstract class BaseMemberPeer {
 	const CLASS_DEFAULT = 'lib.model.Member';
 
 	
-	const NUM_COLUMNS = 42;
+	const NUM_COLUMNS = 41;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -116,9 +116,6 @@ abstract class BaseMemberPeer {
 	const ESSAY_INTRODUCTION = 'member.ESSAY_INTRODUCTION';
 
 	
-	const SEARCH_CRITERIA_ID = 'member.SEARCH_CRITERIA_ID';
-
-	
 	const MAIN_PHOTO_ID = 'member.MAIN_PHOTO_ID';
 
 	
@@ -151,18 +148,18 @@ abstract class BaseMemberPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberStatusId', 'Username', 'Password', 'NewPassword', 'MustChangePwd', 'FirstName', 'LastName', 'Email', 'TmpEmail', 'ConfirmedEmail', 'Sex', 'LookingFor', 'ReviewedById', 'ReviewedAt', 'IsStarred', 'Country', 'StateId', 'District', 'City', 'Zip', 'Nationality', 'Language', 'Birthday', 'DontDisplayZodiac', 'UsCitizen', 'EmailNotifications', 'DontUsePhotos', 'ContactOnlyFullMembers', 'YoutubeVid', 'EssayHeadline', 'EssayIntroduction', 'SearchCriteriaId', 'MainPhotoId', 'SubscriptionId', 'SubAutoRenew', 'MemberCounterId', 'LastActivity', 'LastStatusChange', 'LastFlagged', 'LastLogin', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MemberPeer::ID, MemberPeer::MEMBER_STATUS_ID, MemberPeer::USERNAME, MemberPeer::PASSWORD, MemberPeer::NEW_PASSWORD, MemberPeer::MUST_CHANGE_PWD, MemberPeer::FIRST_NAME, MemberPeer::LAST_NAME, MemberPeer::EMAIL, MemberPeer::TMP_EMAIL, MemberPeer::CONFIRMED_EMAIL, MemberPeer::SEX, MemberPeer::LOOKING_FOR, MemberPeer::REVIEWED_BY_ID, MemberPeer::REVIEWED_AT, MemberPeer::IS_STARRED, MemberPeer::COUNTRY, MemberPeer::STATE_ID, MemberPeer::DISTRICT, MemberPeer::CITY, MemberPeer::ZIP, MemberPeer::NATIONALITY, MemberPeer::LANGUAGE, MemberPeer::BIRTHDAY, MemberPeer::DONT_DISPLAY_ZODIAC, MemberPeer::US_CITIZEN, MemberPeer::EMAIL_NOTIFICATIONS, MemberPeer::DONT_USE_PHOTOS, MemberPeer::CONTACT_ONLY_FULL_MEMBERS, MemberPeer::YOUTUBE_VID, MemberPeer::ESSAY_HEADLINE, MemberPeer::ESSAY_INTRODUCTION, MemberPeer::SEARCH_CRITERIA_ID, MemberPeer::MAIN_PHOTO_ID, MemberPeer::SUBSCRIPTION_ID, MemberPeer::SUB_AUTO_RENEW, MemberPeer::MEMBER_COUNTER_ID, MemberPeer::LAST_ACTIVITY, MemberPeer::LAST_STATUS_CHANGE, MemberPeer::LAST_FLAGGED, MemberPeer::LAST_LOGIN, MemberPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_status_id', 'username', 'password', 'new_password', 'must_change_pwd', 'first_name', 'last_name', 'email', 'tmp_email', 'confirmed_email', 'sex', 'looking_for', 'reviewed_by_id', 'reviewed_at', 'is_starred', 'country', 'state_id', 'district', 'city', 'zip', 'nationality', 'language', 'birthday', 'dont_display_zodiac', 'us_citizen', 'email_notifications', 'dont_use_photos', 'contact_only_full_members', 'youtube_vid', 'essay_headline', 'essay_introduction', 'search_criteria_id', 'main_photo_id', 'subscription_id', 'sub_auto_renew', 'member_counter_id', 'last_activity', 'last_status_change', 'last_flagged', 'last_login', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberStatusId', 'Username', 'Password', 'NewPassword', 'MustChangePwd', 'FirstName', 'LastName', 'Email', 'TmpEmail', 'ConfirmedEmail', 'Sex', 'LookingFor', 'ReviewedById', 'ReviewedAt', 'IsStarred', 'Country', 'StateId', 'District', 'City', 'Zip', 'Nationality', 'Language', 'Birthday', 'DontDisplayZodiac', 'UsCitizen', 'EmailNotifications', 'DontUsePhotos', 'ContactOnlyFullMembers', 'YoutubeVid', 'EssayHeadline', 'EssayIntroduction', 'MainPhotoId', 'SubscriptionId', 'SubAutoRenew', 'MemberCounterId', 'LastActivity', 'LastStatusChange', 'LastFlagged', 'LastLogin', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MemberPeer::ID, MemberPeer::MEMBER_STATUS_ID, MemberPeer::USERNAME, MemberPeer::PASSWORD, MemberPeer::NEW_PASSWORD, MemberPeer::MUST_CHANGE_PWD, MemberPeer::FIRST_NAME, MemberPeer::LAST_NAME, MemberPeer::EMAIL, MemberPeer::TMP_EMAIL, MemberPeer::CONFIRMED_EMAIL, MemberPeer::SEX, MemberPeer::LOOKING_FOR, MemberPeer::REVIEWED_BY_ID, MemberPeer::REVIEWED_AT, MemberPeer::IS_STARRED, MemberPeer::COUNTRY, MemberPeer::STATE_ID, MemberPeer::DISTRICT, MemberPeer::CITY, MemberPeer::ZIP, MemberPeer::NATIONALITY, MemberPeer::LANGUAGE, MemberPeer::BIRTHDAY, MemberPeer::DONT_DISPLAY_ZODIAC, MemberPeer::US_CITIZEN, MemberPeer::EMAIL_NOTIFICATIONS, MemberPeer::DONT_USE_PHOTOS, MemberPeer::CONTACT_ONLY_FULL_MEMBERS, MemberPeer::YOUTUBE_VID, MemberPeer::ESSAY_HEADLINE, MemberPeer::ESSAY_INTRODUCTION, MemberPeer::MAIN_PHOTO_ID, MemberPeer::SUBSCRIPTION_ID, MemberPeer::SUB_AUTO_RENEW, MemberPeer::MEMBER_COUNTER_ID, MemberPeer::LAST_ACTIVITY, MemberPeer::LAST_STATUS_CHANGE, MemberPeer::LAST_FLAGGED, MemberPeer::LAST_LOGIN, MemberPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_status_id', 'username', 'password', 'new_password', 'must_change_pwd', 'first_name', 'last_name', 'email', 'tmp_email', 'confirmed_email', 'sex', 'looking_for', 'reviewed_by_id', 'reviewed_at', 'is_starred', 'country', 'state_id', 'district', 'city', 'zip', 'nationality', 'language', 'birthday', 'dont_display_zodiac', 'us_citizen', 'email_notifications', 'dont_use_photos', 'contact_only_full_members', 'youtube_vid', 'essay_headline', 'essay_introduction', 'main_photo_id', 'subscription_id', 'sub_auto_renew', 'member_counter_id', 'last_activity', 'last_status_change', 'last_flagged', 'last_login', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberStatusId' => 1, 'Username' => 2, 'Password' => 3, 'NewPassword' => 4, 'MustChangePwd' => 5, 'FirstName' => 6, 'LastName' => 7, 'Email' => 8, 'TmpEmail' => 9, 'ConfirmedEmail' => 10, 'Sex' => 11, 'LookingFor' => 12, 'ReviewedById' => 13, 'ReviewedAt' => 14, 'IsStarred' => 15, 'Country' => 16, 'StateId' => 17, 'District' => 18, 'City' => 19, 'Zip' => 20, 'Nationality' => 21, 'Language' => 22, 'Birthday' => 23, 'DontDisplayZodiac' => 24, 'UsCitizen' => 25, 'EmailNotifications' => 26, 'DontUsePhotos' => 27, 'ContactOnlyFullMembers' => 28, 'YoutubeVid' => 29, 'EssayHeadline' => 30, 'EssayIntroduction' => 31, 'SearchCriteriaId' => 32, 'MainPhotoId' => 33, 'SubscriptionId' => 34, 'SubAutoRenew' => 35, 'MemberCounterId' => 36, 'LastActivity' => 37, 'LastStatusChange' => 38, 'LastFlagged' => 39, 'LastLogin' => 40, 'CreatedAt' => 41, ),
-		BasePeer::TYPE_COLNAME => array (MemberPeer::ID => 0, MemberPeer::MEMBER_STATUS_ID => 1, MemberPeer::USERNAME => 2, MemberPeer::PASSWORD => 3, MemberPeer::NEW_PASSWORD => 4, MemberPeer::MUST_CHANGE_PWD => 5, MemberPeer::FIRST_NAME => 6, MemberPeer::LAST_NAME => 7, MemberPeer::EMAIL => 8, MemberPeer::TMP_EMAIL => 9, MemberPeer::CONFIRMED_EMAIL => 10, MemberPeer::SEX => 11, MemberPeer::LOOKING_FOR => 12, MemberPeer::REVIEWED_BY_ID => 13, MemberPeer::REVIEWED_AT => 14, MemberPeer::IS_STARRED => 15, MemberPeer::COUNTRY => 16, MemberPeer::STATE_ID => 17, MemberPeer::DISTRICT => 18, MemberPeer::CITY => 19, MemberPeer::ZIP => 20, MemberPeer::NATIONALITY => 21, MemberPeer::LANGUAGE => 22, MemberPeer::BIRTHDAY => 23, MemberPeer::DONT_DISPLAY_ZODIAC => 24, MemberPeer::US_CITIZEN => 25, MemberPeer::EMAIL_NOTIFICATIONS => 26, MemberPeer::DONT_USE_PHOTOS => 27, MemberPeer::CONTACT_ONLY_FULL_MEMBERS => 28, MemberPeer::YOUTUBE_VID => 29, MemberPeer::ESSAY_HEADLINE => 30, MemberPeer::ESSAY_INTRODUCTION => 31, MemberPeer::SEARCH_CRITERIA_ID => 32, MemberPeer::MAIN_PHOTO_ID => 33, MemberPeer::SUBSCRIPTION_ID => 34, MemberPeer::SUB_AUTO_RENEW => 35, MemberPeer::MEMBER_COUNTER_ID => 36, MemberPeer::LAST_ACTIVITY => 37, MemberPeer::LAST_STATUS_CHANGE => 38, MemberPeer::LAST_FLAGGED => 39, MemberPeer::LAST_LOGIN => 40, MemberPeer::CREATED_AT => 41, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_status_id' => 1, 'username' => 2, 'password' => 3, 'new_password' => 4, 'must_change_pwd' => 5, 'first_name' => 6, 'last_name' => 7, 'email' => 8, 'tmp_email' => 9, 'confirmed_email' => 10, 'sex' => 11, 'looking_for' => 12, 'reviewed_by_id' => 13, 'reviewed_at' => 14, 'is_starred' => 15, 'country' => 16, 'state_id' => 17, 'district' => 18, 'city' => 19, 'zip' => 20, 'nationality' => 21, 'language' => 22, 'birthday' => 23, 'dont_display_zodiac' => 24, 'us_citizen' => 25, 'email_notifications' => 26, 'dont_use_photos' => 27, 'contact_only_full_members' => 28, 'youtube_vid' => 29, 'essay_headline' => 30, 'essay_introduction' => 31, 'search_criteria_id' => 32, 'main_photo_id' => 33, 'subscription_id' => 34, 'sub_auto_renew' => 35, 'member_counter_id' => 36, 'last_activity' => 37, 'last_status_change' => 38, 'last_flagged' => 39, 'last_login' => 40, 'created_at' => 41, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberStatusId' => 1, 'Username' => 2, 'Password' => 3, 'NewPassword' => 4, 'MustChangePwd' => 5, 'FirstName' => 6, 'LastName' => 7, 'Email' => 8, 'TmpEmail' => 9, 'ConfirmedEmail' => 10, 'Sex' => 11, 'LookingFor' => 12, 'ReviewedById' => 13, 'ReviewedAt' => 14, 'IsStarred' => 15, 'Country' => 16, 'StateId' => 17, 'District' => 18, 'City' => 19, 'Zip' => 20, 'Nationality' => 21, 'Language' => 22, 'Birthday' => 23, 'DontDisplayZodiac' => 24, 'UsCitizen' => 25, 'EmailNotifications' => 26, 'DontUsePhotos' => 27, 'ContactOnlyFullMembers' => 28, 'YoutubeVid' => 29, 'EssayHeadline' => 30, 'EssayIntroduction' => 31, 'MainPhotoId' => 32, 'SubscriptionId' => 33, 'SubAutoRenew' => 34, 'MemberCounterId' => 35, 'LastActivity' => 36, 'LastStatusChange' => 37, 'LastFlagged' => 38, 'LastLogin' => 39, 'CreatedAt' => 40, ),
+		BasePeer::TYPE_COLNAME => array (MemberPeer::ID => 0, MemberPeer::MEMBER_STATUS_ID => 1, MemberPeer::USERNAME => 2, MemberPeer::PASSWORD => 3, MemberPeer::NEW_PASSWORD => 4, MemberPeer::MUST_CHANGE_PWD => 5, MemberPeer::FIRST_NAME => 6, MemberPeer::LAST_NAME => 7, MemberPeer::EMAIL => 8, MemberPeer::TMP_EMAIL => 9, MemberPeer::CONFIRMED_EMAIL => 10, MemberPeer::SEX => 11, MemberPeer::LOOKING_FOR => 12, MemberPeer::REVIEWED_BY_ID => 13, MemberPeer::REVIEWED_AT => 14, MemberPeer::IS_STARRED => 15, MemberPeer::COUNTRY => 16, MemberPeer::STATE_ID => 17, MemberPeer::DISTRICT => 18, MemberPeer::CITY => 19, MemberPeer::ZIP => 20, MemberPeer::NATIONALITY => 21, MemberPeer::LANGUAGE => 22, MemberPeer::BIRTHDAY => 23, MemberPeer::DONT_DISPLAY_ZODIAC => 24, MemberPeer::US_CITIZEN => 25, MemberPeer::EMAIL_NOTIFICATIONS => 26, MemberPeer::DONT_USE_PHOTOS => 27, MemberPeer::CONTACT_ONLY_FULL_MEMBERS => 28, MemberPeer::YOUTUBE_VID => 29, MemberPeer::ESSAY_HEADLINE => 30, MemberPeer::ESSAY_INTRODUCTION => 31, MemberPeer::MAIN_PHOTO_ID => 32, MemberPeer::SUBSCRIPTION_ID => 33, MemberPeer::SUB_AUTO_RENEW => 34, MemberPeer::MEMBER_COUNTER_ID => 35, MemberPeer::LAST_ACTIVITY => 36, MemberPeer::LAST_STATUS_CHANGE => 37, MemberPeer::LAST_FLAGGED => 38, MemberPeer::LAST_LOGIN => 39, MemberPeer::CREATED_AT => 40, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_status_id' => 1, 'username' => 2, 'password' => 3, 'new_password' => 4, 'must_change_pwd' => 5, 'first_name' => 6, 'last_name' => 7, 'email' => 8, 'tmp_email' => 9, 'confirmed_email' => 10, 'sex' => 11, 'looking_for' => 12, 'reviewed_by_id' => 13, 'reviewed_at' => 14, 'is_starred' => 15, 'country' => 16, 'state_id' => 17, 'district' => 18, 'city' => 19, 'zip' => 20, 'nationality' => 21, 'language' => 22, 'birthday' => 23, 'dont_display_zodiac' => 24, 'us_citizen' => 25, 'email_notifications' => 26, 'dont_use_photos' => 27, 'contact_only_full_members' => 28, 'youtube_vid' => 29, 'essay_headline' => 30, 'essay_introduction' => 31, 'main_photo_id' => 32, 'subscription_id' => 33, 'sub_auto_renew' => 34, 'member_counter_id' => 35, 'last_activity' => 36, 'last_status_change' => 37, 'last_flagged' => 38, 'last_login' => 39, 'created_at' => 40, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, )
 	);
 
 	
@@ -279,8 +276,6 @@ abstract class BaseMemberPeer {
 		$criteria->addSelectColumn(MemberPeer::ESSAY_HEADLINE);
 
 		$criteria->addSelectColumn(MemberPeer::ESSAY_INTRODUCTION);
-
-		$criteria->addSelectColumn(MemberPeer::SEARCH_CRITERIA_ID);
 
 		$criteria->addSelectColumn(MemberPeer::MAIN_PHOTO_ID);
 
@@ -459,34 +454,6 @@ abstract class BaseMemberPeer {
 		}
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$rs = MemberPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-						return 0;
-		}
-	}
-
-
-	
-	public static function doCountJoinSearchCriteria(Criteria $criteria, $distinct = false, $con = null)
-	{
-				$criteria = clone $criteria;
-
-				$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MemberPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(MemberPeer::COUNT);
-		}
-
-				foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$rs = MemberPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -723,53 +690,6 @@ abstract class BaseMemberPeer {
 
 
 	
-	public static function doSelectJoinSearchCriteria(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-				if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MemberPeer::addSelectColumns($c);
-		$startcol = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		SearchCriteriaPeer::addSelectColumns($c);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MemberPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = SearchCriteriaPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-										$temp_obj2->addMember($obj1); 					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initMembers();
-				$obj2->addMember($obj1); 			}
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
 	public static function doSelectJoinMemberPhoto(Criteria $c, $con = null)
 	{
 		$c = clone $c;
@@ -933,8 +853,6 @@ abstract class BaseMemberPeer {
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
 
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
 		$criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
@@ -971,25 +889,20 @@ abstract class BaseMemberPeer {
 		StatePeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SearchCriteriaPeer::NUM_COLUMNS;
-
 		MemberPhotoPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + MemberPhotoPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
 
 		SubscriptionPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + SubscriptionPeer::NUM_COLUMNS;
+		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
 
 		MemberCounterPeer::addSelectColumns($c);
-		$startcol9 = $startcol8 + MemberCounterPeer::NUM_COLUMNS;
+		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
 
 		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
 
 		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1080,7 +993,7 @@ abstract class BaseMemberPeer {
 
 
 					
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPhotoPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1090,7 +1003,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addMember($obj1); 					break;
 				}
@@ -1103,7 +1016,7 @@ abstract class BaseMemberPeer {
 
 
 					
-			$omClass = MemberPhotoPeer::getOMClass();
+			$omClass = SubscriptionPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1113,7 +1026,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getSubscription(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addMember($obj1); 					break;
 				}
@@ -1126,7 +1039,7 @@ abstract class BaseMemberPeer {
 
 
 					
-			$omClass = SubscriptionPeer::getOMClass();
+			$omClass = MemberCounterPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1136,7 +1049,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getSubscription(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj7->addMember($obj1); 					break;
 				}
@@ -1145,29 +1058,6 @@ abstract class BaseMemberPeer {
 			if ($newObject) {
 				$obj7->initMembers();
 				$obj7->addMember($obj1);
-			}
-
-
-					
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj8 = new $cls();
-			$obj8->hydrate($rs, $startcol8);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj8 = $temp_obj1->getMemberCounter(); 				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj8->addMember($obj1); 					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj8->initMembers();
-				$obj8->addMember($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1196,8 +1086,6 @@ abstract class BaseMemberPeer {
 		$criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1235,8 +1123,6 @@ abstract class BaseMemberPeer {
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
 
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
 		$criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
@@ -1272,46 +1158,6 @@ abstract class BaseMemberPeer {
 		$criteria->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
-		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
-
-		$criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
-
-		$criteria->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
-
-		$rs = MemberPeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-						return 0;
-		}
-	}
-
-
-	
-	public static function doCountJoinAllExceptSearchCriteria(Criteria $criteria, $distinct = false, $con = null)
-	{
-				$criteria = clone $criteria;
-
-				$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MemberPeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(MemberPeer::COUNT);
-		}
-
-				foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
-
-		$criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
 
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1351,8 +1197,6 @@ abstract class BaseMemberPeer {
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
 
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
 		$criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
 
 		$criteria->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
@@ -1388,8 +1232,6 @@ abstract class BaseMemberPeer {
 		$criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1427,8 +1269,6 @@ abstract class BaseMemberPeer {
 
 		$criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
 
-		$criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
 		$criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
 		$criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
@@ -1460,23 +1300,18 @@ abstract class BaseMemberPeer {
 		StatePeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + StatePeer::NUM_COLUMNS;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SearchCriteriaPeer::NUM_COLUMNS;
-
 		MemberPhotoPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + MemberPhotoPeer::NUM_COLUMNS;
 
 		SubscriptionPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + SubscriptionPeer::NUM_COLUMNS;
 
 		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
+		$startcol7 = $startcol6 + MemberCounterPeer::NUM_COLUMNS;
 
 		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
 
 		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1540,7 +1375,7 @@ abstract class BaseMemberPeer {
 				$obj3->addMember($obj1);
 			}
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPhotoPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1550,7 +1385,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+				$temp_obj4 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addMember($obj1);
 					break;
@@ -1562,7 +1397,7 @@ abstract class BaseMemberPeer {
 				$obj4->addMember($obj1);
 			}
 
-			$omClass = MemberPhotoPeer::getOMClass();
+			$omClass = SubscriptionPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1572,7 +1407,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getSubscription(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addMember($obj1);
 					break;
@@ -1584,7 +1419,7 @@ abstract class BaseMemberPeer {
 				$obj5->addMember($obj1);
 			}
 
-			$omClass = SubscriptionPeer::getOMClass();
+			$omClass = MemberCounterPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1594,7 +1429,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getSubscription(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getMemberCounter(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addMember($obj1);
 					break;
@@ -1604,28 +1439,6 @@ abstract class BaseMemberPeer {
 			if ($newObject) {
 				$obj6->initMembers();
 				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1652,23 +1465,18 @@ abstract class BaseMemberPeer {
 		StatePeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + StatePeer::NUM_COLUMNS;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SearchCriteriaPeer::NUM_COLUMNS;
-
 		MemberPhotoPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + MemberPhotoPeer::NUM_COLUMNS;
 
 		SubscriptionPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + SubscriptionPeer::NUM_COLUMNS;
 
 		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
+		$startcol7 = $startcol6 + MemberCounterPeer::NUM_COLUMNS;
 
 		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1732,7 +1540,7 @@ abstract class BaseMemberPeer {
 				$obj3->addMember($obj1);
 			}
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPhotoPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1742,7 +1550,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+				$temp_obj4 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addMember($obj1);
 					break;
@@ -1754,7 +1562,7 @@ abstract class BaseMemberPeer {
 				$obj4->addMember($obj1);
 			}
 
-			$omClass = MemberPhotoPeer::getOMClass();
+			$omClass = SubscriptionPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1764,7 +1572,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getSubscription(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addMember($obj1);
 					break;
@@ -1776,7 +1584,7 @@ abstract class BaseMemberPeer {
 				$obj5->addMember($obj1);
 			}
 
-			$omClass = SubscriptionPeer::getOMClass();
+			$omClass = MemberCounterPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1786,7 +1594,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getSubscription(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getMemberCounter(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addMember($obj1);
 					break;
@@ -1796,28 +1604,6 @@ abstract class BaseMemberPeer {
 			if ($newObject) {
 				$obj6->initMembers();
 				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1844,23 +1630,18 @@ abstract class BaseMemberPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + SearchCriteriaPeer::NUM_COLUMNS;
-
 		MemberPhotoPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
+		$startcol5 = $startcol4 + MemberPhotoPeer::NUM_COLUMNS;
 
 		SubscriptionPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + SubscriptionPeer::NUM_COLUMNS;
 
 		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
+		$startcol7 = $startcol6 + MemberCounterPeer::NUM_COLUMNS;
 
 		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
 
@@ -1924,7 +1705,7 @@ abstract class BaseMemberPeer {
 				$obj3->addMember($obj1);
 			}
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = MemberPhotoPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1934,7 +1715,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+				$temp_obj4 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addMember($obj1);
 					break;
@@ -1946,7 +1727,7 @@ abstract class BaseMemberPeer {
 				$obj4->addMember($obj1);
 			}
 
-			$omClass = MemberPhotoPeer::getOMClass();
+			$omClass = SubscriptionPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1956,7 +1737,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getSubscription(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addMember($obj1);
 					break;
@@ -1968,7 +1749,7 @@ abstract class BaseMemberPeer {
 				$obj5->addMember($obj1);
 			}
 
-			$omClass = SubscriptionPeer::getOMClass();
+			$omClass = MemberCounterPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1978,7 +1759,7 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getSubscription(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getMemberCounter(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj6->addMember($obj1);
 					break;
@@ -1988,220 +1769,6 @@ abstract class BaseMemberPeer {
 			if ($newObject) {
 				$obj6->initMembers();
 				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
-	public static function doSelectJoinAllExceptSearchCriteria(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-								if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MemberPeer::addSelectColumns($c);
-		$startcol2 = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		MemberStatusPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + MemberStatusPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
-
-		StatePeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
-
-		MemberPhotoPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
-
-		SubscriptionPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
-
-		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
-
-		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
-
-		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
-
-		$c->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
-
-		$c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MemberPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = MemberStatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initMembers();
-				$obj2->addMember($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initMembers();
-				$obj3->addMember($obj1);
-			}
-
-			$omClass = StatePeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getState(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initMembers();
-				$obj4->addMember($obj1);
-			}
-
-			$omClass = MemberPhotoPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj5  = new $cls();
-			$obj5->hydrate($rs, $startcol5);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj5->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj5->initMembers();
-				$obj5->addMember($obj1);
-			}
-
-			$omClass = SubscriptionPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj6  = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getSubscription(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initMembers();
-				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
 			}
 
 			$results[] = $obj1;
@@ -2231,22 +1798,17 @@ abstract class BaseMemberPeer {
 		StatePeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
 
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SearchCriteriaPeer::NUM_COLUMNS;
-
 		SubscriptionPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
+		$startcol6 = $startcol5 + SubscriptionPeer::NUM_COLUMNS;
 
 		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
+		$startcol7 = $startcol6 + MemberCounterPeer::NUM_COLUMNS;
 
 		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
 
 		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
 		$c->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
 
@@ -2330,7 +1892,7 @@ abstract class BaseMemberPeer {
 				$obj4->addMember($obj1);
 			}
 
-			$omClass = SearchCriteriaPeer::getOMClass();
+			$omClass = SubscriptionPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2340,7 +1902,337 @@ abstract class BaseMemberPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+				$temp_obj5 = $temp_obj1->getSubscription(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initMembers();
+				$obj5->addMember($obj1);
+			}
+
+			$omClass = MemberCounterPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getMemberCounter(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initMembers();
+				$obj6->addMember($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptSubscription(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MemberPeer::addSelectColumns($c);
+		$startcol2 = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		MemberStatusPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberStatusPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
+		StatePeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
+
+		MemberPhotoPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
+
+		MemberCounterPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + MemberCounterPeer::NUM_COLUMNS;
+
+		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+
+		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
+
+		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
+
+		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
+
+		$c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MemberPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberStatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initMembers();
+				$obj2->addMember($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initMembers();
+				$obj3->addMember($obj1);
+			}
+
+			$omClass = StatePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getState(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initMembers();
+				$obj4->addMember($obj1);
+			}
+
+			$omClass = MemberPhotoPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initMembers();
+				$obj5->addMember($obj1);
+			}
+
+			$omClass = MemberCounterPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getMemberCounter(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initMembers();
+				$obj6->addMember($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptMemberCounter(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MemberPeer::addSelectColumns($c);
+		$startcol2 = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		MemberStatusPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberStatusPeer::NUM_COLUMNS;
+
+		UserPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+
+		StatePeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
+
+		MemberPhotoPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
+
+		SubscriptionPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
+
+		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+
+		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
+
+		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
+
+		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
+
+		$c->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MemberPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberStatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initMembers();
+				$obj2->addMember($obj1);
+			}
+
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initMembers();
+				$obj3->addMember($obj1);
+			}
+
+			$omClass = StatePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getState(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addMember($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initMembers();
+				$obj4->addMember($obj1);
+			}
+
+			$omClass = MemberPhotoPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj5->addMember($obj1);
 					break;
@@ -2372,412 +2264,6 @@ abstract class BaseMemberPeer {
 			if ($newObject) {
 				$obj6->initMembers();
 				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
-	public static function doSelectJoinAllExceptSubscription(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-								if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MemberPeer::addSelectColumns($c);
-		$startcol2 = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		MemberStatusPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + MemberStatusPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
-
-		StatePeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
-
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SearchCriteriaPeer::NUM_COLUMNS;
-
-		MemberPhotoPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + MemberPhotoPeer::NUM_COLUMNS;
-
-		MemberCounterPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
-
-		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
-
-		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
-		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
-
-		$c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MemberPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = MemberStatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initMembers();
-				$obj2->addMember($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initMembers();
-				$obj3->addMember($obj1);
-			}
-
-			$omClass = StatePeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getState(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initMembers();
-				$obj4->addMember($obj1);
-			}
-
-			$omClass = SearchCriteriaPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj5  = new $cls();
-			$obj5->hydrate($rs, $startcol5);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj5->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj5->initMembers();
-				$obj5->addMember($obj1);
-			}
-
-			$omClass = MemberPhotoPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj6  = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initMembers();
-				$obj6->addMember($obj1);
-			}
-
-			$omClass = MemberCounterPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getMemberCounter(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
-	public static function doSelectJoinAllExceptMemberCounter(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-								if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MemberPeer::addSelectColumns($c);
-		$startcol2 = (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		MemberStatusPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + MemberStatusPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
-
-		StatePeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
-
-		SearchCriteriaPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + SearchCriteriaPeer::NUM_COLUMNS;
-
-		MemberPhotoPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + MemberPhotoPeer::NUM_COLUMNS;
-
-		SubscriptionPeer::addSelectColumns($c);
-		$startcol8 = $startcol7 + SubscriptionPeer::NUM_COLUMNS;
-
-		$c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
-
-		$c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-
-		$c->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-		$c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
-
-		$c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID);
-
-		$c->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MemberPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = MemberStatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initMembers();
-				$obj2->addMember($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initMembers();
-				$obj3->addMember($obj1);
-			}
-
-			$omClass = StatePeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getState(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initMembers();
-				$obj4->addMember($obj1);
-			}
-
-			$omClass = SearchCriteriaPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj5  = new $cls();
-			$obj5->hydrate($rs, $startcol5);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getSearchCriteria(); 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj5->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj5->initMembers();
-				$obj5->addMember($obj1);
-			}
-
-			$omClass = MemberPhotoPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj6  = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getMemberPhoto(); 				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initMembers();
-				$obj6->addMember($obj1);
-			}
-
-			$omClass = SubscriptionPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj7  = new $cls();
-			$obj7->hydrate($rs, $startcol7);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getSubscription(); 				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj7->addMember($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj7->initMembers();
-				$obj7->addMember($obj1);
 			}
 
 			$results[] = $obj1;

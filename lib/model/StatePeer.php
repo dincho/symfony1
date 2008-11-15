@@ -13,6 +13,8 @@ class StatePeer extends BaseStatePeer
 	{
         $c = new Criteria();
         $c->add(StatePeer::COUNTRY, $country);
+        $c->addAscendingOrderByColumn(StatePeer::TITLE);
+        
         return StatePeer::doSelect($c);
 	}
 	

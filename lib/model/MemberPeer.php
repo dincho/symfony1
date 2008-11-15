@@ -55,25 +55,20 @@ class MemberPeer extends BaseMemberPeer
         StatePeer::addSelectColumns($c);
         $startcol5 = $startcol4 + StatePeer::NUM_COLUMNS;
 
-        SearchCriteriaPeer::addSelectColumns($c);
-        $startcol6 = $startcol5 + SearchCriteriaPeer::NUM_COLUMNS;
-
         MemberPhotoPeer::addSelectColumns($c);
-        $startcol7 = $startcol6 + MemberPhotoPeer::NUM_COLUMNS;
+        $startcol6 = $startcol5 + MemberPhotoPeer::NUM_COLUMNS;
 
         SubscriptionPeer::addSelectColumns($c);
-        $startcol8 = $startcol7 + SubscriptionPeer::NUM_COLUMNS;
+        $startcol7 = $startcol6 + SubscriptionPeer::NUM_COLUMNS;
 
         MemberCounterPeer::addSelectColumns($c);
-        $startcol9 = $startcol8 + MemberCounterPeer::NUM_COLUMNS;
+        $startcol8 = $startcol7 + MemberCounterPeer::NUM_COLUMNS;
 
         $c->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
         $c->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID, Criteria::LEFT_JOIN);
 
         $c->addJoin(MemberPeer::STATE_ID, StatePeer::ID, Criteria::LEFT_JOIN);
-
-        $c->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID, Criteria::LEFT_JOIN);
 
         $c->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID, Criteria::LEFT_JOIN);
 
@@ -164,7 +159,7 @@ class MemberPeer extends BaseMemberPeer
 
 
                     
-            $omClass = SearchCriteriaPeer::getOMClass();
+            $omClass = MemberPhotoPeer::getOMClass();
 
 
             $cls = Propel::import($omClass);
@@ -174,7 +169,7 @@ class MemberPeer extends BaseMemberPeer
             $newObject = true;
             for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
                 $temp_obj1 = $results[$j];
-                $temp_obj5 = $temp_obj1->getSearchCriteria();               if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+                $temp_obj5 = $temp_obj1->getMemberPhoto();              if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
                     $newObject = false;
                     $temp_obj5->addMember($obj1);                   break;
                 }
@@ -187,7 +182,7 @@ class MemberPeer extends BaseMemberPeer
 
 
                     
-            $omClass = MemberPhotoPeer::getOMClass();
+            $omClass = SubscriptionPeer::getOMClass();
 
 
             $cls = Propel::import($omClass);
@@ -197,7 +192,7 @@ class MemberPeer extends BaseMemberPeer
             $newObject = true;
             for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
                 $temp_obj1 = $results[$j];
-                $temp_obj6 = $temp_obj1->getMemberPhoto();              if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+                $temp_obj6 = $temp_obj1->getSubscription();                 if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
                     $newObject = false;
                     $temp_obj6->addMember($obj1);                   break;
                 }
@@ -210,7 +205,7 @@ class MemberPeer extends BaseMemberPeer
 
 
                     
-            $omClass = SubscriptionPeer::getOMClass();
+            $omClass = MemberCounterPeer::getOMClass();
 
 
             $cls = Propel::import($omClass);
@@ -220,7 +215,7 @@ class MemberPeer extends BaseMemberPeer
             $newObject = true;
             for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
                 $temp_obj1 = $results[$j];
-                $temp_obj7 = $temp_obj1->getSubscription();                 if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+                $temp_obj7 = $temp_obj1->getMemberCounter();                if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
                     $newObject = false;
                     $temp_obj7->addMember($obj1);                   break;
                 }
@@ -229,29 +224,6 @@ class MemberPeer extends BaseMemberPeer
             if ($newObject) {
                 $obj7->initMembers();
                 $obj7->addMember($obj1);
-            }
-
-
-                    
-            $omClass = MemberCounterPeer::getOMClass();
-
-
-            $cls = Propel::import($omClass);
-            $obj8 = new $cls();
-            $obj8->hydrate($rs, $startcol8);
-
-            $newObject = true;
-            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-                $temp_obj1 = $results[$j];
-                $temp_obj8 = $temp_obj1->getMemberCounter();                if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
-                    $newObject = false;
-                    $temp_obj8->addMember($obj1);                   break;
-                }
-            }
-
-            if ($newObject) {
-                $obj8->initMembers();
-                $obj8->addMember($obj1);
             }
 
             $results[] = $obj1;
@@ -280,8 +252,6 @@ class MemberPeer extends BaseMemberPeer
         $criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID, Criteria::LEFT_JOIN);
 
         $criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
-
-        $criteria->addJoin(MemberPeer::SEARCH_CRITERIA_ID, SearchCriteriaPeer::ID);
 
         $criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
 

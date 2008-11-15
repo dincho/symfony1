@@ -49,10 +49,10 @@
         <?php $label_title =  ++$i .'. '. $question->getSearchTitle(); ?>
         <?php $label_class = ($i == 1) ? 'title_first'  : 'title'; ?>
         <?php echo pr_label_for('answers[' . $question->getId() . ']', $label_title, array('class' => $label_class)) ?>
-        <?php echo input_tag('answers['. $question->getid() .'][]', $search_criteria->getAgeValue(0), array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
-        <?php echo input_tag('answers['. $question->getid() .'][]', $search_criteria->getAgeValue(1), array('class' => 'age')) ?><br />
+        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(0) : 18, array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
+        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(1) : 100, array('class' => 'age')) ?><br />
         <label for="answers_ages"><?php echo __('the "age factor" is: ') ?></label>
-        <?php echo pr_select_match_weight('weights['. $question->getid() .']', $search_criteria->getAgesWeight(), array('class' => 'fieldweight')) ?>        
+        <?php echo pr_select_match_weight('weights['. $question->getid() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>        
       <?php endif; ?>
       
     <?php endforeach; ?>

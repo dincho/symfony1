@@ -15,7 +15,7 @@
         <?php echo input_password_tag('repeat_password') ?><br />
         
         <?php echo pr_label_for('looking_for', 'You are') ?>
-        <?php echo select_tag('looking_for', looking_for_options()) ?><br />
+        <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor())) ?><br />
         
         <?php echo pr_label_for('country', 'Country of Residence') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />

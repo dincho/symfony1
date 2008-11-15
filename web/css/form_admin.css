@@ -115,6 +115,21 @@ div.legend {
   width: auto;
 }
 
+#self_description_form .age {
+    padding-left: 1px;
+    width: 40px;
+    margin-left: 2px;
+    margin-right: 2px;
+    display: inline;
+    float: none;
+    text-align: left;
+}
+
+#self_description_form .double_select {
+    float: none;
+    display: inline;
+}
+
 label.full_row {
 	float: none;
 	text-align: left;

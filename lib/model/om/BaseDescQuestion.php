@@ -911,7 +911,7 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 
 
 	
-	public function getSearchCritDescsJoinSearchCriteria($criteria = null, $con = null)
+	public function getSearchCritDescsJoinMember($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseSearchCritDescPeer.php';
 		if ($criteria === null) {
@@ -929,14 +929,14 @@ abstract class BaseDescQuestion extends BaseObject  implements Persistent {
 
 				$criteria->add(SearchCritDescPeer::DESC_QUESTION_ID, $this->getId());
 
-				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinSearchCriteria($criteria, $con);
+				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinMember($criteria, $con);
 			}
 		} else {
 									
 			$criteria->add(SearchCritDescPeer::DESC_QUESTION_ID, $this->getId());
 
 			if (!isset($this->lastSearchCritDescCriteria) || !$this->lastSearchCritDescCriteria->equals($criteria)) {
-				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinSearchCriteria($criteria, $con);
+				$this->collSearchCritDescs = SearchCritDescPeer::doSelectJoinMember($criteria, $con);
 			}
 		}
 		$this->lastSearchCritDescCriteria = $criteria;

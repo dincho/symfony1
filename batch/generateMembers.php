@@ -127,26 +127,19 @@ foreach ($descQuestions as $descQuestion)
 }
 
 //Search Criteria
-$search = new SearchCriteria();
-
-$age_min = rand(18, 90);
-$search->setAges($age_min . ',' . rand($age_min, 90));
-$search->setAgesWeight(array_rand($weights));
-$search->save();
-$member->setSearchCriteria($search);
-
 foreach ($descQuestions as $descQuestion)
 {
-    if ( array_key_exists($descQuestion->getId(), $descAnswers) && count($descAnswers[$descQuestion->getId()]) > 1 && $descQuestion->getType() != 'other_langs')
+    if ( array_key_exists($descQuestion->getId(), $descAnswers) && count($descAnswers[$descQuestion->getId()]) > 1 && $descQuestion->getType() != 'other_langs' && $descQuestion->getType() != 'age')
     {
         $rand_answer_n1 = array_rand($descAnswers[$descQuestion->getId()]);
         $rand_answer_n2 = array_rand($descAnswers[$descQuestion->getId()]);
+        
         $search_crit_desc = new SearchCritDesc();
-        $search_crit_desc->setSearchCriteriaId($search->getId());
+        $search_crit_desc->setMemberId($member->getId());
         $search_crit_desc->setDescQuestionId($descQuestion->getId());     
         $search_crit_desc->setDescAnswers($descAnswers[$descQuestion->getId()][$rand_answer_n1]->getId() . ',' . $descAnswers[$descQuestion->getId()][$rand_answer_n2]->getId());
         $search_crit_desc->setMatchWeight(array_rand($weights));
-        $search_crit_desc->save();
+        $member->addSearchCritDesc($search_crit_desc);
     }    
 }
 

@@ -114,8 +114,9 @@ class editProfileActions extends sfActions
             {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
                 $m_answer = new MemberDescAnswer();
-                $m_answer->setDescQuestionId($question_id);
+                $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->getUser()->getId());
+                
                 if ($q->getType() == 'other_langs')
                 {
                     $m_answer->setOtherLangs($value);
@@ -132,6 +133,7 @@ class editProfileActions extends sfActions
                 }
                 $m_answer->save();
             }
+            
             $this->member->save();
             $this->setFlash('msg_ok', 'Your Self-description Information has been updated');
             $this->redirect('dashboard/index');
@@ -238,7 +240,6 @@ class editProfileActions extends sfActions
         return sfView::SUCCESS;
     }
     
-
     public function executeDeletePhoto()
     {
         $c = new Criteria();
@@ -253,7 +254,6 @@ class editProfileActions extends sfActions
         $this->redirect('editProfile/photos');
     }
     
-
     public function validateDeletePhoto()
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());

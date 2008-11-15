@@ -46,14 +46,6 @@ class Member extends BaseMember
         MemberDescAnswerPeer::doDelete($select);
     }
 
-    public function clearSearchCriteria()
-    {
-        if ($criteria = $this->getSearchCriteria())
-        {
-            $criteria->delete();
-        }
-    }
-
     /*
    * @return MemberImbra
    */
@@ -238,5 +230,28 @@ class Member extends BaseMember
         $nb_sessions = SessionStoragePeer::doCount($c);
 
         return ( $nb_sessions > 0 ) ? true : false;
+    }
+    
+    public function getSearchCritDescsArray()
+    {
+        $ret = array();
+        foreach ($this->getSearchCritDescs() as $desc)
+        {
+            $ret[$desc->getDescQuestionId()] = $desc;
+        }
+        
+        return $ret;
+    }
+    
+    public function clearSearchCriteria()
+    {
+        $c = new Criteria();
+        $c->add(SearchCritDescPeer::MEMBER_ID, $this->getId());
+        SearchCritDescPeer::doDelete($c);
+    }
+    
+    public function hasSearchCriteria()
+    {
+        return ( $this->countSearchCritDescs() > 1 ) ? true : false; 
     }
 }
