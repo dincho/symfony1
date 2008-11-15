@@ -48,9 +48,16 @@ class feedbackActions extends sfActions
     public function executeList()
     {
         //default to INBOX
-        if (! isset($this->filters['mailbox']))
-            $this->filters['mailbox'] = 1;
+        if (! isset($this->filters['mailbox'])) 
+        {
+            //because of indirect modification of overloaded property notice
+            $filters = $this->filters;
+            $filters['mailbox'] = 1;
+            $this->filters = $filters;
+        }
+        
         $c = new Criteria();
+        $c->addDescendingOrderByColumn(FeedbackPeer::CREATED_AT);
         $this->addFiltersCriteria($c);
         $per_page = ($this->getRequestParameter('per_page', 0) <= 0) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
         $pager = new sfPropelPager('Feedback', $per_page);
@@ -82,9 +89,8 @@ class feedbackActions extends sfActions
         $this->getUser()->getBC()->replaceLast(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
         $this->template = new ImbraReplyTemplate(); //@todo change this to feedback templates 
         if ($this->getRequestParameter('template_id'))
-        {
             $this->selectTemplate();
-        }
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             if ($this->getRequestParameter('save_draft'))
@@ -147,18 +153,11 @@ class feedbackActions extends sfActions
 
     protected function send()
     {
-        $c = new Criteria();
-        $this->addSendFiltersCriteria($c);
-        
-        $members = MemberPeer::doSelectJoinAll($c);
-        //drop a copy in sent mailbox
-        
-
-        
-        if($this->getRequestParameter('mail_to')) 
+        if ($this->getRequestParameter('mail_to'))
         {
             $mail = new prMail();
             $mail->setSender($this->getRequestParameter('mail_from'));
+            $mail->setFrom($this->getRequestParameter('mail_from'));
             $mail->setSubject($this->getRequestParameter('subject'));
             $mail->setBody($this->getRequestParameter('body'));
             $mail->addAddress($this->getRequestParameter('mail_to'));
@@ -176,125 +175,155 @@ class feedbackActions extends sfActions
             $feedback->setMailbox(FeedbackPeer::SENT);
             $feedback->setIsRead(true);
             $feedback->setMailTo($this->getRequestParameter('mail_to'));
-            $feedback->setMailFrom($this->getRequestParameter('mail_from'));
+            $feedback->setMailFrom($this->getRequestParameter('mail_from', 'noreply@polishromance.com'));
             $feedback->setSubject($this->getRequestParameter('subject'));
             $feedback->setBody($this->getRequestParameter('body'));
-            $feedback->save();             
-            
+            $feedback->save();
+        
         }
         
-        foreach ($members as $member) 
+        //to members
+        $c = new Criteria();
+        $this->addSendFiltersCriteria($c);
+        $c->setLimit(100); //max emails
+        
+        if (isset($this->send_to_members) && $this->send_to_members)
         {
-            $mail = new prMail();
-            $mail->setSender($this->getRequestParameter('mail_from'));
-            $mail->setSubject($this->getRequestParameter('subject'));
-            $mail->setBody($this->getRequestParameter('body'));
-            $mail->addAddress($member->getEmail(), $member->getFullName());
-            
-            try
+            $members = MemberPeer::doSelect($c);
+            foreach ($members as $member)
             {
-                $mail->send();
-            } catch (sfException $e)
-            {
-                $this->setFlash('msg_error', 'Error sending email!<br />' . $e->getMessage());
-                $this->redirect('feedback/list');
+                $mail = new prMail();
+                $mail->setSender($this->getRequestParameter('mail_from'));
+                $mail->setSubject($this->getRequestParameter('subject'));
+                $mail->setBody($this->getRequestParameter('body'));
+                $mail->addAddress($member->getEmail(), $member->getFullName());
+                
+                try
+                {
+                    $mail->send();
+                } catch (sfException $e)
+                {
+                    $this->setFlash('msg_error', 'Error sending email!<br />' . $e->getMessage());
+                    $this->redirect('feedback/list');
+                }
+                
+                $feedback = new Feedback();
+                $feedback->setMailbox(FeedbackPeer::SENT);
+                $feedback->setIsRead(true);
+                $feedback->setMailTo($member->getEmail());
+                $feedback->setMailFrom($this->getRequestParameter('mail_from'));
+                $feedback->setSubject($this->getRequestParameter('subject'));
+                $feedback->setBody($this->getRequestParameter('body'));
+                $feedback->save();
             }
-            
-            $feedback = new Feedback();
-            $feedback->setMailbox(FeedbackPeer::SENT);
-            $feedback->setIsRead(true);
-            $feedback->setMailTo($member->getEmail());
-            $feedback->setMailFrom($this->getRequestParameter('mail_from'));
-            $feedback->setSubject($this->getRequestParameter('subject'));
-            $feedback->setBody($this->getRequestParameter('body'));
-            $feedback->save();             
-                    
         }
-            
-
-        
-     
-
     }
 
-    protected function addSendFiltersCriteria($c)
+    protected function addSendFiltersCriteria(Criteria $c)
     {
-        if( strlen($this->getRequestParameter('username')) > 0 )
+        $has_second_crit = false;
+        $send_filter = $this->getRequestParameter('send_filter', array());
+        $crit = $c->getNewCriterion(MemberPeer::ID, null, Criteria::ISNOTNULL);
+        
+        if (strlen($this->getRequestParameter('username')) > 0)
         {
             $usernames = Tools::getStringRequestParameterAsArray('username');
-            $crit1 = $c->getNewCriterion(MemberPeer::USERNAME, $usernames, Criteria::IN);
+            $crit_usr = $c->getNewCriterion(MemberPeer::USERNAME, $usernames, Criteria::IN);
         }
-
-        $send_filter = $this->getRequestParameter('send_filter', array());
-        $crit2 = $c->getNewCriterion(MemberPeer::ID, null, Criteria::ISNOTNULL);
         
-        if ( isset($send_filter['subscription_id']) && is_array($send_filter['subscription_id']) )
+        if (isset($send_filter['subscription_id']) && is_array($send_filter['subscription_id']))
         {
             foreach ($send_filter['subscription_id'] as $subscription_id)
             {
-                if ( !isset($crit3) )
+                if (! isset($crit_tmp))
                 {
-                    $crit3 = $c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, $subscription_id);
-                } else {
-                    $crit3->addOr($c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, $subscription_id));
+                    $crit_tmp = $c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, $subscription_id);
+                } else
+                {
+                    $crit_tmp->addOr($c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, $subscription_id));
                 }
             }
-            $crit2->addAnd($crit3);
-            unset($crit3);
+            
+            $crit->addAnd($crit_tmp);
+            unset($crit_tmp);
+            $has_second_crit = true;
         }
-        if ( isset($send_filter['status_id']) && is_array($send_filter['status_id']) )
+        
+        if (isset($send_filter['status_id']) && is_array($send_filter['status_id']))
         {
             foreach ($send_filter['status_id'] as $status_id)
             {
-                if ( !isset($crit3) )
+                if (! isset($crit_tmp))
                 {
-                    $crit3 = $c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, $status_id);
-                } else {
-                    $crit3->addOr($c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, $status_id));
+                    $crit_tmp = $c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, $status_id);
+                } else
+                {
+                    $crit_tmp->addOr($c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, $status_id));
                 }
             }
-            $crit2->addAnd($crit3);
-            unset($crit3);
-        }
-
-        if ( isset($send_filter['imbra_us']) )
-        {
-            $crit2->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US'));
+            
+            $crit->addAnd($crit_tmp);
+            unset($crit_tmp);
+            $has_second_crit = true;
         }
         
-        if ( isset($send_filter['imbra_non_us']) )
+        if (isset($send_filter['imbra_us']))
         {
-            $crit2->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US', Criteria::NOT_EQUAL));
+            $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US'));
+            $has_second_crit = true;
+        }
+        
+        if (isset($send_filter['imbra_non_us']))
+        {
+            $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US', Criteria::NOT_EQUAL));
+            
             //OR i`m not US citizen == true
+            $has_second_crit = true;
         }
         
-        if ( isset($send_filter['sex']) && is_array($send_filter['sex']) )
+        if (isset($send_filter['sex']) && is_array($send_filter['sex']))
         {
             foreach ($send_filter['sex'] as $sex)
             {
-                if ( !isset($crit3) )
+                if (! isset($crit_tmp))
                 {
-                    $crit3 = $c->getNewCriterion(MemberPeer::SEX, $sex);
-                } else {
-                    $crit3->addOr($c->getNewCriterion(MemberPeer::SEX, $sex));
+                    $crit_tmp = $c->getNewCriterion(MemberPeer::SEX, $sex);
+                } else
+                {
+                    $crit_tmp->addOr($c->getNewCriterion(MemberPeer::SEX, $sex));
                 }
             }
-            $crit2->addAnd($crit3);
-            unset($crit3);
+            
+            $crit->addAnd($crit_tmp);
+            unset($crit_tmp);
+            $has_second_crit = true;
         }
         
-        if( isset($send_filter['filter_country']) && $send_filter['country'])
+        if (isset($send_filter['filter_country']) && $send_filter['country'])
         {
-            $crit2->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, $send_filter['country']));
-        }
-        if( isset($send_filter['filter_language']) && $send_filter['language'] )
-        {
-            $crit2->addAnd($c->getNewCriterion(MemberPeer::LANGUAGE, $send_filter['language']));
+            $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, $send_filter['country']));
+            $has_second_crit = true;
         }
         
-        if( isset($crit1) ) $crit2->addOr($crit1);
-        $c->add($crit2);        
+        if (isset($send_filter['filter_language']) && $send_filter['language'])
+        {
+            $crit->addAnd($c->getNewCriterion(MemberPeer::LANGUAGE, $send_filter['language']));
+            $has_second_crit = true;
+        }
+        
+        if (isset($crit_usr) && $has_second_crit)
+        {
+            $crit->addOr($crit_usr);
+            $c->add($crit);
+            $this->send_to_members = true;
+        } elseif (isset($crit_usr))
+        {
+            $c->add($crit_usr);
+            $this->send_to_members = true;
+        }
+    
     }
+
     /*
      * Compose methods end
      */
@@ -329,6 +358,7 @@ class feedbackActions extends sfActions
         $this->addFiltersCriteria($c);
         $c->setLimit(20);
         $this->members = MemberPeer::doSelectJoinAll($c);
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $marked = $this->getRequestParameter('marked', false);
@@ -358,6 +388,7 @@ class feedbackActions extends sfActions
         {
             $c->add(FeedbackPeer::MAILBOX, $this->filters['mailbox']);
         }
+        
         if (isset($this->filters['paid']) && $this->filters['paid'] == 1)
         {
             $crit = $c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
@@ -366,19 +397,22 @@ class feedbackActions extends sfActions
             $bc->add(array('name' => 'From Paid Members', 'uri' => 'feedback/list?filter=filter&filters[paid]=1'));
             $this->left_menu_selected = 'From Paid Members';
         }
+        
         if (isset($this->filters['external']) && $this->filters['external'] == 1)
         {
             $c->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
             $bc->add(array('name' => 'External Messages', 'uri' => 'feedback/list?filter=filter&filters[external]=1'));
             $this->left_menu_selected = 'External Messages';
         }
+        
         if (isset($this->filters['bugs']) && $this->filters['bugs'] == 1)
         {
             $c->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
             $bc->add(array('name' => 'Reported Bug/Ideas', 'uri' => 'feedback/list?filter=filter&filters[bug]=1'));
             $this->left_menu_selected = 'Reported Bug/Ideas';
         }
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']))
+        
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {
                 case 'first_name':
@@ -409,11 +443,11 @@ class feedbackActions extends sfActions
         //print_r($messages);exit();
         foreach ($messages as $message)
         {
-           echo 'TS: ' . $message->getTS() . '<br />';
-           echo 'From: ' . htmlspecialchars($message->getFrom()) . '<br />';
-           echo 'To: ' . htmlspecialchars($message->getTo()) . '<br />';
-           echo 'Subject: <b>' . $message->getSubject() . '</b><br />';
-           echo $message->getBody() . '<hr />'; 
+            echo 'TS: ' . $message->getTS() . '<br />';
+            echo 'From: ' . htmlspecialchars($message->getFrom()) . '<br />';
+            echo 'To: ' . htmlspecialchars($message->getTo()) . '<br />';
+            echo 'Subject: <b>' . $message->getSubject() . '</b><br />';
+            echo $message->getBody() . '<hr />';
         }
         
         echo "</pre>";
