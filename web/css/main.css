@@ -191,7 +191,7 @@ body .send_mini {
     padding: 0 5px;
 }
 
-#header #right a.last {
+#header #right a.last, #header #right span.last {
     padding-right: 0;
 }
 
@@ -199,26 +199,30 @@ body .send_mini {
     margin-left: 10px;
 }
 
-#header #right a:link,#header #right a:active,#header #right a:visited {
+#header #right p.second_row {
+    text-align: right;
+    padding-right: 80px;
+}
+
+#header #right a, #header #right span { font-size: 12px; }
+#header #right p.second_row a, #header #right p.second_row span { font-size: 11px; }
+
+#header #right a:link, #header #right a:active, #header #right a:visited {
     text-decoration: none;
     color: #877f75;
-    font-size: 12px;
 }
 
 #header #right a:hover {
     text-decoration: underline;
     color: #877f75;
-    font-size: 12px;
 }
 
 #header #right span {
     color: #4B4B4B;
-    font-size: 12px;
 }
 
 #header #right p {
     color: #877f75;
-    font-size: 11px;
 }
 
 #header {
