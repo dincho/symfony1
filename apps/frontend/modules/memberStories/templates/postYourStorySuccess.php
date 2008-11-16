@@ -1,7 +1,7 @@
 <?php use_helper('dtForm') ?>
 
 <?php echo __('If you have experience of personal relation with a Polish single and would like to share it with other members, please fill out the form below. After review, we will publish your story and your name.') ?>
-<?php echo form_tag('memberStories/postYourStory', array('id' => 'post_story_container')) ?>
+<?php echo form_tag('memberStories/postYourStory', array('class' => 'msg_form', 'id' => 'post_story')) ?>
     <fieldset>
         <?php if( !$sf_user->isAuthenticated() ): ?>
             <?php echo pr_label_for('your_name', 'Your Name') ?>
@@ -18,12 +18,15 @@
         <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30)) ?><br />
     </fieldset>
     <fieldset>
-        <input type="checkbox" name="tos" id="tos" class="tos" value="1" />
+        <label><input type="checkbox" name="tos" id="tos" class="tos" value="1" /></label>
+        
         <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
                                     array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
                                           '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>        
         <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos')) ?>
     </fieldset>
-    <?php echo link_to(__('Cancel and go back to previous page'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=sec_link') ?><br />
-    <?php echo submit_tag('', 'class=submit') ?><br />
+    <fieldset class="actions">
+        <?php echo link_to(__('Cancel and go back to previous page'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=sec_link') ?><br />
+        <?php echo submit_tag('', 'class=submit') ?>
+    </fieldset>
 </form>

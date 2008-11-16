@@ -120,37 +120,6 @@ body .leave {
     font-size: 10px;
 }
 
-body .submit {
-    background-image: url(/images/input/butt_submit.gif);
-    border: 0px;
-    width: 56px;
-    height: 28px;
-    cursor: pointer;
-    float: left;
-    margin-left: 5px;
-    margin-top: 5px;
-}
-
-body .submit_class {
-    background-image: url(/images/input/butt_submit.gif);
-    border: 0px;
-    width: 56px;
-    height: 28px;
-    cursor: pointer;
-    margin-left: 5px;
-    margin-top: 5px;
-}
-
-body .send_mini {
-    background-image: url(/images/input/butt_send.gif);
-    border: 0px;
-    width: 33px;
-    height: 17px;
-    cursor: pointer;
-    margin-left: 5px;
-    margin-top: 5px;
-}
-
 /* main */ /* header */
 #polish_romance_logo {
     float: left;
@@ -2895,32 +2864,13 @@ div.profile_id_search {
 }
 
 /* post story + send message */
-#post_story_container a.cancel {
+.msg_form a.cancel {
     display: block;
     margin-top: 20px;
     width: 180px;
 }
 
-#post_story_m {
-    padding-top: 40px;
-    margin-left: 22px;
-    text-align: left;
-    font-size: 11px;
-    min-height: 400px;
-    height: 100%;
-    color: #d3d3d3;
-}
-
-#post_story {
-    padding-top: 40px;
-    margin-left: 22px;
-    text-align: left;
-    font-size: 11px;
-    height: 460px;
-    color: #d3d3d3;
-}
-
-#post_story_container {
+.msg_form {
     height: 410px;
     color: #92897e;
     font-size: 10px;
@@ -2928,7 +2878,7 @@ div.profile_id_search {
     padding: 3px;
 }
 
-#post_story_container label {
+.msg_form label {
     float: left;
     margin: 0px;
     padding: 0px;
@@ -2941,13 +2891,13 @@ div.profile_id_search {
     font-size: 11px;
 }
 
-#post_story_container fieldset {
+.msg_form fieldset {
     margin: 0px;
     padding: 3px;
     border: 0px;
 }
 
-#post_story_container span.msg_to {
+.msg_form span.msg_to {
     margin-top: 4px;
     font-size: 11px;
     margin-left: 3px;
@@ -2956,38 +2906,12 @@ div.profile_id_search {
     float: left;
 }
 
-#post_story_container fieldset.background_000 {
+.msg_form fieldset.background_000 {
     background-color: #000;
     padding: 4px;
 }
 
-#post_story_container label.post_story_label_error {
-    float: left;
-    margin: 0px;
-    padding: 0px;
-    display: table-cell;
-    width: 60px;
-    color: #92897e;
-    margin-top: 3px;
-    background-color: #a51d1f;
-}
-
-#post_story_container label.post_story_label_error2 {
-    float: left;
-    margin: 0px;
-    padding: 0px;
-    display: table-cell;
-    width: 60px;
-    padding: 3px;
-    margin-left: -3px;
-    margin-right: -2px;
-    margin-bottom: -1px;
-    font-size: 10px;
-    color: #FFF;
-    background-color: #a51d1f;
-}
-
-#post_story_container fieldset input, #post_story_container fieldset textarea {
+.msg_form fieldset input, .msg_form fieldset textarea {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
@@ -2996,12 +2920,12 @@ div.profile_id_search {
     width: 320px;
 }
 
-#post_story_container input.send_mini {
+.msg_form input.send_mini {
     width: 33px;
     border: none;
 }
 
-#post_story_container fieldset input.tos {
+.msg_form fieldset input.tos {
     width: 15px;
     height: 15px;
     margin-left: 40px;
@@ -3009,24 +2933,54 @@ div.profile_id_search {
     border: 0;
 }
 
-#post_story_container label.tos {
+.msg_form label.tos {
     display: block;
-    width: 625px;
-    margin-left: 60px;
-    margin-top: -20px;
-    height: 50px;
+    width: auto;
     color: #d3d3d3;
     font-size: 11px;
+    line-height: 18px;
 }
 
-#post_story_container fieldset.background_f4 {
+.msg_form label.imbra_tos {
+    display: block;
+    width: 650px;
+    height: 45px;
+    color: #d3d3d3;
+    font-size: 11px;
+    line-height: 12px;
+}
+
+.msg_form fieldset.background_f4 {
     margin-top: -2px;
     background-color: #4f4f4f;
 }
 
-#post_story_container textarea {
+.msg_form textarea {
     height: 220px;
     margin-top: -4px;
+}
+#post_story label { color:  #92897E; font-size: 10px; }
+#post_story label a { 
+    color: #92897E;
+    text-decoration: underline;
+}
+
+#post_story_confirmation {
+    padding-top: 40px;
+    margin-left: 22px;
+    text-align: left;
+    font-size: 11px;
+    height: 400px;
+    color: #d3d3d3;
+}
+
+#post_story_confirmation a:link, #post_story_confirmation a:active,#post_story_confirmation a:visited {
+    color: #73a7ff;
+}
+
+#post_story_confirmation a:hover {
+    text-decoration: underline;
+    color: #a8c8ff;
 }
 
 /* END post story + send message */
@@ -3334,25 +3288,6 @@ div.profile_id_search {
     font-size: 11px;
     height: 400px;
     color: #d3d3d3;
-}
-
-#post_story_confirmation {
-    padding-top: 40px;
-    margin-left: 22px;
-    text-align: left;
-    font-size: 11px;
-    height: 400px;
-    color: #d3d3d3;
-}
-
-#post_story_confirmation a:link,#post_story_confirmation a:active,#post_story_confirmation a:visited
-    {
-    color: #73a7ff;
-}
-
-#post_story_confirmation a:hover {
-    text-decoration: underline;
-    color: #a8c8ff;
 }
 
 #secondary_container p.contact_us {
@@ -3989,3 +3924,37 @@ a.sec_link_small:hover  {
 }
 
 /* END links */
+fieldset.actions {
+    margin-top: 30px;
+}
+
+.submit {
+    background: url(/images/input/butt_submit.gif) no-repeat;
+    border: none !important;
+    width: 56px !important;
+    height: 28px;
+    cursor: pointer;
+    float: left;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.submit_class {
+    background-image: url(/images/input/butt_submit.gif);
+    border: 0px;
+    width: 56px;
+    height: 28px;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.send_mini {
+    background-image: url(/images/input/butt_send.gif);
+    border: 0px;
+    width: 33px;
+    height: 17px;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 5px;
+}

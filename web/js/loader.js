@@ -1,3 +1,8 @@
+loader_img = new Image();
+loader_img.src = '/images/loading.gif';
+loader_img.alt = 'Updating Results...';
+loader_img.id = 'loader';
+    
 function show_loader(hide_id)
 {
     //currently using only this container
@@ -6,11 +11,6 @@ function show_loader(hide_id)
     
     if (document.getElementById('loader') != null) return;
     
-	loader_img = new Image();
-	loader_img.src = '/images/loading.gif';
-	loader_img.alt = 'loading';
-	loader_img.id = 'loader';
-	
 	loader_span = document.createElement('span');
 	loader_span.className = 'loading';
 	loader_br = document.createElement('br');
