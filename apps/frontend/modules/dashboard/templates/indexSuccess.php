@@ -1,3 +1,5 @@
+<span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
+
 <?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />
 <?php endif; ?>
@@ -5,8 +7,8 @@
 <?php if( is_null($member->getUsCitizen()) ): ?>
     <?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
 <?php endif; ?>
+<br class="clear" />
 
-<span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
 <div id="dashboard-container">
     <div class="left">
         <div class="go-to"><?php echo __('Go to:') ?></div>
@@ -52,7 +54,6 @@
         </div>
     </div>
     <div class="right">
-        
         <span class="view_profile_like_others"><?php echo link_to(__('View Your Profile (as others see it)'), '@profile?username=' . $sf_user->getUsername(), 'class=sec_link_brown') ?></span>
         <ul class="top">
             <li><strong><?php echo __('Your Profile') ?></strong></li>
@@ -89,7 +90,7 @@
             <!--  <li><?php //echo link_to(__('Best Videos'), '@page?slug=best_videos', array('class' => 'sec_link')) ?></li> -->
         </ul>
     </div>
-    <?php if( count($recent_visits) > 0 ): ?>
+    <?php if( false && count($recent_visits) > 0 ): ?>
         <div class="bottom">
             <strong><?php echo __('Recently viewed profiles:') ?></strong>
             <?php foreach ($recent_visits as $profile): ?>

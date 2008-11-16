@@ -342,11 +342,6 @@ body .leave {
     color: #d3d3d3;
 }
 
-#secondary_container span.online-assistant {
-    float: right;
-    font-size: 11px;
-}
-
 #areas {
     margin: 0px;
     padding: 0px;
@@ -863,7 +858,6 @@ body .leave {
 }
 
 #dashboard-container {
-    margin-top: 29px;
     font-size: 11px;
 }
 
@@ -875,6 +869,12 @@ body .leave {
 #dashboard-container img {
     margin: 1px;
     border: 2px solid #000;
+}
+
+#secondary_container span.online-assistant {
+    float: right;
+    font-size: 11px;
+    padding-bottom: 10px;
 }
 
 #dashboard-container div.left, #dashboard-container div.right {
@@ -892,8 +892,8 @@ body .leave {
     margin-bottom: 5px;
 }
 
-#dashboard-container div.left {
-    float: left;
+#dashboard-container div.right {
+    float: right;
 }
 
 #dashboard-container div.left div.dashboard-menu {
@@ -2486,7 +2486,7 @@ div.profile_id_search {
     width: 80px;
     padding: 0 7px 0 3px;
     background-color: #363639;
-    maring: 2px 0 !important;
+    margin: 2px 0 !important;
 }
 
 #register .check_available {
@@ -2529,19 +2529,19 @@ div.profile_id_search {
     display: block;
     float: left;
     margin: 10px 30px 0 10px;
+    border: none;
 }
 
 #register label.terms {
     width: auto;
     float: none;
     padding: 0 5px 0 0;
-    maring: 0;
+    margin: 0;
     height: auto;
-    line-height: auto;
 }
 
 #register .reg_submit_container {
-    height: 145px;
+    height: 153px;
     float: left;
     background-color: #363639;
     padding: 0 2px;
@@ -3706,7 +3706,7 @@ div.profile_id_search {
 #middle {
     text-align: center;
     margin-top: 15px;
-    height: 485px;
+    height: 500px;
     width: 100%;
     font-size: 11px;
 }
