@@ -7,6 +7,10 @@
     </div>
     <?php echo image_tag('static/stories/story' . $story->getId() . '.jpg', array('id=member_story_img')) ?>
 </div>
-<?php echo $sf_data->getRaw('story')->getContent(); ?>
-<br />
-<?php echo link_to(__('Join the site now and browse Polish singles for free'), 'registration/joinNow', array('class' => 'sec_link')) ?>
+<div id="member_story_content">
+    <?php echo $sf_data->getRaw('story')->getContent(); ?>
+</div>
+
+<?php if( !$sf_user->isAuthenticated() ): ?>
+    <?php echo link_to(__('Join the site now and browse Polish singles for free'), 'registration/joinNow', array('class' => 'sec_link')) ?>
+<?php endif; ?>

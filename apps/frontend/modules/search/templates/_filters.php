@@ -2,7 +2,7 @@
         <?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video'])) ?>
         <label for="filters_only_with_video"><?php echo __('Show only profiles with video') ?></label>
     </p>
-    <p class="search_p" style="height: 35px;">
+    <p class="search_p" style="height: 35px; border: none;">
         <?php echo __('Location') ?>
         <?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ) ?>
         <label for="filter_location_0"><?php echo __('Everywhere') ?></label>

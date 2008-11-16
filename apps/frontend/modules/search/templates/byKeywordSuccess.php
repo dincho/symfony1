@@ -1,6 +1,6 @@
 <?php include_partial('searchTypes'); ?>
 
-<form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box">
+<form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
 <p class="search_p search_keyword">
     <label for="filters[keyword]"><?php echo __('Enter keyword, e.g. "Ania" or "bank"') ?></label>
     <?php echo input_tag('filters[keyword]', (isset($filters['keyword'])) ? $filters['keyword'] : null, array('class' => 'input_text_width')) ?>

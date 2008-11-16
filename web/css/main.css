@@ -183,7 +183,11 @@ body .send_mini {
     color: #4b4b4b;
 }
 
-#header #right a {
+#header #right .username {
+    color: white;
+}
+
+#header #right a, #header #right span {
     padding: 0 5px;
 }
 
@@ -208,7 +212,7 @@ body .send_mini {
 }
 
 #header #right span {
-    color: #fff;
+    color: #4B4B4B;
     font-size: 12px;
 }
 
@@ -1854,10 +1858,15 @@ select.language_level {
     color: #d3d3d3;
 }*/
 
+span.sec_link {
+    color: #D3D3D3;
+    font-size: 11px;
+}
+
 #search_box p.search_p {
     margin: 0px;
     padding: 5px;
-    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
     text-align: left;
     clear: both;
     color: #d3d3d3;
@@ -1867,6 +1876,11 @@ select.language_level {
 #search_box p.search_keyword {
     background: none;
     border: none;
+    padding-top: 0;
+}
+
+#search_types {
+    margin-bottom: 25px;
 }
 
 /*
@@ -2826,6 +2840,10 @@ div.profile_id_search {
     list-style-position: inside;
 }
 
+#member_story_right ul a {
+    color: #92897E;
+}
+
 #member_story_right ul a:hover {
     text-decoration: underline;
 }
@@ -2835,6 +2853,12 @@ div.profile_id_search {
     background-color: #221f20;
     padding: 8px;
     margin-bottom: 20px;
+}
+
+#member_story_content { margin-bottom: 30px; }
+
+#member_story_content, #member_story_content p {
+    color: #D3D3D3;
 }
 
 /* END member stories */
@@ -3852,6 +3876,11 @@ div.profile_id_search {
     font-weight: bold;
 }
 
+/*Form field on focus */
+input:focus, select:focus, textarea:focus {
+    border: 1px solid #85854A !important;
+    background-color: #2B2B1A !important;
+}
 
 
 /* ---=== border code follows ===--- */ /*

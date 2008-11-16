@@ -24,7 +24,7 @@
     <input type="submit" value="Save" class="save" /><br />
     <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small')) ?>
 </form>
-
+<br class="clear" />
 
 <script>
 var country = document.getElementById('country').value;
