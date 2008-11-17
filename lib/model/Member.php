@@ -81,6 +81,8 @@ class Member extends BaseMember
             $this->addMemberStatusHistory($history);
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
+            
+            if( $StatusId != MemberStatusPeer::DEACTIVATED ) $this->killSession();
         }
     }
     
@@ -227,9 +229,19 @@ class Member extends BaseMember
     {
         $c = new Criteria();
         $c->add(SessionStoragePeer::USER_ID, $this->getId());
+        $c->add(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL);
         $nb_sessions = SessionStoragePeer::doCount($c);
 
         return ( $nb_sessions > 0 ) ? true : false;
+    }
+    
+    public function killSession()
+    {
+        $c = new Criteria();
+        $c->add(SessionStoragePeer::USER_ID, $this->getId());
+        $c->add(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL);
+        $c->setLimit(1);
+        SessionStoragePeer::doDelete($c);
     }
     
     public function getSearchCritDescsArray()
