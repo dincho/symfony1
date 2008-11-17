@@ -1,7 +1,9 @@
+<?php use_helper('Javascript') ?>
+
 <?php echo __('Select the countries you want to find members in.') ?><br /><br />
 
 <form action="<?php echo url_for('search/selectCountries')?>" id="countries" method="post">
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small')) ?><br />
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
     <input type="submit" value="Save" class="save" /><br />
     <fieldset class="fieldcountry">
             <?php $p_char = '';$i=1;foreach ($countries as $key => $value): ?>
@@ -24,5 +26,5 @@
         </fieldset>
     <br class="clear" />
     <input type="submit" value="Save" class="save" /><br />
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
 </form>

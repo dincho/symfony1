@@ -6,7 +6,7 @@
 <form action="<?php echo url_for('search/selectAreas')?>" id="areas" method="post">
     <?php echo input_hidden_tag('country', $sf_request->getParameter('country'), array('id' => 'country')) ?>
     <?php echo input_hidden_tag('polish_cities', $sf_request->getParameter('polish_cities')) ?>
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small')) ?><br />
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
     <input type="submit" value="Save" class="save" /><br />
     <fieldset>
         <?php foreach ($areas as $area): ?>
@@ -22,7 +22,7 @@
     
     <br class="clear" />
     <input type="submit" value="Save" class="save" /><br />
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
 </form>
 <br class="clear" />
 
