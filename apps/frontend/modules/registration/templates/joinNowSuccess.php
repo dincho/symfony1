@@ -24,12 +24,12 @@
         <?php echo pr_label_for('username'); ?>
         <?php echo input_tag('username') ?>
         <span class="check_available">
-        <?php echo link_to_remote(image_tag('input/butt_availability.gif'), array(
+        <?php echo button_to_remote(__('Check Availability'), array(
             'update' => 'ajax_response',
             'url'    => 'ajax/usernameExists',
             'with'     => "'username=' + $('username').value",
-        )) ?>        
-        </span><br />
+        ), array('class' => 'button_mini butt_availability')) ?>        
+        </span><br class="clear" />
         <div id="ajax_response"></div>
                 
         <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
@@ -37,6 +37,7 @@
                                   '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>
         <?php echo pr_label_for('terms', $tos_text, array('class' => 'tos'), false) ?>
         <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input')) ?>
-        <?php echo submit_tag('', array('class' => 'submit_join')) ?>
+        
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
     </fieldset>
 </form>

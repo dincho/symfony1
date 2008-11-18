@@ -17,5 +17,5 @@
     <?php echo pr_label_for('deactivate_profile', 'Deactivate your profile') ?><br />
     
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
-    <?php echo submit_tag('Save', array('class' => 'save', 'name' => 'save')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'name' => 'save')) ?>
 </form>

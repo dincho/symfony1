@@ -4,7 +4,7 @@
 
 <form action="<?php echo url_for('search/selectCountries')?>" id="countries" method="post">
     <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
-    <input type="submit" value="Save" class="save" /><br />
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br />
     <fieldset class="fieldcountry">
             <?php $p_char = '';$i=1;foreach ($countries as $key => $value): ?>
                 <?php if( $value{0} != $p_char ): ?>
@@ -25,6 +25,6 @@
             <?php endforeach; ?>
         </fieldset>
     <br class="clear" />
-    <input type="submit" value="Save" class="save" /><br />
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br />
     <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
 </form>

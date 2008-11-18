@@ -8,7 +8,7 @@
         <?php echo pr_label_for('introduction', 'Introduction:') ?><br />
         <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction')) ?><br />
         <span><?php echo __('(2,500 Characters max)') ?></span>
-        <?php echo submit_tag('', array('class' => 'save_and_cont')) ?>
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
     </fieldset>
     <div id="tips">
         <strong><?php echo __('Helpful Tips') ?></strong><br /><br />

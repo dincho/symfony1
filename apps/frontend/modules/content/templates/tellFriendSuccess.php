@@ -31,6 +31,6 @@
     </div>
     <span class="tell_friend_footer">
         <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-        <?php echo submit_tag('', array('class' => 'send_friend')) ?>    
+        <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
     </span>
 </form>

@@ -43,17 +43,7 @@ textarea {
 }
 
 body .sign_in {
-    display: block;
-    background-image: url(/images/input/sign_in.gif);
-    border: 0px;
-    color: #fff;
-    width: 63px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    height: 28px;
-    cursor: pointer;
+    margin: 20px auto 10px auto;
 }
 
 body .public_matches_search {
@@ -65,6 +55,18 @@ body .public_matches_search {
     float: left;
     margin-top: 5px;
 }
+
+#secondary_container span.loading {
+    display: block;
+    width: 135px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;
+    text-align: center;
+    font-size: 11px;
+    color: #872d30;
+}
+
 /* main */ /* header */
 #polish_romance_logo {
     float: left;
@@ -960,8 +962,8 @@ span {
     cursor: pointer;
 }
 
-#secondary_container span.check_available {
-    padding-left: 163px;
+#secondary_container span.check_available input {
+    margin-left: 163px;
 }
 
 #essay {
@@ -1495,7 +1497,7 @@ span.sec_link {
     width: 80px;
     padding: 0 7px 0 3px;
     background-color: #363639;
-    margin: 2px 0 !important;
+    margin: 0 0 !important;
 }
 
 #register .check_available {
@@ -1503,10 +1505,9 @@ span.sec_link {
     background: none;
 }
 
-#register .butt_availability {
-    margin: 0 0 0 63px;
-    height: 10px;
-    line-height: 10px;
+#register .button_mini {
+    margin: 0 2px 0 0;
+    float: right;
 }
 
 #register input,#register select {
@@ -1550,7 +1551,7 @@ span.sec_link {
 }
 
 #register .reg_submit_container {
-    height: 153px;
+    height: 149px;
     float: left;
     background-color: #363639;
     padding: 0 2px;
@@ -2359,3 +2360,34 @@ label.error, #secondary_container div.error,
     margin-left: 5px;
     margin-top: 5px;
 }
+
+/* New buttons - I18N Ready */
+button, .button, form .button {
+    height: 28px !important;
+    width: auto !important;
+    background: black url(/images/button_bg.jpg) repeat-x top left;
+    color: white !important;
+    font-family: Arial;
+    font-size: 12px !important;
+    border: 1px solid #171717; /* right-bottom */
+    border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
+    padding: 6px 8px !important;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.button_mini {
+    height: 18px !important;
+    width: auto !important;
+    background: black url(/images/button_mini_bg.jpg) repeat-x top left;
+    color: #A0A0A0;
+    font-family: Arial;
+    font-size: 10px !important;
+    border: 1px solid #171717; /* right-bottom */
+    border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
+    padding: 0 2px !important;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+/* END New buttons */

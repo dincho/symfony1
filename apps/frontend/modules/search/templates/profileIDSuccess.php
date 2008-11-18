@@ -4,8 +4,8 @@
 
 <form action="<?php echo url_for('search/profileID')?>" method="post">
     <label for="profile_id"><?php echo __('Enter profile ID, e.g. "999 9999"') ?></label>
-    <input type="text" name="profile_id" class="input_text_width" id="profile_id" />
-    <input type="submit" value="" class="public_matches_search" />
+    <input type="text" name="profile_id" class="input_text_width" id="profile_id" /><br />
+    <?php echo submit_tag(__('Search'), array('class' => 'button')) ?>
 </form>
 
 <br /><br />

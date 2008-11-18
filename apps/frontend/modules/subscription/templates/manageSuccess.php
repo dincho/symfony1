@@ -16,5 +16,5 @@
     
     <?php echo __('If you switch auto-renewal to OFF, you can still be a full member but you will be required to make the payment every month manually; we will send you reminder by email. If you don\'t want to be a full member anymore, switch auto-renewal to OFF and just don\'t make manual payments. To find out more please go to %LINK_TO_HELP%', array('%LINK_TO_HELP%' => link_to(__('Help'), '@page?slug=help', 'class=sec_link')) ) ?>.<br /><br /><br />
     <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), 'class=save') ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>

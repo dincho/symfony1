@@ -12,7 +12,7 @@
         <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction')) ?><br />
         <span><?php echo __('(2,500 Characters max)') ?></span>
         <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
-        <?php echo submit_tag('Save', array('class' => 'save')) ?>
+        <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
     </fieldset>
     <div id="tips">
         <strong><?php echo __('Helpful Tips') ?></strong><br /><br />

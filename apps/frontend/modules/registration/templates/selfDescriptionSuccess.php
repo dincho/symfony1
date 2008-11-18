@@ -20,6 +20,6 @@
       <?php endif; ?>
     <?php endforeach; ?>
         
-    <?php echo submit_tag('', array('class' => 'save_and_cont')) ?>
+    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>
 <span><?php echo __('Note: You will be able to change this information later.') ?></span>

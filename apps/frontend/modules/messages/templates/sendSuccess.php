@@ -21,7 +21,7 @@
 	</fieldset>
 	<fieldset class="background_000">
 		<label><?php echo link_to(__('Cancel'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=sec_link') ?></label>
-		<?php echo submit_tag('', 'class=send_mini') ?><br />
+		<?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?><br />
 	</fieldset>
 </form>
 <?php slot('footer_menu') ?>

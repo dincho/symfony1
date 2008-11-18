@@ -15,8 +15,6 @@
             <div id="assistant_profile">
                 <?php echo image_tag('pic/banner_assistant.jpg') ?>
                 <p><?php echo __('Still can’t find the answer? Please write me a message. I’ll do my best to respond within 24 hours. Good Luck!<br /><br />Agnieszka, Online Assistant') ?></p>
-                
-                
             </div>
         </div>  
             
@@ -27,5 +25,5 @@
     </fieldset>
 
     <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag('', array('class' => 'send_mini')) ?>
+    <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
 </form>

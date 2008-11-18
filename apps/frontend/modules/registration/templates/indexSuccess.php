@@ -33,7 +33,7 @@
     </fieldset>
     <span class="public_reg_notice"><?php echo __('Important Notice: You are NOT allowed to continue and to use this service, if you have been convicted, or if you are charged with any crime of violence, domestic violence, or if you are married, or if you are a sex offender (registered or not registered). We will take legal action against those who will not comply with these requirements.') ?></span> 
     <fieldset>
-        <?php echo submit_tag('', array('class' => 'save_and_cont')) ?>
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
     </fieldset>
     <span><?php echo __('Note: You will be able to change this information later.') ?></span>
 </form>

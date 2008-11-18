@@ -51,5 +51,5 @@
         
     <hr />
     <span><?php echo __('The application will not be "signed" in the sense of a traditional paper document. To verify the contents of the application, the signatory must enter any alpha/numeric character(s) or combination thereof of his or her choosing, preceded and followed by the forward slash (/) symbol. The PolishRomance does not determine or pre-approve what the entry should be, but simply presumes that this specific entry has been adopted to serve the function of the signature. Most signatories simply enter their names between the two forward slashes, although acceptable "signatures" could include /john doe/; /jd/; or /123-4567/. The application may still be validated to check for missing information or errors even if the signature and date signed fields are left blank.') ?></span><br /><br />
-    <?php echo submit_tag('', array('class' => 'save_and_cont')) ?>
+    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>

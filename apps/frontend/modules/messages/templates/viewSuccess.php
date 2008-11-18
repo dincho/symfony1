@@ -19,10 +19,10 @@
     </div>
     <div class="message_desc"><?php echo strip_tags($sf_data->getRaw('message')->getContent(), '<br>'); ?></div>
     <div class="actions">
-      <?php echo button_to('', 'messages/delete?selected[]=' . $message->getId(), array('class' => 'delete', 'confirm' => 'Are you sure you want to delete this message?')) ?>
-      <?php echo button_to('', 'messages/index', 'class=close') ?>
+      <?php echo button_to(__('Delete'), 'messages/delete?selected[]=' . $message->getId(), array('class' => 'button_mini', 'confirm' => 'Are you sure you want to delete this message?')) ?>
+      <?php echo button_to(__('Close'), 'messages/index', 'class=button_mini') ?>
       <?php if( !$message->getIsReplied() ): ?>
-        <?php echo button_to('', 'messages/reply?profile_id=' . $message->getMemberRelatedByFromMemberId()->getId() . '&id=' . $message->getId(), 'class=reply') ?>
+        <?php echo button_to(__('Reply'), 'messages/reply?profile_id=' . $message->getMemberRelatedByFromMemberId()->getId() . '&id=' . $message->getId(), 'class=button_mini') ?>
       <?php endif; ?>
     </div>
 </div>

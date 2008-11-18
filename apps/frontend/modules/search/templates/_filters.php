@@ -18,5 +18,5 @@
         <label for="filters_include_poland"><?php echo __('Include matches in Poland') ?></label>
         <span><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1') ?></span>
     </p>
-        <?php echo submit_tag('', array('class' => 'public_matches_search', 'name' => 'filter', 'onclick' => "show_loader('match_results')")) ?>
+        <?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results')")) ?>
 </form>

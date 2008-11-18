@@ -11,7 +11,7 @@
         <?php endif; ?>
         <span><?php echo link_to('Forgot your Password?', 'profile/forgotYourPassword', array('class' => 'sec_link_small')) ?></span>
     </fieldset>
-    <input type="submit" class="sign_in" value="" /><br />
+    <?php echo submit_tag('Sign In', array('class' => 'button sign_in')) ?><br />
     <?php echo __('New to PolishRomance.com? %link_to_join_now%', array('%link_to_join_now%' => link_to(__('Join for free'), 'registration/joinNow', array('class' => 'sec_link')))) ?>
 </form>
 </div>

@@ -76,6 +76,6 @@ In order to see more matches and send messages, please upgrade your subscription
         <br /><br /><br />
         
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
-        <?php echo submit_tag('Save', array('class' => 'save')) ?>
+        <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
 <br class="clear" />

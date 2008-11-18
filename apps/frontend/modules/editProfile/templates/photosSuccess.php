@@ -16,7 +16,7 @@
                   <span>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
-                <?php echo button_to('', 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'delete', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
+                  <?php echo button_to(__('Delete'), 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?'))) ?>
               </div>
         <?php if( $i++ % 5 == 0 && $i < $cnt_photos): ?>
         </div>
@@ -36,5 +36,5 @@
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
     
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
-    <?php echo submit_tag('Save', array('class' => 'save', 'name' => 'save')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'name' => 'save')) ?>
 </form>

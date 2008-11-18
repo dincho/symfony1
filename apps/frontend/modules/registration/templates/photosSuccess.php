@@ -16,7 +16,7 @@ At least 1 photograph is required in order to continue.<br />
                   <span>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
-                <?php echo button_to('', 'registration/deletePhoto?id=' . $photo->getId(), array('class' => 'delete', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
+                <?php echo button_to(__('Delete'), 'registration/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?') )) ?>
               </div>
             <?php endforeach; ?>
         </div>
@@ -30,6 +30,6 @@ At least 1 photograph is required in order to continue.<br />
     <?php echo __("YouTube URL ") ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
     
-    <?php echo submit_tag('', array('class' => 'save_and_cont_photos', 'name' => 'save')) ?><br />
+    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save')) ?><br />
     <span><?php echo __('Note: You can change your photos later.') ?></span>
 </form>

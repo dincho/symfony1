@@ -14,5 +14,5 @@
         <?php echo __('You may also delete your account by <a href="{DELETE_PROFILE_URL}" class="actions">clicking here</a>.', array('{DELETE_PROFILE_URL}' => url_for('dashboard/deleteYourAccount'))) ?>
     </div>
     <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'save')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>

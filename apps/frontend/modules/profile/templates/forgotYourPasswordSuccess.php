@@ -2,5 +2,5 @@
 <?php echo form_tag('profile/forgotYourPassword', 'id=forgot_password') ?>
     <label for="email"><?php echo __('Your email address'); ?></label>
     <?php echo input_tag('email', null, array('class' => 'input_text_width', 'size' => 25)) ?>
-    <?php echo submit_tag('', array('class' => 'submit_class')) ?>
+    <?php echo submit_tag(__('Submit'), array('class' => 'button')) ?>
 </form>

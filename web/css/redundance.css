@@ -858,17 +858,6 @@
     font-size: 11px;
 }
 
-#secondary_container span.loading {
-    display: block;
-    width: 135px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 35px;
-    text-align: center;
-    font-size: 11px;
-    color: #872d30;
-}
-
 #secondary_container.no-margin {
     padding-top: 5px;
     margin-left: 28px;

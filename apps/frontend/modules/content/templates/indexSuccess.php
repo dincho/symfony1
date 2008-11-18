@@ -41,11 +41,11 @@
                         <?php echo input_tag('username') ?><br class="clear" />
                         
                         <?php echo pr_label_for('butt_availability', '', array('class' => 'check_available')) ?>
-                        <?php echo link_to_remote(image_tag('input/butt_availability.gif'), array(
+                        <?php echo button_to_remote(__('Check Availability'), array(
                             'update' => 'ajax_response',
                             'url'    => 'ajax/usernameExists',
                             'with'     => "'username=' + $('username').value",
-                        ), array('class' => 'butt_availability')) ?><br class="clear" />
+                        ), array('class' => 'button_mini')) ?><br class="clear" />
                                                                 
                         <?php echo pr_label_for('email', 'Your email') ?>
                         <?php echo input_tag('email') ?><br class="clear" />

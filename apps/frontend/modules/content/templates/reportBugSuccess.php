@@ -9,5 +9,5 @@
         <?php echo textarea_tag('description', null, array('id' =>'description', 'class' => 'text_area', 'rows' => 15, 'cols' => 60)) ?>
     </fieldset>
     <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag('', array('class' => 'send_mini')) ?>
+    <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
 </form>
