@@ -1,4 +1,5 @@
-<label class="title">
+<?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'title error' : 'title'; ?>
+<label class="<?php echo $class; ?>">
     <?php echo ++$i; ?>. <?php echo $question->getTitle() ?> 
     <span>
     <?php if($question->getType() == 'age'): ?>

@@ -9,7 +9,6 @@
  */
 class editProfileActions extends sfActions
 {
-
     public function executeRegistration()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
@@ -103,6 +102,7 @@ class editProfileActions extends sfActions
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
@@ -146,6 +146,44 @@ class editProfileActions extends sfActions
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
     }
 
+    public function validateSelfDescription()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $questions = DescQuestionPeer::getQuestionsAssoc();
+            $answers = $this->getRequestParameter('answers');
+            $has_error = false;
+            
+            foreach ($questions as $question)
+            {
+                if( $question->getIsRequired() && (!isset($answers[$question->getId()]) || empty($answers[$question->getId()])) ) 
+                {
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
+                    $has_error = true;
+                }
+            }
+            
+            if ($has_error)
+            {
+                $this->setFlash('dont_show_errors', true);
+                $this->setFlash('msg_error', 'You must fill out the missing information below indicated in red.');
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public function handleErrorSelfDescription()
+    {
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->questions = DescQuestionPeer::doSelect(new Criteria());
+        $this->answers = DescAnswerPeer::getAnswersAssoc();
+        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
+
+        return sfView::SUCCESS;
+    }
+    
     public function executeEssay()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));

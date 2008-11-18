@@ -121,7 +121,7 @@ class registrationActions extends sfActions
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
-        //$this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
                 
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
@@ -166,6 +166,44 @@ class registrationActions extends sfActions
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
         
+    }
+    
+    public function validateSelfDescription()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $questions = DescQuestionPeer::getQuestionsAssoc();
+            $answers = $this->getRequestParameter('answers');
+            $has_error = false;
+            
+            foreach ($questions as $question)
+            {
+                if( $question->getIsRequired() && (!isset($answers[$question->getId()]) || empty($answers[$question->getId()])) ) 
+                {
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
+                    $has_error = true;
+                }
+            }
+            
+            if ($has_error)
+            {
+                $this->setFlash('dont_show_errors', true);
+                $this->setFlash('msg_error', 'You must fill out the missing information below indicated in red.');
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public function handleErrorSelfDescription()
+    {
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->questions = DescQuestionPeer::doSelect(new Criteria());
+        $this->answers = DescAnswerPeer::getAnswersAssoc();
+        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
+
+        return sfView::SUCCESS;
     }
     
     public function executeEssay()
