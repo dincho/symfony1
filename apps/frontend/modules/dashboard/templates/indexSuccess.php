@@ -90,7 +90,7 @@
             <!--  <li><?php //echo link_to(__('Best Videos'), '@page?slug=best_videos', array('class' => 'sec_link')) ?></li> -->
         </ul>
     </div>
-    <?php if( false && count($recent_visits) > 0 ): ?>
+    <?php if( count($recent_visits) > 0 ): ?>
         <div class="bottom">
             <strong><?php echo __('Recently viewed profiles:') ?></strong>
             <?php foreach ($recent_visits as $profile): ?>
