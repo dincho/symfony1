@@ -10,13 +10,14 @@
  */
 class registrationActions extends sfActions
 {
+
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
         $this->setLayout('simple');
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Registration', 'uri' => 'registration/joinNow'));
         
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = new Member();
             $member->setUsername($this->getRequestParameter('username'));
@@ -43,14 +44,14 @@ class registrationActions extends sfActions
             $this->redirect('content/message');
         }
     }
-    
+
     public function handleErrorJoinNow()
     {
         $this->setLayout('simple');
         
         return sfView::SUCCESS;
     }
-    
+
     /* Step 2 - email confirmation */
     public function executeActivate()
     {
@@ -70,7 +71,7 @@ class registrationActions extends sfActions
         
         //log in the member so he/she can continue with registration
         $this->getUser()->SignIn($member);
-
+        
         sfLoader::loadHelpers(array('Url'));
         $this->setFlash('s_title', 'Welcome');
         $this->setFlash('s_msg', 'Congratulations! You’ve just activated your account. <a href="{REGISTRATION_URL}" class="sec_link">Please finish the sign up now.</a>');
@@ -78,7 +79,7 @@ class registrationActions extends sfActions
         
         $this->redirect('content/message');
     }
-    
+
     /* Step 3 - registration coutry, zip, names .. */
     public function executeIndex()
     {
@@ -87,7 +88,7 @@ class registrationActions extends sfActions
         $this->forward404Unless($member); //just in case
         $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
         
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state'));
@@ -104,7 +105,7 @@ class registrationActions extends sfActions
         
         $this->member = $member;
     }
-    
+
     public function handleErrorIndex()
     {
         $this->setLayout('simple');
@@ -112,9 +113,10 @@ class registrationActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($this->member); //just in case
         
+
         return sfView::SUCCESS;
     }
-    
+
     public function executeSelfDescription()
     {
         $this->setLayout('simple');
@@ -122,12 +124,13 @@ class registrationActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
-                
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
-
+            $others = $this->getRequestParameter('others');
+            
             foreach ($this->getRequestParameter('answers') as $question_id => $value)
             {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
@@ -135,23 +138,28 @@ class registrationActions extends sfActions
                 $m_answer = new MemberDescAnswer();
                 $m_answer->setDescQuestionId($question_id);
                 $m_answer->setMemberId($this->getUser()->getId());
-                                    
-                if( $q->getType() == 'other_langs' )
+                
+                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id]))
+                {
+                    $m_answer->setDescAnswerId(null);
+                    $m_answer->setOther($others[$question_id]);
+                } elseif ($q->getType() == 'other_langs')
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
-                } elseif( $q->getType() == 'native_lang')
+                } elseif ($q->getType() == 'native_lang')
                 {
                     $m_answer->setCustom($value);
                     $m_answer->setDescAnswerId(null);
-                    $this->member->setLanguage($value);                  
-                } elseif($q->getType() == 'age')
+                    $this->member->setLanguage($value);
+                } elseif ($q->getType() == 'age')
                 {
-                    $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));
+                    $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
                     $m_answer->setCustom($birthday);
                     $m_answer->setDescAnswerId(null);
-                    $this->member->setBirthDay($birthday);                    
-                } else {
+                    $this->member->setBirthDay($birthday);
+                } else
+                {
                     $m_answer->setDescAnswerId($value);
                 }
                 
@@ -165,20 +173,22 @@ class registrationActions extends sfActions
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
-        
-    }
     
+    }
+
     public function validateSelfDescription()
     {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $questions = DescQuestionPeer::getQuestionsAssoc();
             $answers = $this->getRequestParameter('answers');
+            $others = $this->getRequestParameter('others');
             $has_error = false;
             
             foreach ($questions as $question)
             {
-                if( $question->getIsRequired() && (!isset($answers[$question->getId()]) || empty($answers[$question->getId()])) ) 
+                if ($question->getIsRequired() && (! isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || (! is_null(
+                        $question->getOther()) && $answers[$question->getId()] == 'other' && ! $others[$question->getId()])))
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
                     $has_error = true;
@@ -195,17 +205,17 @@ class registrationActions extends sfActions
         
         return true;
     }
-    
+
     public function handleErrorSelfDescription()
     {
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
-
+        
         return sfView::SUCCESS;
     }
-    
+
     public function executeEssay()
     {
         $this->setLayout('simple');
@@ -213,8 +223,8 @@ class registrationActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
-                
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
@@ -223,17 +233,18 @@ class registrationActions extends sfActions
             $this->redirect('registration/photos');
         }
     }
-    
+
     public function handleErrorEssay()
     {
         $this->setLayout('simple');
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case  
-                
+        
+
         return sfView::SUCCESS;
     }
-    
+
     public function executePhotos()
     {
         $this->setLayout('simple');
@@ -251,25 +262,27 @@ class registrationActions extends sfActions
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
                 
-                if( $this->member->countMemberPhotos() == 1 ) $this->member->setMemberPhoto($new_photo);
+                if ($this->member->countMemberPhotos() == 1)
+                    $this->member->setMemberPhoto($new_photo);
             }
             
             //set main photo
             if ($this->getRequestParameter('main_photo'))
             {
                 $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if( $photo ) $photo->setAsMainPhoto();
+                if ($photo)
+                    $photo->setAsMainPhoto();
             }
             
             //YouTube Video
             $youtube_url = $this->getRequestParameter('youtube_url');
             $matches = array();
             preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9]+)#i', $youtube_url, $matches);
-            $this->member->setYoutubeVid( ($youtube_url && isset($matches[1])) ? $matches[1] : null);
+            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
             $this->member->save();
-                        
+            
             //if the form is submited by "Save and continue" button
-            if( !$this->getRequestParameter('commit') )
+            if (! $this->getRequestParameter('commit'))
             {
                 $this->getUser()->completeRegistration();
             } //else the upload button is pressed "commit", so show the photos ..
@@ -285,16 +298,17 @@ class registrationActions extends sfActions
             $subscription = $member->getSubscription();
             $cnt_photos = $member->countMemberPhotos();
             
-            if( !$subscription->getCanPostPhoto() )
+            if (! $subscription->getCanPostPhoto())
             {
                 $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
-                return false;                
+                return false;
             }
             
-            if( $cnt_photos >= $subscription->getPostPhotos() )
+            if ($cnt_photos >= $subscription->getPostPhotos())
             {
-                $this->getRequest()->setError('subscription', 'For the feature that you want want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
-                return false;                
+                $this->getRequest()->setError('subscription', 
+                        'For the feature that you want want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                return false;
             }
         }
         
@@ -307,9 +321,9 @@ class registrationActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->photos = $this->member->getMemberPhotos();
-        return sfView::SUCCESS;        
+        return sfView::SUCCESS;
     }
-    
+
     public function executeDeletePhoto()
     {
         $c = new Criteria();
@@ -323,20 +337,20 @@ class registrationActions extends sfActions
         $this->setFlash('msg_ok', 'Your photo has been deleted.');
         $this->redirect('registration/photos');
     }
-    
+
     public function validateDeletePhoto()
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $photos = $member->countMemberPhotos();
-
-        if( $photos < 2 )
+        
+        if ($photos < 2)
         {
             $this->getRequest()->setError('photo', 'You only have 1 photo, please upload a second photo and then delete it.');
             return false;
         }
-        return true;    
+        return true;
     }
-    
+
     public function handleErrorDeletePhoto()
     {
         $this->setLayout('simple');
@@ -345,7 +359,7 @@ class registrationActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->photos = $this->member->getMemberPhotos();
-                        
+        
         return sfView::SUCCESS;
     }
 }

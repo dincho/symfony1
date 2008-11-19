@@ -9,6 +9,7 @@
  */
 class editProfileActions extends sfActions
 {
+
     public function executeRegistration()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
@@ -29,12 +30,13 @@ class editProfileActions extends sfActions
             
             if ($this->getRequestParameter('password')) //password changed
             {
-                if( $this->getUser()->getAttribute('must_change_pwd', false)) //comming from forgot password
+                if ($this->getUser()->getAttribute('must_change_pwd', false)) //comming from forgot password
                 {
                     $member->setPassword($this->getRequestParameter('password'));
                     $member->setMustChangePwd(false);
-                    $this->getUser()->setAttribute('must_change_pwd', false);                    
-                } else {
+                    $this->getUser()->setAttribute('must_change_pwd', false);
+                } else
+                {
                     $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
                                     in to our website. We have sent you an email. Please go to the message and confirm the change. Until 
                                     you do so, you will have to use your current password to log in.  
@@ -56,7 +58,8 @@ class editProfileActions extends sfActions
             $member->save();
             
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
-            if ($flash_error) $this->setFlash('msg_error', $flash_error);
+            if ($flash_error)
+                $this->setFlash('msg_error', $flash_error);
             $this->redirect('dashboard/index'); //the dashboard
         }
         $this->member = $member;
@@ -103,11 +106,13 @@ class editProfileActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         
+
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
-
+            $others = $this->getRequestParameter('others');
+            
             foreach ($this->getRequestParameter('answers') as $question_id => $value)
             {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
@@ -115,18 +120,22 @@ class editProfileActions extends sfActions
                 $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->getUser()->getId());
                 
-                if ($q->getType() == 'other_langs')
+                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id]))
+                {
+                    $m_answer->setDescAnswerId(null);
+                    $m_answer->setOther($others[$question_id]);
+                } elseif ($q->getType() == 'other_langs')
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
-                } elseif( $q->getType() == 'native_lang')
+                } elseif ($q->getType() == 'native_lang')
                 {
                     $m_answer->setCustom($value);
                     $m_answer->setDescAnswerId(null);
                     $this->member->setLanguage($value);
-                } elseif($q->getType() == 'age')
+                } elseif ($q->getType() == 'age')
                 {
-                    $birthday = date('Y-m-d', mktime(0,0,0,$value['month'],$value['day'],$value['year']));
+                    $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
                     $m_answer->setCustom($birthday);
                     $m_answer->setDescAnswerId(null);
                     $this->member->setBirthDay($birthday);
@@ -136,7 +145,6 @@ class editProfileActions extends sfActions
                 }
                 $m_answer->save();
             }
-            
             $this->member->save();
             $this->setFlash('msg_ok', 'Your Self-description Information has been updated');
             $this->redirect('dashboard/index');
@@ -148,15 +156,18 @@ class editProfileActions extends sfActions
 
     public function validateSelfDescription()
     {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $questions = DescQuestionPeer::getQuestionsAssoc();
             $answers = $this->getRequestParameter('answers');
+            $others = $this->getRequestParameter('others');
+            
             $has_error = false;
             
             foreach ($questions as $question)
             {
-                if( $question->getIsRequired() && (!isset($answers[$question->getId()]) || empty($answers[$question->getId()])) ) 
+                if ($question->getIsRequired() && (! isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || (! is_null(
+                        $question->getOther()) && $answers[$question->getId()] == 'other' && ! $others[$question->getId()])))
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
                     $has_error = true;
@@ -173,17 +184,17 @@ class editProfileActions extends sfActions
         
         return true;
     }
-    
+
     public function handleErrorSelfDescription()
     {
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
-
+        
         return sfView::SUCCESS;
     }
-    
+
     public function executeEssay()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
@@ -213,6 +224,7 @@ class editProfileActions extends sfActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         
+
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))
@@ -222,14 +234,16 @@ class editProfileActions extends sfActions
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
                 
-                if( $this->member->countMemberPhotos() == 1 ) $this->member->setMemberPhoto($new_photo);
+                if ($this->member->countMemberPhotos() == 1)
+                    $this->member->setMemberPhoto($new_photo);
             }
             
             //set main photo
             if ($this->getRequestParameter('main_photo'))
             {
                 $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo) $this->member->setMemberPhoto($photo);
+                if ($photo)
+                    $this->member->setMemberPhoto($photo);
             }
             
             //YouTube Video
@@ -240,7 +254,7 @@ class editProfileActions extends sfActions
             $this->member->save();
             
             //if the form is submited by "Save and continue" button
-            if (!$this->getRequestParameter('commit'))
+            if (! $this->getRequestParameter('commit'))
             {
                 $this->redirect('dashboard/index');
             } //else the upload button is pressed "commit", so show the photos ..
@@ -257,22 +271,23 @@ class editProfileActions extends sfActions
             $subscription = $member->getSubscription();
             $cnt_photos = $member->countMemberPhotos();
             
-            if( !$subscription->getCanPostPhoto() )
+            if (! $subscription->getCanPostPhoto())
             {
                 $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
-                return false;                
+                return false;
             }
             
-            if( $cnt_photos >= $subscription->getPostPhotos() )
+            if ($cnt_photos >= $subscription->getPostPhotos())
             {
-                $this->getRequest()->setError('subscription', 'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
-                return false;                
+                $this->getRequest()->setError('subscription', 
+                        'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                return false;
             }
         }
         
         return true;
     }
-    
+
     public function handleErrorPhotos()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
@@ -281,7 +296,7 @@ class editProfileActions extends sfActions
         $this->photos = $this->member->getMemberPhotos();
         return sfView::SUCCESS;
     }
-    
+
     public function executeDeletePhoto()
     {
         $c = new Criteria();
@@ -295,7 +310,7 @@ class editProfileActions extends sfActions
         $this->setFlash('msg_ok', 'Your photo has been deleted.');
         $this->redirect('editProfile/photos');
     }
-    
+
     public function validateDeletePhoto()
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
@@ -307,7 +322,6 @@ class editProfileActions extends sfActions
         }
         return true;
     }
-    
 
     public function handleErrorDeletePhoto()
     {

@@ -101,11 +101,13 @@ propel:
     type:                     { type: varchar, size: 50 }
     is_required:              { type: boolean, required: true, default: true }
     select_greather:          { type: boolean, required: true, default: false }
+    other:                    { type: varchar, size: 255, required: false }
   desc_answer:
     id:
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
     title:                    { type: longvarchar } #longvarchar because of personality
     search_title:             { type: varchar, size: 255 }
+    desc_title:               { type: varchar, size: 255 }
   member_desc_answer:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

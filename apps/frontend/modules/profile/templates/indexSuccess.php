@@ -52,21 +52,32 @@
                     <dt><?php echo __('Zodiac') ?></dt><dd><?php echo $member->getZodiac()->getSign() ?></dd>
                 <?php endif; ?>
                 <?php foreach ($questions as $question): ?>
-                    <?php if( $question->getType() == 'radio' || $question->getType() == 'select'): ?>
+                    <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
-                            <dt><?php echo $question->getDescTitle() ?></dt><dd><?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?></dd>
+                            <dt><?php echo $question->getDescTitle() ?></dt>
+                            <dd>
+                                <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
+                                    <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?>
+                                <?php else: ?>
+                                    <?php echo $member_answers[$question->getId()]->getOther(); ?>
+                                <?php endif; ?>
+                            </dd>
                         <?php endif; ?>
                     <?php elseif( $question->getType() == 'native_lang' && ( isset($member_answers[$question->getId()])) ): ?>
                     
-                    <dt><?php echo __('Language'); ?></dt><dd><?php echo format_language($member_answers[$question->getId()]->getCustom()) ?> (native)</dd>
+                    <dt><?php echo __('Language'); ?></dt><dd><?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (native)</dd>
                     <?php elseif( $question->getType() == 'other_langs' ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
-                            <?php $lang_answers = $member_answers[$question->getId()]->getOtherLangs(); ?>
-                            <?php foreach ($lang_answers as $lang_answer): ?>
-                                <?php if( $lang_answer['lang'] ): ?>
-                                    <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)</dd>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                            <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
+                                <?php $lang_answers = $member_answers[$question->getId()]->getOtherLangs(); ?>
+                                <?php foreach ($lang_answers as $lang_answer): ?>
+                                    <?php if( $lang_answer['lang'] ): ?>
+                                        <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)</dd>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <dt>&nbsp;</dt><dd><?php echo $member_answers[$question->getId()]->getOther(); ?></dd>
+                            <?php endif; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>

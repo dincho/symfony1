@@ -1147,7 +1147,7 @@ label.title {
     margin-left: 4px;
 }
 
-#self_desc_form select {
+#self_desc_form select, #self_desc_form input {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
@@ -1160,6 +1160,14 @@ label.title {
 #self_desc_form .date_tag_wrap select {
     width: 60px;
 }
+
+#self_desc_form span.extra_info {
+    display: block;
+    width: 100px;
+    font-size: 11px;
+    padding: 5px 0 0 25px;
+}
+
 
 /* personality */
 #secondary_container .save_and_cont {

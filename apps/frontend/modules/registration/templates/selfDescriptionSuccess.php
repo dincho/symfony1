@@ -18,6 +18,7 @@
       <?php elseif( $question->getType() == 'other_langs' ): ?>
         <?php include_partial('editProfile/question_type_other_langs', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
       <?php endif; ?>
+      <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
     <?php endforeach; ?>
         
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
