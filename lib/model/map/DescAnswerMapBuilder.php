@@ -40,5 +40,7 @@ class DescAnswerMapBuilder {
 
 		$tMap->addColumn('SEARCH_TITLE', 'SearchTitle', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('DESC_TITLE', 'DescTitle', 'string', CreoleTypes::VARCHAR, false, 255);
+
 	} 
 } 

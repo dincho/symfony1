@@ -1,23 +1,4 @@
-
-CREATE TABLE `search_crit_desc`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`member_id` INTEGER  NOT NULL,
-	`desc_question_id` INTEGER  NOT NULL,
-	`desc_answers` TEXT,
-	`match_weight` TINYINT  NOT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `search_crit_desc_FI_1` (`member_id`),
-	CONSTRAINT `search_crit_desc_FK_1`
-		FOREIGN KEY (`member_id`)
-		REFERENCES `member` (`id`)
-		ON DELETE CASCADE,
-	INDEX `search_crit_desc_FI_2` (`desc_question_id`),
-	CONSTRAINT `search_crit_desc_FK_2`
-		FOREIGN KEY (`desc_question_id`)
-		REFERENCES `desc_question` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
+ALTER TABLE `desc_answer` ADD `desc_title` VARCHAR(255);
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)

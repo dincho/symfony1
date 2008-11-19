@@ -13,7 +13,7 @@ abstract class BaseDescAnswerPeer {
 	const CLASS_DEFAULT = 'lib.model.DescAnswer';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,26 @@ abstract class BaseDescAnswerPeer {
 	const SEARCH_TITLE = 'desc_answer.SEARCH_TITLE';
 
 	
+	const DESC_TITLE = 'desc_answer.DESC_TITLE';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'DescQuestionId', 'Title', 'SearchTitle', ),
-		BasePeer::TYPE_COLNAME => array (DescAnswerPeer::ID, DescAnswerPeer::DESC_QUESTION_ID, DescAnswerPeer::TITLE, DescAnswerPeer::SEARCH_TITLE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'desc_question_id', 'title', 'search_title', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'DescQuestionId', 'Title', 'SearchTitle', 'DescTitle', ),
+		BasePeer::TYPE_COLNAME => array (DescAnswerPeer::ID, DescAnswerPeer::DESC_QUESTION_ID, DescAnswerPeer::TITLE, DescAnswerPeer::SEARCH_TITLE, DescAnswerPeer::DESC_TITLE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'desc_question_id', 'title', 'search_title', 'desc_title', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'DescQuestionId' => 1, 'Title' => 2, 'SearchTitle' => 3, ),
-		BasePeer::TYPE_COLNAME => array (DescAnswerPeer::ID => 0, DescAnswerPeer::DESC_QUESTION_ID => 1, DescAnswerPeer::TITLE => 2, DescAnswerPeer::SEARCH_TITLE => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'desc_question_id' => 1, 'title' => 2, 'search_title' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'DescQuestionId' => 1, 'Title' => 2, 'SearchTitle' => 3, 'DescTitle' => 4, ),
+		BasePeer::TYPE_COLNAME => array (DescAnswerPeer::ID => 0, DescAnswerPeer::DESC_QUESTION_ID => 1, DescAnswerPeer::TITLE => 2, DescAnswerPeer::SEARCH_TITLE => 3, DescAnswerPeer::DESC_TITLE => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'desc_question_id' => 1, 'title' => 2, 'search_title' => 3, 'desc_title' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
@@ -109,6 +112,8 @@ abstract class BaseDescAnswerPeer {
 		$criteria->addSelectColumn(DescAnswerPeer::TITLE);
 
 		$criteria->addSelectColumn(DescAnswerPeer::SEARCH_TITLE);
+
+		$criteria->addSelectColumn(DescAnswerPeer::DESC_TITLE);
 
 	}
 

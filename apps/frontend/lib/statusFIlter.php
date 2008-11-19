@@ -18,7 +18,7 @@ class statusFilter extends sfFilter
             $action = $context->getActionName();
             $user = $context->getUser();
             //second condition is to bypass case constructor if status is active
-            if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && ($module . '/' . $action) != 'content/message' && $module != 'ajax')
+            if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && ($module . '/' . $action) != 'content/message' && ($module . '/' . $action) != 'content/page' && $module != 'ajax')
             {
                 $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
                 switch ($user->getAttribute('status_id')) {

@@ -25,7 +25,7 @@
             </div>
             <?php include_partial('content/messages'); ?>          
             <?php include_partial('content/formErrors'); ?>          
-            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title)); ?>
+            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'header_span' => $header_span)); ?>
             <div id="secondary_container">
                 <?php echo $sf_data->getRaw('sf_content') ?>
             </div>

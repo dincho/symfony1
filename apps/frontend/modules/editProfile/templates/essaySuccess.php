@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript') ?>
 
 <?php echo __('You may change your essay here.') ?><br />
 <span><?php echo __("Make changes and click Save.") ?></span>
@@ -9,9 +9,8 @@
         <?php echo object_input_tag($member, 'getEssayHeadline', array('class' => 'essay', 'size' => 30) ) ?><br /><br />
         
         <?php echo pr_label_for('introduction', 'Introduction:') ?><br />
-        <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction')) ?><br />
-        <span><?php echo __('(2,500 Characters max)') ?></span>
-        <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
+        <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction', 'maxlength' => 2500)) ?><br />
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
     </fieldset>
     <div id="tips">
@@ -29,3 +28,4 @@
 </form>
 <br class="clear" />
 <span><?php echo __('Note: You will be able to change this information later.') ?></span>
+<?php echo javascript_tag('parseCharCounts();') ?>

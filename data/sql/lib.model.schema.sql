@@ -229,6 +229,7 @@ CREATE TABLE `desc_question`
 	`type` VARCHAR(50),
 	`is_required` INTEGER default 1 NOT NULL,
 	`select_greather` INTEGER default 0 NOT NULL,
+	`other` VARCHAR(255),
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
@@ -245,6 +246,7 @@ CREATE TABLE `desc_answer`
 	`desc_question_id` INTEGER  NOT NULL,
 	`title` TEXT,
 	`search_title` VARCHAR(255),
+	`desc_title` VARCHAR(255),
 	PRIMARY KEY (`id`),
 	INDEX `desc_answer_FI_1` (`desc_question_id`),
 	CONSTRAINT `desc_answer_FK_1`

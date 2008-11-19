@@ -23,6 +23,10 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 	
 	protected $search_title;
 
+
+	
+	protected $desc_title;
+
 	
 	protected $aDescQuestion;
 
@@ -58,6 +62,13 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 	{
 
 		return $this->search_title;
+	}
+
+	
+	public function getDescTitle()
+	{
+
+		return $this->desc_title;
 	}
 
 	
@@ -129,6 +140,22 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDescTitle($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->desc_title !== $v) {
+			$this->desc_title = $v;
+			$this->modifiedColumns[] = DescAnswerPeer::DESC_TITLE;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -141,11 +168,13 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 
 			$this->search_title = $rs->getString($startcol + 3);
 
+			$this->desc_title = $rs->getString($startcol + 4);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 5; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating DescAnswer object", $e);
 		}
@@ -334,6 +363,9 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 			case 3:
 				return $this->getSearchTitle();
 				break;
+			case 4:
+				return $this->getDescTitle();
+				break;
 			default:
 				return null;
 				break;
@@ -348,6 +380,7 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 			$keys[1] => $this->getDescQuestionId(),
 			$keys[2] => $this->getTitle(),
 			$keys[3] => $this->getSearchTitle(),
+			$keys[4] => $this->getDescTitle(),
 		);
 		return $result;
 	}
@@ -375,6 +408,9 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 			case 3:
 				$this->setSearchTitle($value);
 				break;
+			case 4:
+				$this->setDescTitle($value);
+				break;
 		} 	}
 
 	
@@ -386,6 +422,7 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setDescQuestionId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setSearchTitle($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDescTitle($arr[$keys[4]]);
 	}
 
 	
@@ -397,6 +434,7 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(DescAnswerPeer::DESC_QUESTION_ID)) $criteria->add(DescAnswerPeer::DESC_QUESTION_ID, $this->desc_question_id);
 		if ($this->isColumnModified(DescAnswerPeer::TITLE)) $criteria->add(DescAnswerPeer::TITLE, $this->title);
 		if ($this->isColumnModified(DescAnswerPeer::SEARCH_TITLE)) $criteria->add(DescAnswerPeer::SEARCH_TITLE, $this->search_title);
+		if ($this->isColumnModified(DescAnswerPeer::DESC_TITLE)) $criteria->add(DescAnswerPeer::DESC_TITLE, $this->desc_title);
 
 		return $criteria;
 	}
@@ -432,6 +470,8 @@ abstract class BaseDescAnswer extends BaseObject  implements Persistent {
 		$copyObj->setTitle($this->title);
 
 		$copyObj->setSearchTitle($this->search_title);
+
+		$copyObj->setDescTitle($this->desc_title);
 
 
 		$copyObj->setNew(true);

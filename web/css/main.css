@@ -39,7 +39,7 @@ img {
 
 textarea {
     font-family: Arial;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 body .sign_in {
@@ -220,6 +220,14 @@ body .public_matches_search {
     line-height: 20px;
     font-weight: normal;
     background-color: #3d3d3d;
+}
+
+#header_text #header_title span {
+    float: right;
+    margin-top: -17px;
+    font-size: 11px;
+    margin-right: 8px;
+    color: #e0b400;
 }
 
 #header_text.index {
@@ -1015,6 +1023,10 @@ span {
 #essay label {
     margin: 0px;
     padding: 0px;
+}
+
+#essay label.char_remaining {
+    font-size: 10px;
 }
 
 #secondary_container #essay input.essay {

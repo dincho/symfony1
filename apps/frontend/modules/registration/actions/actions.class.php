@@ -84,6 +84,8 @@ class registrationActions extends sfActions
     public function executeIndex()
     {
         $this->setLayout('simple');
+        $this->header_span = 'Step 1 of 4';
+        
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($member); //just in case
         $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
@@ -109,6 +111,7 @@ class registrationActions extends sfActions
     public function handleErrorIndex()
     {
         $this->setLayout('simple');
+        $this->header_span = 'Step 1 of 4';
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($this->member); //just in case
@@ -120,6 +123,7 @@ class registrationActions extends sfActions
     public function executeSelfDescription()
     {
         $this->setLayout('simple');
+        $this->header_span = 'Step 2 of 4';
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -208,6 +212,8 @@ class registrationActions extends sfActions
 
     public function handleErrorSelfDescription()
     {
+        $this->header_span = 'Step 2 of 4';
+        
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
@@ -219,6 +225,9 @@ class registrationActions extends sfActions
     public function executeEssay()
     {
         $this->setLayout('simple');
+        $this->header_span = 'Step 3 of 4';
+        $BC = $this->getUser()->getBC();
+        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -237,7 +246,10 @@ class registrationActions extends sfActions
     public function handleErrorEssay()
     {
         $this->setLayout('simple');
-        
+        $this->header_span = 'Step 3 of 4';
+        $BC = $this->getUser()->getBC();
+        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
+                
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case  
         

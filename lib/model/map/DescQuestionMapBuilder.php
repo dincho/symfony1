@@ -48,5 +48,7 @@ class DescQuestionMapBuilder {
 
 		$tMap->addColumn('SELECT_GREATHER', 'SelectGreather', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('OTHER', 'Other', 'string', CreoleTypes::VARCHAR, false, 255);
+
 	} 
 } 
