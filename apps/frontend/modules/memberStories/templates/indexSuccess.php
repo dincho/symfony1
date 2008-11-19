@@ -4,4 +4,10 @@ These are stories written by our members. If you want to share your story with o
     <li><?php echo link_to($story->getLinkName(), '@member_story_by_slug?slug=' . $story->getSlug()) ?></li>
 <?php endforeach; ?>
 </ul>
-<?php echo link_to(__('Join the site now and browse Polish singles for free'), 'registration/joinNow', array('class' => 'sec_link')) ?>
+<?php if( $sf_user->isAuthenticated() ): ?>
+    <?php slot('footer_menu') ?>
+        <?php include_partial('content/footer_menu') ?>
+    <?php end_slot(); ?>
+<?php else: ?>
+    <?php echo link_to(__('Join the site now and browse Polish singles for free'), 'registration/joinNow', array('class' => 'sec_link')) ?>
+<?php endif; ?>

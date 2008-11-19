@@ -15,8 +15,9 @@ class memberStoriesActions extends sfActions
     {
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
-        
         $this->stories = MemberStoryPeer::doSelectWithI18n($c);
+        
+        $this->getUser()->getBC()->addFirst(array('name' => 'Home', 'uri' => '@homepage'));
     }
 
     public function executeRead()
@@ -33,7 +34,9 @@ class memberStoriesActions extends sfActions
         $this->getResponse()->addMeta('keywords', $this->story->getKeywords());
         $this->getResponse()->addMeta('description', $this->story->getDescription());
         
-        $this->getUser()->getBC()->replaceLast(array('name' => $this->story->getLinkName(), 'uri' => '@member_story_by_slug?slug=' . $this->story->getSlug()));
+        $bc = $this->getUser()->getBC()->clear();
+        if( !$this->getUser()->isAuthenticated() ) $bc->add(array('name' => 'Home', 'uri' => '@homepage'));
+        $bc->add(array('name' => $this->story->getLinkName(), 'uri' => '@member_story_by_slug?slug=' . $this->story->getSlug()));
     
     }
 

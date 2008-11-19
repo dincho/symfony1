@@ -1717,7 +1717,7 @@ span.sec_link {
 #member_stories_ul {
     margin: 15px;
     padding: 0px;
-    list-style-type: square;
+    list-style-type: disc;
     color: #fff;
 }
 

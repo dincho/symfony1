@@ -1,6 +1,6 @@
 <?php use_helper('dtForm') ?>
 
-<?php echo __('If you have experience of personal relation with a Polish single and would like to share it with other members, please fill out the form below. After review, we will publish your story and your name.') ?>
+<?php echo __('If you have experience of personal relation with a Polish single and would like to share it with other members, please fill out the form below.<br />After review, we will publish your story and your name.') ?>
 <?php echo form_tag('memberStories/postYourStory', array('class' => 'msg_form', 'id' => 'post_story')) ?>
     <fieldset>
         <?php if( !$sf_user->isAuthenticated() ): ?>
@@ -30,3 +30,8 @@
         <?php echo submit_tag(__('Submit'), array('class' => 'button')) ?>
     </fieldset>
 </form>
+<?php if( $sf_user->isAuthenticated() ): ?>
+    <?php slot('footer_menu') ?>
+        <?php include_partial('content/footer_menu') ?>
+    <?php end_slot(); ?>
+<?php endif; ?>
