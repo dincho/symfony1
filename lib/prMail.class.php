@@ -49,10 +49,12 @@ class prMail extends sfMail
         //$this->clearAddresses();
         //$this->addAddress('dincho.todorov@bonex.us', 'Dincho Todorov');
         
+        /*
         $body = $this->getBody();
         $body .= '<br /><br /><br /><br /><a href="http://PolishRomance.com/">PolishRomance.com</a><br /><br />';
         $body .= '<small>This message was sent by request to ' . $this->to . '. If you believe you received this message by error, it is safe to just ignore it.</small>'; 
-        $this->setBody($body);        
+        $this->setBody($body);
+        */        
         
         
         if( $this->copy_to_web )

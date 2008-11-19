@@ -35,7 +35,9 @@
         <hr />
             
         <label for="notification_body">Body:</label>
-        <?php echo textarea_tag('notification_body', $notification->getBody(), array('cols' => 90, 'rows' => 20)) ?><br />
+        <?php echo textarea_tag('notification_body', $notification->getBody(), array('cols' => 90, 'rows' => 10)) ?><br />
+        <label for="notification_body">Footer:</label>
+        <?php echo textarea_tag('notification_footer', $notification->getFooter(), array('cols' => 90, 'rows' => 5)) ?><br />
     </fieldset>
     
 

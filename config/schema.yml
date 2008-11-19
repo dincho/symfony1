@@ -309,6 +309,7 @@ propel:
     trigger_name:   { type: varchar, size: 255 }
     subject:        { type: varchar, size: 255 }
     body:           { type: longvarchar }
+    footer:         { type: longvarchar }
     is_active:      { type: boolean, required: true, default: false }
     to_admins:      { type: boolean, required: true, default: false }
     days:           { type: integer }

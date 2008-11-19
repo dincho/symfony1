@@ -45,6 +45,10 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 
 
 	
+	protected $footer;
+
+
+	
 	protected $is_active = false;
 
 
@@ -132,6 +136,13 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 	{
 
 		return $this->body;
+	}
+
+	
+	public function getFooter()
+	{
+
+		return $this->footer;
 	}
 
 	
@@ -307,6 +318,22 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setFooter($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->footer !== $v) {
+			$this->footer = $v;
+			$this->modifiedColumns[] = NotificationPeer::FOOTER;
+		}
+
+	} 
+	
 	public function setIsActive($v)
 	{
 
@@ -381,19 +408,21 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 
 			$this->body = $rs->getString($startcol + 8);
 
-			$this->is_active = $rs->getBoolean($startcol + 9);
+			$this->footer = $rs->getString($startcol + 9);
 
-			$this->to_admins = $rs->getBoolean($startcol + 10);
+			$this->is_active = $rs->getBoolean($startcol + 10);
 
-			$this->days = $rs->getInt($startcol + 11);
+			$this->to_admins = $rs->getBoolean($startcol + 11);
 
-			$this->whn = $rs->getString($startcol + 12);
+			$this->days = $rs->getInt($startcol + 12);
+
+			$this->whn = $rs->getString($startcol + 13);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 13; 
+						return $startcol + 14; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Notification object", $e);
 		}
@@ -597,15 +626,18 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 				return $this->getBody();
 				break;
 			case 9:
-				return $this->getIsActive();
+				return $this->getFooter();
 				break;
 			case 10:
-				return $this->getToAdmins();
+				return $this->getIsActive();
 				break;
 			case 11:
-				return $this->getDays();
+				return $this->getToAdmins();
 				break;
 			case 12:
+				return $this->getDays();
+				break;
+			case 13:
 				return $this->getWhn();
 				break;
 			default:
@@ -627,10 +659,11 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 			$keys[6] => $this->getTriggerName(),
 			$keys[7] => $this->getSubject(),
 			$keys[8] => $this->getBody(),
-			$keys[9] => $this->getIsActive(),
-			$keys[10] => $this->getToAdmins(),
-			$keys[11] => $this->getDays(),
-			$keys[12] => $this->getWhn(),
+			$keys[9] => $this->getFooter(),
+			$keys[10] => $this->getIsActive(),
+			$keys[11] => $this->getToAdmins(),
+			$keys[12] => $this->getDays(),
+			$keys[13] => $this->getWhn(),
 		);
 		return $result;
 	}
@@ -674,15 +707,18 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 				$this->setBody($value);
 				break;
 			case 9:
-				$this->setIsActive($value);
+				$this->setFooter($value);
 				break;
 			case 10:
-				$this->setToAdmins($value);
+				$this->setIsActive($value);
 				break;
 			case 11:
-				$this->setDays($value);
+				$this->setToAdmins($value);
 				break;
 			case 12:
+				$this->setDays($value);
+				break;
+			case 13:
 				$this->setWhn($value);
 				break;
 		} 	}
@@ -701,10 +737,11 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[6], $arr)) $this->setTriggerName($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setSubject($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setBody($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setIsActive($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setToAdmins($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setDays($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setWhn($arr[$keys[12]]);
+		if (array_key_exists($keys[9], $arr)) $this->setFooter($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setIsActive($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setToAdmins($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setDays($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setWhn($arr[$keys[13]]);
 	}
 
 	
@@ -721,6 +758,7 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(NotificationPeer::TRIGGER_NAME)) $criteria->add(NotificationPeer::TRIGGER_NAME, $this->trigger_name);
 		if ($this->isColumnModified(NotificationPeer::SUBJECT)) $criteria->add(NotificationPeer::SUBJECT, $this->subject);
 		if ($this->isColumnModified(NotificationPeer::BODY)) $criteria->add(NotificationPeer::BODY, $this->body);
+		if ($this->isColumnModified(NotificationPeer::FOOTER)) $criteria->add(NotificationPeer::FOOTER, $this->footer);
 		if ($this->isColumnModified(NotificationPeer::IS_ACTIVE)) $criteria->add(NotificationPeer::IS_ACTIVE, $this->is_active);
 		if ($this->isColumnModified(NotificationPeer::TO_ADMINS)) $criteria->add(NotificationPeer::TO_ADMINS, $this->to_admins);
 		if ($this->isColumnModified(NotificationPeer::DAYS)) $criteria->add(NotificationPeer::DAYS, $this->days);
@@ -770,6 +808,8 @@ abstract class BaseNotification extends BaseObject  implements Persistent {
 		$copyObj->setSubject($this->subject);
 
 		$copyObj->setBody($this->body);
+
+		$copyObj->setFooter($this->footer);
 
 		$copyObj->setIsActive($this->is_active);
 

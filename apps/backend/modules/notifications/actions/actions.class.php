@@ -37,6 +37,7 @@ class notificationsActions extends sfActions
             $notification->setBcc($this->getRequestParameter('bcc'));
             $notification->setSubject($this->getRequestParameter('subject'));
             $notification->setBody($this->getRequestParameter('notification_body'));
+            $notification->setFooter($this->getRequestParameter('notification_footer'));
             $notification->setIsActive($this->getRequestParameter('is_active', 0));
             $notification->setDays($this->getRequestParameter('days', 0));
             $notification->setWhn(($this->getRequestParameter('days', 0) == 0) ? null : $this->getRequestParameter('whn'));

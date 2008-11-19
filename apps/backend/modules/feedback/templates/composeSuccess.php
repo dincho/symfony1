@@ -110,7 +110,10 @@
   <?php echo input_tag('subject', $sf_request->getParameter('subject')) ?><br />
   
   <label for="body">Body</label>
-  <?php echo textarea_tag('body', Tools::br2nl($sf_request->getParameter('body'))) ?><br />
+  <?php echo textarea_tag('message_body', Tools::br2nl($sf_request->getParameter('body')), array('cols' => 90, 'rows' => 10)) ?><br />
+  
+  <label for="message_footer">Footer</label>
+  <?php echo textarea_tag('message_footer', Tools::br2nl($sf_request->getParameter('message_footer')), array('cols' => 90, 'rows' => 5)) ?><br />
   
   <label for="save_as_new_template">Save as new template</label>
   <?php echo input_tag('save_as_new_template', null, 'id=save_as_new_template') ?><br />

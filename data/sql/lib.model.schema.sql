@@ -915,6 +915,7 @@ CREATE TABLE `notification`
 	`trigger_name` VARCHAR(255),
 	`subject` VARCHAR(255),
 	`body` TEXT,
+	`footer` TEXT,
 	`is_active` INTEGER default 0 NOT NULL,
 	`to_admins` INTEGER default 0 NOT NULL,
 	`days` INTEGER,

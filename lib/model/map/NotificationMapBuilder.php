@@ -50,6 +50,8 @@ class NotificationMapBuilder {
 
 		$tMap->addColumn('BODY', 'Body', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('FOOTER', 'Footer', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 		$tMap->addColumn('IS_ACTIVE', 'IsActive', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('TO_ADMINS', 'ToAdmins', 'boolean', CreoleTypes::BOOLEAN, true, null);

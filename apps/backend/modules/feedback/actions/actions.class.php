@@ -147,7 +147,7 @@ class feedbackActions extends sfActions
         $feedback->setMailTo($this->getRequestParameter('mail_to'));
         $feedback->setMailFrom($this->getRequestParameter('mail_from'));
         $feedback->setSubject($this->getRequestParameter('subject'));
-        $feedback->setBody($this->getRequestParameter('body'));
+        $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
         $feedback->save();
     }
 
@@ -159,7 +159,7 @@ class feedbackActions extends sfActions
             $mail->setSender($this->getRequestParameter('mail_from'));
             $mail->setFrom($this->getRequestParameter('mail_from'));
             $mail->setSubject($this->getRequestParameter('subject'));
-            $mail->setBody($this->getRequestParameter('body'));
+            $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
             $mail->addAddress($this->getRequestParameter('mail_to'));
             
             try
@@ -177,7 +177,7 @@ class feedbackActions extends sfActions
             $feedback->setMailTo($this->getRequestParameter('mail_to'));
             $feedback->setMailFrom($this->getRequestParameter('mail_from', 'noreply@polishromance.com'));
             $feedback->setSubject($this->getRequestParameter('subject'));
-            $feedback->setBody($this->getRequestParameter('body'));
+            $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
             $feedback->save();
         
         }
@@ -195,7 +195,7 @@ class feedbackActions extends sfActions
                 $mail = new prMail();
                 $mail->setSender($this->getRequestParameter('mail_from'));
                 $mail->setSubject($this->getRequestParameter('subject'));
-                $mail->setBody($this->getRequestParameter('body'));
+                $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
                 $mail->addAddress($member->getEmail(), $member->getFullName());
                 
                 try
@@ -213,7 +213,7 @@ class feedbackActions extends sfActions
                 $feedback->setMailTo($member->getEmail());
                 $feedback->setMailFrom($this->getRequestParameter('mail_from'));
                 $feedback->setSubject($this->getRequestParameter('subject'));
-                $feedback->setBody($this->getRequestParameter('body'));
+                $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
                 $feedback->save();
             }
         }

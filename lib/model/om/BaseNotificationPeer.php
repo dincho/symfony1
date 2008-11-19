@@ -13,7 +13,7 @@ abstract class BaseNotificationPeer {
 	const CLASS_DEFAULT = 'lib.model.Notification';
 
 	
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -47,6 +47,9 @@ abstract class BaseNotificationPeer {
 	const BODY = 'notification.BODY';
 
 	
+	const FOOTER = 'notification.FOOTER';
+
+	
 	const IS_ACTIVE = 'notification.IS_ACTIVE';
 
 	
@@ -64,18 +67,18 @@ abstract class BaseNotificationPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'SendFrom', 'SendTo', 'ReplyTo', 'Bcc', 'TriggerName', 'Subject', 'Body', 'IsActive', 'ToAdmins', 'Days', 'Whn', ),
-		BasePeer::TYPE_COLNAME => array (NotificationPeer::ID, NotificationPeer::NAME, NotificationPeer::SEND_FROM, NotificationPeer::SEND_TO, NotificationPeer::REPLY_TO, NotificationPeer::BCC, NotificationPeer::TRIGGER_NAME, NotificationPeer::SUBJECT, NotificationPeer::BODY, NotificationPeer::IS_ACTIVE, NotificationPeer::TO_ADMINS, NotificationPeer::DAYS, NotificationPeer::WHN, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'send_from', 'send_to', 'reply_to', 'bcc', 'trigger_name', 'subject', 'body', 'is_active', 'to_admins', 'days', 'whn', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'SendFrom', 'SendTo', 'ReplyTo', 'Bcc', 'TriggerName', 'Subject', 'Body', 'Footer', 'IsActive', 'ToAdmins', 'Days', 'Whn', ),
+		BasePeer::TYPE_COLNAME => array (NotificationPeer::ID, NotificationPeer::NAME, NotificationPeer::SEND_FROM, NotificationPeer::SEND_TO, NotificationPeer::REPLY_TO, NotificationPeer::BCC, NotificationPeer::TRIGGER_NAME, NotificationPeer::SUBJECT, NotificationPeer::BODY, NotificationPeer::FOOTER, NotificationPeer::IS_ACTIVE, NotificationPeer::TO_ADMINS, NotificationPeer::DAYS, NotificationPeer::WHN, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'send_from', 'send_to', 'reply_to', 'bcc', 'trigger_name', 'subject', 'body', 'footer', 'is_active', 'to_admins', 'days', 'whn', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'SendFrom' => 2, 'SendTo' => 3, 'ReplyTo' => 4, 'Bcc' => 5, 'TriggerName' => 6, 'Subject' => 7, 'Body' => 8, 'IsActive' => 9, 'ToAdmins' => 10, 'Days' => 11, 'Whn' => 12, ),
-		BasePeer::TYPE_COLNAME => array (NotificationPeer::ID => 0, NotificationPeer::NAME => 1, NotificationPeer::SEND_FROM => 2, NotificationPeer::SEND_TO => 3, NotificationPeer::REPLY_TO => 4, NotificationPeer::BCC => 5, NotificationPeer::TRIGGER_NAME => 6, NotificationPeer::SUBJECT => 7, NotificationPeer::BODY => 8, NotificationPeer::IS_ACTIVE => 9, NotificationPeer::TO_ADMINS => 10, NotificationPeer::DAYS => 11, NotificationPeer::WHN => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'send_from' => 2, 'send_to' => 3, 'reply_to' => 4, 'bcc' => 5, 'trigger_name' => 6, 'subject' => 7, 'body' => 8, 'is_active' => 9, 'to_admins' => 10, 'days' => 11, 'whn' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'SendFrom' => 2, 'SendTo' => 3, 'ReplyTo' => 4, 'Bcc' => 5, 'TriggerName' => 6, 'Subject' => 7, 'Body' => 8, 'Footer' => 9, 'IsActive' => 10, 'ToAdmins' => 11, 'Days' => 12, 'Whn' => 13, ),
+		BasePeer::TYPE_COLNAME => array (NotificationPeer::ID => 0, NotificationPeer::NAME => 1, NotificationPeer::SEND_FROM => 2, NotificationPeer::SEND_TO => 3, NotificationPeer::REPLY_TO => 4, NotificationPeer::BCC => 5, NotificationPeer::TRIGGER_NAME => 6, NotificationPeer::SUBJECT => 7, NotificationPeer::BODY => 8, NotificationPeer::FOOTER => 9, NotificationPeer::IS_ACTIVE => 10, NotificationPeer::TO_ADMINS => 11, NotificationPeer::DAYS => 12, NotificationPeer::WHN => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'send_from' => 2, 'send_to' => 3, 'reply_to' => 4, 'bcc' => 5, 'trigger_name' => 6, 'subject' => 7, 'body' => 8, 'footer' => 9, 'is_active' => 10, 'to_admins' => 11, 'days' => 12, 'whn' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
@@ -146,6 +149,8 @@ abstract class BaseNotificationPeer {
 		$criteria->addSelectColumn(NotificationPeer::SUBJECT);
 
 		$criteria->addSelectColumn(NotificationPeer::BODY);
+
+		$criteria->addSelectColumn(NotificationPeer::FOOTER);
 
 		$criteria->addSelectColumn(NotificationPeer::IS_ACTIVE);
 

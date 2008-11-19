@@ -11,13 +11,14 @@ class Notification extends BaseNotification
 {
     public function execute($global_vars, $addresses = null, $object = null, $mail_from = null)
     {
-        $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
+        $content = $this->getBody() . $this->getFooter();
+        $content = str_replace(array_keys($global_vars), array_values($global_vars), $content);
         
         if( !is_null($object) )
         {
             
             $matches = array();
-            preg_match_all('/{(\w+)}/s', $body, $matches);
+            preg_match_all('/{(\w+)}/s', $content, $matches);
             //$params = $matches[0];
             $vars = $matches[1];
             
@@ -26,7 +27,7 @@ class Notification extends BaseNotification
                 $method = 'get' . sfInflector::camelize(strtolower($var));
                 if( method_exists($object, $method))
                 {
-                    $body = str_replace('{'. $var . '}', $object->$method(), $body);
+                    $content = str_replace('{'. $var . '}', $object->$method(), $content);
                 }
             }
         }
@@ -42,7 +43,7 @@ class Notification extends BaseNotification
         }
 
         $mail->setSubject($this->getSubject());
-        $mail->setBody($body);
+        $mail->setBody($content);
         
         if( $this->getToAdmins() )
         {

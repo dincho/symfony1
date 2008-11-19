@@ -1,4 +1,4 @@
-ALTER TABLE `desc_answer` ADD `desc_title` VARCHAR(255);
+ALTER TABLE `notification` ADD `footer` TEXT;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
