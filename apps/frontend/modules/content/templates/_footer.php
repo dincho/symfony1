@@ -15,5 +15,5 @@
     <?php echo link_to(__('Contact Us'), '@page?slug=contact_us') ?>&nbsp;&nbsp;&bull;&nbsp;
     <?php echo link_to(__('Affilates'), '@page?slug=affiliates') ?>&nbsp;&nbsp;&bull;&nbsp;
     <?php echo link_to(__('Tell a Friend'), 'content/tellFriend') ?><br />
-    <span class="footer_footer"><?php echo link_to('&copy; Copyright 2007-2008 by PolishRomance.com v0.9 ', '@page?slug=copyright') ?>- Patent Pending - All Rights Reserved - <?php include_partial('system/page_execution'); ?></span>
+    <span class="footer_footer"><?php echo link_to('&copy; Copyright 2007-2008 by PolishRomance.com v0.9.1 ', '@page?slug=copyright') ?>- Patent Pending - All Rights Reserved - <?php include_partial('system/page_execution'); ?></span>
 </div>

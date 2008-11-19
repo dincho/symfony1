@@ -68,9 +68,9 @@ class myUser extends sfBasicSecurityUser
             } else {
                 if ($member->getSubscription()->getPreApprove())
                 {
-                    $member->changeStatus(MemberStatusPeer::PENDING);
+                    $member->changeStatus(MemberStatusPeer::PENDING, false);
                 } else {
-                    $member->changeStatus(MemberStatusPeer::ACTIVE);
+                    $member->changeStatus(MemberStatusPeer::ACTIVE, false);
                     Events::triggerWelcome($member);
                     $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
                 }

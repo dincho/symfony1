@@ -244,12 +244,14 @@ class registrationActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            if ($this->getRequest()->getFileSize('new_photo'))
+            if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))
             {
                 $new_photo = new MemberPhoto();
                 $new_photo->setMember($this->member);
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
+                
+                if( $this->member->countMemberPhotos() == 1 ) $this->member->setMemberPhoto($new_photo);
             }
             
             //set main photo
@@ -277,7 +279,7 @@ class registrationActions extends sfActions
 
     public function validatePhotos()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('commit'))
         {
             $member = MemberPeer::retrieveByPK($this->getUser()->getId());
             $subscription = $member->getSubscription();

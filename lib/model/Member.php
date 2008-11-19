@@ -67,7 +67,7 @@ class Member extends BaseMember
         return parent::getMemberImbras($c, $con);
     }
 
-    public function changeStatus($StatusId)
+    public function changeStatus($StatusId, $kill_session = true)
     {
         if ($this->getMemberStatusId() != $StatusId)
         {
@@ -82,7 +82,7 @@ class Member extends BaseMember
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
             
-            if( $StatusId != MemberStatusPeer::DEACTIVATED ) $this->killSession();
+            if( $StatusId != MemberStatusPeer::DEACTIVATED && $kill_session ) $this->killSession();
         }
     }
     

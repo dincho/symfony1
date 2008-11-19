@@ -212,6 +212,7 @@ class editProfileActions extends sfActions
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))

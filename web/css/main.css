@@ -1551,7 +1551,7 @@ span.sec_link {
 }
 
 #register .reg_submit_container {
-    height: 149px;
+    height: 130px;
     float: left;
     background-color: #363639;
     padding: 0 2px;
@@ -2194,7 +2194,7 @@ span.sec_link {
 
 #under_index_image h2 {
     color: #787880;
-    margin: 0;
+    margin: 40px 0 0 0;
     font-size: 19px;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;

@@ -133,7 +133,7 @@ class profileActions extends sfActions
             //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
             $c = new Criteria();
             $c->add(MemberPeer::EMAIL, $this->getRequestParameter('email'));
-            $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+            //$c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
             $c->setLimit(1);
             $member = MemberPeer::doSelectOne($c);
             

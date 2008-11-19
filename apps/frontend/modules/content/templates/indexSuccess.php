@@ -30,7 +30,6 @@
             <?php echo link_to(image_tag('static/homepage/image_8.jpg'), 'registration/joinNow') ?>
             <?php echo link_to(image_tag('static/homepage/image_9.jpg'), 'registration/joinNow') ?>
         </div>
-        <div id="ajax_response" style="height: 30px"></div>
         <div id="under_index_image">
             <h2><?php echo __('BROWSE FOR FREE NOW') ?></h2>
             <div id="register">
@@ -40,13 +39,6 @@
                         <?php echo pr_label_for('username'); ?>
                         <?php echo input_tag('username') ?><br class="clear" />
                         
-                        <?php echo pr_label_for('butt_availability', '', array('class' => 'check_available')) ?>
-                        <?php echo button_to_remote(__('Check Availability'), array(
-                            'update' => 'ajax_response',
-                            'url'    => 'ajax/usernameExists',
-                            'with'     => "'username=' + $('username').value",
-                        ), array('class' => 'button_mini')) ?><br class="clear" />
-                                                                
                         <?php echo pr_label_for('email', 'Your email') ?>
                         <?php echo input_tag('email') ?><br class="clear" />
                         

@@ -36,11 +36,9 @@ class statusFilter extends sfFilter
                             } elseif (! $member->getEssayHeadline()) //3. Step - essay 
                             {
                                 $url = 'registration/essay';
-                                /* Non required now
                             } elseif ($member->countMemberPhotos() <= 0) //Step 4 - Photos
                             {
                                 $url = 'registration/photos';
-                            */
                             } elseif ( $member->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
                             {
                                 $url = 'IMBRA/index';

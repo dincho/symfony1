@@ -1,6 +1,6 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
-<?php echo __('Please register. Reminder: If you\'re not 19 or older, you are not allowed to be here - you must %link_to_leave_now%', array('%link_to_leave_now%' => link_to(__('leave now!'), 'http://google.com/'))) ?><br />
+<?php echo __('Please register. Reminder: If you\'re not 19 or older, you are not allowed to be here - you must %link_to_leave_now%', array('%link_to_leave_now%' => link_to(__('leave now!'), 'http://google.com/', array('class' => 'sec_link_small')))) ?><br />
 <span><?php echo __('Note: You will be able to update this information later.') ?></span>
 <?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page')) ?>
     <fieldset>
