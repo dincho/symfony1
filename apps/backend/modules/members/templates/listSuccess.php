@@ -23,6 +23,7 @@
       <th>Sub</th>
       <th>Reviewed</th>
       <th>Status</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -39,7 +40,8 @@
     <td><?php echo $member->getSubscription()->getShortTitle() ?></td>
     <td><?php if($member->getReviewedById()) echo $member->getUser() ?></td>
     <td class="member_status"><?php echo content_tag('span', $member->getMemberStatus(), array('class' => strtolower($member->getMemberStatus()))) ?></td>
-    </tr>
+    <td class="skip_me"><?php echo link_to('Profile', $sf_request->getUriPrefix() . '/profile/' . $member->getUsername(), array('popup' => true)) ?></td>
+  </tr>
   <?php endforeach; ?>
   </tbody>
 </table>
