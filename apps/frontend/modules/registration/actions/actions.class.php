@@ -260,7 +260,11 @@ class registrationActions extends sfActions
     public function executePhotos()
     {
         $this->setLayout('simple');
-        
+        $this->header_span = 'Step 4 of 4';
+        $BC = $this->getUser()->getBC();
+        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
+        $BC->addBeforeLast(array('name' => 'Essay', 'uri' => 'registration/essay'));
+                
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
@@ -330,6 +334,11 @@ class registrationActions extends sfActions
     public function handleErrorPhotos()
     {
         $this->setLayout('simple');
+        $this->header_span = 'Step 4 of 4';
+        $BC = $this->getUser()->getBC();
+        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
+        $BC->addBeforeLast(array('name' => 'Essay', 'uri' => 'registration/essay'));
+                
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->photos = $this->member->getMemberPhotos();

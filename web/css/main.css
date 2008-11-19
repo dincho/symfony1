@@ -1060,6 +1060,11 @@ span {
     border: 3px solid #000;
 }
 
+
+.file_input {
+    border: 1px solid red;
+}
+
 #secondary_container .save_and_cont_photos {
     border: 0px;
     margin-left: 5px;
@@ -1114,6 +1119,8 @@ span {
 
 #secondary_container div.photo label {
     color: #e0b400;
+    line-height: 14px;
+    vertical-align: 30%;
 }
 
 #secondary_container .photo span {
@@ -1156,7 +1163,6 @@ label.title {
     background-color: #363639;
     color: #aca49c;
     font-size: 11px;
-    margin-left: 4px;
 }
 
 #self_desc_form select, #self_desc_form input {

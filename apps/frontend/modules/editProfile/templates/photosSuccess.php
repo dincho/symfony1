@@ -18,19 +18,19 @@
                   </span>
                   <?php echo button_to(__('Delete'), 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?'))) ?>
               </div>
-        <?php if( $i++ % 5 == 0 && $i < $cnt_photos): ?>
+        <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
         </div>
         <div class="photos">
         <?php endif; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <br class="clear" />
+    <br class="clear" /><hr />
     
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
-    <label for="new_photo"><?php echo __('New Photo:') ?></label><br />
-    <?php echo input_file_tag('new_photo', array('class' => '')) ?>
-    <?php echo submit_tag('Upload', 'id=upload') ?><br /><br />
+    <?php echo input_file_tag('new_photo', array('class' => '')) ?><br />
+    <?php echo submit_tag('Upload', array('id' => 'upload', 'class' => 'button')) ?>
+    <hr /><br />
         
     <?php echo __('YouTube URL ') ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
