@@ -2221,12 +2221,14 @@ span.sec_link {
 #under_index_image h2 {
     color: #787880;
     margin: 40px 0 0 0;
-    font-size: 19px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: normal;
+    font-size: 20px;
+    font-family: Myriad, Myriad Pro, sans-serif;
+    font-weight: bold;
     letter-spacing: 3px;
     text-align: center;
     vertical-align: bottom;
+    height: 22px;
+    width: 312px;
 }
 
 /*Form field on focus */
