@@ -7,7 +7,7 @@ These are the winks you received and sent. Click on the "x" in the lower corner 
         <?php foreach ($received_winks as $received_wink): ?>
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getId() ?></span>
+                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to(image_tag($member->getMainPhoto()->getImg('80x100')), '@profile?username=' . $member->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
@@ -28,7 +28,7 @@ These are the winks you received and sent. Click on the "x" in the lower corner 
         <?php foreach ($sent_winks as $sent_wink): ?>
             <?php $profile = $sent_wink->getMemberRelatedByProfileId(); ?>        
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getId() ?></span>
+                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
                 <?php echo link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?username=' . $profile->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">

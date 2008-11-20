@@ -6,7 +6,7 @@
         <?php foreach ($others_hotlists as $others_hotlist_row): ?>
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getId() ?></span>
+                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to(image_tag($member->getMainPhoto()->getImg('80x100')), '@profile?username=' . $member->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
@@ -27,7 +27,7 @@
         <?php foreach ($hotlists as $hotlist_row): ?>
             <?php $profile = $hotlist_row->getMemberRelatedByProfileId(); ?>
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getId() ?></span>
+                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
                 <?php echo link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?username=' . $profile->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice"><?php echo __('Added to your hotlist %date%', array('%date%' => format_date_pr($hotlist_row->getCreatedAt(null)))) ?></span>
