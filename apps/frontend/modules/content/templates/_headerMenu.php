@@ -2,8 +2,10 @@
 
 <div id="right">
     <?php if( !$sf_user->isAuthenticated()): ?>
-        <?php echo pr_link_to('Join Now', 'registration/joinNow') ?>&bull;<?php echo pr_link_to('Members Stories', '@member_stories') ?>&bull;<?php echo pr_link_to('Home', '@homepage', 'class=last') ?>
-        <?php echo link_to(image_tag('sign_in.gif'), 'profile/signIn') ?>
+        <p>
+            <?php echo pr_link_to('Join Now', 'registration/joinNow') ?>&bull;<?php echo pr_link_to('Members Stories', '@member_stories') ?>&bull;<?php echo pr_link_to('Home', '@homepage', 'class=last') ?>
+            <?php echo link_to(image_tag('sign_in.gif'), 'profile/signIn') ?>
+        </p>
     <?php else: ?>
         <p>
             <span class="username"><?php echo __('Hi %username%', array('%username%' => $sf_user->getProfile()->getUsername())) ?></span>
