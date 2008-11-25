@@ -22,7 +22,7 @@
         <?php echo textarea_tag('comments', null, array('rows' => 4, 'cols' => 20)) ?>
     </fieldset>
     <div id="tell_a_friend_div">
-        <strong><?php echo __('Our Privacy Policy') ?></strong><br />
+        <strong><?php echo __('Our Privacy Policy') ?></strong><br /><br />
         <?php echo __('To assure your friend\'s confidentiality:') ?><br />
         &bull;&nbsp;<?php echo __('We will only contact your friend once.') ?><br />
         &bull;&nbsp;<?php echo __('We will not use your friend\'s contact information for any other purpose.') ?><br />
@@ -34,3 +34,7 @@
         <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
     </span>
 </form>
+
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
