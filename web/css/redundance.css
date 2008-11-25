@@ -205,29 +205,6 @@
     margin-left: -100px;
 }
 
-#help_page_container li {
-    margin: 0px;
-    padding: 0px;
-}
-
-#help_page_ul {
-    margin: 0px;
-    padding: 0px;
-    color: #92897e;
-    list-style-type: square;
-    padding-left: 12px;
-}
-
-#help_page_container ul a:visited,#help_page_container ul a:active,#help_page_container ul a:link
-    {
-    color: #92897e;
-}
-
-#help_page_container ul a:hover {
-    color: #92897e;
-    text-decoration: underline;
-}
-
 #index_error {
     background-color: #000000;
     border: 1px solid #3d3d3d;
@@ -698,14 +675,6 @@
     list-style-type: decimal;
 }
 
-#secondary_container .description_ul {
-    margin: 0px;
-    padding: 0px;
-    margin-left: 35px;
-    margin-top: 10px;
-    list-style-type: lower-alpha;
-}
-
 #secondary_container .faq_title {
     display: block;
     color: #e0b400;
@@ -836,13 +805,6 @@
 #secondary_container span.for_law {
     color: #e0b400;
     font-size: 11px;
-}
-
-#secondary_container span.help_page {
-    color: #e0b400;
-    font-size: 11px;
-    margin-top: 10px;
-    display: block;
 }
 
 #secondary_container span.imbra {

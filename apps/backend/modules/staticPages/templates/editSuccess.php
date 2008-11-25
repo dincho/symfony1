@@ -27,7 +27,7 @@
   
   <fieldset class="form_fields email_fields">
     <label for="html_content">HTML Content:</label>
-    <?php echo textarea_tag('html_content', $page->getContent(), 'id=html_content ' . error_class('html_content')) ?>
+    <?php echo textarea_tag('html_content', $page->getContent(), 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
   </fieldset>        
 
   <fieldset class="actions">

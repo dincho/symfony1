@@ -2235,6 +2235,53 @@ span.sec_link {
     width: 312px;
 }
 
+/* Help page */
+#help_page_container li {
+    margin: 0px;
+    padding: 0px;
+}
+
+#help_page_ul {
+    margin: 0px;
+    padding: 0px;
+    color: #92897e;
+    list-style-type: disc;
+    padding-left: 12px;
+}
+
+#help_page_container ul a {
+    color: #92897e;
+}
+
+#help_page_container ul a:hover {
+    color: #92897e;
+    text-decoration: underline;
+}
+
+#secondary_container span.help_page {
+    color: #e0b400;
+    font-size: 11px;
+    margin-top: 10px;
+    display: block;
+}
+
+#secondary_container span.description {
+    font-size: 11px;
+    color: #92897e;
+    margin-top: 0px;
+}
+
+#secondary_container .description_ul {
+    margin: 0px;
+    padding: 0px;
+    margin-left: 35px;
+    margin-top: 10px;
+    list-style-type: lower-alpha;
+    color: #92897e;
+}
+
+/*end help page */
+
 /*Form field on focus */
 input:focus, select:focus, textarea:focus {
     border: 1px solid #85854A !important;
