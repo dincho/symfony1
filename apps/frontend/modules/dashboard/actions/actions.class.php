@@ -164,7 +164,7 @@ class dashboardActions extends prActions
             $member = MemberPeer::retrieveByPK($this->getUser()->getid());
             $this->forward404Unless($member); //just in case
             
-            $member->changeStatus(MemberStatusPeer::CANCELED_BY_MEMBER);
+            $member->changeStatus(MemberStatusPeer::CANCELED_BY_MEMBER, false);
             $member->save();
             
             Events::triggerAccountDeleteByMember($member, nl2br(strip_tags($this->getRequestParameter('delete_reason'))));
