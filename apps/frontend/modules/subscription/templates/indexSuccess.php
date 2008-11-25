@@ -79,3 +79,7 @@ In order to see more matches and send messages, please upgrade your subscription
         <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
 <br class="clear" />
+
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
