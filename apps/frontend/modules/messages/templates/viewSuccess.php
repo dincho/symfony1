@@ -1,4 +1,8 @@
 <?php use_helper('Javascript', 'prDate') ?>
+<?php slot('header_title') ?>
+    <?php echo __('Messages') ?>
+<?php end_slot(); ?>
+
 <div id="message_details">
     <div class="message_header">
             <p>

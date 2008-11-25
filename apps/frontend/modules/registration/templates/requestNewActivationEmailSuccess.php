@@ -1,0 +1,4 @@
+<p><?php echo __('You account has never been activated. Please check your email box to see if you received an email with activation link or just request new activation email.') ?></p>
+<?php echo link_to(__('Request New Activation Email'), 'registration/requestNewActivationEmail?confirm=1', array('class' => 'sec_link')) ?>
+<p><?php echo __('Please note that due to aggressive anti-spamming policies of Yahoo, Hotmail and other providers, the activation email may end up in junk mail or spam folder. In such case please find our email and mark it Not-Spam.') ?></p>
+<?php echo link_to(__('Back to sign in'), '@signin', array('class' => 'sec_link')) ?> 

@@ -27,7 +27,11 @@
                 <div id="header_title">
                     <?php echo image_tag('header_text/left.gif', 'class=float-left') ?>
                     <?php echo image_tag('header_text/right.gif', 'class=float-right') ?>
-                    <h2><?php if ( isset($header_title) ) echo $header_title ?></h2>
+                    <h2>
+                        <?php if(has_slot('header_title')): ?>
+                            <?php include_slot('header_title') ?>
+                        <?php endif; ?>
+                    </h2>
                 </div>
             </div>
             <div id="secondary_container">

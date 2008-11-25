@@ -32,7 +32,7 @@ propel:
     last_name:                { type: varchar, size: 80, required: true }
     email:                    { type: varchar, size: 255, required: true }
     tmp_email:                { type: varchar, size: 255, required: true } #temp field used for changging emails
-    confirmed_email:          { type: char, size: 1, required: false } #field used for email confirmation; C - current, N - new  
+    has_email_confirmation:   { type: boolean, required: true, default: 0 }
     sex:                      { type: char, size: 1, required: true }
     looking_for:              { type: char, size: 1, required: true }
     reviewed_by_id:           { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }

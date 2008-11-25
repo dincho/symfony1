@@ -1,5 +1,5 @@
 <?php
-class messagesActions extends sfActions
+class messagesActions extends prActions
 {
     public function preExecute()
     {
@@ -35,12 +35,10 @@ class messagesActions extends sfActions
             $message->getMemberRelatedByFromMemberId()->getSubscriptionId() == SubscriptionPeer::FREE &&
             $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
             {
-                $this->setFlash('s_title', 'Please upgrade to read this message');
-                $this->redirect('content/message');
+                $this->message('upgrade_to_read_message');
             }
             
         $this->getUser()->getBC()->removeLast()->add(array('name' => $message->getSubject(), 'uri' => 'messages/view?id=' . $message->getId()));
-        $this->header_title = 'Messages';
         
         if ( !$message->getIsRead() ) //mark as read
         {

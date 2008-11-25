@@ -7,7 +7,7 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class profileActions extends sfActions
+class profileActions extends prActions
 {
 
     public function executeIndex()
@@ -47,7 +47,6 @@ class profileActions extends sfActions
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
-        $this->header_title = Tools::truncate($member->getEssayHeadline(), 40) . ' / ' . $member->getUsername() . ' /  ' . $member->getAge();
         $this->member = $member;
         
         //IMBRA
@@ -62,7 +61,6 @@ class profileActions extends sfActions
     public function executeSignIn()
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
-        $this->header_title = 'Member Sign In';
         
         //@TODO THIS IS ONLY FOR TESTS, REMOVETE FOR PRODUCTION
         /*
@@ -193,9 +191,7 @@ class profileActions extends sfActions
         $member->setPassword($member->getNewPassword(), false);
         $member->setNewPassword(NULL);
         $member->save();
-        $this->setFlash('s_title', 'Your new password has been confirmed.');
-        $this->setFlash('s_msg', 'You successfully changed your password. Now you can use your new password to log in.');
-        $this->redirect('content/message');
+        $this->message('new_password_confirmed');
     }
 
     public function executeConfirmNewEmail()
@@ -215,14 +211,13 @@ class profileActions extends sfActions
         $old_mail = $member->getEmail();
         $member->setEmail($member->getTmpEmail());
         $member->setTmpEmail($old_mail); //keep this for undo email change
-        $member->setConfirmedEmail(NULL); //clear the confirmation flag for future use 
+        //$member->setConfirmedEmail(NULL); //clear the confirmation flag for future use 
         $member->save();
         
         Events::triggerNewEmailConfirmed($member);
         
-        $this->setFlash('s_title', 'Email verification.');
-        $this->setFlash('s_msg', 'Your email address (' . $member->getEmail() . ') has been verified. You may now use it to log in');
-        $this->redirect('content/message');
+        $this->setFlash('s_vars', array('%EMAIL%' => $member->getEmail()));
+        $this->message('email_verified');
     }
     
     public function executeUndoNewEmail()
@@ -242,10 +237,7 @@ class profileActions extends sfActions
         $member->setTmpEmail($tmp_email);
         $member->save();
         
-        $this->setFlash('s_title', 'Email undo.');
-        $this->setFlash('s_msg', 'Your have undo your email change. Your email address is back to: ' . $member->getEmail());        
-        $this->redirect('content/message');
+        $this->setFlash('s_vars', array('%EMAIL%' => $member->getEmail()));
+        $this->message('undo_new_email');
     }
-    
-
 }

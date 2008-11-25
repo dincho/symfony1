@@ -1,3 +1,7 @@
+<?php slot('header_title') ?>
+    <?php echo __('Member Sign In') ?>
+<?php end_slot(); ?>
+
 <div id="secondary_container">
 <?php echo form_tag('profile/signIn', array('id' => 'sign_in')) ?>
     <fieldset>

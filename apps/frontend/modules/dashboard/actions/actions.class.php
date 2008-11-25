@@ -7,7 +7,7 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class dashboardActions extends sfActions
+class dashboardActions extends prActions
 {
 
     public function preExecute()
@@ -170,10 +170,7 @@ class dashboardActions extends sfActions
             Events::triggerAccountDeleteByMember($member, nl2br(strip_tags($this->getRequestParameter('delete_reason'))));
             
             $this->getUser()->signOut();
-            
-            $this->setFlash('s_title', 'Delete Your Account');
-            $this->setFlash('s_msg', 'Your account has been deleted.');        
-            $this->redirect('content/message');            
+            $this->message('delete_account_confirm');            
         }
 
     }

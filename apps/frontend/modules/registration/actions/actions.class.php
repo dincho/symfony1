@@ -8,13 +8,14 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class registrationActions extends sfActions
+class registrationActions extends prActions
 {
 
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
         $this->setLayout('simple');
+        $this->header_span = '';
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Registration', 'uri' => 'registration/joinNow'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -22,7 +23,7 @@ class registrationActions extends sfActions
             $member = new Member();
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
-            $member->setNewPassword($this->getRequestParameter('password')); //keep in tmp field until email confirmation
+            $member->setPassword($this->getRequestParameter('password'));
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->setSubscriptionId(SubscriptionPeer::FREE);
             
@@ -39,9 +40,7 @@ class registrationActions extends sfActions
             $member->save();
             
             Events::triggerJoin($member);
-            $this->setFlash('s_title', 'Verify Your Email');
-            $this->setFlash('s_msg', 'For your own security, please go to your email box and verify your email by clicking on the link we have just sent you.');
-            $this->redirect('content/message');
+            $this->message('verify_your_email');
         }
     }
 
@@ -52,6 +51,20 @@ class registrationActions extends sfActions
         return sfView::SUCCESS;
     }
 
+    public function executeRequestNewActivationEmail()
+    {
+        $member = MemberPeer::retrieveByPK($this->getUser()->getid());
+        $this->forward404Unless($member); //just in case
+        $bc = $this->getUser()->getBC();
+        $bc->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => '@signin'));
+        
+        if( $this->getRequestParameter('confirm') == 1)
+        {
+            Events::triggerJoin($member);
+            $this->message('verify_your_email');
+        }
+    }
+    
     /* Step 2 - email confirmation */
     public function executeActivate()
     {
@@ -63,21 +76,18 @@ class registrationActions extends sfActions
         $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
         
         $hash = sha1(SALT . $member->getUsername() . SALT);
-        $this->forward404Unless($this->getRequestParameter('hash') == $hash);
+        $this->forward404Unless($this->getRequestParameter('hash') == $hash && !$member->getHasEmailConfirmation());
         
-        $member->setPassword($member->getNewPassword(), false);
-        $member->setNewPassword(NULL);
+        //$member->setPassword($member->getNewPassword(), false);
+        //$member->setNewPassword(NULL);
+        $member->setHasEmailConfirmation(true);
         $member->save();
         
         //log in the member so he/she can continue with registration
         $this->getUser()->SignIn($member);
         
         sfLoader::loadHelpers(array('Url'));
-        $this->setFlash('s_title', 'Welcome');
-        $this->setFlash('s_msg', 'Congratulations! You’ve just activated your account. <a href="{REGISTRATION_URL}" class="sec_link">Please finish the sign up now.</a>');
-        $this->setFlash('s_vars', array('{REGISTRATION_URL}' => url_for('registration/index')));
-        
-        $this->redirect('content/message');
+        $this->message('welcome');
     }
 
     /* Step 3 - registration coutry, zip, names .. */

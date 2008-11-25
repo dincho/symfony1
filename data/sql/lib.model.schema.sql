@@ -79,7 +79,7 @@ CREATE TABLE `member`
 	`last_name` VARCHAR(80)  NOT NULL,
 	`email` VARCHAR(255)  NOT NULL,
 	`tmp_email` VARCHAR(255)  NOT NULL,
-	`confirmed_email` CHAR(1),
+	`has_email_confirmation` INTEGER default 0 NOT NULL,
 	`sex` CHAR(1)  NOT NULL,
 	`looking_for` CHAR(1)  NOT NULL,
 	`reviewed_by_id` INTEGER,

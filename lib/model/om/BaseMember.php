@@ -49,7 +49,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
-	protected $confirmed_email;
+	protected $has_email_confirmation = false;
 
 
 	
@@ -404,10 +404,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getConfirmedEmail()
+	public function getHasEmailConfirmation()
 	{
 
-		return $this->confirmed_email;
+		return $this->has_email_confirmation;
 	}
 
 	
@@ -869,18 +869,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setConfirmedEmail($v)
+	public function setHasEmailConfirmation($v)
 	{
 
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->confirmed_email !== $v) {
-			$this->confirmed_email = $v;
-			$this->modifiedColumns[] = MemberPeer::CONFIRMED_EMAIL;
+		if ($this->has_email_confirmation !== $v || $v === false) {
+			$this->has_email_confirmation = $v;
+			$this->modifiedColumns[] = MemberPeer::HAS_EMAIL_CONFIRMATION;
 		}
 
 	} 
@@ -1379,7 +1373,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->tmp_email = $rs->getString($startcol + 9);
 
-			$this->confirmed_email = $rs->getString($startcol + 10);
+			$this->has_email_confirmation = $rs->getBoolean($startcol + 10);
 
 			$this->sex = $rs->getString($startcol + 11);
 
@@ -2091,7 +2085,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				return $this->getTmpEmail();
 				break;
 			case 10:
-				return $this->getConfirmedEmail();
+				return $this->getHasEmailConfirmation();
 				break;
 			case 11:
 				return $this->getSex();
@@ -2203,7 +2197,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[7] => $this->getLastName(),
 			$keys[8] => $this->getEmail(),
 			$keys[9] => $this->getTmpEmail(),
-			$keys[10] => $this->getConfirmedEmail(),
+			$keys[10] => $this->getHasEmailConfirmation(),
 			$keys[11] => $this->getSex(),
 			$keys[12] => $this->getLookingFor(),
 			$keys[13] => $this->getReviewedById(),
@@ -2280,7 +2274,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setTmpEmail($value);
 				break;
 			case 10:
-				$this->setConfirmedEmail($value);
+				$this->setHasEmailConfirmation($value);
 				break;
 			case 11:
 				$this->setSex($value);
@@ -2389,7 +2383,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[7], $arr)) $this->setLastName($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setEmail($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setTmpEmail($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setConfirmedEmail($arr[$keys[10]]);
+		if (array_key_exists($keys[10], $arr)) $this->setHasEmailConfirmation($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setSex($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setLookingFor($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setReviewedById($arr[$keys[13]]);
@@ -2437,7 +2431,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::LAST_NAME)) $criteria->add(MemberPeer::LAST_NAME, $this->last_name);
 		if ($this->isColumnModified(MemberPeer::EMAIL)) $criteria->add(MemberPeer::EMAIL, $this->email);
 		if ($this->isColumnModified(MemberPeer::TMP_EMAIL)) $criteria->add(MemberPeer::TMP_EMAIL, $this->tmp_email);
-		if ($this->isColumnModified(MemberPeer::CONFIRMED_EMAIL)) $criteria->add(MemberPeer::CONFIRMED_EMAIL, $this->confirmed_email);
+		if ($this->isColumnModified(MemberPeer::HAS_EMAIL_CONFIRMATION)) $criteria->add(MemberPeer::HAS_EMAIL_CONFIRMATION, $this->has_email_confirmation);
 		if ($this->isColumnModified(MemberPeer::SEX)) $criteria->add(MemberPeer::SEX, $this->sex);
 		if ($this->isColumnModified(MemberPeer::LOOKING_FOR)) $criteria->add(MemberPeer::LOOKING_FOR, $this->looking_for);
 		if ($this->isColumnModified(MemberPeer::REVIEWED_BY_ID)) $criteria->add(MemberPeer::REVIEWED_BY_ID, $this->reviewed_by_id);
@@ -2516,7 +2510,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 		$copyObj->setTmpEmail($this->tmp_email);
 
-		$copyObj->setConfirmedEmail($this->confirmed_email);
+		$copyObj->setHasEmailConfirmation($this->has_email_confirmation);
 
 		$copyObj->setSex($this->sex);
 

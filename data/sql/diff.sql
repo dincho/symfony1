@@ -1,4 +1,4 @@
-ALTER TABLE `notification` ADD `footer` TEXT;
+ALTER TABLE `member` ADD `has_email_confirmation` INTEGER default 0 NOT NULL;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -31,6 +31,7 @@ ALTER TABLE `member` DROP FOREIGN KEY `member_FK_4`;
    new definition: (`main_photo_id`) */
 ALTER TABLE `member` DROP INDEX member_FI_4,        ADD  INDEX `member_FI_4` (`main_photo_id`);
 ALTER TABLE `member` DROP INDEX member_FK_7;
+ALTER TABLE `member` DROP `confirmed_email`;
 /* old definition: int(10) NOT NULL
    new definition: INTEGER(10)  NOT NULL */
 ALTER TABLE `member` CHANGE `zip` `zip` INTEGER(10)  NOT NULL;

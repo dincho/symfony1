@@ -1,4 +1,9 @@
-<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm') ?>
+<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text') ?>
+
+<?php slot('header_title') ?>
+    <?php echo truncate_text($member->getEssayHeadline(), 40, '') . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
+<?php end_slot(); ?>
+
 <div id="profile_right">
     <ul id="profile_top">
         <li class="left_profile_top"><?php echo link_to(__('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?></li>

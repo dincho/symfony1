@@ -52,7 +52,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('TMP_EMAIL', 'TmpEmail', 'string', CreoleTypes::VARCHAR, true, 255);
 
-		$tMap->addColumn('CONFIRMED_EMAIL', 'ConfirmedEmail', 'string', CreoleTypes::CHAR, false, 1);
+		$tMap->addColumn('HAS_EMAIL_CONFIRMATION', 'HasEmailConfirmation', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('SEX', 'Sex', 'string', CreoleTypes::CHAR, true, 1);
 

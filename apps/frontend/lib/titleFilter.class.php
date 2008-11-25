@@ -12,7 +12,8 @@ class titleFilter extends sfFilter
             $response = $this->getContext()->getResponse();
 
             $last_bc = ($bc->getLastName() == 'index') ? $context->getModuleName() : $bc->getLastName();
-            $title = (! isset($action->header_title)) ? ucfirst($last_bc) : $action->header_title;
+            sfLoader::loadHelpers(array('Partial'));
+            $title = (!has_slot('header_title')) ? ucfirst($last_bc) : get_slot('header_title');
             $response->setTitle('PolishRomance - ' . $title);
         }
         $filterChain->execute();

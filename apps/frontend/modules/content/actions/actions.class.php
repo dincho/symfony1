@@ -7,7 +7,7 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class contentActions extends sfActions
+class contentActions extends prActions
 {
 
     public function executeIndex()
@@ -86,11 +86,11 @@ class contentActions extends sfActions
 
     public function executeMessage()
     {
-        $title = $this->getFlash('s_title');
-        $this->forward404Unless($title);
+        if( !$this->hasFlash('msg_tpl')) throw new sfException('Calling message action without params');
+        $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
         $this->setLayout('simple');
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => $title, 'uri' => '@homepage'));
-        $this->header_title = $title;
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
+        $this->svars = ( $this->hasFlash('s_vars')) ? $this->getFlash('s_vars') : array(); 
     }
 
     public function executeReportBug()
@@ -127,9 +127,7 @@ class contentActions extends sfActions
             Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'),
                                     $this->getRequestParameter('friend_full_name'), $this->getRequestParameter('friend_email'), $this->getRequestParameter('comments'));
             
-            $this->setFlash('s_title', 'Tell a Friend Confirmation');
-            $this->setFlash('s_msg', 'Your message has been sent.');
-            $this->redirect('content/message');
+            $this->message('tell_friend_confirm');
         }
     }
     
@@ -150,7 +148,6 @@ class contentActions extends sfActions
          $this->forward404Unless($email);
          
          $this->setLayout('simple_small');
-         $this->header_title = $email->getSubject();
-         $this->content = $email->getBody();
+         $this->email = $email;
     }
 }
