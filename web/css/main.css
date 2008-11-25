@@ -1733,6 +1733,7 @@ span.sec_link {
 
 #member_story_right {
     float: right;
+    margin-top: 10px;
 }
 
 #member_story_right ul {
@@ -1759,9 +1760,10 @@ span.sec_link {
 
 #member_story_content {
     margin-bottom: 30px;
+    width: 485px;
 }
 
-#member_story_content,#member_story_content p {
+#member_story_content, #member_story_content p {
     color: #D3D3D3;
 }
 
