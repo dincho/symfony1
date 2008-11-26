@@ -92,6 +92,8 @@ class membersActions extends sfActions
         } else {
             $c = new Criteria();
             $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
+            $c->add(FlagPeer::IS_HISTORY, false);
+            $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
             $this->flags = FlagPeer::doSelectJoinAll($c);
             
             $c = new Criteria();

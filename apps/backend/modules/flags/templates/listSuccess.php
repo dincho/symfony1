@@ -37,7 +37,7 @@
             <td class="preview_button">
                 <?php echo button_to_remote('Preview', array('url' => 'ajax/getMemberFlagsFlagged?id=' . $member->getId() .'&history=' . $filters['history'], 'update' => 'preview'), 'id=preview_' . $member->getId()) ?>
             </td>
-            <td class="profile"><?php echo link_to('Profile', '#') ?></td>
+            <td class="profile"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
         </tr>
     <?php endforeach; ?>
     

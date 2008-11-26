@@ -266,4 +266,9 @@ class Member extends BaseMember
     {
         return ( $this->countSearchCritDescs() > 1 ) ? true : false; 
     }
+    
+    public function getFrontendProfileUrl()
+    {
+        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profile/' . $this->getUsername();
+    }
 }
