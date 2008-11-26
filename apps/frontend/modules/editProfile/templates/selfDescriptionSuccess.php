@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm') ?>
+<?php use_helper('Object', 'dtForm', 'fillIn') ?>
 
 <?php echo __('Here you may change your self-description.') ?><br />
 <span><?php echo __('Make changes and click Save at the bottom of the page.') ?></span><br />

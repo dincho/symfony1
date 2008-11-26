@@ -45,6 +45,7 @@ class IMBRAActions extends prActions
             }
             $new_imbra->save();
             $this->getUser()->completeRegistration();
+            $this->setFlash('msg_ok', 'Your IMBRA information has been updated.');
             $this->redirect('dashboard/index');
         }
         $this->imbra = $member->getLastImbra();
@@ -74,18 +75,18 @@ class IMBRAActions extends prActions
                     if (!$question->getOnlyExplain() || (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                     {
                         $has_error = true;
-                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
                     }
                 } elseif (($answers[$question->getId()] == 1 || $question->getOnlyExplain()) && (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                 {
                     $has_error = true;
-                    $this->getRequest()->setError('explains[' . $question->getId() . ']', 'required');
+                    $this->getRequest()->setError('explains[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
                 }
             }
+            
             if ($has_error)
             {
-                $this->setFlash('dont_show_errors', true);
-                $this->setFlash('msg_error', 'You must fill out the missing information below indicated in red.');
+                $this->setFlash('only_last_error', true);
                 return false;
             }
         }

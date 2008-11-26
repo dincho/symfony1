@@ -306,15 +306,14 @@ class dashboardActions extends prActions
             {
                 if( $question->getIsRequired() && !isset($answers[$question->getId()]) )
                 {
-                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'required');
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
                     $has_error = true;
                 }
             }
             
             if ($has_error)
             {
-                $this->setFlash('dont_show_errors', true);
-                $this->setFlash('msg_error', 'You must fill out the missing information below indicated in red.');
+                $this->setFlash('only_last_error', true);
                 return false;
             }
         }

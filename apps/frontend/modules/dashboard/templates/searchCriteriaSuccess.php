@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'Javascript') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
 
 <?php echo __("In order to match you with your Polish singles, we need to know WHO YOU'RE LOOKING FOR."); ?>
 <?php echo form_tag('dashboard/searchCriteria', array('id' => 'self_desc_form', 'name' => 'self_desc_form')) ?>
@@ -12,8 +12,8 @@
         <?php echo pr_label_for('answers[' . $question->getId() . ']', $label_title, array('class' => 'title')) ?>
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
-                                     $answer->getId(),
-                                     ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId())) ? true : false, ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
+                                     $answer->getId(), fillIn('answers['. $question->getid() .'][]', 'c', false, ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId()))),
+                                     ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
           <label><?php echo html_entity_decode($answer->getSearchTitle(), null, 'utf-8') ?></label><br />
         <?php endforeach; ?>
         <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> - any option is fine<br />

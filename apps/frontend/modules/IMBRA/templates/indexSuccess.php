@@ -1,4 +1,4 @@
-<?php echo use_helper('dtForm', 'Object') ?>
+<?php echo use_helper('dtForm', 'Object', 'fillIn') ?>
 
 <?php echo form_tag('IMBRA/index', array('id' => 'imbra_2')) ?>
     <?php echo __('If you are US citizen living in US or US citizen not living in US but planning to live in US with your future foreign spouse, US law requires you to fill out this form. This is not our idea. It\'s your government.') ?><br />
@@ -11,10 +11,10 @@
         <?php echo pr_label_for('answers[' . $question->getId() . ']', $question->getTitle()); ?><br />
         <?php if( !$question->getOnlyExplain() ): ?>
             <?php echo label_for('answers[' . $question->getId() . ']', 'No') ?>
-            <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 0, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 0), array('onchange' => 'imbra_explain('. $question->getId().', this.value)') ) ?>
+            <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 0, fillIn('answers[' . $question->getId() . ']', 'r', false, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 0)), array('onchange' => 'imbra_explain('. $question->getId().', this.value)') ) ?>
                     
             <?php echo label_for('answers[' . $question->getId() . ']', 'Yes') ?>
-            <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 1, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 1), array('onchange' => 'imbra_explain('. $question->getId().', this.value)')) ?><br />
+            <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 1,  fillIn('answers[' . $question->getId() . ']', 'r', false, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 1)), array('onchange' => 'imbra_explain('. $question->getId().', this.value)')) ?><br />
             <?php echo pr_label_for('explains[' . $question->getId() . ']', $question->getExplainTitle(), array('style' => (!$question->getOnlyExplain() && (!isset($imbra_answers[$question->getId()]) || $imbra_answers[$question->getId()]->getAnswer() == 0) && (!isset($request_answers[$question->getId()]) || $request_answers[$question->getId()] == 0) ) ? 'display: none;' : '' )) ?><br />
         <?php endif; ?>
         

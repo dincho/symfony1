@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm') ?>
+<?php use_helper('Object', 'dtForm', 'fillIn') ?>
 <?php echo __('In order to match you with Polish singles we need to know a little about you.') ?><br />
 <span class="public_reg_notice"><?php echo __('(Estimated time 120 seconds)') ?></span><br /><br />
 <span><?php echo __('Reminder. If you\'re not 19 or older, you are not allowed to be here - you must leave now!') ?></span><br />
