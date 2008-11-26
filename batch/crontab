@@ -1,0 +1,6 @@
+MAILTO=dincho.todorov@bonex.us
+*/5     *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/mailbox_import.php
+01      *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationAbandoned.php
+01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationAccountActivity.php
+01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationLoginReminder.php
+01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationRegistrationReminder.php
