@@ -5,7 +5,7 @@
     <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice">Received Messages</span>
 </div>
 <?php echo form_tag('messages/delete', array('id' => 'messages_form', 'name' => 'messages_form')) ?>
-    <?php include_partial('actions', array('form_name' => 'messages_form')); ?>
+    <?php include_partial('actions', array('form_name' => 'messages_form', 'cnt_unread' => $cnt_unread)); ?>
     <table cellspacing="0" cellpadding="0" class="messages"> 
     <?php foreach ($received_messages as $message): ?>
     <?php echo ( $message->getIsRead() ) ? '<tr>' : '<tr class="bold">'; ?>
@@ -16,7 +16,7 @@
     </tr>
     <?php endforeach; ?>
     </table>
-    <?php include_partial('actions', array('form_name' => 'messages_form')); ?>
+    <?php include_partial('actions', array('form_name' => 'messages_form', 'cnt_unread' => $cnt_unread)); ?>
 </form>
 <?php endif; ?>
 

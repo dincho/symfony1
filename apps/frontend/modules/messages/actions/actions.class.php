@@ -16,6 +16,10 @@ class messagesActions extends prActions
         $c->add(MessagePeer::SENT_BOX, false);
         $this->received_messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);
         
+        $cc = clone $c;
+        $cc->add(MessagePeer::IS_READ, false);
+        $this->cnt_unread = MessagePeer::doCount($cc);
+        
         $c = new Criteria();
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->add(MessagePeer::FROM_MEMBER_ID, $this->getUser()->getId());
