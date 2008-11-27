@@ -84,7 +84,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('US_CITIZEN', 'UsCitizen', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('EMAIL_NOTIFICATIONS', 'EmailNotifications', 'int', CreoleTypes::TINYINT, true, null);
+		$tMap->addColumn('EMAIL_NOTIFICATIONS', 'EmailNotifications', 'int', CreoleTypes::TINYINT, false, null);
 
 		$tMap->addColumn('DONT_USE_PHOTOS', 'DontUsePhotos', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
@@ -111,6 +111,14 @@ class MemberMapBuilder {
 		$tMap->addColumn('LAST_FLAGGED', 'LastFlagged', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('LAST_LOGIN', 'LastLogin', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('LAST_WINKS_VIEW', 'LastWinksView', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('LAST_HOTLIST_VIEW', 'LastHotlistView', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('LAST_PROFILE_VIEW', 'LastProfileView', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('LAST_ACTIVITY_NOTIFICATION', 'LastActivityNotification', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 

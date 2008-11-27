@@ -27,6 +27,13 @@ class registrationActions extends prActions
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->setSubscriptionId(SubscriptionPeer::FREE);
             
+            //some default values
+            $member->setLastProfileView(time());
+            $member->setLastHotlistView(time());
+            $member->setLastWinksView(time());
+            $member->setLastActivityNotification(time());
+            $member->setEmailNotifications(0);
+            
             $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
             $member->setSex($sex_looking[0]);
             $member->setLookingFor($sex_looking[1]);

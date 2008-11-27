@@ -9,4 +9,5 @@
  */ 
 class MemberCounter extends BaseMemberCounter
 {
+
 }

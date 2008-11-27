@@ -16,12 +16,14 @@
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
             <?php echo image_tag($member->getMainPhoto()->getImg('100x100'), array('style' => 'vertical-align:middle;')) ?>
             
-            <div class="profile_info_matches">
-                <strong><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></strong><br />
-                <?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
-                <?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?><br />
+            <div class="profile_info">
+                <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
+                <p></p>
+                <p><?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                <p><?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                <p></p>
                 <?php $when =  ($member->isLoggedIn()) ? 'Online' : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
-                <b><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></b><br />
+                <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
         </div>
 </div>

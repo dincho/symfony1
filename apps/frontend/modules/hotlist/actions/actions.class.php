@@ -26,6 +26,10 @@ class hotlistActions extends prActions
         $c->add(HotlistPeer::PROFILE_ID, $this->getUser()->getId());
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
+        
+        $member = $this->getUser()->getProfile();
+        $member->setLastHotlistView(time());
+        $member->save();
     }
 
     public function executeAdd()
@@ -36,6 +40,8 @@ class hotlistActions extends prActions
         $hotlist->setMemberId($this->getUser()->getId());
         $hotlist->setProfileId($profile->getId());
         $hotlist->save();
+        
+        if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
         
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%HOSTLIST_URL%" class="sec_link">See your hot-list</a>', 

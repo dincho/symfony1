@@ -113,7 +113,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
-	protected $email_notifications = 0;
+	protected $email_notifications;
 
 
 	
@@ -166,6 +166,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	
 	protected $last_login;
+
+
+	
+	protected $last_winks_view;
+
+
+	
+	protected $last_hotlist_view;
+
+
+	
+	protected $last_profile_view;
+
+
+	
+	protected $last_activity_notification;
 
 
 	
@@ -689,6 +705,94 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getLastWinksView($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_winks_view === null || $this->last_winks_view === '') {
+			return null;
+		} elseif (!is_int($this->last_winks_view)) {
+						$ts = strtotime($this->last_winks_view);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_winks_view] as date/time value: " . var_export($this->last_winks_view, true));
+			}
+		} else {
+			$ts = $this->last_winks_view;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getLastHotlistView($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_hotlist_view === null || $this->last_hotlist_view === '') {
+			return null;
+		} elseif (!is_int($this->last_hotlist_view)) {
+						$ts = strtotime($this->last_hotlist_view);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_hotlist_view] as date/time value: " . var_export($this->last_hotlist_view, true));
+			}
+		} else {
+			$ts = $this->last_hotlist_view;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getLastProfileView($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_profile_view === null || $this->last_profile_view === '') {
+			return null;
+		} elseif (!is_int($this->last_profile_view)) {
+						$ts = strtotime($this->last_profile_view);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_profile_view] as date/time value: " . var_export($this->last_profile_view, true));
+			}
+		} else {
+			$ts = $this->last_profile_view;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getLastActivityNotification($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_activity_notification === null || $this->last_activity_notification === '') {
+			return null;
+		} elseif (!is_int($this->last_activity_notification)) {
+						$ts = strtotime($this->last_activity_notification);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_activity_notification] as date/time value: " . var_export($this->last_activity_notification, true));
+			}
+		} else {
+			$ts = $this->last_activity_notification;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function getCreatedAt($format = 'Y-m-d H:i:s')
 	{
 
@@ -1119,7 +1223,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->email_notifications !== $v || $v === 0) {
+		if ($this->email_notifications !== $v) {
 			$this->email_notifications = $v;
 			$this->modifiedColumns[] = MemberPeer::EMAIL_NOTIFICATIONS;
 		}
@@ -1332,6 +1436,74 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLastWinksView($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_winks_view] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_winks_view !== $ts) {
+			$this->last_winks_view = $ts;
+			$this->modifiedColumns[] = MemberPeer::LAST_WINKS_VIEW;
+		}
+
+	} 
+	
+	public function setLastHotlistView($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_hotlist_view] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_hotlist_view !== $ts) {
+			$this->last_hotlist_view = $ts;
+			$this->modifiedColumns[] = MemberPeer::LAST_HOTLIST_VIEW;
+		}
+
+	} 
+	
+	public function setLastProfileView($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_profile_view] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_profile_view !== $ts) {
+			$this->last_profile_view = $ts;
+			$this->modifiedColumns[] = MemberPeer::LAST_PROFILE_VIEW;
+		}
+
+	} 
+	
+	public function setLastActivityNotification($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_activity_notification] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_activity_notification !== $ts) {
+			$this->last_activity_notification = $ts;
+			$this->modifiedColumns[] = MemberPeer::LAST_ACTIVITY_NOTIFICATION;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -1433,13 +1605,21 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->last_login = $rs->getTimestamp($startcol + 39, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 40, null);
+			$this->last_winks_view = $rs->getTimestamp($startcol + 40, null);
+
+			$this->last_hotlist_view = $rs->getTimestamp($startcol + 41, null);
+
+			$this->last_profile_view = $rs->getTimestamp($startcol + 42, null);
+
+			$this->last_activity_notification = $rs->getTimestamp($startcol + 43, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 44, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 41; 
+						return $startcol + 45; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2175,6 +2355,18 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				return $this->getLastLogin();
 				break;
 			case 40:
+				return $this->getLastWinksView();
+				break;
+			case 41:
+				return $this->getLastHotlistView();
+				break;
+			case 42:
+				return $this->getLastProfileView();
+				break;
+			case 43:
+				return $this->getLastActivityNotification();
+				break;
+			case 44:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -2227,7 +2419,11 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[37] => $this->getLastStatusChange(),
 			$keys[38] => $this->getLastFlagged(),
 			$keys[39] => $this->getLastLogin(),
-			$keys[40] => $this->getCreatedAt(),
+			$keys[40] => $this->getLastWinksView(),
+			$keys[41] => $this->getLastHotlistView(),
+			$keys[42] => $this->getLastProfileView(),
+			$keys[43] => $this->getLastActivityNotification(),
+			$keys[44] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -2364,6 +2560,18 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setLastLogin($value);
 				break;
 			case 40:
+				$this->setLastWinksView($value);
+				break;
+			case 41:
+				$this->setLastHotlistView($value);
+				break;
+			case 42:
+				$this->setLastProfileView($value);
+				break;
+			case 43:
+				$this->setLastActivityNotification($value);
+				break;
+			case 44:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -2413,7 +2621,11 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[37], $arr)) $this->setLastStatusChange($arr[$keys[37]]);
 		if (array_key_exists($keys[38], $arr)) $this->setLastFlagged($arr[$keys[38]]);
 		if (array_key_exists($keys[39], $arr)) $this->setLastLogin($arr[$keys[39]]);
-		if (array_key_exists($keys[40], $arr)) $this->setCreatedAt($arr[$keys[40]]);
+		if (array_key_exists($keys[40], $arr)) $this->setLastWinksView($arr[$keys[40]]);
+		if (array_key_exists($keys[41], $arr)) $this->setLastHotlistView($arr[$keys[41]]);
+		if (array_key_exists($keys[42], $arr)) $this->setLastProfileView($arr[$keys[42]]);
+		if (array_key_exists($keys[43], $arr)) $this->setLastActivityNotification($arr[$keys[43]]);
+		if (array_key_exists($keys[44], $arr)) $this->setCreatedAt($arr[$keys[44]]);
 	}
 
 	
@@ -2461,6 +2673,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::LAST_STATUS_CHANGE)) $criteria->add(MemberPeer::LAST_STATUS_CHANGE, $this->last_status_change);
 		if ($this->isColumnModified(MemberPeer::LAST_FLAGGED)) $criteria->add(MemberPeer::LAST_FLAGGED, $this->last_flagged);
 		if ($this->isColumnModified(MemberPeer::LAST_LOGIN)) $criteria->add(MemberPeer::LAST_LOGIN, $this->last_login);
+		if ($this->isColumnModified(MemberPeer::LAST_WINKS_VIEW)) $criteria->add(MemberPeer::LAST_WINKS_VIEW, $this->last_winks_view);
+		if ($this->isColumnModified(MemberPeer::LAST_HOTLIST_VIEW)) $criteria->add(MemberPeer::LAST_HOTLIST_VIEW, $this->last_hotlist_view);
+		if ($this->isColumnModified(MemberPeer::LAST_PROFILE_VIEW)) $criteria->add(MemberPeer::LAST_PROFILE_VIEW, $this->last_profile_view);
+		if ($this->isColumnModified(MemberPeer::LAST_ACTIVITY_NOTIFICATION)) $criteria->add(MemberPeer::LAST_ACTIVITY_NOTIFICATION, $this->last_activity_notification);
 		if ($this->isColumnModified(MemberPeer::CREATED_AT)) $criteria->add(MemberPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -2569,6 +2785,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setLastFlagged($this->last_flagged);
 
 		$copyObj->setLastLogin($this->last_login);
+
+		$copyObj->setLastWinksView($this->last_winks_view);
+
+		$copyObj->setLastHotlistView($this->last_hotlist_view);
+
+		$copyObj->setLastProfileView($this->last_profile_view);
+
+		$copyObj->setLastActivityNotification($this->last_activity_notification);
 
 		$copyObj->setCreatedAt($this->created_at);
 

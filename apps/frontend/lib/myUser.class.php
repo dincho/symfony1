@@ -97,6 +97,8 @@ class myUser extends sfBasicSecurityUser
                 $visit->setMemberRelatedByMemberId($this->getProfile());
                 $visit->setMemberRelatedByProfileId($profile);
                 $visit->save();
+                
+                if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
             } else {
                 $profile->incCounter('ProfileViews');
             }

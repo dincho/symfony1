@@ -27,6 +27,10 @@ class winksActions extends prActions
         $c->add(WinkPeer::PROFILE_ID, $this->getUser()->getId());
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
+        
+        $member = $this->getUser()->getProfile();
+        $member->setLastWinksView(time());
+        $member->save();
     }
 
     public function executeSend()
@@ -37,6 +41,8 @@ class winksActions extends prActions
         $wink->setMemberId($this->getUser()->getId());
         $wink->setProfileId($profile->getId());
         $wink->save();
+        
+        if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
         
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('Congratulations! You have just sent the wink. Wait and see. Or see <a href="%WINKS_URL%" class="sec_link">all your winks</a>.', 

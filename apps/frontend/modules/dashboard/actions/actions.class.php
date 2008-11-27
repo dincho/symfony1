@@ -105,6 +105,10 @@ class dashboardActions extends prActions
         $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
+        
+        $member = $this->getUser()->getProfile();
+        $member->setLastProfileView(time());
+        $member->save();
     }
     
     public function validateVisitors()
@@ -182,7 +186,13 @@ class dashboardActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $member->setEmailNotifications($this->getRequestParameter('email_notifications'), 0);
+            if( $this->getRequestParameter('email_notifications') == 'no')
+            {
+                $member->setEmailNotifications(NULL);
+            } else {
+                $member->setEmailNotifications($this->getRequestParameter('email_notifications', 0));
+            }
+            
             $member->save();
             
             $this->setFlash('msg_ok', 'Your email notifications have been updated.');

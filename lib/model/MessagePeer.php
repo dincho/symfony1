@@ -29,6 +29,7 @@ class MessagePeer extends BaseMessagePeer
         $sent_message->save();
         
         Events::triggerFirstContact($message);
+        if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivity($to_member);
         
         return $sent_message;
     }

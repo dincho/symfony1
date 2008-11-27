@@ -48,7 +48,7 @@ propel:
     birthday:                 { type: bu_date }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
     us_citizen:               { type: boolean, required: false }
-    email_notifications:      { type: tinyint, required: true, default: 0 }
+    email_notifications:      { type: tinyint, required: false }
     dont_use_photos:          { type: boolean, required: true, default: 0 }
     contact_only_full_members:  { type: boolean, required: true, default: 0 }
     youtube_vid:              { type: varchar, size: 20, required: false } #YouTube video ID
@@ -62,6 +62,10 @@ propel:
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
     last_flagged:			  { type: timestamp } #timestamp of the last flag
     last_login:               { type: timestamp }
+    last_winks_view:          { type: timestamp }
+    last_hotlist_view:        { type: timestamp }
+    last_profile_view:        { type: timestamp }
+    last_activity_notification:        { type: timestamp }
     created_at:
   member_status:
     id:

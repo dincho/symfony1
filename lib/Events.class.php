@@ -210,13 +210,15 @@ class Events
     public static function triggerAccountActivity($member)
     {
         sfLoader::loadHelpers(array('Url'));
-        $counter = $member->getMemberCounter();
+        //$counter = $member->getMemberCounter();
+        $member->setLastActivityNotification(time());
+        $member->save();
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)),
                              '{NB_MESSAGES}' => $member->getNbUnreadMessages(),
-                             '{NB_WINKS}' => $counter->getReceivedWinks(),
-                             '{NB_HOTLIST}' => $counter->getOnOthersHotlist(),
-                             '{NB_PROFILE_VIEWES}' => $counter->getProfileViews(),
+                             '{NB_WINKS}' => MemberCounterPeer::getNbNewWinks($member->getId()),
+                             '{NB_HOTLIST}' => MemberCounterPeer::getNbNewOnOtherHotlist($member->getId()),
+                             '{NB_PROFILE_VIEWES}' => MemberCounterPeer::getNbNewProfileViews($member->getId()),
                             );
         self::executeNotifications(self::ACCOUNT_ACTIVITY, $global_vars, $member->getEmail(), $member);
     }
