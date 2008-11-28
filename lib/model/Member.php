@@ -127,6 +127,18 @@ class Member extends BaseMember
         }
     }
     
+    public function clearCounter($key = null)
+    {
+        if( !is_null($key) )
+        {
+            $setmethod = 'set' . $key;
+            $counter = $this->getMemberCounter();
+            
+            call_user_func(array($counter, $setmethod), 0);
+            call_user_func(array($counter, 'save'));
+        }
+    }
+    
     public function isStarred()
     {
         return $this->getIsStarred();
@@ -270,5 +282,19 @@ class Member extends BaseMember
     public function getFrontendProfileUrl()
     {
         return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profile/' . $this->getUsername();
+    }
+    
+    public function resetFlags()
+    {
+        //move non-trashed messages to trash mailbox
+        $select = new Criteria();
+        $select->add(FlagPeer::MEMBER_ID, $this->getId());
+        $select->add(FlagPeer::IS_HISTORY, false);
+        
+        $update = new Criteria();
+        $update->add(FlagPeer::IS_HISTORY, true);
+        BasePeer::doUpdate($select, $update, Propel::getConnection());
+        
+        $this->clearCounter('CurrentFlags');
     }
 }

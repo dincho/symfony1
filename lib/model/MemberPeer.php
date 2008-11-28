@@ -35,7 +35,12 @@ class MemberPeer extends BaseMemberPeer
         return ($members && isset($members[0]) ) ? $members[0] : null;
     }
 
-    public static function doSelectJoinAll(Criteria $c, $con = null)
+    public static function doSelectJoinAllCustom(Criteria $c, $con = null)
+    {
+        return self::doSelectJoinAll($c, $con, true);
+    }
+    
+    public static function doSelectJoinAll(Criteria $c, $con = null, $hydrate_custom = false)
     {
         $c = clone $c;
 
@@ -226,6 +231,7 @@ class MemberPeer extends BaseMemberPeer
                 $obj7->addMember($obj1);
             }
 
+            if( $hydrate_custom ) $obj1->custom1 = $rs->getInt($startcol8);
             $results[] = $obj1;
         }
         return $results;

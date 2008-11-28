@@ -11,6 +11,11 @@ class FlagPeer extends BaseFlagPeer
 {
     public static function doSelectJoinAll(Criteria $c, $con = null)
     {
+        return self::doSelectJoinAllFlagger($c, $con);
+    }
+    
+    public static function doSelectJoinAllFlagger(Criteria $c, $con = null)
+    {
         $c = clone $c;
 
                 if ($c->getDbName() == Propel::getDefaultDB()) {
@@ -23,13 +28,9 @@ class FlagPeer extends BaseFlagPeer
         MemberPeer::addSelectColumns($c);
         $startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-        //MemberPeer::addSelectColumns($c);
-        //$startcol4 = $startcol3 + MemberPeer::NUM_COLUMNS;
 
         FlagCategoryPeer::addSelectColumns($c);
         $startcol4 = $startcol3 + FlagCategoryPeer::NUM_COLUMNS;
-
-        //$c->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
 
         $c->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
 
@@ -44,26 +45,6 @@ class FlagPeer extends BaseFlagPeer
             $cls = Propel::import($omClass);
             $obj1 = new $cls();
             $obj1->hydrate($rs);
-
-            /*
-            $omClass = MemberPeer::getOMClass();
-            $cls = Propel::import($omClass);
-            $obj2 = new $cls();
-            $obj2->hydrate($rs, $startcol2);
-            $newObject = true;
-            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-                $temp_obj1 = $results[$j];
-                $temp_obj2 = $temp_obj1->getMemberRelatedByMemberId();              if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-                    $newObject = false;
-                    $temp_obj2->addFlagRelatedByMemberId($obj1);                    break;
-                }
-            }
-
-            if ($newObject) {
-                $obj2->initFlagsRelatedByMemberId();
-                $obj2->addFlagRelatedByMemberId($obj1);
-            }
-            */
 
             $omClass = MemberPeer::getOMClass();
             $cls = Propel::import($omClass);
@@ -86,8 +67,6 @@ class FlagPeer extends BaseFlagPeer
 
                     
             $omClass = FlagCategoryPeer::getOMClass();
-
-
             $cls = Propel::import($omClass);
             $obj4 = new $cls();
             $obj4->hydrate($rs, $startcol3);
@@ -109,5 +88,95 @@ class FlagPeer extends BaseFlagPeer
             $results[] = $obj1;
         }
         return $results;
-    }    
+    }
+    
+    public static function doSelectJoinAllFlagged(Criteria $c, $con = null)
+    {
+        $c = clone $c;
+
+                if ($c->getDbName() == Propel::getDefaultDB()) {
+            $c->setDbName(self::DATABASE_NAME);
+        }
+
+        FlagPeer::addSelectColumns($c);
+        $startcol2 = (FlagPeer::NUM_COLUMNS - FlagPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+        MemberPeer::addSelectColumns($c);
+        $startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
+
+        FlagCategoryPeer::addSelectColumns($c);
+        $startcol4 = $startcol3 + FlagCategoryPeer::NUM_COLUMNS;
+
+        $c->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
+
+
+        $c->addJoin(FlagPeer::FLAG_CATEGORY_ID, FlagCategoryPeer::ID);
+
+        $rs = BasePeer::doSelect($c, $con);
+        $results = array();
+
+        while($rs->next()) {
+
+            $omClass = FlagPeer::getOMClass();
+            $cls = Propel::import($omClass);
+            $obj1 = new $cls();
+            $obj1->hydrate($rs);
+
+            $omClass = MemberPeer::getOMClass();
+            $cls = Propel::import($omClass);
+            $obj2 = new $cls();
+            $obj2->hydrate($rs, $startcol2);
+            $newObject = true;
+            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+                $temp_obj1 = $results[$j];
+                $temp_obj2 = $temp_obj1->getMemberRelatedByMemberId();              if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+                    $newObject = false;
+                    $temp_obj2->addFlagRelatedByMemberId($obj1);                    break;
+                }
+            }
+
+            if ($newObject) {
+                $obj2->initFlagsRelatedByMemberId();
+                $obj2->addFlagRelatedByMemberId($obj1);
+            }
+                    
+            $omClass = FlagCategoryPeer::getOMClass();
+            $cls = Propel::import($omClass);
+            $obj4 = new $cls();
+            $obj4->hydrate($rs, $startcol3);
+
+            $newObject = true;
+            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+                $temp_obj1 = $results[$j];
+                $temp_obj4 = $temp_obj1->getFlagCategory();                 if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+                    $newObject = false;
+                    $temp_obj4->addFlag($obj1);                     break;
+                }
+            }
+
+            if ($newObject) {
+                $obj4->initFlags();
+                $obj4->addFlag($obj1);
+            }
+
+            $results[] = $obj1;
+        }
+        return $results;
+    }
+
+    public static function doSelectFlaggers(Criteria $criteria, $con = null)
+    {
+        $rs = FlagPeer::doSelectRS($criteria, $con);
+        $results = array();
+        while ($rs->next())
+        {
+            $flag = new Flag();
+            $lastColumn = $flag->hydrate($rs);
+            
+            $flag->num_members = $rs->getInt($lastColumn);
+            $results[] = $flag;
+        }
+        
+        return $results;
+    }
 }

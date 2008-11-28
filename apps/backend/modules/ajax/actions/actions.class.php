@@ -54,7 +54,7 @@ class ajaxActions extends sfActions
       $c->add(FlagPeer::IS_HISTORY, (bool) $this->getRequestParameter('history'));
       $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
       
-      $this->flags = FlagPeer::doSelect($c);
+      $this->flags = FlagPeer::doSelectJoinAllFlagger($c);
   }
   
   public function executeGetMemberFlagsFlagger()
@@ -64,6 +64,6 @@ class ajaxActions extends sfActions
       $c->add(FlagPeer::IS_HISTORY, (bool) $this->getRequestParameter('history'));
       $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
       
-      $this->flags = FlagPeer::doSelect($c);
+      $this->flags = FlagPeer::doSelectJoinAllFlagged($c);
   }
 }

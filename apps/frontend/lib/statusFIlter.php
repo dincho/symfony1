@@ -40,7 +40,8 @@ class statusFilter extends sfFilter
                     case MemberStatusPeer::SUSPENDED:
                         $AI->message('status_suspended');
                         break;
-                    case MemberStatusPeer::FLAGGED:
+                    case MemberStatusPeer::SUSPENDED_FLAGS:
+                    case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
                         $AI->message('status_flagged');
                         break;
                     case MemberStatusPeer::PENDING:

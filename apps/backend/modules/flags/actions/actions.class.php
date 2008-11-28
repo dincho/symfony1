@@ -20,33 +20,23 @@ class flagsActions extends sfActions
 
     public function executeSuspended()
     {
-        if (! isset($this->filters['confirmed']))
-            $this->filters['confirmed'] = 0;
         $c = new Criteria();
         $this->addFiltersCriteria($c);
-        //Breadcrumb item
-        if (array_key_exists('confirmed', $this->filters))
-        {
-            $bc = $this->getUser()->getBC();
-            switch ($this->filters['confirmed']) {
-                case 0:
-                    $bc->add(array('name' => 'New Suspension by Flagging', 'uri' => 'flags/list?filter=filter&filters[confirmed]=0'));
-                    $this->left_menu_selected = 'New Susp. by Flagging';
-                    break;
-                case 1:
-                    $bc->add(array('name' => 'Confirmed Suspensions', 'uri' => 'imbra/list?filter=filter&filters[confirmed]=1'));
-                    $this->left_menu_selected = 'Susp. By Flagging Confirmed';
-                    break;
-                default:
-                    break;
-            }
-        }
+        
+        $per_page = ( $this->getRequestParameter('per_page', 0) <= 0 ) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
+        $pager = new sfPropelPager('Member', $per_page);
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->setPeerMethod('doSelectJoinAll');
+        $pager->setPeerCountMethod('doCountJoinAll');
+        $pager->init();
+        $this->pager = $pager;        
     }
 
     public function executeList()
     {
-        if (! isset($this->filters['history']))
-            $this->filters['history'] = 0;
+        $this->is_history = ( isset($this->filters['history']) && $this->filters['history'] == 1) ? true : false;
+            
         $c = new Criteria();
         $c->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
         $c->addGroupByColumn(FlagPeer::MEMBER_ID);
@@ -62,28 +52,6 @@ class flagsActions extends sfActions
         $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
         $this->pager = $pager;
-        
-        //it won`t to order, db restriction becuase of group by
-        //$c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
-        
-        //$this->members = MemberPeer::doSelectJoinAll($c);
-        //Breadcrumb item
-        if (array_key_exists('history', $this->filters))
-        {
-            $bc = $this->getUser()->getBC();
-            switch ($this->filters['history']) {
-                case 0:
-                    $bc->add(array('name' => 'List', 'uri' => 'flags/list?filter=filter&filters[history]=0'));
-                    $this->left_menu_selected = 'Flags';
-                    break;
-                case 1:
-                    $bc->add(array('name' => 'History', 'uri' => 'imbra/list?filter=filter&filters[history]=1'));
-                    $this->left_menu_selected = 'Flag History';
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     public function executeFlaggers()
@@ -98,25 +66,16 @@ class flagsActions extends sfActions
         $c->addAsColumn('num_members', 'COUNT(' . FlagPeer::MEMBER_ID . ')');
 
         $this->addFiltersCriteria($c);
-        $rs = FlagPeer::doSelectRS($c);
-        $results = array();
-        while ($rs->next())
-        {
-            $flag = new Flag();
-            // hydrate the object and store how many columns it has
-            $lastColumn = $flag->hydrate($rs);
-            
-            $flag->num_members = $rs->getInt($lastColumn);
-            $results[] = $flag;
-            // then retrieve the COUNT from the first column not belonging to the object
-            //$counts[] = $rs->getInt($lastColumn);
-        }
-        $this->flags = $results;
-        //$this->counts = $counts;
-        //it won`t to order, db restriction becuase of group by
-        //$c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
+
+        $per_page = ( $this->getRequestParameter('per_page', 0) <= 0 ) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
         
-        //$this->flags = FlagPeer::doSelect($c);
+        $pager = new sfPropelPager('Member', $per_page);
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->setPeerMethod('doSelectJoinAllCustom');
+        $pager->setPeerCountMethod('doCount');
+        $pager->init();
+        $this->pager = $pager;
     }
     
     public function executeProfileFlagged()
@@ -132,6 +91,7 @@ class flagsActions extends sfActions
         
         $c = new Criteria();
         $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
+        $c->add(FlagPeer::IS_HISTORY, false);
         $this->flags = FlagPeer::doSelectJoinAll($c);
         
         $c = new Criteria();
@@ -161,11 +121,40 @@ class flagsActions extends sfActions
 
     }
     
+    public function executeSuspend()
+    {
+        $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($member);
+
+        $member->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED);
+        $member->save();
+        $member->resetFlags();
+        
+        $this->setFlash('msg_ok', $member->getUsername() . ' has been suspended.');
+        $this->redirect('flags/profileFlagged?id=' . $member->getId());
+    }
+    
+    public function executeReset()
+    {
+        $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($member);
+
+        $member->resetFlags();
+        
+        $this->setFlash('msg_ok', $member->getUsername() . "'s flags has been reset.");
+        $this->redirect('flags/profileFlagged?id=' . $member->getId());
+    }
+    
     protected function processFilters()
     {
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
+            
+            //some default values
+            if (!isset($filters['confirmed'])) $filters['confirmed'] = 0;
+            if (!isset($filters['history'])) $filters['history'] = 0;
+            
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/flags/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/flags/filters');
         }
@@ -173,10 +162,43 @@ class flagsActions extends sfActions
 
     protected function addFiltersCriteria($c)
     {
+        $bc = $this->getUser()->getBC();
+        
         if ( isset($this->filters['history']) && $this->getActionName() == 'list')
         {
+            switch ($this->filters['history']) {
+                case 0:
+                    $bc->add(array('name' => 'List', 'uri' => 'flags/list?filter=filter&filters[history]=0'));
+                    $this->left_menu_selected = 'Flags';
+                    break;
+                case 1:
+                    $bc->add(array('name' => 'History', 'uri' => 'imbra/list?filter=filter&filters[history]=1'));
+                    $this->left_menu_selected = 'Flag History';
+                    break;
+                default:
+                    break;
+            }
+                        
             $bHistory = (bool) $this->filters['history'];
             $c->add(FlagPeer::IS_HISTORY, $bHistory);
+        }
+        
+        if ( isset($this->filters['confirmed']) && $this->getActionName() == 'suspended')
+        {
+            switch ($this->filters['confirmed']) {
+                case 0:
+                    $bc->add(array('name' => 'New Suspension by Flagging', 'uri' => 'flags/list?filter=filter&filters[confirmed]=0'));
+                    $this->left_menu_selected = 'New Susp. by Flagging';
+                    $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::SUSPENDED_FLAGS);
+                    break;
+                case 1:
+                    $bc->add(array('name' => 'Confirmed Suspensions', 'uri' => 'imbra/list?filter=filter&filters[confirmed]=1'));
+                    $this->left_menu_selected = 'Susp. By Flagging Confirmed';
+                    $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED);
+                    break;
+                default:
+                    break;
+            }      
         }
     }
 }

@@ -20,7 +20,11 @@
         <?php //$member = $flag->getMember(); ?>
         <tr rel="<?php echo url_for('flags/profileFlagged?id=' . $member->getId()); ?>" onmouseover="preview_click('<?php echo $member->getId();?>')" onmouseout="preview_clear();"">
             <td><?php echo $member->getLastFlagged('m/d/Y'); ?></td>
-            <td><?php echo $member->getCounter('CurrentFlags'); ?></td>
+            <?php if($is_history): ?>
+                <td><?php echo $member->getCounter('TotalFlags') - $member->getCounter('CurrentFlags'); ?></td>
+            <?php else: ?>
+                <td><?php echo $member->getCounter('CurrentFlags'); ?></td>
+            <?php endif; ?>
             <td><?php echo $member->getUsername(); ?></td>
             <td><?php echo $member->getId(); ?></td>
             <td><?php echo $member->getLastName(); ?></td>
@@ -44,6 +48,4 @@
     </table>
 
 <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'flags/list')); ?>
-<div id="preview">
-
-</div>
+<div id="preview"></div>
