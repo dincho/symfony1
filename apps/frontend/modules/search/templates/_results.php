@@ -1,5 +1,6 @@
 <?php use_helper('Date') ?>
 
+<?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">
     <?php include_partial('pager', array('pager' => $pager, 'route' => $route)); ?>
     <div class="member">
@@ -30,4 +31,6 @@
     </div>
     <?php include_partial('pager', array('pager' => $pager, 'route' => $route)); ?>
 </div>
-
+<?php else: ?>
+    <div class="msg_error text-center"><?php echo __('No results found, please revise your criteria and try again.') ?></div>
+<?php endif; ?>

@@ -27,6 +27,9 @@
             </div>
         </div>
 </div>
+<?php elseif($sf_request->getParameter('profile_id')): ?>
+    <div class="msg_error text-center"><?php echo __('We could not find a member with the ID you specified, please make sure
+                                                      you have the right ID number or use another type of search') ?></div>
 <?php endif; ?>
 
 

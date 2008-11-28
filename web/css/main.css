@@ -17,6 +17,8 @@ img {
     font-weight: bold;
 }
 
+.text-center   { text-align:center; }
+
 .clear {
     clear: both;
 }
@@ -177,8 +179,10 @@ body .public_matches_search {
     margin: 0;
 }
 
-#msgs .msg_error,#ajax_response .msg_error {
+.msg_error, #msgs .msg_error, #ajax_response .msg_error {
     color: #ff0000;
+    font-size: 12px;
+    font-weight: bold;    
 }
 
 #msgs .msg_ok,#ajax_response .msg_ok {

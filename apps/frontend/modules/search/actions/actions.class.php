@@ -213,7 +213,7 @@ class searchActions extends prActions
         $pager->setPeerCountMethod('doCountJoinMemberRelatedByMember2Id');
         $pager->setMaxRecordLimit(600); //max 600 results due to FS
         $pager->init();
-        $this->pager = $pager;        
+        $this->pager = $pager;
     }
     
     protected function processFilters()

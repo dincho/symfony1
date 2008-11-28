@@ -14,4 +14,9 @@ class prActions extends sfActions
         $this->setFlash('msg_tpl', $msg_tpl);
         $this->redirect('content/message');
     }
+    
+    public function redirectToReferer()
+    {
+        $this->redirect($this->getUser()->getRefererUrl());
+    }
 }
