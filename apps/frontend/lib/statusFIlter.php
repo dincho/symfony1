@@ -50,8 +50,6 @@ class statusFilter extends sfFilter
                     case MemberStatusPeer::DENIED:
                         $AI->message('status_denied');
                         break;
-                    case MemberStatusPeer::CANCELED_BY_MEMBER:
-                        break;
                     default:
                         break;
                 }
