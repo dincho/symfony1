@@ -153,7 +153,7 @@ class messagesActions extends prActions
     {
         $this->profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($this->profile);
-        
+        $this->member = $this->getUser()->getProfile();
             
         if( $this->getUser()->getId() == $this->profile->getId() )
         {
@@ -220,6 +220,7 @@ class messagesActions extends prActions
     {
         $this->profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($this->profile);
+        $this->member = $this->getUser()->getProfile();
                 
         return sfView::SUCCESS;
     }
