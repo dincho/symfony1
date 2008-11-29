@@ -4,9 +4,6 @@
 <?php echo form_tag('catalogue/create', 'class=form') ?>
   <div class="legend">Creating New Catalogue</div>
   <fieldset class="form_fields">
-    
-    <label for="country">Country:</label>
-    <?php echo select_country_tag('country') ?>
     <label for="language">Language:</label>
     <?php echo select_language_tag('language') ?>
   </fieldset>

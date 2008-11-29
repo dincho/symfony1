@@ -6,3 +6,6 @@ all:
   cache:               on
   untranslated_prefix: "[T]"
   untranslated_suffix: "[/T]"
+trans:
+    debug:             on
+    cache:             off
