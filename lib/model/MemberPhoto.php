@@ -68,6 +68,33 @@ class MemberPhoto extends BaseMemberPhoto
 	    }
 	    
 	}
+	
+	public function delete($con = null)
+	{
+        //if deleting main photo, set the first photo as new main photo
+        $member = $this->getMember();
+        if( $member->getMainPhoto()->getId() == $this->getId() )
+        {
+            $c = new Criteria();
+            $c->add(MemberPhotoPeer::MEMBER_ID, $member->getId());
+            $c->add(MemberPhotoPeer::ID, $this->getId(), Criteria::NOT_EQUAL);
+            $new_main = MemberPhotoPeer::doSelectOne($c);
+            if( $new_main )
+            {
+                $member->setMemberPhoto($new_main);
+                $member->save();
+            }
+        }
+        parent::delete($con);
+	}
+	
+	public function save($con = null)
+	{
+	    parent::save($con);
+	    
+	    $member = $this->getMember();
+	    if ($member->countMemberPhotos() == 1) $member->setMemberPhoto($this);
+	}
 }
 
 $sizes = array(array('width' => 30, 'height' => 30), 

@@ -232,9 +232,6 @@ class editProfileActions extends prActions
                 $new_photo->setMember($this->member);
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
-                
-                if ($this->member->countMemberPhotos() == 1)
-                    $this->member->setMemberPhoto($new_photo);
             }
             
             //set main photo
