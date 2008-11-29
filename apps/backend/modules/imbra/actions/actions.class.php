@@ -71,8 +71,9 @@ class imbraActions extends sfActions
         $this->imbras = $this->member->getMemberImbras();
         $this->imbra = MemberImbraPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($this->imbra);
-        $this->template = ImbraReplyTemplatePeer::retrieveByPK(1);
         
+        if( $this->getRequestParameter('template_id') ) $this->template = ImbraReplyTemplatePeer::retrieveByPK($this->getRequestParameter('template_id'));
+        if( !$this->template ) $this->template = ImbraReplyTemplatePeer::retrieveByPK(1);
         if( !$this->template ) $this->template = new ImbraReplyTemplate();
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)

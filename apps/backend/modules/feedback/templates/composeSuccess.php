@@ -20,19 +20,22 @@
       </tr>
       <tr>
         <th>Bcc</th>
-        <td><?php echo input_tag('bcc', $sf_request->getParameter('bcc')) ?></td>
+        <td><?php echo input_tag('bcc', $sf_request->getParameter('bcc', $template->getBcc())) ?></td>
       </tr>
       <tr>
         <th>Template</th>
-        <td><?php /*echo object_select_tag($template->getId(), 'template_id', array (
-                  'related_class' => 'ImbraReplyTemplate',
+        <?php $tpl_url = (!$sf_request->hasParameter('id')) ? url_for('feedback/compose?template_id=') : url_for('feedback/reply?id=' . $sf_request->getParameter('id').'&template_id=') ?>
+        <td><?php echo object_select_tag($template->getId(), 'template_id', array (
+                  'related_class' => 'FeedbackTemplate',
                   'peer_method' => 'doSelect',
-                ))*/?>
+                  'include_blank' => true,
+                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value;',
+                ))?>
         </td>
       </tr>
       <tr>
         <th>From Email</th>
-        <td><?php echo input_tag('mail_from', $sf_request->getParameter('mail_from')) ?></td>
+        <td><?php echo input_tag('mail_from', $sf_request->getParameter('mail_from', $template->getMailFrom())) ?></td>
       </tr>
     <tbody>
   </table>
@@ -107,13 +110,13 @@
 
 <fieldset class="form_fields email_fields">
   <label for="subject">Subject</label>
-  <?php echo input_tag('subject', $sf_request->getParameter('subject')) ?><br />
+  <?php echo input_tag('subject', $sf_request->getParameter('subject', $template->getSubject())) ?><br />
   
   <label for="body">Body</label>
-  <?php echo textarea_tag('message_body', Tools::br2nl($sf_request->getParameter('body')), array('cols' => 90, 'rows' => 10)) ?><br />
+  <?php echo textarea_tag('message_body', Tools::br2nl($sf_request->getParameter('body', $template->getBody())), array('cols' => 90, 'rows' => 10)) ?><br />
   
   <label for="message_footer">Footer</label>
-  <?php echo textarea_tag('message_footer', Tools::br2nl($sf_request->getParameter('message_footer')), array('cols' => 90, 'rows' => 5)) ?><br />
+  <?php echo textarea_tag('message_footer', Tools::br2nl($sf_request->getParameter('message_footer', $template->getFooter())), array('cols' => 90, 'rows' => 5)) ?><br />
   
   <label for="save_as_new_template">Save as new template</label>
   <?php echo input_tag('save_as_new_template', null, 'id=save_as_new_template') ?><br />

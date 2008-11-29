@@ -34,9 +34,11 @@
       </tr>
       <tr>
         <th>Template</th>
+        <?php $tpl_url = url_for('imbra/deny?member_id='. $member->getId() .'&id=' . $imbra->getId() . '&template_id=') ?>
         <td><?php echo object_select_tag($template->getId(), 'template_id', array (
 			      'related_class' => 'ImbraReplyTemplate',
 			      'peer_method' => 'doSelect',
+                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value;',
 			    ))?>
         </td>
         <th></th>
@@ -53,7 +55,7 @@
   <?php echo input_tag('subject', $template->getSubject()) ?><br />
   
   <label for="body">Body</label>
-  <?php echo textarea_tag('body', $template->getBody()) ?><br />
+  <?php echo textarea_tag('body', $template->getBody(), array('cols' => 90, 'rows' => 10)) ?><br />
   
   <label for="save_as_new_template">Save as new template</label>
   <?php echo input_tag('save_as_new_template', null, 'id=save_as_new_template') ?><br />

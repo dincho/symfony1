@@ -708,6 +708,26 @@ CREATE TABLE `feedback`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
+#-- feedback_template
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `feedback_template`;
+
+
+CREATE TABLE `feedback_template`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	`mail_from` VARCHAR(255),
+	`reply_to` VARCHAR(255),
+	`bcc` VARCHAR(255),
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`footer` TEXT,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
 #-- flag_category
 #-----------------------------------------------------------------------------
 

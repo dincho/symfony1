@@ -61,7 +61,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'),
                                            array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
                                            array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),
-                                           array('title' => 'Templates', 'uri' => 'feedback/list'),
+                                           array('title' => 'Templates', 'uri' => 'feedbackTemplates/list'),
                                            ),
                         'messages' => array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
                                            ),
@@ -102,6 +102,7 @@ class systemComponents extends sfComponents
     $full_menu['notifications'] = $full_menu['content'];
     $full_menu['descQuestions'] = $full_menu['content'];
     $full_menu['descAnswers'] = $full_menu['content'];
+    $full_menu['feedbackTemplates'] = $full_menu['feedback'];
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
     if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;

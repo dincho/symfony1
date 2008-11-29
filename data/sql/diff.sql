@@ -1,4 +1,16 @@
-ALTER TABLE `member` ADD `last_activity_notification` DATETIME;
+
+CREATE TABLE `feedback_template`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	`mail_from` VARCHAR(255),
+	`reply_to` VARCHAR(255),
+	`bcc` VARCHAR(255),
+	`subject` VARCHAR(255),
+	`body` TEXT,
+	`footer` TEXT,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)

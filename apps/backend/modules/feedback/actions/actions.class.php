@@ -17,38 +17,12 @@ class feedbackActions extends sfActions
         //breadcrumb
         $bc = $this->getUser()->getBC();
         $bc->removeLast(); //remove action name
-        if (isset($this->filters))
-        {
-            if (array_key_exists('mailbox', $this->filters))
-            {
-                switch ($this->filters['mailbox']) {
-                    case 1:
-                        $bc->add(array('name' => 'Inbox', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'));
-                        $this->left_menu_selected = 'All Messages';
-                        break;
-                    case 2:
-                        $bc->add(array('name' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'));
-                        $this->left_menu_selected = 'Sent';
-                        break;
-                    case 3:
-                        $bc->add(array('name' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'));
-                        $this->left_menu_selected = 'Drafts';
-                        break;
-                    case 4:
-                        $bc->add(array('name' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'));
-                        $this->left_menu_selected = 'Trash';
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
     }
 
     public function executeList()
     {
         //default to INBOX
-        if (! isset($this->filters['mailbox'])) 
+        if (! isset($this->filters['mailbox']))
         {
             //because of indirect modification of overloaded property notice
             $filters = $this->filters;
@@ -87,9 +61,7 @@ class feedbackActions extends sfActions
     {
         //replace mailbox and add compose
         $this->getUser()->getBC()->replaceLast(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
-        $this->template = new ImbraReplyTemplate(); //@todo change this to feedback templates 
-        if ($this->getRequestParameter('template_id'))
-            $this->selectTemplate();
+        $this->selectTemplate();
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -100,11 +72,10 @@ class feedbackActions extends sfActions
                 $this->redirect('feedback/list?filter=filter&filters[mailbox]=3');
             } else
             {
-                if ($this->getRequestParameter('save_as_template'))
-                    $this->saveTemplate();
+                if ($this->getRequestParameter('save_as_new_template')) $this->saveTemplate();
                 $this->send();
                 $this->setFlash('msg_ok', 'Your message has been sent.');
-                //$this->redirect('feedback/list');
+                $this->redirect('feedback/list');
             }
         } else
         {
@@ -114,10 +85,26 @@ class feedbackActions extends sfActions
 
     protected function selectTemplate()
     {
+        if ($this->getRequestParameter('template_id'))
+        {
+            $this->template = FeedbackTemplatePeer::retrieveByPK($this->getRequestParameter('template_id'));
+        }
+        
+        if (! isset($this->template))
+            $this->template = new FeedbackTemplate();
     }
 
     protected function saveTemplate()
     {
+        $template = new FeedbackTemplate();
+        $template->setName($this->getRequestParameter('save_as_new_template'));
+        $template->setMailFrom($this->getRequestParameter('mail_from'));
+        $template->setReplyTo($this->getRequestParameter('reply_to'));
+        $template->setBcc($this->getRequestParameter('bcc'));
+        $template->setSubject($this->getRequestParameter('subject'));
+        $template->setBody($this->getRequestParameter('message_body'));
+        $template->setFooter($this->getRequestParameter('message_footer'));
+        $template->save();
     }
 
     public function executeOpen()
@@ -132,10 +119,14 @@ class feedbackActions extends sfActions
     {
         $mail = FeedbackPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($mail);
+        
+        $this->selectTemplate();
         $request = $this->getRequest();
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
         $request->setParameter('body', $mail->getBodyForReply());
+        $request->setParameter('template_id', $this->template->getId());
+        
         $this->forward($this->getModuleName(), 'compose');
     }
 
@@ -187,6 +178,7 @@ class feedbackActions extends sfActions
         $this->addSendFiltersCriteria($c);
         $c->setLimit(100); //max emails
         
+
         if (isset($this->send_to_members) && $this->send_to_members)
         {
             $members = MemberPeer::doSelect($c);
@@ -376,6 +368,11 @@ class feedbackActions extends sfActions
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
+            
+            //default to imbox
+            if (! isset($filters['mailbox']))
+                $filters['mailbox'] = 1;
+            
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/feedback/filters');
         }
@@ -386,6 +383,27 @@ class feedbackActions extends sfActions
         $bc = $this->getUser()->getBC();
         if (isset($this->filters['mailbox']))
         {
+            switch ($this->filters['mailbox']) {
+                case 1:
+                    $bc->add(array('name' => 'Inbox', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'));
+                    $this->left_menu_selected = 'All Messages';
+                    break;
+                case 2:
+                    $bc->add(array('name' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'));
+                    $this->left_menu_selected = 'Sent';
+                    break;
+                case 3:
+                    $bc->add(array('name' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'));
+                    $this->left_menu_selected = 'Drafts';
+                    break;
+                case 4:
+                    $bc->add(array('name' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'));
+                    $this->left_menu_selected = 'Trash';
+                    break;
+                default:
+                    break;
+            }
+            
             $c->add(FeedbackPeer::MAILBOX, $this->filters['mailbox']);
         }
         
