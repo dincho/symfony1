@@ -119,10 +119,10 @@
     </table>            
 </div>
 <div id="profile_left">
-    <?php echo image_tag($member->getMainPhoto()->getImg('350x350'), array('id' => 'member_image')) ?><br />
+    <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?><br />
     <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
     <?php $i=1;foreach ($member->getMemberPhotos() as $photo): ?>
-        <?php echo link_to_function(image_tag($photo->getImg('50x50'), 'class=thumb'), 'document.getElementById("member_image").src="'. $photo->getImg('350x350').'"') ?>
+        <?php echo link_to_function(image_tag($photo->getImg('50x50'), 'class=thumb'), 'document.getElementById("member_image").src="'. $photo->getImg('350x350', 'file').'"') ?>
         <?php if($i++ % 6 == 0 ): ?>
         <br />
         <?php endif; ?>
