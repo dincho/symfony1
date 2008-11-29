@@ -1,8 +1,8 @@
-function add_form_field(container)
+function add_form_field(container, the_name)
 {
     new_f = document.createElement('input');
     new_f.type = 'text';
-    new_f.name = 'states[]';
+    new_f.name = the_name;
     
     br = document.createElement('br');
     label = document.createElement('label');

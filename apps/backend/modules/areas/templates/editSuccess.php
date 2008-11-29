@@ -16,7 +16,7 @@
     <?php endforeach; ?>
     
     <label>&nbsp;</label>
-    <?php echo link_to_function('+Add', 'add_form_field(this.parentNode) ', array('style' => 'float: left')) ?><br />
+    <?php echo link_to_function('+Add', 'add_form_field(this.parentNode, "states[]") ', array('style' => 'float: left')) ?><br />
   </fieldset> 
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'areas/edit?confirm_msg=' . confirmMessageFilter::CANCEL)  . submit_tag('Save', 'class=button') ?>

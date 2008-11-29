@@ -69,6 +69,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
                                            array('title' => 'Flags', 'uri' => 'flags/list?filter=filter&filters[history]=0'),
                                            array('title' => 'Flaggers', 'uri' => 'flags/flaggers'),
+                                           array('title' => 'Flag Categories', 'uri' => 'flagCategories/edit'),
                                            array('title' => 'Flag History', 'uri' => 'flags/list?filter=filter&filters[history]=1'),
                                            ),                                           
                         'members' => array(array('title' => 'All Members', 'uri' => 'members/list?filter=filter'),
@@ -103,6 +104,7 @@ class systemComponents extends sfComponents
     $full_menu['descQuestions'] = $full_menu['content'];
     $full_menu['descAnswers'] = $full_menu['content'];
     $full_menu['feedbackTemplates'] = $full_menu['feedback'];
+    $full_menu['flagCategories'] = $full_menu['flags'];
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
     if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;

@@ -9,4 +9,16 @@
  */ 
 class FlagCategoryPeer extends BaseFlagCategoryPeer
 {
+    public static function getAssoc()
+    {
+        $cats = self::doSelect(new Criteria());
+        
+        $ret = array();
+        foreach ($cats as $cat)
+        {
+            $ret[$cat->getId()] = $cat;
+        }
+        
+        return $ret;
+    }
 }
