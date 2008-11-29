@@ -122,9 +122,16 @@
     <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?><br />
     <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
     <?php $i=1;foreach ($member->getMemberPhotos() as $photo): ?>
-        <?php echo link_to_function(image_tag($photo->getImg('50x50'), 'class=thumb'), 'document.getElementById("member_image").src="'. $photo->getImg('350x350', 'file').'"') ?>
+        <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
+            <?php $class = 'current_thumb';?>
+            <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>
+        <?php else: ?>
+            <?php $class = 'thumb'; ?>
+        <?php endif; ?>
+        <?php $the_img = image_tag($photo->getImg('50x50'), array('id' => 'thumb_' . $photo->getId(), 'class' => $class)); ?>
+        <?php echo link_to_function($the_img, 'show_profile_image("'. $photo->getImg('350x350', 'file').'", '. $photo->getId() .')', array()) ?>
         <?php if($i++ % 6 == 0 ): ?>
-        <br />
+            <br />
         <?php endif; ?>
     <?php endforeach; ?>
     <?php if( $member->getYoutubeVid() ): ?>

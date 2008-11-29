@@ -13,8 +13,6 @@ class profileActions extends prActions
     public function executeIndex()
     {
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
-        $this->getResponse()->addJavascript('profile_desc_map.js');
-        $this->getResponse()->addJavascript('show_hide_tick');
         
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
