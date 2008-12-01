@@ -19,4 +19,10 @@ class prActions extends sfActions
     {
         $this->redirect($this->getUser()->getRefererUrl());
     }
+    
+    public function redirectToLastReferer()
+    {
+        $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
+        return isset($stack[0]) ? $stack[0] : null;        
+    }
 }

@@ -14,6 +14,7 @@ class blockActions extends prActions
     {
         $c = new Criteria();
         $c->addDescendingOrderByColumn(BlockPeer::CREATED_AT);
+        $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
         $this->blocks = BlockPeer::doSelectJoinMemberRelatedByProfileId($c);
     }
 
@@ -28,6 +29,7 @@ class blockActions extends prActions
         $msg_ok = sfI18N::getInstance()->__('You just blocked %USERNAME% from seeing and contacting you. To undo, <a href="%UNDO_URL%" class="sec_link">click here</a>.', 
                 array('%USERNAME%' => $profile->getUsername(), '%UNDO_URL%' => $this->getController()->genUrl('block/remove?id=' . $block->getId())));
         $this->setFlash('msg_ok', $msg_ok);
+        
         $this->redirect('@profile?username=' . $profile->getUsername());
     }
 
@@ -58,6 +60,7 @@ class blockActions extends prActions
     {
         $c = new Criteria();
         $c->addDescendingOrderByColumn(BlockPeer::CREATED_AT);
+        $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
         $this->blocks = BlockPeer::doSelectJoinMemberRelatedByProfileId($c);
 
         $this->getUser()->getBC()->removeLast();
@@ -74,9 +77,14 @@ class blockActions extends prActions
         $this->forward404Unless($block);
         $block->delete();
         $username = $block->getMemberRelatedByProfileId()->getUsername();
-        $msg_ok = sfI18N::getInstance()->__('You have just unblocked %USERNAME%. Click here to see <a href="%PROFILE_URL%" class="sec_link">full profile</a>', 
-                array('%USERNAME%' => $username, '%PROFILE_URL%' => $this->getController()->genUrl('@profile?username=' . $username)));
+        
+        $msg = 'You have just unblocked %USERNAME%.';
+        $ref = $this->getUser()->getRefererUrl();
+        if( stripos($ref, 'profile/index') ) $msg .= ' Click here to see <a href="%PROFILE_URL%" class="sec_link">full profile</a>';
+        $msg_ok = sfI18N::getInstance()->__($msg, array('%USERNAME%' => $username, '%PROFILE_URL%' => $this->getController()->genUrl('@profile?username=' . $username)));
         $this->setFlash('msg_ok', $msg_ok);
-        $this->redirect('@blocked_members');
+        
+        $this->redirectToReferer();
+        //$this->redirect('@blocked_members');
     }
 }
