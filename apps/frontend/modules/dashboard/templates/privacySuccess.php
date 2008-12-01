@@ -6,8 +6,10 @@
     <?php echo object_checkbox_tag($member, 'getDontUsePhotos') ?>
     <?php echo pr_label_for('dont_use_photos', 'I don\'t want my photos to be used on the home page.') ?><br />
     
-    <?php echo object_checkbox_tag($member, 'getContactOnlyFullMembers') ?>
-    <?php echo pr_label_for('contact_only_full_members', 'I want to be contacted by Full Members only.') ?><br />
+    <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
+        <?php echo object_checkbox_tag($member, 'getContactOnlyFullMembers') ?>
+        <?php echo pr_label_for('contact_only_full_members', 'I want to be contacted by Full Members only.') ?><br />
+    <?php endif; ?>
     
     <div class="center_text">
         <?php echo __('You may also deactivate (hide) your profile by <a href="{DEACTIVATE_URL}" class="sec_link">clicking here</a>.', array('{DEACTIVATE_URL}' => url_for('dashboard/deactivate'))) ?><br /><br />
