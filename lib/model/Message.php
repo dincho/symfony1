@@ -33,8 +33,8 @@ class Message extends BaseMessage
                 $from_member->incCounter('ReceivedMessages');
                 $to_member->incCounter('ReplyMessages');
             } else {
-                //@TODO 5 must be moved to some backend setting, to be dinamicaly changed.
-                if( $from_member->getNbSendMessagesToday()+1 == 5 ) Events::triggerSpamActivity($from_member);
+                if( $from_member->getNbSendMessagesToday()+1 == sfConfig::get('app_settings_notification_spam_msgs') ) 
+                    Events::triggerSpamActivity($from_member,$from_member->getNbSendMessagesToday()+1);
                 
                 $from_member->incCounter('SentMessages');
                 $to_member->incCounter('ReceivedMessages');                

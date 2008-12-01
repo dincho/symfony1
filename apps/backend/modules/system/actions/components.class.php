@@ -45,6 +45,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Areas', 'uri' => 'areas/edit'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
+                                           array('title' => 'Settings', 'uri' => 'settings/list'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            array('title' => 'Groups', 'uri' => 'groups/list'),
@@ -103,8 +104,10 @@ class systemComponents extends sfComponents
     $full_menu['notifications'] = $full_menu['content'];
     $full_menu['descQuestions'] = $full_menu['content'];
     $full_menu['descAnswers'] = $full_menu['content'];
+    $full_menu['settings'] = $full_menu['content'];
     $full_menu['feedbackTemplates'] = $full_menu['feedback'];
     $full_menu['flagCategories'] = $full_menu['flags'];
+    
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
     if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;

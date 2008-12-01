@@ -21,26 +21,31 @@ class contentActions extends prActions
 
     public function executeFlag()
     {
-        $this->profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
-        $this->forward404Unless($this->profile);
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $flag = new Flag();
             $flag->setFlagCategoryId($this->getRequestParameter('flag_category'));
             $flag->setComment($this->getRequestParameter('comment'));
-            $flag->setMemberId($this->profile->getId());
+            $flag->setMemberId($profile->getId());
             $flag->setFlaggerId($this->getUser()->getId());
             $flag->save();
             
-            $counter = $this->profile->getMemberCounter();
+            $counter = $profile->getMemberCounter();
             $counter->setCurrentFlags($counter->getCurrentFlags()+1);
             $counter->setTotalFlags($counter->getTotalFlags()+1);
             $counter->save();
             
-            //@TODO
-            $SCAM_FLAGS = 3; //this must be moved to some backend setting
-            if( $counter->getCurrentFlags() == $SCAM_FLAGS ) Events::triggerScamActivity($this->profile, $counter->getCurrentFlags());
+            if( $counter->getCurrentFlags() == sfConfig::get('app_settings_flags_num_auto_suspension'))
+            {
+                $profile->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS);
+                $profile->save();
+            }
+            
+            if( $counter->getCurrentFlags() == sfConfig::get('app_settings_notification_scam_flags') ) 
+                Events::triggerScamActivity($profile, $counter->getCurrentFlags());
             
             $this->getUser()->getProfile()->incCounter('SentFlags');
             
@@ -48,6 +53,7 @@ class contentActions extends prActions
             $this->redirect($this->getUser()->getRefererUrl());
         }
         
+        $this->profile = $profile;
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
     }
 

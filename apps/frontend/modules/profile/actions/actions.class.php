@@ -33,7 +33,7 @@ class profileActions extends prActions
         $c->add($crit);
         $c->addOr($crit2);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
-        $c->setLimit(5);
+        $c->setLimit(sfConfig::get('app_settings_profile_num_recent_messages'));
         $this->recent_conversations = MessagePeer::doSelect($c);
 
         $c = new Criteria();

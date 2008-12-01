@@ -1,16 +1,3 @@
-
-CREATE TABLE `feedback_template`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(255),
-	`mail_from` VARCHAR(255),
-	`reply_to` VARCHAR(255),
-	`bcc` VARCHAR(255),
-	`subject` VARCHAR(255),
-	`body` TEXT,
-	`footer` TEXT,
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -18,6 +5,7 @@ ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 ALTER TABLE `group_and_action` ADD CONSTRAINT `group_and_action_FK_1`
 		FOREIGN KEY (`group_id`)
 		REFERENCES `groups` (`id`);
+ALTER TABLE `sf_setting` ADD `var_type` VARCHAR(30);
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

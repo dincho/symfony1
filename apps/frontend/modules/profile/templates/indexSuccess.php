@@ -121,7 +121,7 @@
 <div id="profile_left">
     <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?><br />
     <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
-    <?php $i=1;foreach ($member->getMemberPhotos() as $photo): ?>
+    <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
             <?php $class = 'current_thumb';?>
             <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>
@@ -134,7 +134,7 @@
             <br />
         <?php endif; ?>
     <?php endforeach; ?>
-    <?php if( $member->getYoutubeVid() ): ?>
+    <?php if( $member->getYoutubeVid() && sfConfig::get('app_settings_profile_display_video') ): ?>
         <object width="350" height="355"><param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed></object>
     <?php endif; ?>
     <p><?php echo $member->getEssayIntroduction() ?></p>

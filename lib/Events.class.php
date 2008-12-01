@@ -141,11 +141,12 @@ class Events
         self::executeNotifications(self::SCAM_ACTIVITY, $global_vars, null, $member);     
     }
     
-    public static function triggerSpamActivity($member)
+    public static function triggerSpamActivity($member, $nb_messages)
     {
         sfLoader::loadHelpers(array('Url'));
         
         $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)),
+                             '{NB_MESSAGES}' => $nb_messages,
                             );
         
         self::executeNotifications(self::SPAM_ACTIVITY, $global_vars, null, $member);     

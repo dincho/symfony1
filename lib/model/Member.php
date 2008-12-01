@@ -297,4 +297,15 @@ class Member extends BaseMember
         
         $this->clearCounter('CurrentFlags');
     }
+    
+    public function getMemberPhotos($count = null, $con = null)
+    {
+        $c = new Criteria();
+        if( !is_null($count))
+        {
+            $c->setLimit($count);
+        }
+        
+        return parent::getMemberPhotos($c, $con);
+    }
 }

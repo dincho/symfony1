@@ -160,7 +160,7 @@ class flagsActions extends sfActions
         }
     }
 
-    protected function addFiltersCriteria($c)
+    protected function addFiltersCriteria(Criteria $c)
     {
         $bc = $this->getUser()->getBC();
         
@@ -185,6 +185,7 @@ class flagsActions extends sfActions
         
         if ( isset($this->filters['confirmed']) && $this->getActionName() == 'suspended')
         {
+            $c->addDescendingOrderByColumn(MemberPeer::LAST_STATUS_CHANGE);
             switch ($this->filters['confirmed']) {
                 case 0:
                     $bc->add(array('name' => 'New Suspension by Flagging', 'uri' => 'flags/list?filter=filter&filters[confirmed]=0'));

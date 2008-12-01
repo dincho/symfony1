@@ -1067,26 +1067,5 @@ CREATE TABLE `group_and_action`
 		ON DELETE CASCADE
 )Type=InnoDB;
 
-#-----------------------------------------------------------------------------
-#-- sf_setting
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sf_setting`;
-
-
-CREATE TABLE `sf_setting`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`env` VARCHAR(10),
-	`name` VARCHAR(40),
-	`value` VARCHAR(100),
-	`description` VARCHAR(255),
-	`created_user_id` INTEGER,
-	`updated_user_id` INTEGER,
-	`created_at` DATETIME,
-	`updated_at` DATETIME,
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
-
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

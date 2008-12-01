@@ -3,3 +3,4 @@ plugins.sfPropelVersionableBehaviorPlugin.lib.model.schema.sql=propel
 lib.model.schema.sql=propel
 plugins.sfPropelNotificationPlugin.lib.model.schema.sql=propel
 plugins.sfNewSecurityPlugin.lib.model.schema.sql=propel
+plugins.sfSettingsPlugin.lib.model.schema.sql=propel
