@@ -13,7 +13,6 @@
                 <span class="conv_date"><?php echo $message->getCreatedAt('m/d/Y'); ?></span>
                 <?php echo checkbox_tag('marked[]', $message->getId(), null) ?>
                 <span class="conv_username">
-                    <?php echo $message->getId() ?>
                     <?php $user = ($message->getFromMemberId() == $member->getId() ) ? 'To ' : 'From '; ?>
                     <?php $user .= $recipient->getUsername() ?>                
                     <?php echo link_to_function($user, 'show_hide("message_content_' . $message->getId() .'")') ?>

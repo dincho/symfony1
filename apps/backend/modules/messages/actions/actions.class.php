@@ -114,6 +114,14 @@ class messagesActions extends sfActions
         
         $this->messages = MessagePeer::doSelect($c);
         
+        //mark messages as reviewed if not
+        $select = clone $c;
+        $select->add(MessagePeer::IS_REVIEWED, false);
+        
+        $update = new Criteria();
+        $update = $c->add(MessagePeer::IS_REVIEWED, true);
+        BasePeer::doUpdate($select, $update, Propel::getConnection());
+        
         $this->member = $sender;
         $this->recipient = $recipient;
         
