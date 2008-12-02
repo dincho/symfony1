@@ -10,17 +10,21 @@
  */
 class dashboardActions extends sfActions
 {
-  public function executeIndex()
-  {
-      $c = new Criteria();
-      $c->add(SessionStoragePeer::USER_ID, NULL, Criteria::ISNOTNULL);
-      $c->addJoin(SessionStoragePeer::USER_ID, MemberPeer::ID);
-      $c->add(MemberPeer::SEX, 'M');
-      
-      $this->males_online = SessionStoragePeer::doCount($c);
-      
-      $c1 = clone $c;
-      $c1->add(MemberPeer::SEX, 'F');
-      $this->females_online = SessionStoragePeer::doCount($c1);
-  }
+    public function executeIndex()
+    {
+        $c = new Criteria();
+        $c->add(SessionStoragePeer::USER_ID, NULL, Criteria::ISNOTNULL);
+        $c->add(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL);
+        $c->addJoin(SessionStoragePeer::USER_ID, MemberPeer::ID);
+        $c->clearSelectColumns()->addSelectColumn('COUNT(DISTINCT session_storage.USER_ID)');
+        $c->add(MemberPeer::SEX, 'M');
+        
+        $rs = SessionStoragePeer::doSelectRS($c);
+        $this->males_online = ($rs->next()) ? $rs->getInt(1) : 0;
+        
+        $c1 = clone $c;
+        $c1->add(MemberPeer::SEX, 'F');
+        $rs = SessionStoragePeer::doSelectRS($c1);
+        $this->females_online = ($rs->next()) ? $rs->getInt(1) : 0;
+    }
 }
