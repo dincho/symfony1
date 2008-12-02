@@ -1,11 +1,13 @@
 propel: 
-
+  _attributes:    { package: plugins.sfSettingsPlugin.lib.model }
+  
   sf_setting:
     _attributes:     { phpName: sfSetting }
     id:
     env:             { type: varchar(10) }
     name:            { type: varchar(40) }
     value:           { type: varchar(100) }
+    var_type:        { type: varchar(30) }
     description:     { type: varchar(255) }
     created_user_id: { type: integer }
     updated_user_id: { type: integer }
