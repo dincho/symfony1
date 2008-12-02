@@ -1,3 +1,4 @@
+ALTER TABLE `message` ADD `is_system` INTEGER default 0 NOT NULL;
 ALTER TABLE `permissions` ADD PRIMARY INDEX `` (`id`,`group_id`);
 ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 		FOREIGN KEY (`group_id`)
@@ -5,7 +6,6 @@ ALTER TABLE `permissions` ADD CONSTRAINT `permissions_FK_1`
 ALTER TABLE `group_and_action` ADD CONSTRAINT `group_and_action_FK_1`
 		FOREIGN KEY (`group_id`)
 		REFERENCES `groups` (`id`);
-ALTER TABLE `sf_setting` ADD `var_type` VARCHAR(30);
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

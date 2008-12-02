@@ -45,6 +45,10 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 	
+	protected $is_system = false;
+
+
+	
 	protected $created_at;
 
 	
@@ -120,6 +124,13 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_replied;
+	}
+
+	
+	public function getIsSystem()
+	{
+
+		return $this->is_system;
 	}
 
 	
@@ -273,6 +284,16 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setIsSystem($v)
+	{
+
+		if ($this->is_system !== $v || $v === false) {
+			$this->is_system = $v;
+			$this->modifiedColumns[] = MessagePeer::IS_SYSTEM;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -312,13 +333,15 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 			$this->is_replied = $rs->getBoolean($startcol + 8);
 
-			$this->created_at = $rs->getTimestamp($startcol + 9, null);
+			$this->is_system = $rs->getBoolean($startcol + 9);
+
+			$this->created_at = $rs->getTimestamp($startcol + 10, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 10; 
+						return $startcol + 11; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Message object", $e);
 		}
@@ -541,6 +564,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				return $this->getIsReplied();
 				break;
 			case 9:
+				return $this->getIsSystem();
+				break;
+			case 10:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -562,7 +588,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$keys[6] => $this->getIsRead(),
 			$keys[7] => $this->getIsReviewed(),
 			$keys[8] => $this->getIsReplied(),
-			$keys[9] => $this->getCreatedAt(),
+			$keys[9] => $this->getIsSystem(),
+			$keys[10] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -606,6 +633,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				$this->setIsReplied($value);
 				break;
 			case 9:
+				$this->setIsSystem($value);
+				break;
+			case 10:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -624,7 +654,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[6], $arr)) $this->setIsRead($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setIsReviewed($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setIsReplied($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsSystem($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
 	}
 
 	
@@ -641,6 +672,7 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MessagePeer::IS_READ)) $criteria->add(MessagePeer::IS_READ, $this->is_read);
 		if ($this->isColumnModified(MessagePeer::IS_REVIEWED)) $criteria->add(MessagePeer::IS_REVIEWED, $this->is_reviewed);
 		if ($this->isColumnModified(MessagePeer::IS_REPLIED)) $criteria->add(MessagePeer::IS_REPLIED, $this->is_replied);
+		if ($this->isColumnModified(MessagePeer::IS_SYSTEM)) $criteria->add(MessagePeer::IS_SYSTEM, $this->is_system);
 		if ($this->isColumnModified(MessagePeer::CREATED_AT)) $criteria->add(MessagePeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -687,6 +719,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$copyObj->setIsReviewed($this->is_reviewed);
 
 		$copyObj->setIsReplied($this->is_replied);
+
+		$copyObj->setIsSystem($this->is_system);
 
 		$copyObj->setCreatedAt($this->created_at);
 

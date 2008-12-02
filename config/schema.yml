@@ -225,6 +225,7 @@ propel:
     is_read:                  { type: boolean, default: false, required: true }
     is_reviewed:              { type: boolean, default: false, required: true }
     is_replied:               { type: boolean, default: false, required: true }
+    is_system:                { type: boolean, default: false, required: true }
     created_at:
   hotlist:
     id:

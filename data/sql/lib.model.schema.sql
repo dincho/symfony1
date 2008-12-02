@@ -612,6 +612,7 @@ CREATE TABLE `message`
 	`is_read` INTEGER default 0 NOT NULL,
 	`is_reviewed` INTEGER default 0 NOT NULL,
 	`is_replied` INTEGER default 0 NOT NULL,
+	`is_system` INTEGER default 0 NOT NULL,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `message_FI_1` (`from_member_id`),

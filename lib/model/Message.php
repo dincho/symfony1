@@ -23,7 +23,7 @@ class Message extends BaseMessage
     
     public function save($con = null)
     {
-        if( $this->isNew() && !$this->getSentBox() && parent::save($con))
+        if( $this->isNew() && !$this->getSentBox() && !$this->getIsSystem() && parent::save($con))
         {
             $from_member = $this->getMemberRelatedByFromMemberId();
             $to_member = $this->getMemberRelatedByToMemberId();

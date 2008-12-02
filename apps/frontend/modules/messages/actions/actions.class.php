@@ -35,7 +35,7 @@ class messagesActions extends prActions
         $this->forward404Unless( ($message->getSentBox() && $message->getFromMemberId() == $this->getUser()->getId()) || 
                                  (!$message->getSentBox() && $message->getToMemberId() == $this->getUser()->getId()));
         
-        if( !$message->getSentBox() &&
+        if( !$message->getSentBox() && !$message->getIsSystem() &&
             $message->getMemberRelatedByFromMemberId()->getSubscriptionId() == SubscriptionPeer::FREE &&
             $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
             {
@@ -60,7 +60,7 @@ class messagesActions extends prActions
     {
         $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($message);
-        if( !$message->getIsRead() && !$message->getSentBox() )
+        if( !$message->getIsRead() && !$message->getSentBox() && !$message->getIsSystem())
         {
             $subscription = $this->getUser()->getProfile()->getSubscription();
             if( !$subscription->getCanReadMessages() )
@@ -86,6 +86,7 @@ class messagesActions extends prActions
         $c->add(MessagePeer::SENT_BOX, false);
         $c->add(MessagePeer::ID, $this->getRequestParameter('id'));
         $c->add(MessagePeer::IS_REPLIED, false);
+        $c->add(MessagePeer::IS_SYSTEM, false);
         $message = MessagePeer::doSelectOne($c);
         $this->forward404Unless($message);
         
