@@ -115,7 +115,8 @@ class contentActions extends prActions
             $feedback->setIsRead(FALSE);
             $feedback->save();
             $this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
-            $this->redirect('dashboard/index');
+            //$this->redirect('dashboard/index');
+            $this->redirectToReferer();
         }
     }
     
