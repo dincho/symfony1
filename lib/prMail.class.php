@@ -68,7 +68,12 @@ class prMail extends sfMail
             $this->setBody($body);
         }
         
-        parent::send();
+        try {
+            parent::send();
+        } catch (sfException $e) {
+            //ignore invalid email boxes
+            //sfMail trhrows an exeption if can not send the message
+        }
     }
 }
 ?>
