@@ -110,7 +110,7 @@ class registrationActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state'));
+            $member->setStateId($this->getRequestParameter('state_id'));
             $member->setDistrict($this->getRequestParameter('district'));
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));

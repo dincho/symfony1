@@ -50,7 +50,7 @@ class editProfileActions extends prActions
             $member->setSex($sex_looking[0]);
             $member->setLookingFor($sex_looking[1]);
             $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state'));
+            $member->setStateId($this->getRequestParameter('state_id'));
             $member->setDistrict($this->getRequestParameter('district'));
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));

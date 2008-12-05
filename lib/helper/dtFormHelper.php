@@ -101,6 +101,48 @@ function pr_select_state_tag($country = 'US', $name, $selected = null, $options 
     return select_tag($name, $options_for_select, $options);
 }
 
+function pr_object_select_state_tag($object, $method, $options = array(), $default_value = null)
+{
+    use_helper('Object');
+    
+    $options = _parse_attributes($options);
+    
+    $related_class = _get_option($options, 'related_class', false);
+    if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
+    {
+        $related_class = $match[1];
+    }
+    
+    $text_method = _get_option($options, 'text_method');
+    
+    $country = sfContext::getInstance()->getRequest()->getParameter('country', $object->getCountry());
+    $states = StatePeer::getAllByCountry($country);
+    $select_options = _get_options_from_objects($states, $text_method);
+    
+    if ($value = _get_option($options, 'include_custom'))
+    {
+        $select_options = array('' => $value) + $select_options;
+    } else if (_get_option($options, 'include_title'))
+    {
+        $select_options = array('' => '-- ' . _convert_method_to_name($method, $options) . ' --') + $select_options;
+    } else if (_get_option($options, 'include_blank'))
+    {
+        $select_options = array('' => '') + $select_options;
+    }
+    
+    if (is_object($object))
+    {
+        $value = _get_object_value($object, $method, $default_value);
+    } else
+    {
+        $value = $object;
+    }
+    
+    $option_tags = options_for_select($select_options, $value, $options);
+    
+    return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
+}
+
 function pr_select_language_level($name, $selected = null, $options = array())
 {
     $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');

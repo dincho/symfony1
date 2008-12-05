@@ -20,8 +20,8 @@
         <?php echo pr_label_for('country', 'Country of Residence') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         
-        <?php echo pr_label_for('state', 'Area') ?>
-        <?php echo pr_select_state_tag($member->getCountry(), 'state', $member->getStateId()) ?><br />
+        <?php echo pr_label_for('state_id', 'Area') ?>
+        <?php echo pr_object_select_state_tag($member, 'getStateId') ?><br />
         
         <?php echo pr_label_for('district', 'District/ County etc.') ?>
         <?php echo object_input_tag($member, 'getDistrict') ?><br />
@@ -53,7 +53,7 @@
 function updateStates(request, json)
 {
   var nbElementsInResponse = json.length;
-  var S = $('state');
+  var S = $('state_id');
   S.options.length = 0;  
   
   for (var i = 0; i < nbElementsInResponse; i++)
