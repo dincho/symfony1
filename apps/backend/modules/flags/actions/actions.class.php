@@ -43,7 +43,7 @@ class flagsActions extends sfActions
         $c->addDescendingOrderByColumn(MemberPeer::LAST_FLAGGED);
 		$this->addFiltersCriteria($c);        
         
-        $per_page = ( $this->getRequestParameter('per_page', 0) <= 0 ) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
+        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);

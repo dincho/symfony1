@@ -25,8 +25,7 @@ class messagesActions extends sfActions
         $c->add(MessagePeer::SENT_BOX, true);
         $this->addFiltersCriteria($c);
         
-        $per_page = ( $this->getRequestParameter('per_page', 0) <= 0 ) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
-        
+        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Message', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));

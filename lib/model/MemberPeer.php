@@ -257,7 +257,9 @@ class MemberPeer extends BaseMemberPeer
 
         $criteria->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID, Criteria::LEFT_JOIN);
 
-        $criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID);
+        $criteria->addJoin(MemberPeer::STATE_ID, StatePeer::ID, Criteria::LEFT_JOIN);
+
+        $criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID, Criteria::LEFT_JOIN);
 
         $criteria->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
 
