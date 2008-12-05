@@ -44,19 +44,6 @@ class prMail extends sfMail
     
     public function send()
     {
-        //@TODO only for test purposes 
-        //remove this when going to work with real emails
-        //$this->clearAddresses();
-        //$this->addAddress('dincho.todorov@bonex.us', 'Dincho Todorov');
-        
-        /*
-        $body = $this->getBody();
-        $body .= '<br /><br /><br /><br /><a href="http://PolishRomance.com/">PolishRomance.com</a><br /><br />';
-        $body .= '<small>This message was sent by request to ' . $this->to . '. If you believe you received this message by error, it is safe to just ignore it.</small>'; 
-        $this->setBody($body);
-        */        
-        
-        
         if( $this->copy_to_web )
         {
             $webemail = new WebEmail();
@@ -68,12 +55,7 @@ class prMail extends sfMail
             $this->setBody($body);
         }
         
-        try {
-            parent::send();
-        } catch (sfException $e) {
-            //ignore invalid email boxes
-            //sfMail trhrows an exeption if can not send the message
-        }
+        parent::send();
     }
 }
 ?>
