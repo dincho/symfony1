@@ -1,13 +1,13 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'xSortableTitle') ?>
     <table class="zebra">
         <thead>
             <tr>
-                <th>Suspended</th>
-                <th>Username</th>
-                <th>Profile ID</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Subscription</th>
+                <th><?php echo sortable_title('Suspended', 'Member::last_status_change', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('Profile ID', 'Member::id', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('First Name', 'Member::first_name', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>            
                 <th colspan="2"></th>
             </tr>
         </thead>

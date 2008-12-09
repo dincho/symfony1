@@ -1,15 +1,17 @@
+<?php use_helper('xSortableTitle') ?>
 <table class="zebra">
   <thead>
     <tr>
-      <th>Registered</th>
-      <th>Days In</th>
-      <th>Username</th>
-      <th>ID</th>
-      <th>Last Name</th>
-      <th>First Name</th>
-      <th>Sex</th>
-      <th>Email</th>
-      <th>Sub</th>
+
+        <th><?php echo sortable_title('Registered', 'Member::created_at', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Days In', 'MemberImbra::created_at', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('First Name', 'Member::first_name', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Sub', 'Member::subscription_id', $sort_namespace) ?></th>      
     </tr>
   </thead>
   <tbody>

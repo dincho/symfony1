@@ -1,14 +1,14 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'xSortableTitle') ?>
 <table class="zebra">
     <thead>
         <tr>
-            <th>Sent Flags</th>
+            <th><?php echo sortable_title('Sent Flags', 'MemberCounter::sent_flags', $sort_namespace) ?></th>
             <th># of members</th>
-            <th>Username</th>
-            <th>Profile ID</th>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Subscription</th>
+            <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+            <th><?php echo sortable_title('Profile ID', 'Member::id', $sort_namespace) ?></th>
+            <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
+            <th><?php echo sortable_title('First Name', 'Member::first_name', $sort_namespace) ?></th>
+            <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>            
             <th></th>
         </tr>
     </thead>
@@ -25,11 +25,11 @@
         <td class="preview_button">
             <?php echo button_to_remote('Preview', array('url' => 'ajax/getMemberFlagsFlagger?id=' . $member->getId(), 'update' => 'preview'), 'id=preview_' . $member->getId()) ?>
         </td>
-        <td class="profile"><?php echo link_to('Profile', '#') ?></td>
+        <td class="profile"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
     </tr>
 <?php endforeach; ?>
 
 </table>
 
-<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'flags/list')); ?>
+<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'flags/flaggers')); ?>
 <div id="preview" class="scrollable small_scrollable"></div>

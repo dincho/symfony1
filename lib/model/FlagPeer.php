@@ -179,4 +179,34 @@ class FlagPeer extends BaseFlagPeer
         
         return $results;
     }
+    
+    public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+    {
+        $criteria = clone $criteria;
+
+                $criteria->clearSelectColumns()->clearOrderByColumns();
+        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->addSelectColumn(FlagPeer::COUNT_DISTINCT);
+        } else {
+            $criteria->addSelectColumn(FlagPeer::COUNT);
+        }
+
+                foreach($criteria->getGroupByColumns() as $column)
+        {
+            $criteria->addSelectColumn($column);
+        }
+
+        $criteria->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
+
+        $criteria->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
+
+        $criteria->addJoin(FlagPeer::FLAG_CATEGORY_ID, FlagCategoryPeer::ID);
+
+        $rs = FlagPeer::doSelectRS($criteria, $con);
+        if ($rs->next()) {
+            return $rs->getInt(1);
+        } else {
+                        return 0;
+        }
+    }    
 }

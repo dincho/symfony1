@@ -134,6 +134,12 @@ class messagesActions extends prActions
                 $this->getRequest()->setError('subscription', 'For the feature that you want want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
                 return false;
             }
+            
+            if( $this->getRequestParameter('tos', 0) != 1 && !$this->getUser()->getProfile()->getLastImbra(true) && $profile->getLastImbra(true) )
+            {
+                $this->getRequest()->setError('message', 'You need to accept the TOS');
+                return false;                
+            }            
         }
         return true;
     }
@@ -177,7 +183,8 @@ class messagesActions extends prActions
         {
             $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
             $this->forward404Unless($profile);
-        
+            $member = $this->getUser()->getProfile();
+            
             //1. is the other member active ?
             if ( $profile->getmemberStatusId() != MemberStatusPeer::ACTIVE )
             {
@@ -186,31 +193,37 @@ class messagesActions extends prActions
             }
             
             //2. has blocked this member ?
-            if ( $profile->hasBlockFor($this->getUser()->getId()) )
+            if ( $profile->hasBlockFor($member->getId()) )
             {
                 $this->getRequest()->setError('message', 'You can not send message to this member!');
                 return false;
             }
             
             //3. wants to receive messages only from paid members ?
-            if ( $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE && $profile->getContactOnlyFullMembers() )
+            if ( $member->getSubscriptionId() == SubscriptionPeer::FREE && $profile->getContactOnlyFullMembers() )
             {
                 $this->getRequest()->setError('message', 'This member accept messages only from paid members!');
                 return false;
             }
             
             //4. subscription limits/restrictions ?
-            $subscription = $this->getUser()->getProfile()->getSubscription();
+            $subscription = $member->getSubscription();
             if( !$subscription->getCanSendMessages() )
             {
                 $this->getRequest()->setError('subscription', 'In order to send message you need to upgrade your membership.');
                 return false;
             }
             
-            if( $this->getUser()->getProfile()->getCounter('SentMessages') >= $subscription->getSendMessages() )
+            if( $member->getCounter('SentMessages') >= $subscription->getSendMessages() )
             {
                 $this->getRequest()->setError('subscription', 'For the feature that you want want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
                 return false;
+            }
+            
+            if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
+            {
+                $this->getRequest()->setError('message', 'You need to accept the TOS');
+                return false;                
             }
                         
         }

@@ -294,6 +294,14 @@ dl.imbra_answers {
 	width: 100%;
 }
 
+.zebra th a {
+    color: black;
+}
+
+.zebra th a.sorted_by {
+    color: #1646CB;
+}
+
 .preview_button {
 	display:  none;
 }

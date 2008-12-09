@@ -21,9 +21,12 @@ class messagesActions extends sfActions
     public function executeList()
     {
         $this->getResponse()->addJavascript('preview.js');
+        $this->processSort();
+        
         $c = new Criteria();
         $c->add(MessagePeer::SENT_BOX, true);
         $this->addFiltersCriteria($c);
+        $this->addSortCriteria($c);
         
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Message', $per_page);
@@ -129,6 +132,42 @@ class messagesActions extends sfActions
         $bc->add(array('name' => 'Conversation with ' . $recipient->getUsername(), 'uri' => '#'));
     }
     
+    protected function processSort()
+    {
+        $this->sort_namespace = 'backend/messages/sort';
+        
+        if ($this->getRequestParameter('sort'))
+        {
+            $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
+            $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
+        }
+        
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $this->getUser()->setAttribute('sort', 'Member::last_activity', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
+        }
+    }
+
+    protected function addSortCriteria($c)
+    {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $sort_arr = $sort_column = explode('::', $sort_column);
+            $peer = $sort_arr[0] . 'Peer';
+            
+            $sort_column = call_user_func_array(array($peer,'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
+            //$sort_column = MemberPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
+            {
+                $c->addAscendingOrderByColumn($sort_column);
+            } else
+            {
+                $c->addDescendingOrderByColumn($sort_column);
+            }
+        }
+    }
+        
     protected function processFilters()
     {
         if ($this->getRequest()->hasParameter('filter'))

@@ -49,11 +49,14 @@ class imbraActions extends sfActions
 
     public function executeList ()
     {
+        $this->processSort();
+        
         //default to pending imbra apps
         if (! isset($this->filters['imbra_status_id']))
             $this->filters['imbra_status_id'] = 2;
         $c = new Criteria();
         $this->addFiltersCriteria($c);
+        $this->addSortCriteria($c);
         $this->imbra_applications = MemberImbraPeer::doSelectJoinAll($c);
     }
 
@@ -134,6 +137,41 @@ class imbraActions extends sfActions
         $imbra_reply_template->save();
     }
 
+    protected function processSort()
+    {
+        $this->sort_namespace = 'backend/imbra/sort';
+        
+        if ($this->getRequestParameter('sort'))
+        {
+            $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
+            $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
+        }
+        
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $this->getUser()->setAttribute('sort', 'Member::created_at', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
+        }
+    }
+
+    protected function addSortCriteria($c)
+    {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $sort_arr = $sort_column = explode('::', $sort_column);
+            $peer = $sort_arr[0] . 'Peer';
+            
+            $sort_column = call_user_func_array(array($peer, 'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
+            {
+                $c->addAscendingOrderByColumn($sort_column);
+            } else
+            {
+                $c->addDescendingOrderByColumn($sort_column);
+            }
+        }
+    }
+        
     protected function processFilters ()
     {
         if ($this->getRequest()->hasParameter('filter'))

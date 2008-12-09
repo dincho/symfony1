@@ -21,18 +21,12 @@ class feedbackActions extends sfActions
 
     public function executeList()
     {
-        //default to INBOX
-        if (! isset($this->filters['mailbox']))
-        {
-            //because of indirect modification of overloaded property notice
-            $filters = $this->filters;
-            $filters['mailbox'] = 1;
-            $this->filters = $filters;
-        }
+        $this->processSort();
         
         $c = new Criteria();
-        $c->addDescendingOrderByColumn(FeedbackPeer::CREATED_AT);
         $this->addFiltersCriteria($c);
+        $this->addSortCriteria($c);
+        
         $per_page = ($this->getRequestParameter('per_page', 0) <= 0) ? sfConfig::get('app_pager_default_per_page') : $this->getRequestParameter('per_page');
         $pager = new sfPropelPager('Feedback', $per_page);
         $pager->setCriteria($c);
@@ -72,7 +66,8 @@ class feedbackActions extends sfActions
                 $this->redirect('feedback/list?filter=filter&filters[mailbox]=3');
             } else
             {
-                if ($this->getRequestParameter('save_as_new_template')) $this->saveTemplate();
+                if ($this->getRequestParameter('save_as_new_template'))
+                    $this->saveTemplate();
                 $this->send();
                 $this->setFlash('msg_ok', 'Your message has been sent.');
                 $this->redirect('feedback/list');
@@ -363,16 +358,46 @@ class feedbackActions extends sfActions
         }
     }
 
+    protected function processSort()
+    {
+        $this->sort_namespace = 'backend/feedback/sort';
+        
+        if ($this->getRequestParameter('sort'))
+        {
+            $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
+            $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
+        }
+        
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $this->getUser()->setAttribute('sort', 'Feedback::created_at', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
+        }
+    }
+
+    protected function addSortCriteria($c)
+    {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $sort_arr = $sort_column = explode('::', $sort_column);
+            $peer = $sort_arr[0] . 'Peer';
+            
+            $sort_column = call_user_func_array(array($peer, 'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
+            {
+                $c->addAscendingOrderByColumn($sort_column);
+            } else
+            {
+                $c->addDescendingOrderByColumn($sort_column);
+            }
+        }
+    }
+
     protected function processFilters()
     {
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
-            
-            //default to imbox
-            if (! isset($filters['mailbox']))
-                $filters['mailbox'] = 1;
-            
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/feedback/filters');
         }
@@ -381,33 +406,36 @@ class feedbackActions extends sfActions
     protected function addFiltersCriteria($c)
     {
         $bc = $this->getUser()->getBC();
-        if (isset($this->filters['mailbox']))
-        {
-            switch ($this->filters['mailbox']) {
-                case 1:
-                    $bc->add(array('name' => 'Inbox', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'));
-                    $this->left_menu_selected = 'All Messages';
-                    break;
-                case 2:
-                    $bc->add(array('name' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'));
-                    $this->left_menu_selected = 'Sent';
-                    break;
-                case 3:
-                    $bc->add(array('name' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'));
-                    $this->left_menu_selected = 'Drafts';
-                    break;
-                case 4:
-                    $bc->add(array('name' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'));
-                    $this->left_menu_selected = 'Trash';
-                    break;
-                default:
-                    break;
-            }
-            
-            $c->add(FeedbackPeer::MAILBOX, $this->filters['mailbox']);
+        $filters = $this->filters;
+        
+        //default to imbox
+        if (! isset($filters['mailbox']))
+            $filters['mailbox'] = 1;
+        
+        switch ($filters['mailbox']) {
+            case 1:
+                $bc->add(array('name' => 'Inbox', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'));
+                $this->left_menu_selected = 'All Messages';
+                break;
+            case 2:
+                $bc->add(array('name' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'));
+                $this->left_menu_selected = 'Sent';
+                break;
+            case 3:
+                $bc->add(array('name' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'));
+                $this->left_menu_selected = 'Drafts';
+                break;
+            case 4:
+                $bc->add(array('name' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'));
+                $this->left_menu_selected = 'Trash';
+                break;
+            default:
+                break;
         }
         
-        if (isset($this->filters['paid']) && $this->filters['paid'] == 1)
+        $c->add(FeedbackPeer::MAILBOX, $filters['mailbox']);
+        
+        if (isset($filters['paid']) && $filters['paid'] == 1)
         {
             $crit = $c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
             $crit->addOr($c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
@@ -416,59 +444,39 @@ class feedbackActions extends sfActions
             $this->left_menu_selected = 'From Paid Members';
         }
         
-        if (isset($this->filters['external']) && $this->filters['external'] == 1)
+        if (isset($filters['external']) && $filters['external'] == 1)
         {
             $c->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
             $bc->add(array('name' => 'External Messages', 'uri' => 'feedback/list?filter=filter&filters[external]=1'));
             $this->left_menu_selected = 'External Messages';
         }
         
-        if (isset($this->filters['bugs']) && $this->filters['bugs'] == 1)
+        if (isset($filters['bugs']) && $filters['bugs'] == 1)
         {
             $c->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
             $bc->add(array('name' => 'Reported Bug/Ideas', 'uri' => 'feedback/list?filter=filter&filters[bug]=1'));
             $this->left_menu_selected = 'Reported Bug/Ideas';
         }
         
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
+        if (isset($filters['search_type']) && isset($filters['search_query']) && strlen($filters['search_query']) > 0)
         {
-            switch ($this->filters['search_type']) {
+            switch ($filters['search_type']) {
                 case 'first_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
-                    $c->add(MemberPeer::FIRST_NAME, $this->filters['search_query']);
+                    $c->add(MemberPeer::FIRST_NAME, $filters['search_query']);
                     ;
                     break;
                 case 'last_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
-                    $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
+                    $c->add(MemberPeer::LAST_NAME, $filters['search_query']);
                     ;
                     break;
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
-                    $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
+                    $c->add(MemberPeer::USERNAME, $filters['search_query']);
                     ;
                     break;
             }
         }
-    }
-
-    public function executeIndex()
-    {
-        $imap = new IMAP();
-        $messages = $imap->getMessages();
-        
-        echo "<pre>";
-        //print_r($messages);exit();
-        foreach ($messages as $message)
-        {
-            echo 'TS: ' . $message->getTS() . '<br />';
-            echo 'From: ' . htmlspecialchars($message->getFrom()) . '<br />';
-            echo 'To: ' . htmlspecialchars($message->getTo()) . '<br />';
-            echo 'Subject: <b>' . $message->getSubject() . '</b><br />';
-            echo $message->getBody() . '<hr />';
-        }
-        
-        echo "</pre>";
-        exit();
     }
 }

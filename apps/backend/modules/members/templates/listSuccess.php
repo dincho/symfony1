@@ -1,4 +1,4 @@
-<?php use_helper('Number') ?>
+<?php use_helper('Number', 'xSortableTitle') ?>
 
 <div class="filter_right">
     Total (All Members): <?php echo format_number($pager->getNbResults()) ?>
@@ -7,22 +7,20 @@
 
 <?php include_partial('members/search_filter', array('filters' => $filters)); ?>
 
-    
-
 <table class="zebra">
   <thead>
     <tr>
       <th></th>
-      <th>Username</th>
-      <th>ID</th>
-      <th>Last name</th>
-      <th>First name</th>
-      <th>Sex</th>
-      <th>Email</th>
-      <th>Joined</th>
-      <th>Sub</th>
-      <th>Reviewed</th>
-      <th>Status</th>
+      <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Joined', 'Member::created_at', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sub', 'Subscription::title', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Reviewed', 'User::username', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Status', 'MemberStatus::title', $sort_namespace) ?></th>
       <th></th>
     </tr>
   </thead>

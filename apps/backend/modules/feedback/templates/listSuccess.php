@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'Number') ?>
+<?php use_helper('Javascript', 'Number', 'xSortableTitle') ?>
 
 <div class="filter_right"><?php echo button_to ('Compose Email', 'feedback/compose') ?></div>
 <?php if( $pager->getNbResults() > 0): ?>
@@ -9,10 +9,10 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Full Name</th>
-                    <th>Subject</th>
+                    <th><?php echo sortable_title('Date', 'Feedback::created_at', $sort_namespace) ?></th>
+                    <th><?php echo sortable_title('From', 'Feedback::mail_from', $sort_namespace) ?></th>
+                    <th><?php echo sortable_title('Full Name', 'Feedback::name_from', $sort_namespace) ?></th>
+                    <th><?php echo sortable_title('Subject', 'Feedback::subject', $sort_namespace) ?></th>                    
                 </tr>
             </thead>
             

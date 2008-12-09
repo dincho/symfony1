@@ -1,4 +1,4 @@
-<?php echo use_helper('Javascript', 'Number') ?>
+<?php echo use_helper('Javascript', 'Number', 'xSortableTitle') ?>
 
 <div class="filter_right">Total: <?php echo format_number($pager->getNbResults()) ?></div>
 <?php include_partial('members/search_filter', array('filters' => $filters)); ?>
@@ -7,14 +7,14 @@
 <table class="zebra">
   <thead>
     <tr>
-      <th>Username</th>
-      <th>ID</th>
-      <th>Last Name</th>
-      <th>First Name</th>
-      <th>Sex</th>
-      <th>Email</th>
-      <th>Last Activity</th>
-      <th>Sent To</th>
+      <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Last Activity', 'Member::last_activity', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
       <th></th>
     </tr>
   </thead>
