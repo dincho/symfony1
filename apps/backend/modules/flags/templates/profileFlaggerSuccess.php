@@ -3,7 +3,7 @@
 
 <?php echo form_tag('flags/profile', 'class=form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-  <div class="legend">Flagged Member</div>
+  <div class="legend">Flaggind Member</div>
   <table class="details">
       <tr>
           <td class="form_fields" style="vertical-align: top">
