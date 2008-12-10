@@ -137,7 +137,7 @@ class messagesActions extends prActions
             
             if( $this->getRequestParameter('tos', 0) != 1 && !$this->getUser()->getProfile()->getLastImbra(true) && $profile->getLastImbra(true) )
             {
-                $this->getRequest()->setError('message', 'You need to accept the TOS');
+                $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
                 return false;                
             }            
         }
@@ -222,7 +222,7 @@ class messagesActions extends prActions
             
             if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
             {
-                $this->getRequest()->setError('message', 'You need to accept the TOS');
+                $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
                 return false;                
             }
                         
