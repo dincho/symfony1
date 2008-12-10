@@ -1,3 +1,4 @@
+<?php if( $sf_user->isAuthenticated() ): ?>
 <div id="footer_menu">
     <ul>
         <li><?php echo link_to(__('Matches'), '@matches') ?></li>
@@ -33,3 +34,4 @@
         <li><?php echo link_to(__('Delete your account'), 'dashboard/deleteYourAccount') ?></li>
     </ul>
 </div>
+<?php endif; ?>
