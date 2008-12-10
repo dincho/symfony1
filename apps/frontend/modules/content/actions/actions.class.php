@@ -92,7 +92,9 @@ class contentActions extends prActions
 
     public function executeMessage()
     {
-        if( !$this->hasFlash('msg_tpl')) throw new sfException('Calling message action without params');
+        $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
+        //if( !$this->hasFlash('msg_tpl')) throw new sfException('Calling message action without params');
+        
         $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
         $this->setLayout('simple');
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
