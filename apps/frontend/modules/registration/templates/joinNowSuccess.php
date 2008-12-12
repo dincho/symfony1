@@ -28,6 +28,7 @@
             'update' => 'ajax_response',
             'url'    => 'ajax/usernameExists',
             'with'     => "'username=' + $('username').value",
+            'script'    => true
         ), array('class' => 'button_mini butt_availability')) ?>        
         </span><br class="clear" />
         <div id="ajax_response"></div>

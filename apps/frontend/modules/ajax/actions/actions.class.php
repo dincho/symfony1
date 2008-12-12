@@ -36,12 +36,8 @@ class ajaxActions extends prActions
         $username = $this->getRequestParameter('username');
         if( $username )
         {
-            $member = MemberPeer::retrieveByUsername($username);
-            $response =  ($member) ? '<p class="msg_error">Sorry, username "%USERNAME%" is already taken.</p>' : '<p class="msg_ok">Congratulations, your username "%USERNAME%" is available.</p>';
-            
-            sfLoader::loadHelpers(array('I18N'));
-            
-            return $this->renderText(sfContext::getInstance()->getI18N()->__($response, array('%USERNAME%' => $username)));
+            $this->member = MemberPeer::retrieveByUsername($username);
+            $this->username = $username;
         } else {
             return sfView::NONE;
         }
