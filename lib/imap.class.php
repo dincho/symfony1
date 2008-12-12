@@ -176,7 +176,7 @@ class IMAP_Message
     /**
      * @return integer
      */
-    public function getID () { return $this->iD; }
+    public function getID () { return $this->ID; }
     
     /**
      * @return string
@@ -227,4 +227,8 @@ class IMAP_Message
      */
     public function setUID ($uID) { $this->uID = $uID; }
 
+    public function delete()
+    {
+        imap_delete($this->stream, $this->getID());
+    }
 }

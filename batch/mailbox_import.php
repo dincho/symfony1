@@ -35,5 +35,7 @@ foreach ($messages as $message)
     if( $member ) $mail->setMember($member);
     
     $mail->save();
+    
+    $message->delete();
 }
 
