@@ -220,6 +220,28 @@ class dashboardActions extends prActions
         $this->member = $member;
     }
     
+    public function validatePrivacy()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            if( $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
+            {
+                $this->getRequest()->setError('privacy', 'This feature is available by to Full Members. Please upgrade your membership.');
+                return false;            
+            }            
+        }
+        
+        return true;
+    }
+    
+    public function handleErrorPrivacy()
+    {
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($this->member);
+                
+        return sfView::SUCCESS;
+    }
+    
     public function executeContactYourAssistant()
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)

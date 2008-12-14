@@ -211,17 +211,22 @@ class Events
     public static function triggerAccountActivity($member)
     {
         sfLoader::loadHelpers(array('Url'));
-        //$counter = $member->getMemberCounter();
-        $member->setLastActivityNotification(time());
-        $member->save();
+        
+        $nb_unread = $member->getNbUnreadMessages();
+        $nb_winks = MemberCounterPeer::getNbNewWinks($member->getId());
+        $nb_hotlist = MemberCounterPeer::getNbNewOnOtherHotlist($member->getId());
+        $nb_profile_view = MemberCounterPeer::getNbNewProfileViews($member->getId());
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)),
-                             '{NB_MESSAGES}' => $member->getNbUnreadMessages(),
-                             '{NB_WINKS}' => MemberCounterPeer::getNbNewWinks($member->getId()),
-                             '{NB_HOTLIST}' => MemberCounterPeer::getNbNewOnOtherHotlist($member->getId()),
-                             '{NB_PROFILE_VIEWES}' => MemberCounterPeer::getNbNewProfileViews($member->getId()),
+                             '{NB_MESSAGES}' => $nb_unread,
+                             '{NB_WINKS}' => $nb_winks,
+                             '{NB_HOTLIST}' => $nb_hotlist,
+                             '{NB_PROFILE_VIEWES}' => $nb_profile_view,
                             );
+                            
         self::executeNotifications(self::ACCOUNT_ACTIVITY, $global_vars, $member->getEmail(), $member);
+        $member->setLastActivityNotification(time());
+        $member->save();        
     }
     
     /**
