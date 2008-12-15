@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 			id	signs			date start			date end
 			1	aquarius		from 21 Gennaio 	to 18 Febbraio
@@ -90,4 +90,3 @@ class Zodiac
         return $this->error;
     }
 }
-?>
