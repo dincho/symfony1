@@ -51,7 +51,8 @@ class prMail extends sfMail
             $webemail->setBody($this->getBody());
             $webemail->save();
             
-            $body = '(If you have problems viewing this message, please <a href="'. BASE_URL .'emails/'. $webemail->getHash() .'">click here</a>)<br /><br /><br />' . $this->getBody();
+            $global_vars = array('{WEB_MAIL_URL}' => BASE_URL .'emails/'. $webemail->getHash());
+            $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
         }
         
