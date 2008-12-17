@@ -1,11 +1,5 @@
 # default values
 all:
-  new_sec:
-    is_secure: on
-    class:     User
-    id:        id
-    text:      [first_name, last_name]
-    order_by:  [first_name, last_name]
   pager:
     default_per_page: 15
     default_pages:    15

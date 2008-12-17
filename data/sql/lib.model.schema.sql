@@ -36,6 +36,24 @@ CREATE TABLE `user`
 	`last_name` VARCHAR(80)  NOT NULL,
 	`email` VARCHAR(255)  NOT NULL,
 	`phone` VARCHAR(20)  NOT NULL,
+	`dashboard_mod` INTEGER default 0 NOT NULL,
+	`dashboard_mod_type` CHAR(1) default 'V' NOT NULL,
+	`members_mod` INTEGER default 0 NOT NULL,
+	`members_mod_type` CHAR(1) default 'V' NOT NULL,
+	`content_mod` INTEGER default 0 NOT NULL,
+	`content_mod_type` CHAR(1) default 'V' NOT NULL,
+	`subscriptions_mod` INTEGER default 0 NOT NULL,
+	`subscriptions_mod_type` CHAR(1) default 'V' NOT NULL,
+	`messages_mod` INTEGER default 0 NOT NULL,
+	`messages_mod_type` CHAR(1) default 'V' NOT NULL,
+	`flags_mod` INTEGER default 0 NOT NULL,
+	`flags_mod_type` CHAR(1) default 'V' NOT NULL,
+	`imbra_mod` INTEGER default 0 NOT NULL,
+	`imbra_mod_type` CHAR(1) default 'V' NOT NULL,
+	`reports_mod` INTEGER default 0 NOT NULL,
+	`reports_mod_type` CHAR(1) default 'V' NOT NULL,
+	`users_mod` INTEGER default 0 NOT NULL,
+	`users_mod_type` CHAR(1) default 'V' NOT NULL,
 	`must_change_pwd` INTEGER default 0 NOT NULL,
 	`is_superuser` INTEGER default 0 NOT NULL,
 	`is_enabled` INTEGER default 0 NOT NULL,
@@ -1007,64 +1025,6 @@ CREATE TABLE `member_match`
 	CONSTRAINT `member_match_FK_2`
 		FOREIGN KEY (`member2_id`)
 		REFERENCES `member` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- groups
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `groups`;
-
-
-CREATE TABLE `groups`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`group_name` VARCHAR(100)  NOT NULL,
-	`group_description` TEXT,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `groups_group_name_unique` (`group_name`)
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- permissions
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `permissions`;
-
-
-CREATE TABLE `permissions`
-(
-	`id` INTEGER  NOT NULL,
-	`group_id` INTEGER  NOT NULL,
-	INDEX `permissions_FI_1` (`id`),
-	CONSTRAINT `permissions_FK_1`
-		FOREIGN KEY (`id`)
-		REFERENCES `user` (`id`)
-		ON DELETE CASCADE,
-	INDEX `permissions_FI_2` (`group_id`),
-	CONSTRAINT `permissions_FK_2`
-		FOREIGN KEY (`group_id`)
-		REFERENCES `groups` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- group_and_action
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `group_and_action`;
-
-
-CREATE TABLE `group_and_action`
-(
-	`action` VARCHAR(200)  NOT NULL,
-	`group_id` INTEGER  NOT NULL,
-	PRIMARY KEY (`action`,`group_id`),
-	INDEX `group_and_action_FI_1` (`group_id`),
-	CONSTRAINT `group_and_action_FK_1`
-		FOREIGN KEY (`group_id`)
-		REFERENCES `groups` (`id`)
 		ON DELETE CASCADE
 )Type=InnoDB;
 

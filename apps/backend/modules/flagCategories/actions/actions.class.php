@@ -26,6 +26,7 @@ class flagCategoriesActions extends sfActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('flags_edit'));
             $req_categories = $this->getRequestParameter('categories');
             $categories = FlagCategoryPeer::getAssoc();
             if (is_array($req_categories) && ! empty($req_categories))

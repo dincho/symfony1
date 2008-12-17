@@ -73,11 +73,11 @@ class messagesActions extends sfActions
         $marked = $this->getRequestParameter('marked', false);
         if (is_array($marked) && ! empty($marked))
         {
-            //perm delete trashed emails
             $c = new Criteria();
             $c->add(MessagePeer::ID, $marked, Criteria::IN);
             MessagePeer::doDelete($c);
         }
+        
         
         $this->setFlash('msg_ok', 'Selected messages has been deleted.');
         $received_only = ($this->getRequestParameter('received_only')) ? 1 : 0;

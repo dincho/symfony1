@@ -44,6 +44,8 @@ class staticPagesActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+           $this->getUser()->checkPerm(array('content_edit'));
+           
            $page->setLinkName($this->getRequestParameter('link_name'));
            $page->setTitle($this->getRequestParameter('title'));
            $page->setKeywords($this->getRequestParameter('keywords'));

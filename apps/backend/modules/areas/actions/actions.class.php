@@ -25,6 +25,7 @@ class areasActions extends sfActions
         $country = $this->getRequestParameter('country', 'US');
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $req_states = $this->getRequestParameter('states');
             $states = StatePeer::getAssocByCountry($country);
             if( is_array($req_states) && !empty($req_states) )

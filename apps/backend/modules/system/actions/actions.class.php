@@ -33,15 +33,7 @@ class systemActions extends sfActions
     } else {
       $logged = UserPeer::retrieveByUsername($this->getRequestParameter('username'));
       
-      $user = $this->getUser();
-      $user->setAuthenticated(true);
-      //$user->addCredential(strtolower($logged->getUserType()));
-      $user->setAttribute('username', $logged->getUsername());
-      $user->setAttribute('user_id', $logged->getId());
-      $user->setAttribute('id', $logged->getId(), 'User_sfNewSecurityPlugin');
-      $user->setAttribute('superuser', $logged->getIsSuperUser(), 'User_sfNewSecurityPlugin');
-      $user->setAttribute('last_login', $logged->getLastLogin(null)); //set last login as timestamp
-      
+      $this->getUser()->signIn($logged);
       $logged->setLastLogin(time());
       $logged->save();
       

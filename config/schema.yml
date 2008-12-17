@@ -12,6 +12,26 @@ propel:
     last_name:            { type: varchar, size: 80, required: true }
     email:                { type: varchar, size: 255, required: true }
     phone:                { type: varchar, size: 20, required: true }
+    #permisions
+    dashboard_mod:            { type: boolean, default: false, required: true }
+    dashboard_mod_type:       { type: char, size: 1, default: "V", required: true }
+    members_mod:              { type: boolean, default: false, required: true }
+    members_mod_type:         { type: char, size: 1, default: "V", required: true }
+    content_mod:              { type: boolean, default: false, required: true }
+    content_mod_type:         { type: char, size: 1, default: "V", required: true }
+    subscriptions_mod:        { type: boolean, default: false, required: true }
+    subscriptions_mod_type:   { type: char, size: 1, default: "V", required: true }
+    messages_mod:             { type: boolean, default: false, required: true }
+    messages_mod_type:        { type: char, size: 1, default: "V", required: true }
+    flags_mod:                { type: boolean, default: false, required: true }
+    flags_mod_type:           { type: char, size: 1, default: "V", required: true }
+    imbra_mod:                { type: boolean, default: false, required: true }
+    imbra_mod_type:           { type: char, size: 1, default: "V", required: true }
+    reports_mod:              { type: boolean, default: false, required: true }
+    reports_mod_type:         { type: char, size: 1, default: "V", required: true }
+    users_mod:                { type: boolean, default: false, required: true }
+    users_mod_type:           { type: char, size: 1, default: "V", required: true }
+    #end permisions
     must_change_pwd:      { type: boolean, default: false, required: true }
     is_superuser:         { type: boolean, default: false, required: true }
     is_enabled:           { type: boolean, default: false, required: true }

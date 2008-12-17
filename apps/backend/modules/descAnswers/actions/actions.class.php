@@ -46,6 +46,7 @@ class descAnswersActions extends sfActions
          
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $this->answer->setTitle($this->getRequestParameter('title'));
             $this->answer->setSearchTitle($this->getRequestParameter('search_title'));
             $this->answer->save();

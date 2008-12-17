@@ -1,0 +1,7 @@
+default:
+  is_secure: on
+  credentials:  [[ content, content_edit ]]
+create:
+  credentials:  content_edit
+delete:
+  credentials:  content_edit

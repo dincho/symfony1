@@ -37,6 +37,78 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $dashboard_mod = false;
+
+
+	
+	protected $dashboard_mod_type = 'V';
+
+
+	
+	protected $members_mod = false;
+
+
+	
+	protected $members_mod_type = 'V';
+
+
+	
+	protected $content_mod = false;
+
+
+	
+	protected $content_mod_type = 'V';
+
+
+	
+	protected $subscriptions_mod = false;
+
+
+	
+	protected $subscriptions_mod_type = 'V';
+
+
+	
+	protected $messages_mod = false;
+
+
+	
+	protected $messages_mod_type = 'V';
+
+
+	
+	protected $flags_mod = false;
+
+
+	
+	protected $flags_mod_type = 'V';
+
+
+	
+	protected $imbra_mod = false;
+
+
+	
+	protected $imbra_mod_type = 'V';
+
+
+	
+	protected $reports_mod = false;
+
+
+	
+	protected $reports_mod_type = 'V';
+
+
+	
+	protected $users_mod = false;
+
+
+	
+	protected $users_mod_type = 'V';
+
+
+	
 	protected $must_change_pwd = false;
 
 
@@ -132,6 +204,132 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->phone;
+	}
+
+	
+	public function getDashboardMod()
+	{
+
+		return $this->dashboard_mod;
+	}
+
+	
+	public function getDashboardModType()
+	{
+
+		return $this->dashboard_mod_type;
+	}
+
+	
+	public function getMembersMod()
+	{
+
+		return $this->members_mod;
+	}
+
+	
+	public function getMembersModType()
+	{
+
+		return $this->members_mod_type;
+	}
+
+	
+	public function getContentMod()
+	{
+
+		return $this->content_mod;
+	}
+
+	
+	public function getContentModType()
+	{
+
+		return $this->content_mod_type;
+	}
+
+	
+	public function getSubscriptionsMod()
+	{
+
+		return $this->subscriptions_mod;
+	}
+
+	
+	public function getSubscriptionsModType()
+	{
+
+		return $this->subscriptions_mod_type;
+	}
+
+	
+	public function getMessagesMod()
+	{
+
+		return $this->messages_mod;
+	}
+
+	
+	public function getMessagesModType()
+	{
+
+		return $this->messages_mod_type;
+	}
+
+	
+	public function getFlagsMod()
+	{
+
+		return $this->flags_mod;
+	}
+
+	
+	public function getFlagsModType()
+	{
+
+		return $this->flags_mod_type;
+	}
+
+	
+	public function getImbraMod()
+	{
+
+		return $this->imbra_mod;
+	}
+
+	
+	public function getImbraModType()
+	{
+
+		return $this->imbra_mod_type;
+	}
+
+	
+	public function getReportsMod()
+	{
+
+		return $this->reports_mod;
+	}
+
+	
+	public function getReportsModType()
+	{
+
+		return $this->reports_mod_type;
+	}
+
+	
+	public function getUsersMod()
+	{
+
+		return $this->users_mod;
+	}
+
+	
+	public function getUsersModType()
+	{
+
+		return $this->users_mod_type;
 	}
 
 	
@@ -312,6 +510,240 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDashboardMod($v)
+	{
+
+		if ($this->dashboard_mod !== $v || $v === false) {
+			$this->dashboard_mod = $v;
+			$this->modifiedColumns[] = UserPeer::DASHBOARD_MOD;
+		}
+
+	} 
+	
+	public function setDashboardModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->dashboard_mod_type !== $v || $v === 'V') {
+			$this->dashboard_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::DASHBOARD_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setMembersMod($v)
+	{
+
+		if ($this->members_mod !== $v || $v === false) {
+			$this->members_mod = $v;
+			$this->modifiedColumns[] = UserPeer::MEMBERS_MOD;
+		}
+
+	} 
+	
+	public function setMembersModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->members_mod_type !== $v || $v === 'V') {
+			$this->members_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::MEMBERS_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setContentMod($v)
+	{
+
+		if ($this->content_mod !== $v || $v === false) {
+			$this->content_mod = $v;
+			$this->modifiedColumns[] = UserPeer::CONTENT_MOD;
+		}
+
+	} 
+	
+	public function setContentModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->content_mod_type !== $v || $v === 'V') {
+			$this->content_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::CONTENT_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setSubscriptionsMod($v)
+	{
+
+		if ($this->subscriptions_mod !== $v || $v === false) {
+			$this->subscriptions_mod = $v;
+			$this->modifiedColumns[] = UserPeer::SUBSCRIPTIONS_MOD;
+		}
+
+	} 
+	
+	public function setSubscriptionsModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->subscriptions_mod_type !== $v || $v === 'V') {
+			$this->subscriptions_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::SUBSCRIPTIONS_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setMessagesMod($v)
+	{
+
+		if ($this->messages_mod !== $v || $v === false) {
+			$this->messages_mod = $v;
+			$this->modifiedColumns[] = UserPeer::MESSAGES_MOD;
+		}
+
+	} 
+	
+	public function setMessagesModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->messages_mod_type !== $v || $v === 'V') {
+			$this->messages_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::MESSAGES_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setFlagsMod($v)
+	{
+
+		if ($this->flags_mod !== $v || $v === false) {
+			$this->flags_mod = $v;
+			$this->modifiedColumns[] = UserPeer::FLAGS_MOD;
+		}
+
+	} 
+	
+	public function setFlagsModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->flags_mod_type !== $v || $v === 'V') {
+			$this->flags_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::FLAGS_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setImbraMod($v)
+	{
+
+		if ($this->imbra_mod !== $v || $v === false) {
+			$this->imbra_mod = $v;
+			$this->modifiedColumns[] = UserPeer::IMBRA_MOD;
+		}
+
+	} 
+	
+	public function setImbraModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->imbra_mod_type !== $v || $v === 'V') {
+			$this->imbra_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::IMBRA_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setReportsMod($v)
+	{
+
+		if ($this->reports_mod !== $v || $v === false) {
+			$this->reports_mod = $v;
+			$this->modifiedColumns[] = UserPeer::REPORTS_MOD;
+		}
+
+	} 
+	
+	public function setReportsModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->reports_mod_type !== $v || $v === 'V') {
+			$this->reports_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::REPORTS_MOD_TYPE;
+		}
+
+	} 
+	
+	public function setUsersMod($v)
+	{
+
+		if ($this->users_mod !== $v || $v === false) {
+			$this->users_mod = $v;
+			$this->modifiedColumns[] = UserPeer::USERS_MOD;
+		}
+
+	} 
+	
+	public function setUsersModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->users_mod_type !== $v || $v === 'V') {
+			$this->users_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::USERS_MOD_TYPE;
+		}
+
+	} 
+	
 	public function setMustChangePwd($v)
 	{
 
@@ -394,21 +826,57 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->phone = $rs->getString($startcol + 6);
 
-			$this->must_change_pwd = $rs->getBoolean($startcol + 7);
+			$this->dashboard_mod = $rs->getBoolean($startcol + 7);
 
-			$this->is_superuser = $rs->getBoolean($startcol + 8);
+			$this->dashboard_mod_type = $rs->getString($startcol + 8);
 
-			$this->is_enabled = $rs->getBoolean($startcol + 9);
+			$this->members_mod = $rs->getBoolean($startcol + 9);
 
-			$this->last_login = $rs->getTimestamp($startcol + 10, null);
+			$this->members_mod_type = $rs->getString($startcol + 10);
 
-			$this->created_at = $rs->getTimestamp($startcol + 11, null);
+			$this->content_mod = $rs->getBoolean($startcol + 11);
+
+			$this->content_mod_type = $rs->getString($startcol + 12);
+
+			$this->subscriptions_mod = $rs->getBoolean($startcol + 13);
+
+			$this->subscriptions_mod_type = $rs->getString($startcol + 14);
+
+			$this->messages_mod = $rs->getBoolean($startcol + 15);
+
+			$this->messages_mod_type = $rs->getString($startcol + 16);
+
+			$this->flags_mod = $rs->getBoolean($startcol + 17);
+
+			$this->flags_mod_type = $rs->getString($startcol + 18);
+
+			$this->imbra_mod = $rs->getBoolean($startcol + 19);
+
+			$this->imbra_mod_type = $rs->getString($startcol + 20);
+
+			$this->reports_mod = $rs->getBoolean($startcol + 21);
+
+			$this->reports_mod_type = $rs->getString($startcol + 22);
+
+			$this->users_mod = $rs->getBoolean($startcol + 23);
+
+			$this->users_mod_type = $rs->getString($startcol + 24);
+
+			$this->must_change_pwd = $rs->getBoolean($startcol + 25);
+
+			$this->is_superuser = $rs->getBoolean($startcol + 26);
+
+			$this->is_enabled = $rs->getBoolean($startcol + 27);
+
+			$this->last_login = $rs->getTimestamp($startcol + 28, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 29, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 12; 
+						return $startcol + 30; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -659,18 +1127,72 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getPhone();
 				break;
 			case 7:
-				return $this->getMustChangePwd();
+				return $this->getDashboardMod();
 				break;
 			case 8:
-				return $this->getIsSuperuser();
+				return $this->getDashboardModType();
 				break;
 			case 9:
-				return $this->getIsEnabled();
+				return $this->getMembersMod();
 				break;
 			case 10:
-				return $this->getLastLogin();
+				return $this->getMembersModType();
 				break;
 			case 11:
+				return $this->getContentMod();
+				break;
+			case 12:
+				return $this->getContentModType();
+				break;
+			case 13:
+				return $this->getSubscriptionsMod();
+				break;
+			case 14:
+				return $this->getSubscriptionsModType();
+				break;
+			case 15:
+				return $this->getMessagesMod();
+				break;
+			case 16:
+				return $this->getMessagesModType();
+				break;
+			case 17:
+				return $this->getFlagsMod();
+				break;
+			case 18:
+				return $this->getFlagsModType();
+				break;
+			case 19:
+				return $this->getImbraMod();
+				break;
+			case 20:
+				return $this->getImbraModType();
+				break;
+			case 21:
+				return $this->getReportsMod();
+				break;
+			case 22:
+				return $this->getReportsModType();
+				break;
+			case 23:
+				return $this->getUsersMod();
+				break;
+			case 24:
+				return $this->getUsersModType();
+				break;
+			case 25:
+				return $this->getMustChangePwd();
+				break;
+			case 26:
+				return $this->getIsSuperuser();
+				break;
+			case 27:
+				return $this->getIsEnabled();
+				break;
+			case 28:
+				return $this->getLastLogin();
+				break;
+			case 29:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -690,11 +1212,29 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[4] => $this->getLastName(),
 			$keys[5] => $this->getEmail(),
 			$keys[6] => $this->getPhone(),
-			$keys[7] => $this->getMustChangePwd(),
-			$keys[8] => $this->getIsSuperuser(),
-			$keys[9] => $this->getIsEnabled(),
-			$keys[10] => $this->getLastLogin(),
-			$keys[11] => $this->getCreatedAt(),
+			$keys[7] => $this->getDashboardMod(),
+			$keys[8] => $this->getDashboardModType(),
+			$keys[9] => $this->getMembersMod(),
+			$keys[10] => $this->getMembersModType(),
+			$keys[11] => $this->getContentMod(),
+			$keys[12] => $this->getContentModType(),
+			$keys[13] => $this->getSubscriptionsMod(),
+			$keys[14] => $this->getSubscriptionsModType(),
+			$keys[15] => $this->getMessagesMod(),
+			$keys[16] => $this->getMessagesModType(),
+			$keys[17] => $this->getFlagsMod(),
+			$keys[18] => $this->getFlagsModType(),
+			$keys[19] => $this->getImbraMod(),
+			$keys[20] => $this->getImbraModType(),
+			$keys[21] => $this->getReportsMod(),
+			$keys[22] => $this->getReportsModType(),
+			$keys[23] => $this->getUsersMod(),
+			$keys[24] => $this->getUsersModType(),
+			$keys[25] => $this->getMustChangePwd(),
+			$keys[26] => $this->getIsSuperuser(),
+			$keys[27] => $this->getIsEnabled(),
+			$keys[28] => $this->getLastLogin(),
+			$keys[29] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -732,18 +1272,72 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setPhone($value);
 				break;
 			case 7:
-				$this->setMustChangePwd($value);
+				$this->setDashboardMod($value);
 				break;
 			case 8:
-				$this->setIsSuperuser($value);
+				$this->setDashboardModType($value);
 				break;
 			case 9:
-				$this->setIsEnabled($value);
+				$this->setMembersMod($value);
 				break;
 			case 10:
-				$this->setLastLogin($value);
+				$this->setMembersModType($value);
 				break;
 			case 11:
+				$this->setContentMod($value);
+				break;
+			case 12:
+				$this->setContentModType($value);
+				break;
+			case 13:
+				$this->setSubscriptionsMod($value);
+				break;
+			case 14:
+				$this->setSubscriptionsModType($value);
+				break;
+			case 15:
+				$this->setMessagesMod($value);
+				break;
+			case 16:
+				$this->setMessagesModType($value);
+				break;
+			case 17:
+				$this->setFlagsMod($value);
+				break;
+			case 18:
+				$this->setFlagsModType($value);
+				break;
+			case 19:
+				$this->setImbraMod($value);
+				break;
+			case 20:
+				$this->setImbraModType($value);
+				break;
+			case 21:
+				$this->setReportsMod($value);
+				break;
+			case 22:
+				$this->setReportsModType($value);
+				break;
+			case 23:
+				$this->setUsersMod($value);
+				break;
+			case 24:
+				$this->setUsersModType($value);
+				break;
+			case 25:
+				$this->setMustChangePwd($value);
+				break;
+			case 26:
+				$this->setIsSuperuser($value);
+				break;
+			case 27:
+				$this->setIsEnabled($value);
+				break;
+			case 28:
+				$this->setLastLogin($value);
+				break;
+			case 29:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -760,11 +1354,29 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setLastName($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setEmail($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setPhone($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setMustChangePwd($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setIsSuperuser($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setIsEnabled($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setLastLogin($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setCreatedAt($arr[$keys[11]]);
+		if (array_key_exists($keys[7], $arr)) $this->setDashboardMod($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setDashboardModType($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setMembersMod($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setMembersModType($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setContentMod($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setContentModType($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setSubscriptionsMod($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setSubscriptionsModType($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setMessagesMod($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setMessagesModType($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setFlagsMod($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setFlagsModType($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setImbraMod($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setImbraModType($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setReportsMod($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setReportsModType($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setUsersMod($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setUsersModType($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setMustChangePwd($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setIsSuperuser($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setIsEnabled($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setLastLogin($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setCreatedAt($arr[$keys[29]]);
 	}
 
 	
@@ -779,6 +1391,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::LAST_NAME)) $criteria->add(UserPeer::LAST_NAME, $this->last_name);
 		if ($this->isColumnModified(UserPeer::EMAIL)) $criteria->add(UserPeer::EMAIL, $this->email);
 		if ($this->isColumnModified(UserPeer::PHONE)) $criteria->add(UserPeer::PHONE, $this->phone);
+		if ($this->isColumnModified(UserPeer::DASHBOARD_MOD)) $criteria->add(UserPeer::DASHBOARD_MOD, $this->dashboard_mod);
+		if ($this->isColumnModified(UserPeer::DASHBOARD_MOD_TYPE)) $criteria->add(UserPeer::DASHBOARD_MOD_TYPE, $this->dashboard_mod_type);
+		if ($this->isColumnModified(UserPeer::MEMBERS_MOD)) $criteria->add(UserPeer::MEMBERS_MOD, $this->members_mod);
+		if ($this->isColumnModified(UserPeer::MEMBERS_MOD_TYPE)) $criteria->add(UserPeer::MEMBERS_MOD_TYPE, $this->members_mod_type);
+		if ($this->isColumnModified(UserPeer::CONTENT_MOD)) $criteria->add(UserPeer::CONTENT_MOD, $this->content_mod);
+		if ($this->isColumnModified(UserPeer::CONTENT_MOD_TYPE)) $criteria->add(UserPeer::CONTENT_MOD_TYPE, $this->content_mod_type);
+		if ($this->isColumnModified(UserPeer::SUBSCRIPTIONS_MOD)) $criteria->add(UserPeer::SUBSCRIPTIONS_MOD, $this->subscriptions_mod);
+		if ($this->isColumnModified(UserPeer::SUBSCRIPTIONS_MOD_TYPE)) $criteria->add(UserPeer::SUBSCRIPTIONS_MOD_TYPE, $this->subscriptions_mod_type);
+		if ($this->isColumnModified(UserPeer::MESSAGES_MOD)) $criteria->add(UserPeer::MESSAGES_MOD, $this->messages_mod);
+		if ($this->isColumnModified(UserPeer::MESSAGES_MOD_TYPE)) $criteria->add(UserPeer::MESSAGES_MOD_TYPE, $this->messages_mod_type);
+		if ($this->isColumnModified(UserPeer::FLAGS_MOD)) $criteria->add(UserPeer::FLAGS_MOD, $this->flags_mod);
+		if ($this->isColumnModified(UserPeer::FLAGS_MOD_TYPE)) $criteria->add(UserPeer::FLAGS_MOD_TYPE, $this->flags_mod_type);
+		if ($this->isColumnModified(UserPeer::IMBRA_MOD)) $criteria->add(UserPeer::IMBRA_MOD, $this->imbra_mod);
+		if ($this->isColumnModified(UserPeer::IMBRA_MOD_TYPE)) $criteria->add(UserPeer::IMBRA_MOD_TYPE, $this->imbra_mod_type);
+		if ($this->isColumnModified(UserPeer::REPORTS_MOD)) $criteria->add(UserPeer::REPORTS_MOD, $this->reports_mod);
+		if ($this->isColumnModified(UserPeer::REPORTS_MOD_TYPE)) $criteria->add(UserPeer::REPORTS_MOD_TYPE, $this->reports_mod_type);
+		if ($this->isColumnModified(UserPeer::USERS_MOD)) $criteria->add(UserPeer::USERS_MOD, $this->users_mod);
+		if ($this->isColumnModified(UserPeer::USERS_MOD_TYPE)) $criteria->add(UserPeer::USERS_MOD_TYPE, $this->users_mod_type);
 		if ($this->isColumnModified(UserPeer::MUST_CHANGE_PWD)) $criteria->add(UserPeer::MUST_CHANGE_PWD, $this->must_change_pwd);
 		if ($this->isColumnModified(UserPeer::IS_SUPERUSER)) $criteria->add(UserPeer::IS_SUPERUSER, $this->is_superuser);
 		if ($this->isColumnModified(UserPeer::IS_ENABLED)) $criteria->add(UserPeer::IS_ENABLED, $this->is_enabled);
@@ -825,6 +1455,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setEmail($this->email);
 
 		$copyObj->setPhone($this->phone);
+
+		$copyObj->setDashboardMod($this->dashboard_mod);
+
+		$copyObj->setDashboardModType($this->dashboard_mod_type);
+
+		$copyObj->setMembersMod($this->members_mod);
+
+		$copyObj->setMembersModType($this->members_mod_type);
+
+		$copyObj->setContentMod($this->content_mod);
+
+		$copyObj->setContentModType($this->content_mod_type);
+
+		$copyObj->setSubscriptionsMod($this->subscriptions_mod);
+
+		$copyObj->setSubscriptionsModType($this->subscriptions_mod_type);
+
+		$copyObj->setMessagesMod($this->messages_mod);
+
+		$copyObj->setMessagesModType($this->messages_mod_type);
+
+		$copyObj->setFlagsMod($this->flags_mod);
+
+		$copyObj->setFlagsModType($this->flags_mod_type);
+
+		$copyObj->setImbraMod($this->imbra_mod);
+
+		$copyObj->setImbraModType($this->imbra_mod_type);
+
+		$copyObj->setReportsMod($this->reports_mod);
+
+		$copyObj->setReportsModType($this->reports_mod_type);
+
+		$copyObj->setUsersMod($this->users_mod);
+
+		$copyObj->setUsersModType($this->users_mod_type);
 
 		$copyObj->setMustChangePwd($this->must_change_pwd);
 

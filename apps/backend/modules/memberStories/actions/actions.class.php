@@ -60,6 +60,8 @@ class memberStoriesActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
+            
             $story->setCulture($this->getRequestParameter('culture'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setSlug($this->getRequestParameter('slug'));
@@ -77,6 +79,7 @@ class memberStoriesActions extends sfActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             //update sort order
             if ($this->getRequestParameter('sort_submit'))
             {

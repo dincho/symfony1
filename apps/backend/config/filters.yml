@@ -1,9 +1,6 @@
 rendering: ~
 web_debug: ~
-security:
-  enabled:  false
-newSecurity:
-  class: sfNewSecurity
+security:  ~
 cancel:
   class:  confirmMessageFilter
 # generally, you will want to insert your own filters here

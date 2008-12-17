@@ -59,6 +59,7 @@ class imbraReplyTemplatesActions extends sfActions
     
     if( $this->getRequest()->getMethod() == sfRequest::POST )
     {
+        $this->getUser()->checkPerm(array('imbra_edit'));
 	    $imbra_reply_template->setTitle($this->getRequestParameter('title'));
 	    $imbra_reply_template->setSubject($this->getRequestParameter('subject'));
 	    $imbra_reply_template->setBody($this->getRequestParameter('body'));

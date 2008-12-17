@@ -27,7 +27,7 @@ class subscriptionsActions extends sfActions
     
     if( $this->getRequest()->getMethod() == sfRequest::POST )
     {
-        //print_r($_POST);exit();
+        $this->getUser()->checkPerm(array('subscriptions_edit'));
         $req_subs = $this->getRequestParameter('subs');
         foreach ($subscriptions as $subscription)
         {

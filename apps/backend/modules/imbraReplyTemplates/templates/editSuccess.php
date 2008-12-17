@@ -22,7 +22,7 @@
     <?php echo object_input_tag($imbra_reply_template, 'getSubject', error_class('subject')) ?><br />
               
     <label for="body">Body:</label>
-    <?php echo object_textarea_tag($imbra_reply_template, 'getBody', error_class('body')) ?><br />
+    <?php echo object_textarea_tag($imbra_reply_template, 'getBody', array('cols' => 90, 'rows' => 10, 'class' => error_class('body', true))) ?><br />
   </fieldset>        
 
   <fieldset class="actions">

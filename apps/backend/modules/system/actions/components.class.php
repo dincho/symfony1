@@ -21,7 +21,7 @@ class systemComponents extends sfComponents
   public function executeLeftMenu()
   {
     $this->menu = array();
-    $full_menu = array( 'system'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
+    $full_menu = array( 'members'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
                                            array('title' => 'Male Members', 'uri' => 'members/index'),
                                            array('title' => 'Female Members', 'uri' => 'members/index'),
                                            array('title' => 'Free Members', 'uri' => 'members/index'),
@@ -48,7 +48,6 @@ class systemComponents extends sfComponents
                                            array('title' => 'Settings', 'uri' => 'settings/list'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
-                                           array('title' => 'Groups', 'uri' => 'groups/list'),
                                            ),
                         'imbra'    => array(array('title' => 'Pending', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
                                            array('title' => 'Approved', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),

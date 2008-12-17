@@ -30,6 +30,7 @@ class notificationsActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $notification->setName($this->getRequestParameter('name'));
             $notification->setSendFrom($this->getRequestParameter('send_from'));
             if( $notification->getToAdmins() ) $notification->setSendTo($this->getRequestParameter('send_to'));

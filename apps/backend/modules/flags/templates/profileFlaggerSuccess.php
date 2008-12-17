@@ -1,7 +1,7 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
-<?php echo form_tag('flags/profile', 'class=form') ?>
+<?php echo form_tag('members/edit', 'class=form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Flaggind Member</div>
   <table class="details">

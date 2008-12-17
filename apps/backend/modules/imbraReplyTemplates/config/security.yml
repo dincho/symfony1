@@ -1,0 +1,8 @@
+default:
+  is_secure: on
+  credentials:  [[ imbra, imbra_edit ]]
+
+delete:
+    credentials:    imbra_edit
+create:
+    credentials:    imbra_edit

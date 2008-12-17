@@ -1,0 +1,6 @@
+default:
+  is_secure: on
+  credentials:  [[ messages, messages_edit ]]
+
+delete:
+    credentials:    messages_edit

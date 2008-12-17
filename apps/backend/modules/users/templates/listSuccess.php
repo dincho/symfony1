@@ -10,7 +10,6 @@
         <th>Last name</th>
         <th>First name</th>
         <th>Email</th>
-        <th>Groups</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -22,7 +21,6 @@
         <td><?php echo $user->getLastName() ?></td>
         <td><?php echo $user->getFirstName() ?></td>
         <td><?php echo $user->getEmail() ?></td>
-        <td><?php $groups = sfNewSecurityQueries::listUserGroups($user->getId()); if( $groups ) echo implode(', ', $groups); ?></td>
         <td><?php echo $user->getStatus() ?></td>
       </tr>
       <?php endforeach; ?>

@@ -1,6 +1,6 @@
 <?php
 
-class myUser extends sfNewSecurityUser
+class myUser extends sfBasicSecurityUser 
 {
   private $profile = null;
     
@@ -37,5 +37,37 @@ class myUser extends sfNewSecurityUser
       }
       
       return $this->profile;
+  }
+  
+  public function signIn($logged)
+  {
+      $this->setAuthenticated(true);
+      $this->setAttribute('username', $logged->getUsername());
+      $this->setAttribute('user_id', $logged->getId());
+      $this->setAttribute('last_login', $logged->getLastLogin(null)); //set last login as timestamp
+      
+      $credentials = array();
+      
+      if( $logged->getDashboardMod() ) $credentials[] = ( $logged->getDashboardModType()  == 'E' ) ? 'dashboard_edit' : 'dashboard'; 
+      if( $logged->getMembersMod() ) $credentials[] = ( $logged->getMembersModType()  == 'E' ) ? 'members_edit' : 'members'; 
+      if( $logged->getContentMod() ) $credentials[] = ( $logged->getContentModType()  == 'E' ) ? 'content_edit' : 'content'; 
+      if( $logged->getSubscriptionsMod() ) $credentials[] = ( $logged->getSubscriptionsModType()  == 'E' ) ? 'subscriptions_edit' : 'subscriptions'; 
+      if( $logged->getMessagesMod() ) $credentials[] = ( $logged->getMessagesModType()  == 'E' ) ? 'messages_edit' : 'messages'; 
+      if( $logged->getFlagsMod() ) $credentials[] = ( $logged->getFlagsModType()  == 'E' ) ? 'flags_edit' : 'flags'; 
+      if( $logged->getImbraMod() ) $credentials[] = ( $logged->getImbraModType()  == 'E' ) ? 'imbra_edit' : 'imbra'; 
+      if( $logged->getReportsMod() ) $credentials[] = ( $logged->getReportsModType()  == 'E' ) ? 'reports_edit' : 'reports'; 
+      if( $logged->getUsersMod() ) $credentials[] = ( $logged->getUsersModType()  == 'E' ) ? 'users_edit' : 'users'; 
+      
+      $this->addCredentials($credentials);
+  }
+  
+  public function checkPerm($credentials = array())
+  {
+      $controller = sfContext::getInstance()->getController();
+      if(!$this->hasCredential($credentials, false)) 
+      {
+        $controller->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        throw new sfStopException();
+      }
   }
 }

@@ -78,6 +78,8 @@ class membersActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'Overview', 'uri' => 'members/edit?id=' . $this->member->getId()));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
+            
             if ($this->getRequestParameter('submit_save'))
             {
                 $this->member->setFirstName($this->getRequestParameter('first_name'));
@@ -119,6 +121,7 @@ class membersActions extends sfActions
         $this->states = StatePeer::getAllByCountry($this->member->getCountry());
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setStateId(($this->getRequestParameter('state_id')) ? $this->getRequestParameter('state_id') : null);
             $this->member->setDistrict($this->getRequestParameter('district'));
@@ -137,6 +140,7 @@ class membersActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
             
@@ -181,6 +185,7 @@ class membersActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'Essay', 'uri' => 'members/editEssay?id=' . $this->member->getId()));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
             $this->member->save();
@@ -194,6 +199,7 @@ class membersActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
             //crop the photo if selected
             if ($this->getRequestParameter('photo_id'))
             {
@@ -250,6 +256,7 @@ class membersActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('members_edit'));
             $member_answers = $this->getRequestParameter('answers', array());
             $member_match_weights = $this->getRequestParameter('weights');
             $this->member->clearSearchCriteria();
@@ -287,6 +294,7 @@ class membersActions extends sfActions
 
     public function executeDeletePhoto()
     {
+        $this->getUser()->checkPerm(array('members_edit'));
         $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
         $this->forward404Unless($photo);
         $photo->delete();
@@ -296,6 +304,7 @@ class membersActions extends sfActions
 
     public function executeStar()
     {
+        $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
         
         $this->member->setIsStarred(! $this->member->IsStarred());
@@ -306,6 +315,7 @@ class membersActions extends sfActions
 
     public function executeAddNote()
     {
+        $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
         $note = new MemberNote();
         $note->setMember($this->member);
