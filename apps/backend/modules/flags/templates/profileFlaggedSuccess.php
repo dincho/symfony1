@@ -3,6 +3,7 @@
 
 <?php echo form_tag('members/edit', 'class=form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
+  <?php echo input_hidden_tag('flagged', 1, 'class=hidden') ?>
   <div class="legend">Flagged Member</div>
   <table class="details">
       <tr>

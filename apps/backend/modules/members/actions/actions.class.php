@@ -317,12 +317,22 @@ class membersActions extends sfActions
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
+        
         $note = new MemberNote();
         $note->setMember($this->member);
         $note->setUserId($this->getUser()->getId());
         $note->setText($this->getRequestParameter('note_content'));
         $note->save();
-        $this->redirect('members/edit?id=' . $this->member->getId());
+        
+        if( $this->getRequestParameter('flagger'))
+        {
+            $this->redirect('flags/profileFlagger?id=' . $this->member->getId());
+        } elseif($this->getRequestParameter('flagged'))
+        {
+            $this->redirect('flags/profileFlagged?id=' . $this->member->getId());
+        } else {
+            $this->redirect('members/edit?id=' . $this->member->getId());
+        }
     }
 
     protected function processSort()
