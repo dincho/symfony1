@@ -30,7 +30,7 @@
   
   <fieldset class="form_fields email_fields">
     <label for="html_content">HTML Content:</label>
-    <?php echo textarea_tag('html_content', $story->getContent(), 'id=html_content ' . error_class('html_content')) ?>
+    <?php echo textarea_tag('html_content', $story->getContent(), 'rows=20 cols=38 id=html_content ' . error_class('html_content')) ?>
   </fieldset>        
 
   <fieldset class="actions">
