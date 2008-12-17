@@ -19,7 +19,14 @@
   <?php include_partial('flags/member_flagged', array('flags' => $flags)); ?>
   
   <fieldset class="actions">
-    <?php echo button_to_function('Close', 'window.history.go(-1)') . button_to('Reset Flags', 'flags/reset?id=' . $member->getId())  . button_to('Suspend', 'flags/suspend?id=' . $member->getId()) ?>
+    <?php echo button_to_function('Close', 'window.history.go(-1)') . 
+               button_to('Reset Flags', 'flags/reset?id=' . $member->getId()); ?>
+    <?php if( $member->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS || 
+              $member->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED ): ?>
+          <?php echo button_to('Un-suspend', 'flags/unsuspend?id=' . $member->getId()) ?>
+    <?php else: ?>               
+        <?php echo button_to('Suspend', 'flags/suspend?id=' . $member->getId()) ?>
+    <?php endif; ?>
   </fieldset>
 </form>
 

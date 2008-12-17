@@ -161,6 +161,18 @@ class flagsActions extends sfActions
         $this->redirect('flags/profileFlagged?id=' . $member->getId());
     }
     
+    public function executeUnsuspend()
+    {
+        $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($member);
+
+        $member->changeStatus(MemberStatusPeer::ACTIVE);
+        $member->save();
+        
+        $this->setFlash('msg_ok', $member->getUsername() . ' has been un-suspended.');
+        $this->redirect('flags/profileFlagged?id=' . $member->getId());
+    }
+    
     public function executeReset()
     {
         $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));

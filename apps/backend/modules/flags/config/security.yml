@@ -4,5 +4,7 @@ default:
 
 suspend:
     credentials:    flags_edit
+unsuspend:
+    credentials:    flags_edit
 reset:
     credentials:    flags_edit

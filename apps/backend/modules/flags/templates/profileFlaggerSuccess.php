@@ -19,7 +19,7 @@
   <?php include_partial('flags/member_flagger', array('flags' => $flags)); ?>
   
   <fieldset class="actions">
-    <?php echo button_to_function('Close', 'window.history.go(-1)') . button_to('Reset Flags', '#')  . button_to('Suspend', '#') ?>
+    <?php echo button_to('Close', 'flags/flaggers') ?>
   </fieldset>
 </form>
 

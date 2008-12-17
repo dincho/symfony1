@@ -76,6 +76,13 @@ class Member extends BaseMember
                 Events::triggerWelcomeApproved($this);
             }
             
+            if( $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED || 
+                $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS ||
+                $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED )
+              {
+                  $this->incCounter('unsuspensions');
+              }
+              
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
             $this->addMemberStatusHistory($history);
