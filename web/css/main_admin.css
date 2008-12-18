@@ -249,6 +249,10 @@ dl.imbra_answers dd {
 	margin: 0 0 10px 0;
 }
 
+dl.imbra_answers dd span {
+    font-weight: normal;
+}
+
 dl.imbra_answers {
 	
 }

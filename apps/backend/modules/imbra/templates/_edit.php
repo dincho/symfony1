@@ -2,7 +2,6 @@
 <?php if( $imbra ): ?>
     <div id="inner_content">
       
-      
       <div class="imbra_alert float-right">
         <?php if( $imbra->isPossibleDenial()): ?>
           <p>Possible Denial</p>
@@ -14,7 +13,7 @@
         <tbody>
           <tr>
             <th>Username</th>
-            <td><?php echo $member->getUsername(); ?></td>
+            <td><?php echo $member->getUsername() . link_to('&nbsp;&nbsp;view profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
             <th>Profile ID</th>
             <td><?php echo $member->getId(); ?></td>
           </tr>
