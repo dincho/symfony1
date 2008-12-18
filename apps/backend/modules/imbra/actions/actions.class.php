@@ -117,10 +117,46 @@ class imbraActions extends sfActions
             $this->imbra->setText($this->getRequestParameter('text'));
             $this->imbra->setImbraStatusId(ImbraStatusPeer::APPROVED);
             $this->imbra->save();
-            $this->redirect('imbra/list');
+            $this->redirect('imbra/approveConfirmation?id=' . $this->imbra->getId() . '&member_id=' . $this->member->getId() . '&template_id=3');
         }
     }
 
+    public function executeApproveConfirmation()
+    {
+        $this->forward404Unless($this->member);
+        $this->imbras = $this->member->getMemberImbras();
+        $this->imbra = MemberImbraPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($this->imbra);
+        
+        if( $this->getRequestParameter('template_id') ) $this->template = ImbraReplyTemplatePeer::retrieveByPK($this->getRequestParameter('template_id'));
+        if( !$this->template ) $this->template = ImbraReplyTemplatePeer::retrieveByPK(1);
+        if( !$this->template ) $this->template = new ImbraReplyTemplate();
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            if ($this->getRequestParameter('save_as_new_template'))
+            {
+                $this->saveTemplate();
+            }
+            
+            $mail = new prMail();
+            $mail->setFrom($this->getRequestParameter('send_from'));
+            $mail->addReplyTo($this->getRequestParameter('reply_to'));
+            if( $this->getRequestParameter('bcc')) $mail->addBcc($this->getRequestParameter('bcc'));
+            $mail->addAddress($this->member->getEmail(), $this->member->getFullName());
+            
+            $mail->setSubject($this->getRequestParameter('subject'));
+            $mail->setBody($this->getRequestParameter('body'));
+            $mail->Send();
+            
+            $this->imbra->setImbraStatusId(ImbraStatusPeer::DENIED);
+            $this->imbra->save();
+            
+            $this->setFlash('msg_ok', 'Message has been sent.');
+            $this->redirect('imbra/list');
+        }
+    }
+        
     public function executeView ()
     {
     }
