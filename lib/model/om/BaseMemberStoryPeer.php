@@ -13,7 +13,7 @@ abstract class BaseMemberStoryPeer {
 	const CLASS_DEFAULT = 'lib.model.MemberStory';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -23,10 +23,28 @@ abstract class BaseMemberStoryPeer {
 	const ID = 'member_story.ID';
 
 	
+	const CULTURE = 'member_story.CULTURE';
+
+	
 	const SLUG = 'member_story.SLUG';
 
 	
 	const SORT_ORDER = 'member_story.SORT_ORDER';
+
+	
+	const LINK_NAME = 'member_story.LINK_NAME';
+
+	
+	const TITLE = 'member_story.TITLE';
+
+	
+	const KEYWORDS = 'member_story.KEYWORDS';
+
+	
+	const DESCRIPTION = 'member_story.DESCRIPTION';
+
+	
+	const CONTENT = 'member_story.CONTENT';
 
 	
 	private static $phpNameMap = null;
@@ -34,18 +52,18 @@ abstract class BaseMemberStoryPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Slug', 'SortOrder', ),
-		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID, MemberStoryPeer::SLUG, MemberStoryPeer::SORT_ORDER, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'slug', 'sort_order', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Culture', 'Slug', 'SortOrder', 'LinkName', 'Title', 'Keywords', 'Description', 'Content', ),
+		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID, MemberStoryPeer::CULTURE, MemberStoryPeer::SLUG, MemberStoryPeer::SORT_ORDER, MemberStoryPeer::LINK_NAME, MemberStoryPeer::TITLE, MemberStoryPeer::KEYWORDS, MemberStoryPeer::DESCRIPTION, MemberStoryPeer::CONTENT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'culture', 'slug', 'sort_order', 'link_name', 'title', 'keywords', 'description', 'content', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Slug' => 1, 'SortOrder' => 2, ),
-		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID => 0, MemberStoryPeer::SLUG => 1, MemberStoryPeer::SORT_ORDER => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'slug' => 1, 'sort_order' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Culture' => 1, 'Slug' => 2, 'SortOrder' => 3, 'LinkName' => 4, 'Title' => 5, 'Keywords' => 6, 'Description' => 7, 'Content' => 8, ),
+		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID => 0, MemberStoryPeer::CULTURE => 1, MemberStoryPeer::SLUG => 2, MemberStoryPeer::SORT_ORDER => 3, MemberStoryPeer::LINK_NAME => 4, MemberStoryPeer::TITLE => 5, MemberStoryPeer::KEYWORDS => 6, MemberStoryPeer::DESCRIPTION => 7, MemberStoryPeer::CONTENT => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'culture' => 1, 'slug' => 2, 'sort_order' => 3, 'link_name' => 4, 'title' => 5, 'keywords' => 6, 'description' => 7, 'content' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -101,9 +119,21 @@ abstract class BaseMemberStoryPeer {
 
 		$criteria->addSelectColumn(MemberStoryPeer::ID);
 
+		$criteria->addSelectColumn(MemberStoryPeer::CULTURE);
+
 		$criteria->addSelectColumn(MemberStoryPeer::SLUG);
 
 		$criteria->addSelectColumn(MemberStoryPeer::SORT_ORDER);
+
+		$criteria->addSelectColumn(MemberStoryPeer::LINK_NAME);
+
+		$criteria->addSelectColumn(MemberStoryPeer::TITLE);
+
+		$criteria->addSelectColumn(MemberStoryPeer::KEYWORDS);
+
+		$criteria->addSelectColumn(MemberStoryPeer::DESCRIPTION);
+
+		$criteria->addSelectColumn(MemberStoryPeer::CONTENT);
 
 	}
 
@@ -189,54 +219,6 @@ abstract class BaseMemberStoryPeer {
 		}
 		return $results;
 	}
-
-  
-  public static function doSelectWithI18n(Criteria $c, $culture = null, $con = null)
-  {
-    if ($culture === null)
-    {
-      $culture = sfContext::getInstance()->getUser()->getCulture();
-    }
-
-        if ($c->getDbName() == Propel::getDefaultDB())
-    {
-      $c->setDbName(self::DATABASE_NAME);
-    }
-
-    MemberStoryPeer::addSelectColumns($c);
-    $startcol = (MemberStoryPeer::NUM_COLUMNS - MemberStoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-    MemberStoryI18nPeer::addSelectColumns($c);
-
-    $c->addJoin(MemberStoryPeer::ID, MemberStoryI18nPeer::ID);
-    $c->add(MemberStoryI18nPeer::CULTURE, $culture);
-
-    $rs = BasePeer::doSelect($c, $con);
-    $results = array();
-
-    while($rs->next()) {
-
-      $omClass = MemberStoryPeer::getOMClass();
-
-      $cls = Propel::import($omClass);
-      $obj1 = new $cls();
-      $obj1->hydrate($rs);
-      $obj1->setCulture($culture);
-
-      $omClass = MemberStoryI18nPeer::getOMClass($rs, $startcol);
-
-      $cls = Propel::import($omClass);
-      $obj2 = new $cls();
-      $obj2->hydrate($rs, $startcol);
-
-      $obj1->setMemberStoryI18nForCulture($obj2, $culture);
-      $obj2->setMemberStory($obj1);
-
-      $results[] = $obj1;
-    }
-    return $results;
-  }
-
 	
 	public static function getTableMap()
 	{

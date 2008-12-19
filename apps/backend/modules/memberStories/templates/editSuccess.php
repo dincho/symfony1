@@ -8,11 +8,8 @@
         <label for="link_name">Link Name:</label>
         <?php echo object_input_tag($story, 'getLinkName', error_class('link_name')) ?><br />
         
-        <label for="slug">URL Name:</label>
-        <?php echo object_input_tag($story, 'getSlug', null, error_class('slug')) ?>.html<br />
-                
         <label for="culture">Language:</label>
-        <?php echo object_select_language_tag($story, 'getCulture', array('onchange' => 'document.location.href=\'' . url_for('memberStories/edit?id=' . $story->getId()). '/culture/\' + this.value ')); ?><br />
+        <?php echo object_select_language_tag($story, 'getCulture', array('languages' => array('en', 'pl'))); ?><br />
     
       </fieldset>
       <fieldset class="form_fields float-left">
@@ -34,6 +31,6 @@
   </fieldset>        
 
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'memberStories/list?cancel=1')  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'memberStories/list?cancel=1&culture=' . $story->getCulture())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>

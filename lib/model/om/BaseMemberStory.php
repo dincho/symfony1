@@ -13,17 +13,35 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 
 
 	
+	protected $culture;
+
+
+	
 	protected $slug;
 
 
 	
 	protected $sort_order = 0;
 
-	
-	protected $collMemberStoryI18ns;
 
 	
-	protected $lastMemberStoryI18nCriteria = null;
+	protected $link_name;
+
+
+	
+	protected $title;
+
+
+	
+	protected $keywords;
+
+
+	
+	protected $description;
+
+
+	
+	protected $content;
 
 	
 	protected $alreadyInSave = false;
@@ -31,14 +49,18 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 	
 	protected $alreadyInValidation = false;
 
-  
-  protected $culture;
-
 	
 	public function getId()
 	{
 
 		return $this->id;
+	}
+
+	
+	public function getCulture()
+	{
+
+		return $this->culture;
 	}
 
 	
@@ -56,6 +78,41 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getLinkName()
+	{
+
+		return $this->link_name;
+	}
+
+	
+	public function getTitle()
+	{
+
+		return $this->title;
+	}
+
+	
+	public function getKeywords()
+	{
+
+		return $this->keywords;
+	}
+
+	
+	public function getDescription()
+	{
+
+		return $this->description;
+	}
+
+	
+	public function getContent()
+	{
+
+		return $this->content;
+	}
+
+	
 	public function setId($v)
 	{
 
@@ -68,6 +125,22 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = MemberStoryPeer::ID;
+		}
+
+	} 
+	
+	public function setCulture($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->culture !== $v) {
+			$this->culture = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::CULTURE;
 		}
 
 	} 
@@ -104,21 +177,113 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLinkName($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->link_name !== $v) {
+			$this->link_name = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::LINK_NAME;
+		}
+
+	} 
+	
+	public function setTitle($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->title !== $v) {
+			$this->title = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::TITLE;
+		}
+
+	} 
+	
+	public function setKeywords($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->keywords !== $v) {
+			$this->keywords = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::KEYWORDS;
+		}
+
+	} 
+	
+	public function setDescription($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->description !== $v) {
+			$this->description = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::DESCRIPTION;
+		}
+
+	} 
+	
+	public function setContent($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->content !== $v) {
+			$this->content = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::CONTENT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->slug = $rs->getString($startcol + 1);
+			$this->culture = $rs->getString($startcol + 1);
 
-			$this->sort_order = $rs->getInt($startcol + 2);
+			$this->slug = $rs->getString($startcol + 2);
+
+			$this->sort_order = $rs->getInt($startcol + 3);
+
+			$this->link_name = $rs->getString($startcol + 4);
+
+			$this->title = $rs->getString($startcol + 5);
+
+			$this->keywords = $rs->getString($startcol + 6);
+
+			$this->description = $rs->getString($startcol + 7);
+
+			$this->content = $rs->getString($startcol + 8);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+						return $startcol + 9; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating MemberStory object", $e);
 		}
@@ -219,14 +384,6 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
-			if ($this->collMemberStoryI18ns !== null) {
-				foreach($this->collMemberStoryI18ns as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -268,14 +425,6 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			}
 
 
-				if ($this->collMemberStoryI18ns !== null) {
-					foreach($this->collMemberStoryI18ns as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 
 			$this->alreadyInValidation = false;
 		}
@@ -298,10 +447,28 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getSlug();
+				return $this->getCulture();
 				break;
 			case 2:
+				return $this->getSlug();
+				break;
+			case 3:
 				return $this->getSortOrder();
+				break;
+			case 4:
+				return $this->getLinkName();
+				break;
+			case 5:
+				return $this->getTitle();
+				break;
+			case 6:
+				return $this->getKeywords();
+				break;
+			case 7:
+				return $this->getDescription();
+				break;
+			case 8:
+				return $this->getContent();
 				break;
 			default:
 				return null;
@@ -314,8 +481,14 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		$keys = MemberStoryPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getSlug(),
-			$keys[2] => $this->getSortOrder(),
+			$keys[1] => $this->getCulture(),
+			$keys[2] => $this->getSlug(),
+			$keys[3] => $this->getSortOrder(),
+			$keys[4] => $this->getLinkName(),
+			$keys[5] => $this->getTitle(),
+			$keys[6] => $this->getKeywords(),
+			$keys[7] => $this->getDescription(),
+			$keys[8] => $this->getContent(),
 		);
 		return $result;
 	}
@@ -335,10 +508,28 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setSlug($value);
+				$this->setCulture($value);
 				break;
 			case 2:
+				$this->setSlug($value);
+				break;
+			case 3:
 				$this->setSortOrder($value);
+				break;
+			case 4:
+				$this->setLinkName($value);
+				break;
+			case 5:
+				$this->setTitle($value);
+				break;
+			case 6:
+				$this->setKeywords($value);
+				break;
+			case 7:
+				$this->setDescription($value);
+				break;
+			case 8:
+				$this->setContent($value);
 				break;
 		} 	}
 
@@ -348,8 +539,14 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		$keys = MemberStoryPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setSlug($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setSortOrder($arr[$keys[2]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCulture($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setSlug($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSortOrder($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLinkName($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setTitle($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setKeywords($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setDescription($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setContent($arr[$keys[8]]);
 	}
 
 	
@@ -358,8 +555,14 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		$criteria = new Criteria(MemberStoryPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(MemberStoryPeer::ID)) $criteria->add(MemberStoryPeer::ID, $this->id);
+		if ($this->isColumnModified(MemberStoryPeer::CULTURE)) $criteria->add(MemberStoryPeer::CULTURE, $this->culture);
 		if ($this->isColumnModified(MemberStoryPeer::SLUG)) $criteria->add(MemberStoryPeer::SLUG, $this->slug);
 		if ($this->isColumnModified(MemberStoryPeer::SORT_ORDER)) $criteria->add(MemberStoryPeer::SORT_ORDER, $this->sort_order);
+		if ($this->isColumnModified(MemberStoryPeer::LINK_NAME)) $criteria->add(MemberStoryPeer::LINK_NAME, $this->link_name);
+		if ($this->isColumnModified(MemberStoryPeer::TITLE)) $criteria->add(MemberStoryPeer::TITLE, $this->title);
+		if ($this->isColumnModified(MemberStoryPeer::KEYWORDS)) $criteria->add(MemberStoryPeer::KEYWORDS, $this->keywords);
+		if ($this->isColumnModified(MemberStoryPeer::DESCRIPTION)) $criteria->add(MemberStoryPeer::DESCRIPTION, $this->description);
+		if ($this->isColumnModified(MemberStoryPeer::CONTENT)) $criteria->add(MemberStoryPeer::CONTENT, $this->content);
 
 		return $criteria;
 	}
@@ -390,19 +593,22 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setCulture($this->culture);
+
 		$copyObj->setSlug($this->slug);
 
 		$copyObj->setSortOrder($this->sort_order);
 
+		$copyObj->setLinkName($this->link_name);
 
-		if ($deepCopy) {
-									$copyObj->setNew(false);
+		$copyObj->setTitle($this->title);
 
-			foreach($this->getMemberStoryI18ns() as $relObj) {
-				$copyObj->addMemberStoryI18n($relObj->copy($deepCopy));
-			}
+		$copyObj->setKeywords($this->keywords);
 
-		} 
+		$copyObj->setDescription($this->description);
+
+		$copyObj->setContent($this->content);
+
 
 		$copyObj->setNew(true);
 
@@ -426,173 +632,6 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		}
 		return self::$peer;
 	}
-
-	
-	public function initMemberStoryI18ns()
-	{
-		if ($this->collMemberStoryI18ns === null) {
-			$this->collMemberStoryI18ns = array();
-		}
-	}
-
-	
-	public function getMemberStoryI18ns($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseMemberStoryI18nPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collMemberStoryI18ns === null) {
-			if ($this->isNew()) {
-			   $this->collMemberStoryI18ns = array();
-			} else {
-
-				$criteria->add(MemberStoryI18nPeer::ID, $this->getId());
-
-				MemberStoryI18nPeer::addSelectColumns($criteria);
-				$this->collMemberStoryI18ns = MemberStoryI18nPeer::doSelect($criteria, $con);
-			}
-		} else {
-						if (!$this->isNew()) {
-												
-
-				$criteria->add(MemberStoryI18nPeer::ID, $this->getId());
-
-				MemberStoryI18nPeer::addSelectColumns($criteria);
-				if (!isset($this->lastMemberStoryI18nCriteria) || !$this->lastMemberStoryI18nCriteria->equals($criteria)) {
-					$this->collMemberStoryI18ns = MemberStoryI18nPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastMemberStoryI18nCriteria = $criteria;
-		return $this->collMemberStoryI18ns;
-	}
-
-	
-	public function countMemberStoryI18ns($criteria = null, $distinct = false, $con = null)
-	{
-				include_once 'lib/model/om/BaseMemberStoryI18nPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(MemberStoryI18nPeer::ID, $this->getId());
-
-		return MemberStoryI18nPeer::doCount($criteria, $distinct, $con);
-	}
-
-	
-	public function addMemberStoryI18n(MemberStoryI18n $l)
-	{
-		$this->collMemberStoryI18ns[] = $l;
-		$l->setMemberStory($this);
-	}
-
-  public function getCulture()
-  {
-    return $this->culture;
-  }
-
-  public function setCulture($culture)
-  {
-    $this->culture = $culture;
-  }
-
-  public function getLinkName()
-  {
-    $obj = $this->getCurrentMemberStoryI18n();
-
-    return ($obj ? $obj->getLinkName() : null);
-  }
-
-  public function setLinkName($value)
-  {
-    $this->getCurrentMemberStoryI18n()->setLinkName($value);
-  }
-
-  public function getTitle()
-  {
-    $obj = $this->getCurrentMemberStoryI18n();
-
-    return ($obj ? $obj->getTitle() : null);
-  }
-
-  public function setTitle($value)
-  {
-    $this->getCurrentMemberStoryI18n()->setTitle($value);
-  }
-
-  public function getKeywords()
-  {
-    $obj = $this->getCurrentMemberStoryI18n();
-
-    return ($obj ? $obj->getKeywords() : null);
-  }
-
-  public function setKeywords($value)
-  {
-    $this->getCurrentMemberStoryI18n()->setKeywords($value);
-  }
-
-  public function getDescription()
-  {
-    $obj = $this->getCurrentMemberStoryI18n();
-
-    return ($obj ? $obj->getDescription() : null);
-  }
-
-  public function setDescription($value)
-  {
-    $this->getCurrentMemberStoryI18n()->setDescription($value);
-  }
-
-  public function getContent()
-  {
-    $obj = $this->getCurrentMemberStoryI18n();
-
-    return ($obj ? $obj->getContent() : null);
-  }
-
-  public function setContent($value)
-  {
-    $this->getCurrentMemberStoryI18n()->setContent($value);
-  }
-
-  protected $current_i18n = array();
-
-  public function getCurrentMemberStoryI18n()
-  {
-    if (!isset($this->current_i18n[$this->culture]))
-    {
-      $obj = MemberStoryI18nPeer::retrieveByPK($this->getId(), $this->culture);
-      if ($obj)
-      {
-        $this->setMemberStoryI18nForCulture($obj, $this->culture);
-      }
-      else
-      {
-        $this->setMemberStoryI18nForCulture(new MemberStoryI18n(), $this->culture);
-        $this->current_i18n[$this->culture]->setCulture($this->culture);
-      }
-    }
-
-    return $this->current_i18n[$this->culture];
-  }
-
-  public function setMemberStoryI18nForCulture($object, $culture)
-  {
-    $this->current_i18n[$culture] = $object;
-    $this->addMemberStoryI18n($object);
-  }
 
 
   public function __call($method, $arguments)

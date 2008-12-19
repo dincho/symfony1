@@ -22,13 +22,17 @@ $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
+$cultures = array('en', 'pl');
 
 for($i=0; $i<10; $i++)
 {
+    srand((float) microtime() * 10000000);
+    $rand_index = array_rand($cultures);
+    
     $story = new MemberStory();
-    $story->setCulture('en');
+    $story->setCulture($cultures[$rand_index]);
+    $story->setSortOrder(rand(1,10));
     $story->setLinkName(RandomGenerator::getSentence());
-    $story->setSlug('story' . rand(1, 65000));
     $story->setTitle(RandomGenerator::getSentence());
     $story->setKeywords(RandomGenerator::getSentence());
     $story->setDescription(RandomGenerator::getSentence());

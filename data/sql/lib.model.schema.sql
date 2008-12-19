@@ -912,32 +912,15 @@ DROP TABLE IF EXISTS `member_story`;
 CREATE TABLE `member_story`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`culture` VARCHAR(7),
 	`slug` VARCHAR(255)  NOT NULL,
 	`sort_order` INTEGER(11) default 0 NOT NULL,
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- member_story_i18n
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_story_i18n`;
-
-
-CREATE TABLE `member_story_i18n`
-(
 	`link_name` VARCHAR(100)  NOT NULL,
 	`title` VARCHAR(255)  NOT NULL,
 	`keywords` VARCHAR(255)  NOT NULL,
 	`description` TEXT  NOT NULL,
 	`content` TEXT  NOT NULL,
-	`id` INTEGER  NOT NULL,
-	`culture` VARCHAR(7)  NOT NULL,
-	PRIMARY KEY (`id`,`culture`),
-	CONSTRAINT `member_story_i18n_FK_1`
-		FOREIGN KEY (`id`)
-		REFERENCES `member_story` (`id`)
-		ON DELETE CASCADE
+	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

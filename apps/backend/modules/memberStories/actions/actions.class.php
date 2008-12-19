@@ -22,14 +22,16 @@ class memberStoriesActions extends sfActions
         
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Content', 'uri' => 'content/list'))->add(array('name' => 'Member Stories', 'uri' => 'memberStories/list'));
+        
+        $this->culture = ($this->getRequestParameter('culture', 'en'));
     }
 
     public function executeList()
     {
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
-        
-        $this->stories = MemberStoryPeer::doSelectWithI18n($c, 'en');
+        $c->add(MemberStoryPeer::CULTURE, $this->culture); 
+        $this->stories = MemberStoryPeer::doSelect($c);
     }
 
     public function executeAdd()
@@ -39,15 +41,14 @@ class memberStoriesActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $story = new MemberStory();
-            $story->setCulture($this->getRequestParameter('culture'));
+            $story->setCulture('en');
             $story->setLinkName($this->getRequestParameter('link_name'));
-            $story->setSlug($this->getRequestParameter('url_name'));
             $story->setTitle($this->getRequestParameter('title'));
             $story->setKeywords($this->getRequestParameter('keywords'));
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));
             $story->save();
-            $this->redirect('memberStories/list');
+            $this->redirect('memberStories/list?culture=' . $story->getCulture());
         }
     }
 
@@ -55,7 +56,8 @@ class memberStoriesActions extends sfActions
     {
         $story = MemberStoryPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($story);
-        $story->setCulture($this->getRequestParameter('culture', 'en'));
+        
+        //$story->setCulture($this->getRequestParameter('culture', 'en'));
         $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => 'memberStories/edit'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -64,13 +66,12 @@ class memberStoriesActions extends sfActions
             
             $story->setCulture($this->getRequestParameter('culture'));
             $story->setLinkName($this->getRequestParameter('link_name'));
-            $story->setSlug($this->getRequestParameter('slug'));
             $story->setTitle($this->getRequestParameter('title'));
             $story->setKeywords($this->getRequestParameter('keywords'));
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));
             $story->save();
-            $this->redirect('memberStories/list');
+            $this->redirect('memberStories/list?culture=' . $story->getCulture());
         }
         $this->story = $story;
     }
@@ -107,6 +108,6 @@ class memberStoriesActions extends sfActions
                 $this->setFlash('msg_ok', 'Selected stories has been deleted.');
             }
         }
-        $this->redirect('memberStories/list');
+        $this->redirect('memberStories/list?culture=' . $this->getRequestParameter('culture'));
     }
 }

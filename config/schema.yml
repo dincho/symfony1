@@ -325,9 +325,9 @@ propel:
     content:        { type: longvarchar, required: true }
   member_story:
     id:
+    culture:        { type: varchar, size: 7 }
     slug:           { type: varchar, size: 255, required: true }
     sort_order:     { type: integer, size: 11, required: true, default: 0 }
-  member_story_i18n:
     link_name:      { type: varchar, size: 100, required: true }
     title:          { type: varchar, size: 255, required: true }
     keywords:       { type: varchar, size: 255, required: true }

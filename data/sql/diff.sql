@@ -1,3 +1,9 @@
+ALTER TABLE `member_story` ADD `culture` VARCHAR(7);
+ALTER TABLE `member_story` ADD `link_name` VARCHAR(100)  NOT NULL;
+ALTER TABLE `member_story` ADD `title` VARCHAR(255)  NOT NULL;
+ALTER TABLE `member_story` ADD `keywords` VARCHAR(255)  NOT NULL;
+ALTER TABLE `member_story` ADD `description` TEXT  NOT NULL;
+ALTER TABLE `member_story` ADD `content` TEXT  NOT NULL;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -22,6 +28,7 @@ ALTER TABLE `member_match` DROP INDEX pct;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;
+DROP TABLE `member_story_i18n`;
 /* old definition: decimal(7,2) NOT NULL default '0.00'
    new definition: DECIMAL(7,2) default 0 NOT NULL */
 ALTER TABLE `subscription` CHANGE `period1_price` `period1_price` DECIMAL(7,2) default 0 NOT NULL;

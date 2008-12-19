@@ -146,12 +146,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastSuspendedByFlagCriteria = null;
 
 	
-	protected $collPermissionss;
-
-	
-	protected $lastPermissionsCriteria = null;
-
-	
 	protected $alreadyInSave = false;
 
 	
@@ -1006,14 +1000,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collPermissionss !== null) {
-				foreach($this->collPermissionss as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -1073,14 +1059,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collSuspendedByFlags !== null) {
 					foreach($this->collSuspendedByFlags as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
-				if ($this->collPermissionss !== null) {
-					foreach($this->collPermissionss as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1516,10 +1494,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getSuspendedByFlags() as $relObj) {
 				$copyObj->addSuspendedByFlag($relObj->copy($deepCopy));
-			}
-
-			foreach($this->getPermissionss() as $relObj) {
-				$copyObj->addPermissions($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -2000,111 +1974,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastSuspendedByFlagCriteria = $criteria;
 
 		return $this->collSuspendedByFlags;
-	}
-
-	
-	public function initPermissionss()
-	{
-		if ($this->collPermissionss === null) {
-			$this->collPermissionss = array();
-		}
-	}
-
-	
-	public function getPermissionss($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BasePermissionsPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collPermissionss === null) {
-			if ($this->isNew()) {
-			   $this->collPermissionss = array();
-			} else {
-
-				$criteria->add(PermissionsPeer::ID, $this->getId());
-
-				PermissionsPeer::addSelectColumns($criteria);
-				$this->collPermissionss = PermissionsPeer::doSelect($criteria, $con);
-			}
-		} else {
-						if (!$this->isNew()) {
-												
-
-				$criteria->add(PermissionsPeer::ID, $this->getId());
-
-				PermissionsPeer::addSelectColumns($criteria);
-				if (!isset($this->lastPermissionsCriteria) || !$this->lastPermissionsCriteria->equals($criteria)) {
-					$this->collPermissionss = PermissionsPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastPermissionsCriteria = $criteria;
-		return $this->collPermissionss;
-	}
-
-	
-	public function countPermissionss($criteria = null, $distinct = false, $con = null)
-	{
-				include_once 'lib/model/om/BasePermissionsPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(PermissionsPeer::ID, $this->getId());
-
-		return PermissionsPeer::doCount($criteria, $distinct, $con);
-	}
-
-	
-	public function addPermissions(Permissions $l)
-	{
-		$this->collPermissionss[] = $l;
-		$l->setUser($this);
-	}
-
-
-	
-	public function getPermissionssJoinGroups($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BasePermissionsPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collPermissionss === null) {
-			if ($this->isNew()) {
-				$this->collPermissionss = array();
-			} else {
-
-				$criteria->add(PermissionsPeer::ID, $this->getId());
-
-				$this->collPermissionss = PermissionsPeer::doSelectJoinGroups($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(PermissionsPeer::ID, $this->getId());
-
-			if (!isset($this->lastPermissionsCriteria) || !$this->lastPermissionsCriteria->equals($criteria)) {
-				$this->collPermissionss = PermissionsPeer::doSelectJoinGroups($criteria, $con);
-			}
-		}
-		$this->lastPermissionsCriteria = $criteria;
-
-		return $this->collPermissionss;
 	}
 
 

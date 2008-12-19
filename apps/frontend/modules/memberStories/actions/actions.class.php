@@ -15,7 +15,8 @@ class memberStoriesActions extends prActions
     {
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
-        $this->stories = MemberStoryPeer::doSelectWithI18n($c);
+        $c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
+        $this->stories = MemberStoryPeer::doSelect($c);
         
         $this->getUser()->getBC()->addFirst(array('name' => 'Home', 'uri' => '@homepage'));
     }
@@ -24,9 +25,10 @@ class memberStoriesActions extends prActions
     {
         $c = new Criteria();
         $c->add(MemberStoryPeer::SLUG, $this->getRequestParameter('slug'));
+        $c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
         $c->setLimit(1);
         
-        $stories = MemberStoryPeer::doSelectWithI18n($c);
+        $stories = MemberStoryPeer::doSelect($c);
         $this->forward404Unless($stories);
         $this->story = $stories[0];
         

@@ -1,10 +1,11 @@
 <?php use_helper('Javascript', 'Number') ?>
 
 <?php echo form_tag('memberStories/update') ?>
+    <?php echo input_hidden_tag('culture', $culture) ?>
     <table class="zebra">
         <thead>
             <tr class="top_actions">
-                <td colspan="4"><?php echo button_to ('New', 'memberStories/add') ?></td>
+                <td colspan="4"><?php echo button_to ('New', 'memberStories/add?culture=' . $culture) ?></td>
             </tr>            
             <tr>
                 <th></th>
@@ -29,3 +30,10 @@
         <?php echo submit_tag('Sort', 'name=sort_submit id=sort_submit') ?>
     </div>
 </form>
+<div id="bottom_menu">
+  <span class="bottom_menu_title">Edit:</span>
+  <ul>
+    <li><?php echo link_to_unless($culture == 'en', 'English', 'memberStories/list?culture=en') ?>&nbsp;|</li>
+    <li><?php echo link_to_unless($culture == 'pl', 'Polish', 'memberStories/list?culture=pl') ?>&nbsp;</li>
+  </ul>
+</div>
