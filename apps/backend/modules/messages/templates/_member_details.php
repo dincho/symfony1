@@ -8,36 +8,37 @@
             <td><?php echo $member->getUsername(); ?></td>
             <th>Sent Messages</th>
             <td><?php echo $member->getCounter('SentMessages') ?></td>
+            <td vertical-align="top"><?php echo link_to('view profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
           </tr>
           <tr>
             <th>First Name</th>
             <td><?php echo $member->getFirstName(); ?></td>
             <th>Received Messages</th>
-            <td><?php echo $member->getCounter('ReceivedMessages') ?></td>
+            <td colspan="2"><?php echo $member->getCounter('ReceivedMessages') ?></td>
           </tr>
           <tr>
             <th>Last Name</th>
             <td><?php echo $member->getLastName(); ?></td>
             <th>Sent Winks</th>
-            <td><?php echo $member->getCounter('SentWinks') ?></td>
+            <td colspan="2"><?php echo $member->getCounter('SentWinks') ?></td>
           </tr>
           <tr>
             <th>Email</th>
             <td><?php echo $member->getEmail(); ?></td>
             <th>Received Winks</th>
-            <td><?php echo $member->getCounter('ReceivedWinks') ?></td>
+            <td colspan="2"><?php echo $member->getCounter('ReceivedWinks') ?></td>
           </tr>
           <tr>
             <th>Profile ID</th>
             <td><?php echo $member->getId() ?></td>
             <th>On Others Hotlist</th>
-            <td><?php echo $member->getCounter('OnOthersHotlist') ?></td>
+            <td colspan="2"><?php echo $member->getCounter('OnOthersHotlist') ?></td>
           </tr>
           <tr>
             <th>Member Since</th>
             <td><?php echo $member->getCreatedAt('M d, Y') ?></td>
             <th>Members on Hotlist</th>
-            <td><?php echo $member->getCounter('Hotlist') ?></td>      
+            <td colspan="2"><?php echo $member->getCounter('Hotlist') ?></td>  
           </tr>
         <tbody>
     </table>
