@@ -1,83 +1,69 @@
 # default rules
 homepage:
   url:   /:sf_culture/
-  requirements: { sf_culture: (?:en|pl|bg) }
   param: { module: content, action: index, sf_culture: en }
 
 page:
     url:  /:sf_culture/page/:slug
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: content, action: page, sf_culture: en }
 signin:
     url:   /:sf_culture/signin
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: profile, action: signIn, sf_culture: en  }
       
 signout:
     url:   /:sf_culture/signout
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: profile, action: signout, sf_culture: en  }
     
 profile:
     url:   /:sf_culture/profile/:username
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: profile, action: index, sf_culture: en  }
 
 web_email:
-    url: /emails/:hash
+    url:   /:sf_culture/emails/:hash
     param: { module: content, action: emails, sf_culture: en  }
 
 dashboard:
-    url: /dashboard
+    url:   /:sf_culture/dashboard
     param: { module: dashboard, action: index, sf_culture: en  }
                     
 matches:
-    url:    /matches
+    url:    /:sf_culture/matches
     param:  { module: search, action: index }
     
 visitors:
     url:    /:sf_culture/dashboard/visitors
-    requirements: { sf_culture: (?:en|pl|bg) }
     param:  { module: dashboard, action: visitors, sf_culture: en  }
 
 messages:
     url:    /:sf_culture/messages
-    requirements: { sf_culture: (?:en|pl|bg_BG) }
     param:  { module: messages, action: index, sf_culture: en  }
 
 hotlist:
     url:    /:sf_culture/hotlist
-    requirements: { sf_culture: (?:en|pl|bg) }
     param:  { module: hotlist, action: index, sf_culture: en  }
 
 winks:
     url:    /:sf_culture/winks
-    requirements: { sf_culture: (?:en|pl|bg) }
     param:  { module: winks, action: index, sf_culture: en  }
     
 city_info:
-    url:  /:sf_culture/city_information/:city
-    requirements: { sf_culture: (?:en|pl|bg) }
+    url:    /:sf_culture/city_information/:city
     param:  { module: content, action: cityInfo, sf_culture: en  }
     
 blocked_members:
     url:    /:sf_culture/blocked_members
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: block, action: index, sf_culture: en  }
  
 flag:
     url:   /:sf_culture/flag/:username
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: content, action: flag, sf_culture: en  }
 
 member_stories:
     url:  /:sf_culture/member_stories
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: memberStories, action: index, sf_culture: en  }    
       
 member_story_by_slug:
     url:  /:sf_culture/member_story/:slug
-    requirements: { sf_culture: (?:en|pl|bg) }
     param: { module: memberStories, action: read, sf_culture: en  }
                   
 default_symfony:
@@ -85,10 +71,10 @@ default_symfony:
   param: { module: default, sf_culture: en  }
   
 default_index:
-  url:   /:module
+  url:   /:sf_culture/:module
   param: { action: index, sf_culture: en  }
   
 default:
-  url:   /:module/:action/*
+  url:   /:sf_culture/:module/:action/*
   param: { sf_culture: en }
 

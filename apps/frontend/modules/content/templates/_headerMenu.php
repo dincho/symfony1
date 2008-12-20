@@ -1,4 +1,5 @@
 <?php use_helper('prLink') ?>
+<?php $links_map = StaticPagePeer::getLinskMap(); ?>
 
 <div id="right">
     <?php if( !$sf_user->isAuthenticated()): ?>
@@ -12,6 +13,6 @@
             <?php echo pr_link_to('Dashboard', 'dashboard/index') ?>&bull;<?php echo pr_link_to('Search', 'search/index') ?>&bull;<?php echo pr_link_to('Messages', 'messages/index', 'class=last') ?>
             <?php echo link_to(image_tag('sign_out.gif'), 'profile/signout') ?>
         </p>
-        <p class="second_row"><?php echo pr_link_to('Member Stories', 'memberStories/index') ?>&bull;<?php echo pr_link_to('Report a bug', 'content/reportBug') ?>&bull;<?php echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'help', 'Help', '@page?slug=help', 'class=last') ?></p>
+        <p class="second_row"><?php echo pr_link_to('Member Stories', 'memberStories/index') ?>&bull;<?php echo pr_link_to('Report a bug', 'content/reportBug') ?>&bull;<?php if(array_key_exists('help', $links_map)) echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'help', $links_map['help'], '@page?slug=help', 'class=last') ?></p>
     <?php endif; ?>
 </div>
