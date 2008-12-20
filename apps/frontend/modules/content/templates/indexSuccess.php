@@ -1,7 +1,11 @@
 <?php use_helper('Javascript') ?>
 <div id="header" class="index">
     <div id="left" class="index">
-        <?php echo link_to(image_tag('polska_versia.gif', 'alt=logo'), '@homepage?sf_culture=pl') ?>
+        <?php if( $sf_user->getCulture() != 'en' ): ?>
+            <?php echo link_to(image_tag('english_version.gif', 'alt=logo'), '@homepage?sf_culture=en') ?>
+        <?php else: ?>
+            <?php echo link_to(image_tag('polska_versia.gif', 'alt=logo'), '@homepage?sf_culture=pl') ?>
+        <?php endif; ?>
     </div>
     <div id="polish_romance_logo">
         <?php echo link_to(image_tag('polish_romance.gif', 'alt=logo'), '#') ?>
