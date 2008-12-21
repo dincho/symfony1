@@ -3,6 +3,7 @@
 
 <?php echo form_tag('staticPages/edit', 'class=form') ?>
   <?php echo object_input_hidden_tag($page, 'getId', 'class=hidden') ?>
+  <?php echo object_input_hidden_tag($page, 'getCulture', 'class=hidden') ?>
   <div class="legend">Edit <?php echo $page->getSlug() ?>.html</div>
       <fieldset class="form_fields float-left">
         <label for="link_name">Link Name:</label>
