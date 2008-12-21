@@ -415,7 +415,7 @@ class feedbackActions extends sfActions
         switch ($filters['mailbox']) {
             case 1:
                 $bc->add(array('name' => 'Inbox', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'));
-                $this->left_menu_selected = 'All Messages';
+                $this->left_menu_selected = 1;
                 break;
             case 2:
                 $bc->add(array('name' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'));
@@ -441,21 +441,21 @@ class feedbackActions extends sfActions
             $crit->addOr($c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
             $c->add($crit);
             $bc->add(array('name' => 'From Paid Members', 'uri' => 'feedback/list?filter=filter&filters[paid]=1'));
-            $this->left_menu_selected = 'From Paid Members';
+            $this->left_menu_selected = 2;
         }
         
         if (isset($filters['external']) && $filters['external'] == 1)
         {
             $c->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
             $bc->add(array('name' => 'External Messages', 'uri' => 'feedback/list?filter=filter&filters[external]=1'));
-            $this->left_menu_selected = 'External Messages';
+            $this->left_menu_selected = 4;
         }
         
         if (isset($filters['bugs']) && $filters['bugs'] == 1)
         {
             $c->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
             $bc->add(array('name' => 'Reported Bug/Ideas', 'uri' => 'feedback/list?filter=filter&filters[bug]=1'));
-            $this->left_menu_selected = 'Reported Bug/Ideas';
+            $this->left_menu_selected = 3;
         }
         
         if (isset($filters['search_type']) && isset($filters['search_query']) && strlen($filters['search_query']) > 0)

@@ -20,6 +20,37 @@ class systemComponents extends sfComponents
   
   public function executeLeftMenu()
   {
+    //counters
+    $c = new Criteria();
+    $c->add(FeedbackPeer::IS_READ, false);
+    $feedback_cnt_all = FeedbackPeer::doCount($c);
+    
+    $c1 = clone $c;
+    $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
+    $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
+    $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
+    $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
+    $c1->add($crit);
+    $feedback_cnt_paid = FeedbackPeer::doCount($c1);
+
+    $c2 = clone $c;
+    $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
+    $feedback_cnt_external = FeedbackPeer::doCount($c2);
+
+    $c3 = clone $c;
+    $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
+    $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+
+    $c4 = new Criteria();
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
+    $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
+    
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
+    $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
+    
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
+    $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
+    
     $this->menu = array();
     $full_menu = array( 'members'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
                                            array('title' => 'Male Members', 'uri' => 'members/index'),
@@ -49,15 +80,15 @@ class systemComponents extends sfComponents
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            ),
-                        'imbra'    => array(array('title' => 'Pending', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
-                                           array('title' => 'Approved', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),
-                                           array('title' => 'Denied', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'),
+                        'imbra'    => array(array('title' => 'Pending (' . $imbra_cnt_pending . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
+                                           array('title' => 'Approved (' . $imbra_cnt_approved . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),
+                                           array('title' => 'Denied (' . $imbra_cnt_denied . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'),
                                            array('title' => 'Reply Templates', 'uri' => 'imbraReplyTemplates/list'),
                                            ),
-                        'feedback' => array(array('title' => 'All Messages', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'),
-                                           array('title' => 'From Paid Members', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[paid]=1'),
-                                           array('title' => 'Reported Bug/Ideas', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[bugs]=1'),
-                                           array('title' => 'External Messages', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[external]=1'),
+                        'feedback' => array(array('title' => 'All Messages (' . $feedback_cnt_all . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'),
+                                           array('title' => 'From Paid Members (' . $feedback_cnt_paid . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[paid]=1'),
+                                           array('title' => 'Reported Bug/Ideas (' . $feedback_cnt_bugs . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[bugs]=1'),
+                                           array('title' => 'External Messages (' . $feedback_cnt_external . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[external]=1'),
                                            array('title' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'),
                                            array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
                                            array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),

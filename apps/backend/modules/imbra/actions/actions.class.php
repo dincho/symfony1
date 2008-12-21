@@ -27,15 +27,15 @@ class imbraActions extends sfActions
             switch ($this->filters['imbra_status_id']) {
                 case 1:
                     $bc->add(array('name' => 'Approved', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'));
-                    $this->left_menu_selected = 'Approved';
+                    $this->left_menu_selected = 2;
                     break;
                 case 2:
                     $bc->add(array('name' => 'Pending', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'));
-                    $this->left_menu_selected = 'Pending';
+                    $this->left_menu_selected = 1;
                     break;
                 case 3:
                     $bc->add(array('name' => 'Denied', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'));
-                    $this->left_menu_selected = 'Denied';
+                    $this->left_menu_selected = 3;
                     break;
                 default:
                     break;
