@@ -19,7 +19,6 @@ class MessagePeer extends BaseMessagePeer
         $message->setContent($content);
         $message->isReply(!is_null($reply_to));
         
-        
         //save to sent box
         $sent_message = clone $message;
         $sent_message->setSentBox(true);
@@ -52,7 +51,11 @@ class MessagePeer extends BaseMessagePeer
                 
         Events::triggerFirstContact($message);
         if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivity($to_member);
-        
+
+        //update last activity
+        $from_member->setLastActivity(time());
+        $from_member->save();
+                
         return $sent_message;
     }
 }

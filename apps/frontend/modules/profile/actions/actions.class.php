@@ -60,15 +60,6 @@ class profileActions extends prActions
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         
-        //@TODO THIS IS ONLY FOR TESTS, REMOVETE FOR PRODUCTION
-        /*
-        $c_test = new Criteria();
-        $c_test->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
-        $c_test->addAscendingOrderByColumn('RAND()');
-        $this->test_member = MemberPeer::doSelectOne($c_test);
-        */
-        //END @TODO
-        
         if ($this->getRequest()->getMethod() != sfRequest::POST)
         {
             if ($this->getUser()->isAuthenticated())
@@ -82,8 +73,7 @@ class profileActions extends prActions
             $member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
             $this->getUser()->SignIn($member);
 
-            $this->redirect(
-                    'dashboard/index');
+            $this->redirect('dashboard/index');
         }
     }
 

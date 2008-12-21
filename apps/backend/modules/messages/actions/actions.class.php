@@ -9,15 +9,16 @@
  */
 class messagesActions extends sfActions
 {
+
     public function preExecute()
     {
         $this->left_menu_selected = 'Messages';
         $this->getUser()->getBC()->replaceLast(array('name' => 'List', 'uri' => 'messages/list?filter=filter'));
         
         $this->processFilters();
-        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');        
+        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
     }
-    
+
     public function executeList()
     {
         $this->getResponse()->addJavascript('preview.js');
@@ -36,38 +37,40 @@ class messagesActions extends sfActions
         $pager->setPeerCountMethod('doCount');
         $pager->init();
         $this->pager = $pager;
-                
-    }
     
+    }
+
     public function executeMember()
     {
         $this->member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($this->member);
         
         $this->getResponse()->addJavascript('preview.js');
-        $this->getUser()->getBC()->replaceLast(array('name' => $this->member->getUsername(), 'uri' => 'messages/member?id=' . $this->member->getId()) );
+        $this->getUser()->getBC()->replaceLast(array('name' => $this->member->getUsername(), 'uri' => 'messages/member?id=' . $this->member->getId()));
         
         $c = new Criteria();
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         
         //$bc = $this->getUser()->getBC();
         
+
         //sent or received messages ( defaults to sent )
-        if( $this->getRequestParameter('received_only') )
+        if ($this->getRequestParameter('received_only'))
         {
             $c->add(MessagePeer::TO_MEMBER_ID, $this->member->getId());
             $c->add(MessagePeer::SENT_BOX, false);
             //$c->add(Messa)
-            //$bc->add(array('name' => 'Received', 'uri' => 'messages/member?received_only=1&id=' . $this->member->getId()));
-        } else {
+        //$bc->add(array('name' => 'Received', 'uri' => 'messages/member?received_only=1&id=' . $this->member->getId()));
+        } else
+        {
             $c->add(MessagePeer::FROM_MEMBER_ID, $this->member->getId());
             $c->add(MessagePeer::SENT_BOX, false);
             //$bc->add(array('name' => 'Sent', 'uri' => 'messages/member?id=' . $this->member->getId()));
         }
         
-        $this->messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);        
+        $this->messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);
     }
-    
+
     public function executeDelete()
     {
         $marked = $this->getRequestParameter('marked', false);
@@ -78,13 +81,12 @@ class messagesActions extends sfActions
             MessagePeer::doDelete($c);
         }
         
-        
         $this->setFlash('msg_ok', 'Selected messages has been deleted.');
         $received_only = ($this->getRequestParameter('received_only')) ? 1 : 0;
         $member_id = $this->getRequestParameter('member_id');
         $this->redirect('messages/member?received_only=' . $received_only . '&id=' . $member_id);
     }
-    
+
     public function executeConversation()
     {
         $this->getResponse()->addJavascript('show_hide.js');
@@ -93,11 +95,12 @@ class messagesActions extends sfActions
         
         $c = new Criteria();
         
-        if( $this->getRequestParameter('received_only') )
+        if ($this->getRequestParameter('received_only'))
         {
             $sender = $message->getMemberRelatedByToMemberId();
             $recipient = $message->getMemberRelatedByFromMemberId();
-        } else {
+        } else
+        {
             $sender = $message->getMemberRelatedByFromMemberId();
             $recipient = $message->getMemberRelatedByToMemberId();
         }
@@ -128,10 +131,10 @@ class messagesActions extends sfActions
         $this->recipient = $recipient;
         
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => $sender->getUsername(), 'uri' => 'messages/member?id=' . $sender->getId()) );
+        $bc->replaceLast(array('name' => $sender->getUsername(), 'uri' => 'messages/member?id=' . $sender->getId()));
         $bc->add(array('name' => 'Conversation with ' . $recipient->getUsername(), 'uri' => '#'));
     }
-    
+
     protected function processSort()
     {
         $this->sort_namespace = 'backend/messages/sort';
@@ -156,7 +159,7 @@ class messagesActions extends sfActions
             $sort_arr = $sort_column = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
             
-            $sort_column = call_user_func_array(array($peer,'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
+            $sort_column = call_user_func_array(array($peer, 'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
             //$sort_column = MemberPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
@@ -167,41 +170,59 @@ class messagesActions extends sfActions
             }
         }
     }
-        
+
     protected function processFilters()
     {
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
+            //print_r($filters);exit();
+            if (isset($filters['date_from']) && $filters['date_from'] !== '')
+            {
+                list($m, $d, $y) = explode('/', $filters['date_from']);
+                $filters['date_from'] = mktime(0, 0, 0, $m, $d, $y);
+            }
+            if (isset($filters['date_to']) && $filters['date_to'] !== '')
+            {
+                list($m, $d, $y) = explode('/', $filters['date_to']);
+                $filters['date_to'] = mktime(0, 0, 0, $m, $d, $y);
+            }
+            
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/messages/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/messages/filters');
         }
     }
-    
+
     protected function addFiltersCriteria($c)
     {
         $bc = $this->getUser()->getBC();
         
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) )
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && $this->filters['search_query'] != '')
         {
             switch ($this->filters['search_type']) {
                 case 'first_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
                     $c->add(MemberPeer::FIRST_NAME, $this->filters['search_query']);
-                ;
-                break;
+                    ;
+                    break;
                 case 'last_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
                     $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
-                ;
-                break;
+                    ;
+                    break;
                 
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
-                ;
-                break;
+                    ;
+                    break;
             }
-        }        
-    }    
+        }
+        
+        if (isset($this->filters['date_from']) && isset($this->filters['date_to']))
+        {
+            $c->add(MessagePeer::CREATED_AT, date('Y-m-d 00:00:00', (int) $this->filters['date_from']), Criteria::GREATER_EQUAL);
+            $c->addAnd(MessagePeer::CREATED_AT, date('Y-m-d 23:59:59', (int) $this->filters['date_to']), Criteria::LESS_EQUAL);
+        }
+    }
 }

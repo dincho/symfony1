@@ -389,3 +389,16 @@ div.member_flags table {
 #pager a:visited {
 	color: #0000EE;
 }
+
+
+#filters_date_from, #filters_date_to {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 70px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#trigger_filters_date_from, #trigger_filters_date_to { display: none; }
