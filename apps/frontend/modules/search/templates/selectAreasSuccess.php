@@ -3,11 +3,12 @@
 
 <div id="areas_map"></div>
 
-<form action="<?php echo url_for('search/selectAreas')?>" id="areas" method="post">
+<form action="<?php echo url_for('search/selectAreas')?>" id="areas" name="areas_form" method="post">
     <?php echo input_hidden_tag('country', $sf_request->getParameter('country'), array('id' => 'country')) ?>
     <?php echo input_hidden_tag('polish_cities', $sf_request->getParameter('polish_cities')) ?>
     <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br />
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br /><br />
+    <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.areas_form.elements["areas[]"])', array('class' => 'sec_link')) ?>
     <fieldset>
         <?php foreach ($areas as $area): ?>
             <?php echo checkbox_tag('areas[]', $area->getId(), in_array($area->getId(), $sf_data->getRaw('selected_areas'))) ?>

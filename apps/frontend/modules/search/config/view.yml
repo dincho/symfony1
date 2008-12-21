@@ -1,2 +1,4 @@
 all:
     javascripts:    [loader]
+selectAreasSuccess:
+    javascripts:    [SC_select_all]
