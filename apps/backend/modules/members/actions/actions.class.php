@@ -143,19 +143,28 @@ class membersActions extends sfActions
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
+            $others = $this->getRequestParameter('others');
             
             foreach ($this->getRequestParameter('answers') as $question_id => $value)
             {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
-                
                 $m_answer = new MemberDescAnswer();
                 $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->member->getId());
                 
-                if ($q->getType() == 'other_langs')
+                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id]))
+                {
+                    $m_answer->setDescAnswerId(null);
+                    $m_answer->setOther($others[$question_id]);
+                } elseif ($q->getType() == 'other_langs')
                 {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
+                } elseif ($q->getType() == 'native_lang')
+                {
+                    $m_answer->setCustom($value);
+                    $m_answer->setDescAnswerId(null);
+                    $this->member->setLanguage($value);
                 } elseif ($q->getType() == 'age')
                 {
                     $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
@@ -166,13 +175,11 @@ class membersActions extends sfActions
                 {
                     $m_answer->setDescAnswerId($value);
                 }
-                
                 $m_answer->save();
             }
-            
             $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');
-            //$this->redirect('members/editSelfDescription?id=' . $this->member->getId());
+            $this->redirect('members/editSelfDescription?id=' . $this->member->getId());
         }
         
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
