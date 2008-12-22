@@ -29,6 +29,10 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 
 
 	
+	protected $footer;
+
+
+	
 	protected $mail_from;
 
 
@@ -85,6 +89,13 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	{
 
 		return $this->body;
+	}
+
+	
+	public function getFooter()
+	{
+
+		return $this->footer;
 	}
 
 	
@@ -215,6 +226,22 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 
 	} 
 	
+	public function setFooter($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->footer !== $v) {
+			$this->footer = $v;
+			$this->modifiedColumns[] = ImbraReplyTemplatePeer::FOOTER;
+		}
+
+	} 
+	
 	public function setMailFrom($v)
 	{
 
@@ -294,19 +321,21 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 
 			$this->body = $rs->getString($startcol + 4);
 
-			$this->mail_from = $rs->getString($startcol + 5);
+			$this->footer = $rs->getString($startcol + 5);
 
-			$this->reply_to = $rs->getString($startcol + 6);
+			$this->mail_from = $rs->getString($startcol + 6);
 
-			$this->bcc = $rs->getString($startcol + 7);
+			$this->reply_to = $rs->getString($startcol + 7);
 
-			$this->created_at = $rs->getTimestamp($startcol + 8, null);
+			$this->bcc = $rs->getString($startcol + 8);
+
+			$this->created_at = $rs->getTimestamp($startcol + 9, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 10; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ImbraReplyTemplate object", $e);
 		}
@@ -504,15 +533,18 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 				return $this->getBody();
 				break;
 			case 5:
-				return $this->getMailFrom();
+				return $this->getFooter();
 				break;
 			case 6:
-				return $this->getReplyTo();
+				return $this->getMailFrom();
 				break;
 			case 7:
-				return $this->getBcc();
+				return $this->getReplyTo();
 				break;
 			case 8:
+				return $this->getBcc();
+				break;
+			case 9:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -530,10 +562,11 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 			$keys[2] => $this->getTitle(),
 			$keys[3] => $this->getSubject(),
 			$keys[4] => $this->getBody(),
-			$keys[5] => $this->getMailFrom(),
-			$keys[6] => $this->getReplyTo(),
-			$keys[7] => $this->getBcc(),
-			$keys[8] => $this->getCreatedAt(),
+			$keys[5] => $this->getFooter(),
+			$keys[6] => $this->getMailFrom(),
+			$keys[7] => $this->getReplyTo(),
+			$keys[8] => $this->getBcc(),
+			$keys[9] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -565,15 +598,18 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 				$this->setBody($value);
 				break;
 			case 5:
-				$this->setMailFrom($value);
+				$this->setFooter($value);
 				break;
 			case 6:
-				$this->setReplyTo($value);
+				$this->setMailFrom($value);
 				break;
 			case 7:
-				$this->setBcc($value);
+				$this->setReplyTo($value);
 				break;
 			case 8:
+				$this->setBcc($value);
+				break;
+			case 9:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -588,10 +624,11 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setSubject($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setBody($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setMailFrom($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setReplyTo($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setBcc($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[5], $arr)) $this->setFooter($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setMailFrom($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setReplyTo($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setBcc($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
 	}
 
 	
@@ -604,6 +641,7 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::TITLE)) $criteria->add(ImbraReplyTemplatePeer::TITLE, $this->title);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::SUBJECT)) $criteria->add(ImbraReplyTemplatePeer::SUBJECT, $this->subject);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::BODY)) $criteria->add(ImbraReplyTemplatePeer::BODY, $this->body);
+		if ($this->isColumnModified(ImbraReplyTemplatePeer::FOOTER)) $criteria->add(ImbraReplyTemplatePeer::FOOTER, $this->footer);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::MAIL_FROM)) $criteria->add(ImbraReplyTemplatePeer::MAIL_FROM, $this->mail_from);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::REPLY_TO)) $criteria->add(ImbraReplyTemplatePeer::REPLY_TO, $this->reply_to);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::BCC)) $criteria->add(ImbraReplyTemplatePeer::BCC, $this->bcc);
@@ -645,6 +683,8 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		$copyObj->setSubject($this->subject);
 
 		$copyObj->setBody($this->body);
+
+		$copyObj->setFooter($this->footer);
 
 		$copyObj->setMailFrom($this->mail_from);
 

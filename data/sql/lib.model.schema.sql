@@ -400,6 +400,7 @@ CREATE TABLE `imbra_reply_template`
 	`title` VARCHAR(255),
 	`subject` VARCHAR(255),
 	`body` TEXT,
+	`footer` TEXT,
 	`mail_from` VARCHAR(255),
 	`reply_to` VARCHAR(255),
 	`bcc` VARCHAR(255),

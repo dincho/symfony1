@@ -22,6 +22,9 @@
               
     <label for="body">Body:</label>
     <?php echo textarea_tag('body', null, array('cols' => 90, 'rows' => 10)) ?><br />
+    
+    <label for="footer">Footer</label>
+    <?php echo textarea_tag('footer', null, array('cols' => 90, 'rows' => 5)) ?><br />
   </fieldset>        
 
   <fieldset class="actions">

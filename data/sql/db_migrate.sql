@@ -6,3 +6,4 @@ ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`id`);
 UPDATE `imbra_reply_template` SET `user_id` = 1;
+ALTER TABLE `imbra_reply_template` ADD `footer` TEXT;

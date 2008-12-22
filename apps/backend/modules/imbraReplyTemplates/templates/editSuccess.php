@@ -23,6 +23,9 @@
               
     <label for="body">Body:</label>
     <?php echo object_textarea_tag($imbra_reply_template, 'getBody', array('cols' => 90, 'rows' => 10, 'class' => error_class('body', true))) ?><br />
+    
+    <label for="footer">Footer</label>
+    <?php echo object_textarea_tag($imbra_reply_template, 'getFooter', array('cols' => 90, 'rows' => 5)) ?><br />    
   </fieldset>        
 
   <fieldset class="actions">

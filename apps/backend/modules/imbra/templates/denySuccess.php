@@ -56,7 +56,10 @@
   
   <label for="body">Body</label>
   <?php echo textarea_tag('body', $template->getBody(), array('cols' => 90, 'rows' => 10)) ?><br />
-  
+
+    <label for="footer">Footer</label>
+    <?php echo textarea_tag('footer', $template->getFooter(), array('cols' => 90, 'rows' => 5)) ?><br />  
+      
   <label for="save_as_new_template">Save as new template</label>
   <?php echo input_tag('save_as_new_template', null, 'id=save_as_new_template') ?><br />
 </fieldset>

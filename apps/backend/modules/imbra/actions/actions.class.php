@@ -167,6 +167,7 @@ class imbraActions extends sfActions
         $imbra_reply_template->setTitle($this->getRequestParameter('save_as_new_template'));
         $imbra_reply_template->setSubject($this->getRequestParameter('subject'));
         $imbra_reply_template->setBody($this->getRequestParameter('body'));
+        $imbra_reply_template->setFooter($this->getRequestParameter('footer'));
         $imbra_reply_template->setMailFrom($this->getRequestParameter('mail_from'));
         $imbra_reply_template->setReplyTo($this->getRequestParameter('reply_to'));
         $imbra_reply_template->setBcc($this->getRequestParameter('bcc'));

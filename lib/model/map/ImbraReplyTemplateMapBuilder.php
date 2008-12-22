@@ -42,6 +42,8 @@ class ImbraReplyTemplateMapBuilder {
 
 		$tMap->addColumn('BODY', 'Body', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('FOOTER', 'Footer', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 		$tMap->addColumn('MAIL_FROM', 'MailFrom', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('REPLY_TO', 'ReplyTo', 'string', CreoleTypes::VARCHAR, false, 255);

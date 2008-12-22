@@ -1,9 +1,4 @@
-ALTER TABLE `imbra_reply_template` ADD `user_id` INTEGER;
-ALTER TABLE `imbra_reply_template` ADD `created_at` DATETIME;
-ALTER TABLE `imbra_reply_template` ADD  INDEX `imbra_reply_template_FI_1` (`user_id`);
-ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
-		FOREIGN KEY (`user_id`)
-		REFERENCES `user` (`id`);
+ALTER TABLE `imbra_reply_template` ADD `footer` TEXT;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

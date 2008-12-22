@@ -167,6 +167,7 @@ propel:
     title:                    { type: varchar, size: 255 }
     subject:                  { type: varchar, size: 255 }
     body:                     { type: longvarchar }
+    footer:                   { type: longvarchar }
     mail_from:                { type: varchar, size: 255 }
     reply_to:                 { type: varchar, size: 255 }
     bcc:                      { type: varchar, size: 255 }

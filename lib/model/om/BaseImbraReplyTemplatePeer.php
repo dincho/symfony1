@@ -13,7 +13,7 @@ abstract class BaseImbraReplyTemplatePeer {
 	const CLASS_DEFAULT = 'lib.model.ImbraReplyTemplate';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 10;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -35,6 +35,9 @@ abstract class BaseImbraReplyTemplatePeer {
 	const BODY = 'imbra_reply_template.BODY';
 
 	
+	const FOOTER = 'imbra_reply_template.FOOTER';
+
+	
 	const MAIL_FROM = 'imbra_reply_template.MAIL_FROM';
 
 	
@@ -52,18 +55,18 @@ abstract class BaseImbraReplyTemplatePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Title', 'Subject', 'Body', 'MailFrom', 'ReplyTo', 'Bcc', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID, ImbraReplyTemplatePeer::USER_ID, ImbraReplyTemplatePeer::TITLE, ImbraReplyTemplatePeer::SUBJECT, ImbraReplyTemplatePeer::BODY, ImbraReplyTemplatePeer::MAIL_FROM, ImbraReplyTemplatePeer::REPLY_TO, ImbraReplyTemplatePeer::BCC, ImbraReplyTemplatePeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'title', 'subject', 'body', 'mail_from', 'reply_to', 'bcc', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Title', 'Subject', 'Body', 'Footer', 'MailFrom', 'ReplyTo', 'Bcc', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID, ImbraReplyTemplatePeer::USER_ID, ImbraReplyTemplatePeer::TITLE, ImbraReplyTemplatePeer::SUBJECT, ImbraReplyTemplatePeer::BODY, ImbraReplyTemplatePeer::FOOTER, ImbraReplyTemplatePeer::MAIL_FROM, ImbraReplyTemplatePeer::REPLY_TO, ImbraReplyTemplatePeer::BCC, ImbraReplyTemplatePeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'title', 'subject', 'body', 'footer', 'mail_from', 'reply_to', 'bcc', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Title' => 2, 'Subject' => 3, 'Body' => 4, 'MailFrom' => 5, 'ReplyTo' => 6, 'Bcc' => 7, 'CreatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID => 0, ImbraReplyTemplatePeer::USER_ID => 1, ImbraReplyTemplatePeer::TITLE => 2, ImbraReplyTemplatePeer::SUBJECT => 3, ImbraReplyTemplatePeer::BODY => 4, ImbraReplyTemplatePeer::MAIL_FROM => 5, ImbraReplyTemplatePeer::REPLY_TO => 6, ImbraReplyTemplatePeer::BCC => 7, ImbraReplyTemplatePeer::CREATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'title' => 2, 'subject' => 3, 'body' => 4, 'mail_from' => 5, 'reply_to' => 6, 'bcc' => 7, 'created_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Title' => 2, 'Subject' => 3, 'Body' => 4, 'Footer' => 5, 'MailFrom' => 6, 'ReplyTo' => 7, 'Bcc' => 8, 'CreatedAt' => 9, ),
+		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID => 0, ImbraReplyTemplatePeer::USER_ID => 1, ImbraReplyTemplatePeer::TITLE => 2, ImbraReplyTemplatePeer::SUBJECT => 3, ImbraReplyTemplatePeer::BODY => 4, ImbraReplyTemplatePeer::FOOTER => 5, ImbraReplyTemplatePeer::MAIL_FROM => 6, ImbraReplyTemplatePeer::REPLY_TO => 7, ImbraReplyTemplatePeer::BCC => 8, ImbraReplyTemplatePeer::CREATED_AT => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'title' => 2, 'subject' => 3, 'body' => 4, 'footer' => 5, 'mail_from' => 6, 'reply_to' => 7, 'bcc' => 8, 'created_at' => 9, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
@@ -126,6 +129,8 @@ abstract class BaseImbraReplyTemplatePeer {
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::SUBJECT);
 
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::BODY);
+
+		$criteria->addSelectColumn(ImbraReplyTemplatePeer::FOOTER);
 
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::MAIL_FROM);
 
