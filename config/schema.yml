@@ -163,12 +163,14 @@ propel:
     title:                    { type: varchar, size: 80 }
   imbra_reply_template:
     id:
+    user_id:
     title:                    { type: varchar, size: 255 }
     subject:                  { type: varchar, size: 255 }
     body:                     { type: longvarchar }
     mail_from:                { type: varchar, size: 255 }
     reply_to:                 { type: varchar, size: 255 }
     bcc:                      { type: varchar, size: 255 }
+    created_at:
   member_imbra:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

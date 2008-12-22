@@ -13,4 +13,13 @@ class ImbraReplyTemplate extends BaseImbraReplyTemplate
 	{
 		return $this->getTitle();
 	}
+	
+	public function save($con = null)
+	{
+	    if( $this->isNew() )
+	    {
+	        $this->setUserId(sfContext::getInstance()->getUser()->getId());
+	    }
+	    parent::save($con);
+	}
 }
