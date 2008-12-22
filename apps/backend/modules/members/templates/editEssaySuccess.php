@@ -13,7 +13,7 @@
     
   </fieldset> 
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'members/editEssay?cancel=1')  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'members/editEssay?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>
 
