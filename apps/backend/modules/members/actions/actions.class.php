@@ -220,6 +220,7 @@ class membersActions extends sfActions
                 $this->forward404Unless($photo);
                 $photo->updateCroppedImage($crop_area);
             }
+            
             //add new photo if choosen
             if ($this->getRequest()->getFileSize('new_photo'))
             {
@@ -228,12 +229,21 @@ class membersActions extends sfActions
                 $new_photo->updateImageFromRequest('file', 'new_photo');
                 $new_photo->save();
             }
+            
             //set main photo
             if ($this->getRequestParameter('main_photo'))
             {
                 $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                $photo->setAsMainPhoto();
+                if ($photo) $this->member->setMemberPhoto($photo);
             }
+            
+            //YouTube Video
+            $youtube_url = $this->getRequestParameter('youtube_url');
+            $matches = array();
+            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9]+)#i', $youtube_url, $matches);
+            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
+            $this->member->save();
+            
             //set confirm msg and redirect
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editPhotos?id=' . $this->member->getId());

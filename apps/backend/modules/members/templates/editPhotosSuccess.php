@@ -8,27 +8,34 @@
   <div class="legend">Photos</div>
   <fieldset class="form_fields">
     <?php object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-    <?php foreach ($photos as $photo): ?>
-      <div class="photo_slot">
-        <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->getIsMain(), 'class=radio') ?>
-        <?php if( $photo->getIsMain()): ?>
+    <?php $cnt_photos = count($photos); ?>
+    <?php $i=1; foreach ($photos as $photo): ?>
+        <div class="photo_slot">
+        <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain(), 'class=radio') ?>
+        <?php if( $photo->isMain()): ?>
         <var>Main Photo</var>
         <?php endif; ?><br />
           <div id="thePhotoPrev_<?php echo $photo->getId() ?>" <?php if( isset($selected_photo) && $selected_photo->getId() == $photo->getId() ) echo 'class=selected_photo'; ?>>
             <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
           </div>
         <?php echo link_to('Delete', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?>
-      </div>
+        </div>
+        <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
+        </fieldset>
+        <fieldset class="form_fields">
+        <?php endif; ?>      
     <?php endforeach; ?>
 
   </fieldset>
   
   <fieldset class="form_fields">
-    <label class="full_row">Upload photo:</label>
+    <label style="width: 90px">YouTube URL:</label>
+    <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('style' => 'width: 300px')) ?><br />
+    
+    <label style="width: 90px">Upload Photo:</label>
     <?php echo input_file_tag('new_photo') ?><br />
-    <p class="note">Note: You can upload up to 6 photos</p>
   </fieldset>
-     
+  
   <?php if( isset($selected_photo)): ?>
   <?php echo input_hidden_tag('crop_x1', null, 'class=hidden') ?>
   <?php echo input_hidden_tag('crop_y1', null, 'class=hidden') ?>
