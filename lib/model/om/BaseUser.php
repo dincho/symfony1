@@ -140,6 +140,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastMemberNoteCriteria = null;
 
 	
+	protected $collImbraReplyTemplates;
+
+	
+	protected $lastImbraReplyTemplateCriteria = null;
+
+	
 	protected $collSuspendedByFlags;
 
 	
@@ -992,6 +998,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collImbraReplyTemplates !== null) {
+				foreach($this->collImbraReplyTemplates as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collSuspendedByFlags !== null) {
 				foreach($this->collSuspendedByFlags as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1051,6 +1065,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collMemberNotes !== null) {
 					foreach($this->collMemberNotes as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collImbraReplyTemplates !== null) {
+					foreach($this->collImbraReplyTemplates as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1492,6 +1514,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addMemberNote($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getImbraReplyTemplates() as $relObj) {
+				$copyObj->addImbraReplyTemplate($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getSuspendedByFlags() as $relObj) {
 				$copyObj->addSuspendedByFlag($relObj->copy($deepCopy));
 			}
@@ -1869,6 +1895,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastMemberNoteCriteria = $criteria;
 
 		return $this->collMemberNotes;
+	}
+
+	
+	public function initImbraReplyTemplates()
+	{
+		if ($this->collImbraReplyTemplates === null) {
+			$this->collImbraReplyTemplates = array();
+		}
+	}
+
+	
+	public function getImbraReplyTemplates($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseImbraReplyTemplatePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collImbraReplyTemplates === null) {
+			if ($this->isNew()) {
+			   $this->collImbraReplyTemplates = array();
+			} else {
+
+				$criteria->add(ImbraReplyTemplatePeer::USER_ID, $this->getId());
+
+				ImbraReplyTemplatePeer::addSelectColumns($criteria);
+				$this->collImbraReplyTemplates = ImbraReplyTemplatePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ImbraReplyTemplatePeer::USER_ID, $this->getId());
+
+				ImbraReplyTemplatePeer::addSelectColumns($criteria);
+				if (!isset($this->lastImbraReplyTemplateCriteria) || !$this->lastImbraReplyTemplateCriteria->equals($criteria)) {
+					$this->collImbraReplyTemplates = ImbraReplyTemplatePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastImbraReplyTemplateCriteria = $criteria;
+		return $this->collImbraReplyTemplates;
+	}
+
+	
+	public function countImbraReplyTemplates($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseImbraReplyTemplatePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ImbraReplyTemplatePeer::USER_ID, $this->getId());
+
+		return ImbraReplyTemplatePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addImbraReplyTemplate(ImbraReplyTemplate $l)
+	{
+		$this->collImbraReplyTemplates[] = $l;
+		$l->setUser($this);
 	}
 
 	

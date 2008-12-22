@@ -34,6 +34,8 @@ class ImbraReplyTemplateMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
+		$tMap->addForeignKey('USER_ID', 'UserId', 'int', CreoleTypes::INTEGER, 'user', 'ID', false, null);
+
 		$tMap->addColumn('TITLE', 'Title', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('SUBJECT', 'Subject', 'string', CreoleTypes::VARCHAR, false, 255);
@@ -45,6 +47,8 @@ class ImbraReplyTemplateMapBuilder {
 		$tMap->addColumn('REPLY_TO', 'ReplyTo', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('BCC', 'Bcc', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 
 } 

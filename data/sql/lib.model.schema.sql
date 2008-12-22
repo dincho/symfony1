@@ -396,13 +396,19 @@ DROP TABLE IF EXISTS `imbra_reply_template`;
 CREATE TABLE `imbra_reply_template`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER,
 	`title` VARCHAR(255),
 	`subject` VARCHAR(255),
 	`body` TEXT,
 	`mail_from` VARCHAR(255),
 	`reply_to` VARCHAR(255),
 	`bcc` VARCHAR(255),
-	PRIMARY KEY (`id`)
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `imbra_reply_template_FI_1` (`user_id`),
+	CONSTRAINT `imbra_reply_template_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

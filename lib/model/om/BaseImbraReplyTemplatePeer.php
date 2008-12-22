@@ -13,7 +13,7 @@ abstract class BaseImbraReplyTemplatePeer {
 	const CLASS_DEFAULT = 'lib.model.ImbraReplyTemplate';
 
 	
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -21,6 +21,9 @@ abstract class BaseImbraReplyTemplatePeer {
 
 	
 	const ID = 'imbra_reply_template.ID';
+
+	
+	const USER_ID = 'imbra_reply_template.USER_ID';
 
 	
 	const TITLE = 'imbra_reply_template.TITLE';
@@ -41,23 +44,26 @@ abstract class BaseImbraReplyTemplatePeer {
 	const BCC = 'imbra_reply_template.BCC';
 
 	
+	const CREATED_AT = 'imbra_reply_template.CREATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Subject', 'Body', 'MailFrom', 'ReplyTo', 'Bcc', ),
-		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID, ImbraReplyTemplatePeer::TITLE, ImbraReplyTemplatePeer::SUBJECT, ImbraReplyTemplatePeer::BODY, ImbraReplyTemplatePeer::MAIL_FROM, ImbraReplyTemplatePeer::REPLY_TO, ImbraReplyTemplatePeer::BCC, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'subject', 'body', 'mail_from', 'reply_to', 'bcc', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'UserId', 'Title', 'Subject', 'Body', 'MailFrom', 'ReplyTo', 'Bcc', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID, ImbraReplyTemplatePeer::USER_ID, ImbraReplyTemplatePeer::TITLE, ImbraReplyTemplatePeer::SUBJECT, ImbraReplyTemplatePeer::BODY, ImbraReplyTemplatePeer::MAIL_FROM, ImbraReplyTemplatePeer::REPLY_TO, ImbraReplyTemplatePeer::BCC, ImbraReplyTemplatePeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'user_id', 'title', 'subject', 'body', 'mail_from', 'reply_to', 'bcc', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Subject' => 2, 'Body' => 3, 'MailFrom' => 4, 'ReplyTo' => 5, 'Bcc' => 6, ),
-		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID => 0, ImbraReplyTemplatePeer::TITLE => 1, ImbraReplyTemplatePeer::SUBJECT => 2, ImbraReplyTemplatePeer::BODY => 3, ImbraReplyTemplatePeer::MAIL_FROM => 4, ImbraReplyTemplatePeer::REPLY_TO => 5, ImbraReplyTemplatePeer::BCC => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'subject' => 2, 'body' => 3, 'mail_from' => 4, 'reply_to' => 5, 'bcc' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'UserId' => 1, 'Title' => 2, 'Subject' => 3, 'Body' => 4, 'MailFrom' => 5, 'ReplyTo' => 6, 'Bcc' => 7, 'CreatedAt' => 8, ),
+		BasePeer::TYPE_COLNAME => array (ImbraReplyTemplatePeer::ID => 0, ImbraReplyTemplatePeer::USER_ID => 1, ImbraReplyTemplatePeer::TITLE => 2, ImbraReplyTemplatePeer::SUBJECT => 3, ImbraReplyTemplatePeer::BODY => 4, ImbraReplyTemplatePeer::MAIL_FROM => 5, ImbraReplyTemplatePeer::REPLY_TO => 6, ImbraReplyTemplatePeer::BCC => 7, ImbraReplyTemplatePeer::CREATED_AT => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'user_id' => 1, 'title' => 2, 'subject' => 3, 'body' => 4, 'mail_from' => 5, 'reply_to' => 6, 'bcc' => 7, 'created_at' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -113,6 +119,8 @@ abstract class BaseImbraReplyTemplatePeer {
 
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::ID);
 
+		$criteria->addSelectColumn(ImbraReplyTemplatePeer::USER_ID);
+
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::TITLE);
 
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::SUBJECT);
@@ -124,6 +132,8 @@ abstract class BaseImbraReplyTemplatePeer {
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::REPLY_TO);
 
 		$criteria->addSelectColumn(ImbraReplyTemplatePeer::BCC);
+
+		$criteria->addSelectColumn(ImbraReplyTemplatePeer::CREATED_AT);
 
 	}
 
@@ -209,6 +219,167 @@ abstract class BaseImbraReplyTemplatePeer {
 		}
 		return $results;
 	}
+
+	
+	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ImbraReplyTemplatePeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ImbraReplyTemplatePeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ImbraReplyTemplatePeer::USER_ID, UserPeer::ID);
+
+		$rs = ImbraReplyTemplatePeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinUser(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ImbraReplyTemplatePeer::addSelectColumns($c);
+		$startcol = (ImbraReplyTemplatePeer::NUM_COLUMNS - ImbraReplyTemplatePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(ImbraReplyTemplatePeer::USER_ID, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ImbraReplyTemplatePeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addImbraReplyTemplate($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initImbraReplyTemplates();
+				$obj2->addImbraReplyTemplate($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+	{
+		$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ImbraReplyTemplatePeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ImbraReplyTemplatePeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ImbraReplyTemplatePeer::USER_ID, UserPeer::ID);
+
+		$rs = ImbraReplyTemplatePeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAll(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ImbraReplyTemplatePeer::addSelectColumns($c);
+		$startcol2 = (ImbraReplyTemplatePeer::NUM_COLUMNS - ImbraReplyTemplatePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+
+		$c->addJoin(ImbraReplyTemplatePeer::USER_ID, UserPeer::ID);
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ImbraReplyTemplatePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+
+					
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addImbraReplyTemplate($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initImbraReplyTemplates();
+				$obj2->addImbraReplyTemplate($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
 	
 	public static function getTableMap()
 	{

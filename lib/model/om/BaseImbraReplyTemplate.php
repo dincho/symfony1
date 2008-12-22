@@ -13,6 +13,10 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 
 
 	
+	protected $user_id;
+
+
+	
 	protected $title;
 
 
@@ -35,6 +39,13 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	
 	protected $bcc;
 
+
+	
+	protected $created_at;
+
+	
+	protected $aUser;
+
 	
 	protected $alreadyInSave = false;
 
@@ -46,6 +57,13 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	{
 
 		return $this->id;
+	}
+
+	
+	public function getUserId()
+	{
+
+		return $this->user_id;
 	}
 
 	
@@ -91,6 +109,28 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	}
 
 	
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+						$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
 	public function setId($v)
 	{
 
@@ -103,6 +143,26 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		if ($this->id !== $v) {
 			$this->id = $v;
 			$this->modifiedColumns[] = ImbraReplyTemplatePeer::ID;
+		}
+
+	} 
+	
+	public function setUserId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->user_id !== $v) {
+			$this->user_id = $v;
+			$this->modifiedColumns[] = ImbraReplyTemplatePeer::USER_ID;
+		}
+
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} 
@@ -203,29 +263,50 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 
 	} 
 	
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = ImbraReplyTemplatePeer::CREATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->title = $rs->getString($startcol + 1);
+			$this->user_id = $rs->getInt($startcol + 1);
 
-			$this->subject = $rs->getString($startcol + 2);
+			$this->title = $rs->getString($startcol + 2);
 
-			$this->body = $rs->getString($startcol + 3);
+			$this->subject = $rs->getString($startcol + 3);
 
-			$this->mail_from = $rs->getString($startcol + 4);
+			$this->body = $rs->getString($startcol + 4);
 
-			$this->reply_to = $rs->getString($startcol + 5);
+			$this->mail_from = $rs->getString($startcol + 5);
 
-			$this->bcc = $rs->getString($startcol + 6);
+			$this->reply_to = $rs->getString($startcol + 6);
+
+			$this->bcc = $rs->getString($startcol + 7);
+
+			$this->created_at = $rs->getTimestamp($startcol + 8, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 9; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ImbraReplyTemplate object", $e);
 		}
@@ -284,6 +365,11 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
     }
 
 
+    if ($this->isNew() && !$this->isColumnModified(ImbraReplyTemplatePeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -313,6 +399,15 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	{
 		$affectedRows = 0; 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
+
+
+												
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
+				}
+				$this->setUser($this->aUser);
+			}
 
 
 						if ($this->isModified()) {
@@ -362,6 +457,14 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 			$failureMap = array();
 
 
+												
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = ImbraReplyTemplatePeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -389,22 +492,28 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getTitle();
+				return $this->getUserId();
 				break;
 			case 2:
-				return $this->getSubject();
+				return $this->getTitle();
 				break;
 			case 3:
-				return $this->getBody();
+				return $this->getSubject();
 				break;
 			case 4:
-				return $this->getMailFrom();
+				return $this->getBody();
 				break;
 			case 5:
-				return $this->getReplyTo();
+				return $this->getMailFrom();
 				break;
 			case 6:
+				return $this->getReplyTo();
+				break;
+			case 7:
 				return $this->getBcc();
+				break;
+			case 8:
+				return $this->getCreatedAt();
 				break;
 			default:
 				return null;
@@ -417,12 +526,14 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		$keys = ImbraReplyTemplatePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getTitle(),
-			$keys[2] => $this->getSubject(),
-			$keys[3] => $this->getBody(),
-			$keys[4] => $this->getMailFrom(),
-			$keys[5] => $this->getReplyTo(),
-			$keys[6] => $this->getBcc(),
+			$keys[1] => $this->getUserId(),
+			$keys[2] => $this->getTitle(),
+			$keys[3] => $this->getSubject(),
+			$keys[4] => $this->getBody(),
+			$keys[5] => $this->getMailFrom(),
+			$keys[6] => $this->getReplyTo(),
+			$keys[7] => $this->getBcc(),
+			$keys[8] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -442,22 +553,28 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setTitle($value);
+				$this->setUserId($value);
 				break;
 			case 2:
-				$this->setSubject($value);
+				$this->setTitle($value);
 				break;
 			case 3:
-				$this->setBody($value);
+				$this->setSubject($value);
 				break;
 			case 4:
-				$this->setMailFrom($value);
+				$this->setBody($value);
 				break;
 			case 5:
-				$this->setReplyTo($value);
+				$this->setMailFrom($value);
 				break;
 			case 6:
+				$this->setReplyTo($value);
+				break;
+			case 7:
 				$this->setBcc($value);
+				break;
+			case 8:
+				$this->setCreatedAt($value);
 				break;
 		} 	}
 
@@ -467,12 +584,14 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		$keys = ImbraReplyTemplatePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setSubject($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setMailFrom($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setReplyTo($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setBcc($arr[$keys[6]]);
+		if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSubject($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setBody($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setMailFrom($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setReplyTo($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setBcc($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
 	}
 
 	
@@ -481,12 +600,14 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		$criteria = new Criteria(ImbraReplyTemplatePeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::ID)) $criteria->add(ImbraReplyTemplatePeer::ID, $this->id);
+		if ($this->isColumnModified(ImbraReplyTemplatePeer::USER_ID)) $criteria->add(ImbraReplyTemplatePeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::TITLE)) $criteria->add(ImbraReplyTemplatePeer::TITLE, $this->title);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::SUBJECT)) $criteria->add(ImbraReplyTemplatePeer::SUBJECT, $this->subject);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::BODY)) $criteria->add(ImbraReplyTemplatePeer::BODY, $this->body);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::MAIL_FROM)) $criteria->add(ImbraReplyTemplatePeer::MAIL_FROM, $this->mail_from);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::REPLY_TO)) $criteria->add(ImbraReplyTemplatePeer::REPLY_TO, $this->reply_to);
 		if ($this->isColumnModified(ImbraReplyTemplatePeer::BCC)) $criteria->add(ImbraReplyTemplatePeer::BCC, $this->bcc);
+		if ($this->isColumnModified(ImbraReplyTemplatePeer::CREATED_AT)) $criteria->add(ImbraReplyTemplatePeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
 	}
@@ -517,6 +638,8 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setUserId($this->user_id);
+
 		$copyObj->setTitle($this->title);
 
 		$copyObj->setSubject($this->subject);
@@ -528,6 +651,8 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 		$copyObj->setReplyTo($this->reply_to);
 
 		$copyObj->setBcc($this->bcc);
+
+		$copyObj->setCreatedAt($this->created_at);
 
 
 		$copyObj->setNew(true);
@@ -551,6 +676,35 @@ abstract class BaseImbraReplyTemplate extends BaseObject  implements Persistent 
 			self::$peer = new ImbraReplyTemplatePeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setUser($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUserId(NULL);
+		} else {
+			$this->setUserId($v->getId());
+		}
+
+
+		$this->aUser = $v;
+	}
+
+
+	
+	public function getUser($con = null)
+	{
+		if ($this->aUser === null && ($this->user_id !== null)) {
+						include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+
+			
+		}
+		return $this->aUser;
 	}
 
 
