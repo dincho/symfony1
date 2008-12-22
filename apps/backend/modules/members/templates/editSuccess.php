@@ -14,7 +14,7 @@
           </td>
           <td style="vertical-align: top; padding: 5px;"><?php echo link_to('view<br />profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
           <td class="form_fields" style="padding-right: 0">
-            <?php include_partial('members/member_notes', array('notes' => $notes)); ?>
+            <?php include_partial('members/member_notes', array('notes' => $notes, 'member' => $member)); ?>
           </td> 
       </tr>
   </table>
