@@ -91,7 +91,7 @@ class contentActions extends prActions
         $this->forward404Unless($pages);
         $this->page = $pages[0];
         $this->getResponse()->setTitle('PolishRomance - ' . $this->page->getTitle());
-        $this->getUser()->getBC()->clear()->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
     }
 
     public function executeMessage()
