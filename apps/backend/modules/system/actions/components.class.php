@@ -100,7 +100,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
                                            array('title' => 'Flags', 'uri' => 'flags/list?filter=filter&filters[history]=0'),
                                            array('title' => 'Flaggers', 'uri' => 'flags/flaggers'),
-                                           array('title' => 'Flag Categories', 'uri' => 'flagCategories/edit'),
+                                           array('title' => 'Flag Rules', 'uri' => 'flagCategories/edit'),
                                            array('title' => 'Flag History', 'uri' => 'flags/list?filter=filter&filters[history]=1'),
                                            ),                                           
                         'members' => array(array('title' => 'All Members', 'uri' => 'members/list?filter=filter'),

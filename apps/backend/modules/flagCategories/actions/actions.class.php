@@ -14,7 +14,7 @@ class flagCategoriesActions extends sfActions
     public function preExecute()
     {
         $this->top_menu_selected = 'flags';
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Flag Categories', 'uri' => 'flagCategories/edit'));
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Flag Rules', 'uri' => 'flagCategories/edit'));
     }
 
     public function executeList()
@@ -27,6 +27,9 @@ class flagCategoriesActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('flags_edit'));
+            
+            sfSettingPeer::updateFromRequest(array('flags_num_auto_suspension', 'flags_comment_field'));
+            
             $req_categories = $this->getRequestParameter('categories');
             $categories = FlagCategoryPeer::getAssoc();
             if (is_array($req_categories) && ! empty($req_categories))

@@ -3,10 +3,15 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('flagCategories/edit', 'class=form') ?>
-  <div class="legend">Flag Categories</div>
+  <div class="legend">Flag Rules</div>
   <fieldset class="form_fields" id="states_fieldset">
+    <label for="flags_num_auto_suspension">Flags for auto-suspension</label>
+    <?php echo input_tag('flags_num_auto_suspension', sfConfig::get('app_settings_flags_num_auto_suspension')) ?><br />
     
-    <label for="title">Categires:</label><br />
+    <label for="flags_comment_field">Optional Comment Field</label>
+    <?php echo checkbox_tag('flags_comment_field', 1, sfConfig::get('app_settings_flags_comment_field'), 'class=checkbox') ?><br />
+    
+    <label for="title">Categories</label><br />
     <?php foreach ($categories as $category): ?>
         <label>&nbsp;</label>
         <?php echo object_input_tag($category, 'getTitle', array('class' => error_class('title', true), 'control_name' => 'categories[' . $category->getId() . ']') ) ?><br />
