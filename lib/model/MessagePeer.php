@@ -16,7 +16,7 @@ class MessagePeer extends BaseMessagePeer
         $message->setFromMemberId($from_member->getId());
         $message->setToMemberId($to_member->getId());
         $message->setSubject($subject);
-        $message->setContent($content);
+        $message->setContent(nl2br($content));
         $message->isReply(!is_null($reply_to));
         
         //save to sent box
