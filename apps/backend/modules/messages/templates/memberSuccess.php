@@ -11,9 +11,15 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Member</th>
-                    <th>Subject</th>
-                    <th>Date Sent</th>
+                    <?php if( $received_only ): ?>
+                        <th>Received From</th>
+                        <th>Subject</th>
+                        <th>Date Received</th>                        
+                    <?php else: ?>
+                        <th>Sent To</th>
+                        <th>Subject</th>
+                        <th>Date Sent</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             
