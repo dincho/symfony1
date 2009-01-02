@@ -19,6 +19,7 @@ class IMBRAActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $new_imbra = new MemberImbra();
+            $new_imbra->setCulture('en');
             $new_imbra->setMemberId($member->getId());
             $new_imbra->setImbraStatusId(ImbraStatusPeer::PENDING);
             $new_imbra->setName($this->getRequestParameter('name'));
@@ -75,12 +76,12 @@ class IMBRAActions extends prActions
                     if (!$question->getOnlyExplain() || (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                     {
                         $has_error = true;
-                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'IMBRA: You must fill out the missing information below indicated in red.');
                     }
                 } elseif (($answers[$question->getId()] == 1 || $question->getOnlyExplain()) && (! isset($explains[$question->getId()]) || ! $explains[$question->getId()]))
                 {
                     $has_error = true;
-                    $this->getRequest()->setError('explains[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
+                    $this->getRequest()->setError('explains[' . $question->getId() . ']', 'IMBRA: You must fill out the missing information below indicated in red.');
                 }
             }
             
@@ -97,7 +98,7 @@ class IMBRAActions extends prActions
     {
         $member = $this->getUser()->getProfile();
         $this->imbra = $member->getLastImbra();
-        $this->imbra_questions = ImbraQuestionPeer::doSelect(new Criteria());
+        $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
         if ($this->imbra)
         {
             $this->imbra_answers = $this->imbra->getImbraAnswersArray();

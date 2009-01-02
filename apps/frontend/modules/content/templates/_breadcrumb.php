@@ -10,7 +10,7 @@
             <?php if(has_slot('header_title')): ?>
                 <?php include_slot('header_title') ?>
             <?php else: ?>
-                <?php echo ucfirst(ereg_replace('([A-Z])', ' \\1', $sf_user->getBC()->getLastName())); ?>
+                <?php echo __(trim(ucfirst(ereg_replace('([A-Z])', ' \\1', $sf_user->getBC()->getLastName())))); ?>
             <?php endif; ?>
         </h2>
         <?php if( isset($header_span) ): ?>

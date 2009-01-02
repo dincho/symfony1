@@ -655,6 +655,41 @@ abstract class BaseCatalogue extends BaseObject  implements Persistent {
 	}
 
 
+	
+	public function getTransUnitsJoinMsgCollection($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseTransUnitPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collTransUnits === null) {
+			if ($this->isNew()) {
+				$this->collTransUnits = array();
+			} else {
+
+				$criteria->add(TransUnitPeer::CAT_ID, $this->getCatId());
+
+				$this->collTransUnits = TransUnitPeer::doSelectJoinMsgCollection($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(TransUnitPeer::CAT_ID, $this->getCatId());
+
+			if (!isset($this->lastTransUnitCriteria) || !$this->lastTransUnitCriteria->equals($criteria)) {
+				$this->collTransUnits = TransUnitPeer::doSelectJoinMsgCollection($criteria, $con);
+			}
+		}
+		$this->lastTransUnitCriteria = $criteria;
+
+		return $this->collTransUnits;
+	}
+
+
   public function __call($method, $arguments)
   {
     if (!$callable = sfMixer::getCallable('BaseCatalogue:'.$method))

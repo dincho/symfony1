@@ -1,8 +1,10 @@
 <?php use_helper('dtForm') ?>
-Gee, we almost forgot! Photos. Your Future love wants to see you!<br />
-You may upload any size of photo - we will shrink it to 700x700 pixels maximum; your high quality will be preserved.<br />
-Use these formats only: jpg, png and gif.<br />
-<span>Note: You will be able to change photos after you finish the registration</span><br /><br />
+<?php slot('header_title') ?>
+    <?php echo __('Photos headline') ?>
+<?php end_slot(); ?>
+
+<?php echo __('Photos instructions') ?>
+<?php echo __('Photos note') ?>
 
 <?php echo form_tag('registration/photos', array('multipart' => true)) ?>
     <?php $cnt_photos = count($photos); ?>
@@ -37,5 +39,5 @@ Use these formats only: jpg, png and gif.<br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br /><br />
     
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save')) ?><br /><br />
-    <span><?php echo __('Note: You can change your photos later.') ?></span>
+    <?php echo __('Photos note') ?>
 </form>

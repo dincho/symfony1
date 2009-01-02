@@ -15,12 +15,11 @@
     </div>
 </div>
 <div id="header_text" class="index">
-    <?php echo __('Modern and beautiful singles with traditional values. For those who want love.'); ?>
+    <?php echo __('Homepage headline'); ?>
 </div>
 <div id="middle">
     <div id="middle_left">
-        Charming and gorgeous on one side, devoted to husband and children on the other, Polish Women are truly unique in today's egocentric and family hostile world. It's not surprising that in recent years they have become rare and highly demanded objects of admiration from men all over the world.<br /><br />
-        Our site allows to meet both Polish men and Polish women, but it is created especially for men. It gives you a chance to meet, date or marry a woman who never rejected her feminine side, but nurtured it instead. This woman does exist and is waiting for the right guy. It might be you. You'll never know. Unless you try. Good Luck.
+        <?php echo __('Homepage introduction') ?>
     </div>
     <div id="center">
         <div id="index_image">

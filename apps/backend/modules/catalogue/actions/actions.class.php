@@ -20,7 +20,7 @@ class catalogueActions extends sfActions
 
        
         $this->left_menu_selected = 'Translation Catalogue';
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
         $bc = $this->getUser()->getBC();
         $bc->replaceFirst(array('name' => 'Translation Catalogue', 'uri' => 'catalogue/list'));        
     }

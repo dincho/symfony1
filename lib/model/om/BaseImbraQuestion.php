@@ -13,23 +13,13 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 
 	
-	protected $title;
-
-
-	
-	protected $explain_title;
-
-
-	
-	protected $positive_answer;
-
-
-	
-	protected $negative_answer;
-
-
-	
 	protected $only_explain = false;
+
+	
+	protected $collImbraQuestionI18ns;
+
+	
+	protected $lastImbraQuestionI18nCriteria = null;
 
 	
 	protected $collMemberImbraAnswers;
@@ -43,39 +33,14 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 	
 	protected $alreadyInValidation = false;
 
+  
+  protected $culture;
+
 	
 	public function getId()
 	{
 
 		return $this->id;
-	}
-
-	
-	public function getTitle()
-	{
-
-		return $this->title;
-	}
-
-	
-	public function getExplainTitle()
-	{
-
-		return $this->explain_title;
-	}
-
-	
-	public function getPositiveAnswer()
-	{
-
-		return $this->positive_answer;
-	}
-
-	
-	public function getNegativeAnswer()
-	{
-
-		return $this->negative_answer;
 	}
 
 	
@@ -102,70 +67,6 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setTitle($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->title !== $v) {
-			$this->title = $v;
-			$this->modifiedColumns[] = ImbraQuestionPeer::TITLE;
-		}
-
-	} 
-	
-	public function setExplainTitle($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->explain_title !== $v) {
-			$this->explain_title = $v;
-			$this->modifiedColumns[] = ImbraQuestionPeer::EXPLAIN_TITLE;
-		}
-
-	} 
-	
-	public function setPositiveAnswer($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->positive_answer !== $v) {
-			$this->positive_answer = $v;
-			$this->modifiedColumns[] = ImbraQuestionPeer::POSITIVE_ANSWER;
-		}
-
-	} 
-	
-	public function setNegativeAnswer($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->negative_answer !== $v) {
-			$this->negative_answer = $v;
-			$this->modifiedColumns[] = ImbraQuestionPeer::NEGATIVE_ANSWER;
-		}
-
-	} 
-	
 	public function setOnlyExplain($v)
 	{
 
@@ -182,21 +83,13 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->title = $rs->getString($startcol + 1);
-
-			$this->explain_title = $rs->getString($startcol + 2);
-
-			$this->positive_answer = $rs->getString($startcol + 3);
-
-			$this->negative_answer = $rs->getString($startcol + 4);
-
-			$this->only_explain = $rs->getBoolean($startcol + 5);
+			$this->only_explain = $rs->getBoolean($startcol + 1);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 6; 
+						return $startcol + 2; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ImbraQuestion object", $e);
 		}
@@ -297,6 +190,14 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collImbraQuestionI18ns !== null) {
+				foreach($this->collImbraQuestionI18ns as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collMemberImbraAnswers !== null) {
 				foreach($this->collMemberImbraAnswers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -346,6 +247,14 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 			}
 
 
+				if ($this->collImbraQuestionI18ns !== null) {
+					foreach($this->collImbraQuestionI18ns as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collMemberImbraAnswers !== null) {
 					foreach($this->collMemberImbraAnswers as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -376,18 +285,6 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getTitle();
-				break;
-			case 2:
-				return $this->getExplainTitle();
-				break;
-			case 3:
-				return $this->getPositiveAnswer();
-				break;
-			case 4:
-				return $this->getNegativeAnswer();
-				break;
-			case 5:
 				return $this->getOnlyExplain();
 				break;
 			default:
@@ -401,11 +298,7 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		$keys = ImbraQuestionPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getTitle(),
-			$keys[2] => $this->getExplainTitle(),
-			$keys[3] => $this->getPositiveAnswer(),
-			$keys[4] => $this->getNegativeAnswer(),
-			$keys[5] => $this->getOnlyExplain(),
+			$keys[1] => $this->getOnlyExplain(),
 		);
 		return $result;
 	}
@@ -425,18 +318,6 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setTitle($value);
-				break;
-			case 2:
-				$this->setExplainTitle($value);
-				break;
-			case 3:
-				$this->setPositiveAnswer($value);
-				break;
-			case 4:
-				$this->setNegativeAnswer($value);
-				break;
-			case 5:
 				$this->setOnlyExplain($value);
 				break;
 		} 	}
@@ -447,11 +328,7 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		$keys = ImbraQuestionPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setExplainTitle($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setPositiveAnswer($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setNegativeAnswer($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setOnlyExplain($arr[$keys[5]]);
+		if (array_key_exists($keys[1], $arr)) $this->setOnlyExplain($arr[$keys[1]]);
 	}
 
 	
@@ -460,10 +337,6 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 		$criteria = new Criteria(ImbraQuestionPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(ImbraQuestionPeer::ID)) $criteria->add(ImbraQuestionPeer::ID, $this->id);
-		if ($this->isColumnModified(ImbraQuestionPeer::TITLE)) $criteria->add(ImbraQuestionPeer::TITLE, $this->title);
-		if ($this->isColumnModified(ImbraQuestionPeer::EXPLAIN_TITLE)) $criteria->add(ImbraQuestionPeer::EXPLAIN_TITLE, $this->explain_title);
-		if ($this->isColumnModified(ImbraQuestionPeer::POSITIVE_ANSWER)) $criteria->add(ImbraQuestionPeer::POSITIVE_ANSWER, $this->positive_answer);
-		if ($this->isColumnModified(ImbraQuestionPeer::NEGATIVE_ANSWER)) $criteria->add(ImbraQuestionPeer::NEGATIVE_ANSWER, $this->negative_answer);
 		if ($this->isColumnModified(ImbraQuestionPeer::ONLY_EXPLAIN)) $criteria->add(ImbraQuestionPeer::ONLY_EXPLAIN, $this->only_explain);
 
 		return $criteria;
@@ -495,19 +368,15 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setTitle($this->title);
-
-		$copyObj->setExplainTitle($this->explain_title);
-
-		$copyObj->setPositiveAnswer($this->positive_answer);
-
-		$copyObj->setNegativeAnswer($this->negative_answer);
-
 		$copyObj->setOnlyExplain($this->only_explain);
 
 
 		if ($deepCopy) {
 									$copyObj->setNew(false);
+
+			foreach($this->getImbraQuestionI18ns() as $relObj) {
+				$copyObj->addImbraQuestionI18n($relObj->copy($deepCopy));
+			}
 
 			foreach($this->getMemberImbraAnswers() as $relObj) {
 				$copyObj->addMemberImbraAnswer($relObj->copy($deepCopy));
@@ -536,6 +405,76 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 			self::$peer = new ImbraQuestionPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function initImbraQuestionI18ns()
+	{
+		if ($this->collImbraQuestionI18ns === null) {
+			$this->collImbraQuestionI18ns = array();
+		}
+	}
+
+	
+	public function getImbraQuestionI18ns($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseImbraQuestionI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collImbraQuestionI18ns === null) {
+			if ($this->isNew()) {
+			   $this->collImbraQuestionI18ns = array();
+			} else {
+
+				$criteria->add(ImbraQuestionI18nPeer::ID, $this->getId());
+
+				ImbraQuestionI18nPeer::addSelectColumns($criteria);
+				$this->collImbraQuestionI18ns = ImbraQuestionI18nPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ImbraQuestionI18nPeer::ID, $this->getId());
+
+				ImbraQuestionI18nPeer::addSelectColumns($criteria);
+				if (!isset($this->lastImbraQuestionI18nCriteria) || !$this->lastImbraQuestionI18nCriteria->equals($criteria)) {
+					$this->collImbraQuestionI18ns = ImbraQuestionI18nPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastImbraQuestionI18nCriteria = $criteria;
+		return $this->collImbraQuestionI18ns;
+	}
+
+	
+	public function countImbraQuestionI18ns($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseImbraQuestionI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ImbraQuestionI18nPeer::ID, $this->getId());
+
+		return ImbraQuestionI18nPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addImbraQuestionI18n(ImbraQuestionI18n $l)
+	{
+		$this->collImbraQuestionI18ns[] = $l;
+		$l->setImbraQuestion($this);
 	}
 
 	
@@ -642,6 +581,91 @@ abstract class BaseImbraQuestion extends BaseObject  implements Persistent {
 
 		return $this->collMemberImbraAnswers;
 	}
+
+  public function getCulture()
+  {
+    return $this->culture;
+  }
+
+  public function setCulture($culture)
+  {
+    $this->culture = $culture;
+  }
+
+  public function getTitle()
+  {
+    $obj = $this->getCurrentImbraQuestionI18n();
+
+    return ($obj ? $obj->getTitle() : null);
+  }
+
+  public function setTitle($value)
+  {
+    $this->getCurrentImbraQuestionI18n()->setTitle($value);
+  }
+
+  public function getExplainTitle()
+  {
+    $obj = $this->getCurrentImbraQuestionI18n();
+
+    return ($obj ? $obj->getExplainTitle() : null);
+  }
+
+  public function setExplainTitle($value)
+  {
+    $this->getCurrentImbraQuestionI18n()->setExplainTitle($value);
+  }
+
+  public function getPositiveAnswer()
+  {
+    $obj = $this->getCurrentImbraQuestionI18n();
+
+    return ($obj ? $obj->getPositiveAnswer() : null);
+  }
+
+  public function setPositiveAnswer($value)
+  {
+    $this->getCurrentImbraQuestionI18n()->setPositiveAnswer($value);
+  }
+
+  public function getNegativeAnswer()
+  {
+    $obj = $this->getCurrentImbraQuestionI18n();
+
+    return ($obj ? $obj->getNegativeAnswer() : null);
+  }
+
+  public function setNegativeAnswer($value)
+  {
+    $this->getCurrentImbraQuestionI18n()->setNegativeAnswer($value);
+  }
+
+  protected $current_i18n = array();
+
+  public function getCurrentImbraQuestionI18n()
+  {
+    if (!isset($this->current_i18n[$this->culture]))
+    {
+      $obj = ImbraQuestionI18nPeer::retrieveByPK($this->getId(), $this->culture);
+      if ($obj)
+      {
+        $this->setImbraQuestionI18nForCulture($obj, $this->culture);
+      }
+      else
+      {
+        $this->setImbraQuestionI18nForCulture(new ImbraQuestionI18n(), $this->culture);
+        $this->current_i18n[$this->culture]->setCulture($this->culture);
+      }
+    }
+
+    return $this->current_i18n[$this->culture];
+  }
+
+  public function setImbraQuestionI18nForCulture($object, $culture)
+  {
+    $this->current_i18n[$culture] = $object;
+    $this->addImbraQuestionI18n($object);
+  }
 
 
   public function __call($method, $arguments)

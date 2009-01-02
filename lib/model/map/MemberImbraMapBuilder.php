@@ -38,8 +38,6 @@ class MemberImbraMapBuilder {
 
 		$tMap->addForeignKey('IMBRA_STATUS_ID', 'ImbraStatusId', 'int', CreoleTypes::INTEGER, 'imbra_status', 'ID', true, null);
 
-		$tMap->addColumn('TEXT', 'Text', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
 		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, false, 100);
 
 		$tMap->addColumn('DOB', 'Dob', 'string', CreoleTypes::VARCHAR, false, 100);

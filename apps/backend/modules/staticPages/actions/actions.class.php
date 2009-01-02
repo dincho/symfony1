@@ -18,7 +18,7 @@ class staticPagesActions extends sfActions
         }
     
         $this->left_menu_selected = 'Static Pages';
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
         
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Content', 'uri' => 'content/list'))->add(array('name' => 'Static Pages', 'uri' => 'staticPages/list'));        

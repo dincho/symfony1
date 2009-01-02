@@ -9,5 +9,5 @@
     <?php endif; ?>
 
 <?php else: ?>
-    <?php echo __('To use Matches you obviously need to set up <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">search criteria</a> first.', array('%URL_FOR_SEARCH_CRITERIA%' => url_for('dashboard/searchCriteria'))) ?>    
+    <?php echo __('To use Matches you obviously need to set up your search criteria first.') ?>    
 <?php endif; ?>

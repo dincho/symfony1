@@ -267,14 +267,14 @@ abstract class BaseMemberImbraAnswer extends BaseObject  implements Persistent {
 
 												
 			if ($this->aMemberImbra !== null) {
-				if ($this->aMemberImbra->isModified()) {
+				if ($this->aMemberImbra->isModified() || $this->aMemberImbra->getCurrentMemberImbraI18n()->isModified()) {
 					$affectedRows += $this->aMemberImbra->save($con);
 				}
 				$this->setMemberImbra($this->aMemberImbra);
 			}
 
 			if ($this->aImbraQuestion !== null) {
-				if ($this->aImbraQuestion->isModified()) {
+				if ($this->aImbraQuestion->isModified() || $this->aImbraQuestion->getCurrentImbraQuestionI18n()->isModified()) {
 					$affectedRows += $this->aImbraQuestion->save($con);
 				}
 				$this->setImbraQuestion($this->aImbraQuestion);

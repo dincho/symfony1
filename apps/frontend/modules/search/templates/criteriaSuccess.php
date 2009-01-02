@@ -8,5 +8,5 @@
         <?php include_partial('results', array('pager' => $pager, 'route' => 'search/criteria')); ?>
     <?php endif; ?>
 <?php else: ?>
-<?php echo __('To use Search by Criteria you obviously need to set up your <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">search criteria</a> first.', array('%URL_FOR_SEARCH_CRITERIA%' => url_for('dashboard/searchCriteria'))) ?>    
+    <?php echo __('To use Search by Criteria you obviously need to set up your search criteria first.') ?>    
 <?php endif; ?>

@@ -338,7 +338,7 @@ class dashboardActions extends prActions
             {
                 if( $question->getIsRequired() && !isset($answers[$question->getId()]) )
                 {
-                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Search Criteria: You must fill out the missing information below indicated in red.');
                     $has_error = true;
                 }
             }

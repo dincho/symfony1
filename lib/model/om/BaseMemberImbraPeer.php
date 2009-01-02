@@ -13,7 +13,7 @@ abstract class BaseMemberImbraPeer {
 	const CLASS_DEFAULT = 'lib.model.MemberImbra';
 
 	
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 11;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -27,9 +27,6 @@ abstract class BaseMemberImbraPeer {
 
 	
 	const IMBRA_STATUS_ID = 'member_imbra.IMBRA_STATUS_ID';
-
-	
-	const TEXT = 'member_imbra.TEXT';
 
 	
 	const NAME = 'member_imbra.NAME';
@@ -61,18 +58,18 @@ abstract class BaseMemberImbraPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ImbraStatusId', 'Text', 'Name', 'Dob', 'Address', 'City', 'StateId', 'Zip', 'Phone', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MemberImbraPeer::ID, MemberImbraPeer::MEMBER_ID, MemberImbraPeer::IMBRA_STATUS_ID, MemberImbraPeer::TEXT, MemberImbraPeer::NAME, MemberImbraPeer::DOB, MemberImbraPeer::ADDRESS, MemberImbraPeer::CITY, MemberImbraPeer::STATE_ID, MemberImbraPeer::ZIP, MemberImbraPeer::PHONE, MemberImbraPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'imbra_status_id', 'text', 'name', 'dob', 'address', 'city', 'state_id', 'zip', 'phone', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ImbraStatusId', 'Name', 'Dob', 'Address', 'City', 'StateId', 'Zip', 'Phone', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MemberImbraPeer::ID, MemberImbraPeer::MEMBER_ID, MemberImbraPeer::IMBRA_STATUS_ID, MemberImbraPeer::NAME, MemberImbraPeer::DOB, MemberImbraPeer::ADDRESS, MemberImbraPeer::CITY, MemberImbraPeer::STATE_ID, MemberImbraPeer::ZIP, MemberImbraPeer::PHONE, MemberImbraPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'imbra_status_id', 'name', 'dob', 'address', 'city', 'state_id', 'zip', 'phone', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ImbraStatusId' => 2, 'Text' => 3, 'Name' => 4, 'Dob' => 5, 'Address' => 6, 'City' => 7, 'StateId' => 8, 'Zip' => 9, 'Phone' => 10, 'CreatedAt' => 11, ),
-		BasePeer::TYPE_COLNAME => array (MemberImbraPeer::ID => 0, MemberImbraPeer::MEMBER_ID => 1, MemberImbraPeer::IMBRA_STATUS_ID => 2, MemberImbraPeer::TEXT => 3, MemberImbraPeer::NAME => 4, MemberImbraPeer::DOB => 5, MemberImbraPeer::ADDRESS => 6, MemberImbraPeer::CITY => 7, MemberImbraPeer::STATE_ID => 8, MemberImbraPeer::ZIP => 9, MemberImbraPeer::PHONE => 10, MemberImbraPeer::CREATED_AT => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'imbra_status_id' => 2, 'text' => 3, 'name' => 4, 'dob' => 5, 'address' => 6, 'city' => 7, 'state_id' => 8, 'zip' => 9, 'phone' => 10, 'created_at' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ImbraStatusId' => 2, 'Name' => 3, 'Dob' => 4, 'Address' => 5, 'City' => 6, 'StateId' => 7, 'Zip' => 8, 'Phone' => 9, 'CreatedAt' => 10, ),
+		BasePeer::TYPE_COLNAME => array (MemberImbraPeer::ID => 0, MemberImbraPeer::MEMBER_ID => 1, MemberImbraPeer::IMBRA_STATUS_ID => 2, MemberImbraPeer::NAME => 3, MemberImbraPeer::DOB => 4, MemberImbraPeer::ADDRESS => 5, MemberImbraPeer::CITY => 6, MemberImbraPeer::STATE_ID => 7, MemberImbraPeer::ZIP => 8, MemberImbraPeer::PHONE => 9, MemberImbraPeer::CREATED_AT => 10, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'imbra_status_id' => 2, 'name' => 3, 'dob' => 4, 'address' => 5, 'city' => 6, 'state_id' => 7, 'zip' => 8, 'phone' => 9, 'created_at' => 10, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
@@ -131,8 +128,6 @@ abstract class BaseMemberImbraPeer {
 		$criteria->addSelectColumn(MemberImbraPeer::MEMBER_ID);
 
 		$criteria->addSelectColumn(MemberImbraPeer::IMBRA_STATUS_ID);
-
-		$criteria->addSelectColumn(MemberImbraPeer::TEXT);
 
 		$criteria->addSelectColumn(MemberImbraPeer::NAME);
 
@@ -946,6 +941,54 @@ abstract class BaseMemberImbraPeer {
 		}
 		return $results;
 	}
+
+
+  
+  public static function doSelectWithI18n(Criteria $c, $culture = null, $con = null)
+  {
+    if ($culture === null)
+    {
+      $culture = sfContext::getInstance()->getUser()->getCulture();
+    }
+
+        if ($c->getDbName() == Propel::getDefaultDB())
+    {
+      $c->setDbName(self::DATABASE_NAME);
+    }
+
+    MemberImbraPeer::addSelectColumns($c);
+    $startcol = (MemberImbraPeer::NUM_COLUMNS - MemberImbraPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+    MemberImbraI18nPeer::addSelectColumns($c);
+
+    $c->addJoin(MemberImbraPeer::ID, MemberImbraI18nPeer::ID);
+    $c->add(MemberImbraI18nPeer::CULTURE, $culture);
+
+    $rs = BasePeer::doSelect($c, $con);
+    $results = array();
+
+    while($rs->next()) {
+
+      $omClass = MemberImbraPeer::getOMClass();
+
+      $cls = Propel::import($omClass);
+      $obj1 = new $cls();
+      $obj1->hydrate($rs);
+      $obj1->setCulture($culture);
+
+      $omClass = MemberImbraI18nPeer::getOMClass($rs, $startcol);
+
+      $cls = Propel::import($omClass);
+      $obj2 = new $cls();
+      $obj2->hydrate($rs, $startcol);
+
+      $obj1->setMemberImbraI18nForCulture($obj2, $culture);
+      $obj2->setMemberImbra($obj1);
+
+      $results[] = $obj1;
+    }
+    return $results;
+  }
 
 	
 	public static function getTableMap()

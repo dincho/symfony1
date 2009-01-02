@@ -20,6 +20,8 @@ class profileActions extends prActions
         //add a visit
         $this->getUser()->viewProfile($member);
 
+        if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
+        
         //recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
@@ -51,7 +53,9 @@ class profileActions extends prActions
         $this->imbra = $member->getLastImbra($approved = true);
         if ($this->imbra)
         {
-            $this->imbra_questions = ImbraQuestionPeer::doSelect(new Criteria());
+            $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en';
+            $this->imbra->setCulture($imbra_culture);
+            $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
             $this->imbra_answers = $this->imbra->getImbraAnswersArray();
         }
     }

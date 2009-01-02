@@ -1,8 +1,11 @@
 <?php use_helper('Object', 'dtForm', 'fillIn') ?>
-<?php echo __('In order to match you with Polish singles we need to know a little about you.') ?><br />
-<span class="public_reg_notice"><?php echo __('(Estimated time 120 seconds)') ?></span><br /><br />
-<span><?php echo __('Reminder. If you\'re not 19 or older, you are not allowed to be here - you must leave now!') ?></span><br />
-<span><?php echo __('Note: You will able to change this information later.') ?></span>
+<?php slot('header_title') ?>
+    <?php echo __('Self Description headline') ?>
+<?php end_slot(); ?>
+
+<?php echo __('Self Description introduction') ?>
+<?php echo __('Self Description reminder') ?>
+<?php echo __('Self Description note') ?>
 <?php echo form_tag('registration/selfDescription', array('id' => 'self_desc_form')) ?>
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
@@ -23,4 +26,4 @@
         
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>
-<span><?php echo __('Note: You will be able to change this information later.') ?></span>
+<?php echo __('Self Description note') ?>

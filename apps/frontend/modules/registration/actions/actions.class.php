@@ -16,7 +16,7 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->header_span = '';
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Registration', 'uri' => 'registration/joinNow'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'JoinNow headline', 'uri' => 'registration/joinNow'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {

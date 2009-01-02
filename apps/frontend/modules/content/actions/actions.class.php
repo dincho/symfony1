@@ -16,6 +16,10 @@ class contentActions extends prActions
         {
             $this->redirect('dashboard/index');
         }
+        
+        $this->getResponse()->setTitle('Homepage title');
+        $this->getResponse()->addMeta('description', 'Homepage description');
+        $this->getResponse()->addMeta('keywords', 'Homepage keywords');
         $this->setLayout('layout_index');
     }
 

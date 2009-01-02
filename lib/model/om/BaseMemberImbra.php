@@ -21,10 +21,6 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 
 	
-	protected $text;
-
-
-	
 	protected $name;
 
 
@@ -65,6 +61,12 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 	protected $aState;
 
 	
+	protected $collMemberImbraI18ns;
+
+	
+	protected $lastMemberImbraI18nCriteria = null;
+
+	
 	protected $collMemberImbraAnswers;
 
 	
@@ -75,6 +77,9 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 	
 	protected $alreadyInValidation = false;
+
+  
+  protected $culture;
 
 	
 	public function getId()
@@ -95,13 +100,6 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 	{
 
 		return $this->imbra_status_id;
-	}
-
-	
-	public function getText()
-	{
-
-		return $this->text;
 	}
 
 	
@@ -228,22 +226,6 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 		if ($this->aImbraStatus !== null && $this->aImbraStatus->getId() !== $v) {
 			$this->aImbraStatus = null;
-		}
-
-	} 
-	
-	public function setText($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->text !== $v) {
-			$this->text = $v;
-			$this->modifiedColumns[] = MemberImbraPeer::TEXT;
 		}
 
 	} 
@@ -391,29 +373,27 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 			$this->imbra_status_id = $rs->getInt($startcol + 2);
 
-			$this->text = $rs->getString($startcol + 3);
+			$this->name = $rs->getString($startcol + 3);
 
-			$this->name = $rs->getString($startcol + 4);
+			$this->dob = $rs->getString($startcol + 4);
 
-			$this->dob = $rs->getString($startcol + 5);
+			$this->address = $rs->getString($startcol + 5);
 
-			$this->address = $rs->getString($startcol + 6);
+			$this->city = $rs->getString($startcol + 6);
 
-			$this->city = $rs->getString($startcol + 7);
+			$this->state_id = $rs->getInt($startcol + 7);
 
-			$this->state_id = $rs->getInt($startcol + 8);
+			$this->zip = $rs->getString($startcol + 8);
 
-			$this->zip = $rs->getString($startcol + 9);
+			$this->phone = $rs->getString($startcol + 9);
 
-			$this->phone = $rs->getString($startcol + 10);
-
-			$this->created_at = $rs->getTimestamp($startcol + 11, null);
+			$this->created_at = $rs->getTimestamp($startcol + 10, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 12; 
+						return $startcol + 11; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating MemberImbra object", $e);
 		}
@@ -542,6 +522,14 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collMemberImbraI18ns !== null) {
+				foreach($this->collMemberImbraI18ns as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collMemberImbraAnswers !== null) {
 				foreach($this->collMemberImbraAnswers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -611,6 +599,14 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 			}
 
 
+				if ($this->collMemberImbraI18ns !== null) {
+					foreach($this->collMemberImbraI18ns as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collMemberImbraAnswers !== null) {
 					foreach($this->collMemberImbraAnswers as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -647,30 +643,27 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 				return $this->getImbraStatusId();
 				break;
 			case 3:
-				return $this->getText();
-				break;
-			case 4:
 				return $this->getName();
 				break;
-			case 5:
+			case 4:
 				return $this->getDob();
 				break;
-			case 6:
+			case 5:
 				return $this->getAddress();
 				break;
-			case 7:
+			case 6:
 				return $this->getCity();
 				break;
-			case 8:
+			case 7:
 				return $this->getStateId();
 				break;
-			case 9:
+			case 8:
 				return $this->getZip();
 				break;
-			case 10:
+			case 9:
 				return $this->getPhone();
 				break;
-			case 11:
+			case 10:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -686,15 +679,14 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getMemberId(),
 			$keys[2] => $this->getImbraStatusId(),
-			$keys[3] => $this->getText(),
-			$keys[4] => $this->getName(),
-			$keys[5] => $this->getDob(),
-			$keys[6] => $this->getAddress(),
-			$keys[7] => $this->getCity(),
-			$keys[8] => $this->getStateId(),
-			$keys[9] => $this->getZip(),
-			$keys[10] => $this->getPhone(),
-			$keys[11] => $this->getCreatedAt(),
+			$keys[3] => $this->getName(),
+			$keys[4] => $this->getDob(),
+			$keys[5] => $this->getAddress(),
+			$keys[6] => $this->getCity(),
+			$keys[7] => $this->getStateId(),
+			$keys[8] => $this->getZip(),
+			$keys[9] => $this->getPhone(),
+			$keys[10] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -720,30 +712,27 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 				$this->setImbraStatusId($value);
 				break;
 			case 3:
-				$this->setText($value);
-				break;
-			case 4:
 				$this->setName($value);
 				break;
-			case 5:
+			case 4:
 				$this->setDob($value);
 				break;
-			case 6:
+			case 5:
 				$this->setAddress($value);
 				break;
-			case 7:
+			case 6:
 				$this->setCity($value);
 				break;
-			case 8:
+			case 7:
 				$this->setStateId($value);
 				break;
-			case 9:
+			case 8:
 				$this->setZip($value);
 				break;
-			case 10:
+			case 9:
 				$this->setPhone($value);
 				break;
-			case 11:
+			case 10:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -756,15 +745,14 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setMemberId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setImbraStatusId($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setText($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setName($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setDob($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setAddress($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setCity($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setStateId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setZip($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setPhone($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setCreatedAt($arr[$keys[11]]);
+		if (array_key_exists($keys[3], $arr)) $this->setName($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDob($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setAddress($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCity($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setStateId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setZip($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setPhone($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
 	}
 
 	
@@ -775,7 +763,6 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberImbraPeer::ID)) $criteria->add(MemberImbraPeer::ID, $this->id);
 		if ($this->isColumnModified(MemberImbraPeer::MEMBER_ID)) $criteria->add(MemberImbraPeer::MEMBER_ID, $this->member_id);
 		if ($this->isColumnModified(MemberImbraPeer::IMBRA_STATUS_ID)) $criteria->add(MemberImbraPeer::IMBRA_STATUS_ID, $this->imbra_status_id);
-		if ($this->isColumnModified(MemberImbraPeer::TEXT)) $criteria->add(MemberImbraPeer::TEXT, $this->text);
 		if ($this->isColumnModified(MemberImbraPeer::NAME)) $criteria->add(MemberImbraPeer::NAME, $this->name);
 		if ($this->isColumnModified(MemberImbraPeer::DOB)) $criteria->add(MemberImbraPeer::DOB, $this->dob);
 		if ($this->isColumnModified(MemberImbraPeer::ADDRESS)) $criteria->add(MemberImbraPeer::ADDRESS, $this->address);
@@ -818,8 +805,6 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 		$copyObj->setImbraStatusId($this->imbra_status_id);
 
-		$copyObj->setText($this->text);
-
 		$copyObj->setName($this->name);
 
 		$copyObj->setDob($this->dob);
@@ -839,6 +824,10 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 		if ($deepCopy) {
 									$copyObj->setNew(false);
+
+			foreach($this->getMemberImbraI18ns() as $relObj) {
+				$copyObj->addMemberImbraI18n($relObj->copy($deepCopy));
+			}
 
 			foreach($this->getMemberImbraAnswers() as $relObj) {
 				$copyObj->addMemberImbraAnswer($relObj->copy($deepCopy));
@@ -957,6 +946,76 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 	}
 
 	
+	public function initMemberImbraI18ns()
+	{
+		if ($this->collMemberImbraI18ns === null) {
+			$this->collMemberImbraI18ns = array();
+		}
+	}
+
+	
+	public function getMemberImbraI18ns($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberImbraI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMemberImbraI18ns === null) {
+			if ($this->isNew()) {
+			   $this->collMemberImbraI18ns = array();
+			} else {
+
+				$criteria->add(MemberImbraI18nPeer::ID, $this->getId());
+
+				MemberImbraI18nPeer::addSelectColumns($criteria);
+				$this->collMemberImbraI18ns = MemberImbraI18nPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MemberImbraI18nPeer::ID, $this->getId());
+
+				MemberImbraI18nPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMemberImbraI18nCriteria) || !$this->lastMemberImbraI18nCriteria->equals($criteria)) {
+					$this->collMemberImbraI18ns = MemberImbraI18nPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMemberImbraI18nCriteria = $criteria;
+		return $this->collMemberImbraI18ns;
+	}
+
+	
+	public function countMemberImbraI18ns($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberImbraI18nPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MemberImbraI18nPeer::ID, $this->getId());
+
+		return MemberImbraI18nPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMemberImbraI18n(MemberImbraI18n $l)
+	{
+		$this->collMemberImbraI18ns[] = $l;
+		$l->setMemberImbra($this);
+	}
+
+	
 	public function initMemberImbraAnswers()
 	{
 		if ($this->collMemberImbraAnswers === null) {
@@ -1060,6 +1119,55 @@ abstract class BaseMemberImbra extends BaseObject  implements Persistent {
 
 		return $this->collMemberImbraAnswers;
 	}
+
+  public function getCulture()
+  {
+    return $this->culture;
+  }
+
+  public function setCulture($culture)
+  {
+    $this->culture = $culture;
+  }
+
+  public function getText()
+  {
+    $obj = $this->getCurrentMemberImbraI18n();
+
+    return ($obj ? $obj->getText() : null);
+  }
+
+  public function setText($value)
+  {
+    $this->getCurrentMemberImbraI18n()->setText($value);
+  }
+
+  protected $current_i18n = array();
+
+  public function getCurrentMemberImbraI18n()
+  {
+    if (!isset($this->current_i18n[$this->culture]))
+    {
+      $obj = MemberImbraI18nPeer::retrieveByPK($this->getId(), $this->culture);
+      if ($obj)
+      {
+        $this->setMemberImbraI18nForCulture($obj, $this->culture);
+      }
+      else
+      {
+        $this->setMemberImbraI18nForCulture(new MemberImbraI18n(), $this->culture);
+        $this->current_i18n[$this->culture]->setCulture($this->culture);
+      }
+    }
+
+    return $this->current_i18n[$this->culture];
+  }
+
+  public function setMemberImbraI18nForCulture($object, $culture)
+  {
+    $this->current_i18n[$culture] = $object;
+    $this->addMemberImbraI18n($object);
+  }
 
 
   public function __call($method, $arguments)

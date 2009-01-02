@@ -1,6 +1,9 @@
 <?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
+<?php slot('header_title') ?>
+    <?php echo __('Search criteria headline') ?>
+<?php end_slot(); ?>
 
-<?php echo __("In order to match you with your Polish singles, we need to know WHO YOU'RE LOOKING FOR."); ?>
+<?php echo __("Search criteria instructions"); ?>
 <?php echo form_tag('dashboard/searchCriteria', array('id' => 'self_desc_form', 'name' => 'self_desc_form')) ?>
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>

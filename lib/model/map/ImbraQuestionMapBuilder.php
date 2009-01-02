@@ -34,14 +34,6 @@ class ImbraQuestionMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('TITLE', 'Title', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
-		$tMap->addColumn('EXPLAIN_TITLE', 'ExplainTitle', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
-		$tMap->addColumn('POSITIVE_ANSWER', 'PositiveAnswer', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
-		$tMap->addColumn('NEGATIVE_ANSWER', 'NegativeAnswer', 'string', CreoleTypes::LONGVARCHAR, false, null);
-
 		$tMap->addColumn('ONLY_EXPLAIN', 'OnlyExplain', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 	} 

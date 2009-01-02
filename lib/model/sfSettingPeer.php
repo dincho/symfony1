@@ -17,12 +17,13 @@ class sfSettingPeer extends BasesfSettingPeer
         return sfSettingPeer::doSelectOne($c);
     }
     
-    public static function updateFromRequest($keys = array())
+    public static function updateFromRequest($keys = array(), $culture = 'en')
     {
         foreach ($keys as $key)
         {
             $setting = sfSettingPeer::getByKey($key);
             $setting->setValue(sfContext::getInstance()->getRequest()->getParameter($key));
+            //$setting->setCulture($culture);
             $setting->save();
         }
         

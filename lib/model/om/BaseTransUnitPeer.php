@@ -13,7 +13,7 @@ abstract class BaseTransUnitPeer {
 	const CLASS_DEFAULT = 'lib.model.TransUnit';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 10;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -24,6 +24,9 @@ abstract class BaseTransUnitPeer {
 
 	
 	const CAT_ID = 'trans_unit.CAT_ID';
+
+	
+	const MSG_COLLECTION_ID = 'trans_unit.MSG_COLLECTION_ID';
 
 	
 	const SOURCE = 'trans_unit.SOURCE';
@@ -52,18 +55,18 @@ abstract class BaseTransUnitPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CatId', 'Source', 'Target', 'Comments', 'Author', 'Translated', 'DateCreated', 'DateModified', ),
-		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID, TransUnitPeer::CAT_ID, TransUnitPeer::SOURCE, TransUnitPeer::TARGET, TransUnitPeer::COMMENTS, TransUnitPeer::AUTHOR, TransUnitPeer::TRANSLATED, TransUnitPeer::DATE_CREATED, TransUnitPeer::DATE_MODIFIED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'cat_id', 'source', 'target', 'comments', 'author', 'translated', 'date_created', 'date_modified', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CatId', 'MsgCollectionId', 'Source', 'Target', 'Comments', 'Author', 'Translated', 'DateCreated', 'DateModified', ),
+		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID, TransUnitPeer::CAT_ID, TransUnitPeer::MSG_COLLECTION_ID, TransUnitPeer::SOURCE, TransUnitPeer::TARGET, TransUnitPeer::COMMENTS, TransUnitPeer::AUTHOR, TransUnitPeer::TRANSLATED, TransUnitPeer::DATE_CREATED, TransUnitPeer::DATE_MODIFIED, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'cat_id', 'msg_collection_id', 'source', 'target', 'comments', 'author', 'translated', 'date_created', 'date_modified', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CatId' => 1, 'Source' => 2, 'Target' => 3, 'Comments' => 4, 'Author' => 5, 'Translated' => 6, 'DateCreated' => 7, 'DateModified' => 8, ),
-		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID => 0, TransUnitPeer::CAT_ID => 1, TransUnitPeer::SOURCE => 2, TransUnitPeer::TARGET => 3, TransUnitPeer::COMMENTS => 4, TransUnitPeer::AUTHOR => 5, TransUnitPeer::TRANSLATED => 6, TransUnitPeer::DATE_CREATED => 7, TransUnitPeer::DATE_MODIFIED => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'cat_id' => 1, 'source' => 2, 'target' => 3, 'comments' => 4, 'author' => 5, 'translated' => 6, 'date_created' => 7, 'date_modified' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CatId' => 1, 'MsgCollectionId' => 2, 'Source' => 3, 'Target' => 4, 'Comments' => 5, 'Author' => 6, 'Translated' => 7, 'DateCreated' => 8, 'DateModified' => 9, ),
+		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID => 0, TransUnitPeer::CAT_ID => 1, TransUnitPeer::MSG_COLLECTION_ID => 2, TransUnitPeer::SOURCE => 3, TransUnitPeer::TARGET => 4, TransUnitPeer::COMMENTS => 5, TransUnitPeer::AUTHOR => 6, TransUnitPeer::TRANSLATED => 7, TransUnitPeer::DATE_CREATED => 8, TransUnitPeer::DATE_MODIFIED => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'cat_id' => 1, 'msg_collection_id' => 2, 'source' => 3, 'target' => 4, 'comments' => 5, 'author' => 6, 'translated' => 7, 'date_created' => 8, 'date_modified' => 9, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
@@ -120,6 +123,8 @@ abstract class BaseTransUnitPeer {
 		$criteria->addSelectColumn(TransUnitPeer::ID);
 
 		$criteria->addSelectColumn(TransUnitPeer::CAT_ID);
+
+		$criteria->addSelectColumn(TransUnitPeer::MSG_COLLECTION_ID);
 
 		$criteria->addSelectColumn(TransUnitPeer::SOURCE);
 
@@ -249,6 +254,34 @@ abstract class BaseTransUnitPeer {
 
 
 	
+	public static function doCountJoinMsgCollection(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
+
+		$rs = TransUnitPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
 	public static function doSelectJoinCatalogue(Criteria $c, $con = null)
 	{
 		$c = clone $c;
@@ -296,6 +329,53 @@ abstract class BaseTransUnitPeer {
 
 
 	
+	public static function doSelectJoinMsgCollection(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		TransUnitPeer::addSelectColumns($c);
+		$startcol = (TransUnitPeer::NUM_COLUMNS - TransUnitPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MsgCollectionPeer::addSelectColumns($c);
+
+		$c->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = TransUnitPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MsgCollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getMsgCollection(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addTransUnit($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initTransUnits();
+				$obj2->addTransUnit($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
 	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
 	{
 		$criteria = clone $criteria;
@@ -313,6 +393,8 @@ abstract class BaseTransUnitPeer {
 		}
 
 		$criteria->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$criteria->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
 
 		$rs = TransUnitPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -338,7 +420,12 @@ abstract class BaseTransUnitPeer {
 		CataloguePeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + CataloguePeer::NUM_COLUMNS;
 
+		MsgCollectionPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + MsgCollectionPeer::NUM_COLUMNS;
+
 		$c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$c->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -367,6 +454,199 @@ abstract class BaseTransUnitPeer {
 				$temp_obj2 = $temp_obj1->getCatalogue(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addTransUnit($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initTransUnits();
+				$obj2->addTransUnit($obj1);
+			}
+
+
+					
+			$omClass = MsgCollectionPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3 = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getMsgCollection(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addTransUnit($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initTransUnits();
+				$obj3->addTransUnit($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAllExceptCatalogue(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
+
+		$rs = TransUnitPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinAllExceptMsgCollection(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(TransUnitPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$rs = TransUnitPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAllExceptCatalogue(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		TransUnitPeer::addSelectColumns($c);
+		$startcol2 = (TransUnitPeer::NUM_COLUMNS - TransUnitPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		MsgCollectionPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MsgCollectionPeer::NUM_COLUMNS;
+
+		$c->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = TransUnitPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MsgCollectionPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getMsgCollection(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addTransUnit($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initTransUnits();
+				$obj2->addTransUnit($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptMsgCollection(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		TransUnitPeer::addSelectColumns($c);
+		$startcol2 = (TransUnitPeer::NUM_COLUMNS - TransUnitPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		CataloguePeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + CataloguePeer::NUM_COLUMNS;
+
+		$c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = TransUnitPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = CataloguePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getCatalogue(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addTransUnit($obj1);
+					break;
 				}
 			}
 

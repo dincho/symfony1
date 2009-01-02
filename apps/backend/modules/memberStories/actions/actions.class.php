@@ -18,7 +18,7 @@ class memberStoriesActions extends sfActions
             $this->redirect($this->getModuleName() . '/' . $this->getActionName() . '?id=' . $this->getRequestParameter('id'));
         }
         $this->left_menu_selected = 'Member Stories';
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
         
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Content', 'uri' => 'content/list'))->add(array('name' => 'Member Stories', 'uri' => 'memberStories/list'));

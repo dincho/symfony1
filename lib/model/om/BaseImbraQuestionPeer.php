@@ -13,7 +13,7 @@ abstract class BaseImbraQuestionPeer {
 	const CLASS_DEFAULT = 'lib.model.ImbraQuestion';
 
 	
-	const NUM_COLUMNS = 6;
+	const NUM_COLUMNS = 2;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -21,18 +21,6 @@ abstract class BaseImbraQuestionPeer {
 
 	
 	const ID = 'imbra_question.ID';
-
-	
-	const TITLE = 'imbra_question.TITLE';
-
-	
-	const EXPLAIN_TITLE = 'imbra_question.EXPLAIN_TITLE';
-
-	
-	const POSITIVE_ANSWER = 'imbra_question.POSITIVE_ANSWER';
-
-	
-	const NEGATIVE_ANSWER = 'imbra_question.NEGATIVE_ANSWER';
 
 	
 	const ONLY_EXPLAIN = 'imbra_question.ONLY_EXPLAIN';
@@ -43,18 +31,18 @@ abstract class BaseImbraQuestionPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'ExplainTitle', 'PositiveAnswer', 'NegativeAnswer', 'OnlyExplain', ),
-		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID, ImbraQuestionPeer::TITLE, ImbraQuestionPeer::EXPLAIN_TITLE, ImbraQuestionPeer::POSITIVE_ANSWER, ImbraQuestionPeer::NEGATIVE_ANSWER, ImbraQuestionPeer::ONLY_EXPLAIN, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'explain_title', 'positive_answer', 'negative_answer', 'only_explain', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'OnlyExplain', ),
+		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID, ImbraQuestionPeer::ONLY_EXPLAIN, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'only_explain', ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'ExplainTitle' => 2, 'PositiveAnswer' => 3, 'NegativeAnswer' => 4, 'OnlyExplain' => 5, ),
-		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID => 0, ImbraQuestionPeer::TITLE => 1, ImbraQuestionPeer::EXPLAIN_TITLE => 2, ImbraQuestionPeer::POSITIVE_ANSWER => 3, ImbraQuestionPeer::NEGATIVE_ANSWER => 4, ImbraQuestionPeer::ONLY_EXPLAIN => 5, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'explain_title' => 2, 'positive_answer' => 3, 'negative_answer' => 4, 'only_explain' => 5, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'OnlyExplain' => 1, ),
+		BasePeer::TYPE_COLNAME => array (ImbraQuestionPeer::ID => 0, ImbraQuestionPeer::ONLY_EXPLAIN => 1, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'only_explain' => 1, ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	
@@ -109,14 +97,6 @@ abstract class BaseImbraQuestionPeer {
 	{
 
 		$criteria->addSelectColumn(ImbraQuestionPeer::ID);
-
-		$criteria->addSelectColumn(ImbraQuestionPeer::TITLE);
-
-		$criteria->addSelectColumn(ImbraQuestionPeer::EXPLAIN_TITLE);
-
-		$criteria->addSelectColumn(ImbraQuestionPeer::POSITIVE_ANSWER);
-
-		$criteria->addSelectColumn(ImbraQuestionPeer::NEGATIVE_ANSWER);
 
 		$criteria->addSelectColumn(ImbraQuestionPeer::ONLY_EXPLAIN);
 
@@ -204,6 +184,54 @@ abstract class BaseImbraQuestionPeer {
 		}
 		return $results;
 	}
+
+  
+  public static function doSelectWithI18n(Criteria $c, $culture = null, $con = null)
+  {
+    if ($culture === null)
+    {
+      $culture = sfContext::getInstance()->getUser()->getCulture();
+    }
+
+        if ($c->getDbName() == Propel::getDefaultDB())
+    {
+      $c->setDbName(self::DATABASE_NAME);
+    }
+
+    ImbraQuestionPeer::addSelectColumns($c);
+    $startcol = (ImbraQuestionPeer::NUM_COLUMNS - ImbraQuestionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+    ImbraQuestionI18nPeer::addSelectColumns($c);
+
+    $c->addJoin(ImbraQuestionPeer::ID, ImbraQuestionI18nPeer::ID);
+    $c->add(ImbraQuestionI18nPeer::CULTURE, $culture);
+
+    $rs = BasePeer::doSelect($c, $con);
+    $results = array();
+
+    while($rs->next()) {
+
+      $omClass = ImbraQuestionPeer::getOMClass();
+
+      $cls = Propel::import($omClass);
+      $obj1 = new $cls();
+      $obj1->hydrate($rs);
+      $obj1->setCulture($culture);
+
+      $omClass = ImbraQuestionI18nPeer::getOMClass($rs, $startcol);
+
+      $cls = Propel::import($omClass);
+      $obj2 = new $cls();
+      $obj2->hydrate($rs, $startcol);
+
+      $obj1->setImbraQuestionI18nForCulture($obj2, $culture);
+      $obj2->setImbraQuestion($obj1);
+
+      $results[] = $obj1;
+    }
+    return $results;
+  }
+
 	
 	public static function getTableMap()
 	{

@@ -49,7 +49,9 @@ class searchActions extends prActions
         $this->addFiltersCriteria($c);
         
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-        $this->initPager($c);
+        $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row
+        $this->initPager($c, $per_page);
     }
     
 
@@ -67,7 +69,9 @@ class searchActions extends prActions
         $this->addFiltersCriteria($c);
         
         $c->addDescendingOrderByColumn(MemberMatchPeer::PCT);
-        $this->initPager($c);
+        $rows = sfConfig::get('app_settings_search_rows_custom', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row
+        $this->initPager($c, $per_page);
     }
     
     public function executeReverse()
@@ -77,7 +81,9 @@ class searchActions extends prActions
         $this->addFiltersCriteria($c);
         
         $c->addDescendingOrderByColumn('reverse_pct');
-        $this->initPager($c);        
+        $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row        
+        $this->initPager($c, $per_page);
     }
     
     public function executeMatches()
@@ -94,7 +100,9 @@ class searchActions extends prActions
         $this->addFiltersCriteria($c);
         
         $c->addDescendingOrderByColumn('(pct+reverse_pct)');
-        $this->initPager($c);          
+        $rows = sfConfig::get('app_settings_search_rows_matches', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row        
+        $this->initPager($c, $per_page);         
     }
     
     public function executeByKeyword()
@@ -108,7 +116,9 @@ class searchActions extends prActions
             $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->filters['keyword'] . '%', Criteria::LIKE);
             $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
             $c->add($crit);
-            $this->initPager($c);            
+            $rows = sfConfig::get('app_settings_search_rows_keyword', 4);
+            $per_page = $rows * 3; //3 boxes/profiles per row        
+            $this->initPager($c, $per_page);            
         }
     }
     
@@ -204,9 +214,9 @@ class searchActions extends prActions
         $this->redirect('search/mostRecent');
     }
     
-    protected function initPager(Criteria $c)
+    protected function initPager(Criteria $c, $per_page = 12)
     {
-        $pager = new sfPropelPager('MemberMatch', 12);
+        $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinMemberRelatedByMember2Id');

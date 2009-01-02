@@ -4,7 +4,7 @@ fields:
     youtube_url:
         sfRegexValidator:
           match:        Yes
-          match_error:  Please ented full YouTube url, e.g. http://www.youtube.com/watch?v=n9hZxeVJXfk
+          match_error:  Youtube error
           pattern:      /http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9]+/si
     new_photo:
         file: true 

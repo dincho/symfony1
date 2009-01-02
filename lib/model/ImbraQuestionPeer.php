@@ -12,7 +12,7 @@ class ImbraQuestionPeer extends BaseImbraQuestionPeer
     public static function getAllAssocWithID()
     {
         $return = array();
-        $questions = self::doSelect(new Criteria());
+        $questions = self::doSelectWithI18n(new Criteria());
         
         foreach ($questions as $question)
         {

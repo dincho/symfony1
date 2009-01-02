@@ -65,7 +65,7 @@ class imbraActions extends sfActions
         $this->forward404Unless($this->member);
         $this->imbras = $this->member->getMemberImbras();
         $this->forward404Unless($this->imbras);
-        $this->imbra = ($this->getRequestParameter('id')) ? MemberImbraPeer::retrieveByPK($this->getRequestParameter('id')) : $this->imbras[0];
+        $this->imbra = ($this->getRequestParameter('id')) ? MemberImbraPeer::retrieveByPKWithI18N($this->getRequestParameter('id'), 'en') : $this->imbras[0];
     }
 
     public function executeDeny ()
@@ -114,7 +114,18 @@ class imbraActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $this->imbra->setText($this->getRequestParameter('text'));
+            if( $this->getRequestParameter('text_en') )
+            {
+                $this->imbra->setCulture('en');
+                $this->imbra->setText($this->getRequestParameter('text_en'));
+            }
+            
+            if( $this->getRequestParameter('text_pl') )
+            {
+                $this->imbra->setCulture('pl');
+                $this->imbra->setText($this->getRequestParameter('text_pl'));
+            }
+            
             $this->imbra->setImbraStatusId(ImbraStatusPeer::APPROVED);
             $this->imbra->save();
             $this->redirect('imbra/approveConfirmation?id=' . $this->imbra->getId() . '&member_id=' . $this->member->getId() . '&template_id=3');

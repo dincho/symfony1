@@ -10,6 +10,12 @@
                array ('related_class' => 'Catalogue',
                       'peer_class' => 'CataloguePeer'
     )) ?><br />
+    
+    <label for="msg_collection">Msg Collection:</label>
+    <?php echo object_select_tag(null, 'getMsgCollectionId', 
+               array ('related_class' => 'MsgCollection',
+                      'peer_class' => 'MsgCollectionPeer'
+    )) ?><br />
   
   <label for="source">Source:</label>
   <?php echo textarea_tag('source', null, array ('size' => '60x5')) ?><br />

@@ -12,7 +12,7 @@ class settingsActions extends sfActions
 {
     public function preExecute()
     {
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
         $this->left_menu_selected = 'Settings';
     }
     

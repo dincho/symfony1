@@ -19,7 +19,7 @@ class transUnitsActions extends sfActions
         }
             
         $this->left_menu_selected = 'Translation Units';
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
         
         $bc = $this->getUser()->getBC();
         $bc->replaceFirst(array('name' => 'Translation Units', 'uri' => 'transUnits/list'));        
@@ -36,6 +36,7 @@ class transUnitsActions extends sfActions
         {
             $trans_unit = new TransUnit();
             $trans_unit->setCatId($this->getRequestParameter('cat_id'));
+            $trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->save();
@@ -52,6 +53,7 @@ class transUnitsActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $trans_unit->setCatId($this->getRequestParameter('cat_id'));
+            $trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->save();

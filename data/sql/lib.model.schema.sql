@@ -364,12 +364,30 @@ DROP TABLE IF EXISTS `imbra_question`;
 CREATE TABLE `imbra_question`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`only_explain` INTEGER default 0 NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- imbra_question_i18n
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `imbra_question_i18n`;
+
+
+CREATE TABLE `imbra_question_i18n`
+(
 	`title` TEXT,
 	`explain_title` TEXT,
 	`positive_answer` TEXT,
 	`negative_answer` TEXT,
-	`only_explain` INTEGER default 0 NOT NULL,
-	PRIMARY KEY (`id`)
+	`id` INTEGER  NOT NULL,
+	`culture` VARCHAR(7)  NOT NULL,
+	PRIMARY KEY (`id`,`culture`),
+	CONSTRAINT `imbra_question_i18n_FK_1`
+		FOREIGN KEY (`id`)
+		REFERENCES `imbra_question` (`id`)
+		ON DELETE CASCADE
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -424,7 +442,6 @@ CREATE TABLE `member_imbra`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`member_id` INTEGER  NOT NULL,
 	`imbra_status_id` INTEGER  NOT NULL,
-	`text` TEXT,
 	`name` VARCHAR(100),
 	`dob` VARCHAR(100),
 	`address` VARCHAR(255),
@@ -448,6 +465,25 @@ CREATE TABLE `member_imbra`
 	CONSTRAINT `member_imbra_FK_3`
 		FOREIGN KEY (`state_id`)
 		REFERENCES `state` (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_imbra_i18n
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_imbra_i18n`;
+
+
+CREATE TABLE `member_imbra_i18n`
+(
+	`text` TEXT,
+	`id` INTEGER  NOT NULL,
+	`culture` VARCHAR(7)  NOT NULL,
+	PRIMARY KEY (`id`,`culture`),
+	CONSTRAINT `member_imbra_i18n_FK_1`
+		FOREIGN KEY (`id`)
+		REFERENCES `member_imbra` (`id`)
+		ON DELETE CASCADE
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -858,6 +894,7 @@ CREATE TABLE `trans_unit`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`cat_id` INTEGER(11) default 1 NOT NULL,
+	`msg_collection_id` INTEGER,
 	`source` TEXT  NOT NULL,
 	`target` TEXT  NOT NULL,
 	`comments` TEXT,
@@ -869,7 +906,44 @@ CREATE TABLE `trans_unit`
 	INDEX `trans_unit_FI_1` (`cat_id`),
 	CONSTRAINT `trans_unit_FK_1`
 		FOREIGN KEY (`cat_id`)
-		REFERENCES `catalogue` (`cat_id`)
+		REFERENCES `catalogue` (`cat_id`),
+	INDEX `trans_unit_FI_2` (`msg_collection_id`),
+	CONSTRAINT `trans_unit_FK_2`
+		FOREIGN KEY (`msg_collection_id`)
+		REFERENCES `msg_collection` (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- trans_collection
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `trans_collection`;
+
+
+CREATE TABLE `trans_collection`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- msg_collection
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `msg_collection`;
+
+
+CREATE TABLE `msg_collection`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`trans_collection_id` INTEGER,
+	`name` VARCHAR(255),
+	PRIMARY KEY (`id`),
+	INDEX `msg_collection_FI_1` (`trans_collection_id`),
+	CONSTRAINT `msg_collection_FK_1`
+		FOREIGN KEY (`trans_collection_id`)
+		REFERENCES `trans_collection` (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

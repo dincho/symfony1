@@ -51,16 +51,19 @@
       </table>
       
       <dl class="imbra_answers">
+        <?php $questions = ImbraQuestionPeer::getAllAssocWithID(); ?>
         <?php foreach ($imbra->getMemberImbraAnswers() as $answer): ?>
-          <dt><?php echo $answer->getImbraQuestion()->getTitle(); ?></dt>
+          <dt><?php echo $questions[$answer->getImbraQuestionId()]->getTitle(); ?></dt>
           <dd><?php echo  $answer->getAnswerString() ?></dd>
         <?php endforeach; ?>
       </dl>
     </div>
     <div class="actions">
       <?php echo button_to_function('Close', 'history.go(-1)') ?>
-      <?php echo button_to('Deny', 'imbra/deny?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
-      <?php echo button_to('Approve', 'imbra/approve?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
+      <?php if( $imbra->getImbraStatusId() == ImbraStatusPeer::PENDING): ?>
+        <?php echo button_to('Deny', 'imbra/deny?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
+        <?php echo button_to('Approve', 'imbra/approve?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
+      <?php endif; ?>
     </div>
 <?php else: ?>
     <p>This member have no IMBRA application yet.</p>

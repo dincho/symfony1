@@ -23,7 +23,7 @@
                     <p><?php echo __('You match %her_him%: %MATCH%%', array('%MATCH%' => $match->getPct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
                 </div>
             </div>  
-            <?php if( $i < 12 && $i%3 == 0): ?>
+            <?php if( $i < $pager->getMaxPerPage() && $i%3 == 0): ?>
             </div>
             <div class="member">
             <?php endif; ?>  

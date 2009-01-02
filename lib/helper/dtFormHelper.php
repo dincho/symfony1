@@ -36,13 +36,13 @@ function object_bool_select_tag($object, $method, $options = array(), $default_v
     return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
 }
 
-function bool_select_tag($name, $options = array())
+function bool_select_tag($name, $options = array(), $value = 0)
 {
     $options['class'] = 'bool_select';
     $options = _convert_options($options);
     $id = $name;
     
-    $option_tags = options_for_select(array(1 => 'yes', 0 => 'no'), 0); //default to no/false
+    $option_tags = options_for_select(array(1 => 'yes', 0 => 'no'), $value); //default to no/false
     
 
     return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options));

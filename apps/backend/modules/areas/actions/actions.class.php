@@ -12,7 +12,7 @@ class areasActions extends sfActions
 
     public function preExecute()
     {
-        $this->top_menu_selected = 'staticPages';
+        $this->top_menu_selected = 'content';
     }
     
     public function executeList()

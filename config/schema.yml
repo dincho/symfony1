@@ -153,11 +153,12 @@ propel:
     is_main:                  { type: boolean, required: true, default: false }
   imbra_question:
     id:
+    only_explain:             { type: boolean, required: true, default: false }  
+  imbra_question_i18n:
     title:                    { type: longvarchar, required: false }
     explain_title:            { type: longvarchar, required: false }
     positive_answer:          { type: longvarchar, required: false }
     negative_answer:          { type: longvarchar, required: false }
-    only_explain:             { type: boolean, required: true, default: false }
   imbra_status:
     id:
     title:                    { type: varchar, size: 80 }
@@ -176,7 +177,6 @@ propel:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     imbra_status_id:          { type: integer, required: true, foreignTable: imbra_status, foreignReference: id, onDelete: restrict }
-    text:                     { type: longvarchar }
     name:                     { type: varchar, size: 100 }
     dob:                      { type: varchar, size: 100 }
     address:                  { type: varchar, size: 255 }
@@ -185,6 +185,8 @@ propel:
     zip:                      { type: varchar, size: 20 }                  
     phone:                    { type: varchar, size: 30 }                  
     created_at:
+  member_imbra_i18n:
+    text:                     { type: longvarchar }
   member_imbra_answer:
     id:
     member_imbra_id:          { type: integer, required: true, foreignTable: member_imbra, foreignReference: id, onDelete: cascade }
@@ -309,14 +311,22 @@ propel:
     author:         { type: varchar, size: 255, required: true,  default: '' }
   trans_unit:
     id:
-    cat_id:         { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
-    source:         { type: longvarchar, required: true  }
-    target:         { type: longvarchar, required: true  }
-    comments:       { type: longvarchar }
-    author:         { type: varchar, size: 255, required: true, default: ''}
-    translated:     { type: boolean, required: true, default: false }
-    date_created:   { type: integer, size: 11, required: true,  default: 0 }
-    date_modified:  { type: integer, size: 11, required: true,  default: 0 }
+    cat_id:                 { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
+    msg_collection_id:
+    source:                 { type: longvarchar, required: true  }
+    target:                 { type: longvarchar, required: true  }
+    comments:               { type: longvarchar }
+    author:                 { type: varchar, size: 255, required: true, default: ''}
+    translated:             { type: boolean, required: true, default: false }
+    date_created:           { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:          { type: integer, size: 11, required: true,  default: 0 }
+  trans_collection:
+    id:
+    name:                   { type: varchar, size: 255 }
+  msg_collection:
+    id:
+    trans_collection_id:
+    name:                   { type: varchar, size: 255 }
   static_page:
     id:
     slug:           { type: varchar, size: 255, required: true }

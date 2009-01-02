@@ -11,6 +11,11 @@
                array ('related_class' => 'Catalogue',
     )) ?><br />
     
+    <label for="msg_collection">Msg Collection:</label>
+    <?php echo object_select_tag($trans_unit, 'getMsgCollectionId', 
+               array ('related_class' => 'MsgCollection',
+    )) ?><br />
+    
     <label for="source">Source:</label>
     <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5')) ?><br />
     <label for="target">Target:</label>

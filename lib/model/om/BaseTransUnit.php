@@ -17,6 +17,10 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 
 	
+	protected $msg_collection_id;
+
+
+	
 	protected $source;
 
 
@@ -47,6 +51,9 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 	protected $aCatalogue;
 
 	
+	protected $aMsgCollection;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -64,6 +71,13 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 	{
 
 		return $this->cat_id;
+	}
+
+	
+	public function getMsgCollectionId()
+	{
+
+		return $this->msg_collection_id;
 	}
 
 	
@@ -148,6 +162,26 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 		if ($this->aCatalogue !== null && $this->aCatalogue->getCatId() !== $v) {
 			$this->aCatalogue = null;
+		}
+
+	} 
+	
+	public function setMsgCollectionId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->msg_collection_id !== $v) {
+			$this->msg_collection_id = $v;
+			$this->modifiedColumns[] = TransUnitPeer::MSG_COLLECTION_ID;
+		}
+
+		if ($this->aMsgCollection !== null && $this->aMsgCollection->getId() !== $v) {
+			$this->aMsgCollection = null;
 		}
 
 	} 
@@ -266,25 +300,27 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 			$this->cat_id = $rs->getInt($startcol + 1);
 
-			$this->source = $rs->getString($startcol + 2);
+			$this->msg_collection_id = $rs->getInt($startcol + 2);
 
-			$this->target = $rs->getString($startcol + 3);
+			$this->source = $rs->getString($startcol + 3);
 
-			$this->comments = $rs->getString($startcol + 4);
+			$this->target = $rs->getString($startcol + 4);
 
-			$this->author = $rs->getString($startcol + 5);
+			$this->comments = $rs->getString($startcol + 5);
 
-			$this->translated = $rs->getBoolean($startcol + 6);
+			$this->author = $rs->getString($startcol + 6);
 
-			$this->date_created = $rs->getInt($startcol + 7);
+			$this->translated = $rs->getBoolean($startcol + 7);
 
-			$this->date_modified = $rs->getInt($startcol + 8);
+			$this->date_created = $rs->getInt($startcol + 8);
+
+			$this->date_modified = $rs->getInt($startcol + 9);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 10; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating TransUnit object", $e);
 		}
@@ -382,6 +418,13 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				$this->setCatalogue($this->aCatalogue);
 			}
 
+			if ($this->aMsgCollection !== null) {
+				if ($this->aMsgCollection->isModified()) {
+					$affectedRows += $this->aMsgCollection->save($con);
+				}
+				$this->setMsgCollection($this->aMsgCollection);
+			}
+
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
@@ -437,6 +480,12 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->aMsgCollection !== null) {
+				if (!$this->aMsgCollection->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aMsgCollection->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = TransUnitPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -468,24 +517,27 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				return $this->getCatId();
 				break;
 			case 2:
-				return $this->getSource();
+				return $this->getMsgCollectionId();
 				break;
 			case 3:
-				return $this->getTarget();
+				return $this->getSource();
 				break;
 			case 4:
-				return $this->getComments();
+				return $this->getTarget();
 				break;
 			case 5:
-				return $this->getAuthor();
+				return $this->getComments();
 				break;
 			case 6:
-				return $this->getTranslated();
+				return $this->getAuthor();
 				break;
 			case 7:
-				return $this->getDateCreated();
+				return $this->getTranslated();
 				break;
 			case 8:
+				return $this->getDateCreated();
+				break;
+			case 9:
 				return $this->getDateModified();
 				break;
 			default:
@@ -500,13 +552,14 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCatId(),
-			$keys[2] => $this->getSource(),
-			$keys[3] => $this->getTarget(),
-			$keys[4] => $this->getComments(),
-			$keys[5] => $this->getAuthor(),
-			$keys[6] => $this->getTranslated(),
-			$keys[7] => $this->getDateCreated(),
-			$keys[8] => $this->getDateModified(),
+			$keys[2] => $this->getMsgCollectionId(),
+			$keys[3] => $this->getSource(),
+			$keys[4] => $this->getTarget(),
+			$keys[5] => $this->getComments(),
+			$keys[6] => $this->getAuthor(),
+			$keys[7] => $this->getTranslated(),
+			$keys[8] => $this->getDateCreated(),
+			$keys[9] => $this->getDateModified(),
 		);
 		return $result;
 	}
@@ -529,24 +582,27 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				$this->setCatId($value);
 				break;
 			case 2:
-				$this->setSource($value);
+				$this->setMsgCollectionId($value);
 				break;
 			case 3:
-				$this->setTarget($value);
+				$this->setSource($value);
 				break;
 			case 4:
-				$this->setComments($value);
+				$this->setTarget($value);
 				break;
 			case 5:
-				$this->setAuthor($value);
+				$this->setComments($value);
 				break;
 			case 6:
-				$this->setTranslated($value);
+				$this->setAuthor($value);
 				break;
 			case 7:
-				$this->setDateCreated($value);
+				$this->setTranslated($value);
 				break;
 			case 8:
+				$this->setDateCreated($value);
+				break;
+			case 9:
 				$this->setDateModified($value);
 				break;
 		} 	}
@@ -558,13 +614,14 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCatId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setSource($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setTarget($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setComments($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setAuthor($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setTranslated($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setDateCreated($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setDateModified($arr[$keys[8]]);
+		if (array_key_exists($keys[2], $arr)) $this->setMsgCollectionId($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSource($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setTarget($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setComments($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setAuthor($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setTranslated($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setDateCreated($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setDateModified($arr[$keys[9]]);
 	}
 
 	
@@ -574,6 +631,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(TransUnitPeer::ID)) $criteria->add(TransUnitPeer::ID, $this->id);
 		if ($this->isColumnModified(TransUnitPeer::CAT_ID)) $criteria->add(TransUnitPeer::CAT_ID, $this->cat_id);
+		if ($this->isColumnModified(TransUnitPeer::MSG_COLLECTION_ID)) $criteria->add(TransUnitPeer::MSG_COLLECTION_ID, $this->msg_collection_id);
 		if ($this->isColumnModified(TransUnitPeer::SOURCE)) $criteria->add(TransUnitPeer::SOURCE, $this->source);
 		if ($this->isColumnModified(TransUnitPeer::TARGET)) $criteria->add(TransUnitPeer::TARGET, $this->target);
 		if ($this->isColumnModified(TransUnitPeer::COMMENTS)) $criteria->add(TransUnitPeer::COMMENTS, $this->comments);
@@ -612,6 +670,8 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setCatId($this->cat_id);
+
+		$copyObj->setMsgCollectionId($this->msg_collection_id);
 
 		$copyObj->setSource($this->source);
 
@@ -678,6 +738,35 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aCatalogue;
+	}
+
+	
+	public function setMsgCollection($v)
+	{
+
+
+		if ($v === null) {
+			$this->setMsgCollectionId(NULL);
+		} else {
+			$this->setMsgCollectionId($v->getId());
+		}
+
+
+		$this->aMsgCollection = $v;
+	}
+
+
+	
+	public function getMsgCollection($con = null)
+	{
+		if ($this->aMsgCollection === null && ($this->msg_collection_id !== null)) {
+						include_once 'lib/model/om/BaseMsgCollectionPeer.php';
+
+			$this->aMsgCollection = MsgCollectionPeer::retrieveByPK($this->msg_collection_id, $con);
+
+			
+		}
+		return $this->aMsgCollection;
 	}
 
 
