@@ -62,7 +62,7 @@ propel:
     state_id:                 { type: integer, required: false, foreignTable: state, foreignReference: id, onDelete: restrict }
     district:                 { type: varchar, size: 100, required: true }
     city:                     { type: varchar, size: 60, required: true } #the longest city name in the world have 58 chars
-    zip:                      { type: integer, size: 10, required: true }
+    zip:                      { type: varchar, size: 20, required: true }
     nationality:              { type: varchar, size: 255, required: true }
     language:                 { type: varchar, size: 3, required: true } #this filed is currently used only for match engine
     birthday:                 { type: bu_date }
