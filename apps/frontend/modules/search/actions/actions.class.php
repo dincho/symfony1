@@ -175,7 +175,12 @@ class searchActions extends prActions
     
     public function executeSelectCountries()
     {
-        
+
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => 'dashboard', 'uri' => 'dashboard/index'))
+        ->add(array('name' => 'search', 'uri' => 'search/index'))
+        ->add(array('name' => 'Select Countries', 'search/selectCountries'));
+            
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
