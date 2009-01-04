@@ -25,6 +25,18 @@
     <fieldset class="form_fields error_msgs_fields">
         <label>Error Messages</label>
         <?php echo input_tag('trans[10]', (isset($trans[10])) ? $trans[10]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[77]', (isset($trans[77])) ? $trans[77]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[78]', (isset($trans[78])) ? $trans[78]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[79]', (isset($trans[79])) ? $trans[79]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[80]', (isset($trans[80])) ? $trans[80]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[81]', (isset($trans[81])) ? $trans[81]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[82]', (isset($trans[82])) ? $trans[82]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[83]', (isset($trans[83])) ? $trans[83]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[84]', (isset($trans[84])) ? $trans[84]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[85]', (isset($trans[85])) ? $trans[85]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[86]', (isset($trans[86])) ? $trans[86]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[87]', (isset($trans[87])) ? $trans[87]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[88]', (isset($trans[88])) ? $trans[88]->getTarget() : null) ?><br />
     </fieldset>
     
     <fieldset class="actions">

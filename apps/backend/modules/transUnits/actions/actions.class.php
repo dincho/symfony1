@@ -27,7 +27,9 @@ class transUnitsActions extends sfActions
     
     public function executeList()
     {
-        $this->trans_units = TransUnitPeer::doSelectJoinAll(new Criteria());
+        $c = new Criteria();
+        $c->addDescendingOrderByColumn(TransUnitPeer::ID);
+        $this->trans_units = TransUnitPeer::doSelectJoinAll($c);
     }
 
     public function executeCreate()
@@ -40,6 +42,8 @@ class transUnitsActions extends sfActions
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->save();
+            
+            $this->setFlash('msg_ok', 'Added trans unit with ID: ' . $trans_unit->getId());
             $this->redirect('transUnits/list');            
         }
     }
