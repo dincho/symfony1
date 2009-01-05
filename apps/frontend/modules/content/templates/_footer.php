@@ -18,5 +18,5 @@
         <?php if(array_key_exists('affiliates', $links_map)) echo link_to($links_map['affiliates'], '@page?slug=affiliates') . '&nbsp;&nbsp;&bull;&nbsp;'  ?>
         <?php echo link_to(__('Tell a Friend'), 'content/tellFriend') ?><br />
     <?php endif; ?>
-    <span class="footer_footer"><?php echo link_to('&copy; Copyright 2007-2008 by PolishRomance.com v0.9.2 ', '@page?slug=copyright') ?>- Patent Pending - All Rights Reserved - <?php include_partial('system/page_execution'); ?></span>
+    <span class="footer_footer"><?php echo link_to('&copy; Copyright 2007-2008 by PolishRomance.com v0.9.3 ', '@page?slug=copyright') ?>- Patent Pending - All Rights Reserved - <?php include_partial('system/page_execution'); ?></span>
 </div>

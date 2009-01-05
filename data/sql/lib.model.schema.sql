@@ -107,7 +107,7 @@ CREATE TABLE `member`
 	`state_id` INTEGER,
 	`district` VARCHAR(100)  NOT NULL,
 	`city` VARCHAR(60)  NOT NULL,
-	`zip` INTEGER(10)  NOT NULL,
+	`zip` VARCHAR(20)  NOT NULL,
 	`nationality` VARCHAR(255)  NOT NULL,
 	`language` VARCHAR(3)  NOT NULL,
 	`birthday` DATE,

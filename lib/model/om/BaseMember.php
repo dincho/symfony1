@@ -1135,8 +1135,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 		
 		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
 		}
 
 		if ($this->zip !== $v) {
@@ -1565,7 +1565,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->city = $rs->getString($startcol + 19);
 
-			$this->zip = $rs->getInt($startcol + 20);
+			$this->zip = $rs->getString($startcol + 20);
 
 			$this->nationality = $rs->getString($startcol + 21);
 

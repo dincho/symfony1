@@ -72,7 +72,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, true, 60);
 
-		$tMap->addColumn('ZIP', 'Zip', 'int', CreoleTypes::INTEGER, true, 10);
+		$tMap->addColumn('ZIP', 'Zip', 'string', CreoleTypes::VARCHAR, true, 20);
 
 		$tMap->addColumn('NATIONALITY', 'Nationality', 'string', CreoleTypes::VARCHAR, true, 255);
 

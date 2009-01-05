@@ -1,15 +1,3 @@
-
-CREATE TABLE `member_imbra_i18n`
-(
-	`text` TEXT,
-	`id` INTEGER  NOT NULL,
-	`culture` VARCHAR(7)  NOT NULL,
-	PRIMARY KEY (`id`,`culture`),
-	CONSTRAINT `member_imbra_i18n_FK_1`
-		FOREIGN KEY (`id`)
-		REFERENCES `member_imbra` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -20,11 +8,10 @@ ALTER TABLE `catalogue` CHANGE `date_created` `date_created` INTEGER(11) default
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `catalogue` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;
 /* old definition: int(10) NOT NULL
-   new definition: INTEGER(10)  NOT NULL */
-ALTER TABLE `member` CHANGE `zip` `zip` INTEGER(10)  NOT NULL;
+   new definition: VARCHAR(20)  NOT NULL */
+ALTER TABLE `member` CHANGE `zip` `zip` VARCHAR(20)  NOT NULL;
 ALTER TABLE `member` DROP `search_criteria_id`;
 ALTER TABLE `member_desc_answer` DROP INDEX member_id;
-ALTER TABLE `member_imbra` DROP `text`;
 ALTER TABLE `member_match` DROP INDEX member1_id;
 ALTER TABLE `member_match` DROP INDEX pct;
 /* old definition: int(11) NOT NULL default '0'
