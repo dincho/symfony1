@@ -156,11 +156,10 @@ class messagesActions extends sfActions
     {
         if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $sort_arr = $sort_column = explode('::', $sort_column);
+            $sort_arr = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
             
-            $sort_column = call_user_func_array(array($peer, 'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
-            //$sort_column = MemberPeer::translateFieldName($sort_column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            $sort_column = call_user_func(array($peer, 'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
                 $c->addAscendingOrderByColumn($sort_column);

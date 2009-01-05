@@ -59,12 +59,14 @@ class membersActions extends sfActions
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
+        
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinAll');
         $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
         $this->pager = $pager;
     
+        
     }
 
     public function executeCreate()
@@ -373,10 +375,10 @@ class membersActions extends sfActions
     {
         if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $sort_arr = $sort_column = explode('::', $sort_column);
+            $sort_arr = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
             
-            $sort_column = call_user_func_array(array($peer,'translateFieldName'), array($sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
+            $sort_column = call_user_func(array('MemberPeer','translateFieldName'), 'username', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
                 $c->addAscendingOrderByColumn($sort_column);
