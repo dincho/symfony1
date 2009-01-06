@@ -78,6 +78,7 @@ class myUser extends sfBasicSecurityUser
                     $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
                 }
                 $member->save();
+                $member->updateMatches();
                 $this->setAttribute('status_id', $member->getMemberStatusId());
                 $action->redirect('@dashboard');
             }

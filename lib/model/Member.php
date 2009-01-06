@@ -8,13 +8,6 @@
  */
 class Member extends BaseMember
 {
-
-    //we do not need 0 as value, null is good
-    public function getZip()
-    {
-        return ( parent::getZip() != 0 ) ? parent::getZip() : null;
-    }
-    
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
