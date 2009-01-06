@@ -161,7 +161,7 @@ class feedbackActions extends sfActions
             $feedback->setMailbox(FeedbackPeer::SENT);
             $feedback->setIsRead(true);
             $feedback->setMailTo($this->getRequestParameter('mail_to'));
-            $feedback->setMailFrom($this->getRequestParameter('mail_from', 'noreply@polishromance.com'));
+            $feedback->setMailFrom($this->getRequestParameter('mail_from', sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com')));
             $feedback->setSubject($this->getRequestParameter('subject'));
             $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
             $feedback->save();
@@ -173,17 +173,17 @@ class feedbackActions extends sfActions
         $this->addSendFiltersCriteria($c);
         $c->setLimit(100); //max emails
         
-
         if (isset($this->send_to_members) && $this->send_to_members)
         {
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member)
             {
                 $mail = new prMail();
+                $mail->setFrom($this->getRequestParameter('mail_from'));
                 $mail->setSender($this->getRequestParameter('mail_from'));
                 $mail->setSubject($this->getRequestParameter('subject'));
                 $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-                $mail->addAddress($member->getEmail(), $member->getFullName());
+                $mail->addAddress($member->getEmail());
                 
                 try
                 {
@@ -306,6 +306,10 @@ class feedbackActions extends sfActions
         } elseif (isset($crit_usr))
         {
             $c->add($crit_usr);
+            $this->send_to_members = true;
+        } elseif( $has_second_crit )
+        {
+            $c->add($crit);
             $this->send_to_members = true;
         }
     

@@ -22,8 +22,8 @@ class prMail extends sfMail
         
         $this->setCharset('utf-8');
         $this->setContentType('text/html');
-        $this->setFrom(sfConfig::get('app_mail_from'), 'PolishRomance.com');
-        $this->setSender(sfConfig::get('app_mail_from'), 'PolishRomance.com');
+        $this->setFrom(sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com'));
+        $this->setSender(sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com'));
     }
     
     public function initialize()
@@ -55,7 +55,6 @@ class prMail extends sfMail
             $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
         }
-        
         parent::send();
     }
 }
