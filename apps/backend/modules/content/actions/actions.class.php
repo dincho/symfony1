@@ -15,6 +15,11 @@ class contentActions extends sfActions
         $this->culture = $this->getRequestParameter('culture', 'en');
     }
     
+    public function executeList()
+    {
+        $this->forward('content', 'homepages');
+    }
+    
     public function executeHomepages()
     {
         $c = new Criteria();
