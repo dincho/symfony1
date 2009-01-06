@@ -34,6 +34,9 @@ class myUser extends sfBasicSecurityUser
 
     public function SignIn($member)
     {
+        $this->getAttributeHolder()->clear();
+        $this->clearCredentials();
+                
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());

@@ -46,6 +46,9 @@ class registrationActions extends prActions
             $member->setMemberCounter($counter);
             $member->save();
             
+            $this->getUser()->getAttributeHolder()->clear();
+            $this->getUser()->clearCredentials();
+                    
             Events::triggerJoin($member);
             $this->message('verify_your_email');
         }
