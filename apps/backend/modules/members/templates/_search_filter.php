@@ -1,7 +1,9 @@
 <?php echo form_tag(sfContext::getInstance()->getModuleName() . '/' . sfContext::getInstance()->getActionName(), array('method' => 'get', 'id' => 'search_filter')) ?>
-<?php foreach ($extra_vars as $name => $value): ?>
-    <?php echo input_hidden_tag($name, $value) ?>
-<?php endforeach; ?>
+    <?php if( isset($extra_vars)): ?>
+        <?php foreach ($extra_vars as $name => $value): ?>
+            <?php echo input_hidden_tag($name, $value) ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <?php echo input_hidden_tag('filter', 'filter', 'class=hidden') ?>
     <fieldset class="search_fields">
         <label for="query">Search for:</label><br />

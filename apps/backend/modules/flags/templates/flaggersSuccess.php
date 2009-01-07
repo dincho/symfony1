@@ -1,4 +1,6 @@
 <?php use_helper('Javascript', 'xSortableTitle') ?>
+<?php include_partial('members/search_filter', array('filters' => $filters)); ?>
+
 <table class="zebra">
     <thead>
         <tr>

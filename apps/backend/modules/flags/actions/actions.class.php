@@ -266,5 +266,21 @@ class flagsActions extends sfActions
                     break;
             }      
         }
+        
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
+        {
+            switch ($this->filters['search_type']) {
+                case 'first_name':
+                    $c->add(MemberPeer::FIRST_NAME, $this->filters['search_query']);
+                    break;
+                case 'last_name':
+                    $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
+                    break;
+                
+                default:
+                    $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
+                    break;
+            }
+        }        
     }
 }
