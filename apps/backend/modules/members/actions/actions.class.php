@@ -538,7 +538,7 @@ class membersActions extends sfActions
             $this->left_menu_selected = 'Deleted Members';
         }
         
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']))
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {
                 case 'first_name':
