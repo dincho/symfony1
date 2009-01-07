@@ -5,6 +5,7 @@
 <?php end_slot(); ?>
 
 <div id="profile_right">
+    <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
     <ul id="profile_top">
         <li class="left_profile_top"><?php echo link_to(__('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?></li>
         <li><?php echo link_to(__('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?></li>

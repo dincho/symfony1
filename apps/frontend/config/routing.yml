@@ -15,8 +15,8 @@ signout:
     param: { module: profile, action: signout, sf_culture: en  }
     
 profile:
-    url:   /:sf_culture/profile/:username
-    param: { module: profile, action: index, sf_culture: en  }
+    url:   /:sf_culture/profile/:username/*
+    param: { module: profile, action: index, sf_culture: en }
 
 web_email:
     url:   /:sf_culture/emails/:hash

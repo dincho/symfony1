@@ -44,6 +44,8 @@ class searchActions extends prActions
     
     public function executeMostRecent()
     {
+        $this->getUser()->setAttribute('last_search_url', 'search/mostRecent');
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -57,6 +59,8 @@ class searchActions extends prActions
 
     public function executeCriteria()
     {
+        $this->getUser()->setAttribute('last_search_url', 'search/criteria');
+        
         $this->has_criteria = true;
         if( !$this->getUser()->getProfile()->hasSearchCriteria() )
         {
@@ -76,6 +80,8 @@ class searchActions extends prActions
     
     public function executeReverse()
     {
+        $this->getUser()->setAttribute('last_search_url', 'search/reverse');
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -88,6 +94,8 @@ class searchActions extends prActions
     
     public function executeMatches()
     {
+        $this->getUser()->setAttribute('last_search_url', 'search/matches');
+        
         $this->has_criteria = true;
         if( !$this->getUser()->getProfile()->hasSearchCriteria() )
         {
@@ -107,6 +115,8 @@ class searchActions extends prActions
     
     public function executeByKeyword()
     {
+        $this->getUser()->setAttribute('last_search_url', 'search/byKeyword');
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -221,6 +231,10 @@ class searchActions extends prActions
     
     protected function initPager(Criteria $c, $per_page = 12)
     {
+        $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
+        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/profile_pager');
+        $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'frontend/search/profile_pager');
+
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));

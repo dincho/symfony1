@@ -70,5 +70,32 @@ class MemberMatchPeer extends BaseMemberMatchPeer
             $results[] = $obj1;
         }
         return $results;
+    }   
+     
+    public static function doSelectJoinMemberRelatedByMember2IdRS(Criteria $c, $con = null)
+    {
+        $c = clone $c;
+
+        if ($c->getDbName() == Propel::getDefaultDB()) {
+            $c->setDbName(self::DATABASE_NAME);
+        }
+
+        MemberMatchPeer::addSelectColumns($c);
+        
+        $c->clearSelectColumns()->addAsColumn('reverse_pct', '(SELECT m2.pct
+                                                    FROM member_match AS m2 
+                                                    WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
+                                                    )');
+                
+        $c->addSelectColumn(MemberPeer::USERNAME);
+
+        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+        $rs = BasePeer::doSelect($c, $con);
+        $results = array();
+
+        while($rs->next()) {
+            $results[] = $rs->getString(1);
+        }
+        return $results;
     }    
 }

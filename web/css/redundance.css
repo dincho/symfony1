@@ -70,33 +70,6 @@
 }
 
 /* end blocked members */
-#buttons {
-    height: 33px;
-    width: 340px;
-    text-align: center;
-    font-size: 11px;
-}
-
-#buttons #previous {
-    height: 100%;
-    float: left;
-    width: 25%;
-    background: url(/images/prev.gif) no-repeat center left;
-}
-
-#buttons #return_results {
-    height: 100%;
-    float: left;
-    width: 150px;
-}
-
-#buttons #next {
-    height: 100%;
-    float: left;
-    width: 25%;
-    background: url(/images/next.gif) no-repeat center right;
-}
-
 #coming_soon {
     text-align: center;
     padding-top: 45px;

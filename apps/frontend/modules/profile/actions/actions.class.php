@@ -22,7 +22,7 @@ class profileActions extends prActions
 
         if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
         
-        //recent conversatoions - this need refactoring and move to the model
+        //@TODO recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
         $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $this->getUser()->getId()));
@@ -58,6 +58,8 @@ class profileActions extends prActions
             $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
             $this->imbra_answers = $this->imbra->getImbraAnswersArray();
         }
+        
+        $this->profile_pager = new ProfilePager($member->getUsername());
     }
 
     public function executeSignIn()

@@ -31,6 +31,10 @@ img {
     float: right;
 }
 
+.no-padding {
+    padding: 0 !important;
+}
+
 .color-gray {
     color: #92897E;
 }
@@ -1966,6 +1970,7 @@ span.sec_link {
     text-align: left;
     font-size: 11px;
     color: #d3d3d3;
+    padding-top: 31px;
 }
 
 #profile_left img.thumb {
@@ -1995,6 +2000,28 @@ span.sec_link {
     color: #d3d3d3;
     text-align: left;
 }
+
+/* Profile Pager */
+#profile_pager {
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px 0;
+}
+
+#profile_pager .next a, #profile_pager .prev a, #profile_pager span {
+    font-size: 11px;
+    color: #4F4F4F;
+    line-height: 21px;
+    display: block;
+}
+
+#profile_pager .next a:hover, #profile_pager .prev a:hover {
+    color: white;
+}
+
+/* end profile pager */
 
 #profile_right #profile_top {
     height: 18px;
