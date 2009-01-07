@@ -11,7 +11,7 @@
     <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.areas_form.elements["areas[]"])', array('class' => 'sec_link')) ?>
     <fieldset>
         <?php foreach ($areas as $area): ?>
-            <?php echo checkbox_tag('areas[]', $area->getId(), in_array($area->getId(), $sf_data->getRaw('selected_areas'))) ?>
+            <?php echo checkbox_tag('areas[]', $area->getId(), (in_array($area->getId(), $sf_data->getRaw('selected_areas')) || $sf_request->hasParameter('select_all')) ) ?>
             <label for="areas_<?php echo $area->getId() ?>"><?php echo link_to_function($area->getTitle(), 
                         'void()', 
                         array('class' => 'slf', 

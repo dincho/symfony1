@@ -2,3 +2,5 @@ all:
     javascripts:    [loader]
 selectAreasSuccess:
     javascripts:    [SC_select_all]
+selectCountriesSuccess:
+    javascripts:    [select_all_areas]

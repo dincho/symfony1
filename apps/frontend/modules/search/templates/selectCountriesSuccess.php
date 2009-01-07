@@ -15,7 +15,8 @@
                 <label>
                     <?php echo $value ?>
                     <?php if( in_array($key, $sf_data->getRaw('states')) ): ?>
-                        <?php echo link_to(__('(select areas)'), 'search/selectAreas?country=' . $key, array('class' => 'sec_link')) ?>
+                        <?php echo link_to(__('(select areas)'), 'search/selectAreas?country=' . $key, 
+                              array('class' => 'sec_link', 'onclick' => 'select_all_areas(this, "' . $key .'")')) ?>
                     <?php endif; ?>
                 </label><br />
                 <?php if( ++$i % 81 == 0 ): ?>
