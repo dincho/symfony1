@@ -55,9 +55,6 @@ class usersActions extends sfActions
 
     public function handleErrorCreate()
     {
-        $criteria = new Criteria();
-        $criteria->addAscendingOrderByColumn(GroupsPeer::GROUP_NAME);
-        $this->groups = GroupsPeer::doSelect($criteria);
         return sfView::SUCCESS;
     }
 
