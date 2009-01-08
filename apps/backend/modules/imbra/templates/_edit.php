@@ -54,7 +54,13 @@
         <?php $questions = ImbraQuestionPeer::getAllAssocWithID(); ?>
         <?php foreach ($imbra->getMemberImbraAnswers() as $answer): ?>
           <dt><?php echo $questions[$answer->getImbraQuestionId()]->getTitle(); ?></dt>
-          <dd><?php echo  $answer->getAnswerString() ?></dd>
+          <dd>
+            <?php if( !$questions[$answer->getImbraQuestionId()]->getOnlyExplain()): ?>
+                <?php echo  $answer->getAnswerString() ?>
+            <?php else: ?>
+                <?php echo $answer->getExplanation() ?>
+            <?php endif; ?>                
+          </dd>
         <?php endforeach; ?>
       </dl>
     </div>
