@@ -31,8 +31,10 @@ class IMAP
         {
             $message = new imap_message($this->stream, $message_id);
             $messages[] = $message;
+            $message->delete();
         }
         
+        imap_expunge($this->stream);
         return $messages;
     }
     

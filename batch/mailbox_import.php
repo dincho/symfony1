@@ -36,6 +36,6 @@ foreach ($messages as $message)
     
     $mail->save();
     
-    $message->delete();
+    //$message->delete();
 }
 

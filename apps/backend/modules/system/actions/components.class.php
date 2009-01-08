@@ -21,35 +21,43 @@ class systemComponents extends sfComponents
   public function executeLeftMenu()
   {
     //counters
-    $c = new Criteria();
-    $c->add(FeedbackPeer::IS_READ, false);
-    $feedback_cnt_all = FeedbackPeer::doCount($c);
+    $imbra_cnt_pending = $imbra_cnt_approved = $imbra_cnt_denied = $feedback_cnt_all = $feedback_cnt_paid = $feedback_cnt_bugs = $feedback_cnt_external = 0;
+    if( $this->getContext()->getModuleName() == 'feedback' )
+    {
+        $c = new Criteria();
+        //$c->add(FeedbackPeer::IS_READ, false);
+        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
+        $feedback_cnt_all = FeedbackPeer::doCount($c);
+        
+        $c1 = clone $c;
+        $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
+        $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
+        $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
+        $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
+        $c1->add($crit);
+        $feedback_cnt_paid = FeedbackPeer::doCount($c1);
     
-    $c1 = clone $c;
-    $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
-    $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
-    $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
-    $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
-    $c1->add($crit);
-    $feedback_cnt_paid = FeedbackPeer::doCount($c1);
-
-    $c2 = clone $c;
-    $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
-    $feedback_cnt_external = FeedbackPeer::doCount($c2);
-
-    $c3 = clone $c;
-    $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
-    $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
-
-    $c4 = new Criteria();
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
-    $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
+        $c2 = clone $c;
+        $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
+        $feedback_cnt_external = FeedbackPeer::doCount($c2);
     
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
-    $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
-    
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
-    $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
+        $c3 = clone $c;
+        $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
+        $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+    }
+
+    if( $this->getContext()->getModuleName() == 'imbra' )
+    {
+        $c4 = new Criteria();
+        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
+        $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
+        
+        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
+        $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
+        
+        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
+        $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
+    }
     
     $this->menu = array();
     $full_menu = array( 'members'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
