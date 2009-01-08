@@ -20,6 +20,7 @@ class statusFilter extends sfFilter
             $action = $context->getActionName();
             $user = $context->getUser();
             $module_action = $module . '/' . $action;
+            $member = $user->getProfile();
 
             //second condition is to bypass case constructor if status is active
             if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && 
@@ -31,6 +32,8 @@ class statusFilter extends sfFilter
                         if ( $module != 'registration' && $module != 'IMBRA' )
                         {
                             if( $user->getAttribute('must_confirm_email') ) $AI->redirect('registration/requestNewActivationEmail');
+                            if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
+                                && $member->countMemberPhotos() > 0 ) $user->completeRegistration();
                             $AI->message('complete_registration');
                         }
                         break;
