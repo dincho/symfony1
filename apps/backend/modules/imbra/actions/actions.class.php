@@ -126,7 +126,7 @@ class imbraActions extends sfActions
                 $this->imbra->setText($this->getRequestParameter('text_pl'));
             }
             
-            $this->imbra->setImbraStatusId(ImbraStatusPeer::APPROVED);
+            //$this->imbra->setImbraStatusId(ImbraStatusPeer::APPROVED);
             $this->imbra->save();
             $this->redirect('imbra/approveConfirmation?id=' . $this->imbra->getId() . '&member_id=' . $this->member->getId() . '&template_id=3');
         }
@@ -160,7 +160,7 @@ class imbraActions extends sfActions
             $mail->setBody($this->getRequestParameter('body'));
             $mail->Send();
             
-            $this->imbra->setImbraStatusId(ImbraStatusPeer::DENIED);
+            $this->imbra->setImbraStatusId(ImbraStatusPeer::APPROVED);
             $this->imbra->save();
             
             $this->setFlash('msg_ok', 'Message has been sent.');

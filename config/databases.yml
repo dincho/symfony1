@@ -3,3 +3,4 @@ all:
     class:          sfPropelDatabase
     param:
       dsn:          mysql://pr:polish@localhost/polish_romance
+      encoding:     utf8
