@@ -36,9 +36,7 @@ class MessagePeer extends BaseMessagePeer
             $auto_reply->setFromMemberId($to_member->getId());
             $auto_reply->setToMemberId($from_member->getId());
             $auto_reply->setSubject('Re: ' . $subject . ' - (auto-response)');
-            $msg = 'The person whom you contacted - %USERNAME% - cannot read your message, 
-            because at least one person must be a Full Member for either send or receive a message. 
-            To make sure %USERNAME% will be able to open your message, <a href="%URL_FOR_SUBSCRIPTION%">please upgrade now to become a Full Member.</a>';
+            $msg = 'Messages - please upgrade auto-response';
             $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $to_member->getUsername(), '%URL_FOR_SUBSCRIPTION%' => $controller->genUrl('subscription/index')));
             
             $auto_reply->setContent($msg);

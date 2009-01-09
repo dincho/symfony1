@@ -30,6 +30,7 @@
         <label></label><?php echo input_tag('trans[83]', (isset($trans[83])) ? $trans[83]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[85]', (isset($trans[85])) ? $trans[85]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[119]', (isset($trans[119])) ? $trans[119]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[135]', (isset($trans[135])) ? $trans[135]->getTarget() : null) ?><br />
         
         <br /><label>To Free members</label>
         <label></label><?php echo input_tag('trans[86]', (isset($trans[86])) ? $trans[86]->getTarget() : null) ?><br />
