@@ -340,5 +340,22 @@ class contentActions extends sfActions
         }
         
         $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria(), $this->culture);
+    }
+    
+    public function executeSystemMessages()
+    {
+        $this->left_menu_selected = 'System Messages';
+        $bc = $this->getUser()->getBC();
+        $bc->replaceLast(array('name' => 'System Messages', 'uri' => 'content/systemMessages'));
+        $bc->add(array('name' => 'Edit System Messages'));
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect('content/systemMessages?culture=' .  $this->culture);
+        }
+        
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SYSTEM_MESSAGES, $this->culture);
     }    
 }

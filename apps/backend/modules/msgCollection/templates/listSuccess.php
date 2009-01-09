@@ -4,6 +4,7 @@
 ?>
 <h1>msgCollection</h1>
 
+<?php echo link_to ('create', 'msgCollection/create') ?>
 <table>
 <thead>
 <tr>

@@ -83,6 +83,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Profile Pages', 'uri' => 'content/profilepages'),
                                            array('title' => 'Search Pages', 'uri' => 'content/searchpages'),
                                            array('title' => 'Reg/Sign Up Pages', 'uri' => 'content/regpages'),
+                                           array('title' => 'System Messages', 'uri' => 'content/systemMessages'),
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
                                            array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
                                            array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
