@@ -269,14 +269,23 @@ class editProfileActions extends prActions
             
             if (! $subscription->getCanPostPhoto())
             {
-                $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
+                if( $subscription->getId() == SubscriptionPeer::FREE )
+                {
+                    $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
+                } else {
+                    $this->getRequest()->setError('subscription', 'Paid: In order to post photo you need to upgrade your membership.');
+                }
                 return false;
             }
             
             if ($cnt_photos >= $subscription->getPostPhotos())
             {
-                $this->getRequest()->setError('subscription', 
-                        'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                if( $subscription->getId() == SubscriptionPeer::FREE )
+                {
+                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                } else {
+                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                }
                 return false;
             }
         }

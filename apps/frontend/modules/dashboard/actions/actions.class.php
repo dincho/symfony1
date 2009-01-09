@@ -117,7 +117,12 @@ class dashboardActions extends prActions
         $subscription = $this->getUser()->getProfile()->getSubscription();
         if( !$subscription->getCanSeeViewed() )
         {
-            $this->setFlash('msg_error', 'In order to see who viewed your profile you need to upgrade your membership.');
+            if( $subscription->getId() == SubscriptionPeer::FREE )
+            {
+                $this->setFlash('msg_error', 'In order to see who viewed your profile you need to upgrade your membership.');
+            } else {
+                $this->setFlash('msg_error', 'Paid: In order to see who viewed your profile you need to upgrade your membership.');
+            }
             $this->redirect('@dashboard');
         }
         
@@ -271,13 +276,23 @@ class dashboardActions extends prActions
         $subscription = $this->getUser()->getProfile()->getSubscription();
         if( !$subscription->getCanContactAssistant() )
         {
-            $this->getRequest()->setError('subscription', 'In order to contact assistant you need to upgrade your membership.');
+            if( $subscription->getId() == SubscriptionPeer::FREE )
+            {
+                $this->getRequest()->setError('subscription', 'In order to contact assistant you need to upgrade your membership.');
+            } else {
+                $this->getRequest()->setError('subscription', 'Paid: In order to contact assistant you need to upgrade your membership.');
+            }
             return false;
         }
                 
         if( $this->getUser()->getProfile()->getCounter('AssistantContacts') >= $subscription->getContactAssistant() )
         {
-            $this->getRequest()->setError('subscription', 'For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            if( $subscription->getId() == SubscriptionPeer::FREE )
+            {
+                $this->getRequest()->setError('subscription', 'For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            } else {
+                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            }
             return false;            
         }
                 
