@@ -1,21 +1,37 @@
-<div class="filter_right"><?php echo button_to ('Add Translation Unit', 'transUnits/create') ?></div><br /><br /><br />
+<?php use_helper('Object') ?>
+<div class="filter_right"><?php echo button_to ('Add Translation Unit', 'transUnits/create') ?></div>
+
+<?php echo form_tag('transUnits/list', array('method' => 'get', 'id' => 'search_filter')) ?>
+    <?php echo input_hidden_tag('filter', 'filter', 'class=hidden') ?>
+    <fieldset class="search_fields">
+        <label for="query">Source:</label><br />
+        <?php echo input_tag('filters[search_query]', ( isset($filters['search_query']) ) ? $filters['search_query'] : null) ?>    
+    </fieldset>
+    <fieldset class="search_fields">
+        <label for="cat_id">Catalog:</label><br />
+            <?php echo select_tag('filters[cat_id]', objects_for_select($catalogs, 'getCatId', '__toString', isset($filters['cat_id']) ? $filters['cat_id'] : 'en')) ?>       
+    
+    </fieldset>
+    <fieldset>
+        <label for="search">&nbsp;</label><br />
+        <?php echo submit_tag('Search', 'id=search') ?>       
+    </fieldset>
+</form>
 <table class="zebra">
     <thead>
     <tr>
-      <th>Language</th>
-      <th>Collection</th>
       <th>Source</th>
       <th>Target</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($trans_units as $trans_unit): ?>
+    <?php foreach ($pager->getResults() as $trans_unit): ?>
     <tr rel="<?php echo url_for('transUnits/edit?id=' . $trans_unit->getId()) ?>">
-        <td><?php echo $trans_unit->getCatalogue()?></td>
-        <td><?php echo $trans_unit->getMsgCollection()?></td>
         <td><?php echo Tools::truncate($trans_unit->getSource(), 110) ?></td>
         <td><?php echo Tools::truncate($trans_unit->getTarget(), 110) ?></td>
     </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'transUnits/list')); ?>

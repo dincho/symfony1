@@ -78,7 +78,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Abardoned Registration', 'uri' => 'members/index'),
                                            ),
                         'content'  => array(//array('title' => 'Translation Catalogue', 'uri' => 'catalogue/list'),
-                                           //array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
+                                           array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
                                            array('title' => 'Home Pages', 'uri' => 'content/homepages'),
                                            array('title' => 'Profile Pages', 'uri' => 'content/profilepages'),
                                            array('title' => 'Search Pages', 'uri' => 'content/searchpages'),

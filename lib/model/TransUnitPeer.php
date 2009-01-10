@@ -42,4 +42,17 @@ class TransUnitPeer extends BaseTransUnitPeer
             $trans_unit->save();
         }
     }
+    
+    public static function createNewUnit($source)
+    {
+        $catalogs = CataloguePeer::doSelect(new Criteria());
+        
+        foreach ($catalogs as $catalog)
+        {
+            $trans_unit = new TransUnit();
+            $trans_unit->setCatId($catalog->getCatId());
+            $trans_unit->setSource($source);
+            $trans_unit->save();
+        }
+    }
 }

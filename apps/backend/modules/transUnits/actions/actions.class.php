@@ -27,24 +27,33 @@ class transUnitsActions extends sfActions
     
     public function executeList()
     {
+        $this->processFilters();
+        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/transUnits/filters');
+                
         $c = new Criteria();
-        $c->addDescendingOrderByColumn(TransUnitPeer::ID);
-        $this->trans_units = TransUnitPeer::doSelectJoinAll($c);
+        $this->addFiltersCriteria($c);
+        $c->addAscendingOrderByColumn(TransUnitPeer::SOURCE);
+        $c->add(TransUnitPeer::MSG_COLLECTION_ID, null, Criteria::ISNULL);
+        
+        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        $pager = new sfPropelPager('TransUnit', $per_page);
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->setPeerMethod('doSelectJoinAllExceptMsgCollection');
+        $pager->setPeerCountMethod('doCountJoinAllExceptMsgCollection');
+        $pager->init();
+        $this->pager = $pager;  
+        
+        $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
 
     public function executeCreate()
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $trans_unit = new TransUnit();
-            $trans_unit->setCatId($this->getRequestParameter('cat_id'));
-            $trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
-            $trans_unit->setSource($this->getRequestParameter('source'));
-            $trans_unit->setTarget($this->getRequestParameter('target'));
-            $trans_unit->save();
-            
-            $this->setFlash('msg_ok', 'Added trans unit with ID: ' . $trans_unit->getId());
-            $this->redirect('transUnits/list');            
+            TransUnitPeer::createNewUnit($this->getRequestParameter('source'));
+            $this->setFlash('msg_ok', 'Translation unit has been added.');
+            $this->redirect('transUnits/list');
         }
     }
 
@@ -56,9 +65,9 @@ class transUnitsActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $trans_unit->setCatId($this->getRequestParameter('cat_id'));
-            $trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
-            $trans_unit->setSource($this->getRequestParameter('source'));
+            //$trans_unit->setCatId($this->getRequestParameter('cat_id'));
+            //$trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
+            //$trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->save();
             $this->redirect('transUnits/list');                
@@ -72,4 +81,30 @@ class transUnitsActions extends sfActions
         $trans_unit->delete();
         return $this->redirect('transUnits/list');
     }
+    
+    protected function processFilters()
+    {
+        if ($this->getRequest()->hasParameter('filter'))
+        {
+            $filters = $this->getRequestParameter('filters');
+            if (!isset($filters['cat_id'])) $filters['cat_id'] = 1; //English catalog
+            
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/transUnits/filters');
+            $this->getUser()->getAttributeHolder()->add($filters, 'backend/transUnits/filters');
+        }
+    }
+    
+    protected function addFiltersCriteria( Criteria $c)
+    {
+        if (isset($this->filters['cat_id']) && strlen($this->filters['cat_id']) > 0)
+        {
+            $c->add(TransUnitPeer::CAT_ID, $this->filters['cat_id']);
+        }  
+              
+        if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
+        {
+            $c->add(TransUnitPeer::SOURCE, $this->filters['search_query'] . '%', Criteria::LIKE);
+        }        
+    }
+        
 }

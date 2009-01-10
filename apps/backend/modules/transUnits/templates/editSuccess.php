@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm') ?>
+<?php use_helper('Object', 'dtForm', 'I18N') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('transUnits/edit', 'class=form') ?>
@@ -6,18 +6,12 @@
     <div class="legend">Edit Translation Unit</div>
     <fieldset class="form_fields">
     
-    <label for="catalogue">Catalogue:</label>
-    <?php echo object_select_tag($trans_unit, 'getCatId', 
-               array ('related_class' => 'Catalogue',
-    )) ?><br />
-    
-    <label for="msg_collection">Msg Collection:</label>
-    <?php echo object_select_tag($trans_unit, 'getMsgCollectionId', 
-               array ('related_class' => 'MsgCollection',
-    )) ?><br />
+    <label for="language">Language:</label>
+    <var><?php echo format_language($trans_unit->getCatalogue()->getTargetLang()) ?></var><br />
     
     <label for="source">Source:</label>
-    <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5')) ?><br />
+    <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5', 'readonly' => true)) ?><br />
+    
     <label for="target">Target:</label>
     <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
     </fieldset>
