@@ -318,7 +318,7 @@ propel:
     comments:               { type: longvarchar }
     author:                 { type: varchar, size: 255, required: true, default: ''}
     translated:             { type: boolean, required: true, default: false }
-    date_created:           { type: integer, size: 11, required: true,  default: 0 }
+    date_added:             { type: integer, size: 11, required: true,  default: 0 }
     date_modified:          { type: integer, size: 11, required: true,  default: 0 }
   trans_collection:
     id:

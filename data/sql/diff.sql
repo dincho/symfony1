@@ -1,3 +1,7 @@
+ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`);
+ALTER TABLE `trans_unit` ADD `date_added` INTEGER(11) default 0 NOT NULL;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -7,13 +11,14 @@ ALTER TABLE `catalogue` CHANGE `date_created` `date_created` INTEGER(11) default
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `catalogue` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;
-/* old definition: int(10) NOT NULL
-   new definition: VARCHAR(20)  NOT NULL */
-ALTER TABLE `member` CHANGE `zip` `zip` VARCHAR(20)  NOT NULL;
-ALTER TABLE `member` DROP `search_criteria_id`;
-ALTER TABLE `member_desc_answer` DROP INDEX member_id;
-ALTER TABLE `member_match` DROP INDEX member1_id;
-ALTER TABLE `member_match` DROP INDEX pct;
+/* old definition: CONSTRAINT `imbra_reply_template_FK_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+   new definition: CONSTRAINT `imbra_reply_template_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`) */
+ALTER TABLE `imbra_reply_template` DROP FOREIGN KEY `imbra_reply_template_FK_1`;
+ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`);
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;
@@ -29,9 +34,7 @@ ALTER TABLE `subscription` CHANGE `period3_price` `period3_price` DECIMAL(7,2) d
 /* old definition: int(11) NOT NULL default '1'
    new definition: INTEGER(11) default 1 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `cat_id` `cat_id` INTEGER(11) default 1 NOT NULL;
-/* old definition: int(11) NOT NULL default '0'
-   new definition: INTEGER(11) default 0 NOT NULL */
-ALTER TABLE `trans_unit` CHANGE `date_created` `date_created` INTEGER(11) default 0 NOT NULL;
+ALTER TABLE `trans_unit` DROP `date_created`;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;

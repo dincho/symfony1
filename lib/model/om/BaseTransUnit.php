@@ -41,7 +41,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 
 	
-	protected $date_created = 0;
+	protected $date_added = 0;
 
 
 	
@@ -116,10 +116,10 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getDateCreated()
+	public function getDateAdded()
 	{
 
-		return $this->date_created;
+		return $this->date_added;
 	}
 
 	
@@ -260,7 +260,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setDateCreated($v)
+	public function setDateAdded($v)
 	{
 
 		
@@ -269,9 +269,9 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->date_created !== $v || $v === 0) {
-			$this->date_created = $v;
-			$this->modifiedColumns[] = TransUnitPeer::DATE_CREATED;
+		if ($this->date_added !== $v || $v === 0) {
+			$this->date_added = $v;
+			$this->modifiedColumns[] = TransUnitPeer::DATE_ADDED;
 		}
 
 	} 
@@ -312,7 +312,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 			$this->translated = $rs->getBoolean($startcol + 7);
 
-			$this->date_created = $rs->getInt($startcol + 8);
+			$this->date_added = $rs->getInt($startcol + 8);
 
 			$this->date_modified = $rs->getInt($startcol + 9);
 
@@ -535,7 +535,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				return $this->getTranslated();
 				break;
 			case 8:
-				return $this->getDateCreated();
+				return $this->getDateAdded();
 				break;
 			case 9:
 				return $this->getDateModified();
@@ -558,7 +558,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 			$keys[5] => $this->getComments(),
 			$keys[6] => $this->getAuthor(),
 			$keys[7] => $this->getTranslated(),
-			$keys[8] => $this->getDateCreated(),
+			$keys[8] => $this->getDateAdded(),
 			$keys[9] => $this->getDateModified(),
 		);
 		return $result;
@@ -600,7 +600,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				$this->setTranslated($value);
 				break;
 			case 8:
-				$this->setDateCreated($value);
+				$this->setDateAdded($value);
 				break;
 			case 9:
 				$this->setDateModified($value);
@@ -620,7 +620,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setComments($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setAuthor($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setTranslated($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setDateCreated($arr[$keys[8]]);
+		if (array_key_exists($keys[8], $arr)) $this->setDateAdded($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setDateModified($arr[$keys[9]]);
 	}
 
@@ -637,7 +637,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(TransUnitPeer::COMMENTS)) $criteria->add(TransUnitPeer::COMMENTS, $this->comments);
 		if ($this->isColumnModified(TransUnitPeer::AUTHOR)) $criteria->add(TransUnitPeer::AUTHOR, $this->author);
 		if ($this->isColumnModified(TransUnitPeer::TRANSLATED)) $criteria->add(TransUnitPeer::TRANSLATED, $this->translated);
-		if ($this->isColumnModified(TransUnitPeer::DATE_CREATED)) $criteria->add(TransUnitPeer::DATE_CREATED, $this->date_created);
+		if ($this->isColumnModified(TransUnitPeer::DATE_ADDED)) $criteria->add(TransUnitPeer::DATE_ADDED, $this->date_added);
 		if ($this->isColumnModified(TransUnitPeer::DATE_MODIFIED)) $criteria->add(TransUnitPeer::DATE_MODIFIED, $this->date_modified);
 
 		return $criteria;
@@ -683,7 +683,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 		$copyObj->setTranslated($this->translated);
 
-		$copyObj->setDateCreated($this->date_created);
+		$copyObj->setDateAdded($this->date_added);
 
 		$copyObj->setDateModified($this->date_modified);
 

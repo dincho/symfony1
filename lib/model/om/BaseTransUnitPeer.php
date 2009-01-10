@@ -44,7 +44,7 @@ abstract class BaseTransUnitPeer {
 	const TRANSLATED = 'trans_unit.TRANSLATED';
 
 	
-	const DATE_CREATED = 'trans_unit.DATE_CREATED';
+	const DATE_ADDED = 'trans_unit.DATE_ADDED';
 
 	
 	const DATE_MODIFIED = 'trans_unit.DATE_MODIFIED';
@@ -55,17 +55,17 @@ abstract class BaseTransUnitPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CatId', 'MsgCollectionId', 'Source', 'Target', 'Comments', 'Author', 'Translated', 'DateCreated', 'DateModified', ),
-		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID, TransUnitPeer::CAT_ID, TransUnitPeer::MSG_COLLECTION_ID, TransUnitPeer::SOURCE, TransUnitPeer::TARGET, TransUnitPeer::COMMENTS, TransUnitPeer::AUTHOR, TransUnitPeer::TRANSLATED, TransUnitPeer::DATE_CREATED, TransUnitPeer::DATE_MODIFIED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'cat_id', 'msg_collection_id', 'source', 'target', 'comments', 'author', 'translated', 'date_created', 'date_modified', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CatId', 'MsgCollectionId', 'Source', 'Target', 'Comments', 'Author', 'Translated', 'DateAdded', 'DateModified', ),
+		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID, TransUnitPeer::CAT_ID, TransUnitPeer::MSG_COLLECTION_ID, TransUnitPeer::SOURCE, TransUnitPeer::TARGET, TransUnitPeer::COMMENTS, TransUnitPeer::AUTHOR, TransUnitPeer::TRANSLATED, TransUnitPeer::DATE_ADDED, TransUnitPeer::DATE_MODIFIED, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'cat_id', 'msg_collection_id', 'source', 'target', 'comments', 'author', 'translated', 'date_added', 'date_modified', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CatId' => 1, 'MsgCollectionId' => 2, 'Source' => 3, 'Target' => 4, 'Comments' => 5, 'Author' => 6, 'Translated' => 7, 'DateCreated' => 8, 'DateModified' => 9, ),
-		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID => 0, TransUnitPeer::CAT_ID => 1, TransUnitPeer::MSG_COLLECTION_ID => 2, TransUnitPeer::SOURCE => 3, TransUnitPeer::TARGET => 4, TransUnitPeer::COMMENTS => 5, TransUnitPeer::AUTHOR => 6, TransUnitPeer::TRANSLATED => 7, TransUnitPeer::DATE_CREATED => 8, TransUnitPeer::DATE_MODIFIED => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'cat_id' => 1, 'msg_collection_id' => 2, 'source' => 3, 'target' => 4, 'comments' => 5, 'author' => 6, 'translated' => 7, 'date_created' => 8, 'date_modified' => 9, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CatId' => 1, 'MsgCollectionId' => 2, 'Source' => 3, 'Target' => 4, 'Comments' => 5, 'Author' => 6, 'Translated' => 7, 'DateAdded' => 8, 'DateModified' => 9, ),
+		BasePeer::TYPE_COLNAME => array (TransUnitPeer::ID => 0, TransUnitPeer::CAT_ID => 1, TransUnitPeer::MSG_COLLECTION_ID => 2, TransUnitPeer::SOURCE => 3, TransUnitPeer::TARGET => 4, TransUnitPeer::COMMENTS => 5, TransUnitPeer::AUTHOR => 6, TransUnitPeer::TRANSLATED => 7, TransUnitPeer::DATE_ADDED => 8, TransUnitPeer::DATE_MODIFIED => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'cat_id' => 1, 'msg_collection_id' => 2, 'source' => 3, 'target' => 4, 'comments' => 5, 'author' => 6, 'translated' => 7, 'date_added' => 8, 'date_modified' => 9, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
@@ -136,7 +136,7 @@ abstract class BaseTransUnitPeer {
 
 		$criteria->addSelectColumn(TransUnitPeer::TRANSLATED);
 
-		$criteria->addSelectColumn(TransUnitPeer::DATE_CREATED);
+		$criteria->addSelectColumn(TransUnitPeer::DATE_ADDED);
 
 		$criteria->addSelectColumn(TransUnitPeer::DATE_MODIFIED);
 

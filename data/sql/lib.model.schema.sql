@@ -900,7 +900,7 @@ CREATE TABLE `trans_unit`
 	`comments` TEXT,
 	`author` VARCHAR(255) default '' NOT NULL,
 	`translated` INTEGER default 0 NOT NULL,
-	`date_created` INTEGER(11) default 0 NOT NULL,
+	`date_added` INTEGER(11) default 0 NOT NULL,
 	`date_modified` INTEGER(11) default 0 NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `trans_unit_FI_1` (`cat_id`),
