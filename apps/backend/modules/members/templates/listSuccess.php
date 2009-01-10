@@ -2,7 +2,7 @@
 
 <div class="filter_right">
     Total (All Members): <?php echo format_number($pager->getNbResults()) ?>
-    <?php echo button_to('Add Member', '#') ?>
+    <?php echo button_to('Add Member', 'members/create') ?>
 </div>
 
 <?php include_partial('members/search_filter', array('filters' => $filters)); ?>

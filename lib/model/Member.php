@@ -39,6 +39,30 @@ class Member extends BaseMember
         MemberDescAnswerPeer::doDelete($select);
     }
 
+    public function initNewMember()
+    {
+        //some default values
+        $this->setLastProfileView(time());
+        $this->setLastHotlistView(time());
+        $this->setLastWinksView(time());
+        $this->setLastActivityNotification(time());
+        $this->setEmailNotifications(0);
+        
+        //init member counter
+        $counter = new MemberCounter();
+        $counter->setHotlist(0); //just save to work, we need the ID.
+        $counter->save();
+
+        $this->setMemberCounter($counter);
+    }
+    
+    public function parseLookingFor($var)
+    {
+        $sex_looking = explode('_', $var);
+        $this->setSex($sex_looking[0]);
+        $this->setLookingFor($sex_looking[1]);
+    }
+    
     /*
    * @return MemberImbra
    */

@@ -26,24 +26,8 @@ class registrationActions extends prActions
             $member->setPassword($this->getRequestParameter('password'));
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->setSubscriptionId(SubscriptionPeer::FREE);
-            
-            //some default values
-            $member->setLastProfileView(time());
-            $member->setLastHotlistView(time());
-            $member->setLastWinksView(time());
-            $member->setLastActivityNotification(time());
-            $member->setEmailNotifications(0);
-            
-            $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
-            $member->setSex($sex_looking[0]);
-            $member->setLookingFor($sex_looking[1]);
-            
-            //init member counter
-            $counter = new MemberCounter();
-            $counter->setHotlist(0); //just save to work, we need the ID.
-            $counter->save();
-            
-            $member->setMemberCounter($counter);
+            $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
+            $member->initNewMember();
             $member->save();
             
             $this->getUser()->getAttributeHolder()->clear();

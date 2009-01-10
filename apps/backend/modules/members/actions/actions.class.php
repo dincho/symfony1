@@ -71,8 +71,36 @@ class membersActions extends sfActions
 
     public function executeCreate()
     {
-        $this->member = new Member();
-        $this->setTemplate('edit');
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            $member = new Member();
+            $member->setUsername($this->getRequestParameter('username'));
+            $member->setEmail($this->getRequestParameter('email'));
+            $member->setPassword($this->getRequestParameter('password'));
+            $member->changeStatus(MemberStatusPeer::ACTIVE);
+            $member->setSubscriptionId(SubscriptionPeer::FREE);
+            $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
+            $member->setCountry($this->getRequestParameter('country'));
+            $member->setStateId($this->getRequestParameter('state_id'));
+            $member->setDistrict($this->getRequestParameter('district'));
+            $member->setCity($this->getRequestParameter('city'));
+            $member->setZip($this->getRequestParameter('zip'));
+            $member->setNationality($this->getRequestParameter('nationality'));
+            $member->setFirstName($this->getRequestParameter('first_name'));
+            $member->setLastName($this->getRequestParameter('last_name'));
+                        
+            $member->initNewMember();
+            $member->setHasEmailConfirmation(true);
+            $member->save();
+            
+            $this->setFlash('msg_ok', 'You have added a member, please finish registration');
+            $this->redirect('members/editSelfDescription?id=' . $member->getId());
+        }
+    }
+    
+    public function handleErrorCreate()
+    {
+        return sfView::SUCCESS;
     }
 
     public function executeEdit()
