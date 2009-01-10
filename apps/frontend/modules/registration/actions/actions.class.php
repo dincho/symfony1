@@ -41,7 +41,7 @@ class registrationActions extends prActions
     public function handleErrorJoinNow()
     {
         $this->setLayout('simple');
-        
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Join headline', 'uri' => 'registration/joinNow'));
         return sfView::SUCCESS;
     }
 
