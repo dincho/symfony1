@@ -41,7 +41,7 @@ class memberStoriesActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $story = new MemberStory();
-            $story->setCulture('en');
+            $story->setCulture($this->getRequestParameter('culture'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setTitle($this->getRequestParameter('title'));
             $story->setKeywords($this->getRequestParameter('keywords'));
