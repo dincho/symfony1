@@ -19,7 +19,7 @@
                   <span>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
-                  <?php echo button_to(__('Delete'), 'editProfile/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?'))) ?>
+                  <?php echo button_to(__('Delete'), 'registration/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?'))) ?>
               </div>
         <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
         </div>
