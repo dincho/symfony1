@@ -31,6 +31,7 @@
         <label></label><?php echo input_tag('trans[28]', (isset($trans[28])) ? $trans[28]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[29]', (isset($trans[29])) ? $trans[29]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[31]', (isset($trans[31])) ? $trans[31]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[136]', (isset($trans[136])) ? $trans[136]->getTarget() : null) ?><br />
     </fieldset>
         
     <fieldset class="actions">
