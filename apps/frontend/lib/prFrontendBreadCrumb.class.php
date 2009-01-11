@@ -49,7 +49,13 @@ class prFrontendBreadCrumb extends xBreadcrumb
     for( $i=0; $i<$cnt; $i++ )
     {
       $name = trim(ereg_replace('([A-Z])', ' \\1', $stack[$i]['name']));
-      $content .= link_to(__(ucfirst($name)), $stack[$i]['uri']) . $this->delim;
+      
+      if( isset($stack[$i]['uri']) )
+      {
+        $content .= link_to(ucfirst(__($name)), $stack[$i]['uri']) . $this->delim;
+      } else {
+        $content .= ucfirst(__($name)) . $this->delim;
+      }
     }
     
     //add last element manual, just text not a link

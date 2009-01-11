@@ -1,7 +1,5 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
-<?php slot('header_title') ?>
-    <?php echo __("Essay headline") ?>
-<?php end_slot(); ?>
+
 
 <?php echo __('Essay instructions') ?>
 <?php echo form_tag('registration/essay', array('id' => 'essay')) ?>

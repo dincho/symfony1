@@ -10,7 +10,6 @@
  */
 class registrationActions extends prActions
 {
-
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
@@ -89,6 +88,7 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->header_span = 'Step 1 of 4';
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
         
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($member); //just in case
@@ -116,6 +116,7 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->header_span = 'Step 1 of 4';
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($this->member); //just in case
@@ -128,6 +129,9 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->header_span = 'Step 2 of 4';
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -216,7 +220,10 @@ class registrationActions extends prActions
     public function handleErrorSelfDescription()
     {
         $this->header_span = 'Step 2 of 4';
-        
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
+                
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
@@ -230,7 +237,11 @@ class registrationActions extends prActions
         $this->setLayout('simple');
         $this->header_span = 'Step 3 of 4';
         $BC = $this->getUser()->getBC();
-        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
+        $BC->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
+        ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'));
+                
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -251,7 +262,10 @@ class registrationActions extends prActions
         $this->setLayout('simple');
         $this->header_span = 'Step 3 of 4';
         $BC = $this->getUser()->getBC();
-        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
+        $BC->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
+        ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'));
                 
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case  
@@ -265,8 +279,11 @@ class registrationActions extends prActions
         $this->setLayout('simple');
         $this->header_span = 'Step 4 of 4';
         $BC = $this->getUser()->getBC();
-        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
-        $BC->addBeforeLast(array('name' => 'Essay', 'uri' => 'registration/essay'));
+        $BC->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
+        ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'))
+        ->add(array('name' => 'Photos headline', 'uri' => 'registration/photos'));
                 
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -336,8 +353,11 @@ class registrationActions extends prActions
         $this->setLayout('simple');
         $this->header_span = 'Step 4 of 4';
         $BC = $this->getUser()->getBC();
-        $BC->addBeforeLast(array('name' => 'Self-Description', 'uri' => 'registration/selfDescription'));
-        $BC->addBeforeLast(array('name' => 'Essay', 'uri' => 'registration/essay'));
+        $BC->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
+        ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'))
+        ->add(array('name' => 'Photos headline', 'uri' => 'registration/photos'));
                 
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
@@ -376,7 +396,13 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->setTemplate('photos');
-        
+        $BC = $this->getUser()->getBC();
+        $BC->clear()->add(array('name' => 'Home'))
+        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
+        ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'))
+        ->add(array('name' => 'Photos headline', 'uri' => 'registration/photos'));
+                
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
         $this->photos = $this->member->getMemberPhotos();

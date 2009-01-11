@@ -1,7 +1,4 @@
 <?php use_helper('Object', 'dtForm', 'fillIn') ?>
-<?php slot('header_title') ?>
-    <?php echo __('Self Description headline') ?>
-<?php end_slot(); ?>
 
 <?php echo __('Self Description introduction') ?>
 <?php echo __('Self Description reminder') ?>
