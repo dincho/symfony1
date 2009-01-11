@@ -406,7 +406,7 @@ class membersActions extends sfActions
             $sort_arr = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
             
-            $sort_column = call_user_func(array('MemberPeer','translateFieldName'), 'username', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            $sort_column = call_user_func(array($peer,'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
                 $c->addAscendingOrderByColumn($sort_column);
