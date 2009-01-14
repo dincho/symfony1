@@ -64,25 +64,21 @@ class SubscriptionMapBuilder {
 
 		$tMap->addColumn('CONTACT_ASSISTANT', 'ContactAssistant', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('PERIOD1_FROM', 'Period1From', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD1_TO', 'Period1To', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD1_PRICE', 'Period1Price', 'double', CreoleTypes::DECIMAL, true, 7);
-
-		$tMap->addColumn('PERIOD2_FROM', 'Period2From', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD2_TO', 'Period2To', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD2_PRICE', 'Period2Price', 'double', CreoleTypes::DECIMAL, true, 7);
-
-		$tMap->addColumn('PERIOD3_FROM', 'Period3From', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD3_TO', 'Period3To', 'int', CreoleTypes::INTEGER, false, null);
-
-		$tMap->addColumn('PERIOD3_PRICE', 'Period3Price', 'double', CreoleTypes::DECIMAL, true, 7);
-
 		$tMap->addColumn('PRE_APPROVE', 'PreApprove', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
+		$tMap->addColumn('AMOUNT', 'Amount', 'double', CreoleTypes::DECIMAL, true, 7);
+
+		$tMap->addColumn('TRIAL1_AMOUNT', 'Trial1Amount', 'double', CreoleTypes::DECIMAL, true, 7);
+
+		$tMap->addColumn('TRIAL1_PERIOD', 'Trial1Period', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addColumn('TRIAL1_PERIOD_TYPE', 'Trial1PeriodType', 'string', CreoleTypes::CHAR, true, 1);
+
+		$tMap->addColumn('TRIAL2_AMOUNT', 'Trial2Amount', 'double', CreoleTypes::DECIMAL, true, 7);
+
+		$tMap->addColumn('TRIAL2_PERIOD', 'Trial2Period', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addColumn('TRIAL2_PERIOD_TYPE', 'Trial2PeriodType', 'string', CreoleTypes::CHAR, true, 1);
 
 	} 
 } 

@@ -13,12 +13,13 @@ class statusFilter extends sfFilter
     
     public function execute($filterChain)
     {
-        if ($this->isFirstCall())
+        $context = $this->getContext();
+        $user = $context->getUser();
+        if ($this->isFirstCall() && $user->isAuthenticated())
         {
-            $context = $this->getContext();
+            
             $module = $context->getModuleName();
             $action = $context->getActionName();
-            $user = $context->getUser();
             $module_action = $module . '/' . $action;
             $member = $user->getProfile();
 

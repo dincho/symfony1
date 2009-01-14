@@ -1,7 +1,8 @@
-<?php use_helper('Number') ?>
+<?php use_helper('Number', 'dtForm') ?>
 <?php echo __('You are currently using our <strong>free of charge account</strong> that allows to send and receive limited winks and reply to messages.<br />
 In order to see more matches and send messages, please upgrade your subscription below and click save. <br />') ?>
 
+<?php $sub1 = $subscriptions[0]; ?>
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
     <fieldset>
         <div class="column">
@@ -14,9 +15,9 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />
             <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
-            <span class="type"><?php echo __('First Month') ?></span><br />
-            <span class="type"><?php echo __('Month 2 through 6') ?></span><br />
-            <span class="type"><?php echo __('Month 7+') ?></span><br />
+            <span class="type"><?php echo __('First %NUM% ', array('%NUM%' => $sub1->getTrial1Period() )) . pr_format_payment_period_type($sub1->getTrial1PeriodType()) ?></span><br />
+            <span class="type"><?php echo __('Next %NUM% ', array('%NUM%' => $sub1->getTrial2Period() )) . pr_format_payment_period_type($sub1->getTrial2PeriodType()) ?></span><br />
+            <span class="type"><?php echo __('After that') ?></span><br />
             <span class="select"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
@@ -30,9 +31,9 @@ In order to see more matches and send messages, please upgrade your subscription
                 <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                <span class="check"><?php echo ($subscription->getPeriod1Price() > 0 ) ? format_currency($subscription->getPeriod1Price(), 'GBP') : __('Free')?></span>
-                <span class="check"><?php echo ($subscription->getPeriod2Price() > 0 ) ? format_currency($subscription->getPeriod2Price(), 'GBP') : __('Free')?></span>
-                <span class="check"><?php echo ($subscription->getPeriod3Price() > 0 ) ? format_currency($subscription->getPeriod3Price(), 'GBP') : __('Free')?></span>
+                <span class="check"><?php echo ($subscription->getTrial1Amount() > 0 ) ? format_currency($subscription->getTrial1Amount(), 'GBP') : __('Free')?></span>
+                <span class="check"><?php echo ($subscription->getTrial2Amount() > 0 ) ? format_currency($subscription->getTrial2Amount(), 'GBP') : __('Free')?></span>
+                <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), 'GBP') : __('Free')?></span>
                 <span class="select"><?php echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?></span>
             </div>        
         <?php endforeach; ?>

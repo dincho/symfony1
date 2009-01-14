@@ -65,7 +65,11 @@ member_stories:
 member_story_by_slug:
     url:  /:sf_culture/member_story/:slug
     param: { module: memberStories, action: read, sf_culture: en  }
-                  
+
+ipn:
+    url: /IPN/*
+    param: { module: subscription, action: IPN, sf_culture: en }
+                      
 default_symfony:
   url:   /symfony/:action/*
   param: { module: default, sf_culture: en  }

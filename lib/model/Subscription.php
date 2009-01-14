@@ -18,4 +18,9 @@ class Subscription extends BaseSubscription
 	{
 		return substr($this->getTitle(), 0, 4);
 	}
+	
+	public function hasAmount($amount)
+	{
+	    return ($this->getTrial1Amount() == $amount || $this->getTrial2Amount() == $amount || $this->getAmount() == $amount ) ? true : false;
+	}
 }

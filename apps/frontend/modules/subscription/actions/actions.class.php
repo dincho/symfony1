@@ -25,13 +25,13 @@ class subscriptionActions extends prActions
             $this->forward404Unless($subscription);
             if( !in_array($subscription->getId(), array(SubscriptionPeer::FREE, SubscriptionPeer::PAID))) $this->forward404();
             
-            if ($subscription->getPeriod1Price() > 0)
+            if ($subscription->getId() == SubscriptionPeer::PAID)
             {
                 $this->redirect('subscription/payment?subscription_id=' . $subscription->getId());
             } else
             {
-                $this->member->changeSubscription($subscription->getId());
-                $this->member->save();
+                //$this->member->changeSubscription($subscription->getId());
+                //$this->member->save();
                 $this->redirect('dashboard/index');
             }
         }
@@ -44,7 +44,8 @@ class subscriptionActions extends prActions
              ->add(array('name' => 'Subscription', 'uri' => 'subscription/manage'));
              
         $this->member = $this->getUser()->getProfile();
-
+        $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::PAID, 'subscription/payment');
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             if( $this->getRequestParameter('sub_auto_renew') == 0 && $this->member->getSubAutoRenew() == 1)
@@ -62,26 +63,60 @@ class subscriptionActions extends prActions
 
     public function executePayment()
     {
-        $subscription = SubscriptionPeer::retrieveByPK($this->getRequestParameter('subscription_id'));
-        $this->forward404Unless($subscription);
         $member = $this->getUser()->getProfile();
         $this->redirectIf($member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
-        
-        //this is only for test purpose we need to redirect to some payment gateway here
-        // or make the payment from some API
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if( !is_null($member->getLastPaypalSubscrId()) )
         {
-            $member->changeSubscription($subscription->getId());
-            $member->save();
-            
-            $this->redirect('subscription/thankyou');
+            $this->setFlash('msg_error', 'You already have a subscription');
+            $this->redirect('@dashboard');
         }
+        $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
         
-        $this->price = $subscription->getPeriod1Price();
-        $this->subscription_id = $subscription->getId();
+        $EWP = new sfEWP();
+        $parameters = array("cmd" => "_xclick-subscriptions",
+                            "business" => sfConfig::get('app_paypal_business'),
+                            "item_name" => sfConfig::get('app_primary_domain'),
+                            'lc' => 'US',
+                            'no_note' => 1,
+                            'no_shipping' => 1,
+                            'currency_code' => 'GBP',
+                            'rm' => 1, //return method 1 = GET, 2 = POST
+                            'cbt' => 'Return to ' .sfConfig::get('app_primary_domain'),
+                            'src' => 1, //Recurring or not
+                            'sra' => 1, //Reattemt recurring payments on failture
+                            'notify_url' => 'http://pr.dincho.bonex.us:8003/frontend_dev.php/IPN.html',
+                            //'notify_url' => $this->getController()->genUrl('@ipn', true), 
+                            'return' => $this->getController()->genUrl('subscription/thankyou', true),
+                            'cancel_return' => $this->getController()->genUrl('subscription/cancel', true),
+                            'a1' => $subscription->getTrial1Amount(),
+                            'p1' => $subscription->getTrial1Period(),
+                            't1' => $subscription->getTrial1PeriodType(),
+                            'a2' => $subscription->getTrial2Amount(),
+                            'p2' => $subscription->getTrial2Period(),
+                            't2' => $subscription->getTrial2PeriodType(),
+                            'a3' => $subscription->getAmount(),
+                            'p3' => 1,
+                            't3' => 'M',
+                            'custom' => $member->getUsername(),
+                            
+        );
+        
+        $this->encrypted = $EWP->encryptFields($parameters);
     }
 
     public function executeThankyou()
     {
+    }
+    
+    public function executeCancel()
+    {
+        
+    }
+    
+    public function executeIPN()
+    {
+        $ipn = new sfIPN();
+        //$ipn->validate();
+        return sfView::NONE;
     }
 }

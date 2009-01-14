@@ -26,27 +26,19 @@
         <label for="pre_approve">Pre-Approval:</label><br />
         
         <hr />
-        <label class="period_label">From</label>
-        <?php echo object_input_tag($sub1, 'getPeriod1From', 'class=period_input') ?>
-        <label class="period_label">month(s) to</label>
-        <?php echo object_input_tag($sub1, 'getPeriod1To', 'class=period_input') ?>
-        <label class="period_label">month(s)&nbsp;&nbsp;</label>
+        <label class="period_label" style="width:60px" >First&nbsp;</label>
+        <?php echo object_input_tag($sub1, 'getTrial1Period', 'class=period_input') ?>
+        <?php echo pr_select_payment_period_type('trial1_period_type', $sub1->getTrial1PeriodType(), array('style' => 'width: 80px')) ?>
         <br />
         
         <!--  PERIOD 2 -->
-        <label class="period_label">From</label>
-        <?php echo object_input_tag($sub1, 'getPeriod2From', 'class=period_input') ?>
-        <label class="period_label">month(s) to</label>
-        <?php echo object_input_tag($sub1, 'getPeriod2To', 'class=period_input') ?>
-        <label class="period_label">month(s)&nbsp;&nbsp;</label>
+        <label class="period_label" style="width:60px">Next&nbsp;</label>
+        <?php echo object_input_tag($sub1, 'getTrial2Period', 'class=period_input') ?>
+        <?php echo pr_select_payment_period_type('trial2_period_type', $sub1->getTrial2PeriodType(), array('style' => 'width: 80px')) ?>
         <br />
         
         <!--  PERIOD 3 -->
-        <label class="period_label">From</label>
-        <?php echo object_input_tag($sub1, 'getPeriod3From', 'class=period_input') ?>
-        <label class="period_label">month(s) to</label>
-        <?php echo object_input_tag($sub1, 'getPeriod3To', 'class=period_input') ?>
-        <label class="period_label">month(s)&nbsp;&nbsp;</label>
+        <label class="period_label" style="width:60px">After that&nbsp;</label>
         <br />
               
       </fieldset>
@@ -80,13 +72,13 @@
         <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]') ) ?><br />
       
       <hr />
-	  <?php echo input_tag('subs['. $sub->getId() .'][period1_price]', format_currency($sub->getPeriod1Price()), array('class' => 'limit_input')) ?>
+	  <?php echo input_tag('subs['. $sub->getId() .'][trial1_amount]', format_currency($sub->getTrial1Amount()), array('class' => 'limit_input')) ?>
 	  <label class="period_label">&pound;</label><br />
 	  
-	  <?php echo input_tag('subs['. $sub->getId() .'][period2_price]', format_currency($sub->getPeriod2Price()), array('class' => 'limit_input')) ?>
+	  <?php echo input_tag('subs['. $sub->getId() .'][trial2_amount]', format_currency($sub->getTrial2Amount()), array('class' => 'limit_input')) ?>
 	  <label class="period_label">&pound;</label><br />
 	  
-	  <?php echo input_tag('subs['. $sub->getId() .'][period3_price]', format_currency($sub->getPeriod3Price()), array('class' => 'limit_input')) ?>
+	  <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input')) ?>
 	  <label class="period_label">&pound;</label><br />
     </fieldset>
   </div>

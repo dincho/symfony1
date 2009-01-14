@@ -123,6 +123,7 @@ CREATE TABLE `member`
 	`subscription_id` INTEGER  NOT NULL,
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
 	`member_counter_id` INTEGER  NOT NULL,
+	`last_paypal_subscr_id` VARCHAR(255),
 	`last_activity` DATETIME,
 	`last_status_change` DATETIME,
 	`last_flagged` DATETIME,
@@ -590,16 +591,14 @@ CREATE TABLE `subscription`
 	`see_viewed` INTEGER default 0 NOT NULL,
 	`can_contact_assistant` INTEGER default 0 NOT NULL,
 	`contact_assistant` INTEGER default 0 NOT NULL,
-	`period1_from` INTEGER,
-	`period1_to` INTEGER,
-	`period1_price` DECIMAL(7,2) default 0 NOT NULL,
-	`period2_from` INTEGER,
-	`period2_to` INTEGER,
-	`period2_price` DECIMAL(7,2) default 0 NOT NULL,
-	`period3_from` INTEGER,
-	`period3_to` INTEGER,
-	`period3_price` DECIMAL(7,2) default 0 NOT NULL,
 	`pre_approve` INTEGER default 0 NOT NULL,
+	`amount` DECIMAL(7,2)  NOT NULL,
+	`trial1_amount` DECIMAL(7,2)  NOT NULL,
+	`trial1_period` INTEGER  NOT NULL,
+	`trial1_period_type` CHAR(1)  NOT NULL,
+	`trial2_amount` DECIMAL(7,2)  NOT NULL,
+	`trial2_period` INTEGER  NOT NULL,
+	`trial2_period_type` CHAR(1)  NOT NULL,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
@@ -1090,6 +1089,27 @@ CREATE TABLE `member_match`
 		FOREIGN KEY (`member2_id`)
 		REFERENCES `member` (`id`)
 		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- ipn_history
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ipn_history`;
+
+
+CREATE TABLE `ipn_history`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`parameters` TEXT,
+	`request_ip` INTEGER,
+	`txn_type` VARCHAR(255),
+	`txn_id` VARCHAR(255),
+	`subscr_id` VARCHAR(255),
+	`payment_status` VARCHAR(255),
+	`paypal_response` VARCHAR(8),
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

@@ -19,6 +19,7 @@
     <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
 
+<?php //echo link_to('Unsubscribe', sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true)) ?>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

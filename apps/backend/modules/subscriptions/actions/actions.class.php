@@ -47,17 +47,15 @@ class subscriptionsActions extends sfActions
                 $subscription->setSeeViewed($req_subs[$subscription->getId()]['see_viewed']);
                 $subscription->setCanContactAssistant($req_subs[$subscription->getId()]['can_contact_assistant']);
                 $subscription->setContactAssistant($req_subs[$subscription->getId()]['contact_assistant']);
-                
-                $subscription->setPeriod1From($this->getRequestParameter('period1_from'));
-                $subscription->setPeriod1To($this->getRequestParameter('period1_to'));
-                $subscription->setPeriod1Price($req_subs[$subscription->getId()]['period1_price']);
-                $subscription->setPeriod2From($this->getRequestParameter('period2_from'));
-                $subscription->setPeriod2To($this->getRequestParameter('period2_to'));
-                $subscription->setPeriod2Price($req_subs[$subscription->getId()]['period2_price']);
-                $subscription->setPeriod3From($this->getRequestParameter('period3_from'));
-                $subscription->setPeriod3To($this->getRequestParameter('period3_to'));
-                $subscription->setPeriod3Price($req_subs[$subscription->getId()]['period3_price']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
+                
+                $subscription->setTrial1Period($this->getRequestParameter('trial1_period'));
+                $subscription->setTrial1PeriodType($this->getRequestParameter('trial1_period_type'));
+                $subscription->setTrial1Amount($req_subs[$subscription->getId()]['trial1_amount']);
+                $subscription->setTrial2Period($this->getRequestParameter('trial2_period'));
+                $subscription->setTrial2PeriodType($this->getRequestParameter('trial2_period_type'));
+                $subscription->setTrial2Amount($req_subs[$subscription->getId()]['trial2_amount']);
+                $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
                 $subscription->save();                
             }
         }
@@ -67,5 +65,18 @@ class subscriptionsActions extends sfActions
     
     $this->subscriptions = $subscriptions;
     $this->sub1 = $subscriptions[0];
+  }
+  
+  public function executeIPNHistory()
+  {
+      $c = new Criteria();
+      $c->addDescendingOrderByColumn(IpnHistoryPeer::CREATED_AT);
+      $this->histories = IpnHistoryPeer::doSelect($c);
+  }
+  
+  public function executeIPNHistoryDetails()
+  {
+      $this->history = IpnHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
+      $this->forward404Unless($this->history);
   }
 }

@@ -194,4 +194,16 @@ function pr_select_match_weight($name, $selected = null, $options = array())
     $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
     return select_tag($name, options_for_select($weights, $selected, $options), $options);
 }
+
+function pr_select_payment_period_type($name, $selected = null, $options = array())
+{
+    $types = array('D' => 'Day(s)', 'W' => 'Week(s)', 'M' => 'Month(s)', 'Y' => 'Year(s)');
+    return select_tag($name, options_for_select($types, $selected, $options), $options);
+}
+
+function pr_format_payment_period_type($type)
+{
+    $types = array('D' => 'Day(s)', 'W' => 'Week(s)', 'M' => 'Month(s)', 'Y' => 'Year(s)');
+    return (array_key_exists($type, $types)) ? $types[$type] : null;
+}
 ?>

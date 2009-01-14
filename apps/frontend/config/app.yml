@@ -1,3 +1,8 @@
 all:
   gmaps:
     key:  ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTOjc6tZlOd2Q94PUnF6QR1iGuGgxTnnQJqpQtbpcZHIiEeD15-3MEaVw
+  paypal:
+    business: admin_1231849319_biz@polishromance.com
+    test:     1
+    cert_id:  STQ5YBZFM5NSQ
+    url:      https://www.sandbox.paypal.com/cgi-bin/webscr

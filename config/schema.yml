@@ -78,6 +78,7 @@ propel:
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
     sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
+    last_paypal_subscr_id:    { type: varchar, size: 255, required: false }
     last_activity:            { type: timestamp } #timestamp of last sent message
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
     last_flagged:			  { type: timestamp } #timestamp of the last flag
@@ -220,16 +221,14 @@ propel:
     see_viewed:               { type: integer, default: 0, required: true }
     can_contact_assistant:    { type: boolean, default: false, required: true }
     contact_assistant:        { type: integer, default: 0, required: true }
-    period1_from:             integer
-    period1_to:               integer
-    period1_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
-    period2_from:             integer
-    period2_to:               integer
-    period2_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
-    period3_from:             integer
-    period3_to:               integer
-    period3_price:            { type: decimal, size: 7, scale: 2, required: true, default: 0.00 }
     pre_approve:              { type: boolean, default: false, required: true }
+    amount:                   { type: decimal, size: 7, scale: 2, required: true }
+    trial1_amount:            { type: decimal, size: 7, scale: 2, required: true }
+    trial1_period:            { type: integer, required: true }
+    trial1_period_type:       { type: char, size: 1, required: true, required: true }
+    trial2_amount:            { type: decimal, size: 7, scale: 2, required: true }
+    trial2_period:            { type: integer, required: true }
+    trial2_period_type:       { type: char, size: 1, required: true, required: true }
   subscription_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -376,3 +375,13 @@ propel:
     member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     pct:            { type: tinyint, required: true, default: 0 }
+  ipn_history:
+    id:
+    parameters:         { type: longvarchar }
+    request_ip:         { type: integer }
+    txn_type:           { type: varchar, size: 255 }
+    txn_id:             { type: varchar, size: 255 }
+    subscr_id:          { type: varchar, size: 255 }
+    payment_status:     { type: varchar, size: 255 }
+    paypal_response:    { type: varchar, size: 8 }
+    created_at:
