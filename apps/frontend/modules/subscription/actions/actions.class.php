@@ -67,7 +67,7 @@ class subscriptionActions extends prActions
         $this->redirectIf($member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
         if( !is_null($member->getLastPaypalSubscrId()) )
         {
-            $this->setFlash('msg_error', 'You already have a subscription');
+            $this->setFlash('msg_error', 'Your subscription is pending');
             $this->redirect('@dashboard');
         }
         $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
@@ -76,16 +76,16 @@ class subscriptionActions extends prActions
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
                             "item_name" => sfConfig::get('app_primary_domain'),
+                            'item_number' => 'membership',
                             'lc' => 'US',
                             'no_note' => 1,
                             'no_shipping' => 1,
                             'currency_code' => 'GBP',
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'cbt' => 'Return to ' .sfConfig::get('app_primary_domain'),
-                            'src' => 1, //Recurring or not
+                            'src' => 0, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture
-                            'notify_url' => 'http://pr.dincho.bonex.us:8003/frontend_dev.php/IPN.html',
-                            //'notify_url' => $this->getController()->genUrl('@ipn', true), 
+                            'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
                             'cancel_return' => $this->getController()->genUrl('subscription/cancel', true),
                             'a1' => $subscription->getTrial1Amount(),
@@ -96,7 +96,7 @@ class subscriptionActions extends prActions
                             't2' => $subscription->getTrial2PeriodType(),
                             'a3' => $subscription->getAmount(),
                             'p3' => 1,
-                            't3' => 'M',
+                            't3' => 'D',
                             'custom' => $member->getUsername(),
                             
         );
@@ -104,8 +104,64 @@ class subscriptionActions extends prActions
         $this->encrypted = $EWP->encryptFields($parameters);
     }
 
+    public function executeGiftMembership()
+    {
+        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
+        $this->forward404Unless($member);
+        $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
+        $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
+        ->add(array('name' => 'Buy' . $member->getUsername() . ' a gift'));
+        
+        $this->member = $member;
+    }
+    
+    public function executePaymentGift()
+    {
+        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
+        $this->forward404Unless($member);
+        $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
+        $this->amount = 29.95;
+        
+        $EWP = new sfEWP();
+        $parameters = array("cmd" => "_xclick-subscriptions",
+                            "business" => sfConfig::get('app_paypal_business'),
+                            "item_name" => $member->getUsername() . ' Gift Membership',
+                            'item_number' => 'gift_membership',
+                            'lc' => 'US',
+                            'no_note' => 1,
+                            'no_shipping' => 1,
+                            'currency_code' => 'GBP',
+                            'rm' => 1, //return method 1 = GET, 2 = POST
+                            'cbt' => 'Return to ' .sfConfig::get('app_primary_domain'),
+                            'src' => 0, //Recurring or not
+                            'sra' => 1, //Reattemt recurring payments on failture
+                            'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true), 
+                            'return' => $this->getController()->genUrl('subscription/thankyouGift?profile=' . $member->getUsername(), true),
+                            'cancel_return' => $this->getController()->genUrl('@profile?cancel_gift=1&username=' . $member->getUsername(), true),
+                            'a3' => $this->amount,
+                            'p3' => 3,
+                            't3' => 'D',
+                            'custom' => $member->getUsername(),
+                            
+        );
+        
+        $this->encrypted = $EWP->encryptFields($parameters);
+    }
+        
     public function executeThankyou()
     {
+    }
+        
+    public function executeThankyouGift()
+    {
+        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
+        $this->forward404Unless($member);
+
+        $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
+        ->add(array('name' => 'Buy' . $member->getUsername() . ' a gift'))
+        ->add(array('name' => 'Thank you!')); 
+                
+        $this->member = $member;        
     }
     
     public function executeCancel()
@@ -116,7 +172,7 @@ class subscriptionActions extends prActions
     public function executeIPN()
     {
         $ipn = new sfIPN();
-        //$ipn->validate();
+        $ipn->handle();
         return sfView::NONE;
     }
 }

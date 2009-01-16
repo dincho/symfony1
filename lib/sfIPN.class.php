@@ -24,7 +24,6 @@ class sfIPN
         
         //test mode protection
         if( isset($this->params['test_ipn']) && !sfConfig::get('app_paypal_test') ) return;
-        $this->handle();
     }
     
     public function handle()
@@ -79,18 +78,13 @@ class sfIPN
     
     public function processNotification()
     {
-        $sub = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
-
         if( isset($this->params['txn_type']) 
             && $this->params['receiver_email'] == sfConfig::get('app_paypal_business')
             && $this->params['mc_currency'] == 'GBP')
         {
             switch ($this->params['txn_type']) {
             	case 'subscr_payment':
-            	   if( $this->params['payment_status'] == 'Completed' 
-            	       && !IpnHistoryPeer::retreiveByTxnID($this->params['txn_id'])
-            	       && $sub->hasAmount($this->params['mc_gross'])
-            	     )
+            	   if( $this->params['payment_status'] == 'Completed')
             	   {
             	       $member = MemberPeer::retrieveByUsername($this->params['custom']);
             	       if( $member )
@@ -114,17 +108,20 @@ class sfIPN
             	
             	case 'subscr_cancel':
                        $member = MemberPeer::retrieveByUsername($this->params['custom']);
-                       if( $member && $member->setLastPaypalSubscrId() == $this->params['subscr_id'] )
+                       if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
-                           $member->setLastPaypalSubscrId(null);
-                           $member->save();
-                           return true;
+                            if( $member->getLastPaypalSubscrId() == $this->params['subscr_id'] )
+                            {
+                                $member->setLastPaypalSubscrId(null);
+                                $member->save();
+                                return true;
+                            }
                        }            	    
             	break;
             	
             	case 'subscr_eot':
                        $member = MemberPeer::retrieveByUsername($this->params['custom']);
-                       if( $member )
+                       if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
                            $member->changeSubscription(SubscriptionPeer::FREE);
                            $member->setLastPaypalSubscrId(null);

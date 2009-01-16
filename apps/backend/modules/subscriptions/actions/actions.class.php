@@ -66,17 +66,4 @@ class subscriptionsActions extends sfActions
     $this->subscriptions = $subscriptions;
     $this->sub1 = $subscriptions[0];
   }
-  
-  public function executeIPNHistory()
-  {
-      $c = new Criteria();
-      $c->addDescendingOrderByColumn(IpnHistoryPeer::CREATED_AT);
-      $this->histories = IpnHistoryPeer::doSelect($c);
-  }
-  
-  public function executeIPNHistoryDetails()
-  {
-      $this->history = IpnHistoryPeer::retrieveByPK($this->getRequestParameter('id'));
-      $this->forward404Unless($this->history);
-  }
 }

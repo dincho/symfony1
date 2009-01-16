@@ -16,8 +16,8 @@
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
             <?php echo link_to(image_tag('full_member.gif'), 'subscription/index') ?>
-        <?php elseif(false): //this functionality is scheduled for v1.0 (ticket #3)?>
-            <a href="#"><?php echo image_tag('buy_gift_' . $member->getSex() . '.gif') ?></a>
+        <?php else:?>
+            <?php echo link_to(image_tag('buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
         <?php endif; ?>
         
     </span>

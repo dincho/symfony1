@@ -6,3 +6,5 @@ all:
     test:     1
     cert_id:  STQ5YBZFM5NSQ
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
+    notify_url: http://pr.dincho.bonex.us:8003/frontend_dev.php/IPN.html
+    #notify_url: @ipn
