@@ -343,4 +343,12 @@ class Member extends BaseMember
         $counter->setAssistantContacts(0);
         $counter->save();
     }
+    
+    public function getEotDate()
+    {
+        $last_payment = $this->getLastPaypalPaymentAt(null); //ts
+        $eot = $last_payment + 31 * 24 * 60 * 60; //30 days after last payment, see PP WPS integration guide
+        
+        return $eot;
+    }
 }

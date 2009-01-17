@@ -106,6 +106,7 @@ class sfIPN
             	       {
             	           $member->setLastPaypalSubscrId($this->params['subscr_id']);
             	           $member->setLastPaypalItem($this->params['item_number']);
+            	           $member->setPaypalUnsubscribedAt(null);
             	           $member->save();
             	           return true;
             	       }
@@ -117,9 +118,7 @@ class sfIPN
                        {
                             if( $member->getLastPaypalSubscrId() == $this->params['subscr_id'] )
                             {
-                                $member->setLastPaypalSubscrId(null);
-                                $member->setLastPaypalPaymentAt(null);
-                                $member->setLastPaypalItem(null);
+                                $member->setPaypalUnsubscribedAt(time());
                                 $member->save();
                                 return true;
                             }

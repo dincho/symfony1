@@ -1,5 +1,4 @@
-ALTER TABLE `member` ADD `last_paypal_item` VARCHAR(255);
-ALTER TABLE `member` ADD `last_paypal_payment_at` DATETIME;
+ALTER TABLE `member` ADD `paypal_unsubscribed_at` DATETIME;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
@@ -20,7 +19,6 @@ ALTER TABLE `imbra_reply_template` DROP FOREIGN KEY `imbra_reply_template_FK_1`;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
-ALTER TABLE `member` DROP `last_paypal_payment`;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;

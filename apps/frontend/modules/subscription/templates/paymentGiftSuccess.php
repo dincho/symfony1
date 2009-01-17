@@ -8,6 +8,6 @@
 <?php echo $encrypted . "\n" ?>
 -----END PKCS7-----
 ">
-    <?php echo link_to(__('Cancel and return to subscription'), 'subscription/index', array('class' => 'sec_link')) ?><br />  
+    <?php echo link_to(__('Cancel and return to profile'), '@profile?username=' . $username, array('class' => 'sec_link')) ?><br />  
     <?php echo submit_tag(__('Pay Now'), array('class' => 'button')) ?>
 </form>

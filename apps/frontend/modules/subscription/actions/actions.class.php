@@ -45,7 +45,6 @@ class subscriptionActions extends prActions
              
         $this->member = $this->getUser()->getProfile();
         $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::PAID, 'subscription/payment');
-        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             if( $this->getRequestParameter('sub_auto_renew') == 0 && $this->member->getSubAutoRenew() == 1)
@@ -102,6 +101,7 @@ class subscriptionActions extends prActions
         );
         
         $this->encrypted = $EWP->encryptFields($parameters);
+        $this->amount = $subscription->getTrial1Amount();
     }
 
     public function executeGiftMembership()
@@ -120,6 +120,7 @@ class subscriptionActions extends prActions
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
         $this->forward404Unless($member);
         $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Payment'));
         $this->amount = 29.95;
         
         $EWP = new sfEWP();
@@ -145,6 +146,7 @@ class subscriptionActions extends prActions
                             
         );
         
+        $this->username = $member->getUsername();
         $this->encrypted = $EWP->encryptFields($parameters);
     }
         

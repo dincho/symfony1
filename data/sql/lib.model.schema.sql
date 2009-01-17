@@ -125,6 +125,7 @@ CREATE TABLE `member`
 	`member_counter_id` INTEGER  NOT NULL,
 	`last_paypal_subscr_id` VARCHAR(255),
 	`last_paypal_item` VARCHAR(255),
+	`paypal_unsubscribed_at` DATETIME,
 	`last_paypal_payment_at` DATETIME,
 	`last_activity` DATETIME,
 	`last_status_change` DATETIME,

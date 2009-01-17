@@ -1,25 +1,24 @@
-<?php echo form_tag('subscription/manage', array('id' => 'subscription_paid')) ?>
-    <span class="public_reg_notice"><strong><?php echo __('Your Membership Status') ?></strong></span><br />
-    <?php echo __('You are currently a <strong>full member</strong> and you are able to send and receive messages and view unlimited profiles. If you\'re paying with Paypal, please make use your Paypal account is updated with your credit card or bank account information and that you have enough balance on your account.') ?><br /><br />
+<span class="public_reg_notice"><strong><?php echo __('Your Membership Status') ?></strong></span><br />
+<?php echo __('You are currently a <strong>full member</strong> and you are able to send and receive messages and view unlimited profiles. If you\'re paying with Paypal, please make use your Paypal account is updated with your credit card or bank account information and that you have enough balance on your account.') ?><br /><br />
+<?php if( $member->getLastPaypalItem() == 'membership'): ?>
     <span class="public_reg_notice"><strong><?php echo __('Your Auto-Renewal Status') ?></strong></span><br />
-    <?php if( $member->getSubAutoRenew() ): ?>
+    <?php if( is_null($member->getPaypalUnsubscribedAt()) ): ?>
         <?php echo __('Your auto-renewal is ON. That means your account will be automatically charged every month for as long as you want to be a full member.') ?>
+        <br /><br />
+        <?php echo __('If you unsubscribe now, you will still use Full Member account until the end of the subscription period - that is until %EOT_DATE%. On that day the system will automatically switch your membership to Basic account and you will still be able to use our website.<br />However Full Member\'s  features will not be available to you.<br />', array('%EOT_DATE%' => date('M d, Y', $member->getEotDate()))) ?>
+        <?php //echo __('If you switch auto-renewal to OFF, you can still be a full member but you will be required to make the payment every month manually; we will send you reminder by email. If you don\'t want to be a full member anymore, switch auto-renewal to OFF and just don\'t make manual payments. To find out more please go to %LINK_TO_HELP%', array('%LINK_TO_HELP%' => link_to(__('Help'), '@page?slug=help', 'class=sec_link')) ) ?>
+        <br />
+        <?php echo __('If you still want to unsubscribe, please click UNSUBSCRIBE button below.<br />If you changed your mind or want to unsubscribe later, please <a href="%URL_FOR_DASHBOARD%" class="sec_link">Cancel and go to dashboard.</a>', array('%URL_FOR_DASHBOARD%' => url_for('@dashboard'))) ?><br />
+        <br /><?php echo button_to('Unsubscribe', sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true, 'class' => 'button')) ?>    
     <?php else: ?>
-         <?php echo __('Your auto-renewal is OFF. That means your account will not be automatically charged.') ?>
+         <?php echo __('Your subscription is canceled. That means your account will not be automatically charged.') ?>
+         <br /><br />
+         <?php echo link_to(__('Return to dashboard'), '@dashboard', array('class' => 'sec_link')) ?>
     <?php endif; ?>
-    <br />
-    
-    <?php echo radiobutton_tag('sub_auto_renew', 0, !$member->getSubAutoRenew()) ?>
-    <label for="sub_auto_renew_0"><?php echo __('Off') ?></label><br />
-    <?php echo radiobutton_tag('sub_auto_renew', 1, $member->getSubAutoRenew()) ?>
-    <label for="sub_auto_renew_1"><?php echo __('On') ?></label><br /><br />
-    
-    <?php echo __('If you switch auto-renewal to OFF, you can still be a full member but you will be required to make the payment every month manually; we will send you reminder by email. If you don\'t want to be a full member anymore, switch auto-renewal to OFF and just don\'t make manual payments. To find out more please go to %LINK_TO_HELP%', array('%LINK_TO_HELP%' => link_to(__('Help'), '@page?slug=help', 'class=sec_link')) ) ?>.<br /><br /><br />
-    <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
-</form>
+<?php else: ?>
+    <?php echo link_to(__('Return to dashboard'), '@dashboard', array('class' => 'sec_link')) ?>    
+<?php endif; ?>
 
-<?php //echo link_to('Unsubscribe', sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true)) ?>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

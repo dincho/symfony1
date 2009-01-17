@@ -4,7 +4,7 @@ all:
   paypal:
     business: admin_1231849319_biz@polishromance.com
     test:     1
-    cert_id:  STQ5YBZFM5NSQ
+    cert_id:  J5XZAGF5S38TJ
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
     notify_url: http://pr.dincho.bonex.us:8003/frontend_dev.php/IPN.html
     #notify_url: @ipn
