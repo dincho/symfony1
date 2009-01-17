@@ -89,8 +89,12 @@ class sfIPN
             	       $member = MemberPeer::retrieveByUsername($this->params['custom']);
             	       if( $member )
             	       {
+            	           $member->clearCounters();
             	           $member->changeSubscription(SubscriptionPeer::PAID);
+            	           $member->setLastPaypalPaymentAt($this->params['payment_date']);
+            	           $member->setLastPaypalItem($this->params['item_number']);
             	           $member->save();
+            	           
             	           return true;
             	       }
             	   }
@@ -101,6 +105,7 @@ class sfIPN
             	       if( $member )
             	       {
             	           $member->setLastPaypalSubscrId($this->params['subscr_id']);
+            	           $member->setLastPaypalItem($this->params['item_number']);
             	           $member->save();
             	           return true;
             	       }
@@ -113,6 +118,8 @@ class sfIPN
                             if( $member->getLastPaypalSubscrId() == $this->params['subscr_id'] )
                             {
                                 $member->setLastPaypalSubscrId(null);
+                                $member->setLastPaypalPaymentAt(null);
+                                $member->setLastPaypalItem(null);
                                 $member->save();
                                 return true;
                             }
@@ -123,14 +130,18 @@ class sfIPN
                        $member = MemberPeer::retrieveByUsername($this->params['custom']);
                        if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
+                           $member->clearCounters();
                            $member->changeSubscription(SubscriptionPeer::FREE);
                            $member->setLastPaypalSubscrId(null);
+                           $member->setLastPaypalPaymentAt(null);
+                           $member->setLastPaypalItem(null);
                            $member->save();
                            return true;
                        }             	    
             	break;
             	
             	default:
+            	    sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->params['txn_type']);
             	break;
             }
             

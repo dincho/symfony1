@@ -106,6 +106,10 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('LAST_PAYPAL_SUBSCR_ID', 'LastPaypalSubscrId', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('LAST_PAYPAL_ITEM', 'LastPaypalItem', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('LAST_PAYPAL_PAYMENT_AT', 'LastPaypalPaymentAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addColumn('LAST_ACTIVITY', 'LastActivity', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('LAST_STATUS_CHANGE', 'LastStatusChange', 'int', CreoleTypes::TIMESTAMP, false, null);

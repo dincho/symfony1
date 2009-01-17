@@ -76,14 +76,14 @@ if( rand(0,1) )
 $country_rand = array_rand($countries);
 if( $countries[$country_rand] == 'US' )
 {
-    $state_id = rand(1,2); //Alabama or Flodira
+    $state_id = rand(118, 120); //Alabama or Flodira
     $member->setStateId($state_id);
-    $city = RandomGenerator::getCity('US', $us_states[$state_id-1]);
+    //$city = RandomGenerator::getCity('US', $us_states[$state_id-1]);
 } else {
-    $city = RandomGenerator::getCity($countries[$country_rand]);
+    //$city = RandomGenerator::getCity($countries[$country_rand]);
 }
 
-$member->setCity($city);
+//$member->setCity($city);
 $member->setCountry($countries[$country_rand]);
 $member->setLanguage($languages[$country_rand]);
 $member->setIsStarred(rand(0,1));

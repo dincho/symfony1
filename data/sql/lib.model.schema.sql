@@ -124,6 +124,8 @@ CREATE TABLE `member`
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
 	`member_counter_id` INTEGER  NOT NULL,
 	`last_paypal_subscr_id` VARCHAR(255),
+	`last_paypal_item` VARCHAR(255),
+	`last_paypal_payment_at` DATETIME,
 	`last_activity` DATETIME,
 	`last_status_change` DATETIME,
 	`last_flagged` DATETIME,

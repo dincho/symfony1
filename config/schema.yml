@@ -79,6 +79,8 @@ propel:
     sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
     last_paypal_subscr_id:    { type: varchar, size: 255, required: false }
+    last_paypal_item:         { type: varchar, size: 255, required: false }
+    last_paypal_payment_at:   { type: timestamp }
     last_activity:            { type: timestamp } #timestamp of last sent message
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
     last_flagged:			  { type: timestamp } #timestamp of the last flag

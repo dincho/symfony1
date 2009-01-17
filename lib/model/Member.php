@@ -332,4 +332,15 @@ class Member extends BaseMember
         
         return parent::getMemberPhotos($c, $con);
     }
+    
+    public function clearCounters()
+    {
+        $counter = $this->getMemberCounter();
+        $counter->setSentWinks(0);
+        $counter->setReadMessages(0);
+        $counter->setReplyMessages(0);
+        $counter->setSentMessages(0);
+        $counter->setAssistantContacts(0);
+        $counter->save();
+    }
 }

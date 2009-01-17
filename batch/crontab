@@ -5,3 +5,5 @@ MAILTO=dincho.todorov@bonex.us
 01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationAccountActivity.php
 01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationLoginReminder.php
 01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationRegistrationReminder.php
+01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/clearFreeMembersCounters.php
+10      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/clearGiftMembershipCounters.php
