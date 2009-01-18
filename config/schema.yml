@@ -263,7 +263,9 @@ propel:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    created_at:    
+    sent_box:                 { type: boolean, default: false, required: true }
+    created_at:
+    deleted_at:               { type: timestamp }    
   feedback:
     id:
     mailbox:                  { type: tinyint, required: true, default: 1 } #default to INBOX

@@ -21,7 +21,15 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 
 
 	
+	protected $sent_box = false;
+
+
+	
 	protected $created_at;
+
+
+	
+	protected $deleted_at;
 
 	
 	protected $aMemberRelatedByMemberId;
@@ -57,6 +65,13 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getSentBox()
+	{
+
+		return $this->sent_box;
+	}
+
+	
 	public function getCreatedAt($format = 'Y-m-d H:i:s')
 	{
 
@@ -68,6 +83,28 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+						$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -135,6 +172,16 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setSentBox($v)
+	{
+
+		if ($this->sent_box !== $v || $v === false) {
+			$this->sent_box = $v;
+			$this->modifiedColumns[] = WinkPeer::SENT_BOX;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -152,6 +199,23 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = WinkPeer::DELETED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -162,13 +226,17 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 
 			$this->profile_id = $rs->getInt($startcol + 2);
 
-			$this->created_at = $rs->getTimestamp($startcol + 3, null);
+			$this->sent_box = $rs->getBoolean($startcol + 3);
+
+			$this->created_at = $rs->getTimestamp($startcol + 4, null);
+
+			$this->deleted_at = $rs->getTimestamp($startcol + 5, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Wink object", $e);
 		}
@@ -373,7 +441,13 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 				return $this->getProfileId();
 				break;
 			case 3:
+				return $this->getSentBox();
+				break;
+			case 4:
 				return $this->getCreatedAt();
+				break;
+			case 5:
+				return $this->getDeletedAt();
 				break;
 			default:
 				return null;
@@ -388,7 +462,9 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getMemberId(),
 			$keys[2] => $this->getProfileId(),
-			$keys[3] => $this->getCreatedAt(),
+			$keys[3] => $this->getSentBox(),
+			$keys[4] => $this->getCreatedAt(),
+			$keys[5] => $this->getDeletedAt(),
 		);
 		return $result;
 	}
@@ -414,7 +490,13 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 				$this->setProfileId($value);
 				break;
 			case 3:
+				$this->setSentBox($value);
+				break;
+			case 4:
 				$this->setCreatedAt($value);
+				break;
+			case 5:
+				$this->setDeletedAt($value);
 				break;
 		} 	}
 
@@ -426,7 +508,9 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setMemberId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setProfileId($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSentBox($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setDeletedAt($arr[$keys[5]]);
 	}
 
 	
@@ -437,7 +521,9 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(WinkPeer::ID)) $criteria->add(WinkPeer::ID, $this->id);
 		if ($this->isColumnModified(WinkPeer::MEMBER_ID)) $criteria->add(WinkPeer::MEMBER_ID, $this->member_id);
 		if ($this->isColumnModified(WinkPeer::PROFILE_ID)) $criteria->add(WinkPeer::PROFILE_ID, $this->profile_id);
+		if ($this->isColumnModified(WinkPeer::SENT_BOX)) $criteria->add(WinkPeer::SENT_BOX, $this->sent_box);
 		if ($this->isColumnModified(WinkPeer::CREATED_AT)) $criteria->add(WinkPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(WinkPeer::DELETED_AT)) $criteria->add(WinkPeer::DELETED_AT, $this->deleted_at);
 
 		return $criteria;
 	}
@@ -472,7 +558,11 @@ abstract class BaseWink extends BaseObject  implements Persistent {
 
 		$copyObj->setProfileId($this->profile_id);
 
+		$copyObj->setSentBox($this->sent_box);
+
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 
 		$copyObj->setNew(true);

@@ -16,7 +16,7 @@ class Wink extends BaseWink
     
     public function save($con = null, $inc_counter = true)
     {
-        if($inc_counter && $this->isNew() && parent::save($con))
+        if($inc_counter && !$this->getSentBox() && $this->isNew() && parent::save($con))
         {
             $this->getMemberRelatedByMemberId()->incCounter('SentWinks');
             $this->getMemberRelatedByProfileId()->incCounter('ReceivedWinks');
@@ -27,3 +27,5 @@ class Wink extends BaseWink
         return parent::save($con);
     }     
 }
+
+sfPropelBehavior::add('Wink', array('paranoid'));

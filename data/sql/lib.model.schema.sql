@@ -728,7 +728,9 @@ CREATE TABLE `wink`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`member_id` INTEGER  NOT NULL,
 	`profile_id` INTEGER  NOT NULL,
+	`sent_box` INTEGER default 0 NOT NULL,
 	`created_at` DATETIME,
+	`deleted_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `wink_FI_1` (`member_id`),
 	CONSTRAINT `wink_FK_1`

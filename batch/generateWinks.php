@@ -34,16 +34,6 @@ for($i=0; $i<$cnt; $i++)
         srand((float) microtime() * 10000000);
         
         $rand_member = $members[rand(0, $cnt-1)];
-
-        $wink = new Wink();
-        $wink->setMemberRelatedByMemberId($member);
-        $wink->setProfileId($rand_member->getId());
-        $wink->save();
-        
-        $rand_member->getCounter()->setReceivedWinks($rand_member->getCounter()->getReceivedWinks()+1);
-        $rand_member->save();
+        WinkPeer::send($member, $rand_member);
     }
-    
-    $member->getCounter()->setSentWinks($member->getCounter()->getSentWinks()+5);
-    $member->save();
 }

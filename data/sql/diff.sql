@@ -1,7 +1,8 @@
-ALTER TABLE `member` ADD `paypal_unsubscribed_at` DATETIME;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
+ALTER TABLE `wink` ADD `sent_box` INTEGER default 0 NOT NULL;
+ALTER TABLE `wink` ADD `deleted_at` DATETIME;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

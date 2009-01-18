@@ -38,7 +38,11 @@ class WinkMapBuilder {
 
 		$tMap->addForeignKey('PROFILE_ID', 'ProfileId', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
 
+		$tMap->addColumn('SENT_BOX', 'SentBox', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 
 } 

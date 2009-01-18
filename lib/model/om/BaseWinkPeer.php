@@ -13,7 +13,7 @@ abstract class BaseWinkPeer {
 	const CLASS_DEFAULT = 'lib.model.Wink';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -29,7 +29,13 @@ abstract class BaseWinkPeer {
 	const PROFILE_ID = 'wink.PROFILE_ID';
 
 	
+	const SENT_BOX = 'wink.SENT_BOX';
+
+	
 	const CREATED_AT = 'wink.CREATED_AT';
+
+	
+	const DELETED_AT = 'wink.DELETED_AT';
 
 	
 	private static $phpNameMap = null;
@@ -37,18 +43,18 @@ abstract class BaseWinkPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ProfileId', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (WinkPeer::ID, WinkPeer::MEMBER_ID, WinkPeer::PROFILE_ID, WinkPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'profile_id', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ProfileId', 'SentBox', 'CreatedAt', 'DeletedAt', ),
+		BasePeer::TYPE_COLNAME => array (WinkPeer::ID, WinkPeer::MEMBER_ID, WinkPeer::PROFILE_ID, WinkPeer::SENT_BOX, WinkPeer::CREATED_AT, WinkPeer::DELETED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'profile_id', 'sent_box', 'created_at', 'deleted_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ProfileId' => 2, 'CreatedAt' => 3, ),
-		BasePeer::TYPE_COLNAME => array (WinkPeer::ID => 0, WinkPeer::MEMBER_ID => 1, WinkPeer::PROFILE_ID => 2, WinkPeer::CREATED_AT => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'profile_id' => 2, 'created_at' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ProfileId' => 2, 'SentBox' => 3, 'CreatedAt' => 4, 'DeletedAt' => 5, ),
+		BasePeer::TYPE_COLNAME => array (WinkPeer::ID => 0, WinkPeer::MEMBER_ID => 1, WinkPeer::PROFILE_ID => 2, WinkPeer::SENT_BOX => 3, WinkPeer::CREATED_AT => 4, WinkPeer::DELETED_AT => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'profile_id' => 2, 'sent_box' => 3, 'created_at' => 4, 'deleted_at' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -108,7 +114,11 @@ abstract class BaseWinkPeer {
 
 		$criteria->addSelectColumn(WinkPeer::PROFILE_ID);
 
+		$criteria->addSelectColumn(WinkPeer::SENT_BOX);
+
 		$criteria->addSelectColumn(WinkPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(WinkPeer::DELETED_AT);
 
 	}
 

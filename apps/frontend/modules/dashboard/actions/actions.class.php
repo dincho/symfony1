@@ -47,6 +47,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(WinkPeer::MEMBER_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, WinkPeer::PROFILE_ID);
+        $c->add(WinkPeer::SENT_BOX, false);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
