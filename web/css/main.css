@@ -90,8 +90,8 @@ body .public_matches_search {
 #header #right.index {
     float: right;
     font-size: 10px;
-    widt\h: 170px;
-    margin-top: -65px;
+    width: 170px;
+    margin-bottom: 5px;
     color: #92897E;
 }
 
