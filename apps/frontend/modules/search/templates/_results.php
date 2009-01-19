@@ -14,7 +14,10 @@
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                     <p></p>
                     <p><?php echo link_to('View Profile', '@profile?pager=1&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                    <p><?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                    <p>
+                        <?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                        <?php include_partial('search/last_action', array('match' => $match)); ?>
+                    </p>
                     <p></p>
                     <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
                     <?php if( !is_null($match->getReversePct())): ?>

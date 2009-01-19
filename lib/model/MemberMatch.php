@@ -10,6 +10,9 @@
 class MemberMatch extends BaseMemberMatch
 {
     protected $reverse_pct = 0;
+    public $mail = '';
+    public $wink = '';
+    
     
     public function getReversePct()
     {
@@ -33,7 +36,7 @@ class MemberMatch extends BaseMemberMatch
         return round(($this->getPct() + $this->getReversePct()) / 2);
     }
     
-    public function hydrate(ResultSet $rs, $startcol = 1, $reverse_pct_offset = 0)
+    public function hydrate(ResultSet $rs, $startcol = 1, $offset = 0)
     {
         try {
 
@@ -45,7 +48,11 @@ class MemberMatch extends BaseMemberMatch
 
             $this->pct = $rs->getInt($startcol + 3);
             
-            $this->reverse_pct = $rs->getInt($startcol + 4 + $reverse_pct_offset);
+            $this->reverse_pct = $rs->getInt($startcol + 4 + $offset);
+            
+            $this->mail = $rs->getString($startcol + 5 + $offset);
+            $this->wink = $rs->getString($startcol + 6 + $offset);
+            
 
             $this->resetModified();
 

@@ -1422,6 +1422,19 @@ span.sec_link {
     color: #d3d3d3;
 }
 
+.member .member_box .profile_info u {
+    text-decoration: none;
+    margin-left: 5px;
+    color: #e0b400;
+}
+
+.member .member_box .profile_info u.strong {
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+    color: #e0b400;
+}
+
 /*search*/ /* profile setings */ /* END profile settings */ /*
 #resources {
 	float:left;
