@@ -11,7 +11,7 @@
 
 </head>
 <body>
-    <div id="box">              
+    <div id="box-index">              
         <!--- box border -->
         <div id="lb"><div id="rb">
         <div id="bb"><div id="blc">
