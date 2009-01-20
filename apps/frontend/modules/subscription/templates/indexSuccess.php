@@ -4,7 +4,7 @@ In order to see more matches and send messages, please upgrade your subscription
 
 <?php $sub1 = $subscriptions[0]; ?>
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
-    <fieldset>
+    <fieldset style="width: 60%;">
         <div class="column">
             <div class="upgrade_img">&nbsp;</div>
             <span class="top">&nbsp;</span>
