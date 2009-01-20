@@ -25,7 +25,7 @@
         
         <label for="pre_approve">Pre-Approval:</label><br />
         
-        <hr />
+        <hr style="width: auto;" />
         <label class="period_label" style="width:60px" >First&nbsp;</label>
         <?php echo object_input_tag($sub1, 'getTrial1Period', 'class=period_input') ?>
         <?php echo pr_select_payment_period_type('trial1_period_type', $sub1->getTrial1PeriodType(), array('style' => 'width: 80px')) ?>
@@ -71,7 +71,7 @@
         
         <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]') ) ?><br />
       
-      <hr />
+      <hr style="width: auto;" />
 	  <?php echo input_tag('subs['. $sub->getId() .'][trial1_amount]', format_currency($sub->getTrial1Amount()), array('class' => 'limit_input')) ?>
 	  <label class="period_label">&pound;</label><br />
 	  
