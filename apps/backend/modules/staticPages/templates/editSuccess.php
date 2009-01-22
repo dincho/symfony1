@@ -7,7 +7,7 @@
   <div class="legend">Edit <?php echo $page->getSlug() ?>.html</div>
       <fieldset class="form_fields float-left">
         <label for="link_name">Link Name:</label>
-        <?php echo object_input_tag($page, 'getLinkName', error_class('link_name')) ?><br />
+        <span style="float: left"><?php echo object_input_tag($page, 'getLinkName', error_class('link_name')) ?></span><br />
         
         <label for="culture">Language:</label>
         <var><?php echo format_language($page->getCulture()) ?></var>
@@ -26,7 +26,7 @@
        
       </fieldset>
   
-  <fieldset class="form_fields email_fields">
+  <fieldset class="form_fields email_fields" style="margin-top: 150px;">
     <label for="html_content">HTML Content:</label>
     <?php echo textarea_tag('html_content', $page->getContent(), 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
   </fieldset>        
