@@ -2,10 +2,10 @@
 <?php echo form_tag('messages/list', array('method' => 'get', 'id' => 'search_filter')) ?>
     <div class="filter_right text-right">
         <?php echo input_date_tag('filters[date_from]', ( isset($filters['date_from']) ) ? $filters['date_from'] : time() - 2592000, array('calendar_button_img' => '/sf/sf_admin/images/date.png',
-                                                              'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_from"')) ?> -
+                                                              'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'style' => 'width: 74px;', 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_from"')) ?> -
                                                                
         <?php echo input_date_tag('filters[date_to]', ( isset($filters['date_to']) ) ? $filters['date_to'] : time(), array('calendar_button_img' => '/sf/sf_admin/images/date.png',
-                                                              'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_to"')) ?>
+                                                              'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'style' => 'width: 74px;', 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_to"')) ?>
                                                               <br />
         Total: <?php echo format_number($pager->getNbResults()) ?>
     </div>
