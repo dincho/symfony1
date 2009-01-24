@@ -50,5 +50,7 @@ class MemberStoryMapBuilder {
 
 		$tMap->addColumn('CONTENT', 'Content', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
+		$tMap->addForeignKey('STOCK_PHOTO_ID', 'StockPhotoId', 'int', CreoleTypes::INTEGER, 'stock_photo', 'ID', false, null);
+
 	} 
 } 

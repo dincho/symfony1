@@ -38,21 +38,22 @@ class contentActions extends prActions
             $flag->save();
             
             $counter = $profile->getMemberCounter();
-            $counter->setCurrentFlags($counter->getCurrentFlags()+1);
-            $counter->setTotalFlags($counter->getTotalFlags()+1);
+            $counter->setCurrentFlags($counter->getCurrentFlags() + 1);
+            $counter->setTotalFlags($counter->getTotalFlags() + 1);
             $counter->save();
             
             $profile->setLastFlagged(time());
             
-            if( $counter->getCurrentFlags() == sfConfig::get('app_settings_flags_num_auto_suspension'))
+            if ($counter->getCurrentFlags() == sfConfig::get('app_settings_flags_num_auto_suspension'))
             {
                 $profile->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS);
                 $profile->save();
-            } else {
+            } else
+            {
                 $profile->save();
             }
             
-            if( $counter->getCurrentFlags() == sfConfig::get('app_settings_notification_scam_flags') ) 
+            if ($counter->getCurrentFlags() == sfConfig::get('app_settings_notification_scam_flags'))
                 Events::triggerScamActivity($profile, $counter->getCurrentFlags());
             
             $this->getUser()->getProfile()->incCounter('SentFlags');
@@ -69,16 +70,16 @@ class contentActions extends prActions
     {
         $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
         $this->forward404Unless($profile);
-                
-        if( $this->getUser()->getId() == $profile->getId() )
+        
+        if ($this->getUser()->getId() == $profile->getId())
         {
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $profile->getUsername() );
+            $this->redirect('profile/index?username=' . $profile->getUsername());
         }
-
+        
         return true;
     }
-    
+
     public function handleErrorFlag()
     {
         $this->profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
@@ -86,7 +87,7 @@ class contentActions extends prActions
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
         return sfView::SUCCESS;
     }
-    
+
     public function executePage()
     {
         $c = new Criteria();
@@ -103,10 +104,11 @@ class contentActions extends prActions
         $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
         //if( !$this->hasFlash('msg_tpl')) throw new sfException('Calling message action without params');
         
+
         $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
         $this->setLayout('simple');
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
-        $this->svars = ( $this->hasFlash('s_vars')) ? $this->getFlash('s_vars') : array(); 
+        $this->svars = ($this->hasFlash('s_vars')) ? $this->getFlash('s_vars') : array();
     }
 
     public function executeReportBug()
@@ -129,42 +131,42 @@ class contentActions extends prActions
             $this->redirectToReferer();
         }
     }
-    
+
     public function handleErrorReportBug()
     {
         return sfView::SUCCESS;
     }
-    
+
     public function executeTellFriend()
     {
         $this->getUser()->getBC()->removeFirst()->replaceFirst(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             
-            Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'),
-                                    $this->getRequestParameter('friend_full_name'), $this->getRequestParameter('friend_email'), $this->getRequestParameter('comments'));
+            Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'), $this->getRequestParameter('friend_full_name'), 
+                    $this->getRequestParameter('friend_email'), $this->getRequestParameter('comments'));
             
             $this->message('tell_friend_confirm');
         }
     }
-    
+
     public function handleErrorTellFriend()
     {
         $this->getUser()->getBC()->removeFirst()->replaceFirst(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'));
         return sfView::SUCCESS;
     }
-    
+
     public function executeTellFriendConfirmation()
     {
-        
-    }
     
+    }
+
     public function executeEmails()
     {
-         $email = WebEmailPeer::retrieveByHash($this->getRequestParameter('hash'));
-         $this->forward404Unless($email);
-         
-         $this->setLayout('simple_small');
-         $this->email = $email;
+        $email = WebEmailPeer::retrieveByHash($this->getRequestParameter('hash'));
+        $this->forward404Unless($email);
+        
+        $this->setLayout('simple_small');
+        $this->email = $email;
     }
 }

@@ -346,7 +346,8 @@ class membersActions extends sfActions
         $this->forward404Unless($photo);
         $photo->delete();
         $this->setFlash('msg_ok', 'Photo have been deleted.');
-        return $this->redirect('members/editPhotos?id=' . $this->member->getId());
+        //return $this->redirect('members/editPhotos?id=' . $this->member->getId());
+        $this->redirect($this->getUser()->getRefererUrl());
     }
 
     public function executeStar()

@@ -3,8 +3,10 @@ web_debug: ~
 security:  ~
 cancel:
   class:  confirmMessageFilter
-# generally, you will want to insert your own filters here
-
+referer:
+    class:  refererFilter
+    param:
+        namespace:  backend/user/referer_stack
 cache:     ~
 common:    ~
 flash:     ~

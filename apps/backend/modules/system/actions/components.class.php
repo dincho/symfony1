@@ -87,6 +87,8 @@ class systemComponents extends sfComponents
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
                                            array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
                                            array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
+                                           array('title' => 'Photos', 'uri' => 'photos/list?sort=Member::created_at&type=desc'),
+                                           array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
                                            array('title' => 'Areas', 'uri' => 'areas/edit'),
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
@@ -149,6 +151,7 @@ class systemComponents extends sfComponents
     $full_menu['descQuestions'] = $full_menu['content'];
     $full_menu['descAnswers'] = $full_menu['content'];
     $full_menu['settings'] = $full_menu['content'];
+    $full_menu['photos'] = $full_menu['content'];
     $full_menu['feedbackTemplates'] = $full_menu['feedback'];
     $full_menu['flagCategories'] = $full_menu['flags'];
     

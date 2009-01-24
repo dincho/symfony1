@@ -123,6 +123,7 @@ CREATE TABLE `member`
 	`subscription_id` INTEGER  NOT NULL,
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
 	`member_counter_id` INTEGER  NOT NULL,
+	`public_search` INTEGER default 0 NOT NULL,
 	`last_paypal_subscr_id` VARCHAR(255),
 	`last_paypal_item` VARCHAR(255),
 	`paypal_unsubscribed_at` DATETIME,
@@ -356,6 +357,23 @@ CREATE TABLE `member_photo`
 		FOREIGN KEY (`member_id`)
 		REFERENCES `member` (`id`)
 		ON DELETE CASCADE
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- stock_photo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `stock_photo`;
+
+
+CREATE TABLE `stock_photo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`file` VARCHAR(255),
+	`cropped` VARCHAR(255),
+	`gender` CHAR(1) default 'M' NOT NULL,
+	`homepages` VARCHAR(255),
+	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -1005,7 +1023,13 @@ CREATE TABLE `member_story`
 	`keywords` VARCHAR(255)  NOT NULL,
 	`description` TEXT  NOT NULL,
 	`content` TEXT  NOT NULL,
-	PRIMARY KEY (`id`)
+	`stock_photo_id` INTEGER,
+	PRIMARY KEY (`id`),
+	INDEX `member_story_FI_1` (`stock_photo_id`),
+	CONSTRAINT `member_story_FK_1`
+		FOREIGN KEY (`stock_photo_id`)
+		REFERENCES `stock_photo` (`id`)
+		ON DELETE SET NULL
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

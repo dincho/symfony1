@@ -34,6 +34,7 @@ $descQuestions = DescQuestionPeer::doSelect(new Criteria());
 $descAnswers = DescAnswerPeer::getAnswersAssoc();
 $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
 $generate_number = isset($argv[1]) ? min((int) $argv[1], 600) : 10; //default 10, max 600 cause of memory overload
+$num_photos = isset($argv[2]) ? (int) $argv[2] : 0;
 
 
 for( $i=1; $i<=$generate_number; $i++):
@@ -103,15 +104,18 @@ $counter->setCurrentFlags(0); //set 1 field, so save to work
 $counter->save();
 $member->setMemberCounter($counter);
 
-//add 3 photos
-/*for($p=1; $p<=3; $p++)
+if( $num_photos > 0)
 {
-    $rand_photo = array_rand($photos[$sex]);
-    $photo = new MemberPhoto();
-    $photo->updateImageFromFile('file', $photos[$sex][$rand_photo]);
-    if( $p==1 ) $member->setMemberPhoto($photo);
-    $member->addMemberPhoto($photo);
-}*/
+    //add 3 photos
+    for($p=1; $p<=$num_photos; $p++)
+    {
+        $rand_photo = array_rand($photos[$sex]);
+        $photo = new MemberPhoto();
+        $photo->updateImageFromFile('file', $photos[$sex][$rand_photo]);
+        if( $p==1 ) $member->setMemberPhoto($photo);
+        $member->addMemberPhoto($photo);
+    }
+}
 
 //Q&A
 foreach ($descQuestions as $descQuestion)

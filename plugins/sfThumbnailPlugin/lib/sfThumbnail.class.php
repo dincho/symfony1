@@ -325,6 +325,12 @@ class sfThumbnail
     imagecopyresampled($this->thumb, $this->source, 0, 0, $sizes['x1'], $sizes['y1'], $sizes['width'], $sizes['height'], $sizes['x2']-$sizes['x1'], $sizes['y2']-$sizes['y1']);
   }
   
+  public function addPrEffects($hue, $saturation)
+  {
+    $effect = new prHomepageEffect($this->source);
+    $this->thumb = $effect->setHueSaturation($hue, $saturation)->process()->getImg();
+  }
+  
   /**
   * Saves the thumbnail to the filesystem
   * @access public 

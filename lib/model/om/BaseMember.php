@@ -153,6 +153,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 
 	
+	protected $public_search = false;
+
+
+	
 	protected $last_paypal_subscr_id;
 
 
@@ -630,6 +634,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->member_counter_id;
+	}
+
+	
+	public function getPublicSearch()
+	{
+
+		return $this->public_search;
 	}
 
 	
@@ -1442,6 +1453,16 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setPublicSearch($v)
+	{
+
+		if ($this->public_search !== $v || $v === false) {
+			$this->public_search = $v;
+			$this->modifiedColumns[] = MemberPeer::PUBLIC_SEARCH;
+		}
+
+	} 
+	
 	public function setLastPaypalSubscrId($v)
 	{
 
@@ -1737,37 +1758,39 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->member_counter_id = $rs->getInt($startcol + 35);
 
-			$this->last_paypal_subscr_id = $rs->getString($startcol + 36);
+			$this->public_search = $rs->getBoolean($startcol + 36);
 
-			$this->last_paypal_item = $rs->getString($startcol + 37);
+			$this->last_paypal_subscr_id = $rs->getString($startcol + 37);
 
-			$this->paypal_unsubscribed_at = $rs->getTimestamp($startcol + 38, null);
+			$this->last_paypal_item = $rs->getString($startcol + 38);
 
-			$this->last_paypal_payment_at = $rs->getTimestamp($startcol + 39, null);
+			$this->paypal_unsubscribed_at = $rs->getTimestamp($startcol + 39, null);
 
-			$this->last_activity = $rs->getTimestamp($startcol + 40, null);
+			$this->last_paypal_payment_at = $rs->getTimestamp($startcol + 40, null);
 
-			$this->last_status_change = $rs->getTimestamp($startcol + 41, null);
+			$this->last_activity = $rs->getTimestamp($startcol + 41, null);
 
-			$this->last_flagged = $rs->getTimestamp($startcol + 42, null);
+			$this->last_status_change = $rs->getTimestamp($startcol + 42, null);
 
-			$this->last_login = $rs->getTimestamp($startcol + 43, null);
+			$this->last_flagged = $rs->getTimestamp($startcol + 43, null);
 
-			$this->last_winks_view = $rs->getTimestamp($startcol + 44, null);
+			$this->last_login = $rs->getTimestamp($startcol + 44, null);
 
-			$this->last_hotlist_view = $rs->getTimestamp($startcol + 45, null);
+			$this->last_winks_view = $rs->getTimestamp($startcol + 45, null);
 
-			$this->last_profile_view = $rs->getTimestamp($startcol + 46, null);
+			$this->last_hotlist_view = $rs->getTimestamp($startcol + 46, null);
 
-			$this->last_activity_notification = $rs->getTimestamp($startcol + 47, null);
+			$this->last_profile_view = $rs->getTimestamp($startcol + 47, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 48, null);
+			$this->last_activity_notification = $rs->getTimestamp($startcol + 48, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 49, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 49; 
+						return $startcol + 50; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2491,42 +2514,45 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				return $this->getMemberCounterId();
 				break;
 			case 36:
-				return $this->getLastPaypalSubscrId();
+				return $this->getPublicSearch();
 				break;
 			case 37:
-				return $this->getLastPaypalItem();
+				return $this->getLastPaypalSubscrId();
 				break;
 			case 38:
-				return $this->getPaypalUnsubscribedAt();
+				return $this->getLastPaypalItem();
 				break;
 			case 39:
-				return $this->getLastPaypalPaymentAt();
+				return $this->getPaypalUnsubscribedAt();
 				break;
 			case 40:
-				return $this->getLastActivity();
+				return $this->getLastPaypalPaymentAt();
 				break;
 			case 41:
-				return $this->getLastStatusChange();
+				return $this->getLastActivity();
 				break;
 			case 42:
-				return $this->getLastFlagged();
+				return $this->getLastStatusChange();
 				break;
 			case 43:
-				return $this->getLastLogin();
+				return $this->getLastFlagged();
 				break;
 			case 44:
-				return $this->getLastWinksView();
+				return $this->getLastLogin();
 				break;
 			case 45:
-				return $this->getLastHotlistView();
+				return $this->getLastWinksView();
 				break;
 			case 46:
-				return $this->getLastProfileView();
+				return $this->getLastHotlistView();
 				break;
 			case 47:
-				return $this->getLastActivityNotification();
+				return $this->getLastProfileView();
 				break;
 			case 48:
+				return $this->getLastActivityNotification();
+				break;
+			case 49:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -2575,19 +2601,20 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[33] => $this->getSubscriptionId(),
 			$keys[34] => $this->getSubAutoRenew(),
 			$keys[35] => $this->getMemberCounterId(),
-			$keys[36] => $this->getLastPaypalSubscrId(),
-			$keys[37] => $this->getLastPaypalItem(),
-			$keys[38] => $this->getPaypalUnsubscribedAt(),
-			$keys[39] => $this->getLastPaypalPaymentAt(),
-			$keys[40] => $this->getLastActivity(),
-			$keys[41] => $this->getLastStatusChange(),
-			$keys[42] => $this->getLastFlagged(),
-			$keys[43] => $this->getLastLogin(),
-			$keys[44] => $this->getLastWinksView(),
-			$keys[45] => $this->getLastHotlistView(),
-			$keys[46] => $this->getLastProfileView(),
-			$keys[47] => $this->getLastActivityNotification(),
-			$keys[48] => $this->getCreatedAt(),
+			$keys[36] => $this->getPublicSearch(),
+			$keys[37] => $this->getLastPaypalSubscrId(),
+			$keys[38] => $this->getLastPaypalItem(),
+			$keys[39] => $this->getPaypalUnsubscribedAt(),
+			$keys[40] => $this->getLastPaypalPaymentAt(),
+			$keys[41] => $this->getLastActivity(),
+			$keys[42] => $this->getLastStatusChange(),
+			$keys[43] => $this->getLastFlagged(),
+			$keys[44] => $this->getLastLogin(),
+			$keys[45] => $this->getLastWinksView(),
+			$keys[46] => $this->getLastHotlistView(),
+			$keys[47] => $this->getLastProfileView(),
+			$keys[48] => $this->getLastActivityNotification(),
+			$keys[49] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -2712,42 +2739,45 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$this->setMemberCounterId($value);
 				break;
 			case 36:
-				$this->setLastPaypalSubscrId($value);
+				$this->setPublicSearch($value);
 				break;
 			case 37:
-				$this->setLastPaypalItem($value);
+				$this->setLastPaypalSubscrId($value);
 				break;
 			case 38:
-				$this->setPaypalUnsubscribedAt($value);
+				$this->setLastPaypalItem($value);
 				break;
 			case 39:
-				$this->setLastPaypalPaymentAt($value);
+				$this->setPaypalUnsubscribedAt($value);
 				break;
 			case 40:
-				$this->setLastActivity($value);
+				$this->setLastPaypalPaymentAt($value);
 				break;
 			case 41:
-				$this->setLastStatusChange($value);
+				$this->setLastActivity($value);
 				break;
 			case 42:
-				$this->setLastFlagged($value);
+				$this->setLastStatusChange($value);
 				break;
 			case 43:
-				$this->setLastLogin($value);
+				$this->setLastFlagged($value);
 				break;
 			case 44:
-				$this->setLastWinksView($value);
+				$this->setLastLogin($value);
 				break;
 			case 45:
-				$this->setLastHotlistView($value);
+				$this->setLastWinksView($value);
 				break;
 			case 46:
-				$this->setLastProfileView($value);
+				$this->setLastHotlistView($value);
 				break;
 			case 47:
-				$this->setLastActivityNotification($value);
+				$this->setLastProfileView($value);
 				break;
 			case 48:
+				$this->setLastActivityNotification($value);
+				break;
+			case 49:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -2793,19 +2823,20 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[33], $arr)) $this->setSubscriptionId($arr[$keys[33]]);
 		if (array_key_exists($keys[34], $arr)) $this->setSubAutoRenew($arr[$keys[34]]);
 		if (array_key_exists($keys[35], $arr)) $this->setMemberCounterId($arr[$keys[35]]);
-		if (array_key_exists($keys[36], $arr)) $this->setLastPaypalSubscrId($arr[$keys[36]]);
-		if (array_key_exists($keys[37], $arr)) $this->setLastPaypalItem($arr[$keys[37]]);
-		if (array_key_exists($keys[38], $arr)) $this->setPaypalUnsubscribedAt($arr[$keys[38]]);
-		if (array_key_exists($keys[39], $arr)) $this->setLastPaypalPaymentAt($arr[$keys[39]]);
-		if (array_key_exists($keys[40], $arr)) $this->setLastActivity($arr[$keys[40]]);
-		if (array_key_exists($keys[41], $arr)) $this->setLastStatusChange($arr[$keys[41]]);
-		if (array_key_exists($keys[42], $arr)) $this->setLastFlagged($arr[$keys[42]]);
-		if (array_key_exists($keys[43], $arr)) $this->setLastLogin($arr[$keys[43]]);
-		if (array_key_exists($keys[44], $arr)) $this->setLastWinksView($arr[$keys[44]]);
-		if (array_key_exists($keys[45], $arr)) $this->setLastHotlistView($arr[$keys[45]]);
-		if (array_key_exists($keys[46], $arr)) $this->setLastProfileView($arr[$keys[46]]);
-		if (array_key_exists($keys[47], $arr)) $this->setLastActivityNotification($arr[$keys[47]]);
-		if (array_key_exists($keys[48], $arr)) $this->setCreatedAt($arr[$keys[48]]);
+		if (array_key_exists($keys[36], $arr)) $this->setPublicSearch($arr[$keys[36]]);
+		if (array_key_exists($keys[37], $arr)) $this->setLastPaypalSubscrId($arr[$keys[37]]);
+		if (array_key_exists($keys[38], $arr)) $this->setLastPaypalItem($arr[$keys[38]]);
+		if (array_key_exists($keys[39], $arr)) $this->setPaypalUnsubscribedAt($arr[$keys[39]]);
+		if (array_key_exists($keys[40], $arr)) $this->setLastPaypalPaymentAt($arr[$keys[40]]);
+		if (array_key_exists($keys[41], $arr)) $this->setLastActivity($arr[$keys[41]]);
+		if (array_key_exists($keys[42], $arr)) $this->setLastStatusChange($arr[$keys[42]]);
+		if (array_key_exists($keys[43], $arr)) $this->setLastFlagged($arr[$keys[43]]);
+		if (array_key_exists($keys[44], $arr)) $this->setLastLogin($arr[$keys[44]]);
+		if (array_key_exists($keys[45], $arr)) $this->setLastWinksView($arr[$keys[45]]);
+		if (array_key_exists($keys[46], $arr)) $this->setLastHotlistView($arr[$keys[46]]);
+		if (array_key_exists($keys[47], $arr)) $this->setLastProfileView($arr[$keys[47]]);
+		if (array_key_exists($keys[48], $arr)) $this->setLastActivityNotification($arr[$keys[48]]);
+		if (array_key_exists($keys[49], $arr)) $this->setCreatedAt($arr[$keys[49]]);
 	}
 
 	
@@ -2849,6 +2880,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::SUBSCRIPTION_ID)) $criteria->add(MemberPeer::SUBSCRIPTION_ID, $this->subscription_id);
 		if ($this->isColumnModified(MemberPeer::SUB_AUTO_RENEW)) $criteria->add(MemberPeer::SUB_AUTO_RENEW, $this->sub_auto_renew);
 		if ($this->isColumnModified(MemberPeer::MEMBER_COUNTER_ID)) $criteria->add(MemberPeer::MEMBER_COUNTER_ID, $this->member_counter_id);
+		if ($this->isColumnModified(MemberPeer::PUBLIC_SEARCH)) $criteria->add(MemberPeer::PUBLIC_SEARCH, $this->public_search);
 		if ($this->isColumnModified(MemberPeer::LAST_PAYPAL_SUBSCR_ID)) $criteria->add(MemberPeer::LAST_PAYPAL_SUBSCR_ID, $this->last_paypal_subscr_id);
 		if ($this->isColumnModified(MemberPeer::LAST_PAYPAL_ITEM)) $criteria->add(MemberPeer::LAST_PAYPAL_ITEM, $this->last_paypal_item);
 		if ($this->isColumnModified(MemberPeer::PAYPAL_UNSUBSCRIBED_AT)) $criteria->add(MemberPeer::PAYPAL_UNSUBSCRIBED_AT, $this->paypal_unsubscribed_at);
@@ -2961,6 +2993,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setSubAutoRenew($this->sub_auto_renew);
 
 		$copyObj->setMemberCounterId($this->member_counter_id);
+
+		$copyObj->setPublicSearch($this->public_search);
 
 		$copyObj->setLastPaypalSubscrId($this->last_paypal_subscr_id);
 

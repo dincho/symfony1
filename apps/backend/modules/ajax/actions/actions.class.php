@@ -66,4 +66,16 @@ class ajaxActions extends sfActions
       
       $this->flags = FlagPeer::doSelectJoinAllFlagged($c);
   }
+  
+  public function executeUpdatePublicSearch()
+  {
+      $member = MemberPeer::retrieveByPK($this->getRequestParameter('member_id'));
+      if( $member && !$member->getDontUsePhotos())
+      {
+          $member->setPublicSearch(!$member->getPublicSearch());
+          $member->save();
+      }
+      
+      return sfView::NONE;
+  }
 }

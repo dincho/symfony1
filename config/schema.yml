@@ -78,6 +78,7 @@ propel:
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
     sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
+    public_search:            { type: boolean, required: true, default: false }
     last_paypal_subscr_id:    { type: varchar, size: 255, required: false }
     last_paypal_item:         { type: varchar, size: 255, required: false }
     paypal_unsubscribed_at:   { type: timestamp }
@@ -155,6 +156,12 @@ propel:
     file:                     { type: varchar, size: 255 }
     cropped:                  { type: varchar, size: 255 }
     is_main:                  { type: boolean, required: true, default: false }
+  stock_photo:
+    id:
+    file:                     { type: varchar, size: 255 }
+    cropped:                  { type: varchar, size: 255 }
+    gender:                   { type: char, size: 1, required: true, default: "M" }
+    homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
   imbra_question:
     id:
     only_explain:             { type: boolean, required: true, default: false }  
@@ -350,6 +357,7 @@ propel:
     keywords:       { type: varchar, size: 255, required: true }
     description:    { type: longvarchar, required: true }
     content:        { type: longvarchar, required: true }
+    stock_photo_id: { type: integer, required: false, foreignTable: stock_photo, foreignReference: id, onDelete: setnull }
   notification:
     id:
     name:           { type: varchar, size: 255 }

@@ -402,3 +402,19 @@ div.member_flags table {
 }
 
 #trigger_filters_date_from, #trigger_filters_date_to { display: none; }
+
+.photos_headline {
+  background-color: #EAEAEA;
+  text-align: left;
+  padding: 0 5px;
+  margin-bottom: 5px;
+}
+
+.photos_headline span {
+    padding: 0 30px;
+}
+
+.photos_headline b {
+    line-height: 13px;
+    font-size: 12px;
+}

@@ -43,6 +43,13 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 	
 	protected $content;
 
+
+	
+	protected $stock_photo_id;
+
+	
+	protected $aStockPhoto;
+
 	
 	protected $alreadyInSave = false;
 
@@ -110,6 +117,13 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 	{
 
 		return $this->content;
+	}
+
+	
+	public function getStockPhotoId()
+	{
+
+		return $this->stock_photo_id;
 	}
 
 	
@@ -257,6 +271,26 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setStockPhotoId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->stock_photo_id !== $v) {
+			$this->stock_photo_id = $v;
+			$this->modifiedColumns[] = MemberStoryPeer::STOCK_PHOTO_ID;
+		}
+
+		if ($this->aStockPhoto !== null && $this->aStockPhoto->getId() !== $v) {
+			$this->aStockPhoto = null;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -279,11 +313,13 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 
 			$this->content = $rs->getString($startcol + 8);
 
+			$this->stock_photo_id = $rs->getInt($startcol + 9);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 10; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating MemberStory object", $e);
 		}
@@ -373,6 +409,15 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			$this->alreadyInSave = true;
 
 
+												
+			if ($this->aStockPhoto !== null) {
+				if ($this->aStockPhoto->isModified()) {
+					$affectedRows += $this->aStockPhoto->save($con);
+				}
+				$this->setStockPhoto($this->aStockPhoto);
+			}
+
+
 						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = MemberStoryPeer::doInsert($this, $con);
@@ -418,6 +463,14 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			$retval = null;
 
 			$failureMap = array();
+
+
+												
+			if ($this->aStockPhoto !== null) {
+				if (!$this->aStockPhoto->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aStockPhoto->getValidationFailures());
+				}
+			}
 
 
 			if (($retval = MemberStoryPeer::doValidate($this, $columns)) !== true) {
@@ -470,6 +523,9 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			case 8:
 				return $this->getContent();
 				break;
+			case 9:
+				return $this->getStockPhotoId();
+				break;
 			default:
 				return null;
 				break;
@@ -489,6 +545,7 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			$keys[6] => $this->getKeywords(),
 			$keys[7] => $this->getDescription(),
 			$keys[8] => $this->getContent(),
+			$keys[9] => $this->getStockPhotoId(),
 		);
 		return $result;
 	}
@@ -531,6 +588,9 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			case 8:
 				$this->setContent($value);
 				break;
+			case 9:
+				$this->setStockPhotoId($value);
+				break;
 		} 	}
 
 	
@@ -547,6 +607,7 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[6], $arr)) $this->setKeywords($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setDescription($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setContent($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setStockPhotoId($arr[$keys[9]]);
 	}
 
 	
@@ -563,6 +624,7 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberStoryPeer::KEYWORDS)) $criteria->add(MemberStoryPeer::KEYWORDS, $this->keywords);
 		if ($this->isColumnModified(MemberStoryPeer::DESCRIPTION)) $criteria->add(MemberStoryPeer::DESCRIPTION, $this->description);
 		if ($this->isColumnModified(MemberStoryPeer::CONTENT)) $criteria->add(MemberStoryPeer::CONTENT, $this->content);
+		if ($this->isColumnModified(MemberStoryPeer::STOCK_PHOTO_ID)) $criteria->add(MemberStoryPeer::STOCK_PHOTO_ID, $this->stock_photo_id);
 
 		return $criteria;
 	}
@@ -609,6 +671,8 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 
 		$copyObj->setContent($this->content);
 
+		$copyObj->setStockPhotoId($this->stock_photo_id);
+
 
 		$copyObj->setNew(true);
 
@@ -631,6 +695,35 @@ abstract class BaseMemberStory extends BaseObject  implements Persistent {
 			self::$peer = new MemberStoryPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setStockPhoto($v)
+	{
+
+
+		if ($v === null) {
+			$this->setStockPhotoId(NULL);
+		} else {
+			$this->setStockPhotoId($v->getId());
+		}
+
+
+		$this->aStockPhoto = $v;
+	}
+
+
+	
+	public function getStockPhoto($con = null)
+	{
+		if ($this->aStockPhoto === null && ($this->stock_photo_id !== null)) {
+						include_once 'lib/model/om/BaseStockPhotoPeer.php';
+
+			$this->aStockPhoto = StockPhotoPeer::retrieveByPK($this->stock_photo_id, $con);
+
+			
+		}
+		return $this->aStockPhoto;
 	}
 
 

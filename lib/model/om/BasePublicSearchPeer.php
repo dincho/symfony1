@@ -1,53 +1,29 @@
 <?php
 
 
-abstract class BaseMemberStoryPeer {
+abstract class BasePublicSearchPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'member_story';
+	const TABLE_NAME = 'public_search';
 
 	
-	const CLASS_DEFAULT = 'lib.model.MemberStory';
+	const CLASS_DEFAULT = 'lib.model.PublicSearch';
 
 	
-	const NUM_COLUMNS = 10;
+	const NUM_COLUMNS = 2;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'member_story.ID';
+	const ID = 'public_search.ID';
 
 	
-	const CULTURE = 'member_story.CULTURE';
-
-	
-	const SLUG = 'member_story.SLUG';
-
-	
-	const SORT_ORDER = 'member_story.SORT_ORDER';
-
-	
-	const LINK_NAME = 'member_story.LINK_NAME';
-
-	
-	const TITLE = 'member_story.TITLE';
-
-	
-	const KEYWORDS = 'member_story.KEYWORDS';
-
-	
-	const DESCRIPTION = 'member_story.DESCRIPTION';
-
-	
-	const CONTENT = 'member_story.CONTENT';
-
-	
-	const STOCK_PHOTO_ID = 'member_story.STOCK_PHOTO_ID';
+	const MEMBER_ID = 'public_search.MEMBER_ID';
 
 	
 	private static $phpNameMap = null;
@@ -55,31 +31,31 @@ abstract class BaseMemberStoryPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Culture', 'Slug', 'SortOrder', 'LinkName', 'Title', 'Keywords', 'Description', 'Content', 'StockPhotoId', ),
-		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID, MemberStoryPeer::CULTURE, MemberStoryPeer::SLUG, MemberStoryPeer::SORT_ORDER, MemberStoryPeer::LINK_NAME, MemberStoryPeer::TITLE, MemberStoryPeer::KEYWORDS, MemberStoryPeer::DESCRIPTION, MemberStoryPeer::CONTENT, MemberStoryPeer::STOCK_PHOTO_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'culture', 'slug', 'sort_order', 'link_name', 'title', 'keywords', 'description', 'content', 'stock_photo_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', ),
+		BasePeer::TYPE_COLNAME => array (PublicSearchPeer::ID, PublicSearchPeer::MEMBER_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Culture' => 1, 'Slug' => 2, 'SortOrder' => 3, 'LinkName' => 4, 'Title' => 5, 'Keywords' => 6, 'Description' => 7, 'Content' => 8, 'StockPhotoId' => 9, ),
-		BasePeer::TYPE_COLNAME => array (MemberStoryPeer::ID => 0, MemberStoryPeer::CULTURE => 1, MemberStoryPeer::SLUG => 2, MemberStoryPeer::SORT_ORDER => 3, MemberStoryPeer::LINK_NAME => 4, MemberStoryPeer::TITLE => 5, MemberStoryPeer::KEYWORDS => 6, MemberStoryPeer::DESCRIPTION => 7, MemberStoryPeer::CONTENT => 8, MemberStoryPeer::STOCK_PHOTO_ID => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'culture' => 1, 'slug' => 2, 'sort_order' => 3, 'link_name' => 4, 'title' => 5, 'keywords' => 6, 'description' => 7, 'content' => 8, 'stock_photo_id' => 9, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, ),
+		BasePeer::TYPE_COLNAME => array (PublicSearchPeer::ID => 0, PublicSearchPeer::MEMBER_ID => 1, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/MemberStoryMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.MemberStoryMapBuilder');
+		include_once 'lib/model/map/PublicSearchMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.PublicSearchMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = MemberStoryPeer::getTableMap();
+			$map = PublicSearchPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -113,37 +89,21 @@ abstract class BaseMemberStoryPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(MemberStoryPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(PublicSearchPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(MemberStoryPeer::ID);
+		$criteria->addSelectColumn(PublicSearchPeer::ID);
 
-		$criteria->addSelectColumn(MemberStoryPeer::CULTURE);
-
-		$criteria->addSelectColumn(MemberStoryPeer::SLUG);
-
-		$criteria->addSelectColumn(MemberStoryPeer::SORT_ORDER);
-
-		$criteria->addSelectColumn(MemberStoryPeer::LINK_NAME);
-
-		$criteria->addSelectColumn(MemberStoryPeer::TITLE);
-
-		$criteria->addSelectColumn(MemberStoryPeer::KEYWORDS);
-
-		$criteria->addSelectColumn(MemberStoryPeer::DESCRIPTION);
-
-		$criteria->addSelectColumn(MemberStoryPeer::CONTENT);
-
-		$criteria->addSelectColumn(MemberStoryPeer::STOCK_PHOTO_ID);
+		$criteria->addSelectColumn(PublicSearchPeer::MEMBER_ID);
 
 	}
 
-	const COUNT = 'COUNT(member_story.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT member_story.ID)';
+	const COUNT = 'COUNT(public_search.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT public_search.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -152,9 +112,9 @@ abstract class BaseMemberStoryPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -162,7 +122,7 @@ abstract class BaseMemberStoryPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = MemberStoryPeer::doSelectRS($criteria, $con);
+		$rs = PublicSearchPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -174,7 +134,7 @@ abstract class BaseMemberStoryPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = MemberStoryPeer::doSelect($critcopy, $con);
+		$objects = PublicSearchPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -183,15 +143,15 @@ abstract class BaseMemberStoryPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return MemberStoryPeer::populateObjects(MemberStoryPeer::doSelectRS($criteria, $con));
+		return PublicSearchPeer::populateObjects(PublicSearchPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMemberStoryPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BasePublicSearchPeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseMemberStoryPeer', $criteria, $con);
+      call_user_func($callable, 'BasePublicSearchPeer', $criteria, $con);
     }
 
 
@@ -201,7 +161,7 @@ abstract class BaseMemberStoryPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			MemberStoryPeer::addSelectColumns($criteria);
+			PublicSearchPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -213,7 +173,7 @@ abstract class BaseMemberStoryPeer {
 	{
 		$results = array();
 	
-				$cls = MemberStoryPeer::getOMClass();
+				$cls = PublicSearchPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -226,15 +186,15 @@ abstract class BaseMemberStoryPeer {
 	}
 
 	
-	public static function doCountJoinStockPhoto(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinMember(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -242,9 +202,9 @@ abstract class BaseMemberStoryPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MemberStoryPeer::STOCK_PHOTO_ID, StockPhotoPeer::ID);
+		$criteria->addJoin(PublicSearchPeer::MEMBER_ID, MemberPeer::ID);
 
-		$rs = MemberStoryPeer::doSelectRS($criteria, $con);
+		$rs = PublicSearchPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -254,7 +214,7 @@ abstract class BaseMemberStoryPeer {
 
 
 	
-	public static function doSelectJoinStockPhoto(Criteria $c, $con = null)
+	public static function doSelectJoinMember(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -262,23 +222,23 @@ abstract class BaseMemberStoryPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		MemberStoryPeer::addSelectColumns($c);
-		$startcol = (MemberStoryPeer::NUM_COLUMNS - MemberStoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		StockPhotoPeer::addSelectColumns($c);
+		PublicSearchPeer::addSelectColumns($c);
+		$startcol = (PublicSearchPeer::NUM_COLUMNS - PublicSearchPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberPeer::addSelectColumns($c);
 
-		$c->addJoin(MemberStoryPeer::STOCK_PHOTO_ID, StockPhotoPeer::ID);
+		$c->addJoin(PublicSearchPeer::MEMBER_ID, MemberPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = MemberStoryPeer::getOMClass();
+			$omClass = PublicSearchPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = StockPhotoPeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -286,14 +246,14 @@ abstract class BaseMemberStoryPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getStockPhoto(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addMemberStory($obj1); 					break;
+										$temp_obj2->addPublicSearch($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initMemberStorys();
-				$obj2->addMemberStory($obj1); 			}
+				$obj2->initPublicSearchs();
+				$obj2->addPublicSearch($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -307,9 +267,9 @@ abstract class BaseMemberStoryPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MemberStoryPeer::COUNT);
+			$criteria->addSelectColumn(PublicSearchPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -317,9 +277,9 @@ abstract class BaseMemberStoryPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MemberStoryPeer::STOCK_PHOTO_ID, StockPhotoPeer::ID);
+		$criteria->addJoin(PublicSearchPeer::MEMBER_ID, MemberPeer::ID);
 
-		$rs = MemberStoryPeer::doSelectRS($criteria, $con);
+		$rs = PublicSearchPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -337,20 +297,20 @@ abstract class BaseMemberStoryPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		MemberStoryPeer::addSelectColumns($c);
-		$startcol2 = (MemberStoryPeer::NUM_COLUMNS - MemberStoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		PublicSearchPeer::addSelectColumns($c);
+		$startcol2 = (PublicSearchPeer::NUM_COLUMNS - PublicSearchPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		StockPhotoPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + StockPhotoPeer::NUM_COLUMNS;
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-		$c->addJoin(MemberStoryPeer::STOCK_PHOTO_ID, StockPhotoPeer::ID);
+		$c->addJoin(PublicSearchPeer::MEMBER_ID, MemberPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = MemberStoryPeer::getOMClass();
+			$omClass = PublicSearchPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -359,7 +319,7 @@ abstract class BaseMemberStoryPeer {
 
 
 					
-			$omClass = StockPhotoPeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -369,15 +329,15 @@ abstract class BaseMemberStoryPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getStockPhoto(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addMemberStory($obj1); 					break;
+					$temp_obj2->addPublicSearch($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initMemberStorys();
-				$obj2->addMemberStory($obj1);
+				$obj2->initPublicSearchs();
+				$obj2->addPublicSearch($obj1);
 			}
 
 			$results[] = $obj1;
@@ -394,16 +354,16 @@ abstract class BaseMemberStoryPeer {
 	
 	public static function getOMClass()
 	{
-		return MemberStoryPeer::CLASS_DEFAULT;
+		return PublicSearchPeer::CLASS_DEFAULT;
 	}
 
 	
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMemberStoryPeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BasePublicSearchPeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseMemberStoryPeer', $values, $con);
+      $ret = call_user_func($callable, 'BasePublicSearchPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -419,7 +379,7 @@ abstract class BaseMemberStoryPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(MemberStoryPeer::ID); 
+		$criteria->remove(PublicSearchPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -433,9 +393,9 @@ abstract class BaseMemberStoryPeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseMemberStoryPeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BasePublicSearchPeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseMemberStoryPeer', $values, $con, $pk);
+      call_user_func($callable, 'BasePublicSearchPeer', $values, $con, $pk);
     }
 
     return $pk;
@@ -445,9 +405,9 @@ abstract class BaseMemberStoryPeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMemberStoryPeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BasePublicSearchPeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseMemberStoryPeer', $values, $con);
+      $ret = call_user_func($callable, 'BasePublicSearchPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -463,8 +423,8 @@ abstract class BaseMemberStoryPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(MemberStoryPeer::ID);
-			$selectCriteria->add(MemberStoryPeer::ID, $criteria->remove(MemberStoryPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(PublicSearchPeer::ID);
+			$selectCriteria->add(PublicSearchPeer::ID, $criteria->remove(PublicSearchPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -473,9 +433,9 @@ abstract class BaseMemberStoryPeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseMemberStoryPeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BasePublicSearchPeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseMemberStoryPeer', $values, $con, $ret);
+      call_user_func($callable, 'BasePublicSearchPeer', $values, $con, $ret);
     }
 
     return $ret;
@@ -489,7 +449,7 @@ abstract class BaseMemberStoryPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(MemberStoryPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(PublicSearchPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -502,16 +462,16 @@ abstract class BaseMemberStoryPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(MemberStoryPeer::DATABASE_NAME);
+			$con = Propel::getConnection(PublicSearchPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof MemberStory) {
+			$criteria = clone $values; 		} elseif ($values instanceof PublicSearch) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(MemberStoryPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(PublicSearchPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -530,13 +490,13 @@ abstract class BaseMemberStoryPeer {
 	}
 
 	
-	public static function doValidate(MemberStory $obj, $cols = null)
+	public static function doValidate(PublicSearch $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(MemberStoryPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(MemberStoryPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(PublicSearchPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(PublicSearchPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -552,11 +512,11 @@ abstract class BaseMemberStoryPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(MemberStoryPeer::DATABASE_NAME, MemberStoryPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(PublicSearchPeer::DATABASE_NAME, PublicSearchPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = MemberStoryPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = PublicSearchPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -571,12 +531,12 @@ abstract class BaseMemberStoryPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(MemberStoryPeer::DATABASE_NAME);
+		$criteria = new Criteria(PublicSearchPeer::DATABASE_NAME);
 
-		$criteria->add(MemberStoryPeer::ID, $pk);
+		$criteria->add(PublicSearchPeer::ID, $pk);
 
 
-		$v = MemberStoryPeer::doSelect($criteria, $con);
+		$v = PublicSearchPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -593,8 +553,8 @@ abstract class BaseMemberStoryPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(MemberStoryPeer::ID, $pks, Criteria::IN);
-			$objs = MemberStoryPeer::doSelect($criteria, $con);
+			$criteria->add(PublicSearchPeer::ID, $pks, Criteria::IN);
+			$objs = PublicSearchPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -602,11 +562,11 @@ abstract class BaseMemberStoryPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseMemberStoryPeer::getMapBuilder();
+		BasePublicSearchPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/MemberStoryMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.MemberStoryMapBuilder');
+			require_once 'lib/model/map/PublicSearchMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.PublicSearchMapBuilder');
 }

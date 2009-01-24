@@ -23,15 +23,7 @@
     </div>
     <div id="center">
         <div id="index_image">
-            <?php echo link_to(image_tag('static/homepage/image_1.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_2.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_3.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_4.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_5.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_6.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_7.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_8.jpg'), 'registration/joinNow') ?>
-            <?php echo link_to(image_tag('static/homepage/image_9.jpg'), 'registration/joinNow') ?>
+            <?php include_component('content', 'homepagePhotoSet'); ?>
         </div>
         <div id="under_index_image">
             <h2><?php echo __('BROWSE FOR FREE NOW') ?></h2>

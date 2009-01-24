@@ -8,3 +8,5 @@ tellFriend:
   is_secure: off
 emails:
   is_secure: off
+imgTest:
+    is_secure: off

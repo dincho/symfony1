@@ -215,7 +215,8 @@ class dashboardActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $member->setDontUsePhotos($this->getRequestParameter('dont_use_photos'), 0);
+            $member->setDontUsePhotos($this->getRequestParameter('dont_use_photos', 0));
+            if( $this->getRequestParameter('dont_use_photos', 0) == 1) $member->setPublicSearch(false);
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members'), 0);
             $member->save();
             
