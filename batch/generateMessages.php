@@ -21,6 +21,8 @@ require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.D
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
+$numMsgs = isset($argv[1]) ? min((int) $argv[1], 50) : 5; //default 5, max 100
+
 // batch process here
 $members = MemberPeer::doSelect(new Criteria());
 $cnt = count($members);
@@ -29,7 +31,7 @@ for($i=0; $i<$cnt; $i++)
 {
     $member = $members[$i];
     
-    for($j=0; $j<5; $j++) //generate 5 messages per member
+    for($j=0; $j<$numMsgs; $j++) //generate 5 messages per member
     {
         srand((float) microtime() * 10000000);
         

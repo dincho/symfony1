@@ -70,3 +70,34 @@ BEGIN
 END//
 delimiter ;
 
+/*Last action function */
+DROP FUNCTION IF EXISTS last_action;
+delimiter //
+CREATE FUNCTION last_action(m1_id INT, m2_id INT)
+RETURNS CHAR(2)
+DETERMINISTIC
+BEGIN
+  DECLARE last_action CHAR(2);
+  DECLARE last_action_time DATETIME;
+  
+  DECLARE c CURSOR FOR
+    (SELECT IF(msg.sent_box = 1, "SM", "RM") AS last_action, msg.created_at FROM message AS msg 
+      WHERE (msg.from_member_id = m1_id AND msg.to_member_id = m2_id AND msg.sent_box = 1) 
+      OR (msg.from_member_id = m2_id AND msg.to_member_id = m1_id AND msg.sent_box = 0) 
+      ORDER BY msg.created_at DESC LIMIT 1) 
+    UNION 
+    (SELECT IF(wink.sent_box = 1, "SW", "RW") AS last_action, wink.created_at FROM wink 
+      WHERE (wink.member_id = m1_id AND wink.profile_id = m2_id AND wink.sent_box = 1) 
+      OR (wink.member_id = m2_id AND wink.profile_id = m1_id AND wink.sent_box = 0) 
+      ORDER BY wink.sent_box ASC LIMIT 1)
+    ORDER BY created_at DESC LIMIT 1;
+  DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' BEGIN END;
+  
+  OPEN c;
+  FETCH c INTO last_action, last_action_time;
+  CLOSE c;
+  
+  RETURN last_action;
+END//
+
+delimiter ;

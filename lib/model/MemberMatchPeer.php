@@ -25,8 +25,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
                                                     WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
                                                     )');
 
-        $criteria->addAsColumn('mail', '(SELECT IF(msg.sent_box = 1, "SM", "RM") FROM message AS msg WHERE (msg.from_member_id = member_match.MEMBER1_ID AND msg.to_member_id = member_match.MEMBER2_ID AND msg.sent_box = 1) OR (msg.from_member_id = member_match.MEMBER2_ID AND msg.to_member_id = member_match.MEMBER1_ID AND msg.sent_box = 0) ORDER BY msg.created_at DESC LIMIT 1)');
-        $criteria->addAsColumn('wink', '(SELECT IF(wink.sent_box = 1, "SW", "RW") FROM wink WHERE (wink.member_id = member_match.MEMBER1_ID AND wink.profile_id = member_match.MEMBER2_ID AND wink.sent_box = 1) OR (wink.member_id = member_match.MEMBER2_ID AND wink.profile_id = member_match.MEMBER1_ID AND wink.sent_box = 0) ORDER BY wink.created_at DESC LIMIT 1)');
+        $criteria->addAsColumn('last_action', 'last_action(member_match.member1_id, member_match.member2_id)');
     }
     
     public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
