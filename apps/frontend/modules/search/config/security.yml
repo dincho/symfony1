@@ -1,2 +1,6 @@
 public:
   is_secure: off
+selectCountries:
+    is_secure: off
+selectAreas:
+    is_secure: off

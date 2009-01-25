@@ -10,38 +10,49 @@
  */
 class searchActions extends prActions
 {
+
     public function preExecute()
     {
-        $this->getUser()->getBC()->clear()
-            ->add(array('name' => 'dashboard', 'uri' => 'dashboard/index'))
-            ->add(array('name' => 'search', 'uri' => 'search/index'));
+        $user = $this->getUser();
+        $bc = $user->getBC()->clear();
+        
+        if( $user->isAuthenticated() )
+        {
+            $bc->add(array('name' => 'dashboard', 'uri' => 'dashboard/index'));
+            $bc->add(array('name' => 'search', 'uri' => 'search/index'));
+        } else {
+            $bc->add(array('name' => 'home', 'uri' => '@homepage'));
+            $bc->add(array('name' => 'search', 'uri' => 'search/public'));
+        }
+        
+        
         $this->processFilters();
         $filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
-        if( !isset($filters['location']) ) $filters['location'] = 0;
+        if (! isset($filters['location']))
+            $filters['location'] = 0;
         $this->filters = $filters;
     }
-    
-    /* we need this after BETA period
+
     public function executePublic()
     {
-        $this->getUser()->getBC()->clear()
-            ->add(array('name' => 'home', 'uri' => '@homepage'))
-            ->add(array('name' => 'search', 'uri' => 'search/public'));
-            
+        $this->redirectIf($this->getUser()->isAuthenticated(), 'search/index');
+        $this->forward404If(sfConfig::get('app_beta_period'));
+        
         $c = new Criteria();
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-        //$c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c->add(MemberPeer::PUBLIC_SEARCH, true);
         $c->setLimit(12);
         
-        $this->members = MemberPeer::doSelectJoinAll($c);     
+        $this->processPublicFilters($c);
+        $this->members = MemberPeer::doSelectJoinAll($c);
     }
-    */
-    
+
     public function executeIndex()
     {
         $this->forward($this->getModuleName(), 'mostRecent');
     }
-    
+
     public function executeMostRecent()
     {
         $this->getUser()->setAttribute('last_search_url', 'search/mostRecent');
@@ -55,14 +66,13 @@ class searchActions extends prActions
         $per_page = $rows * 3; //3 boxes/profiles per row
         $this->initPager($c, $per_page);
     }
-    
 
     public function executeCriteria()
     {
         $this->getUser()->setAttribute('last_search_url', 'search/criteria');
         
         $this->has_criteria = true;
-        if( !$this->getUser()->getProfile()->hasSearchCriteria() )
+        if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
             $this->has_criteria = false;
             return sfView::SUCCESS;
@@ -77,7 +87,7 @@ class searchActions extends prActions
         $per_page = $rows * 3; //3 boxes/profiles per row
         $this->initPager($c, $per_page);
     }
-    
+
     public function executeReverse()
     {
         $this->getUser()->setAttribute('last_search_url', 'search/reverse');
@@ -91,18 +101,18 @@ class searchActions extends prActions
         $per_page = $rows * 3; //3 boxes/profiles per row        
         $this->initPager($c, $per_page);
     }
-    
+
     public function executeMatches()
     {
         $this->getUser()->setAttribute('last_search_url', 'search/matches');
         
         $this->has_criteria = true;
-        if( !$this->getUser()->getProfile()->hasSearchCriteria() )
+        if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
             $this->has_criteria = false;
             return sfView::SUCCESS;
         }
-                
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -110,9 +120,9 @@ class searchActions extends prActions
         $c->addDescendingOrderByColumn('(pct+reverse_pct)');
         $rows = sfConfig::get('app_settings_search_rows_matches', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row        
-        $this->initPager($c, $per_page);         
+        $this->initPager($c, $per_page);
     }
-    
+
     public function executeByKeyword()
     {
         $this->getUser()->setAttribute('last_search_url', 'search/byKeyword');
@@ -121,82 +131,96 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        if( isset($this->filters['keyword']) && strlen($this->filters['keyword']) > 3 )
+        if (isset($this->filters['keyword']) && strlen($this->filters['keyword']) > 3)
         {
             $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->filters['keyword'] . '%', Criteria::LIKE);
             $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
             $c->add($crit);
             $rows = sfConfig::get('app_settings_search_rows_keyword', 4);
             $per_page = $rows * 3; //3 boxes/profiles per row        
-            $this->initPager($c, $per_page);            
+            $this->initPager($c, $per_page);
         }
     }
-    
+
     public function executeProfileID()
     {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('profile_id'));
         }
     }
-    
+
     public function executeSelectAreas()
     {
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
         $this->getResponse()->addJavascript('areas_map.js');
         $country = $this->getRequestParameter('country');
         $polish_cities = $this->getRequestParameter('polish_cities');
+        $user = $this->getUser();
+        $user->getBC()->add(array('name' => 'Select Areas', 'search/selectAreas'));
         
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $areas = $this->getRequestParameter('areas', array());
-            $countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
+            $countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
             
-            if(!$polish_cities && count($areas) > 0 && !in_array($country, $countries))
+            if (! $polish_cities && count($areas) > 0 && ! in_array($country, $countries))
             {
                 $countries[] = $country;
-                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
-                $this->getUser()->getAttributeHolder()->add($countries, 'frontend/search/countries'); 
+                $user->getAttributeHolder()->removeNamespace('frontend/search/countries');
+                $user->getAttributeHolder()->add($countries, 'frontend/search/countries');
             }
             
-            if( $polish_cities )
+            if ($polish_cities && count($areas) > 0)
             {
-                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/polish_areas');
-                $this->getUser()->getAttributeHolder()->add($areas, 'frontend/search/polish_areas');                  
-            } else {
-                $selected_areas[$country] = $areas;
-                $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/areas');
-                $this->getUser()->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');                
+                $user->getAttributeHolder()->removeNamespace('frontend/search/polish_areas');
+                $user->getAttributeHolder()->add($areas, 'frontend/search/polish_areas');
+            } else
+            {
+                $user->getAttributeHolder()->removeNamespace('frontend/search/areas');
+                if( count($areas) > 0)
+                {
+                    $selected_areas[$country] = $areas;
+                    $user->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');
+                }
             }
-
-            $this->redirect($this->getUser()->getRefererUrl());
+            
+            if( $user->isAuthenticated() )
+            {
+                $this->redirect('search/index');
+            } else {
+                $this->redirect('search/public');
+            }
         }
         
-        if( $polish_cities )
+        if ($polish_cities)
         {
-            $this->selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
-        } else {
-            $selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/areas');
+            $this->selected_areas = $user->getAttributeHolder()->getAll('frontend/search/polish_areas');
+        } else
+        {
+            $selected_areas = $user->getAttributeHolder()->getAll('frontend/search/areas');
             $this->selected_areas = isset($selected_areas[$country]) ? $selected_areas[$country] : array();
         }
         
         $this->areas = StatePeer::getAllByCountry($country);
     }
-    
+
     public function executeSelectCountries()
     {
-
-        $this->getUser()->getBC()->clear()
-        ->add(array('name' => 'dashboard', 'uri' => 'dashboard/index'))
-        ->add(array('name' => 'search', 'uri' => 'search/index'))
-        ->add(array('name' => 'Select Countries', 'search/selectCountries'));
-            
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        $user = $this->getUser();
+        $user->getBC()->add(array('name' => 'Select Countries', 'search/selectCountries'));
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
-            $this->getUser()->getAttributeHolder()->add($this->getRequestParameter('countries'), 'frontend/search/countries');
+            $user->getAttributeHolder()->removeNamespace('frontend/search/countries');
+            $user->getAttributeHolder()->add($this->getRequestParameter('countries'), 'frontend/search/countries');
             
-            $this->redirect('search/index');
+            if( $user->isAuthenticated() )
+            {
+                $this->redirect('search/index');
+            } else {
+                $this->redirect('search/public');
+            }
         }
         
         $this->selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
@@ -205,7 +229,7 @@ class searchActions extends prActions
         asort($this->countries);
         $this->states = StatePeer::getCountriesWithStates();
     }
-    
+
     public function executeAreaFilter()
     {
         $state = StatePeer::retrieveByPK($this->getRequestParameter('id'));
@@ -221,20 +245,19 @@ class searchActions extends prActions
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/areas');
         $this->getUser()->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');
         
-        
         $filters = array('location' => 1);
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
         $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
-                    
-        $this->redirect('search/mostRecent');
+        
+        $this->redirect('search/index');
     }
-    
+
     protected function initPager(Criteria $c, $per_page = 12)
     {
         $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/profile_pager');
         $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'frontend/search/profile_pager');
-
+        
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
@@ -244,7 +267,7 @@ class searchActions extends prActions
         $pager->init();
         $this->pager = $pager;
     }
-    
+
     protected function processFilters()
     {
         if ($this->getRequest()->hasParameter('filter'))
@@ -253,45 +276,72 @@ class searchActions extends prActions
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
         }
-    }         
-    
+    }
+
     protected function addGlobalCriteria(Criteria $c)
     {
-       $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
+        $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
     }
-    
+
+    protected function processPublicFilters(Criteria $c)
+    {
+        $filters = $this->filters;
+        
+        if (isset($filters['location']) && $filters['location'] == 2)
+        {
+            $this->getRequest()->setError('filter', 'You must be registered member to use area filter');
+            $filters['location'] = 0;
+        }
+        
+        if( isset($filters['looking_for']) )
+        {
+            $looking = explode('_', $filters['looking_for']);
+            $c->add(MemberPeer::SEX, $looking[1]);
+        }
+        
+        if( !isset($filters['age_from']) ) $filters['age_from'] = 18;
+        if( !isset($filters['age_to']) ) $filters['age_to'] = 35;
+        
+        
+        $filters['age_from'] = max(18, $filters['age_from']);
+        $filters['age_to'] = min(100, max($filters['age_from'], $filters['age_to']));
+        $d_from = date('Y') - $filters['age_from'];
+        $d_to = date('Y') - $filters['age_to'] -1;
+        $c->add(MemberPeer::BIRTHDAY, 'YEAR(' . MemberPeer::BIRTHDAY .') BETWEEN ' . $d_to . ' AND ' . $d_from, Criteria::CUSTOM);
+        
+        $this->filters = $filters;
+        $this->addFiltersCriteria($c);
+    }
+
     protected function addFiltersCriteria(Criteria $c)
     {
-        if( isset($this->filters['only_with_video']) )
+        if (isset($this->filters['only_with_video']))
         {
             $c->add(MemberPeer::YOUTUBE_VID, NULL, Criteria::ISNOTNULL);
         }
         
-        switch ($this->filters['location'])
-        {
+        switch ($this->filters['location']) {
             //in selected countries only
             case 1:
                 $selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
-                if( !empty($selected_countries) )
+                if (!empty($selected_countries))
                 {
                     $selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/areas');
+                    //print_r($selected_countries);print_r($selected_areas);exit();
                     foreach ($selected_countries as $key => $selected_country)
                     {
-                        if( array_key_exists($selected_country, $selected_areas) )
+                        if (array_key_exists($selected_country, $selected_areas))
                         {
                             $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_country);
                             $crit->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $selected_areas[$selected_country], Criteria::IN));
                             //$crit->addOr($crit2);
                             
+
                             unset($selected_countries[$key]);
                         }
                     }
-                    if( isset($crit) )
-                    {
-                        $crit->addOr($c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN));    
-                    } else {
-                        $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
-                    }
+                    
+                    if (!isset($crit)) $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
                 }
                 break;
             //in my state only
@@ -302,17 +352,18 @@ class searchActions extends prActions
                 break;
         }
         
-        if( isset($crit) && $this->filters['location'] != 0 && isset($this->filters['include_poland']) )
+        if (isset($crit) && $this->filters['location'] != 0 && isset($this->filters['include_poland']))
         {
             $polish_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
             $crit3 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
-            if( count($polish_areas) > 0 )
+            if (count($polish_areas) > 0)
             {
-                $crit3->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $polish_areas, Criteria::IN));  
+                $crit3->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $polish_areas, Criteria::IN));
             }
-                               
+            
             $crit->addOr($crit3);
         }
-        if( isset( $crit) ) $c->add($crit);
+        if (isset($crit))
+            $c->add($crit);
     }
 }

@@ -1328,6 +1328,16 @@ span.sec_link {
     color: #6aa7ff;
 }
 
+#search_box select {
+    background-color: #363639;
+    border: 1px solid #7995ae;
+    color: #aca49c;
+    margin-right: 53px;
+    padding: 0px;
+    width: 155px;
+    font-size: 10px;
+}
+
 .age {
     font-size: 10px;
     color: #b5b59b;

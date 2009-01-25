@@ -1,5 +1,5 @@
 default:
-    beta_period:   on
+    beta_period:   off
     primary_domain: PolishRomance.com
     mail:
         host:      mail.bonex.us
