@@ -73,6 +73,7 @@ body .public_matches_search {
     color: #872d30;
 }
 
+
 /* main */ /* header */
 #polish_romance_logo {
     float: left;
@@ -2553,6 +2554,19 @@ button, .button, form .button {
     margin-top: 5px;
 }
 
+.button_save_and_cont {
+    height: 28px !important;
+    width: 120px !important;
+    background: black url(/images/button_bg.jpg) repeat-x top left;
+    color: white !important;
+    font-family: Arial;
+    font-size: 12px !important;
+    border: 1px solid #171717; /* right-bottom */
+    border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
+    padding: 6px 8px !important;
+    cursor: pointer;
+    margin-top: 22px !important;
+}
 .button_mini {
     height: 18px !important;
     width: auto !important;

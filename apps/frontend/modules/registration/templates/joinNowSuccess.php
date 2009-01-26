@@ -38,6 +38,6 @@
         <?php echo pr_label_for('terms', $tos_text, array('class' => 'tos'), false) ?>
         <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input')) ?>
         
-        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>
     </fieldset>
 </form>
