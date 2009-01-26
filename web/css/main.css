@@ -1728,7 +1728,8 @@ span.sec_link {
 }
 
 #registration_box_complete_page select {
-    height: 17px;
+	width: 150px;
+    height: 18px;
     margin-bottom: 1px;
 }
 
