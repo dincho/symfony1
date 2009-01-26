@@ -93,6 +93,7 @@ class photosActions extends sfActions
     public function executeAddToHomepage()
     {
         $this->getUser()->getBC()->add(array('name' => 'Home Page'));
+        $namespace = 'backend/photos/addtohomepage';
         
         $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
         $this->forward404Unless($photo);
@@ -100,12 +101,16 @@ class photosActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs')), 'backend/photos/catalogs');
+            $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs')), $namespace);
+            $user->setAttribute('homepages_set', $this->getRequestParameter('homepages_set'), $namespace);
+            $user->setAttribute('homepages_pos', $this->getRequestParameter('homepages_pos'), $namespace);
             $this->redirect('photos/crop?type=1&photo_id=' . $photo->getId());
         }
         
         $this->photo = $photo;
-        $this->homepages = ( $user->hasAttribute('catalogs', 'backend/photos/catalogs') ) ? $user->getAttribute('catalogs', array(), 'backend/photos/catalogs') : $photo->getHomepagesArray();
+        $this->homepages = ( $user->hasAttribute('catalogs', $namespace) ) ? $user->getAttribute('catalogs', array(), $namespace) : $photo->getHomepagesArray();
+        $this->homepages_set = ( $user->hasAttribute('homepages_set', $namespace) ) ? $user->getAttribute('homepages_set', array(), $namespace) : $photo->getHomepagesSet();
+        $this->homepages_pos = ( $user->hasAttribute('homepages_pos', $namespace) ) ? $user->getAttribute('homepages_pos', array(), $namespace) : $photo->getHomepagesPos();
         $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
     
@@ -160,8 +165,15 @@ class photosActions extends sfActions
             
             if( $this->getRequestParameter('type') == 1) //homepage
             {
-                $photo->setHomepagesArray($this->getUser()->getAttribute('catalogs', array(), 'backend/photos/catalogs'));
-                $this->getUser()->setAttribute('catalogs', null, 'backend/photos/catalogs');
+                $namespace = 'backend/photos/addtohomepage';
+                $user = $this->getUser();
+                
+                $photo->setHomepagesArray($user->getAttribute('catalogs', array(), $namespace));
+                $user->setAttribute('catalogs', null, $namespace);
+                $photo->setHomepagesSet($user->getAttribute('homepages_set', null, $namespace));
+                $user->setAttribute('homepages_set', null, $namespace);
+                $photo->setHomepagesPos($user->getAttribute('homepages_pos', null, $namespace));
+                $user->setAttribute('homepages_pos', null, $namespace);
             }
             
             if( $this->hasRequestParameter('crop') )

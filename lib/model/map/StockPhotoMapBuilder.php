@@ -42,5 +42,11 @@ class StockPhotoMapBuilder {
 
 		$tMap->addColumn('HOMEPAGES', 'Homepages', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('HOMEPAGES_SET', 'HomepagesSet', 'int', CreoleTypes::TINYINT, false, null);
+
+		$tMap->addColumn('HOMEPAGES_POS', 'HomepagesPos', 'int', CreoleTypes::TINYINT, false, null);
+
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 	} 
 } 

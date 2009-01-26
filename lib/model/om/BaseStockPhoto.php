@@ -27,6 +27,18 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 	
 	protected $homepages;
 
+
+	
+	protected $homepages_set;
+
+
+	
+	protected $homepages_pos;
+
+
+	
+	protected $updated_at;
+
 	
 	protected $collMemberStorys;
 
@@ -72,6 +84,42 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 	{
 
 		return $this->homepages;
+	}
+
+	
+	public function getHomepagesSet()
+	{
+
+		return $this->homepages_set;
+	}
+
+	
+	public function getHomepagesPos()
+	{
+
+		return $this->homepages_pos;
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -155,6 +203,55 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setHomepagesSet($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->homepages_set !== $v) {
+			$this->homepages_set = $v;
+			$this->modifiedColumns[] = StockPhotoPeer::HOMEPAGES_SET;
+		}
+
+	} 
+	
+	public function setHomepagesPos($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->homepages_pos !== $v) {
+			$this->homepages_pos = $v;
+			$this->modifiedColumns[] = StockPhotoPeer::HOMEPAGES_POS;
+		}
+
+	} 
+	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = StockPhotoPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -169,11 +266,17 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 
 			$this->homepages = $rs->getString($startcol + 4);
 
+			$this->homepages_set = $rs->getInt($startcol + 5);
+
+			$this->homepages_pos = $rs->getInt($startcol + 6);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 7, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+						return $startcol + 8; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating StockPhoto object", $e);
 		}
@@ -231,6 +334,11 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
       }
     }
 
+
+    if ($this->isModified() && !$this->isColumnModified(StockPhotoPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
 
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
@@ -364,6 +472,15 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 			case 4:
 				return $this->getHomepages();
 				break;
+			case 5:
+				return $this->getHomepagesSet();
+				break;
+			case 6:
+				return $this->getHomepagesPos();
+				break;
+			case 7:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -379,6 +496,9 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 			$keys[2] => $this->getCropped(),
 			$keys[3] => $this->getGender(),
 			$keys[4] => $this->getHomepages(),
+			$keys[5] => $this->getHomepagesSet(),
+			$keys[6] => $this->getHomepagesPos(),
+			$keys[7] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -409,6 +529,15 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 			case 4:
 				$this->setHomepages($value);
 				break;
+			case 5:
+				$this->setHomepagesSet($value);
+				break;
+			case 6:
+				$this->setHomepagesPos($value);
+				break;
+			case 7:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -421,6 +550,9 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[2], $arr)) $this->setCropped($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setGender($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setHomepages($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setHomepagesSet($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setHomepagesPos($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setUpdatedAt($arr[$keys[7]]);
 	}
 
 	
@@ -433,6 +565,9 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(StockPhotoPeer::CROPPED)) $criteria->add(StockPhotoPeer::CROPPED, $this->cropped);
 		if ($this->isColumnModified(StockPhotoPeer::GENDER)) $criteria->add(StockPhotoPeer::GENDER, $this->gender);
 		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES)) $criteria->add(StockPhotoPeer::HOMEPAGES, $this->homepages);
+		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES_SET)) $criteria->add(StockPhotoPeer::HOMEPAGES_SET, $this->homepages_set);
+		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES_POS)) $criteria->add(StockPhotoPeer::HOMEPAGES_POS, $this->homepages_pos);
+		if ($this->isColumnModified(StockPhotoPeer::UPDATED_AT)) $criteria->add(StockPhotoPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -470,6 +605,12 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		$copyObj->setGender($this->gender);
 
 		$copyObj->setHomepages($this->homepages);
+
+		$copyObj->setHomepagesSet($this->homepages_set);
+
+		$copyObj->setHomepagesPos($this->homepages_pos);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		if ($deepCopy) {

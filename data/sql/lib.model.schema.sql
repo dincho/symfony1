@@ -373,6 +373,9 @@ CREATE TABLE `stock_photo`
 	`cropped` VARCHAR(255),
 	`gender` CHAR(1) default 'M' NOT NULL,
 	`homepages` VARCHAR(255),
+	`homepages_set` TINYINT,
+	`homepages_pos` TINYINT,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
