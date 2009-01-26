@@ -1646,7 +1646,8 @@ span.sec_link {
 }
 
 #register select {
-    width: 149px;
+    width: 150px !important;
+    height: 18px;
 }
 /* END register */
 
