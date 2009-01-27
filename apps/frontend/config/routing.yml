@@ -46,9 +46,9 @@ winks:
     url:    /:sf_culture/winks
     param:  { module: winks, action: index, sf_culture: en  }
     
-city_info:
-    url:    /:sf_culture/city_information/:city
-    param:  { module: content, action: cityInfo, sf_culture: en  }
+area_info:
+    url:    /:sf_culture/area_information/:area_id/*
+    param:  { module: content, action: areaInfo, sf_culture: en  }
     
 blocked_members:
     url:    /:sf_culture/blocked_members

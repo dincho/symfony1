@@ -162,17 +162,21 @@ class sfPropelThumbnailsBehavior
       $thumbnail->save($thumbFIle);
       chmod($thumbFIle, 0666);
     }
-  }  
-  
-  public function deleteThumbnails($object, $column)
-  {
-      
-    foreach ($this->getThumbSizes($object, $column) as $thumbSize)
-    {
-      $thumbnail = $this->getImagePath($object, $column, $thumbSize['width'] . 'x' . $thumbSize['height']);
-      if( file_exists($thumbnail) ) unlink($thumbnail);
-    }    
   }
+
+    public function deleteThumbnails($object, $column)
+    {
+        $thumbSizes = $this->getThumbSizes($object, $column);
+        if ($thumbSizes)
+        {
+            foreach ($thumbSizes as $thumbSize)
+            {
+                $thumbnail = $this->getImagePath($object, $column, $thumbSize['width'] . 'x' . $thumbSize['height']);
+                if (file_exists($thumbnail))
+                    unlink($thumbnail);
+            }
+        }
+    }
   
   public function deleteImage($object, $column)
   {

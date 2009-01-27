@@ -38,5 +38,7 @@ class StateMapBuilder {
 
 		$tMap->addColumn('TITLE', 'Title', 'string', CreoleTypes::VARCHAR, true, 255);
 
+		$tMap->addColumn('INFO', 'Info', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 	} 
 } 

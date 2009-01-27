@@ -74,8 +74,30 @@ CREATE TABLE `state`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`country` CHAR(2)  NOT NULL,
 	`title` VARCHAR(255)  NOT NULL,
+	`info` TEXT,
 	PRIMARY KEY (`id`),
 	KEY `state_country_index`(`country`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- state_photo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `state_photo`;
+
+
+CREATE TABLE `state_photo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`state_id` INTEGER  NOT NULL,
+	`file` VARCHAR(255),
+	`cropped` VARCHAR(255),
+	PRIMARY KEY (`id`),
+	INDEX `state_photo_FI_1` (`state_id`),
+	CONSTRAINT `state_photo_FK_1`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+		ON DELETE CASCADE
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

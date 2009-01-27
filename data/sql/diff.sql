@@ -1,6 +1,9 @@
-ALTER TABLE `stock_photo` ADD `homepages_set` TINYINT;
-ALTER TABLE `stock_photo` ADD `homepages_pos` TINYINT;
-ALTER TABLE `stock_photo` ADD `updated_at` DATETIME;
+ALTER TABLE `state_photo` ADD `state_id` INTEGER  NOT NULL;
+ALTER TABLE `state_photo` ADD  INDEX `state_photo_FI_1` (`state_id`);
+ALTER TABLE `state_photo` ADD CONSTRAINT `state_photo_FK_1`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+		ON DELETE CASCADE;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);

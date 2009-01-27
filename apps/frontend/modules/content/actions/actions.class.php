@@ -169,4 +169,17 @@ class contentActions extends prActions
         $this->setLayout('simple_small');
         $this->email = $email;
     }
+    
+    public function executeAreaInfo()
+    {
+        $state = StatePeer::retrieveByPK($this->getRequestParameter('area_id'));
+        $this->forward404Unless($state);
+        
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
+        ->add(array('name' => 'profile', 'uri' => '@profile?username=' . $this->getRequestParameter('username')))
+        ->add(array('name' => 'area information'));
+        
+        $this->state = $state;
+    }
 }

@@ -13,7 +13,7 @@ abstract class BaseStatePeer {
 	const CLASS_DEFAULT = 'lib.model.State';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -29,23 +29,26 @@ abstract class BaseStatePeer {
 	const TITLE = 'state.TITLE';
 
 	
+	const INFO = 'state.INFO';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Country', 'Title', ),
-		BasePeer::TYPE_COLNAME => array (StatePeer::ID, StatePeer::COUNTRY, StatePeer::TITLE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'country', 'title', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Country', 'Title', 'Info', ),
+		BasePeer::TYPE_COLNAME => array (StatePeer::ID, StatePeer::COUNTRY, StatePeer::TITLE, StatePeer::INFO, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'country', 'title', 'info', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Country' => 1, 'Title' => 2, ),
-		BasePeer::TYPE_COLNAME => array (StatePeer::ID => 0, StatePeer::COUNTRY => 1, StatePeer::TITLE => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'country' => 1, 'title' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Country' => 1, 'Title' => 2, 'Info' => 3, ),
+		BasePeer::TYPE_COLNAME => array (StatePeer::ID => 0, StatePeer::COUNTRY => 1, StatePeer::TITLE => 2, StatePeer::INFO => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'country' => 1, 'title' => 2, 'info' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
@@ -104,6 +107,8 @@ abstract class BaseStatePeer {
 		$criteria->addSelectColumn(StatePeer::COUNTRY);
 
 		$criteria->addSelectColumn(StatePeer::TITLE);
+
+		$criteria->addSelectColumn(StatePeer::INFO);
 
 	}
 

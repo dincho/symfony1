@@ -27,7 +27,13 @@ function show_profile_map(address, cityInfo)
       
 					var marker = new GMarker(point, prIcon);
 					map.addOverlay(marker);
-					//if(cityInfo) marker.openInfoWindowHtml(cityInfo);
+					
+					if( cityInfo )
+					{
+						var label_content = '<div style="padding: 0px 0px 8px 8px; background: url(/images/point_bottom_left.png) no-repeat bottom left;"><div style="background-color: black; padding: 5px; width: 100px">'+ cityInfo + '<\/div><\/div>';
+						var label = new ELabel(point, label_content, null, null, 80, true);
+						map.addOverlay(label);
+					}
                 }
             }
         );

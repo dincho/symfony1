@@ -12,7 +12,8 @@
     <label for="title">Areas:</label><br />
     <?php foreach ($states as $state): ?>
         <label>&nbsp;</label>
-        <?php echo object_input_tag($state, 'getTitle', array('class' => error_class('title', true), 'control_name' => 'states[' . $state->getId() . ']') ) ?><br />
+        <?php echo object_input_tag($state, 'getTitle', array('class' => error_class('title', true), 'control_name' => 'states[' . $state->getId() . ']') ) ?>
+        <?php echo link_to('Info', 'areas/info?id=' . $state->getId(), array('class' => 'float-left')) ?><br />
     <?php endforeach; ?>
     
     <label>&nbsp;</label>

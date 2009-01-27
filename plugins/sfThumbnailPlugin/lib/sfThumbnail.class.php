@@ -146,7 +146,7 @@ class sfThumbnail
   * @param boolean (optional) if true inflate small images
   * @access public
   */
-  public function __construct($maxWidth = null, $maxHeight = null, $scale = true, $inflate = true, $quality = 75)
+  public function __construct($maxWidth = null, $maxHeight = null, $scale = true, $inflate = false, $quality = 75)
   {
     $this->maxWidth  = $maxWidth;
     $this->maxHeight = $maxHeight;

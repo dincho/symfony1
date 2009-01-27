@@ -39,8 +39,13 @@ propel:
     created_at:
   state:
     id:
-    country:              { type: char, size: 2, required: true, index: true }
-    title:                { type: varchar, size: 255, required: true }    
+    country:                { type: char, size: 2, required: true, index: true }
+    title:                  { type: varchar, size: 255, required: true }
+    info:                   { type: longvarchar }
+  state_photo:
+    id:
+    state_id:               { type: integer, required: true, foreignTable: state, foreignReference: id, onDelete: cascade }
+    file:                   { type: varchar, size: 255 }
   member:
     id:
     member_status_id:         { type: integer, required: false, foreignTable: member_status, foreignReference: id, onDelete: restrict }

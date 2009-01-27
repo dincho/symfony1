@@ -45,8 +45,9 @@
     <div id="desc_map_container">
         <div id="profile_desc">
             <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch') ?>
+            <?php $area_info = ($member->getState()->getInfo()) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getStateId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
             <?php echo link_to_function(__('Map'), 
-                        'show_profile_map("'. $member->getGAddress() . '", "'. addslashes(link_to(__('City Information'), '@city_info?city=' . $member->getCity())) .'")', 
+                        'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")', 
                         'class=switch inactive');
              ?>
             <br class="clear" />

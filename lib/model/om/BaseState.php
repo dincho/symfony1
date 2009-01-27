@@ -19,6 +19,16 @@ abstract class BaseState extends BaseObject  implements Persistent {
 	
 	protected $title;
 
+
+	
+	protected $info;
+
+	
+	protected $collStatePhotos;
+
+	
+	protected $lastStatePhotoCriteria = null;
+
 	
 	protected $collMembers;
 
@@ -56,6 +66,13 @@ abstract class BaseState extends BaseObject  implements Persistent {
 	{
 
 		return $this->title;
+	}
+
+	
+	public function getInfo()
+	{
+
+		return $this->info;
 	}
 
 	
@@ -107,6 +124,22 @@ abstract class BaseState extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setInfo($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->info !== $v) {
+			$this->info = $v;
+			$this->modifiedColumns[] = StatePeer::INFO;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -117,11 +150,13 @@ abstract class BaseState extends BaseObject  implements Persistent {
 
 			$this->title = $rs->getString($startcol + 2);
 
+			$this->info = $rs->getString($startcol + 3);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 3; 
+						return $startcol + 4; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating State object", $e);
 		}
@@ -222,6 +257,14 @@ abstract class BaseState extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collStatePhotos !== null) {
+				foreach($this->collStatePhotos as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collMembers !== null) {
 				foreach($this->collMembers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -279,6 +322,14 @@ abstract class BaseState extends BaseObject  implements Persistent {
 			}
 
 
+				if ($this->collStatePhotos !== null) {
+					foreach($this->collStatePhotos as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collMembers !== null) {
 					foreach($this->collMembers as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -322,6 +373,9 @@ abstract class BaseState extends BaseObject  implements Persistent {
 			case 2:
 				return $this->getTitle();
 				break;
+			case 3:
+				return $this->getInfo();
+				break;
 			default:
 				return null;
 				break;
@@ -335,6 +389,7 @@ abstract class BaseState extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCountry(),
 			$keys[2] => $this->getTitle(),
+			$keys[3] => $this->getInfo(),
 		);
 		return $result;
 	}
@@ -359,6 +414,9 @@ abstract class BaseState extends BaseObject  implements Persistent {
 			case 2:
 				$this->setTitle($value);
 				break;
+			case 3:
+				$this->setInfo($value);
+				break;
 		} 	}
 
 	
@@ -369,6 +427,7 @@ abstract class BaseState extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCountry($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setInfo($arr[$keys[3]]);
 	}
 
 	
@@ -379,6 +438,7 @@ abstract class BaseState extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(StatePeer::ID)) $criteria->add(StatePeer::ID, $this->id);
 		if ($this->isColumnModified(StatePeer::COUNTRY)) $criteria->add(StatePeer::COUNTRY, $this->country);
 		if ($this->isColumnModified(StatePeer::TITLE)) $criteria->add(StatePeer::TITLE, $this->title);
+		if ($this->isColumnModified(StatePeer::INFO)) $criteria->add(StatePeer::INFO, $this->info);
 
 		return $criteria;
 	}
@@ -413,9 +473,15 @@ abstract class BaseState extends BaseObject  implements Persistent {
 
 		$copyObj->setTitle($this->title);
 
+		$copyObj->setInfo($this->info);
+
 
 		if ($deepCopy) {
 									$copyObj->setNew(false);
+
+			foreach($this->getStatePhotos() as $relObj) {
+				$copyObj->addStatePhoto($relObj->copy($deepCopy));
+			}
 
 			foreach($this->getMembers() as $relObj) {
 				$copyObj->addMember($relObj->copy($deepCopy));
@@ -448,6 +514,76 @@ abstract class BaseState extends BaseObject  implements Persistent {
 			self::$peer = new StatePeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function initStatePhotos()
+	{
+		if ($this->collStatePhotos === null) {
+			$this->collStatePhotos = array();
+		}
+	}
+
+	
+	public function getStatePhotos($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseStatePhotoPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collStatePhotos === null) {
+			if ($this->isNew()) {
+			   $this->collStatePhotos = array();
+			} else {
+
+				$criteria->add(StatePhotoPeer::STATE_ID, $this->getId());
+
+				StatePhotoPeer::addSelectColumns($criteria);
+				$this->collStatePhotos = StatePhotoPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(StatePhotoPeer::STATE_ID, $this->getId());
+
+				StatePhotoPeer::addSelectColumns($criteria);
+				if (!isset($this->lastStatePhotoCriteria) || !$this->lastStatePhotoCriteria->equals($criteria)) {
+					$this->collStatePhotos = StatePhotoPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastStatePhotoCriteria = $criteria;
+		return $this->collStatePhotos;
+	}
+
+	
+	public function countStatePhotos($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseStatePhotoPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(StatePhotoPeer::STATE_ID, $this->getId());
+
+		return StatePhotoPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addStatePhoto(StatePhoto $l)
+	{
+		$this->collStatePhotos[] = $l;
+		$l->setState($this);
 	}
 
 	
