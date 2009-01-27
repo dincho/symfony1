@@ -93,7 +93,7 @@
     </div>
     <?php if( count($recent_visits) > 0 ): ?>
         <div class="bottom">
-            <strong><?php echo __('Recently viewed profiles:') ?></strong>
+            <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong>
             <?php foreach ($recent_visits as $profile): ?>
                 <?php //$profile = $recent_visit->getMemberRelatedByProfileId(); ?>
                 <div class="photo">
