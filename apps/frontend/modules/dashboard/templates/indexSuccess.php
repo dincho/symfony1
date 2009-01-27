@@ -85,10 +85,10 @@
         <ul class="right">
             <?php $links_map = StaticPagePeer::getLinskMap(); ?>
             <li><strong><?php echo __('Resources') ?></strong></li>
-            <li><?php if(array_key_exists('safety_tips', $links_map)) echo link_to(__('Safety Tips'), '@page?slug=safety_tips', array('class' => 'sec_link')) ?></li>
-            <li><?php if(array_key_exists('legal_resources', $links_map)) echo link_to(__('Moving Abroad'), '@page?slug=legal_resources', array('class' => 'sec_link')) ?></li>
-            <li><?php if(array_key_exists('immigrant_rights', $links_map)) echo link_to(__('Immigrants Rights'), '@page?slug=immigrant_rights', array('class' => 'sec_link')) ?></li>
-            <!--  <li><?php //echo link_to(__('Best Videos'), '@page?slug=best_videos', array('class' => 'sec_link')) ?></li> -->
+            <li><?php if(array_key_exists('safety_tips', $links_map)) echo link_to($links_map['safety_tips'], '@page?slug=safety_tips', array('class' => 'sec_link')) ?></li>
+            <li><?php if(array_key_exists('legal_resources', $links_map)) echo link_to($links_map['legal_resources'], '@page?slug=legal_resources', array('class' => 'sec_link')) ?></li>
+            <li><?php if(array_key_exists('immigrant_rights', $links_map)) echo link_to($links_map['immigrant_rights'], '@page?slug=immigrant_rights', array('class' => 'sec_link')) ?></li>
+            <li><?php if(array_key_exists('best_videos', $links_map)) echo link_to($links_map['best_videos'], '@page?slug=best_videos', array('class' => 'sec_link')) ?></li>
         </ul>
     </div>
     <?php if( count($recent_visits) > 0 ): ?>
