@@ -102,7 +102,7 @@
     <table class="conversations_messages" cellspacing="0" cellpadding="0">
         <tr>
             <th colspan="2">Recent Conversations</th>
-            <th class="right_column"><?php echo link_to(__('See all messages'), '@messages', 'class=sec_link') ?></th>
+            <th class="right_column"><?php echo link_to(__('See all messages'), 'messages/list', 'class=sec_link') ?></th>
         </tr>
         <?php if( count($recent_conversations) > 0 ): ?>
             <?php foreach ($recent_conversations as $message): ?>

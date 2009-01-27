@@ -773,6 +773,10 @@ span.online-assistant {
     border-bottom: 1px solid #2B2B2B;
 }
 
+.messages tr.delete td {
+    background-color: #8A171A;
+}
+
 .messages .checkboxes {
     width: 75px;
 }

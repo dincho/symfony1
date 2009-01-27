@@ -26,6 +26,15 @@ class messagesActions extends prActions
         $c->add(MessagePeer::SENT_BOX, true);
         $this->sent_messages = MessagePeer::doSelectJoinMemberRelatedByToMemberId($c);
         
+        //message deletion confirmation
+        if( $this->getRequestParameter('confirm_delete') && count($this->getRequestParameter('selected', array())) > 0)
+        {
+            $del_msg = 'Are you sure you want to delete selected message(s)? <a href="javascript:window.history.go(-1);" class="sec_link">No</a>&nbsp;';
+            $del_msg .= '<a href="javascript:document.getElementById(\''. $this->getRequestParameter('form_id').'\').submit()" class="sec_link">Yes</a>';
+            //$del_msg = $this->getContext()->getI18N()->__($del_msg, array('%YES_LINK%' => $del_msg_yes));
+            $this->setFlash('msg_error', $del_msg, false);
+        }
+        
     }
     
     public function executeView()
@@ -274,7 +283,7 @@ class messagesActions extends prActions
         sfLoader::loadHelpers(array('Tag', 'Url'));
         $view_msg_url = link_to(sfI18N::getInstance()->__('View sent message.'), 'messages/view?id=' . $send_msg_id, array('class' => 'sec_link'));
         $this->setFlash('msg_ok', sfI18N::getInstance()->__('Your message has been sent. ') . $view_msg_url);
-        $this->redirect('@messages');        
+        $this->redirect('messages/index');
     }
         
     public function executeDelete()
@@ -291,7 +300,7 @@ class messagesActions extends prActions
             MessagePeer::doDelete($c);
         }
         
-        $this->setFlash('msg_ok', 'Selected messages has been deleted.');
+        $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
         $this->redirect('messages/index');        
     }
 }

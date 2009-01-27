@@ -2,7 +2,7 @@
 <div id="footer_menu">
     <ul>
         <li><?php echo link_to(__('Matches'), '@matches') ?></li>
-        <li><?php echo link_to(__('Messages'), '@messages') ?></li>
+        <li><?php echo link_to(__('Messages'), 'messages/index') ?></li>
         <li><?php echo link_to(__('Winks'), '@winks') ?></li>
         <li><?php echo link_to(__('Hotlist'), '@hotlist') ?></li>
         <li><?php echo link_to(__('Visitors'), '@visitors') ?></li>

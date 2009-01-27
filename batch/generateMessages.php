@@ -21,7 +21,7 @@ require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.D
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
-$numMsgs = isset($argv[1]) ? min((int) $argv[1], 50) : 5; //default 5, max 100
+$numMsgs = isset($argv[1]) ? min((int) $argv[1], 50) : 5; //default 5, max 50
 
 // batch process here
 $members = MemberPeer::doSelect(new Criteria());

@@ -34,10 +34,6 @@ visitors:
     url:    /:sf_culture/dashboard/visitors
     param:  { module: dashboard, action: visitors, sf_culture: en  }
 
-messages:
-    url:    /:sf_culture/messages
-    param:  { module: messages, action: index, sf_culture: en  }
-
 hotlist:
     url:    /:sf_culture/hotlist
     param:  { module: hotlist, action: index, sf_culture: en  }
