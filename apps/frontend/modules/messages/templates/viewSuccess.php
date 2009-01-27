@@ -22,8 +22,9 @@
             <p><?php echo __('Subject:') . '&nbsp;' . $message->getSubject() ?></p>
     </div>
     <div class="message_desc"><?php echo strip_tags($sf_data->getRaw('message')->getContent(), '<br><a>'); ?></div>
-    <div class="actions">
+    <div class="actions" style="margin: 3px;">
       <?php echo button_to(__('Delete'), 'messages/delete?selected[]=' . $message->getId(), array('class' => 'button_mini', 'confirm' => 'Are you sure you want to delete this message?')) ?>
+      &nbsp;&nbsp;&nbsp;&nbsp;
       <?php echo button_to(__('Close'), 'messages/index', 'class=button_mini') ?>
       <?php if( !$message->getIsReplied() && !$message->getSentBox()): ?>
         <?php echo button_to(__('Reply'), 'messages/reply?profile_id=' . $message->getMemberRelatedByFromMemberId()->getId() . '&id=' . $message->getId(), 'class=button_mini') ?>
