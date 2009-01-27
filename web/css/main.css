@@ -933,7 +933,7 @@ span {
     margin-top: 8px;
     margin-bottom: 20px;
     padding: 0px;
-    border: 0;
+    border: 0;    
 }
 
 #public_reg_form.member_reg label {
@@ -958,6 +958,8 @@ span {
     padding: 0px;
     width: 150px;
     font-size: 10px;
+    font-family: Arial;
+    font-size: 11px;    
 }
 
 #public_reg_form.member_reg input {
@@ -968,6 +970,8 @@ span {
     padding: 0px;
     width: 150px;
     height: 15px;
+    font-family: Arial;
+    font-size: 11px;    
 }
 
 #secondary_container #public_reg_form .save_and_cont {
