@@ -892,6 +892,10 @@ span {
     border: 0;
 }
 
+#public_reg_form a {
+    font-size: 10px;
+}
+
 #public_reg_form select {
     background-color: #363639;
     border: 1px solid #7995ae;
