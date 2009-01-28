@@ -6,6 +6,11 @@ homepage:
 page:
     url:  /:sf_culture/page/:slug
     param: { module: content, action: page, sf_culture: en }
+
+blocked_user:
+    url:  /:sf_culture/blocked_user
+    param: { module: content, action: page, sf_culture: en, slug: blocked_user }
+
 signin:
     url:   /:sf_culture/signin
     param: { module: profile, action: signIn, sf_culture: en  }
