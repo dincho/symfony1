@@ -40,6 +40,7 @@ class myUser extends sfBasicSecurityUser
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());
+        $this->setAttribute('email', $member->getEmail());
         $this->setAttribute('member_id', $member->getId());
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());

@@ -37,6 +37,12 @@ propel:
     is_enabled:           { type: boolean, default: false, required: true }
     last_login:           { type: timestamp }
     created_at:
+  ipblock:
+    id:
+    item:                   { type: varchar, size: 255 }
+    item_type:              { type: integer, size: 1, default: 0 }
+    netmask:                { type: integer, size: 2, default: 24 }
+    created_at:
   state:
     id:
     country:                { type: char, size: 2, required: true, index: true }
