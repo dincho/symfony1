@@ -121,7 +121,10 @@
     </table>            
 </div>
 <div id="profile_left">
-    <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?><br />
+    <div style="min-height: 350px">
+    <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?>
+    </div>
+    <br />
     <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
     <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
