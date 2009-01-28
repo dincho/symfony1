@@ -1,3 +1,4 @@
+<<<<<<< .mine
 ALTER TABLE `member` ADD `last_paypal_subscr_id` VARCHAR(255);
 ALTER TABLE `member` ADD `last_paypal_item` VARCHAR(255);
 ALTER TABLE `member` ADD `paypal_unsubscribed_at` DATETIME;
@@ -9,8 +10,17 @@ ALTER TABLE `subscription` ADD `trial1_period_type` CHAR(1)  NOT NULL;
 ALTER TABLE `subscription` ADD `trial2_amount` DECIMAL(7,2)  NOT NULL;
 ALTER TABLE `subscription` ADD `trial2_period` INTEGER  NOT NULL;
 ALTER TABLE `subscription` ADD `trial2_period_type` CHAR(1)  NOT NULL;
-ALTER TABLE `wink` ADD `sent_box` INTEGER default 0 NOT NULL;
-ALTER TABLE `wink` ADD `deleted_at` DATETIME;
+=======
+ALTER TABLE `state_photo` ADD `state_id` INTEGER  NOT NULL;
+ALTER TABLE `state_photo` ADD  INDEX `state_photo_FI_1` (`state_id`);
+ALTER TABLE `state_photo` ADD CONSTRAINT `state_photo_FK_1`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+		ON DELETE CASCADE;
+ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `user` (`id`);
+>>>>>>> .r253
 
 CREATE TABLE `ipn_history`
 (

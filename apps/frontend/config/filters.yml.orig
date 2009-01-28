@@ -1,0 +1,25 @@
+title:
+    class:  titleFilter
+rendering: ~
+web_debug: ~
+security:  ~
+
+# generally, you will want to insert your own filters here
+ipblock:
+    class: ipblockFilter
+status:
+    class:  statusFilter
+mustChangePwd:
+    enabled: yes
+    class:  mustChangePwdFilter
+    param:
+        password_action: editProfile/registration
+referer:
+    class:  refererFilter
+    param:
+        namespace:  frontend/member/referer_stack
+
+cache:     ~
+common:    ~
+flash:     ~
+execution: ~

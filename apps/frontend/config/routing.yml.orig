@@ -1,0 +1,85 @@
+# default rules
+homepage:
+  url:   /:sf_culture/
+  param: { module: content, action: index, sf_culture: en }
+
+page:
+    url:  /:sf_culture/page/:slug
+    param: { module: content, action: page, sf_culture: en }
+
+blocked_user:
+    url:  /:sf_culture/blocked_user
+    param: { module: content, action: page, sf_culture: en, slug: blocked_user }
+
+signin:
+    url:   /:sf_culture/signin
+    param: { module: profile, action: signIn, sf_culture: en  }
+      
+signout:
+    url:   /:sf_culture/signout
+    param: { module: profile, action: signout, sf_culture: en  }
+    
+profile:
+    url:   /:sf_culture/profiles/:username/*
+    param: { module: profile, action: index, sf_culture: en }
+
+web_email:
+    url:   /:sf_culture/emails/:hash
+    param: { module: content, action: emails, sf_culture: en  }
+
+dashboard:
+    url:   /:sf_culture/dashboard
+    param: { module: dashboard, action: index, sf_culture: en  }
+                    
+matches:
+    url:    /:sf_culture/matches
+    param:  { module: search, action: index }
+    
+visitors:
+    url:    /:sf_culture/dashboard/visitors
+    param:  { module: dashboard, action: visitors, sf_culture: en  }
+
+hotlist:
+    url:    /:sf_culture/hotlist
+    param:  { module: hotlist, action: index, sf_culture: en  }
+
+winks:
+    url:    /:sf_culture/winks
+    param:  { module: winks, action: index, sf_culture: en  }
+    
+area_info:
+    url:    /:sf_culture/area_information/:area_id/*
+    param:  { module: content, action: areaInfo, sf_culture: en  }
+    
+blocked_members:
+    url:    /:sf_culture/blocked_members
+    param: { module: block, action: index, sf_culture: en  }
+ 
+flag:
+    url:   /:sf_culture/flag/:username
+    param: { module: content, action: flag, sf_culture: en  }
+
+member_stories:
+    url:  /:sf_culture/member_stories
+    param: { module: memberStories, action: index, sf_culture: en  }    
+      
+member_story_by_slug:
+    url:  /:sf_culture/member_story/:slug
+    param: { module: memberStories, action: read, sf_culture: en  }
+
+ipn:
+    url: /IPN/*
+    param: { module: subscription, action: IPN, sf_culture: en }
+                      
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default, sf_culture: en  }
+  
+default_index:
+  url:   /:sf_culture/:module
+  param: { action: index, sf_culture: en  }
+  
+default:
+  url:   /:sf_culture/:module/:action/*
+  param: { sf_culture: en }
+
