@@ -93,6 +93,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Areas', 'uri' => 'areas/edit'),
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
                                            array('title' => 'Settings', 'uri' => 'settings/list'),
+                                           array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            ),
