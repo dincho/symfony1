@@ -13,7 +13,7 @@ abstract class BaseMemberStatusHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.MemberStatusHistory';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,29 @@ abstract class BaseMemberStatusHistoryPeer {
 	const CREATED_AT = 'member_status_history.CREATED_AT';
 
 	
+	const FROM_STATUS_ID = 'member_status_history.FROM_STATUS_ID';
+
+	
+	const FROM_DATE = 'member_status_history.FROM_DATE';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'MemberStatusId', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MemberStatusHistoryPeer::ID, MemberStatusHistoryPeer::MEMBER_ID, MemberStatusHistoryPeer::MEMBER_STATUS_ID, MemberStatusHistoryPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'member_status_id', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'MemberStatusId', 'CreatedAt', 'FromStatusId', 'FromDate', ),
+		BasePeer::TYPE_COLNAME => array (MemberStatusHistoryPeer::ID, MemberStatusHistoryPeer::MEMBER_ID, MemberStatusHistoryPeer::MEMBER_STATUS_ID, MemberStatusHistoryPeer::CREATED_AT, MemberStatusHistoryPeer::FROM_STATUS_ID, MemberStatusHistoryPeer::FROM_DATE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'member_status_id', 'created_at', 'from_status_id', 'from_date', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'MemberStatusId' => 2, 'CreatedAt' => 3, ),
-		BasePeer::TYPE_COLNAME => array (MemberStatusHistoryPeer::ID => 0, MemberStatusHistoryPeer::MEMBER_ID => 1, MemberStatusHistoryPeer::MEMBER_STATUS_ID => 2, MemberStatusHistoryPeer::CREATED_AT => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'member_status_id' => 2, 'created_at' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'MemberStatusId' => 2, 'CreatedAt' => 3, 'FromStatusId' => 4, 'FromDate' => 5, ),
+		BasePeer::TYPE_COLNAME => array (MemberStatusHistoryPeer::ID => 0, MemberStatusHistoryPeer::MEMBER_ID => 1, MemberStatusHistoryPeer::MEMBER_STATUS_ID => 2, MemberStatusHistoryPeer::CREATED_AT => 3, MemberStatusHistoryPeer::FROM_STATUS_ID => 4, MemberStatusHistoryPeer::FROM_DATE => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'member_status_id' => 2, 'created_at' => 3, 'from_status_id' => 4, 'from_date' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -109,6 +115,10 @@ abstract class BaseMemberStatusHistoryPeer {
 		$criteria->addSelectColumn(MemberStatusHistoryPeer::MEMBER_STATUS_ID);
 
 		$criteria->addSelectColumn(MemberStatusHistoryPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(MemberStatusHistoryPeer::FROM_STATUS_ID);
+
+		$criteria->addSelectColumn(MemberStatusHistoryPeer::FROM_DATE);
 
 	}
 

@@ -13,7 +13,7 @@ abstract class BaseSubscriptionHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.SubscriptionHistory';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -29,6 +29,12 @@ abstract class BaseSubscriptionHistoryPeer {
 	const SUBSCRIPTION_ID = 'subscription_history.SUBSCRIPTION_ID';
 
 	
+	const MEMBER_STATUS_ID = 'subscription_history.MEMBER_STATUS_ID';
+
+	
+	const FROM_DATE = 'subscription_history.FROM_DATE';
+
+	
 	const CREATED_AT = 'subscription_history.CREATED_AT';
 
 	
@@ -37,18 +43,18 @@ abstract class BaseSubscriptionHistoryPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'SubscriptionId', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (SubscriptionHistoryPeer::ID, SubscriptionHistoryPeer::MEMBER_ID, SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionHistoryPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'subscription_id', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'SubscriptionId', 'MemberStatusId', 'FromDate', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (SubscriptionHistoryPeer::ID, SubscriptionHistoryPeer::MEMBER_ID, SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionHistoryPeer::MEMBER_STATUS_ID, SubscriptionHistoryPeer::FROM_DATE, SubscriptionHistoryPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'subscription_id', 'member_status_id', 'from_date', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'SubscriptionId' => 2, 'CreatedAt' => 3, ),
-		BasePeer::TYPE_COLNAME => array (SubscriptionHistoryPeer::ID => 0, SubscriptionHistoryPeer::MEMBER_ID => 1, SubscriptionHistoryPeer::SUBSCRIPTION_ID => 2, SubscriptionHistoryPeer::CREATED_AT => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'subscription_id' => 2, 'created_at' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'SubscriptionId' => 2, 'MemberStatusId' => 3, 'FromDate' => 4, 'CreatedAt' => 5, ),
+		BasePeer::TYPE_COLNAME => array (SubscriptionHistoryPeer::ID => 0, SubscriptionHistoryPeer::MEMBER_ID => 1, SubscriptionHistoryPeer::SUBSCRIPTION_ID => 2, SubscriptionHistoryPeer::MEMBER_STATUS_ID => 3, SubscriptionHistoryPeer::FROM_DATE => 4, SubscriptionHistoryPeer::CREATED_AT => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'subscription_id' => 2, 'member_status_id' => 3, 'from_date' => 4, 'created_at' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -107,6 +113,10 @@ abstract class BaseSubscriptionHistoryPeer {
 		$criteria->addSelectColumn(SubscriptionHistoryPeer::MEMBER_ID);
 
 		$criteria->addSelectColumn(SubscriptionHistoryPeer::SUBSCRIPTION_ID);
+
+		$criteria->addSelectColumn(SubscriptionHistoryPeer::MEMBER_STATUS_ID);
+
+		$criteria->addSelectColumn(SubscriptionHistoryPeer::FROM_DATE);
 
 		$criteria->addSelectColumn(SubscriptionHistoryPeer::CREATED_AT);
 
@@ -252,6 +262,34 @@ abstract class BaseSubscriptionHistoryPeer {
 
 
 	
+	public static function doCountJoinMemberStatus(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SubscriptionHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SubscriptionHistoryPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+
+		$rs = SubscriptionHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
 	public static function doSelectJoinMember(Criteria $c, $con = null)
 	{
 		$c = clone $c;
@@ -346,6 +384,53 @@ abstract class BaseSubscriptionHistoryPeer {
 
 
 	
+	public static function doSelectJoinMemberStatus(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SubscriptionHistoryPeer::addSelectColumns($c);
+		$startcol = (SubscriptionHistoryPeer::NUM_COLUMNS - SubscriptionHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberStatusPeer::addSelectColumns($c);
+
+		$c->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SubscriptionHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberStatusPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getMemberStatus(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addSubscriptionHistory($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSubscriptionHistorys();
+				$obj2->addSubscriptionHistory($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
 	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
 	{
 		$criteria = clone $criteria;
@@ -365,6 +450,8 @@ abstract class BaseSubscriptionHistoryPeer {
 		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
 		$criteria->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$rs = SubscriptionHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -393,9 +480,14 @@ abstract class BaseSubscriptionHistoryPeer {
 		SubscriptionPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + SubscriptionPeer::NUM_COLUMNS;
 
+		MemberStatusPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + MemberStatusPeer::NUM_COLUMNS;
+
 		$c->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
 		$c->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+		$c->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -455,6 +547,29 @@ abstract class BaseSubscriptionHistoryPeer {
 				$obj3->addSubscriptionHistory($obj1);
 			}
 
+
+					
+			$omClass = MemberStatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4 = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getMemberStatus(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addSubscriptionHistory($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initSubscriptionHistorys();
+				$obj4->addSubscriptionHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -479,6 +594,8 @@ abstract class BaseSubscriptionHistoryPeer {
 		}
 
 		$criteria->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 		$rs = SubscriptionHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -508,6 +625,38 @@ abstract class BaseSubscriptionHistoryPeer {
 
 		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
+		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+
+		$rs = SubscriptionHistoryPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinAllExceptMemberStatus(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SubscriptionHistoryPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SubscriptionHistoryPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
+
+		$criteria->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
 		$rs = SubscriptionHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
@@ -532,7 +681,12 @@ abstract class BaseSubscriptionHistoryPeer {
 		SubscriptionPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + SubscriptionPeer::NUM_COLUMNS;
 
+		MemberStatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + MemberStatusPeer::NUM_COLUMNS;
+
 		$c->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+		$c->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -568,6 +722,28 @@ abstract class BaseSubscriptionHistoryPeer {
 				$obj2->addSubscriptionHistory($obj1);
 			}
 
+			$omClass = MemberStatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getMemberStatus(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSubscriptionHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSubscriptionHistorys();
+				$obj3->addSubscriptionHistory($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -589,7 +765,12 @@ abstract class BaseSubscriptionHistoryPeer {
 		MemberPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
+		MemberStatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + MemberStatusPeer::NUM_COLUMNS;
+
 		$c->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
+
+		$c->addJoin(SubscriptionHistoryPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -623,6 +804,112 @@ abstract class BaseSubscriptionHistoryPeer {
 			if ($newObject) {
 				$obj2->initSubscriptionHistorys();
 				$obj2->addSubscriptionHistory($obj1);
+			}
+
+			$omClass = MemberStatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getMemberStatus(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSubscriptionHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSubscriptionHistorys();
+				$obj3->addSubscriptionHistory($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptMemberStatus(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SubscriptionHistoryPeer::addSelectColumns($c);
+		$startcol2 = (SubscriptionHistoryPeer::NUM_COLUMNS - SubscriptionHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
+
+		SubscriptionPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SubscriptionPeer::NUM_COLUMNS;
+
+		$c->addJoin(SubscriptionHistoryPeer::MEMBER_ID, MemberPeer::ID);
+
+		$c->addJoin(SubscriptionHistoryPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SubscriptionHistoryPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addSubscriptionHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initSubscriptionHistorys();
+				$obj2->addSubscriptionHistory($obj1);
+			}
+
+			$omClass = SubscriptionPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getSubscription(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSubscriptionHistory($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSubscriptionHistorys();
+				$obj3->addSubscriptionHistory($obj1);
 			}
 
 			$results[] = $obj1;

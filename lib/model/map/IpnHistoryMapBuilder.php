@@ -48,6 +48,10 @@ class IpnHistoryMapBuilder {
 
 		$tMap->addColumn('PAYPAL_RESPONSE', 'PaypalResponse', 'string', CreoleTypes::VARCHAR, false, 8);
 
+		$tMap->addColumn('IS_RENEWAL', 'IsRenewal', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
+		$tMap->addColumn('MEMBER_SUBSCR_ID', 'MemberSubscrId', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

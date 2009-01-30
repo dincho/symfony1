@@ -100,8 +100,18 @@ class Member extends BaseMember
                   $this->incCounter('unsuspensions');
               }
               
+              //last history
+              $c = new Criteria();
+              $c->add(MemberStatusHistoryPeer::MEMBER_ID, $this->getId());
+              $c->addDescendingOrderByColumn(MemberStatusHistoryPeer::ID);
+              $c->setLimit(1);
+              $last_history = MemberStatusHistoryPeer::doSelectOne($c);
+              
+              
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
+            $history->setFromStatusId($this->getMemberStatusId());
+            $history->setDateFrom(($last_history) ? $last_history->getCreatedAt(null) : null);
             $this->addMemberStatusHistory($history);
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
@@ -115,6 +125,20 @@ class Member extends BaseMember
         if ($this->getSubscriptionId() != $subscription_id)
         {
             $this->setSubscriptionId($subscription_id);
+            
+            //get last subscription history
+            $c = new Criteria();
+            $c->addDescendingOrderByColumn(SubscriptionHistoryPeer::ID);
+            $c->add(SubscriptionHistoryPeer::MEMBER_ID, $this->getId());
+            $c->setLimit(1);
+            $last_history = SubscriptionHistoryPeer::doSelectOne($c);
+            
+            $history = new SubscriptionHistory();
+            $history->setMemberId($this->getid());
+            $history->setSubscriptionId($subscription_id);
+            $history->setMemberStatusId($this->getMemberStatusId());
+            $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null );
+            $history->save();          
         }
     }
     
@@ -305,7 +329,7 @@ class Member extends BaseMember
     
     public function getFrontendProfileUrl()
     {
-        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profile/' . $this->getUsername();
+        return MemberPeer::getFrontendProfileUrl($this->getUsername());
     }
     
     public function resetFlags()

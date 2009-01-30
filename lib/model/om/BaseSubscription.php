@@ -1575,6 +1575,41 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 	}
 
 
+	
+	public function getSubscriptionHistorysJoinMemberStatus($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSubscriptionHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSubscriptionHistorys = array();
+			} else {
+
+				$criteria->add(SubscriptionHistoryPeer::SUBSCRIPTION_ID, $this->getId());
+
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMemberStatus($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(SubscriptionHistoryPeer::SUBSCRIPTION_ID, $this->getId());
+
+			if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMemberStatus($criteria, $con);
+			}
+		}
+		$this->lastSubscriptionHistoryCriteria = $criteria;
+
+		return $this->collSubscriptionHistorys;
+	}
+
+
   public function __call($method, $arguments)
   {
     if (!$callable = sfMixer::getCallable('BaseSubscription:'.$method))

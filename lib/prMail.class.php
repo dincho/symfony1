@@ -55,7 +55,7 @@ class prMail extends sfMail
             $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
         }
-        parent::send();
+        //parent::send();
     }
 }
 ?>

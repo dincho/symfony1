@@ -38,7 +38,5 @@ class StatePhotoMapBuilder {
 
 		$tMap->addColumn('FILE', 'File', 'string', CreoleTypes::VARCHAR, false, 255);
 
-		$tMap->addColumn('CROPPED', 'Cropped', 'string', CreoleTypes::VARCHAR, false, 255);
-
 	} 
 } 

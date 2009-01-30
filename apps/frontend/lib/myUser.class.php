@@ -45,6 +45,13 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
         if( $member->getMemberStatusId() == MemberStatusPeer::ABANDONED ) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
+        
+        //login history
+        $history = new MemberLoginHistory();
+        $history->setMemberId($member->getId());
+        $history->setLastLogin($member->getLastLogin());
+        $history->save();
+        
         $member->setLastLogin(time());
         $member->save();
     }

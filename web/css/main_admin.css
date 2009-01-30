@@ -306,6 +306,14 @@ dl.imbra_answers {
     color: #1646CB;
 }
 
+.reports th, .reports td {
+    padding-right: 5px;
+}
+
+.reports .title {
+    width: 250px;
+}
+
 .preview_button {
 	display:  none;
 }
@@ -400,6 +408,11 @@ div.member_flags table {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.reports #filters_date_from, .reports #filters_date_to {
+    background-color: transparent;
+}
+    
 
 #trigger_filters_date_from, #trigger_filters_date_to { display: none; }
 

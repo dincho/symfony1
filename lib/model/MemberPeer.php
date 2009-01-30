@@ -406,4 +406,9 @@ class MemberPeer extends BaseMemberPeer
         $result = self::doSelectJoinAll($c, $con);
         return ($result) ? $result[0] : null;
     }
+    
+    public static function getFrontendProfileUrl($username)
+    {
+        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profile/' . $username;
+    }    
 }

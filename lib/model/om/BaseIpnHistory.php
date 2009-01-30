@@ -41,6 +41,14 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 
 
 	
+	protected $is_renewal = false;
+
+
+	
+	protected $member_subscr_id;
+
+
+	
 	protected $created_at;
 
 	
@@ -103,6 +111,20 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->paypal_response;
+	}
+
+	
+	public function getIsRenewal()
+	{
+
+		return $this->is_renewal;
+	}
+
+	
+	public function getMemberSubscrId()
+	{
+
+		return $this->member_subscr_id;
 	}
 
 	
@@ -256,6 +278,32 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setIsRenewal($v)
+	{
+
+		if ($this->is_renewal !== $v || $v === false) {
+			$this->is_renewal = $v;
+			$this->modifiedColumns[] = IpnHistoryPeer::IS_RENEWAL;
+		}
+
+	} 
+	
+	public function setMemberSubscrId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->member_subscr_id !== $v) {
+			$this->member_subscr_id = $v;
+			$this->modifiedColumns[] = IpnHistoryPeer::MEMBER_SUBSCR_ID;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -293,13 +341,17 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 
 			$this->paypal_response = $rs->getString($startcol + 7);
 
-			$this->created_at = $rs->getTimestamp($startcol + 8, null);
+			$this->is_renewal = $rs->getBoolean($startcol + 8);
+
+			$this->member_subscr_id = $rs->getInt($startcol + 9);
+
+			$this->created_at = $rs->getTimestamp($startcol + 10, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 11; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating IpnHistory object", $e);
 		}
@@ -489,6 +541,12 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 				return $this->getPaypalResponse();
 				break;
 			case 8:
+				return $this->getIsRenewal();
+				break;
+			case 9:
+				return $this->getMemberSubscrId();
+				break;
+			case 10:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -509,7 +567,9 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 			$keys[5] => $this->getSubscrId(),
 			$keys[6] => $this->getPaymentStatus(),
 			$keys[7] => $this->getPaypalResponse(),
-			$keys[8] => $this->getCreatedAt(),
+			$keys[8] => $this->getIsRenewal(),
+			$keys[9] => $this->getMemberSubscrId(),
+			$keys[10] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -550,6 +610,12 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 				$this->setPaypalResponse($value);
 				break;
 			case 8:
+				$this->setIsRenewal($value);
+				break;
+			case 9:
+				$this->setMemberSubscrId($value);
+				break;
+			case 10:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -567,7 +633,9 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setSubscrId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setPaymentStatus($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setPaypalResponse($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIsRenewal($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setMemberSubscrId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
 	}
 
 	
@@ -583,6 +651,8 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(IpnHistoryPeer::SUBSCR_ID)) $criteria->add(IpnHistoryPeer::SUBSCR_ID, $this->subscr_id);
 		if ($this->isColumnModified(IpnHistoryPeer::PAYMENT_STATUS)) $criteria->add(IpnHistoryPeer::PAYMENT_STATUS, $this->payment_status);
 		if ($this->isColumnModified(IpnHistoryPeer::PAYPAL_RESPONSE)) $criteria->add(IpnHistoryPeer::PAYPAL_RESPONSE, $this->paypal_response);
+		if ($this->isColumnModified(IpnHistoryPeer::IS_RENEWAL)) $criteria->add(IpnHistoryPeer::IS_RENEWAL, $this->is_renewal);
+		if ($this->isColumnModified(IpnHistoryPeer::MEMBER_SUBSCR_ID)) $criteria->add(IpnHistoryPeer::MEMBER_SUBSCR_ID, $this->member_subscr_id);
 		if ($this->isColumnModified(IpnHistoryPeer::CREATED_AT)) $criteria->add(IpnHistoryPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -627,6 +697,10 @@ abstract class BaseIpnHistory extends BaseObject  implements Persistent {
 		$copyObj->setPaymentStatus($this->payment_status);
 
 		$copyObj->setPaypalResponse($this->paypal_response);
+
+		$copyObj->setIsRenewal($this->is_renewal);
+
+		$copyObj->setMemberSubscrId($this->member_subscr_id);
 
 		$copyObj->setCreatedAt($this->created_at);
 

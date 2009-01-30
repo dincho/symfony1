@@ -13,7 +13,7 @@ abstract class BaseIpnHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.IpnHistory';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 11;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -44,6 +44,12 @@ abstract class BaseIpnHistoryPeer {
 	const PAYPAL_RESPONSE = 'ipn_history.PAYPAL_RESPONSE';
 
 	
+	const IS_RENEWAL = 'ipn_history.IS_RENEWAL';
+
+	
+	const MEMBER_SUBSCR_ID = 'ipn_history.MEMBER_SUBSCR_ID';
+
+	
 	const CREATED_AT = 'ipn_history.CREATED_AT';
 
 	
@@ -52,18 +58,18 @@ abstract class BaseIpnHistoryPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Parameters', 'RequestIp', 'TxnType', 'TxnId', 'SubscrId', 'PaymentStatus', 'PaypalResponse', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (IpnHistoryPeer::ID, IpnHistoryPeer::PARAMETERS, IpnHistoryPeer::REQUEST_IP, IpnHistoryPeer::TXN_TYPE, IpnHistoryPeer::TXN_ID, IpnHistoryPeer::SUBSCR_ID, IpnHistoryPeer::PAYMENT_STATUS, IpnHistoryPeer::PAYPAL_RESPONSE, IpnHistoryPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'parameters', 'request_ip', 'txn_type', 'txn_id', 'subscr_id', 'payment_status', 'paypal_response', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Parameters', 'RequestIp', 'TxnType', 'TxnId', 'SubscrId', 'PaymentStatus', 'PaypalResponse', 'IsRenewal', 'MemberSubscrId', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (IpnHistoryPeer::ID, IpnHistoryPeer::PARAMETERS, IpnHistoryPeer::REQUEST_IP, IpnHistoryPeer::TXN_TYPE, IpnHistoryPeer::TXN_ID, IpnHistoryPeer::SUBSCR_ID, IpnHistoryPeer::PAYMENT_STATUS, IpnHistoryPeer::PAYPAL_RESPONSE, IpnHistoryPeer::IS_RENEWAL, IpnHistoryPeer::MEMBER_SUBSCR_ID, IpnHistoryPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'parameters', 'request_ip', 'txn_type', 'txn_id', 'subscr_id', 'payment_status', 'paypal_response', 'is_renewal', 'member_subscr_id', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Parameters' => 1, 'RequestIp' => 2, 'TxnType' => 3, 'TxnId' => 4, 'SubscrId' => 5, 'PaymentStatus' => 6, 'PaypalResponse' => 7, 'CreatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (IpnHistoryPeer::ID => 0, IpnHistoryPeer::PARAMETERS => 1, IpnHistoryPeer::REQUEST_IP => 2, IpnHistoryPeer::TXN_TYPE => 3, IpnHistoryPeer::TXN_ID => 4, IpnHistoryPeer::SUBSCR_ID => 5, IpnHistoryPeer::PAYMENT_STATUS => 6, IpnHistoryPeer::PAYPAL_RESPONSE => 7, IpnHistoryPeer::CREATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'parameters' => 1, 'request_ip' => 2, 'txn_type' => 3, 'txn_id' => 4, 'subscr_id' => 5, 'payment_status' => 6, 'paypal_response' => 7, 'created_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Parameters' => 1, 'RequestIp' => 2, 'TxnType' => 3, 'TxnId' => 4, 'SubscrId' => 5, 'PaymentStatus' => 6, 'PaypalResponse' => 7, 'IsRenewal' => 8, 'MemberSubscrId' => 9, 'CreatedAt' => 10, ),
+		BasePeer::TYPE_COLNAME => array (IpnHistoryPeer::ID => 0, IpnHistoryPeer::PARAMETERS => 1, IpnHistoryPeer::REQUEST_IP => 2, IpnHistoryPeer::TXN_TYPE => 3, IpnHistoryPeer::TXN_ID => 4, IpnHistoryPeer::SUBSCR_ID => 5, IpnHistoryPeer::PAYMENT_STATUS => 6, IpnHistoryPeer::PAYPAL_RESPONSE => 7, IpnHistoryPeer::IS_RENEWAL => 8, IpnHistoryPeer::MEMBER_SUBSCR_ID => 9, IpnHistoryPeer::CREATED_AT => 10, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'parameters' => 1, 'request_ip' => 2, 'txn_type' => 3, 'txn_id' => 4, 'subscr_id' => 5, 'payment_status' => 6, 'paypal_response' => 7, 'is_renewal' => 8, 'member_subscr_id' => 9, 'created_at' => 10, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	
@@ -132,6 +138,10 @@ abstract class BaseIpnHistoryPeer {
 		$criteria->addSelectColumn(IpnHistoryPeer::PAYMENT_STATUS);
 
 		$criteria->addSelectColumn(IpnHistoryPeer::PAYPAL_RESPONSE);
+
+		$criteria->addSelectColumn(IpnHistoryPeer::IS_RENEWAL);
+
+		$criteria->addSelectColumn(IpnHistoryPeer::MEMBER_SUBSCR_ID);
 
 		$criteria->addSelectColumn(IpnHistoryPeer::CREATED_AT);
 

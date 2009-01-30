@@ -1,32 +1,35 @@
 <?php
 
 
-abstract class BaseStatePhotoPeer {
+abstract class BaseMemberLoginHistoryPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'state_photo';
+	const TABLE_NAME = 'member_login_history';
 
 	
-	const CLASS_DEFAULT = 'lib.model.StatePhoto';
+	const CLASS_DEFAULT = 'lib.model.MemberLoginHistory';
 
 	
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'state_photo.ID';
+	const ID = 'member_login_history.ID';
 
 	
-	const STATE_ID = 'state_photo.STATE_ID';
+	const MEMBER_ID = 'member_login_history.MEMBER_ID';
 
 	
-	const FILE = 'state_photo.FILE';
+	const LAST_LOGIN = 'member_login_history.LAST_LOGIN';
+
+	
+	const CREATED_AT = 'member_login_history.CREATED_AT';
 
 	
 	private static $phpNameMap = null;
@@ -34,31 +37,31 @@ abstract class BaseStatePhotoPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'StateId', 'File', ),
-		BasePeer::TYPE_COLNAME => array (StatePhotoPeer::ID, StatePhotoPeer::STATE_ID, StatePhotoPeer::FILE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'state_id', 'file', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'LastLogin', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MemberLoginHistoryPeer::ID, MemberLoginHistoryPeer::MEMBER_ID, MemberLoginHistoryPeer::LAST_LOGIN, MemberLoginHistoryPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'last_login', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'StateId' => 1, 'File' => 2, ),
-		BasePeer::TYPE_COLNAME => array (StatePhotoPeer::ID => 0, StatePhotoPeer::STATE_ID => 1, StatePhotoPeer::FILE => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'state_id' => 1, 'file' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'LastLogin' => 2, 'CreatedAt' => 3, ),
+		BasePeer::TYPE_COLNAME => array (MemberLoginHistoryPeer::ID => 0, MemberLoginHistoryPeer::MEMBER_ID => 1, MemberLoginHistoryPeer::LAST_LOGIN => 2, MemberLoginHistoryPeer::CREATED_AT => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'last_login' => 2, 'created_at' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/StatePhotoMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.StatePhotoMapBuilder');
+		include_once 'lib/model/map/MemberLoginHistoryMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.MemberLoginHistoryMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = StatePhotoPeer::getTableMap();
+			$map = MemberLoginHistoryPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -92,23 +95,25 @@ abstract class BaseStatePhotoPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(StatePhotoPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(MemberLoginHistoryPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(StatePhotoPeer::ID);
+		$criteria->addSelectColumn(MemberLoginHistoryPeer::ID);
 
-		$criteria->addSelectColumn(StatePhotoPeer::STATE_ID);
+		$criteria->addSelectColumn(MemberLoginHistoryPeer::MEMBER_ID);
 
-		$criteria->addSelectColumn(StatePhotoPeer::FILE);
+		$criteria->addSelectColumn(MemberLoginHistoryPeer::LAST_LOGIN);
+
+		$criteria->addSelectColumn(MemberLoginHistoryPeer::CREATED_AT);
 
 	}
 
-	const COUNT = 'COUNT(state_photo.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT state_photo.ID)';
+	const COUNT = 'COUNT(member_login_history.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT member_login_history.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -117,9 +122,9 @@ abstract class BaseStatePhotoPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -127,7 +132,7 @@ abstract class BaseStatePhotoPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = StatePhotoPeer::doSelectRS($criteria, $con);
+		$rs = MemberLoginHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -139,7 +144,7 @@ abstract class BaseStatePhotoPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = StatePhotoPeer::doSelect($critcopy, $con);
+		$objects = MemberLoginHistoryPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -148,15 +153,15 @@ abstract class BaseStatePhotoPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return StatePhotoPeer::populateObjects(StatePhotoPeer::doSelectRS($criteria, $con));
+		return MemberLoginHistoryPeer::populateObjects(MemberLoginHistoryPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseStatePhotoPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BaseMemberLoginHistoryPeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseStatePhotoPeer', $criteria, $con);
+      call_user_func($callable, 'BaseMemberLoginHistoryPeer', $criteria, $con);
     }
 
 
@@ -166,7 +171,7 @@ abstract class BaseStatePhotoPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			StatePhotoPeer::addSelectColumns($criteria);
+			MemberLoginHistoryPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -178,7 +183,7 @@ abstract class BaseStatePhotoPeer {
 	{
 		$results = array();
 	
-				$cls = StatePhotoPeer::getOMClass();
+				$cls = MemberLoginHistoryPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -191,15 +196,15 @@ abstract class BaseStatePhotoPeer {
 	}
 
 	
-	public static function doCountJoinState(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinMember(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -207,9 +212,9 @@ abstract class BaseStatePhotoPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(StatePhotoPeer::STATE_ID, StatePeer::ID);
+		$criteria->addJoin(MemberLoginHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
-		$rs = StatePhotoPeer::doSelectRS($criteria, $con);
+		$rs = MemberLoginHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -219,7 +224,7 @@ abstract class BaseStatePhotoPeer {
 
 
 	
-	public static function doSelectJoinState(Criteria $c, $con = null)
+	public static function doSelectJoinMember(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -227,23 +232,23 @@ abstract class BaseStatePhotoPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		StatePhotoPeer::addSelectColumns($c);
-		$startcol = (StatePhotoPeer::NUM_COLUMNS - StatePhotoPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		StatePeer::addSelectColumns($c);
+		MemberLoginHistoryPeer::addSelectColumns($c);
+		$startcol = (MemberLoginHistoryPeer::NUM_COLUMNS - MemberLoginHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberPeer::addSelectColumns($c);
 
-		$c->addJoin(StatePhotoPeer::STATE_ID, StatePeer::ID);
+		$c->addJoin(MemberLoginHistoryPeer::MEMBER_ID, MemberPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = StatePhotoPeer::getOMClass();
+			$omClass = MemberLoginHistoryPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = StatePeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -251,14 +256,14 @@ abstract class BaseStatePhotoPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getState(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addStatePhoto($obj1); 					break;
+										$temp_obj2->addMemberLoginHistory($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initStatePhotos();
-				$obj2->addStatePhoto($obj1); 			}
+				$obj2->initMemberLoginHistorys();
+				$obj2->addMemberLoginHistory($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -272,9 +277,9 @@ abstract class BaseStatePhotoPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(StatePhotoPeer::COUNT);
+			$criteria->addSelectColumn(MemberLoginHistoryPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -282,9 +287,9 @@ abstract class BaseStatePhotoPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(StatePhotoPeer::STATE_ID, StatePeer::ID);
+		$criteria->addJoin(MemberLoginHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
-		$rs = StatePhotoPeer::doSelectRS($criteria, $con);
+		$rs = MemberLoginHistoryPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -302,20 +307,20 @@ abstract class BaseStatePhotoPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		StatePhotoPeer::addSelectColumns($c);
-		$startcol2 = (StatePhotoPeer::NUM_COLUMNS - StatePhotoPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberLoginHistoryPeer::addSelectColumns($c);
+		$startcol2 = (MemberLoginHistoryPeer::NUM_COLUMNS - MemberLoginHistoryPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		StatePeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + StatePeer::NUM_COLUMNS;
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-		$c->addJoin(StatePhotoPeer::STATE_ID, StatePeer::ID);
+		$c->addJoin(MemberLoginHistoryPeer::MEMBER_ID, MemberPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = StatePhotoPeer::getOMClass();
+			$omClass = MemberLoginHistoryPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -324,7 +329,7 @@ abstract class BaseStatePhotoPeer {
 
 
 					
-			$omClass = StatePeer::getOMClass();
+			$omClass = MemberPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -334,15 +339,15 @@ abstract class BaseStatePhotoPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getState(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getMember(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addStatePhoto($obj1); 					break;
+					$temp_obj2->addMemberLoginHistory($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initStatePhotos();
-				$obj2->addStatePhoto($obj1);
+				$obj2->initMemberLoginHistorys();
+				$obj2->addMemberLoginHistory($obj1);
 			}
 
 			$results[] = $obj1;
@@ -359,16 +364,16 @@ abstract class BaseStatePhotoPeer {
 	
 	public static function getOMClass()
 	{
-		return StatePhotoPeer::CLASS_DEFAULT;
+		return MemberLoginHistoryPeer::CLASS_DEFAULT;
 	}
 
 	
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseStatePhotoPeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseMemberLoginHistoryPeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseStatePhotoPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseMemberLoginHistoryPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -384,7 +389,7 @@ abstract class BaseStatePhotoPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(StatePhotoPeer::ID); 
+		$criteria->remove(MemberLoginHistoryPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -398,9 +403,9 @@ abstract class BaseStatePhotoPeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseStatePhotoPeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BaseMemberLoginHistoryPeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseStatePhotoPeer', $values, $con, $pk);
+      call_user_func($callable, 'BaseMemberLoginHistoryPeer', $values, $con, $pk);
     }
 
     return $pk;
@@ -410,9 +415,9 @@ abstract class BaseStatePhotoPeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseStatePhotoPeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseMemberLoginHistoryPeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseStatePhotoPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseMemberLoginHistoryPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -428,8 +433,8 @@ abstract class BaseStatePhotoPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(StatePhotoPeer::ID);
-			$selectCriteria->add(StatePhotoPeer::ID, $criteria->remove(StatePhotoPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(MemberLoginHistoryPeer::ID);
+			$selectCriteria->add(MemberLoginHistoryPeer::ID, $criteria->remove(MemberLoginHistoryPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -438,9 +443,9 @@ abstract class BaseStatePhotoPeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseStatePhotoPeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BaseMemberLoginHistoryPeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseStatePhotoPeer', $values, $con, $ret);
+      call_user_func($callable, 'BaseMemberLoginHistoryPeer', $values, $con, $ret);
     }
 
     return $ret;
@@ -454,7 +459,7 @@ abstract class BaseStatePhotoPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(StatePhotoPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(MemberLoginHistoryPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -467,16 +472,16 @@ abstract class BaseStatePhotoPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(StatePhotoPeer::DATABASE_NAME);
+			$con = Propel::getConnection(MemberLoginHistoryPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof StatePhoto) {
+			$criteria = clone $values; 		} elseif ($values instanceof MemberLoginHistory) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(StatePhotoPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(MemberLoginHistoryPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -495,13 +500,13 @@ abstract class BaseStatePhotoPeer {
 	}
 
 	
-	public static function doValidate(StatePhoto $obj, $cols = null)
+	public static function doValidate(MemberLoginHistory $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(StatePhotoPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(StatePhotoPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(MemberLoginHistoryPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(MemberLoginHistoryPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -517,11 +522,11 @@ abstract class BaseStatePhotoPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(StatePhotoPeer::DATABASE_NAME, StatePhotoPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(MemberLoginHistoryPeer::DATABASE_NAME, MemberLoginHistoryPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = StatePhotoPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = MemberLoginHistoryPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -536,12 +541,12 @@ abstract class BaseStatePhotoPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(StatePhotoPeer::DATABASE_NAME);
+		$criteria = new Criteria(MemberLoginHistoryPeer::DATABASE_NAME);
 
-		$criteria->add(StatePhotoPeer::ID, $pk);
+		$criteria->add(MemberLoginHistoryPeer::ID, $pk);
 
 
-		$v = StatePhotoPeer::doSelect($criteria, $con);
+		$v = MemberLoginHistoryPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -558,8 +563,8 @@ abstract class BaseStatePhotoPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(StatePhotoPeer::ID, $pks, Criteria::IN);
-			$objs = StatePhotoPeer::doSelect($criteria, $con);
+			$criteria->add(MemberLoginHistoryPeer::ID, $pks, Criteria::IN);
+			$objs = MemberLoginHistoryPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -567,11 +572,11 @@ abstract class BaseStatePhotoPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseStatePhotoPeer::getMapBuilder();
+		BaseMemberLoginHistoryPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/StatePhotoMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.StatePhotoMapBuilder');
+			require_once 'lib/model/map/MemberLoginHistoryMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.MemberLoginHistoryMapBuilder');
 }

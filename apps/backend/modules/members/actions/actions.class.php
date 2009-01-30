@@ -78,7 +78,7 @@ class membersActions extends sfActions
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
             $member->changeStatus(MemberStatusPeer::ACTIVE);
-            $member->setSubscriptionId(SubscriptionPeer::FREE);
+            $member->changeSubscription(SubscriptionPeer::FREE);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state_id'));

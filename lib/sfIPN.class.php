@@ -68,6 +68,8 @@ class sfIPN
         $history->setPaymentStatus(isset($this->params['payment_status']) ? $this->params['payment_status'] : null);
         $history->setRequestIp(ip2long($_SERVER['REMOTE_ADDR']));
         $history->setPaypalResponse($this->paypal_response);
+        $history->setIsRenewal($this->params['is_renewal']);
+        $history->setMemberSubscrId($this->params['member_subscr_id']);
         $history->save();
     }
     
@@ -94,6 +96,16 @@ class sfIPN
             	           $member->setLastPaypalPaymentAt($this->params['payment_date']);
             	           $member->setLastPaypalItem($this->params['item_number']);
             	           $member->save();
+            	           
+            	           //renewal or not
+            	           $c = new Criteria();
+            	           $c->add(IpnHistoryPeer::SUBSCR_ID, $this->params['subscr_id']);
+            	           $c->add(IpnHistoryPeer::TXN_TYPE, 'subscr_payment');
+            	           $c->add(IpnHistoryPeer::PAYMENT_STATUS, 'Completed');
+            	           $this->params['renewal'] = (IpnHistoryPeer::doCount($c) > 0) ? true : false;
+            	           
+            	           
+            	           $this->params['member_subscr_id'] = $member->getSubscriptionId();
             	           
             	           return true;
             	       }

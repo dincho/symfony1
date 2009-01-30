@@ -40,5 +40,9 @@ class MemberStatusHistoryMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
+		$tMap->addColumn('FROM_STATUS_ID', 'FromStatusId', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('FROM_DATE', 'FromDate', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 	} 
 } 

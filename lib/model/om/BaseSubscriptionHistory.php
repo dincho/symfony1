@@ -21,6 +21,14 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 
 
 	
+	protected $member_status_id;
+
+
+	
+	protected $from_date;
+
+
+	
 	protected $created_at;
 
 	
@@ -28,6 +36,9 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 
 	
 	protected $aSubscription;
+
+	
+	protected $aMemberStatus;
 
 	
 	protected $alreadyInSave = false;
@@ -54,6 +65,35 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 	{
 
 		return $this->subscription_id;
+	}
+
+	
+	public function getMemberStatusId()
+	{
+
+		return $this->member_status_id;
+	}
+
+	
+	public function getFromDate($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->from_date === null || $this->from_date === '') {
+			return null;
+		} elseif (!is_int($this->from_date)) {
+						$ts = strtotime($this->from_date);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [from_date] as date/time value: " . var_export($this->from_date, true));
+			}
+		} else {
+			$ts = $this->from_date;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -135,6 +175,43 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 
 	} 
 	
+	public function setMemberStatusId($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->member_status_id !== $v) {
+			$this->member_status_id = $v;
+			$this->modifiedColumns[] = SubscriptionHistoryPeer::MEMBER_STATUS_ID;
+		}
+
+		if ($this->aMemberStatus !== null && $this->aMemberStatus->getId() !== $v) {
+			$this->aMemberStatus = null;
+		}
+
+	} 
+	
+	public function setFromDate($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [from_date] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->from_date !== $ts) {
+			$this->from_date = $ts;
+			$this->modifiedColumns[] = SubscriptionHistoryPeer::FROM_DATE;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -162,13 +239,17 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 
 			$this->subscription_id = $rs->getInt($startcol + 2);
 
-			$this->created_at = $rs->getTimestamp($startcol + 3, null);
+			$this->member_status_id = $rs->getInt($startcol + 3);
+
+			$this->from_date = $rs->getTimestamp($startcol + 4, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 5, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SubscriptionHistory object", $e);
 		}
@@ -278,6 +359,13 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 				$this->setSubscription($this->aSubscription);
 			}
 
+			if ($this->aMemberStatus !== null) {
+				if ($this->aMemberStatus->isModified()) {
+					$affectedRows += $this->aMemberStatus->save($con);
+				}
+				$this->setMemberStatus($this->aMemberStatus);
+			}
+
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
@@ -339,6 +427,12 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 				}
 			}
 
+			if ($this->aMemberStatus !== null) {
+				if (!$this->aMemberStatus->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aMemberStatus->getValidationFailures());
+				}
+			}
+
 
 			if (($retval = SubscriptionHistoryPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
@@ -373,6 +467,12 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 				return $this->getSubscriptionId();
 				break;
 			case 3:
+				return $this->getMemberStatusId();
+				break;
+			case 4:
+				return $this->getFromDate();
+				break;
+			case 5:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -388,7 +488,9 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getMemberId(),
 			$keys[2] => $this->getSubscriptionId(),
-			$keys[3] => $this->getCreatedAt(),
+			$keys[3] => $this->getMemberStatusId(),
+			$keys[4] => $this->getFromDate(),
+			$keys[5] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -414,6 +516,12 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 				$this->setSubscriptionId($value);
 				break;
 			case 3:
+				$this->setMemberStatusId($value);
+				break;
+			case 4:
+				$this->setFromDate($value);
+				break;
+			case 5:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -426,7 +534,9 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setMemberId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setSubscriptionId($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[3], $arr)) $this->setMemberStatusId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setFromDate($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
 	}
 
 	
@@ -437,6 +547,8 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 		if ($this->isColumnModified(SubscriptionHistoryPeer::ID)) $criteria->add(SubscriptionHistoryPeer::ID, $this->id);
 		if ($this->isColumnModified(SubscriptionHistoryPeer::MEMBER_ID)) $criteria->add(SubscriptionHistoryPeer::MEMBER_ID, $this->member_id);
 		if ($this->isColumnModified(SubscriptionHistoryPeer::SUBSCRIPTION_ID)) $criteria->add(SubscriptionHistoryPeer::SUBSCRIPTION_ID, $this->subscription_id);
+		if ($this->isColumnModified(SubscriptionHistoryPeer::MEMBER_STATUS_ID)) $criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->member_status_id);
+		if ($this->isColumnModified(SubscriptionHistoryPeer::FROM_DATE)) $criteria->add(SubscriptionHistoryPeer::FROM_DATE, $this->from_date);
 		if ($this->isColumnModified(SubscriptionHistoryPeer::CREATED_AT)) $criteria->add(SubscriptionHistoryPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -471,6 +583,10 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 		$copyObj->setMemberId($this->member_id);
 
 		$copyObj->setSubscriptionId($this->subscription_id);
+
+		$copyObj->setMemberStatusId($this->member_status_id);
+
+		$copyObj->setFromDate($this->from_date);
 
 		$copyObj->setCreatedAt($this->created_at);
 
@@ -554,6 +670,35 @@ abstract class BaseSubscriptionHistory extends BaseObject  implements Persistent
 			
 		}
 		return $this->aSubscription;
+	}
+
+	
+	public function setMemberStatus($v)
+	{
+
+
+		if ($v === null) {
+			$this->setMemberStatusId(NULL);
+		} else {
+			$this->setMemberStatusId($v->getId());
+		}
+
+
+		$this->aMemberStatus = $v;
+	}
+
+
+	
+	public function getMemberStatus($con = null)
+	{
+		if ($this->aMemberStatus === null && ($this->member_status_id !== null)) {
+						include_once 'lib/model/om/BaseMemberStatusPeer.php';
+
+			$this->aMemberStatus = MemberStatusPeer::retrieveByPK($this->member_status_id, $con);
+
+			
+		}
+		return $this->aMemberStatus;
 	}
 
 

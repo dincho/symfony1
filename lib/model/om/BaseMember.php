@@ -232,6 +232,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	protected $lastMemberNoteCriteria = null;
 
 	
+	protected $collMemberLoginHistorys;
+
+	
+	protected $lastMemberLoginHistoryCriteria = null;
+
+	
 	protected $collMemberDescAnswers;
 
 	
@@ -1948,6 +1954,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collMemberLoginHistorys !== null) {
+				foreach($this->collMemberLoginHistorys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collMemberDescAnswers !== null) {
 				foreach($this->collMemberDescAnswers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -2205,6 +2219,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 				if ($this->collMemberNotes !== null) {
 					foreach($this->collMemberNotes as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMemberLoginHistorys !== null) {
+					foreach($this->collMemberLoginHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -3030,6 +3052,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				$copyObj->addMemberNote($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getMemberLoginHistorys() as $relObj) {
+				$copyObj->addMemberLoginHistory($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getMemberDescAnswers() as $relObj) {
 				$copyObj->addMemberDescAnswer($relObj->copy($deepCopy));
 			}
@@ -3420,6 +3446,76 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$this->lastMemberNoteCriteria = $criteria;
 
 		return $this->collMemberNotes;
+	}
+
+	
+	public function initMemberLoginHistorys()
+	{
+		if ($this->collMemberLoginHistorys === null) {
+			$this->collMemberLoginHistorys = array();
+		}
+	}
+
+	
+	public function getMemberLoginHistorys($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberLoginHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMemberLoginHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collMemberLoginHistorys = array();
+			} else {
+
+				$criteria->add(MemberLoginHistoryPeer::MEMBER_ID, $this->getId());
+
+				MemberLoginHistoryPeer::addSelectColumns($criteria);
+				$this->collMemberLoginHistorys = MemberLoginHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MemberLoginHistoryPeer::MEMBER_ID, $this->getId());
+
+				MemberLoginHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMemberLoginHistoryCriteria) || !$this->lastMemberLoginHistoryCriteria->equals($criteria)) {
+					$this->collMemberLoginHistorys = MemberLoginHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMemberLoginHistoryCriteria = $criteria;
+		return $this->collMemberLoginHistorys;
+	}
+
+	
+	public function countMemberLoginHistorys($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMemberLoginHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MemberLoginHistoryPeer::MEMBER_ID, $this->getId());
+
+		return MemberLoginHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMemberLoginHistory(MemberLoginHistory $l)
+	{
+		$this->collMemberLoginHistorys[] = $l;
+		$l->setMember($this);
 	}
 
 	
@@ -4220,6 +4316,41 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
 				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinSubscription($criteria, $con);
+			}
+		}
+		$this->lastSubscriptionHistoryCriteria = $criteria;
+
+		return $this->collSubscriptionHistorys;
+	}
+
+
+	
+	public function getSubscriptionHistorysJoinMemberStatus($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSubscriptionHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSubscriptionHistorys = array();
+			} else {
+
+				$criteria->add(SubscriptionHistoryPeer::MEMBER_ID, $this->getId());
+
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMemberStatus($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(SubscriptionHistoryPeer::MEMBER_ID, $this->getId());
+
+			if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMemberStatus($criteria, $con);
 			}
 		}
 		$this->lastSubscriptionHistoryCriteria = $criteria;

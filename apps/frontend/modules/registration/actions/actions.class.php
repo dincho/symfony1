@@ -24,7 +24,7 @@ class registrationActions extends prActions
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
             $member->changeStatus(MemberStatusPeer::ABANDONED);
-            $member->setSubscriptionId(SubscriptionPeer::FREE);
+            $member->changeSubscription(SubscriptionPeer::FREE);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->initNewMember();
             $member->save();

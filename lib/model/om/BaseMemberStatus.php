@@ -22,6 +22,12 @@ abstract class BaseMemberStatus extends BaseObject  implements Persistent {
 	protected $lastMemberCriteria = null;
 
 	
+	protected $collSubscriptionHistorys;
+
+	
+	protected $lastSubscriptionHistoryCriteria = null;
+
+	
 	protected $collMemberStatusHistorys;
 
 	
@@ -201,6 +207,14 @@ abstract class BaseMemberStatus extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collSubscriptionHistorys !== null) {
+				foreach($this->collSubscriptionHistorys as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collMemberStatusHistorys !== null) {
 				foreach($this->collMemberStatusHistorys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -252,6 +266,14 @@ abstract class BaseMemberStatus extends BaseObject  implements Persistent {
 
 				if ($this->collMembers !== null) {
 					foreach($this->collMembers as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collSubscriptionHistorys !== null) {
+					foreach($this->collSubscriptionHistorys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -379,6 +401,10 @@ abstract class BaseMemberStatus extends BaseObject  implements Persistent {
 
 			foreach($this->getMembers() as $relObj) {
 				$copyObj->addMember($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getSubscriptionHistorys() as $relObj) {
+				$copyObj->addSubscriptionHistory($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getMemberStatusHistorys() as $relObj) {
@@ -653,6 +679,146 @@ abstract class BaseMemberStatus extends BaseObject  implements Persistent {
 		$this->lastMemberCriteria = $criteria;
 
 		return $this->collMembers;
+	}
+
+	
+	public function initSubscriptionHistorys()
+	{
+		if ($this->collSubscriptionHistorys === null) {
+			$this->collSubscriptionHistorys = array();
+		}
+	}
+
+	
+	public function getSubscriptionHistorys($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSubscriptionHistorys === null) {
+			if ($this->isNew()) {
+			   $this->collSubscriptionHistorys = array();
+			} else {
+
+				$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+				SubscriptionHistoryPeer::addSelectColumns($criteria);
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+				SubscriptionHistoryPeer::addSelectColumns($criteria);
+				if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
+					$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastSubscriptionHistoryCriteria = $criteria;
+		return $this->collSubscriptionHistorys;
+	}
+
+	
+	public function countSubscriptionHistorys($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+		return SubscriptionHistoryPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addSubscriptionHistory(SubscriptionHistory $l)
+	{
+		$this->collSubscriptionHistorys[] = $l;
+		$l->setMemberStatus($this);
+	}
+
+
+	
+	public function getSubscriptionHistorysJoinMember($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSubscriptionHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSubscriptionHistorys = array();
+			} else {
+
+				$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMember($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinMember($criteria, $con);
+			}
+		}
+		$this->lastSubscriptionHistoryCriteria = $criteria;
+
+		return $this->collSubscriptionHistorys;
+	}
+
+
+	
+	public function getSubscriptionHistorysJoinSubscription($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseSubscriptionHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSubscriptionHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSubscriptionHistorys = array();
+			} else {
+
+				$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinSubscription($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(SubscriptionHistoryPeer::MEMBER_STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSubscriptionHistoryCriteria) || !$this->lastSubscriptionHistoryCriteria->equals($criteria)) {
+				$this->collSubscriptionHistorys = SubscriptionHistoryPeer::doSelectJoinSubscription($criteria, $con);
+			}
+		}
+		$this->lastSubscriptionHistoryCriteria = $criteria;
+
+		return $this->collSubscriptionHistorys;
 	}
 
 	

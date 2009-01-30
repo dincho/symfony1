@@ -1,12 +1,14 @@
-// this function is needed to work around 
-// a bug in IE related to element attributes
-function hasClass(obj) {
-   var result = false;
-   if (obj.getAttributeNode("class") != null) {
-       result = obj.getAttributeNode("class").value;
-   }
-   return result;
-}
+function hasClass (obj, className) {
+    if (typeof obj == 'undefined' || obj==null || !RegExp) { return false; }
+    var re = new RegExp("(^|\\s)" + className + "(\\s|$)");
+    if (typeof(obj)=="string") {
+      return re.test(obj);
+    }
+    else if (typeof(obj)=="object" && obj.className) {
+      return re.test(obj.className);
+    }
+    return false;
+ }
 
 /* param table => table reference */
 function stripe(table) {
@@ -90,7 +92,7 @@ function zebra() {
 	tables = contentDiv.getElementsByTagName("table");
 	
 	for(var t = 0; t < tables.length; t++) {
-	  if( tables[t].className == 'zebra') stripe(tables[t]);
+	  if( hasClass(tables[t], 'zebra') ) stripe(tables[t]);
 	}
 }
 

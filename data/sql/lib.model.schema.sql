@@ -91,7 +91,6 @@ CREATE TABLE `state_photo`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`state_id` INTEGER  NOT NULL,
 	`file` VARCHAR(255),
-	`cropped` VARCHAR(255),
 	PRIMARY KEY (`id`),
 	INDEX `state_photo_FI_1` (`state_id`),
 	CONSTRAINT `state_photo_FK_1`
@@ -259,6 +258,27 @@ CREATE TABLE `member_note`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`)
 		ON DELETE SET NULL
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_login_history
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_login_history`;
+
+
+CREATE TABLE `member_login_history`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER  NOT NULL,
+	`last_login` DATETIME,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `member_login_history_FI_1` (`member_id`),
+	CONSTRAINT `member_login_history_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -660,6 +680,8 @@ CREATE TABLE `subscription_history`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`member_id` INTEGER  NOT NULL,
 	`subscription_id` INTEGER  NOT NULL,
+	`member_status_id` INTEGER,
+	`from_date` DATETIME,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `subscription_history_FI_1` (`member_id`),
@@ -671,7 +693,11 @@ CREATE TABLE `subscription_history`
 	CONSTRAINT `subscription_history_FK_2`
 		FOREIGN KEY (`subscription_id`)
 		REFERENCES `subscription` (`id`)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	INDEX `subscription_history_FI_3` (`member_status_id`),
+	CONSTRAINT `subscription_history_FK_3`
+		FOREIGN KEY (`member_status_id`)
+		REFERENCES `member_status` (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -687,6 +713,8 @@ CREATE TABLE `member_status_history`
 	`member_id` INTEGER  NOT NULL,
 	`member_status_id` INTEGER  NOT NULL,
 	`created_at` DATETIME,
+	`from_status_id` INTEGER,
+	`from_date` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `member_status_history_FI_1` (`member_id`),
 	CONSTRAINT `member_status_history_FK_1`
@@ -1162,6 +1190,8 @@ CREATE TABLE `ipn_history`
 	`subscr_id` VARCHAR(255),
 	`payment_status` VARCHAR(255),
 	`paypal_response` VARCHAR(8),
+	`is_renewal` INTEGER default 0 NOT NULL,
+	`member_subscr_id` INTEGER,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;

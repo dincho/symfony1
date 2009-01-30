@@ -57,7 +57,6 @@ $member->setBirthday(date('Y-m-d',Tools::randomTimestamp('1 January 1950', '1 Ja
 $member->setLastLogin(Tools::randomTimestamp('1 January 2006', '1 August 2008'));
 $member->setSex($sex);
 $member->setLookingFor($looking_for);
-$member->setMemberStatusId(rand(1,6));
 $member->setLastStatusChange(Tools::randomTimestamp());
 $member->setEssayHeadline(RandomGenerator::getSentence());
 $member->setEssayIntroduction(RandomGenerator::getSentence(50, 20));
@@ -89,13 +88,25 @@ $member->setCountry($countries[$country_rand]);
 $member->setLanguage($languages[$country_rand]);
 $member->setIsStarred(rand(0,1));
 
-$member->setSubscriptionId(rand(1,3));
+//subscription
+$sub_id = rand(1,3);
+$member->setSubscriptionId($sub_id);
+$sub_history = new SubscriptionHistory();
+$sub_history->setSubscriptionId($sub_id);
+$sub_history->setFromDate(null);
+$sub_history->setMemberStatusId($member->getMemberStatusId());
+$member->addSubscriptionHistory($sub_history);
+
 $member->setCreatedAt(Tools::randomTimestamp());
 $member->setLastActivity(Tools::randomTimestamp());
 
+$member->setMemberStatusId(rand(1,10));
 $status_history = new MemberStatusHistory();
-$status_history->setMemberStatusId(MemberStatusPeer::ABANDONED);
-$status_history->setCreatedAt(Tools::randomTimestamp());
+$status_history->setMemberStatusId($member->getMemberStatusId());
+$status_history->setFromStatusId(null);
+//$status_history->setCreatedAt(Tools::randomTimestamp());
+$status_history->setFromDate(null);
+
 $member->addMemberStatusHistory($status_history);
 
 

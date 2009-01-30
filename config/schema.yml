@@ -132,6 +132,11 @@ propel:
     user_id:                  { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
     text:                     { type: longvarchar, required: true }
     created_at:
+  member_login_history:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    last_login:               { type: timestamp }
+    created_at:
   desc_question:
     id:
     title:                    { type: varchar, size: 255 }
@@ -257,12 +262,16 @@ propel:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: cascade }
+    member_status_id:
+    from_date:                { type: timestamp }
     created_at:
   member_status_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     member_status_id:         { type: integer, required: true, foreignTable: member_status, foreignReference: id, onDelete: cascade }
     created_at:
+    from_status_id:           { type: integer } #need for reports
+    from_date:                { type: timestamp } #need for reports
   message:
     id:
     from_member_id:           { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -411,4 +420,6 @@ propel:
     subscr_id:          { type: varchar, size: 255 }
     payment_status:     { type: varchar, size: 255 }
     paypal_response:    { type: varchar, size: 8 }
+    is_renewal:        { type: boolean, required: true, default: 0 }
+    member_subscr_id:   { type: integer, required: false }
     created_at:

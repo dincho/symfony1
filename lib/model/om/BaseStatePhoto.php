@@ -19,10 +19,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 	
 	protected $file;
 
-
-	
-	protected $cropped;
-
 	
 	protected $aState;
 
@@ -51,13 +47,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 	{
 
 		return $this->file;
-	}
-
-	
-	public function getCropped()
-	{
-
-		return $this->cropped;
 	}
 
 	
@@ -113,22 +102,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setCropped($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->cropped !== $v) {
-			$this->cropped = $v;
-			$this->modifiedColumns[] = StatePhotoPeer::CROPPED;
-		}
-
-	} 
-	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -139,13 +112,11 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 
 			$this->file = $rs->getString($startcol + 2);
 
-			$this->cropped = $rs->getString($startcol + 3);
-
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 3; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating StatePhoto object", $e);
 		}
@@ -331,9 +302,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 			case 2:
 				return $this->getFile();
 				break;
-			case 3:
-				return $this->getCropped();
-				break;
 			default:
 				return null;
 				break;
@@ -347,7 +315,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getStateId(),
 			$keys[2] => $this->getFile(),
-			$keys[3] => $this->getCropped(),
 		);
 		return $result;
 	}
@@ -372,9 +339,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 			case 2:
 				$this->setFile($value);
 				break;
-			case 3:
-				$this->setCropped($value);
-				break;
 		} 	}
 
 	
@@ -385,7 +349,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setStateId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setFile($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setCropped($arr[$keys[3]]);
 	}
 
 	
@@ -396,7 +359,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(StatePhotoPeer::ID)) $criteria->add(StatePhotoPeer::ID, $this->id);
 		if ($this->isColumnModified(StatePhotoPeer::STATE_ID)) $criteria->add(StatePhotoPeer::STATE_ID, $this->state_id);
 		if ($this->isColumnModified(StatePhotoPeer::FILE)) $criteria->add(StatePhotoPeer::FILE, $this->file);
-		if ($this->isColumnModified(StatePhotoPeer::CROPPED)) $criteria->add(StatePhotoPeer::CROPPED, $this->cropped);
 
 		return $criteria;
 	}
@@ -430,8 +392,6 @@ abstract class BaseStatePhoto extends BaseObject  implements Persistent {
 		$copyObj->setStateId($this->state_id);
 
 		$copyObj->setFile($this->file);
-
-		$copyObj->setCropped($this->cropped);
 
 
 		$copyObj->setNew(true);

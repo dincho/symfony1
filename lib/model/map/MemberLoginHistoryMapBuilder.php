@@ -2,10 +2,10 @@
 
 
 
-class SubscriptionHistoryMapBuilder {
+class MemberLoginHistoryMapBuilder {
 
 	
-	const CLASS_NAME = 'lib.model.map.SubscriptionHistoryMapBuilder';
+	const CLASS_NAME = 'lib.model.map.MemberLoginHistoryMapBuilder';
 
 	
 	private $dbMap;
@@ -27,8 +27,8 @@ class SubscriptionHistoryMapBuilder {
 	{
 		$this->dbMap = Propel::getDatabaseMap('propel');
 
-		$tMap = $this->dbMap->addTable('subscription_history');
-		$tMap->setPhpName('SubscriptionHistory');
+		$tMap = $this->dbMap->addTable('member_login_history');
+		$tMap->setPhpName('MemberLoginHistory');
 
 		$tMap->setUseIdGenerator(true);
 
@@ -36,11 +36,7 @@ class SubscriptionHistoryMapBuilder {
 
 		$tMap->addForeignKey('MEMBER_ID', 'MemberId', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
 
-		$tMap->addForeignKey('SUBSCRIPTION_ID', 'SubscriptionId', 'int', CreoleTypes::INTEGER, 'subscription', 'ID', true, null);
-
-		$tMap->addForeignKey('MEMBER_STATUS_ID', 'MemberStatusId', 'int', CreoleTypes::INTEGER, 'member_status', 'ID', false, null);
-
-		$tMap->addColumn('FROM_DATE', 'FromDate', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('LAST_LOGIN', 'LastLogin', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
