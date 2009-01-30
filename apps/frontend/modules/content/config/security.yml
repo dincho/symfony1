@@ -1,3 +1,5 @@
+searchEngine:
+  is_secure: off
 index:
   is_secure: off
 page:

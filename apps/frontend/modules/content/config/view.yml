@@ -1,2 +1,4 @@
 emailsSuccess:
     stylesheets: [  ]
+searchEngineSuccess:
+  has_layout: off

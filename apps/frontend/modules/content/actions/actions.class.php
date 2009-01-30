@@ -9,6 +9,18 @@
  */
 class contentActions extends prActions
 {
+    public function executeSearchEngine()
+    {
+	$c = new Criteria;
+	$c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+	$c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
+
+	$this->pager = new sfPropelPager('Member', 15);
+
+	$this->pager->setCriteria($c);
+	$this->pager->setPage($this->getRequestParameter('page', 1));
+	$this->pager->init();
+    }
 
     public function executeIndex()
     {
