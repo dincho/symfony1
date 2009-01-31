@@ -1,0 +1,15 @@
+fillin:
+  enabled: true
+fields:
+  item:
+    required: true
+      msg: Please enter item - Host, email, IP or IP range
+  netmask:
+    sfNumberValidator:
+      nan_error: Netmask must be a numeric value
+      min: 0
+      min_error: Min possible  value is 0
+      max: 32
+      max_error: Max possible value is 32
+
+
