@@ -1,7 +1,16 @@
+
+CREATE TABLE `ipblock`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`item` VARCHAR(255),
+	`item_type` INTEGER(1) default 0,
+	`netmask` INTEGER(2) default 24,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
-ALTER TABLE `ipn_history` ADD `is_renewal` INTEGER default 0 NOT NULL;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -19,7 +28,6 @@ ALTER TABLE `imbra_reply_template` DROP FOREIGN KEY `imbra_reply_template_FK_1`;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
-ALTER TABLE `ipn_history` DROP `is_renewval`;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;

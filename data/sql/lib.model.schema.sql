@@ -63,6 +63,23 @@ CREATE TABLE `user`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
+#-- ipblock
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ipblock`;
+
+
+CREATE TABLE `ipblock`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`item` VARCHAR(255),
+	`item_type` INTEGER(1) default 0,
+	`netmask` INTEGER(2) default 24,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
 #-- state
 #-----------------------------------------------------------------------------
 

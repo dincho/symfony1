@@ -2417,25 +2417,11 @@ input:focus, select:focus, textarea:focus {
     border: 1px solid #85854A !important;
     background-color: #2B2B1A !important;
 }
+
 input.focused  /* used by js */ { 
-    border: 1px solid #85854A;
-    background-color: #2B2B1A;
-    
-	/*
-	http://codesnippets.joyent.com/posts/show/1837#related
-	    
-    Need to add to JS:
-     
-     Event.observe(window, 'load', function() {
-    var fields = $$("input");
-    for (var i = 0; i < fields.length; i++) {
-      fields[i].onfocus = function() {this.className += ' focused';}
-      fields[i].onblur = function() {this.className = this.className.replace('focused', '');}
-    }
-  });
-	        
-	*/    
-	}
+    border: 1px solid #85854A !important;
+    background-color: #2B2B1A !important;
+}
 
 /* ---=== border code follows ===--- */ /*
 	tlc = top left corner
