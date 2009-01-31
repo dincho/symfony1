@@ -1,4 +1,5 @@
 <?php use_helper('Number') ?>
+<?php if($objects): ?>
 <table class="zebra reports">
     <thead>
         <tr>
@@ -28,3 +29,6 @@
     <?php endforeach; ?>
 </table> 
 
+<?php else: ?>
+    No members yet
+<?php endif; ?>

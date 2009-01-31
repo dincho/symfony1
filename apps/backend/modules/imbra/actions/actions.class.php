@@ -51,9 +51,7 @@ class imbraActions extends sfActions
     {
         $this->processSort();
         
-        //default to pending imbra apps
-        if (! isset($this->filters['imbra_status_id']))
-            $this->filters['imbra_status_id'] = 2;
+
         $c = new Criteria();
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
@@ -222,12 +220,13 @@ class imbraActions extends sfActions
         
     protected function processFilters ()
     {
-        if ($this->getRequest()->hasParameter('filter'))
-        {
-            $filters = $this->getRequestParameter('filters');
-            $this->getUser()->getAttributeHolder()->removeNamespace('backend/imbra/filters');
-            $this->getUser()->getAttributeHolder()->add($filters, 'backend/imbra/filters');
-        }
+        $filters = $this->getRequestParameter('filters');
+        
+        //default to pending imbra apps
+        if (!isset($filters['imbra_status_id'])) $filters['imbra_status_id'] = 2;
+                
+        $this->getUser()->getAttributeHolder()->removeNamespace('backend/imbra/filters');
+        $this->getUser()->getAttributeHolder()->add($filters, 'backend/imbra/filters');
     }
 
     protected function addFiltersCriteria ($c)

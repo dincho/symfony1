@@ -213,8 +213,6 @@ class flagsActions extends sfActions
         
     protected function processFilters()
     {
-        if ($this->getRequest()->hasParameter('filter'))
-        {
             $filters = $this->getRequestParameter('filters');
             
             //some default values
@@ -223,7 +221,6 @@ class flagsActions extends sfActions
             
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/flags/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/flags/filters');
-        }
     }
 
     protected function addFiltersCriteria(Criteria $c)

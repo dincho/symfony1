@@ -23,11 +23,12 @@ class registrationActions extends prActions
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
-            $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->changeSubscription(SubscriptionPeer::FREE);
+            $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->initNewMember();
             $member->save();
+            
             
             $this->getUser()->getAttributeHolder()->clear();
             $this->getUser()->clearCredentials();

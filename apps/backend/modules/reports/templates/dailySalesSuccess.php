@@ -49,10 +49,10 @@
     </tr>
 <?php endif; ?>
 
-    <tr><td colspan="9" style="background-color: white">&nbsp;</td></tr>
-    <tr><td colspan="9"></td></tr>
-    
 <?php if( $dailySalesPaidMembers ): ?>
+    <tr><td colspan="9" style="background-color: white">&nbsp;</td></tr>
+    <tr><td colspan="9"></td></tr>   
+    
     <?php $paid_today = $paid_todayLy = $paid_mtd = $paid_mtdLy = $paid_ytd = $paid_ytdLy = $paid_toDate = $paid_period = 0; ?>
     <?php foreach ($dailySalesPaidMembers as $key => $object): ?>
         <tr>
@@ -88,6 +88,7 @@
     </tr>
 <?php endif; ?>
 
+<?php if( $dailySalesByStatus && $dailySalesPaidMembers): ?>
     <tr><td colspan="9" style="background-color: white">&nbsp;</td></tr>
     
     <tr>
@@ -134,9 +135,5 @@
         <td><?php echo ($paid_toDate == 0) ? 0 : round($dailySalesPaidMembers[2]->getToDate()/$paid_toDate*100) ?></td>
         <td><?php echo ($paid_period == 0) ? 0 : round($dailySalesPaidMembers[2]->getPeriod()/$paid_period*100) ?></td>
     </tr>
+<?php endif; ?>
 </table>
-
-
-
-
-

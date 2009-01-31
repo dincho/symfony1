@@ -86,7 +86,7 @@ class Member extends BaseMember
 
     public function changeStatus($StatusId, $kill_session = true)
     {
-        if ($this->getMemberStatusId() != $StatusId)
+        if ($this->getMemberStatusId() != $StatusId )
         {
             if( ($this->getMemberStatusId() == MemberStatusPeer::PENDING ) && $StatusId == MemberStatusPeer::ACTIVE )
             {
@@ -111,7 +111,7 @@ class Member extends BaseMember
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
             $history->setFromStatusId($this->getMemberStatusId());
-            $history->setDateFrom(($last_history) ? $last_history->getCreatedAt(null) : null);
+            $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null);
             $this->addMemberStatusHistory($history);
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
@@ -122,9 +122,9 @@ class Member extends BaseMember
     
     public function changeSubscription($subscription_id)
     {
-        if ($this->getSubscriptionId() != $subscription_id)
+        if ($this->getSubscriptionId() != $subscription_id )
         {
-            $this->setSubscriptionId($subscription_id);
+            
             
             //get last subscription history
             $c = new Criteria();
@@ -134,11 +134,12 @@ class Member extends BaseMember
             $last_history = SubscriptionHistoryPeer::doSelectOne($c);
             
             $history = new SubscriptionHistory();
-            $history->setMemberId($this->getid());
             $history->setSubscriptionId($subscription_id);
             $history->setMemberStatusId($this->getMemberStatusId());
             $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null );
-            $history->save();          
+
+            $this->setSubscriptionId($subscription_id);
+            $this->addSubscriptionHistory($history);
         }
     }
     

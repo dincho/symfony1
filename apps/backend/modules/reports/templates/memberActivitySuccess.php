@@ -50,6 +50,7 @@
         </tr>
 </table>
 
+<?php if($mostActiveMembers): ?>
 <br />
 <table class="zebra reports" id="active_members">
     <thead>
@@ -75,6 +76,13 @@
         <?php endforeach; ?>
 </table>
 
+<script type="text/javascript">
+    var t1 = new ScrollableTable(document.getElementById('active_members'), 140);
+</script>
+
+<?php endif; ?>
+
+<?php if($mostPopularMembers): ?>
 <br /><br />
 <table class="zebra reports" id="popular_members">
     <thead>
@@ -101,6 +109,7 @@
 </table>
 
 <script type="text/javascript">
-    var t1 = new ScrollableTable(document.getElementById('active_members'), 140);
     var t2 = new ScrollableTable(document.getElementById('popular_members'), 140);
 </script>
+
+<?php endif; ?>

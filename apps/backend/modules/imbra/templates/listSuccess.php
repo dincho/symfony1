@@ -1,5 +1,5 @@
 <?php use_helper('xSortableTitle') ?>
-<?php include_partial('members/search_filter', array('filters' => $filters, 'extra_vars' => array('filters[imbra_status_id]' => $filters['imbra_status_id']))); ?>
+<?php include_partial('members/search_filter', array('filters' => $filters, 'extra_vars' => array('filters[imbra_status_id]' => @$filters['imbra_status_id']))); ?>
 
 <table class="zebra">
   <thead>

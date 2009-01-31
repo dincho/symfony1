@@ -28,8 +28,9 @@ class sfPropelThumbnailsBehavior
   
   public function preDelete($object)
   {
-    $this->deleteImage($object, 'file');
-    $this->deleteImage($object, 'cropped');
+    $class = get_class($object);
+    if(sfConfig::get('propel_behavior_thumbnails_'.$class .'_file')) $this->deleteImage($object, 'file');
+    if(sfConfig::get('propel_behavior_thumbnails_'.$class .'_cropped')) $this->deleteImage($object, 'cropped');
   }
   
   public function getImagesPath($object)
