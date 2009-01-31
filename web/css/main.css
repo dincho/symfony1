@@ -302,6 +302,7 @@ p {
 #areas_map {
     float: right;
     width: 450px;
+    overflow: hidden;
 }
 
 #countries {
