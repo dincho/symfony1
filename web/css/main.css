@@ -978,6 +978,10 @@ span {
     font-size: 11px;    
 }
 
+#public_reg_form br {
+    clear: left;
+}
+
 #secondary_container #public_reg_form .save_and_cont {
     border: 0px;
     margin-left: 5px;
