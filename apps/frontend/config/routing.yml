@@ -23,8 +23,8 @@ profile:
     url:   /:sf_culture/profiles/:username/*
     param: { module: profile, action: index, sf_culture: en }
 
-search_engine:
-    url:  /:sf_culture/search_engine/:page/* 
+search_engines:
+    url:  /:sf_culture/search_engines/:page/* 
     param: { module: content, action: searchEngine, sf_culture: en, page: 1 }
 
 web_email:

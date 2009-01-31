@@ -6,7 +6,7 @@
             <?php if(array_key_exists('how_it_works', $links_map)) echo link_to($links_map['how_it_works'], '@page?slug=how_it_works') . '&nbsp;&nbsp;&bull;&nbsp;' ?>
             <?php if(array_key_exists('about_us', $links_map)) echo link_to($links_map['about_us'], '@page?slug=about_us') . '&nbsp;&nbsp;&bull;&nbsp;' ?>
             <?php if(array_key_exists('help', $links_map)) echo link_to($links_map['help'], '@page?slug=help') . '&nbsp;&nbsp;&bull;&nbsp;'  ?>
-            <a href="#">Search Engines</a><br />
+            <?php echo link_to(__('Search Engines'), '@search_engines') ?><br />
         <?php endif; ?>
         <?php if(array_key_exists('user_agreement', $links_map)) echo link_to($links_map['user_agreement'], '@page?slug=user_agreement') . '&nbsp;&nbsp;&bull;&nbsp;'  ?>
         <?php if(array_key_exists('privacy_policy', $links_map)) echo link_to($links_map['privacy_policy'], '@page?slug=privacy_policy') . '&nbsp;&nbsp;&bull;&nbsp;'  ?>
