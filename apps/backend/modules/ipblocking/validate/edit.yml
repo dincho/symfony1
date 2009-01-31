@@ -1,7 +1,7 @@
 fillin:
   enabled: true
 fields:
-  item:
+  netmask:
     required: true
       msg: Please enter item - Host, email, IP or IP range
     sfNumberValidator:

@@ -1,4 +1,4 @@
-function hasClass (obj, className) {
+function hasClass2 (obj, className) {
     if (typeof obj == 'undefined' || obj==null || !RegExp) { return false; }
     var re = new RegExp("(^|\\s)" + className + "(\\s|$)");
     if (typeof(obj)=="string") {
@@ -9,6 +9,15 @@ function hasClass (obj, className) {
     }
     return false;
  }
+ 
+function hasClass(obj) { 
+          var result = false; 
+          if (obj.getAttributeNode("class") != null) { 
+              result = obj.getAttributeNode("class").value; 
+          } 
+          return result; 
+} 
+
 
 /* param table => table reference */
 function stripe(table) {
@@ -92,7 +101,7 @@ function zebra() {
 	tables = contentDiv.getElementsByTagName("table");
 	
 	for(var t = 0; t < tables.length; t++) {
-	  if( hasClass(tables[t], 'zebra') ) stripe(tables[t]);
+	  if( hasClass2(tables[t], 'zebra') ) stripe(tables[t]);
 	}
 }
 
