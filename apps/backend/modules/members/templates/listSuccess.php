@@ -16,6 +16,7 @@
       <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
       <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Joined', 'Member::created_at', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sub', 'Subscription::title', $sort_namespace) ?></th>
@@ -33,6 +34,7 @@
     <td><?php echo $member->getLastName() ?></td>
     <td><?php echo $member->getFirstName() ?></td>
     <td><?php echo $member->getSex() ?></td>
+    <td><?php echo $member->getLookingFor() ?></td>
     <td><?php echo $member->getEmail() ?></td>
     <td><?php echo $member->getCreatedAt('m/d/Y') ?></td>
     <td><?php echo $member->getSubscription()->getShortTitle() ?></td>
