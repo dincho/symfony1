@@ -83,7 +83,46 @@ function looking_for_options($selected = '', $html_options = array())
 
 function pr_select_country_tag($name, $selected = null, $options = array())
 {
-    return select_country_tag($name, $selected, $options);
+    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+    $countries = $c->getCountries();
+    
+    if ($country_option = _get_option($options, 'countries'))
+    {
+        foreach ($countries as $key => $value)
+        {
+            if (!in_array($key, $country_option))
+            {
+                unset($countries[$key]);
+            }
+        }
+    }
+    
+    asort($countries);
+    $new_countries = array();
+    
+    $last_char = '';
+    foreach ($countries as $key => $value)
+    {
+        $char = mb_substr($value, 0, 1, 'utf-8');
+        
+        if( $char != $last_char )
+        {
+            $new_countries[] = $char . '------------------------------------------';
+        }
+        $new_countries[$key] = $value; 
+        $last_char = $char;
+    }
+        
+    $option_tags = options_for_select($new_countries, $selected, $options);
+    unset($options['include_blank'], $options['include_custom']);
+    
+    
+    $option_tags = content_tag('option', $countries['CA'], array('value' => 'CA'))."\n" . $option_tags;
+    $option_tags = content_tag('option', $countries['GB'], array('value' => 'GB'))."\n" . $option_tags;
+    $option_tags = content_tag('option', $countries['PL'], array('value' => 'PL'))."\n" . $option_tags;
+    $option_tags = content_tag('option', $countries['US'], array('value' => 'US'))."\n" . $option_tags;
+        
+    return select_tag($name, $option_tags, $options);
 }
 
 function pr_select_language_tag($name, $selected = null, $options = array())
