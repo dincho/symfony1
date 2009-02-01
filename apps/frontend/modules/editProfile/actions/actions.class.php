@@ -246,7 +246,7 @@ class editProfileActions extends prActions
             //YouTube Video
             $youtube_url = $this->getRequestParameter('youtube_url');
             $matches = array();
-            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9]+)#i', $youtube_url, $matches);
+            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9_]+)#i', $youtube_url, $matches);
             $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
             $this->member->save();
             
