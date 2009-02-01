@@ -234,4 +234,10 @@ class profileActions extends prActions
         $this->setFlash('s_vars', array('%EMAIL%' => $member->getEmail()));
         $this->message('undo_new_email');
     }
+    
+    public function executeMyProfile()
+    {
+        $this->getRequest()->setParameter('username', $this->getUser()->getUsername());
+        $this->forward('profile', 'index');
+    }
 }

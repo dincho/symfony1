@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="right">
-        <span class="view_profile_like_others"><?php echo link_to(__('View Your Profile (as others see it)'), '@profile?username=' . $sf_user->getUsername(), 'class=sec_link_brown') ?></span>
+        <span class="view_profile_like_others"><?php echo link_to(__('View Your Profile (as others see it)'), '@my_profile', 'class=sec_link_brown') ?></span>
         <ul class="top">
             <li><strong><?php echo __('Your Profile') ?></strong></li>
             <li><?php echo link_to(__('Registration'), 'editProfile/registration', array('class' => 'sec_link')) ?> <span><?php echo __('(name, email, password, country etc.)') ?></span></li>

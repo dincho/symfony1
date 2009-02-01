@@ -22,6 +22,10 @@ signout:
 profile:
     url:   /:sf_culture/profiles/:username/*
     param: { module: profile, action: index, sf_culture: en }
+    
+my_profile:
+    url:   /:sf_culture/myProfile
+    param: { module: profile, action: myProfile, sf_culture: en }
 
 search_engines:
     url:  /:sf_culture/search_engines/:page/* 
