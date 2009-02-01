@@ -34,7 +34,7 @@ These are the winks you received and sent. Click on the "x" in the lower corner 
                     <span class="public_reg_notice">
                         <?php echo __('You winked at %her_his% %date%', 
                                    array('%date%' => format_date_pr($sent_wink->getCreatedAt(null)),
-                                         '%her_his%' => ( $profile->getSex() == 'M' ) ? 'his' : 'her',
+                                         '%her_his%' => ( $profile->getSex() == 'M' ) ? 'him' : 'her',
                                )); ?>
                     </span>
                     <?php echo link_to(__('View Profile'), '@profile?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
