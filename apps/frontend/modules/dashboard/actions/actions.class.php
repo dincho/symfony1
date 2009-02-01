@@ -44,7 +44,6 @@ class dashboardActions extends prActions
         $this->messages_cnt = MemberPeer::doCount($cc);
 
         //winks
-        
         $c = new Criteria();
         $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
                 
@@ -63,8 +62,8 @@ class dashboardActions extends prActions
         
         //hotlist
         $c = new Criteria();
-        $c->add(HotlistPeer::MEMBER_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, HotlistPeer::PROFILE_ID);
+        $c->add(HotlistPeer::PROFILE_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
