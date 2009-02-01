@@ -46,7 +46,7 @@ class systemComponents extends sfComponents
         $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
     }
 
-    if( $this->getContext()->getModuleName() == 'imbra' )
+    if( $this->getContext()->getModuleName() == 'imbra' || $this->getContext()->getModuleName() == 'imbraReplyTemplates')
     {
         $c4 = new Criteria();
         $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
