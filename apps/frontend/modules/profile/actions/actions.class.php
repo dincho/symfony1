@@ -210,7 +210,6 @@ class profileActions extends prActions
         
         Events::triggerNewEmailConfirmed($member);
         
-        $this->setFlash('s_vars', array('%EMAIL%' => $member->getEmail()));
         $this->message('email_verified');
     }
     
@@ -231,7 +230,6 @@ class profileActions extends prActions
         $member->setTmpEmail($tmp_email);
         $member->save();
         
-        $this->setFlash('s_vars', array('%EMAIL%' => $member->getEmail()));
         $this->message('undo_new_email');
     }
     
