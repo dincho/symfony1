@@ -147,7 +147,7 @@ class editProfileActions extends prActions
                 $m_answer->save();
             }
             $this->member->save();
-            $this->setFlash('msg_ok', 'Your Self-description Information has been updated');
+            $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
         }
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
@@ -205,7 +205,7 @@ class editProfileActions extends prActions
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
             $this->member->save();
-            $this->setFlash('msg_ok', 'Your essay has been updated');
+            $this->setFlash('msg_ok', 'Your Posting have been updated');
             $this->redirect('dashboard/index');
         }
     }
@@ -253,6 +253,7 @@ class editProfileActions extends prActions
             //if the form is submited by "Save and continue" button
             if (! $this->getRequestParameter('commit'))
             {
+                $this->setFlash('msg_ok', 'Your Photos have been updated');
                 $this->redirect('dashboard/index');
             } //else the upload button is pressed "commit", so show the photos ..
         }

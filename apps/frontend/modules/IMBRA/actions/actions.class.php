@@ -46,7 +46,7 @@ class IMBRAActions extends prActions
             }
             $new_imbra->save();
             $this->getUser()->completeRegistration();
-            $this->setFlash('msg_ok', 'Your IMBRA information has been updated.');
+            $this->setFlash('msg_ok', 'Your IMBRA Information have been updated');
             $this->redirect('dashboard/index');
         }
         $this->imbra = $member->getLastImbra();

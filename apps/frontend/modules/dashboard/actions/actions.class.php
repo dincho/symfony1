@@ -140,13 +140,13 @@ class dashboardActions extends prActions
             if( $this->getRequestParameter('deactivate_profile') == 1 && $member->getMemberStatusId() == MemberStatusPeer::ACTIVE )
             {
                 $member->changeStatus(MemberStatusPeer::DEACTIVATED);
-                $this->setFlash('msg_ok', 'Your profile status have been updated.');
+                $this->setFlash('msg_ok', 'Your account has been deactivated');
                 Events::triggerAccountDeactivation($member);
                 
             } elseif( $this->getRequestParameter('deactivate_profile') == 0 && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
             {
                 $member->changeStatus(MemberStatusPeer::ACTIVE);
-                $this->setFlash('msg_ok', 'Your profile status have been updated.');
+                $this->setFlash('msg_ok', 'Your account has been reactivated');
             } else {
                 $this->setFlash('msg_error', 'You have not made any changes.');
             }
@@ -201,7 +201,7 @@ class dashboardActions extends prActions
             
             $member->save();
             
-            $this->setFlash('msg_ok', 'Your email notifications have been updated.');
+            $this->setFlash('msg_ok', 'Your Email Notifications Settings have been updated');
             $this->redirect('dashboard/index');
         }
         
@@ -220,7 +220,7 @@ class dashboardActions extends prActions
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members'), 0);
             $member->save();
             
-            $this->setFlash('msg_ok', 'Your privacy have been updated.');
+            $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
             $this->redirect('dashboard/index');
         }
         
@@ -335,7 +335,7 @@ class dashboardActions extends prActions
             }
             
             $member->updateMatches();
-            $this->setFlash('msg_ok', 'Your search criteria have been updated.');
+            $this->setFlash('msg_ok', 'Your Match Criteria have been updated');
             $this->redirect('dashboard/index');            
         }
         
