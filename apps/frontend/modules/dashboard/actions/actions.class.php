@@ -44,10 +44,15 @@ class dashboardActions extends prActions
         $this->messages_cnt = MemberPeer::doCount($cc);
 
         //winks
+        
         $c = new Criteria();
-        $c->add(WinkPeer::MEMBER_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, WinkPeer::PROFILE_ID);
+        $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
+                
+        $c = new Criteria();
+        $c->add(WinkPeer::PROFILE_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, WinkPeer::MEMBER_ID);
         $c->add(WinkPeer::SENT_BOX, false);
+        $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
