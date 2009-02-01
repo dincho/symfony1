@@ -93,9 +93,10 @@ class Member extends BaseMember
                 Events::triggerWelcomeApproved($this);
             }
             
-            if( $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED || 
-                $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS ||
-                $this->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED )
+            $old_status_id = $this->getMemberStatusId();
+            if( $old_status_id == MemberStatusPeer::SUSPENDED || 
+                $old_status_id == MemberStatusPeer::SUSPENDED_FLAGS ||
+                $old_status_id == MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED )
               {
                   $this->incCounter('unsuspensions');
               }
@@ -110,13 +111,13 @@ class Member extends BaseMember
               
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
-            $history->setFromStatusId($this->getMemberStatusId());
+            $history->setFromStatusId($old_status_id);
             $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null);
             $this->addMemberStatusHistory($history);
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
             
-            if( $StatusId != MemberStatusPeer::DEACTIVATED && $kill_session ) $this->killSession();
+            if( $StatusId != MemberStatusPeer::DEACTIVATED && $old_status_id != MemberStatusPeer::DEACTIVATED && $kill_session ) $this->killSession();
         }
     }
     
