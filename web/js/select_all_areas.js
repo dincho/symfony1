@@ -1,5 +1,5 @@
-function select_all_areas(the_link, iso)
+function select_all_areas(the_link, iso, new_href)
 {
     chk = document.getElementById('countries_'+iso).checked;
-    if(chk) the_link.href = the_link.href + '/select_all/1';
+    if(chk) the_link.href = new_href;
 }
