@@ -67,21 +67,26 @@ class registrationActions extends prActions
         $username = $this->getRequestParameter('username');
         $member = MemberPeer::retrieveByUsername($username);
         $this->forward404Unless($member);
-        $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+        $this->forward404If($member->getMemberStatusId() == MemberStatusPeer::CANCELED || 
+                            $member->getMemberStatusId() == MemberStatusPeer::CANCELED_BY_MEMBER);
         
         $hash = sha1(SALT . $member->getUsername() . SALT);
-        $this->forward404Unless($this->getRequestParameter('hash') == $hash && !$member->getHasEmailConfirmation());
+        $this->forward404Unless($this->getRequestParameter('hash') == $hash);
         
-        //$member->setPassword($member->getNewPassword(), false);
-        //$member->setNewPassword(NULL);
-        $member->setHasEmailConfirmation(true);
-        $member->save();
-        
-        //log in the member so he/she can continue with registration
-        $this->getUser()->SignIn($member);
-        
-        sfLoader::loadHelpers(array('Url'));
-        $this->message('welcome');
+        if( $member->getHasEmailConfirmation() )
+        {
+            $this->setFlash('msg_error', 'You already verified your email address. Please sign in.');
+            $this->redirect('@signin');
+        } else {
+            $member->setHasEmailConfirmation(true);
+            $member->save();
+            
+            //log in the member so he/she can continue with registration
+            $this->getUser()->SignIn($member);
+            
+            sfLoader::loadHelpers(array('Url'));
+            $this->message('welcome');
+        }
     }
 
     /* Step 3 - registration coutry, zip, names .. */
