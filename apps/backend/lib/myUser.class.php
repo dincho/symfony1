@@ -45,6 +45,7 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('username', $logged->getUsername());
         $this->setAttribute('user_id', $logged->getId());
         $this->setAttribute('last_login', $logged->getLastLogin(null)); //set last login as timestamp
+        $this->setAttribute('must_change_pwd', $logged->getMustChangePwd());
         
 
         $credentials = array();

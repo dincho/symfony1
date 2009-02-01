@@ -17,7 +17,7 @@
 
       <?php if($sf_user->isAuthenticated()): ?>
       <div id="login_info">
-        <p>Hi <?php echo $sf_user->getUsername() . '&nbsp;' . link_to('(My Account)', '#') ?><br />Last Login: <?php echo $sf_user->getLastLogin() ?></p>
+        <p>Hi <?php echo $sf_user->getUsername() . '&nbsp;' . link_to('(My Account)', 'users/myAccount') ?><br />Last Login: <?php echo $sf_user->getLastLogin() ?></p>
         <?php echo button_to('Logout', 'system/logout', 'id=logout_button') ?>
       </div>
       <?php endif; ?>

@@ -67,8 +67,7 @@ class usersActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('users_edit'));
-            if ($this->getRequestParameter('password'))
-                $user->setPassword($this->getRequestParameter('password'));
+            if ($this->getRequestParameter('password')) $user->setPassword($this->getRequestParameter('password'));
             $user->setFirstName($this->getRequestParameter('first_name'));
             $user->setLastName($this->getRequestParameter('last_name'));
             $user->setEmail($this->getRequestParameter('email'));
@@ -131,5 +130,40 @@ class usersActions extends sfActions
         $user->setReportsModType($this->getRequestParameter('reports_mod_type', 'V'));
         $user->setUsersMod($this->getRequestParameter('users_mod', false));
         $user->setUsersModType($this->getRequestParameter('users_mod_type', 'V'));
+    }
+    
+    public function executeMyAccount()
+    {
+        $user = $this->getUser()->getProfile();
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST ) 
+        {
+            if ($this->getRequestParameter('password')) 
+            {
+                $user->setPassword($this->getRequestParameter('password'));
+                if ($this->getUser()->getAttribute('must_change_pwd', false))
+                {
+                    $user->setMustChangePwd(false);
+                    $this->getUser()->setAttribute('must_change_pwd', false);
+                }                 
+            }
+            
+            $user->setFirstName($this->getRequestParameter('first_name'));
+            $user->setLastName($this->getRequestParameter('last_name'));
+            $user->setEmail($this->getRequestParameter('email'));
+            $user->setPhone($this->getRequestParameter('phone'));
+            $user->save();
+            
+            if(!$this->getUser()->getAttribute('must_change_pwd', false)) $this->setFlash('msg_ok', 'Your account information has been updated');
+            $this->redirect('dashboard/index');
+        }
+        
+        $this->user = $user;
+    }
+    
+    public function handleErrorMyAccount()
+    {
+        $this->user = $this->getuser()->getProfile();
+        return sfView::SUCCESS;
     }
 }

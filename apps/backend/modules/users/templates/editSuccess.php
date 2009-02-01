@@ -65,7 +65,7 @@
     <?php echo object_input_tag($user, 'getPhone', error_class('phone')) ?><br />
               
     <label for="password">Password:</label>
-    <?php echo input_password_tag('getPassword', null, error_class('password')) ?><br />
+    <?php echo input_password_tag('password', null, error_class('password')) ?><br />
     
     <label for="password2">Re-enter Password:</label>
     <?php echo input_password_tag('password2', null, error_class('password2')) ?><br />
