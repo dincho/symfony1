@@ -17,13 +17,24 @@ class editProfileActions extends prActions
         $this->forward404Unless($member); //just in case
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
+            $member->setSex($sex_looking[0]);
+            $member->setLookingFor($sex_looking[1]);
+            $member->setCountry($this->getRequestParameter('country'));
+            $member->setStateId($this->getRequestParameter('state_id'));
+            $member->setDistrict($this->getRequestParameter('district'));
+            $member->setCity($this->getRequestParameter('city'));
+            $member->setZip($this->getRequestParameter('zip'));
+            $member->setNationality($this->getRequestParameter('nationality'));
+            $update_confirmation = $member->isModified(); //using this to determine if some field is changed, before changing the passwords.
+            
             $flash_error = '';
             if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
             {
                 $flash_error .= 'IMPORTANT! Your email address change is not complete! You must confirm your new email 
                                 address before you can use it to log in to our website. We have sent you 2 emails – 1 on your current 
                                 email address and 1 on your new email address. Please go to these messages and confirm the change. 
-                                Until you do so, you will have to use your current email address.<br /><br />';
+                                Until you do so, you will have to use your current email address.<br />';
                 $member->setTmpEmail($this->getRequestParameter('email'));
                 Events::triggerNewEmailConfirm($member);
             }
@@ -40,26 +51,16 @@ class editProfileActions extends prActions
                     $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
                                     in to our website. We have sent you an email. Please go to the message and confirm the change. Until 
                                     you do so, you will have to use your current password to log in.  
-                                    Thank you for understanding.<br /><br />';
+                                    Thank you for understanding.<br />';
                     $member->setNewPassword($this->getRequestParameter('password'));
                     Events::triggerNewPasswordConfirm($member);
                 }
             }
             
-            $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
-            $member->setSex($sex_looking[0]);
-            $member->setLookingFor($sex_looking[1]);
-            $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state_id'));
-            $member->setDistrict($this->getRequestParameter('district'));
-            $member->setCity($this->getRequestParameter('city'));
-            $member->setZip($this->getRequestParameter('zip'));
-            $member->setNationality($this->getRequestParameter('nationality'));
             $member->save();
             
-            $this->setFlash('msg_ok', 'Your Registration Information has been updated');
-            if ($flash_error)
-                $this->setFlash('msg_error', $flash_error);
+            if( $update_confirmation ) $this->setFlash('msg_ok', 'Your Registration Information has been updated');
+            if ($flash_error) $this->setFlash('msg_error', $flash_error);
             $this->redirect('dashboard/index'); //the dashboard
         }
         $this->member = $member;
