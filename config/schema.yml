@@ -372,15 +372,19 @@ propel:
     content:        { type: longvarchar, required: true }
   member_story:
     id:
-    culture:        { type: varchar, size: 7 }
-    slug:           { type: varchar, size: 255, required: true }
-    sort_order:     { type: integer, size: 11, required: true, default: 0 }
-    link_name:      { type: varchar, size: 100, required: true }
-    title:          { type: varchar, size: 255, required: true }
-    keywords:       { type: varchar, size: 255, required: true }
-    description:    { type: longvarchar, required: true }
-    content:        { type: longvarchar, required: true }
-    stock_photo_id: { type: integer, required: false, foreignTable: stock_photo, foreignReference: id, onDelete: setnull }
+    culture:            { type: varchar, size: 7 }
+    slug:               { type: varchar, size: 255, required: true }
+    sort_order:         { type: integer, size: 11, required: true, default: 0 }
+    link_name:          { type: varchar, size: 100, required: true }
+    title:              { type: varchar, size: 255, required: true }
+    keywords:           { type: varchar, size: 255, required: true }
+    description:        { type: longvarchar, required: true }
+    content:            { type: longvarchar, required: true }
+    stock_photo_id:     { type: integer, required: false, foreignTable: stock_photo, foreignReference: id, onDelete: setnull }
+  homepage_member_story:
+    id:
+    member_stories:     { type: varchar, size: 255 }
+    homepage_culture:   { type: varchar, size: 7 }
   notification:
     id:
     name:           { type: varchar, size: 255 }

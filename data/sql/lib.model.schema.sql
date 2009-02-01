@@ -1103,6 +1103,21 @@ CREATE TABLE `member_story`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
+#-- homepage_member_story
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `homepage_member_story`;
+
+
+CREATE TABLE `homepage_member_story`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_stories` VARCHAR(255),
+	`homepage_culture` VARCHAR(7),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
 #-- notification
 #-----------------------------------------------------------------------------
 

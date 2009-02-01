@@ -31,14 +31,33 @@ class contentActions extends sfActions
     {
         $this->left_menu_selected = 'Home Pages';
         
+        $c = new Criteria();
+        $c->add(HomepageMemberStoryPeer::HOMEPAGE_CULTURE, $this->culture);
+        $homepage_story = HomepageMemberStoryPeer::doSelectOne($c);
+        
+        if( !$homepage_story ) 
+        {
+            $homepage_story = new HomepageMemberStory();
+            $homepage_story->setHomepageCulture($this->culture);
+        }
+        
+                   
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            //update member stories
+            $homepage_story->setMemberStories(implode(',', $this->getRequestParameter('member_stories', array())));
+            $homepage_story->save();
+            
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/homepages?culture=' . $this->culture);
         }
         
+        
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::HOMEPAGE, $this->culture);
+        $this->member_stories = MemberStoryPeer::doSelect(new Criteria());
+        $this->homepage_stories = explode(',', $homepage_story->getMemberStories());
+        
     }
 
     public function executeProfilepages()

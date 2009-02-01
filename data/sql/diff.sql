@@ -1,16 +1,14 @@
-
-CREATE TABLE `ipblock`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`item` VARCHAR(255),
-	`item_type` INTEGER(1) default 0,
-	`netmask` INTEGER(2) default 24,
-	`created_at` DATETIME,
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
+
+CREATE TABLE `homepage_member_story`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_stories` VARCHAR(255),
+	`homepage_culture` VARCHAR(7),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -28,10 +26,16 @@ ALTER TABLE `imbra_reply_template` DROP FOREIGN KEY `imbra_reply_template_FK_1`;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
+/* old definition: int(1) default '0'
+   new definition: INTEGER(1) default 0 */
+ALTER TABLE `ipblock` CHANGE `item_type` `item_type` INTEGER(1) default 0;
+/* old definition: int(2) default '24'
+   new definition: INTEGER(2) default 24 */
+ALTER TABLE `ipblock` CHANGE `netmask` `netmask` INTEGER(2) default 24;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;
-ALTER TABLE `state_photo` DROP `cropped`;
+ALTER TABLE `member_story` DROP `show_on_homepage`;
 /* old definition: int(11) NOT NULL default '1'
    new definition: INTEGER(11) default 1 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `cat_id` `cat_id` INTEGER(11) default 1 NOT NULL;

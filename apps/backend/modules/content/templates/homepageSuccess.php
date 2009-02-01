@@ -28,13 +28,10 @@
         <?php echo textarea_tag('trans[5]', (isset($trans[5])) ? $trans[5]->getTarget() : null, 'cols=26 rows=2 ' . error_class('description')) ?><br />
       </fieldset>
   
-  <?php /*    
-  <fieldset class="form_fields">
-    <label>Error Messages</label>
-    <?php echo input_tag('trans[1]', null) ?><br />
-    <label></label><?php echo input_tag('trans[1]', null) ?><br />
-  </fieldset>
-  */ ?>
+      <fieldset class="form_fields">
+        <label>Member Stories</label>
+        <?php echo select_tag('member_stories', objects_for_select($member_stories, 'getId', 'getTitle', $homepage_stories), array('multiple' => true, 'style' => 'width: 350px; height: 200px')) ?>
+      </fieldset>
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'content/homepages?cancel=1')  . submit_tag('Save', 'class=button') ?>

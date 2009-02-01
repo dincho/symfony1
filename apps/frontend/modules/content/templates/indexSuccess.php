@@ -62,7 +62,7 @@
     </div>
     <div id="middle_right">
         <ul>
-            <?php include_component('memberStories', 'shortList'); ?>
+            <?php include_component('memberStories', 'homepageList'); ?>
         </ul>
     </div>
 </div>
