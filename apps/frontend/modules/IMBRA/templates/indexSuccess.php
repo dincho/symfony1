@@ -6,9 +6,9 @@
 
 <?php echo form_tag('IMBRA/index', array('id' => 'imbra_2')) ?>
     <?php if( $imbra->getId() ): //old imbra ?>
-        <?php echo __('IMBRA instructions (edit)') ?>
+        <?php echo __('IMBRA instructions (edit)', array('%URL_FOR_CONFIRM_IMBRA_STATUS%' => url_for('IMBRA/confirmImbraStatus'))) ?>
     <?php else: ?>
-        <?php echo __('IMBRA instructions') ?>
+        <?php echo __('IMBRA instructions', array('%URL_FOR_CONFIRM_IMBRA_STATUS%' => url_for('IMBRA/confirmImbraStatus'))) ?>
     <?php endif; ?>
     <hr />
     <?php $request_answers = $sf_request->getParameter('answers') ?>
