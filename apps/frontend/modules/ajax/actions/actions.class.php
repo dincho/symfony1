@@ -36,7 +36,14 @@ class ajaxActions extends prActions
         $username = $this->getRequestParameter('username');
         if( $username )
         {
-            $this->member = MemberPeer::retrieveByUsername($username);
+            if( !preg_match('/^[a-zA-Z0-9_]{4,20}$/', $username) )
+            {
+                $this->error_msg = 'Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.';
+            } else {
+                $member = MemberPeer::retrieveByUsername($username);
+                if( $member ) $this->error_msg = 'Sorry, username "%USERNAME%" is already taken.';                
+            }
+            
             $this->username = $username;
         } else {
             return sfView::NONE;

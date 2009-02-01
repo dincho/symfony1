@@ -1,5 +1,5 @@
-<?php if( $member ): ?>
-    <p class="msg_error"><?php echo __('Sorry, username "%USERNAME%" is already taken.', array('%USERNAME%' => $username)) ?></p>
+<?php if( isset($error_msg) ): ?>
+    <p class="msg_error"><?php echo __($error_msg, array('%USERNAME%' => $username)) ?></p>
 <?php else: ?>
     <p class="msg_ok"><?php echo __('Congratulations, your username "%USERNAME%" is available.', array('%USERNAME%' => $username)) ?></p>
     <script type="text/javascript">
