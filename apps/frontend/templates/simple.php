@@ -21,7 +21,13 @@
         <!--  -->   
         <div id="content">  
             <div id="header">
-                <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage') ?>
+                    <?php if(has_slot('change_language')): ?>
+                        <div id="left" class="index">
+                            <?php include_slot('change_language') ?>
+                            <?php $logo_style = 'padding-right: 150px' ?>
+                        </div>
+                    <?php endif; ?> 
+                    <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
             <?php include_partial('content/messages'); ?>          
             <?php include_partial('content/formErrors'); ?>          

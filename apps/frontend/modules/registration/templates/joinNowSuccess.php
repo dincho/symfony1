@@ -41,3 +41,7 @@
         <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>
     </fieldset>
 </form>
+
+<?php slot('change_language') ?>
+    <?php include_partial('content/lang'); ?>
+<?php end_slot(); ?>

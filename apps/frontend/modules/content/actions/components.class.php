@@ -16,6 +16,7 @@ class contentComponents extends sfComponents
         
     }
     
+
     public function executeHomepagePhotoSet()
     {
         $last_homepage_set = $this->getUser()->getAttribute('last_homepage_set', 3);

@@ -194,4 +194,17 @@ class contentActions extends prActions
         
         $this->state = $state;
     }
+    
+    public function executeChangeLanguage()
+    {
+        $ref = $this->getUser()->getRefererUrl();
+        
+        if( $this->getRequestParameter('lang') )
+        {
+            $this->getUser()->setCulture($this->getRequestParameter('lang'));
+            $ref = preg_replace('/sf_culture\=[a-z]+/', 'sf_culture=' . $this->getRequestParameter('lang'), $ref);
+        }
+        
+        $this->redirect($ref);
+    }
 }
