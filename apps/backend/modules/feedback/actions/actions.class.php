@@ -59,6 +59,7 @@ class feedbackActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('feedback_edit'));
             if ($this->getRequestParameter('save_draft'))
             {
                 $this->saveDraft();
@@ -320,6 +321,7 @@ class feedbackActions extends sfActions
      */
     public function executeDelete()
     {
+        $this->getUser()->checkPerm(array('feedback_edit'));
         $marked = $this->getRequestParameter('marked', false);
         if (is_array($marked) && ! empty($marked))
         {

@@ -66,6 +66,10 @@ class UserMapBuilder {
 
 		$tMap->addColumn('MESSAGES_MOD_TYPE', 'MessagesModType', 'string', CreoleTypes::CHAR, true, 1);
 
+		$tMap->addColumn('FEEDBACK_MOD', 'FeedbackMod', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
+		$tMap->addColumn('FEEDBACK_MOD_TYPE', 'FeedbackModType', 'string', CreoleTypes::CHAR, true, 1);
+
 		$tMap->addColumn('FLAGS_MOD', 'FlagsMod', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('FLAGS_MOD_TYPE', 'FlagsModType', 'string', CreoleTypes::CHAR, true, 1);

@@ -29,6 +29,11 @@
     <?php echo radiobutton_tag('messages_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('messages_mod_type', 'E', false, array('class' => 'radio')) ?><var>Edit</var><br />
     
+    <label for="feedback_mod">Feedback:</label>
+    <?php echo checkbox_tag('feedback_mod', 1, false, array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
+    <?php echo radiobutton_tag('feedback_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
+    <?php echo radiobutton_tag('feedback_mod_type', 'E', false, array('class' => 'radio')) ?><var>Edit</var><br />
+    
     <label for="flags_mod">Flags:</label>
     <?php echo checkbox_tag('flags_mod', 1, false, array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('flags_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>

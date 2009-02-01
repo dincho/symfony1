@@ -60,6 +60,8 @@ class myUser extends sfBasicSecurityUser
             $credentials[] = ($logged->getSubscriptionsModType() == 'E') ? 'subscriptions_edit' : 'subscriptions';
         if ($logged->getMessagesMod())
             $credentials[] = ($logged->getMessagesModType() == 'E') ? 'messages_edit' : 'messages';
+        if ($logged->getFeedbackMod())
+            $credentials[] = ($logged->getFeedbackModType() == 'E') ? 'feedback_edit' : 'feedback';
         if ($logged->getFlagsMod())
             $credentials[] = ($logged->getFlagsModType() == 'E') ? 'flags_edit' : 'flags';
         if ($logged->getImbraMod())

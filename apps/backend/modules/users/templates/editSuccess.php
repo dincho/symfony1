@@ -30,6 +30,11 @@
     <?php echo radiobutton_tag('messages_mod_type', 'V', $user->getMessagesModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('messages_mod_type', 'E', $user->getMessagesModType() == 'E', array('class' => 'radio')) ?><var>Edit</var><br />
     
+    <label for="feedback_mod">Feedback:</label>
+    <?php echo object_checkbox_tag($user, 'getFeedbackMod', array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
+    <?php echo radiobutton_tag('feedback_mod_type', 'V', $user->getFlagsModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
+    <?php echo radiobutton_tag('feedback_mod_type', 'E', $user->getFeedbackModType() == 'E', array('class' => 'radio')) ?><var>Edit</var><br />
+        
     <label for="flags_mod">Flags:</label>
     <?php echo object_checkbox_tag($user, 'getFlagsMod', array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('flags_mod_type', 'V', $user->getFlagsModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>

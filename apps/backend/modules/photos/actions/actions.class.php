@@ -83,6 +83,7 @@ class photosActions extends sfActions
     
     public function executeDeleteStockPhoto()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
         $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($photo);
         $photo->delete();
@@ -92,6 +93,7 @@ class photosActions extends sfActions
     
     public function executeAddToHomepage()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
         $this->getUser()->getBC()->add(array('name' => 'Home Page'));
         $namespace = 'backend/photos/addtohomepage';
         
@@ -116,6 +118,8 @@ class photosActions extends sfActions
     
     public function executeAddToMemberStories()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
+        
         $this->getUser()->getBC()->add(array('name' => 'Member Stories'));
         
         $this->culture = ($this->getRequestParameter('culture', 'en'));
@@ -156,6 +160,8 @@ class photosActions extends sfActions
     
     public function executeCrop()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
+        
         $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
         $this->forward404Unless($photo && $this->getRequestParameter('type'));
         
@@ -218,6 +224,7 @@ class photosActions extends sfActions
     
     public function executeUpload()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
         $this->left_menu_selected = 'Upload Photos';
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )

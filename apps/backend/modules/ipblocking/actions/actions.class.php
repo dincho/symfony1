@@ -42,6 +42,7 @@ class ipblockingActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'IP Block Edit', 'uri' => 'ipblocking/edit?id=' . $this->ipblock->getId()));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $this->ipblock->setItem($this->getRequestParameter('item'));
             $this->ipblock->setItemType($this->getRequestParameter('item_type'));
             $this->ipblock->setNetmask($this->getRequestParameter('netmask'));
@@ -63,6 +64,7 @@ class ipblockingActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'New IP Block', 'uri' => 'ipblocking/add'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $ipblock = new Ipblock();
             $ipblock->setItem($this->getRequestParameter('item'));
             $ipblock->setItemType($this->getRequestParameter('item_type'));
@@ -139,7 +141,7 @@ class ipblockingActions extends sfActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            
+            $this->getUser()->checkPerm(array('content_edit'));
             $marked = $this->getRequestParameter('marked', false);
             if (! is_null($this->getRequestParameter('delete')) && is_array($marked) && ! empty($marked))
             {

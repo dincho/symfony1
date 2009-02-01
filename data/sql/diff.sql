@@ -1,14 +1,8 @@
+ALTER TABLE `user` ADD `feedback_mod` INTEGER default 0 NOT NULL;
+ALTER TABLE `user` ADD `feedback_mod_type` CHAR(1) default 'V' NOT NULL;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
-
-CREATE TABLE `homepage_member_story`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`member_stories` VARCHAR(255),
-	`homepage_culture` VARCHAR(7),
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -35,7 +29,6 @@ ALTER TABLE `ipblock` CHANGE `netmask` `netmask` INTEGER(2) default 24;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;
-ALTER TABLE `member_story` DROP `show_on_homepage`;
 /* old definition: int(11) NOT NULL default '1'
    new definition: INTEGER(11) default 1 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `cat_id` `cat_id` INTEGER(11) default 1 NOT NULL;

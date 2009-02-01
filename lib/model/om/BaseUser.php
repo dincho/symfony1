@@ -77,6 +77,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $feedback_mod = false;
+
+
+	
+	protected $feedback_mod_type = 'V';
+
+
+	
 	protected $flags_mod = false;
 
 
@@ -274,6 +282,20 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->messages_mod_type;
+	}
+
+	
+	public function getFeedbackMod()
+	{
+
+		return $this->feedback_mod;
+	}
+
+	
+	public function getFeedbackModType()
+	{
+
+		return $this->feedback_mod_type;
 	}
 
 	
@@ -640,6 +662,32 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setFeedbackMod($v)
+	{
+
+		if ($this->feedback_mod !== $v || $v === false) {
+			$this->feedback_mod = $v;
+			$this->modifiedColumns[] = UserPeer::FEEDBACK_MOD;
+		}
+
+	} 
+	
+	public function setFeedbackModType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->feedback_mod_type !== $v || $v === 'V') {
+			$this->feedback_mod_type = $v;
+			$this->modifiedColumns[] = UserPeer::FEEDBACK_MOD_TYPE;
+		}
+
+	} 
+	
 	public function setFlagsMod($v)
 	{
 
@@ -846,37 +894,41 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->messages_mod_type = $rs->getString($startcol + 16);
 
-			$this->flags_mod = $rs->getBoolean($startcol + 17);
+			$this->feedback_mod = $rs->getBoolean($startcol + 17);
 
-			$this->flags_mod_type = $rs->getString($startcol + 18);
+			$this->feedback_mod_type = $rs->getString($startcol + 18);
 
-			$this->imbra_mod = $rs->getBoolean($startcol + 19);
+			$this->flags_mod = $rs->getBoolean($startcol + 19);
 
-			$this->imbra_mod_type = $rs->getString($startcol + 20);
+			$this->flags_mod_type = $rs->getString($startcol + 20);
 
-			$this->reports_mod = $rs->getBoolean($startcol + 21);
+			$this->imbra_mod = $rs->getBoolean($startcol + 21);
 
-			$this->reports_mod_type = $rs->getString($startcol + 22);
+			$this->imbra_mod_type = $rs->getString($startcol + 22);
 
-			$this->users_mod = $rs->getBoolean($startcol + 23);
+			$this->reports_mod = $rs->getBoolean($startcol + 23);
 
-			$this->users_mod_type = $rs->getString($startcol + 24);
+			$this->reports_mod_type = $rs->getString($startcol + 24);
 
-			$this->must_change_pwd = $rs->getBoolean($startcol + 25);
+			$this->users_mod = $rs->getBoolean($startcol + 25);
 
-			$this->is_superuser = $rs->getBoolean($startcol + 26);
+			$this->users_mod_type = $rs->getString($startcol + 26);
 
-			$this->is_enabled = $rs->getBoolean($startcol + 27);
+			$this->must_change_pwd = $rs->getBoolean($startcol + 27);
 
-			$this->last_login = $rs->getTimestamp($startcol + 28, null);
+			$this->is_superuser = $rs->getBoolean($startcol + 28);
 
-			$this->created_at = $rs->getTimestamp($startcol + 29, null);
+			$this->is_enabled = $rs->getBoolean($startcol + 29);
+
+			$this->last_login = $rs->getTimestamp($startcol + 30, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 31, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 30; 
+						return $startcol + 32; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -1157,42 +1209,48 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getMessagesModType();
 				break;
 			case 17:
-				return $this->getFlagsMod();
+				return $this->getFeedbackMod();
 				break;
 			case 18:
-				return $this->getFlagsModType();
+				return $this->getFeedbackModType();
 				break;
 			case 19:
-				return $this->getImbraMod();
+				return $this->getFlagsMod();
 				break;
 			case 20:
-				return $this->getImbraModType();
+				return $this->getFlagsModType();
 				break;
 			case 21:
-				return $this->getReportsMod();
+				return $this->getImbraMod();
 				break;
 			case 22:
-				return $this->getReportsModType();
+				return $this->getImbraModType();
 				break;
 			case 23:
-				return $this->getUsersMod();
+				return $this->getReportsMod();
 				break;
 			case 24:
-				return $this->getUsersModType();
+				return $this->getReportsModType();
 				break;
 			case 25:
-				return $this->getMustChangePwd();
+				return $this->getUsersMod();
 				break;
 			case 26:
-				return $this->getIsSuperuser();
+				return $this->getUsersModType();
 				break;
 			case 27:
-				return $this->getIsEnabled();
+				return $this->getMustChangePwd();
 				break;
 			case 28:
-				return $this->getLastLogin();
+				return $this->getIsSuperuser();
 				break;
 			case 29:
+				return $this->getIsEnabled();
+				break;
+			case 30:
+				return $this->getLastLogin();
+				break;
+			case 31:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -1222,19 +1280,21 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[14] => $this->getSubscriptionsModType(),
 			$keys[15] => $this->getMessagesMod(),
 			$keys[16] => $this->getMessagesModType(),
-			$keys[17] => $this->getFlagsMod(),
-			$keys[18] => $this->getFlagsModType(),
-			$keys[19] => $this->getImbraMod(),
-			$keys[20] => $this->getImbraModType(),
-			$keys[21] => $this->getReportsMod(),
-			$keys[22] => $this->getReportsModType(),
-			$keys[23] => $this->getUsersMod(),
-			$keys[24] => $this->getUsersModType(),
-			$keys[25] => $this->getMustChangePwd(),
-			$keys[26] => $this->getIsSuperuser(),
-			$keys[27] => $this->getIsEnabled(),
-			$keys[28] => $this->getLastLogin(),
-			$keys[29] => $this->getCreatedAt(),
+			$keys[17] => $this->getFeedbackMod(),
+			$keys[18] => $this->getFeedbackModType(),
+			$keys[19] => $this->getFlagsMod(),
+			$keys[20] => $this->getFlagsModType(),
+			$keys[21] => $this->getImbraMod(),
+			$keys[22] => $this->getImbraModType(),
+			$keys[23] => $this->getReportsMod(),
+			$keys[24] => $this->getReportsModType(),
+			$keys[25] => $this->getUsersMod(),
+			$keys[26] => $this->getUsersModType(),
+			$keys[27] => $this->getMustChangePwd(),
+			$keys[28] => $this->getIsSuperuser(),
+			$keys[29] => $this->getIsEnabled(),
+			$keys[30] => $this->getLastLogin(),
+			$keys[31] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -1302,42 +1362,48 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setMessagesModType($value);
 				break;
 			case 17:
-				$this->setFlagsMod($value);
+				$this->setFeedbackMod($value);
 				break;
 			case 18:
-				$this->setFlagsModType($value);
+				$this->setFeedbackModType($value);
 				break;
 			case 19:
-				$this->setImbraMod($value);
+				$this->setFlagsMod($value);
 				break;
 			case 20:
-				$this->setImbraModType($value);
+				$this->setFlagsModType($value);
 				break;
 			case 21:
-				$this->setReportsMod($value);
+				$this->setImbraMod($value);
 				break;
 			case 22:
-				$this->setReportsModType($value);
+				$this->setImbraModType($value);
 				break;
 			case 23:
-				$this->setUsersMod($value);
+				$this->setReportsMod($value);
 				break;
 			case 24:
-				$this->setUsersModType($value);
+				$this->setReportsModType($value);
 				break;
 			case 25:
-				$this->setMustChangePwd($value);
+				$this->setUsersMod($value);
 				break;
 			case 26:
-				$this->setIsSuperuser($value);
+				$this->setUsersModType($value);
 				break;
 			case 27:
-				$this->setIsEnabled($value);
+				$this->setMustChangePwd($value);
 				break;
 			case 28:
-				$this->setLastLogin($value);
+				$this->setIsSuperuser($value);
 				break;
 			case 29:
+				$this->setIsEnabled($value);
+				break;
+			case 30:
+				$this->setLastLogin($value);
+				break;
+			case 31:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -1364,19 +1430,21 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[14], $arr)) $this->setSubscriptionsModType($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setMessagesMod($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setMessagesModType($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setFlagsMod($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setFlagsModType($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setImbraMod($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setImbraModType($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setReportsMod($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setReportsModType($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setUsersMod($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setUsersModType($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setMustChangePwd($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setIsSuperuser($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setIsEnabled($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setLastLogin($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setCreatedAt($arr[$keys[29]]);
+		if (array_key_exists($keys[17], $arr)) $this->setFeedbackMod($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setFeedbackModType($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setFlagsMod($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setFlagsModType($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setImbraMod($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setImbraModType($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setReportsMod($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setReportsModType($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setUsersMod($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setUsersModType($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setMustChangePwd($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setIsSuperuser($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setIsEnabled($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setLastLogin($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setCreatedAt($arr[$keys[31]]);
 	}
 
 	
@@ -1401,6 +1469,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::SUBSCRIPTIONS_MOD_TYPE)) $criteria->add(UserPeer::SUBSCRIPTIONS_MOD_TYPE, $this->subscriptions_mod_type);
 		if ($this->isColumnModified(UserPeer::MESSAGES_MOD)) $criteria->add(UserPeer::MESSAGES_MOD, $this->messages_mod);
 		if ($this->isColumnModified(UserPeer::MESSAGES_MOD_TYPE)) $criteria->add(UserPeer::MESSAGES_MOD_TYPE, $this->messages_mod_type);
+		if ($this->isColumnModified(UserPeer::FEEDBACK_MOD)) $criteria->add(UserPeer::FEEDBACK_MOD, $this->feedback_mod);
+		if ($this->isColumnModified(UserPeer::FEEDBACK_MOD_TYPE)) $criteria->add(UserPeer::FEEDBACK_MOD_TYPE, $this->feedback_mod_type);
 		if ($this->isColumnModified(UserPeer::FLAGS_MOD)) $criteria->add(UserPeer::FLAGS_MOD, $this->flags_mod);
 		if ($this->isColumnModified(UserPeer::FLAGS_MOD_TYPE)) $criteria->add(UserPeer::FLAGS_MOD_TYPE, $this->flags_mod_type);
 		if ($this->isColumnModified(UserPeer::IMBRA_MOD)) $criteria->add(UserPeer::IMBRA_MOD, $this->imbra_mod);
@@ -1475,6 +1545,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setMessagesMod($this->messages_mod);
 
 		$copyObj->setMessagesModType($this->messages_mod_type);
+
+		$copyObj->setFeedbackMod($this->feedback_mod);
+
+		$copyObj->setFeedbackModType($this->feedback_mod_type);
 
 		$copyObj->setFlagsMod($this->flags_mod);
 

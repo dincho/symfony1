@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 30;
+	const NUM_COLUMNS = 32;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -71,6 +71,12 @@ abstract class BaseUserPeer {
 	const MESSAGES_MOD_TYPE = 'user.MESSAGES_MOD_TYPE';
 
 	
+	const FEEDBACK_MOD = 'user.FEEDBACK_MOD';
+
+	
+	const FEEDBACK_MOD_TYPE = 'user.FEEDBACK_MOD_TYPE';
+
+	
 	const FLAGS_MOD = 'user.FLAGS_MOD';
 
 	
@@ -115,18 +121,18 @@ abstract class BaseUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'FirstName', 'LastName', 'Email', 'Phone', 'DashboardMod', 'DashboardModType', 'MembersMod', 'MembersModType', 'ContentMod', 'ContentModType', 'SubscriptionsMod', 'SubscriptionsModType', 'MessagesMod', 'MessagesModType', 'FlagsMod', 'FlagsModType', 'ImbraMod', 'ImbraModType', 'ReportsMod', 'ReportsModType', 'UsersMod', 'UsersModType', 'MustChangePwd', 'IsSuperuser', 'IsEnabled', 'LastLogin', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::EMAIL, UserPeer::PHONE, UserPeer::DASHBOARD_MOD, UserPeer::DASHBOARD_MOD_TYPE, UserPeer::MEMBERS_MOD, UserPeer::MEMBERS_MOD_TYPE, UserPeer::CONTENT_MOD, UserPeer::CONTENT_MOD_TYPE, UserPeer::SUBSCRIPTIONS_MOD, UserPeer::SUBSCRIPTIONS_MOD_TYPE, UserPeer::MESSAGES_MOD, UserPeer::MESSAGES_MOD_TYPE, UserPeer::FLAGS_MOD, UserPeer::FLAGS_MOD_TYPE, UserPeer::IMBRA_MOD, UserPeer::IMBRA_MOD_TYPE, UserPeer::REPORTS_MOD, UserPeer::REPORTS_MOD_TYPE, UserPeer::USERS_MOD, UserPeer::USERS_MOD_TYPE, UserPeer::MUST_CHANGE_PWD, UserPeer::IS_SUPERUSER, UserPeer::IS_ENABLED, UserPeer::LAST_LOGIN, UserPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'first_name', 'last_name', 'email', 'phone', 'dashboard_mod', 'dashboard_mod_type', 'members_mod', 'members_mod_type', 'content_mod', 'content_mod_type', 'subscriptions_mod', 'subscriptions_mod_type', 'messages_mod', 'messages_mod_type', 'flags_mod', 'flags_mod_type', 'imbra_mod', 'imbra_mod_type', 'reports_mod', 'reports_mod_type', 'users_mod', 'users_mod_type', 'must_change_pwd', 'is_superuser', 'is_enabled', 'last_login', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Username', 'Password', 'FirstName', 'LastName', 'Email', 'Phone', 'DashboardMod', 'DashboardModType', 'MembersMod', 'MembersModType', 'ContentMod', 'ContentModType', 'SubscriptionsMod', 'SubscriptionsModType', 'MessagesMod', 'MessagesModType', 'FeedbackMod', 'FeedbackModType', 'FlagsMod', 'FlagsModType', 'ImbraMod', 'ImbraModType', 'ReportsMod', 'ReportsModType', 'UsersMod', 'UsersModType', 'MustChangePwd', 'IsSuperuser', 'IsEnabled', 'LastLogin', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::EMAIL, UserPeer::PHONE, UserPeer::DASHBOARD_MOD, UserPeer::DASHBOARD_MOD_TYPE, UserPeer::MEMBERS_MOD, UserPeer::MEMBERS_MOD_TYPE, UserPeer::CONTENT_MOD, UserPeer::CONTENT_MOD_TYPE, UserPeer::SUBSCRIPTIONS_MOD, UserPeer::SUBSCRIPTIONS_MOD_TYPE, UserPeer::MESSAGES_MOD, UserPeer::MESSAGES_MOD_TYPE, UserPeer::FEEDBACK_MOD, UserPeer::FEEDBACK_MOD_TYPE, UserPeer::FLAGS_MOD, UserPeer::FLAGS_MOD_TYPE, UserPeer::IMBRA_MOD, UserPeer::IMBRA_MOD_TYPE, UserPeer::REPORTS_MOD, UserPeer::REPORTS_MOD_TYPE, UserPeer::USERS_MOD, UserPeer::USERS_MOD_TYPE, UserPeer::MUST_CHANGE_PWD, UserPeer::IS_SUPERUSER, UserPeer::IS_ENABLED, UserPeer::LAST_LOGIN, UserPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'first_name', 'last_name', 'email', 'phone', 'dashboard_mod', 'dashboard_mod_type', 'members_mod', 'members_mod_type', 'content_mod', 'content_mod_type', 'subscriptions_mod', 'subscriptions_mod_type', 'messages_mod', 'messages_mod_type', 'feedback_mod', 'feedback_mod_type', 'flags_mod', 'flags_mod_type', 'imbra_mod', 'imbra_mod_type', 'reports_mod', 'reports_mod_type', 'users_mod', 'users_mod_type', 'must_change_pwd', 'is_superuser', 'is_enabled', 'last_login', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'FirstName' => 3, 'LastName' => 4, 'Email' => 5, 'Phone' => 6, 'DashboardMod' => 7, 'DashboardModType' => 8, 'MembersMod' => 9, 'MembersModType' => 10, 'ContentMod' => 11, 'ContentModType' => 12, 'SubscriptionsMod' => 13, 'SubscriptionsModType' => 14, 'MessagesMod' => 15, 'MessagesModType' => 16, 'FlagsMod' => 17, 'FlagsModType' => 18, 'ImbraMod' => 19, 'ImbraModType' => 20, 'ReportsMod' => 21, 'ReportsModType' => 22, 'UsersMod' => 23, 'UsersModType' => 24, 'MustChangePwd' => 25, 'IsSuperuser' => 26, 'IsEnabled' => 27, 'LastLogin' => 28, 'CreatedAt' => 29, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::FIRST_NAME => 3, UserPeer::LAST_NAME => 4, UserPeer::EMAIL => 5, UserPeer::PHONE => 6, UserPeer::DASHBOARD_MOD => 7, UserPeer::DASHBOARD_MOD_TYPE => 8, UserPeer::MEMBERS_MOD => 9, UserPeer::MEMBERS_MOD_TYPE => 10, UserPeer::CONTENT_MOD => 11, UserPeer::CONTENT_MOD_TYPE => 12, UserPeer::SUBSCRIPTIONS_MOD => 13, UserPeer::SUBSCRIPTIONS_MOD_TYPE => 14, UserPeer::MESSAGES_MOD => 15, UserPeer::MESSAGES_MOD_TYPE => 16, UserPeer::FLAGS_MOD => 17, UserPeer::FLAGS_MOD_TYPE => 18, UserPeer::IMBRA_MOD => 19, UserPeer::IMBRA_MOD_TYPE => 20, UserPeer::REPORTS_MOD => 21, UserPeer::REPORTS_MOD_TYPE => 22, UserPeer::USERS_MOD => 23, UserPeer::USERS_MOD_TYPE => 24, UserPeer::MUST_CHANGE_PWD => 25, UserPeer::IS_SUPERUSER => 26, UserPeer::IS_ENABLED => 27, UserPeer::LAST_LOGIN => 28, UserPeer::CREATED_AT => 29, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'first_name' => 3, 'last_name' => 4, 'email' => 5, 'phone' => 6, 'dashboard_mod' => 7, 'dashboard_mod_type' => 8, 'members_mod' => 9, 'members_mod_type' => 10, 'content_mod' => 11, 'content_mod_type' => 12, 'subscriptions_mod' => 13, 'subscriptions_mod_type' => 14, 'messages_mod' => 15, 'messages_mod_type' => 16, 'flags_mod' => 17, 'flags_mod_type' => 18, 'imbra_mod' => 19, 'imbra_mod_type' => 20, 'reports_mod' => 21, 'reports_mod_type' => 22, 'users_mod' => 23, 'users_mod_type' => 24, 'must_change_pwd' => 25, 'is_superuser' => 26, 'is_enabled' => 27, 'last_login' => 28, 'created_at' => 29, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Username' => 1, 'Password' => 2, 'FirstName' => 3, 'LastName' => 4, 'Email' => 5, 'Phone' => 6, 'DashboardMod' => 7, 'DashboardModType' => 8, 'MembersMod' => 9, 'MembersModType' => 10, 'ContentMod' => 11, 'ContentModType' => 12, 'SubscriptionsMod' => 13, 'SubscriptionsModType' => 14, 'MessagesMod' => 15, 'MessagesModType' => 16, 'FeedbackMod' => 17, 'FeedbackModType' => 18, 'FlagsMod' => 19, 'FlagsModType' => 20, 'ImbraMod' => 21, 'ImbraModType' => 22, 'ReportsMod' => 23, 'ReportsModType' => 24, 'UsersMod' => 25, 'UsersModType' => 26, 'MustChangePwd' => 27, 'IsSuperuser' => 28, 'IsEnabled' => 29, 'LastLogin' => 30, 'CreatedAt' => 31, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::FIRST_NAME => 3, UserPeer::LAST_NAME => 4, UserPeer::EMAIL => 5, UserPeer::PHONE => 6, UserPeer::DASHBOARD_MOD => 7, UserPeer::DASHBOARD_MOD_TYPE => 8, UserPeer::MEMBERS_MOD => 9, UserPeer::MEMBERS_MOD_TYPE => 10, UserPeer::CONTENT_MOD => 11, UserPeer::CONTENT_MOD_TYPE => 12, UserPeer::SUBSCRIPTIONS_MOD => 13, UserPeer::SUBSCRIPTIONS_MOD_TYPE => 14, UserPeer::MESSAGES_MOD => 15, UserPeer::MESSAGES_MOD_TYPE => 16, UserPeer::FEEDBACK_MOD => 17, UserPeer::FEEDBACK_MOD_TYPE => 18, UserPeer::FLAGS_MOD => 19, UserPeer::FLAGS_MOD_TYPE => 20, UserPeer::IMBRA_MOD => 21, UserPeer::IMBRA_MOD_TYPE => 22, UserPeer::REPORTS_MOD => 23, UserPeer::REPORTS_MOD_TYPE => 24, UserPeer::USERS_MOD => 25, UserPeer::USERS_MOD_TYPE => 26, UserPeer::MUST_CHANGE_PWD => 27, UserPeer::IS_SUPERUSER => 28, UserPeer::IS_ENABLED => 29, UserPeer::LAST_LOGIN => 30, UserPeer::CREATED_AT => 31, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'first_name' => 3, 'last_name' => 4, 'email' => 5, 'phone' => 6, 'dashboard_mod' => 7, 'dashboard_mod_type' => 8, 'members_mod' => 9, 'members_mod_type' => 10, 'content_mod' => 11, 'content_mod_type' => 12, 'subscriptions_mod' => 13, 'subscriptions_mod_type' => 14, 'messages_mod' => 15, 'messages_mod_type' => 16, 'feedback_mod' => 17, 'feedback_mod_type' => 18, 'flags_mod' => 19, 'flags_mod_type' => 20, 'imbra_mod' => 21, 'imbra_mod_type' => 22, 'reports_mod' => 23, 'reports_mod_type' => 24, 'users_mod' => 25, 'users_mod_type' => 26, 'must_change_pwd' => 27, 'is_superuser' => 28, 'is_enabled' => 29, 'last_login' => 30, 'created_at' => 31, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, )
 	);
 
 	
@@ -213,6 +219,10 @@ abstract class BaseUserPeer {
 		$criteria->addSelectColumn(UserPeer::MESSAGES_MOD);
 
 		$criteria->addSelectColumn(UserPeer::MESSAGES_MOD_TYPE);
+
+		$criteria->addSelectColumn(UserPeer::FEEDBACK_MOD);
+
+		$criteria->addSelectColumn(UserPeer::FEEDBACK_MOD_TYPE);
 
 		$criteria->addSelectColumn(UserPeer::FLAGS_MOD);
 

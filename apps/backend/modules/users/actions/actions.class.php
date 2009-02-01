@@ -97,6 +97,7 @@ class usersActions extends sfActions
 
     public function executeDelete()
     {
+        $this->getUser()->checkPerm(array('users_edit'));
         $marked = $this->getRequestParameter('marked', false);
         
         if (is_array($marked) && ! empty($marked))
@@ -122,6 +123,8 @@ class usersActions extends sfActions
         $user->setSubscriptionsModType($this->getRequestParameter('subscriptions_mod_type', 'V'));
         $user->setMessagesMod($this->getRequestParameter('messages_mod', false));
         $user->setMessagesModType($this->getRequestParameter('messages_mod_type', 'V'));
+        $user->setFeedbackMod($this->getRequestParameter('feedback_mod', false));
+        $user->setFeedbackModType($this->getRequestParameter('feedback_mod_type', 'V'));
         $user->setFlagsMod($this->getRequestParameter('flags_mod', false));
         $user->setFlagsModType($this->getRequestParameter('flags_mod_type', 'V'));
         $user->setImbraMod($this->getRequestParameter('imbra_mod', false));

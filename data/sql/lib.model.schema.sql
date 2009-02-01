@@ -46,6 +46,8 @@ CREATE TABLE `user`
 	`subscriptions_mod_type` CHAR(1) default 'V' NOT NULL,
 	`messages_mod` INTEGER default 0 NOT NULL,
 	`messages_mod_type` CHAR(1) default 'V' NOT NULL,
+	`feedback_mod` INTEGER default 0 NOT NULL,
+	`feedback_mod_type` CHAR(1) default 'V' NOT NULL,
 	`flags_mod` INTEGER default 0 NOT NULL,
 	`flags_mod_type` CHAR(1) default 'V' NOT NULL,
 	`imbra_mod` INTEGER default 0 NOT NULL,

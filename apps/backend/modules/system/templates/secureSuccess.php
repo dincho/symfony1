@@ -1,1 +1,1 @@
-You don`t have access to this page!
+You have no permissions for this action!

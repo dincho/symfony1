@@ -51,6 +51,7 @@ class transUnitsActions extends sfActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::createNewUnit($this->getRequestParameter('source'));
             $this->setFlash('msg_ok', 'Translation unit has been added.');
             $this->redirect('transUnits/list');
@@ -65,6 +66,7 @@ class transUnitsActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             //$trans_unit->setCatId($this->getRequestParameter('cat_id'));
             //$trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
             //$trans_unit->setSource($this->getRequestParameter('source'));
@@ -76,6 +78,7 @@ class transUnitsActions extends sfActions
 
     public function executeDelete()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
         $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($trans_unit);
         $trans_unit->delete();

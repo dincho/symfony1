@@ -23,6 +23,8 @@ propel:
     subscriptions_mod_type:   { type: char, size: 1, default: "V", required: true }
     messages_mod:             { type: boolean, default: false, required: true }
     messages_mod_type:        { type: char, size: 1, default: "V", required: true }
+    feedback_mod:             { type: boolean, default: false, required: true }
+    feedback_mod_type:        { type: char, size: 1, default: "V", required: true }
     flags_mod:                { type: boolean, default: false, required: true }
     flags_mod_type:           { type: char, size: 1, default: "V", required: true }
     imbra_mod:                { type: boolean, default: false, required: true }

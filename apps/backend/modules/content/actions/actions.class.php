@@ -44,6 +44,7 @@ class contentActions extends sfActions
                    
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             //update member stories
             $homepage_story->setMemberStories(implode(',', $this->getRequestParameter('member_stories', array())));
             $homepage_story->save();
@@ -71,6 +72,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_messages', 'profile_display_video'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -95,6 +97,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_most_recent'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -113,6 +116,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_custom'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -131,6 +135,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_reverse'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -149,6 +154,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_matches'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -167,6 +173,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_keyword'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -185,6 +192,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?culture=' .  $this->culture);
@@ -205,6 +213,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_public'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -229,6 +238,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -246,6 +256,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -263,6 +274,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -280,6 +292,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -297,6 +310,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -314,6 +328,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages?culture=' .  $this->culture);
@@ -337,6 +352,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/imbrapages?culture=' .  $this->culture);
@@ -354,6 +370,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/imbrapages?culture=' .  $this->culture);
         }
@@ -370,6 +387,7 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $this->getUser()->checkPerm(array('content_edit'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/systemMessages?culture=' .  $this->culture);

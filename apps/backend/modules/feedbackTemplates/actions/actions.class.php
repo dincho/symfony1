@@ -35,6 +35,7 @@ class feedbackTemplatesActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('feedback_edit'));
             $template = new FeedbackTemplate();
             $template->setName($this->getRequestParameter('name'));
             $template->setMailFrom($this->getRequestParameter('mail_from'));
@@ -60,6 +61,7 @@ class feedbackTemplatesActions extends sfActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $this->getUser()->checkPerm(array('feedback_edit'));
             $template->setName($this->getRequestParameter('name'));
             $template->setMailFrom($this->getRequestParameter('mail_from'));
             $template->setReplyTo($this->getRequestParameter('reply_to'));
@@ -76,6 +78,7 @@ class feedbackTemplatesActions extends sfActions
 
     public function executeDelete()
     {
+        $this->getUser()->checkPerm(array('feedback_edit'));
         $marked = $this->getRequestParameter('marked', false);
         
         if (is_array($marked) && ! empty($marked))
