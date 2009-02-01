@@ -76,7 +76,7 @@ class dashboardActions extends prActions
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
-        $c->setLimit(5);
+        $c->setLimit(min(5, $member->getSubscription()->getSeeViewed()));
         
         //@TODO to be test for performance
         //if( $member->getSubscription()->getCanSeeViewed() ) $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
