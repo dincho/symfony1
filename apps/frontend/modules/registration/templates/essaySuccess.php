@@ -11,7 +11,7 @@
         <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction', 'maxlength' => 2500)) ?><br />
         <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
     </fieldset>
-    <div id="tips"><?php echo __('Essay content') ?></div>
+    <div id="tips"><?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))) ?></div>
 </form>
 <br class="clear" />
 <span><?php echo __('Essay note') ?></span>
