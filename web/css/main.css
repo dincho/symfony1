@@ -1194,7 +1194,7 @@ label.title {
     font-size: 11px;
 }
 
-#self_desc_form select, #self_desc_form input {
+#self_desc_form select, #self_desc_form input:text {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
