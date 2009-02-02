@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text') ?>
+<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox') ?>
 
 <?php slot('header_title') ?>
     <?php echo truncate_text($member->getEssayHeadline(), 40, '') . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
@@ -122,7 +122,11 @@
 </div>
 <div id="profile_left">
     <div style="min-height: 350px">
-    <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')) ?>
+        <?php $image_options = array('id' => 'member_image'); 
+              $link_options = array('id' => 'member_image_link');
+              echo light_image($member->getMainPhoto()->getImg('350x350', 'file'), 
+                               $member->getMainPhoto()->getImageUrlPath('file'), $link_options, $image_options );
+        ?>     
     </div>
     <br />
     <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
@@ -134,7 +138,7 @@
             <?php $class = 'thumb'; ?>
         <?php endif; ?>
         <?php $the_img = image_tag($photo->getImg('50x50'), array('id' => 'thumb_' . $photo->getId(), 'class' => $class)); ?>
-        <?php echo link_to_function($the_img, 'show_profile_image("'. $photo->getImg('350x350', 'file').'", '. $photo->getId() .')', array()) ?>
+        <?php echo link_to_function($the_img, 'show_profile_image("'. $photo->getImg('350x350', 'file').'", '. $photo->getId() .', "'. $photo->getImageUrlPath('file') .'")', array()) ?>
         <?php if($i++ % 6 == 0 ): ?>
             <br />
         <?php endif; ?>
