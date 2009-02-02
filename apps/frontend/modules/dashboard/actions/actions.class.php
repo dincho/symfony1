@@ -45,9 +45,6 @@ class dashboardActions extends prActions
 
         //winks
         $c = new Criteria();
-        $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
-                
-        $c = new Criteria();
         $c->add(WinkPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, WinkPeer::MEMBER_ID);
         $c->add(WinkPeer::SENT_BOX, false);
@@ -105,8 +102,8 @@ class dashboardActions extends prActions
         
         $c = new Criteria();
         $c->add(ProfileViewPeer::PROFILE_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
+        $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
