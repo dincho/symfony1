@@ -247,12 +247,15 @@ body .public_matches_search {
 
 /* END breadcrumb */ /*index*/
 #complete_registration {
-    height: 23px;
     background-color: #000;
-    line-height: 20px;
     color: #ff0000;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
+    padding: 5px 0;
+}
+
+#complete_registration a {
+    font-size: 11px;
 }
 
 #content {

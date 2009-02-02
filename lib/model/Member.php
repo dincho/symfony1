@@ -382,4 +382,28 @@ class Member extends BaseMember
     {
         return ($this->getLastIp()) ? long2ip($this->getLastIp()) : null;
     }
+    
+    public function getContinueRegistrationUrl()
+    {
+        if (!$this->getFirstName()) //1. Step 1 - registration
+        {
+            $url = 'registration/index';
+        } elseif (! $this->getBirthDay()) //2. Step 2 - self description 
+        {
+            $url = 'registration/selfDescription';
+        } elseif (! $this->getEssayHeadline()) //3. Step - essay 
+        {
+            $url = 'registration/essay';
+        } elseif ($this->countMemberPhotos() <= 0) //Step 4 - Photos
+        {
+            $url = 'registration/photos';
+        } elseif ( $this->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
+        {
+            $url = 'IMBRA/index';
+        } else {
+            throw new sfException('Unknown registration step');
+        }
+
+        return $url;
+    }
 }

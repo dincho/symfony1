@@ -11,6 +11,7 @@
 
 </head>
 <body>
+    <?php include_partial('content/headerCompleteRegistration'); ?>
     <div id="box">              
         <!--- box border -->
         <div id="lb"><div id="rb">
