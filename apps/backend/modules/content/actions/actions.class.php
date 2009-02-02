@@ -368,14 +368,40 @@ class contentActions extends sfActions
         $bc->replaceLast(array('name' => 'IMBRA Pages', 'uri' => 'content/imbrapages'));
         $bc->add(array('name' => 'Edit IMBRA Report Template'));
         
+        $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria(), $this->culture);
+
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+	    $this->answers = $this->getRequestParameter('answers');
+
             $this->getUser()->checkPerm(array('content_edit'));
+
+	    if (!empty($this->imbra_questions))
+	    {
+		foreach ($this->imbra_questions as $q)
+		{
+		    if( !$q->getOnlyExplain())
+		    {
+			if (isset($this->answers['negative'][$q->getId()] ))
+			{
+			    $q->setNegativeAnswer($this->answers['negative'][$q->getId()]);
+			}
+		    }
+
+		    if (isset($this->answers['positive'][$q->getId()] ))
+		    {
+			$q->setPositiveAnswer($this->answers['positive'][$q->getId()]);
+		    }
+
+		    $q->save();
+		    
+		}
+	    }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/imbrapages?culture=' .  $this->culture);
         }
         
-        $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria(), $this->culture);
     }
     
     public function executeSystemMessages()
