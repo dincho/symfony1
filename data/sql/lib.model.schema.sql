@@ -164,6 +164,7 @@ CREATE TABLE `member`
 	`sub_auto_renew` INTEGER default 1 NOT NULL,
 	`member_counter_id` INTEGER  NOT NULL,
 	`public_search` INTEGER default 0 NOT NULL,
+	`last_ip` INTEGER,
 	`last_paypal_subscr_id` VARCHAR(255),
 	`last_paypal_item` VARCHAR(255),
 	`paypal_unsubscribed_at` DATETIME,

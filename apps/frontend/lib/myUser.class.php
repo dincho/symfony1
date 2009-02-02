@@ -52,6 +52,7 @@ class myUser extends sfBasicSecurityUser
         $history->setLastLogin($member->getLastLogin());
         $history->save();
         
+        $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
         $member->setLastLogin(time());
         $member->save();
     }

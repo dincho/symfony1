@@ -27,6 +27,7 @@ class registrationActions extends prActions
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->initNewMember();
+            $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->save();
             
             

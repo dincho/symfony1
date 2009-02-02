@@ -377,4 +377,9 @@ class Member extends BaseMember
         
         return $eot;
     }
+    
+    public function getIP()
+    {
+        return ($this->getLastIp()) ? long2ip($this->getLastIp()) : null;
+    }
 }

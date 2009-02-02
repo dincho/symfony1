@@ -92,6 +92,7 @@ propel:
     sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
     public_search:            { type: boolean, required: true, default: false }
+    last_ip:                  { type: integer, required: false }
     last_paypal_subscr_id:    { type: varchar, size: 255, required: false }
     last_paypal_item:         { type: varchar, size: 255, required: false }
     paypal_unsubscribed_at:   { type: timestamp }

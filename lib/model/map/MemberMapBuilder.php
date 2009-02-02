@@ -106,6 +106,8 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('PUBLIC_SEARCH', 'PublicSearch', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('LAST_IP', 'LastIp', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('LAST_PAYPAL_SUBSCR_ID', 'LastPaypalSubscrId', 'string', CreoleTypes::VARCHAR, false, 255);
 
 		$tMap->addColumn('LAST_PAYPAL_ITEM', 'LastPaypalItem', 'string', CreoleTypes::VARCHAR, false, 255);

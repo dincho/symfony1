@@ -1,5 +1,4 @@
-ALTER TABLE `user` ADD `feedback_mod` INTEGER default 0 NOT NULL;
-ALTER TABLE `user` ADD `feedback_mod_type` CHAR(1) default 'V' NOT NULL;
+ALTER TABLE `member` ADD `last_ip` INTEGER;
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
@@ -38,3 +37,4 @@ ALTER TABLE `trans_unit` CHANGE `date_modified` `date_modified` INTEGER(11) defa
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `date_added` `date_added` INTEGER(11) default 0 NOT NULL;
+ALTER TABLE `wink` DROP INDEX deleted_at;

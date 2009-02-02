@@ -30,3 +30,6 @@
             
             <label for="reviewed">Reviewed</label>
             <var id="reviewed"><?php if($member->getReviewedById() ) echo $member->getReviewedBy() . '&nbsp;' . $member->getReviewedAt('m/d/Y')?></var><br />
+            
+            <label for="ip">IP</label>
+            <var id="ip"><?php echo $member->getIP() ?></var><br />
