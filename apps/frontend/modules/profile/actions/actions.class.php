@@ -121,7 +121,7 @@ class profileActions extends prActions
 
     public function executeForgotYourPassword()
     {
-        $this->getUser()->getBC()->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
@@ -146,12 +146,13 @@ class profileActions extends prActions
 
     public function handleErrorForgotYourPassword()
     {
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         return sfView::SUCCESS;
     }
 
     public function executeForgotPasswordInfo()
     {
-        $this->getUser()->getBC()->replaceLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'))->add(
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->replaceLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'))->add(
                 array('name' => 'You have successfully changed your password', 'profile/forgotPasswordConfirm'));
     }
 
