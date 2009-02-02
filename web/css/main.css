@@ -1194,7 +1194,7 @@ label.title {
     font-size: 11px;
 }
 
-#self_desc_form select, #self_desc_form input:text {
+#self_desc_form select, #self_desc_form input {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
@@ -1202,6 +1202,11 @@ label.title {
     width: 130px;
     margin-right: 4px;
     margin-top: 6px;
+}
+	
+#self_desc_form .radio {
+    width: 30px;
+    margin-left: 2px;
 }
 
 #self_desc_form .date_tag_wrap select {
