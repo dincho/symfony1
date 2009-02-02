@@ -409,6 +409,6 @@ class MemberPeer extends BaseMemberPeer
     
     public static function getFrontendProfileUrl($username)
     {
-        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profile/' . $username;
+        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profiles/' . $username .'.html';
     }    
 }
