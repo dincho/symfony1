@@ -68,8 +68,8 @@ class sfIPN
         $history->setPaymentStatus(isset($this->params['payment_status']) ? $this->params['payment_status'] : null);
         $history->setRequestIp(ip2long($_SERVER['REMOTE_ADDR']));
         $history->setPaypalResponse($this->paypal_response);
-        $history->setIsRenewal($this->params['is_renewal']);
-        $history->setMemberSubscrId($this->params['member_subscr_id']);
+        $history->setIsRenewal(isset($this->params['is_renewal']) ? $this->params['is_renewal'] : false);
+        $history->setMemberSubscrId(isset($this->params['member_subscr_id']) ? $this->params['member_subscr_id'] : null);
         $history->save();
     }
     

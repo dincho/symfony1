@@ -136,6 +136,7 @@ class sfPropelThumbnailsBehavior
       
       $thumbnail = new sfThumbnail(700, 700);
       $thumbnail->loadFile($ImagePath);
+      if( $brand ) $thumbnail->prBrand(sfConfig::get('app_brand_text'));
       $thumbnail->save($newFile);
 
       $class = get_class($object);
