@@ -5,7 +5,7 @@
 <br /><br />
 
 <?php foreach ($pager->getResults() as $member):?>
-<?php echo link_to(Tools::truncate($member->getEssayHeadline(), 40), '@profile?username=' . $member->getUsername()) ?> <br />
+<?php echo link_to(Tools::truncate($member->getEssayHeadline(), 40), '@profilese?username=' . $member->getUsername()) ?> <br />
 <?php endforeach;?>
 <?php echo link_to('['.__('More').']', '@search_engines?page='.$pager->getNextPage());?>
 

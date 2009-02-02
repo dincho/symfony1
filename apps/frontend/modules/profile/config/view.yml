@@ -1,3 +1,5 @@
 indexSuccess:
     javascripts: [profile_desc_map, show_hide_tick, profile_image, gmap_elabel]
     stylesheets: [sec_container_no_padding]
+indexseSuccess:
+    has_layout: off

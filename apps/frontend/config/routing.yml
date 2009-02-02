@@ -19,6 +19,10 @@ signout:
     url:   /:sf_culture/signout
     param: { module: profile, action: signout, sf_culture: en  }
     
+profilese:
+    url:   /:sf_culture/profiles_search_engine/:username/*
+    param: { module: profile, action: indexse, sf_culture: en }
+    
 profile:
     url:   /:sf_culture/profiles/:username/*
     param: { module: profile, action: index, sf_culture: en }
