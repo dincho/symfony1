@@ -17,6 +17,14 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 
 	
+	protected $can_create_profile = false;
+
+
+	
+	protected $create_profiles = 0;
+
+
+	
 	protected $can_post_photo = false;
 
 
@@ -133,6 +141,20 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 	{
 
 		return $this->title;
+	}
+
+	
+	public function getCanCreateProfile()
+	{
+
+		return $this->can_create_profile;
+	}
+
+	
+	public function getCreateProfiles()
+	{
+
+		return $this->create_profiles;
 	}
 
 	
@@ -318,6 +340,32 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 		if ($this->title !== $v) {
 			$this->title = $v;
 			$this->modifiedColumns[] = SubscriptionPeer::TITLE;
+		}
+
+	} 
+	
+	public function setCanCreateProfile($v)
+	{
+
+		if ($this->can_create_profile !== $v || $v === false) {
+			$this->can_create_profile = $v;
+			$this->modifiedColumns[] = SubscriptionPeer::CAN_CREATE_PROFILE;
+		}
+
+	} 
+	
+	public function setCreateProfiles($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->create_profiles !== $v || $v === 0) {
+			$this->create_profiles = $v;
+			$this->modifiedColumns[] = SubscriptionPeer::CREATE_PROFILES;
 		}
 
 	} 
@@ -616,55 +664,59 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 			$this->title = $rs->getString($startcol + 1);
 
-			$this->can_post_photo = $rs->getBoolean($startcol + 2);
+			$this->can_create_profile = $rs->getBoolean($startcol + 2);
 
-			$this->post_photos = $rs->getInt($startcol + 3);
+			$this->create_profiles = $rs->getInt($startcol + 3);
 
-			$this->can_wink = $rs->getBoolean($startcol + 4);
+			$this->can_post_photo = $rs->getBoolean($startcol + 4);
 
-			$this->winks = $rs->getInt($startcol + 5);
+			$this->post_photos = $rs->getInt($startcol + 5);
 
-			$this->can_read_messages = $rs->getBoolean($startcol + 6);
+			$this->can_wink = $rs->getBoolean($startcol + 6);
 
-			$this->read_messages = $rs->getInt($startcol + 7);
+			$this->winks = $rs->getInt($startcol + 7);
 
-			$this->can_reply_messages = $rs->getBoolean($startcol + 8);
+			$this->can_read_messages = $rs->getBoolean($startcol + 8);
 
-			$this->reply_messages = $rs->getInt($startcol + 9);
+			$this->read_messages = $rs->getInt($startcol + 9);
 
-			$this->can_send_messages = $rs->getBoolean($startcol + 10);
+			$this->can_reply_messages = $rs->getBoolean($startcol + 10);
 
-			$this->send_messages = $rs->getInt($startcol + 11);
+			$this->reply_messages = $rs->getInt($startcol + 11);
 
-			$this->can_see_viewed = $rs->getBoolean($startcol + 12);
+			$this->can_send_messages = $rs->getBoolean($startcol + 12);
 
-			$this->see_viewed = $rs->getInt($startcol + 13);
+			$this->send_messages = $rs->getInt($startcol + 13);
 
-			$this->can_contact_assistant = $rs->getBoolean($startcol + 14);
+			$this->can_see_viewed = $rs->getBoolean($startcol + 14);
 
-			$this->contact_assistant = $rs->getInt($startcol + 15);
+			$this->see_viewed = $rs->getInt($startcol + 15);
 
-			$this->pre_approve = $rs->getBoolean($startcol + 16);
+			$this->can_contact_assistant = $rs->getBoolean($startcol + 16);
 
-			$this->amount = $rs->getFloat($startcol + 17);
+			$this->contact_assistant = $rs->getInt($startcol + 17);
 
-			$this->trial1_amount = $rs->getFloat($startcol + 18);
+			$this->pre_approve = $rs->getBoolean($startcol + 18);
 
-			$this->trial1_period = $rs->getInt($startcol + 19);
+			$this->amount = $rs->getFloat($startcol + 19);
 
-			$this->trial1_period_type = $rs->getString($startcol + 20);
+			$this->trial1_amount = $rs->getFloat($startcol + 20);
 
-			$this->trial2_amount = $rs->getFloat($startcol + 21);
+			$this->trial1_period = $rs->getInt($startcol + 21);
 
-			$this->trial2_period = $rs->getInt($startcol + 22);
+			$this->trial1_period_type = $rs->getString($startcol + 22);
 
-			$this->trial2_period_type = $rs->getString($startcol + 23);
+			$this->trial2_amount = $rs->getFloat($startcol + 23);
+
+			$this->trial2_period = $rs->getInt($startcol + 24);
+
+			$this->trial2_period_type = $rs->getString($startcol + 25);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 24; 
+						return $startcol + 26; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Subscription object", $e);
 		}
@@ -863,69 +915,75 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 				return $this->getTitle();
 				break;
 			case 2:
-				return $this->getCanPostPhoto();
+				return $this->getCanCreateProfile();
 				break;
 			case 3:
-				return $this->getPostPhotos();
+				return $this->getCreateProfiles();
 				break;
 			case 4:
-				return $this->getCanWink();
+				return $this->getCanPostPhoto();
 				break;
 			case 5:
-				return $this->getWinks();
+				return $this->getPostPhotos();
 				break;
 			case 6:
-				return $this->getCanReadMessages();
+				return $this->getCanWink();
 				break;
 			case 7:
-				return $this->getReadMessages();
+				return $this->getWinks();
 				break;
 			case 8:
-				return $this->getCanReplyMessages();
+				return $this->getCanReadMessages();
 				break;
 			case 9:
-				return $this->getReplyMessages();
+				return $this->getReadMessages();
 				break;
 			case 10:
-				return $this->getCanSendMessages();
+				return $this->getCanReplyMessages();
 				break;
 			case 11:
-				return $this->getSendMessages();
+				return $this->getReplyMessages();
 				break;
 			case 12:
-				return $this->getCanSeeViewed();
+				return $this->getCanSendMessages();
 				break;
 			case 13:
-				return $this->getSeeViewed();
+				return $this->getSendMessages();
 				break;
 			case 14:
-				return $this->getCanContactAssistant();
+				return $this->getCanSeeViewed();
 				break;
 			case 15:
-				return $this->getContactAssistant();
+				return $this->getSeeViewed();
 				break;
 			case 16:
-				return $this->getPreApprove();
+				return $this->getCanContactAssistant();
 				break;
 			case 17:
-				return $this->getAmount();
+				return $this->getContactAssistant();
 				break;
 			case 18:
-				return $this->getTrial1Amount();
+				return $this->getPreApprove();
 				break;
 			case 19:
-				return $this->getTrial1Period();
+				return $this->getAmount();
 				break;
 			case 20:
-				return $this->getTrial1PeriodType();
+				return $this->getTrial1Amount();
 				break;
 			case 21:
-				return $this->getTrial2Amount();
+				return $this->getTrial1Period();
 				break;
 			case 22:
-				return $this->getTrial2Period();
+				return $this->getTrial1PeriodType();
 				break;
 			case 23:
+				return $this->getTrial2Amount();
+				break;
+			case 24:
+				return $this->getTrial2Period();
+				break;
+			case 25:
 				return $this->getTrial2PeriodType();
 				break;
 			default:
@@ -940,28 +998,30 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getTitle(),
-			$keys[2] => $this->getCanPostPhoto(),
-			$keys[3] => $this->getPostPhotos(),
-			$keys[4] => $this->getCanWink(),
-			$keys[5] => $this->getWinks(),
-			$keys[6] => $this->getCanReadMessages(),
-			$keys[7] => $this->getReadMessages(),
-			$keys[8] => $this->getCanReplyMessages(),
-			$keys[9] => $this->getReplyMessages(),
-			$keys[10] => $this->getCanSendMessages(),
-			$keys[11] => $this->getSendMessages(),
-			$keys[12] => $this->getCanSeeViewed(),
-			$keys[13] => $this->getSeeViewed(),
-			$keys[14] => $this->getCanContactAssistant(),
-			$keys[15] => $this->getContactAssistant(),
-			$keys[16] => $this->getPreApprove(),
-			$keys[17] => $this->getAmount(),
-			$keys[18] => $this->getTrial1Amount(),
-			$keys[19] => $this->getTrial1Period(),
-			$keys[20] => $this->getTrial1PeriodType(),
-			$keys[21] => $this->getTrial2Amount(),
-			$keys[22] => $this->getTrial2Period(),
-			$keys[23] => $this->getTrial2PeriodType(),
+			$keys[2] => $this->getCanCreateProfile(),
+			$keys[3] => $this->getCreateProfiles(),
+			$keys[4] => $this->getCanPostPhoto(),
+			$keys[5] => $this->getPostPhotos(),
+			$keys[6] => $this->getCanWink(),
+			$keys[7] => $this->getWinks(),
+			$keys[8] => $this->getCanReadMessages(),
+			$keys[9] => $this->getReadMessages(),
+			$keys[10] => $this->getCanReplyMessages(),
+			$keys[11] => $this->getReplyMessages(),
+			$keys[12] => $this->getCanSendMessages(),
+			$keys[13] => $this->getSendMessages(),
+			$keys[14] => $this->getCanSeeViewed(),
+			$keys[15] => $this->getSeeViewed(),
+			$keys[16] => $this->getCanContactAssistant(),
+			$keys[17] => $this->getContactAssistant(),
+			$keys[18] => $this->getPreApprove(),
+			$keys[19] => $this->getAmount(),
+			$keys[20] => $this->getTrial1Amount(),
+			$keys[21] => $this->getTrial1Period(),
+			$keys[22] => $this->getTrial1PeriodType(),
+			$keys[23] => $this->getTrial2Amount(),
+			$keys[24] => $this->getTrial2Period(),
+			$keys[25] => $this->getTrial2PeriodType(),
 		);
 		return $result;
 	}
@@ -984,69 +1044,75 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 				$this->setTitle($value);
 				break;
 			case 2:
-				$this->setCanPostPhoto($value);
+				$this->setCanCreateProfile($value);
 				break;
 			case 3:
-				$this->setPostPhotos($value);
+				$this->setCreateProfiles($value);
 				break;
 			case 4:
-				$this->setCanWink($value);
+				$this->setCanPostPhoto($value);
 				break;
 			case 5:
-				$this->setWinks($value);
+				$this->setPostPhotos($value);
 				break;
 			case 6:
-				$this->setCanReadMessages($value);
+				$this->setCanWink($value);
 				break;
 			case 7:
-				$this->setReadMessages($value);
+				$this->setWinks($value);
 				break;
 			case 8:
-				$this->setCanReplyMessages($value);
+				$this->setCanReadMessages($value);
 				break;
 			case 9:
-				$this->setReplyMessages($value);
+				$this->setReadMessages($value);
 				break;
 			case 10:
-				$this->setCanSendMessages($value);
+				$this->setCanReplyMessages($value);
 				break;
 			case 11:
-				$this->setSendMessages($value);
+				$this->setReplyMessages($value);
 				break;
 			case 12:
-				$this->setCanSeeViewed($value);
+				$this->setCanSendMessages($value);
 				break;
 			case 13:
-				$this->setSeeViewed($value);
+				$this->setSendMessages($value);
 				break;
 			case 14:
-				$this->setCanContactAssistant($value);
+				$this->setCanSeeViewed($value);
 				break;
 			case 15:
-				$this->setContactAssistant($value);
+				$this->setSeeViewed($value);
 				break;
 			case 16:
-				$this->setPreApprove($value);
+				$this->setCanContactAssistant($value);
 				break;
 			case 17:
-				$this->setAmount($value);
+				$this->setContactAssistant($value);
 				break;
 			case 18:
-				$this->setTrial1Amount($value);
+				$this->setPreApprove($value);
 				break;
 			case 19:
-				$this->setTrial1Period($value);
+				$this->setAmount($value);
 				break;
 			case 20:
-				$this->setTrial1PeriodType($value);
+				$this->setTrial1Amount($value);
 				break;
 			case 21:
-				$this->setTrial2Amount($value);
+				$this->setTrial1Period($value);
 				break;
 			case 22:
-				$this->setTrial2Period($value);
+				$this->setTrial1PeriodType($value);
 				break;
 			case 23:
+				$this->setTrial2Amount($value);
+				break;
+			case 24:
+				$this->setTrial2Period($value);
+				break;
+			case 25:
 				$this->setTrial2PeriodType($value);
 				break;
 		} 	}
@@ -1058,28 +1124,30 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setCanPostPhoto($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setPostPhotos($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCanWink($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setWinks($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setCanReadMessages($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setReadMessages($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCanReplyMessages($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setReplyMessages($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setCanSendMessages($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setSendMessages($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setCanSeeViewed($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setSeeViewed($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setCanContactAssistant($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setContactAssistant($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setPreApprove($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setAmount($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setTrial1Amount($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setTrial1Period($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setTrial1PeriodType($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setTrial2Amount($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setTrial2Period($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setTrial2PeriodType($arr[$keys[23]]);
+		if (array_key_exists($keys[2], $arr)) $this->setCanCreateProfile($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setCreateProfiles($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCanPostPhoto($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setPostPhotos($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCanWink($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setWinks($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setCanReadMessages($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setReadMessages($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCanReplyMessages($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setReplyMessages($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setCanSendMessages($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setSendMessages($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setCanSeeViewed($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setSeeViewed($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setCanContactAssistant($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setContactAssistant($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setPreApprove($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setAmount($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setTrial1Amount($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setTrial1Period($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setTrial1PeriodType($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setTrial2Amount($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setTrial2Period($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setTrial2PeriodType($arr[$keys[25]]);
 	}
 
 	
@@ -1089,6 +1157,8 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(SubscriptionPeer::ID)) $criteria->add(SubscriptionPeer::ID, $this->id);
 		if ($this->isColumnModified(SubscriptionPeer::TITLE)) $criteria->add(SubscriptionPeer::TITLE, $this->title);
+		if ($this->isColumnModified(SubscriptionPeer::CAN_CREATE_PROFILE)) $criteria->add(SubscriptionPeer::CAN_CREATE_PROFILE, $this->can_create_profile);
+		if ($this->isColumnModified(SubscriptionPeer::CREATE_PROFILES)) $criteria->add(SubscriptionPeer::CREATE_PROFILES, $this->create_profiles);
 		if ($this->isColumnModified(SubscriptionPeer::CAN_POST_PHOTO)) $criteria->add(SubscriptionPeer::CAN_POST_PHOTO, $this->can_post_photo);
 		if ($this->isColumnModified(SubscriptionPeer::POST_PHOTOS)) $criteria->add(SubscriptionPeer::POST_PHOTOS, $this->post_photos);
 		if ($this->isColumnModified(SubscriptionPeer::CAN_WINK)) $criteria->add(SubscriptionPeer::CAN_WINK, $this->can_wink);
@@ -1142,6 +1212,10 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setTitle($this->title);
+
+		$copyObj->setCanCreateProfile($this->can_create_profile);
+
+		$copyObj->setCreateProfiles($this->create_profiles);
 
 		$copyObj->setCanPostPhoto($this->can_post_photo);
 

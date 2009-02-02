@@ -36,6 +36,10 @@ class SubscriptionMapBuilder {
 
 		$tMap->addColumn('TITLE', 'Title', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('CAN_CREATE_PROFILE', 'CanCreateProfile', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
+		$tMap->addColumn('CREATE_PROFILES', 'CreateProfiles', 'int', CreoleTypes::INTEGER, true, null);
+
 		$tMap->addColumn('CAN_POST_PHOTO', 'CanPostPhoto', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('POST_PHOTOS', 'PostPhotos', 'int', CreoleTypes::INTEGER, true, null);

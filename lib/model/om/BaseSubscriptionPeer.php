@@ -13,7 +13,7 @@ abstract class BaseSubscriptionPeer {
 	const CLASS_DEFAULT = 'lib.model.Subscription';
 
 	
-	const NUM_COLUMNS = 24;
+	const NUM_COLUMNS = 26;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -24,6 +24,12 @@ abstract class BaseSubscriptionPeer {
 
 	
 	const TITLE = 'subscription.TITLE';
+
+	
+	const CAN_CREATE_PROFILE = 'subscription.CAN_CREATE_PROFILE';
+
+	
+	const CREATE_PROFILES = 'subscription.CREATE_PROFILES';
 
 	
 	const CAN_POST_PHOTO = 'subscription.CAN_POST_PHOTO';
@@ -97,18 +103,18 @@ abstract class BaseSubscriptionPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'CanPostPhoto', 'PostPhotos', 'CanWink', 'Winks', 'CanReadMessages', 'ReadMessages', 'CanReplyMessages', 'ReplyMessages', 'CanSendMessages', 'SendMessages', 'CanSeeViewed', 'SeeViewed', 'CanContactAssistant', 'ContactAssistant', 'PreApprove', 'Amount', 'Trial1Amount', 'Trial1Period', 'Trial1PeriodType', 'Trial2Amount', 'Trial2Period', 'Trial2PeriodType', ),
-		BasePeer::TYPE_COLNAME => array (SubscriptionPeer::ID, SubscriptionPeer::TITLE, SubscriptionPeer::CAN_POST_PHOTO, SubscriptionPeer::POST_PHOTOS, SubscriptionPeer::CAN_WINK, SubscriptionPeer::WINKS, SubscriptionPeer::CAN_READ_MESSAGES, SubscriptionPeer::READ_MESSAGES, SubscriptionPeer::CAN_REPLY_MESSAGES, SubscriptionPeer::REPLY_MESSAGES, SubscriptionPeer::CAN_SEND_MESSAGES, SubscriptionPeer::SEND_MESSAGES, SubscriptionPeer::CAN_SEE_VIEWED, SubscriptionPeer::SEE_VIEWED, SubscriptionPeer::CAN_CONTACT_ASSISTANT, SubscriptionPeer::CONTACT_ASSISTANT, SubscriptionPeer::PRE_APPROVE, SubscriptionPeer::AMOUNT, SubscriptionPeer::TRIAL1_AMOUNT, SubscriptionPeer::TRIAL1_PERIOD, SubscriptionPeer::TRIAL1_PERIOD_TYPE, SubscriptionPeer::TRIAL2_AMOUNT, SubscriptionPeer::TRIAL2_PERIOD, SubscriptionPeer::TRIAL2_PERIOD_TYPE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'can_post_photo', 'post_photos', 'can_wink', 'winks', 'can_read_messages', 'read_messages', 'can_reply_messages', 'reply_messages', 'can_send_messages', 'send_messages', 'can_see_viewed', 'see_viewed', 'can_contact_assistant', 'contact_assistant', 'pre_approve', 'amount', 'trial1_amount', 'trial1_period', 'trial1_period_type', 'trial2_amount', 'trial2_period', 'trial2_period_type', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'CanCreateProfile', 'CreateProfiles', 'CanPostPhoto', 'PostPhotos', 'CanWink', 'Winks', 'CanReadMessages', 'ReadMessages', 'CanReplyMessages', 'ReplyMessages', 'CanSendMessages', 'SendMessages', 'CanSeeViewed', 'SeeViewed', 'CanContactAssistant', 'ContactAssistant', 'PreApprove', 'Amount', 'Trial1Amount', 'Trial1Period', 'Trial1PeriodType', 'Trial2Amount', 'Trial2Period', 'Trial2PeriodType', ),
+		BasePeer::TYPE_COLNAME => array (SubscriptionPeer::ID, SubscriptionPeer::TITLE, SubscriptionPeer::CAN_CREATE_PROFILE, SubscriptionPeer::CREATE_PROFILES, SubscriptionPeer::CAN_POST_PHOTO, SubscriptionPeer::POST_PHOTOS, SubscriptionPeer::CAN_WINK, SubscriptionPeer::WINKS, SubscriptionPeer::CAN_READ_MESSAGES, SubscriptionPeer::READ_MESSAGES, SubscriptionPeer::CAN_REPLY_MESSAGES, SubscriptionPeer::REPLY_MESSAGES, SubscriptionPeer::CAN_SEND_MESSAGES, SubscriptionPeer::SEND_MESSAGES, SubscriptionPeer::CAN_SEE_VIEWED, SubscriptionPeer::SEE_VIEWED, SubscriptionPeer::CAN_CONTACT_ASSISTANT, SubscriptionPeer::CONTACT_ASSISTANT, SubscriptionPeer::PRE_APPROVE, SubscriptionPeer::AMOUNT, SubscriptionPeer::TRIAL1_AMOUNT, SubscriptionPeer::TRIAL1_PERIOD, SubscriptionPeer::TRIAL1_PERIOD_TYPE, SubscriptionPeer::TRIAL2_AMOUNT, SubscriptionPeer::TRIAL2_PERIOD, SubscriptionPeer::TRIAL2_PERIOD_TYPE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'can_create_profile', 'create_profiles', 'can_post_photo', 'post_photos', 'can_wink', 'winks', 'can_read_messages', 'read_messages', 'can_reply_messages', 'reply_messages', 'can_send_messages', 'send_messages', 'can_see_viewed', 'see_viewed', 'can_contact_assistant', 'contact_assistant', 'pre_approve', 'amount', 'trial1_amount', 'trial1_period', 'trial1_period_type', 'trial2_amount', 'trial2_period', 'trial2_period_type', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'CanPostPhoto' => 2, 'PostPhotos' => 3, 'CanWink' => 4, 'Winks' => 5, 'CanReadMessages' => 6, 'ReadMessages' => 7, 'CanReplyMessages' => 8, 'ReplyMessages' => 9, 'CanSendMessages' => 10, 'SendMessages' => 11, 'CanSeeViewed' => 12, 'SeeViewed' => 13, 'CanContactAssistant' => 14, 'ContactAssistant' => 15, 'PreApprove' => 16, 'Amount' => 17, 'Trial1Amount' => 18, 'Trial1Period' => 19, 'Trial1PeriodType' => 20, 'Trial2Amount' => 21, 'Trial2Period' => 22, 'Trial2PeriodType' => 23, ),
-		BasePeer::TYPE_COLNAME => array (SubscriptionPeer::ID => 0, SubscriptionPeer::TITLE => 1, SubscriptionPeer::CAN_POST_PHOTO => 2, SubscriptionPeer::POST_PHOTOS => 3, SubscriptionPeer::CAN_WINK => 4, SubscriptionPeer::WINKS => 5, SubscriptionPeer::CAN_READ_MESSAGES => 6, SubscriptionPeer::READ_MESSAGES => 7, SubscriptionPeer::CAN_REPLY_MESSAGES => 8, SubscriptionPeer::REPLY_MESSAGES => 9, SubscriptionPeer::CAN_SEND_MESSAGES => 10, SubscriptionPeer::SEND_MESSAGES => 11, SubscriptionPeer::CAN_SEE_VIEWED => 12, SubscriptionPeer::SEE_VIEWED => 13, SubscriptionPeer::CAN_CONTACT_ASSISTANT => 14, SubscriptionPeer::CONTACT_ASSISTANT => 15, SubscriptionPeer::PRE_APPROVE => 16, SubscriptionPeer::AMOUNT => 17, SubscriptionPeer::TRIAL1_AMOUNT => 18, SubscriptionPeer::TRIAL1_PERIOD => 19, SubscriptionPeer::TRIAL1_PERIOD_TYPE => 20, SubscriptionPeer::TRIAL2_AMOUNT => 21, SubscriptionPeer::TRIAL2_PERIOD => 22, SubscriptionPeer::TRIAL2_PERIOD_TYPE => 23, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'can_post_photo' => 2, 'post_photos' => 3, 'can_wink' => 4, 'winks' => 5, 'can_read_messages' => 6, 'read_messages' => 7, 'can_reply_messages' => 8, 'reply_messages' => 9, 'can_send_messages' => 10, 'send_messages' => 11, 'can_see_viewed' => 12, 'see_viewed' => 13, 'can_contact_assistant' => 14, 'contact_assistant' => 15, 'pre_approve' => 16, 'amount' => 17, 'trial1_amount' => 18, 'trial1_period' => 19, 'trial1_period_type' => 20, 'trial2_amount' => 21, 'trial2_period' => 22, 'trial2_period_type' => 23, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'CanCreateProfile' => 2, 'CreateProfiles' => 3, 'CanPostPhoto' => 4, 'PostPhotos' => 5, 'CanWink' => 6, 'Winks' => 7, 'CanReadMessages' => 8, 'ReadMessages' => 9, 'CanReplyMessages' => 10, 'ReplyMessages' => 11, 'CanSendMessages' => 12, 'SendMessages' => 13, 'CanSeeViewed' => 14, 'SeeViewed' => 15, 'CanContactAssistant' => 16, 'ContactAssistant' => 17, 'PreApprove' => 18, 'Amount' => 19, 'Trial1Amount' => 20, 'Trial1Period' => 21, 'Trial1PeriodType' => 22, 'Trial2Amount' => 23, 'Trial2Period' => 24, 'Trial2PeriodType' => 25, ),
+		BasePeer::TYPE_COLNAME => array (SubscriptionPeer::ID => 0, SubscriptionPeer::TITLE => 1, SubscriptionPeer::CAN_CREATE_PROFILE => 2, SubscriptionPeer::CREATE_PROFILES => 3, SubscriptionPeer::CAN_POST_PHOTO => 4, SubscriptionPeer::POST_PHOTOS => 5, SubscriptionPeer::CAN_WINK => 6, SubscriptionPeer::WINKS => 7, SubscriptionPeer::CAN_READ_MESSAGES => 8, SubscriptionPeer::READ_MESSAGES => 9, SubscriptionPeer::CAN_REPLY_MESSAGES => 10, SubscriptionPeer::REPLY_MESSAGES => 11, SubscriptionPeer::CAN_SEND_MESSAGES => 12, SubscriptionPeer::SEND_MESSAGES => 13, SubscriptionPeer::CAN_SEE_VIEWED => 14, SubscriptionPeer::SEE_VIEWED => 15, SubscriptionPeer::CAN_CONTACT_ASSISTANT => 16, SubscriptionPeer::CONTACT_ASSISTANT => 17, SubscriptionPeer::PRE_APPROVE => 18, SubscriptionPeer::AMOUNT => 19, SubscriptionPeer::TRIAL1_AMOUNT => 20, SubscriptionPeer::TRIAL1_PERIOD => 21, SubscriptionPeer::TRIAL1_PERIOD_TYPE => 22, SubscriptionPeer::TRIAL2_AMOUNT => 23, SubscriptionPeer::TRIAL2_PERIOD => 24, SubscriptionPeer::TRIAL2_PERIOD_TYPE => 25, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'can_create_profile' => 2, 'create_profiles' => 3, 'can_post_photo' => 4, 'post_photos' => 5, 'can_wink' => 6, 'winks' => 7, 'can_read_messages' => 8, 'read_messages' => 9, 'can_reply_messages' => 10, 'reply_messages' => 11, 'can_send_messages' => 12, 'send_messages' => 13, 'can_see_viewed' => 14, 'see_viewed' => 15, 'can_contact_assistant' => 16, 'contact_assistant' => 17, 'pre_approve' => 18, 'amount' => 19, 'trial1_amount' => 20, 'trial1_period' => 21, 'trial1_period_type' => 22, 'trial2_amount' => 23, 'trial2_period' => 24, 'trial2_period_type' => 25, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
 	);
 
 	
@@ -165,6 +171,10 @@ abstract class BaseSubscriptionPeer {
 		$criteria->addSelectColumn(SubscriptionPeer::ID);
 
 		$criteria->addSelectColumn(SubscriptionPeer::TITLE);
+
+		$criteria->addSelectColumn(SubscriptionPeer::CAN_CREATE_PROFILE);
+
+		$criteria->addSelectColumn(SubscriptionPeer::CREATE_PROFILES);
 
 		$criteria->addSelectColumn(SubscriptionPeer::CAN_POST_PHOTO);
 
