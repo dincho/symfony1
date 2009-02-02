@@ -9,6 +9,8 @@
         
         <label for="limit_label">&nbsp;</label><br />
         
+        <label for="post_photo">Create Profile:</label><br />
+        
         <label for="post_photo">Post a photo:</label><br />
         
         <label for="send_wink">Send &amp; receive winks:</label><br />
@@ -47,6 +49,9 @@
   <div class="subscription_container">
       <fieldset class="form_fields">
         <var><b><?php echo $sub->getTitle() ?></b></var><br /><br />
+        
+        <?php echo object_bool_select_tag($sub, 'getCanCreateProfile', array('control_name' => 'subs['. $sub->getId() .'][can_create_profile]')) ?>
+        <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanPostPhoto', array('control_name' => 'subs['. $sub->getId() .'][can_post_photo]')) ?>
         <?php echo object_input_tag($sub, 'getPostPhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_photos]')) ?><br />

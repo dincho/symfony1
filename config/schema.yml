@@ -239,6 +239,8 @@ propel:
   subscription:
     id:
     title:                    { type: varchar, size: 255 }
+    can_create_profile:       { type: boolean, default: false, required: true }
+    create_profiles:          { type: integer, default: 0, required: true }
     can_post_photo:           { type: boolean, default: false, required: true }
     post_photos:              { type: integer, default: 0, required: true }
     can_wink:                 { type: boolean, default: false, required: true }

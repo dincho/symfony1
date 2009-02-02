@@ -5,6 +5,7 @@
     <tr>
       <th>Title</th>
       <th>Pre-Approval</th>
+      <th>Profiles</th>
       <th>Photos</th>
       <th>Whinks</th>
       <th>Read Messages</th>
@@ -19,6 +20,7 @@
   <tr rel="<?php echo url_for('subscriptions/edit?id=' . $sub->getId()); ?>">
     <td><?php echo $sub->getTitle() ?></td>
     <td><?php echo boolValue($sub->getPreApprove()) ?>
+    <td><?php echo boolColor($sub->getCreateProfiles(), $sub->getCanCreateProfile()) ?></td>
     <td><?php echo boolColor($sub->getPostPhotos(), $sub->getCanPostPhoto()) ?></td>
     <td><?php echo boolColor($sub->getWinks(), $sub->getCanWink()) ?></td>
     <td><?php echo boolColor($sub->getReadMessages(), $sub->getCanReadMessages()) ?></td>

@@ -33,6 +33,8 @@ class subscriptionsActions extends sfActions
         {
             if( array_key_exists($subscription->getId(), $req_subs) )
             {
+                $subscription->setCanCreateProfile($req_subs[$subscription->getId()]['can_create_profile']);
+                $subscription->setCreateProfiles($req_subs[$subscription->getId()]['create_profiles']);
                 $subscription->setCanPostPhoto($req_subs[$subscription->getId()]['can_post_photo']);
                 $subscription->setPostPhotos($req_subs[$subscription->getId()]['post_photos']);
                 $subscription->setCanWink($req_subs[$subscription->getId()]['can_wink']);
