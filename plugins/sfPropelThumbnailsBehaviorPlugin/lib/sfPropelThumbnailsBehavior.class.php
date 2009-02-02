@@ -81,7 +81,7 @@ class sfPropelThumbnailsBehavior
     return $object->$method();    
   }
   
-  public function updateImageFromRequest($object, $column = null, $ImageField = 'image', $CreateThumbnails = true)
+  public function updateImageFromRequest($object, $column = null, $ImageField = 'image', $CreateThumbnails = true, $brand = false)
   {
     $Request = sfContext::getInstance()->getRequest();
     
@@ -102,6 +102,7 @@ class sfPropelThumbnailsBehavior
       
       $thumbnail = new sfThumbnail(700, 700);
       $thumbnail->loadFile($tmp_file);
+      if( $brand ) $thumbnail->prBrand(sfConfig::get('app_brand_text'));
       $thumbnail->save($newFile);
       
       chmod($newFile, 0666);
@@ -119,7 +120,7 @@ class sfPropelThumbnailsBehavior
     }
   }
   
-  public function updateImageFromFile($object, $column = 'file', $ImagePath, $CreateThumbnails = true)
+  public function updateImageFromFile($object, $column = 'file', $ImagePath, $CreateThumbnails = true, $brand = false)
   {
     if (filesize($ImagePath))
     {

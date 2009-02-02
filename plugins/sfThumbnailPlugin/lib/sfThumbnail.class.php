@@ -331,6 +331,20 @@ class sfThumbnail
     $this->thumb = $effect->setHueSaturation($hue, $saturation)->process()->getImg();
   }
   
+  public function prBrand($text = '', $font_size = 5)
+  {
+    $textcolor = imagecolorallocate($this->thumb, 165, 30, 33 );
+
+    $text_width  = imagefontwidth($font_size)*strlen($text);
+    $text_height = imagefontheight($font_size);
+    
+    $x = $this->getThumbWidth() - $text_width;
+    $y = $this->getThumbHeight() - $text_height;
+    
+    $font_file = sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'papyrus.ttf';
+    //imagettftext($this->thumb, $font_size, 0, $x, $y, $textcolor, $font_file, $text);
+  }
+  
   /**
   * Saves the thumbnail to the filesystem
   * @access public 

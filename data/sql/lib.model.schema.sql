@@ -663,6 +663,8 @@ CREATE TABLE `subscription`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`title` VARCHAR(255),
+	`can_create_profile` INTEGER default 0 NOT NULL,
+	`create_profiles` INTEGER default 0 NOT NULL,
 	`can_post_photo` INTEGER default 0 NOT NULL,
 	`post_photos` INTEGER default 0 NOT NULL,
 	`can_wink` INTEGER default 0 NOT NULL,
