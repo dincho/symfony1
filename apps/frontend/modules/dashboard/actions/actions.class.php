@@ -33,10 +33,10 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(MessagePeer::TO_MEMBER_ID, $member->getId());
         $c->add(MessagePeer::SENT_BOX, false);
+        $c->add(MessagePeer::IS_READ, false);
         $c->addJoin(MemberPeer::ID, MessagePeer::FROM_MEMBER_ID);
         $cc = clone $c; //count criteria
         
-        $c->addDescendingOrderByColumn(MessagePeer::IS_READ);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->setLimit(5);
         
@@ -49,6 +49,7 @@ class dashboardActions extends prActions
         $c->addJoin(MemberPeer::ID, WinkPeer::MEMBER_ID);
         $c->add(WinkPeer::SENT_BOX, false);
         $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
+        if($member->getLastWinksView()) $c->add(WinkPeer::CREATED_AT, $member->getLastWinksView(), Criteria::GREATER_THAN);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
@@ -61,6 +62,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(HotlistPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
+        if($member->getLastHotlistView()) $c->add(HotlistPeer::CREATED_AT, $member->getLastHotlistView(), Criteria::GREATER_THAN);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
@@ -74,6 +76,7 @@ class dashboardActions extends prActions
         $c->add(ProfileViewPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, ProfileViewPeer::MEMBER_ID);
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
+        if($member->getLastProfileView()) $c->add(ProfileViewPeer::CREATED_AT, $member->getLastProfileView(), Criteria::GREATER_THAN);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
