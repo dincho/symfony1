@@ -1,5 +1,5 @@
 <?php slot('header_title') ?>
-    <?php echo __('Congratulations, your registration is complete.') ?>
+    <?php echo __('Status pending headline') ?>
 <?php end_slot(); ?>
 
 <?php echo __('Status pending body');
