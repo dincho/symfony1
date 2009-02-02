@@ -1,7 +1,7 @@
 default:
     beta_period:   off
     primary_domain: PolishRomance.com
-    brand_text:     PolishRomance.com
+    brand_text:     LoveStreet.pl
     mail:
         host:      mail.bonex.us
         port:      993

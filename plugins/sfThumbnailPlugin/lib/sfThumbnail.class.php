@@ -331,18 +331,17 @@ class sfThumbnail
     $this->thumb = $effect->setHueSaturation($hue, $saturation)->process()->getImg();
   }
   
-  public function prBrand($text = '', $font_size = 10, $padding = 5)
+  public function prBrand($text = '', $font_size = 18)
   {
-    $textcolor = imagecolorallocate($this->thumb, 165, 30, 33 );
-
-    $text_width  = imagefontwidth($font_size)*strlen($text);
-    $text_height = imagefontheight($font_size);
+    $watermark = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');  
+    $watermark_width = imagesx($watermark); 
+    $watermark_height = imagesy($watermark);
+    $ptr_white = imageColorAllocate($watermark,255,255,255);
+    imageColorTransparent($watermark,$ptr_white);
     
-    $x = $this->getThumbWidth() - $text_width - $padding;
-    $y = $this->getThumbHeight() - $text_height - $padding;
-    
-    $font_file = sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'papyrus.ttf';
-    imagettftext($this->thumb, $font_size, 0, $x, $y, $textcolor, $font_file, $text);
+    $x = $this->getThumbWidth() - $watermark_width - 8;
+    $y = $this->getThumbHeight() - $watermark_height - 15;
+    imagecopy($this->thumb, $watermark, $x, $y, 0,0, $watermark_width, $watermark_height);
   }
   
   /**
