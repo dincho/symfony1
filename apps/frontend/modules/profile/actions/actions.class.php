@@ -85,6 +85,8 @@ class profileActions extends prActions
 
     public function validateSignIn()
     {
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $email = $this->getRequestParameter('email');
