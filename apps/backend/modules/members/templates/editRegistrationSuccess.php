@@ -1,6 +1,9 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
+<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<br /><br />
+
 <?php echo form_tag('members/editRegistration', 'class=form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Registration</div>

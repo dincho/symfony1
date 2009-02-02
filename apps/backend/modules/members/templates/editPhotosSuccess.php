@@ -1,6 +1,9 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
+<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<br /><br />
+
 <?php echo form_tag('members/editPhotos', array('class' => 'form', 'multipart' => true)) ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <?php echo input_hidden_tag('photo_id', $sf_request->getParameter('photo_id'), 'class=hidden') ?>
