@@ -16,10 +16,10 @@
             <?php echo bool_select_tag('profile_display_video', array(), sfConfig::get('app_settings_profile_display_video')) ?><br />   
         </div>
         <label for="trans_8">Message Panel<br />Signup Preview</label>
-        <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
+        <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
         
         <label for="trans_9">Message Panel<br />Full View from dashboard</label>
-        <?php echo textarea_tag('trans[9]', (isset($trans[9])) ? $trans[9]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
+        <?php echo textarea_tag('trans[9]', (isset($trans[9])) ? $trans[9]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
     </fieldset>
     
     <fieldset class="form_fields error_msgs_fields">
