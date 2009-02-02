@@ -115,7 +115,7 @@ class contentActions extends prActions
     {
         $this->redirectUnless($this->hasFlash('msg_tpl'), '@homepage');
         $this->setLayout('simple');
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Message'));
     }
 
     public function executeReportBug()
