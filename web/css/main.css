@@ -2652,7 +2652,7 @@ button, .button, form .button {
     background: black url(/images/button_mini_bg.jpg) repeat-x top left;
     color: #A0A0A0;
     font-family: Arial;
-    font-size: 10px !important;
+    font-size: 11px !important;
     border: 1px solid #171717; /* right-bottom */
     border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
     padding: 0 2px !important;
