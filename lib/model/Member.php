@@ -300,8 +300,9 @@ class Member extends BaseMember
     public function killSession()
     {
         $c = new Criteria();
-        $c->add(SessionStoragePeer::USER_ID, $this->getId());
-        $c->add(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL);
+        $crit = $c->getNewCriterion(SessionStoragePeer::USER_ID, $this->getId());
+        $crit->addAnd($c->getNewCriterion(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL));
+        $c->add($crit);
         $c->setLimit(1);
         SessionStoragePeer::doDelete($c);
     }
@@ -405,5 +406,10 @@ class Member extends BaseMember
         }
 
         return $url;
+    }
+    
+    public function isActive()
+    {
+        return ($this->getMemberStatusId() == MemberStatusPeer::ACTIVE);
     }
 }

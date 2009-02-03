@@ -1,3 +1,5 @@
+<?php use_helper('prProfilePhoto') ?>
+
 <span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
 
 <?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
@@ -15,32 +17,32 @@
         <div class="dashboard-menu">
             <?php echo link_to(__('Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($matches as $match_profile): ?>
-                <?php echo link_to(image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$match_profile->isActive(), image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($messages as $message_profile): ?>
-                <?php echo link_to(image_tag($message_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $message_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$message_profile->isActive(), image_tag($message_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $message_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Winks ( %count% )', array('%count%' => $winks_cnt)), '@winks', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($winks as $wink_profile): ?>
-                <?php echo link_to(image_tag($wink_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $wink_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$wink_profile->isActive(), image_tag($wink_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $wink_profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Hotlist ( %count% )', array('%count%' => $hotlist_cnt)), '@hotlist', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($hotlist as $hotlist_profile): ?>
-                <?php echo link_to(image_tag($hotlist_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $hotlist_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$hotlist_profile->isActive(), image_tag($hotlist_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $hotlist_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
             <?php if( $member->getSubscription()->getCanSeeViewed() ): ?>
                 <?php foreach ($visits as $visit_profile): ?>
-                    <?php echo link_to(image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
+                    <?php echo link_to_unless(!$visit_profile->isActive(), image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
                 <?php endforeach; ?>
             <?php else: ?>
                 <?php $max_no_photos = min($visits_cnt, 5); ?>
@@ -93,12 +95,11 @@
     </div>
     <?php if( count($recent_visits) > 0 ): ?>
         <div class="bottom">
-            <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong>
+            <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong><br class="clear" />
             <?php foreach ($recent_visits as $profile): ?>
-                <?php //$profile = $recent_visit->getMemberRelatedByProfileId(); ?>
                 <div class="photo">
-                    <?php echo link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?username=' . $profile->getUsername()) ?>
-                    <p><?php echo link_to($profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?></p>
+                    <?php echo link_to_unless(!$profile->isActive(), profile_photo($profile, 'profile_not_available_dash'), '@profile?username=' . $profile->getUsername()) ?>
+                    <p><?php echo link_to_unless(!$profile->isActive(), $profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?></p>
                 </div>            
             <?php endforeach; ?>
         </div>

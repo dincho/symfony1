@@ -69,6 +69,38 @@ class profileActions extends prActions
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
         
+        $member_status_id = $member->getMemberStatusId();
+        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));
+        
+        if( $member_status_id != MemberStatusPeer::ACTIVE
+            && $this->getRequestParameter('admin_hash') != $admin_hash)
+        {
+            $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
+                                $member_status_id == MemberStatusPeer::PENDING ||
+                                $member_status_id == MemberStatusPeer::DENIED
+                                );
+                                
+            switch ($member_status_id) {
+            	case MemberStatusPeer::SUSPENDED:
+            	case MemberStatusPeer::SUSPENDED_FLAGS:
+            	case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+            	    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+            	break;
+            	case MemberStatusPeer::CANCELED:
+            	case MemberStatusPeer::CANCELED_BY_MEMBER:
+            	    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+            	break;
+            	case MemberStatusPeer::DEACTIVATED:
+            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by his owner');
+            	break;
+            	
+            	default:
+            	break;
+            }
+            
+            $this->redirect('@dashboard');
+        }
+        
         //add a visit
         $this->getUser()->viewProfile($member);
 

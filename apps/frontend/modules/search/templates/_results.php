@@ -1,4 +1,4 @@
-<?php use_helper('Date') ?>
+<?php use_helper('Date', 'prProfilePhoto') ?>
 
 <?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">
@@ -8,14 +8,14 @@
             <?php $member = $match->getMemberRelatedByMember2Id(); ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?><span><?php echo $member->getAge() ?></span></h2>
-                <?php echo image_tag($member->getMainPhoto()->getImg('80x100')) ?>
+                <?php echo profile_photo($member, 'float-left') ?>
                 
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                     <p></p>
-                    <p><?php echo link_to('View Profile', '@profile?pager=1&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?pager=1&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                     <p>
-                        <?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                        <?php echo link_to_unless(!$member->isActive(), __('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
                         <?php include_partial('search/last_action', array('match' => $match)); ?>
                     </p>
                     <p></p>

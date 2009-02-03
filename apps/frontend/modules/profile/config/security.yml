@@ -8,5 +8,3 @@ confirmNewPassword:
     is_secure: off
 indexse:
     is_secure: off
-index:
-    is_secure: off

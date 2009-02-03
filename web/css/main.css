@@ -753,6 +753,13 @@ span.online-assistant {
     padding: 10px;
 }
 
+#dashboard-container div.bottom span {
+    display: inline;
+    background-color: black;
+    padding: 0;
+}
+
+
 #dashboard-container div.bottom div.photo {
     text-align: center;
     margin: 5px 2px;
@@ -1446,6 +1453,14 @@ span.sec_link {
     line-height: 20px;
 }
 
+.member .member_box span.sec_link {
+    padding: 0;
+    display: inline;
+    clear: none;
+    float: none;
+    margin: 0;
+}
+
 .member .member_box .profile_info {
     float: left;
     text-align: left;
@@ -1486,12 +1501,26 @@ span.sec_link {
     color: #e0b400;
 }
 
-/*search*/ /* profile setings */ /* END profile settings */ /*
-#resources {
-	float:left;
-	width:47%;
-	text-align:left;
+.profile_not_available {
+    width: 80px;
+    height: 85px;
+    color: #F00;
+    background-color: #1E1E1E;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: bold;
+    padding-top: 15px;
+    text-align: center;
 }
+
+.profile_not_available_dash {
+  margin: 5px 2px;  
+}
+
+/*search*/ /* profile setings */ /* END profile settings */
+
+
+
 */ /*profile*/ /*subscribe*/
 .save,#public_reg_form.member_reg input.save {
     background: url(/images/input/save.gif) no-repeat;

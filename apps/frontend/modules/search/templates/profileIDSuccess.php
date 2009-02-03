@@ -1,4 +1,4 @@
-<?php use_helper('prDate') ?>
+<?php use_helper('prDate', 'prProfilePhoto') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -14,13 +14,17 @@
 <div class="member">
         <div class="member_box">
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
-            <?php echo image_tag($member->getMainPhoto()->getImg('100x100'), array('style' => 'vertical-align:middle;')) ?>
+            <?php echo profile_photo($member, 'float-left') ?>
             
             <div class="profile_info">
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                 <p></p>
-                <p><?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                <p><?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                <?php if( $member->isActive() ): ?>
+                    <p><?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                <?php else: ?>
+                    <p></p><p></p>
+                <?php endif; ?>
                 <p></p>
                 <?php $when =  ($member->isLoggedIn()) ? 'Online' : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
