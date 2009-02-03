@@ -5,9 +5,9 @@
         </ul>
         <?php echo link_to(__('See all stories'), '@member_stories', 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo link_to(__('Post your story'), 'memberStories/postYourStory', 'class=sec_link') ?>
     </div>
-    <?php $story_img = 'static/stories/story' . $story->getId() . '.jpg'; ?>
-    <?php if( file_exists( sfConfig::get('sf_web_dir') . '/images/' . $story_img ) ): ?>
-        <?php echo image_tag($story_img, array('id=member_story_img')) ?>
+    <?php if( $story->getStockPhotoId() ): ?>
+        <?php $stockPhoto = $story->getStockPhoto() ?>
+        <?php echo image_tag(($stockPhoto->getImageFilename('cropped') ? $stockPhoto->getImageUrlPath('cropped', '220x225') : $stockPhoto->getImageUrlPath('file', '220x225')), array('id=member_story_img')) ?>
     <?php endif; ?>
 </div>
 <div id="member_story_content">
