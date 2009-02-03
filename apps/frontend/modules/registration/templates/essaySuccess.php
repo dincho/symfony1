@@ -14,5 +14,6 @@
     <div id="tips"><?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))) ?></div>
 </form>
 <br class="clear" />
+<br />
 <span><?php echo __('Essay note') ?></span>
 <?php echo javascript_tag('parseCharCounts();') ?>

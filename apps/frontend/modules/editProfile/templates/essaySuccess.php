@@ -27,5 +27,4 @@
     </div>
 </form>
 <br class="clear" />
-<span><?php echo __('Note: You will be able to change this information later.') ?></span>
 <?php echo javascript_tag('parseCharCounts();') ?>

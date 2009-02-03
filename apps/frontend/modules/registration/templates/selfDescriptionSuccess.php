@@ -23,4 +23,5 @@
         
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>
+<br />
 <?php echo __('Self Description note') ?>

@@ -24,4 +24,3 @@
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
     <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
-<span><?php echo __('Note: You will be able to change this information later.') ?></span>
