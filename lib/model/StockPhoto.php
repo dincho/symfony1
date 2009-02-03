@@ -49,7 +49,7 @@ class StockPhoto extends BaseStockPhoto
         $this->save();
         $this->createThumbnails('cropped');
         
-        $this->addEffects('cropped');
+        $this->addEffects('cropped', '100x95');
     }
     
     public function addEffects($field, $size)

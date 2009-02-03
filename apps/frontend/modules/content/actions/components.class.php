@@ -32,21 +32,10 @@ class contentComponents extends sfComponents
         $c->setLimit(9);
         $photos = StockPhotoPeer::doSelect($c);
         
-        $i=1;
-        while( count($photos) < 9)
+        if( count($photos) < 9 && $homepage_set != 1)
         {
-            if( $culture == 'en')
-            {
-                if( $homepage_set == 1) break;
-                $c->add(StockPhotoPeer::HOMEPAGES_SET, 1);
-                $homepage_set = 1;
-            } else {
-                $culture = 'en';
-                $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET("'. $culture .'", ' . StockPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM); 
-            }
-            
+            $c->add(StockPhotoPeer::HOMEPAGES_SET, 1);
             $photos = StockPhotoPeer::doSelect($c);
-            if(++$i > 2) break;
         }
         
         $this->photos = ( count($photos) == 9) ? $photos : array();
