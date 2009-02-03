@@ -54,7 +54,7 @@ function displayCharCounts(element)
 {
     var limitLabel = document.getElementById(element.getAttribute('limiterid'));
     var maxlength = element.getAttribute('maxlength');
-    var enforceLength = false;
+    var enforceLength = true;
     if(element.getAttribute('lengthcut') != null && element.getAttribute('lengthcut').toLowerCase() == 'true')
     {
         enforceLength = true;
