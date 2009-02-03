@@ -74,7 +74,7 @@ class subscriptionActions extends prActions
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => sfConfig::get('app_primary_domain'),
+                            "item_name" => $_SERVER['HTTP_HOST'] . ' Membership',
                             'item_number' => 'membership',
                             'lc' => 'US',
                             'no_note' => 1,
@@ -126,7 +126,7 @@ class subscriptionActions extends prActions
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => $member->getUsername() . ' Gift Membership',
+                            "item_name" => 'Buy ' . $_SERVER['HTTP_HOST'] . ' Gift to ' . $member->getUsername(),
                             'item_number' => 'gift_membership',
                             'lc' => 'US',
                             'no_note' => 1,
