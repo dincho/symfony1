@@ -1206,9 +1206,12 @@ label.title {
     background-color: #363639;
     color: #aca49c;
     font-size: 11px;
-    width: 130px;
     margin-right: 4px;
     margin-top: 6px;
+}
+
+#self_desc_form input.text {
+    width: 130px;	
 }
 	
 #self_desc_form .radio {
