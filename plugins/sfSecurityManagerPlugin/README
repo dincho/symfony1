@@ -1,0 +1,92 @@
+= sfSecurityManager plug-in =
+
+The `sfSecurityManager` provide some new tasks to the symfony command line tool
+  * symfony security-list : List all the security strategy for the project
+  * symfony security-is-secure app [module] [action] on|off : Update the is_secure flag for an app (optional module and/or action)
+  * symfony security-add-credential app [module] [action] on|off : Add a credential to an app (optional module and/or action)
+  * symfony security-del-credential app [module] [action] on|off : Delete a credential to an app (optional module and/or action)
+
+
+== Installation ==
+
+  * Install the plug-in
+  
+    {{{
+      symfony plugin-install http://plugins.symfony-project.com/sfSecurityManager
+    }}}
+
+  * Clear the cache
+
+    {{{
+      symfony cc
+    }}}
+
+  * You're done.
+
+== Usage ==
+ 
+    {{{
+  $ ./symfony security-list
+  admin :
+    is_secure   : yes
+    credentials : admin and webmaster
+  process :
+    is_secure   : no
+  www :
+    is_secure   : no
+  
+  $ ./symfony security-del-credential admin webmaster
+  >> save      /usr/local/www/users/romain/sec...apps//admin/config/security.yml
+  
+  $ ./symfony security-list
+  admin :
+    is_secure   : yes
+    credentials : admin
+  process :
+    is_secure   : no
+  www :
+    is_secure   : no
+  
+  $ ./symfony security-add-credential admin account list webmaster
+  >> save      /usr/local/www/users/romain/sec...les/account/config/security.yml
+
+  $ ./symfony security-is-secure admin account list on
+  >> save      /usr/local/www/users/romain/sec...les/account/config/security.yml
+  
+  $ ./symfony security-list
+  admin :
+    is_secure   : yes
+    credentials : admin
+    account :
+      list :
+        is_secure   : on
+        credentials : webmaster
+  process :
+    is_secure   : no
+  www :
+    is_secure   : no
+    
+  $ ./symfony security-is-secure admin account off
+  >> save      /usr/local/www/users/romain/sec...les/account/config/security.yml
+  
+  $ ./symfony security-list
+  admin :
+    is_secure   : yes
+    credentials : admin
+    account :
+      list :
+        is_secure   : no
+        credentials : webmaster
+      all (default) :
+        is_secure   : no
+  process :
+    is_secure   : no
+  www :
+    is_secure   : no
+    }}}
+
+== Changelog ==
+
+=== 2007-11-06 | 0.1.0 ===
+
+ * romain: plug-in added to symfony
