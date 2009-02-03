@@ -49,37 +49,38 @@ class StockPhoto extends BaseStockPhoto
         $this->save();
         $this->createThumbnails('cropped');
         
-        $this->addEffects();
+        $this->addEffects('cropped');
     }
     
-    public function addEffects()
+    public function addEffects($field, $size)
     {
-        $originalPath = $this->getImagePath('cropped', '100x95');
+        $originalPath = $this->getImagePath($field, $size);
         if( $this->getGender() == 'M')
         {
-            $newName = 'blue_crop_' . $this->getFile();
+            $newName = ($field != 'file') ? 'blue_crop_' . $this->getFile() : 'blue_' . $this->getFile();
             $hue = 195; $saturation = 25;
         } elseif($this->getGender() == 'F')
         {
-            $newName = 'orange_crop_' . $this->getFile();
+            $newName = ($field != 'file') ? 'orange_crop_' . $this->getFile(): 'orange_' . $this->getFile();
             $hue = 25; $saturation = 27;
         } else {
             throw new sfException('StockPhoto::tint No gender set!');
         }
         
         
-        $newPath = $this->getImagesPath() . '100x95' . DIRECTORY_SEPARATOR . $newName;
+        $newPath = $this->getImagesPath() . $size . DIRECTORY_SEPARATOR . $newName;
         $cropped = new sfThumbnail();
         $cropped->loadFile($originalPath);
         $cropped->addPrEffects($hue, $saturation);
         $cropped->save($newPath);
     }
     
-    public function getTiltImageUrlPath()
+    public function getTiltImageUrlPath($size = '100x95')
     {
         $prefix = ($this->getGender() == 'F') ? 'orange_' : 'blue_'; 
         
-        return _compute_public_path($prefix . $this->getImageFilename('cropped'), 'uploads/images/' . $this->getImagesDir() . '100x95', null, false);
+        $filename = ($this->getImageFilename('cropped')) ? $this->getImageFilename('cropped') : $this->getImageFilename('file');
+        return _compute_public_path($prefix . $filename, 'uploads/images/' . $this->getImagesDir() . $size, null, false);
     }
     
     public function delete($con = null)
@@ -87,14 +88,15 @@ class StockPhoto extends BaseStockPhoto
         if( $this->getGender() == 'M')
         {
             $name = 'blue_crop_' . $this->getFile();
+            $name2 = 'blue_' . $this->getFile();
         } elseif($this->getGender() == 'F')
         {
             $name = 'orange_crop_' . $this->getFile();
+            $name2 = 'orange_' . $this->getFile();
         }
                 
-        $path = $this->getImagesPath() . '100x95' . DIRECTORY_SEPARATOR . $name;
-        
-        @unlink($path);
+        @unlink($this->getImagesPath() . '100x95' . DIRECTORY_SEPARATOR . $name);
+        @unlink($this->getImagesPath() . '100x95' . DIRECTORY_SEPARATOR . $name2);
         parent::delete($con);
     }
 

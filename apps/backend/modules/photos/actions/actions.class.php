@@ -103,7 +103,7 @@ class photosActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs')), $namespace);
+            $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs', array())), $namespace);
             $user->setAttribute('homepages_set', $this->getRequestParameter('homepages_set'), $namespace);
             $user->setAttribute('homepages_pos', $this->getRequestParameter('homepages_pos'), $namespace);
             $this->redirect('photos/crop?type=1&photo_id=' . $photo->getId());
@@ -193,6 +193,7 @@ class photosActions extends sfActions
                 $photo->updateCroppedImage($crop_area);
             }
             
+            $photo->addEffects('file', '100x95');
             $photo->save();
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -237,7 +238,7 @@ class photosActions extends sfActions
                 	break;
                 	
                 	case 2:
-                	    $this->redirect('photos/memberStories?photo_id=' . $this->getRequestParameter('photo_id'));
+                	    $this->redirect('photos/addToMemberStories?photo_id=' . $this->getRequestParameter('photo_id'));
                 	break;
                 	
                 	default:
