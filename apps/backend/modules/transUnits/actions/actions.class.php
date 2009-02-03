@@ -90,7 +90,6 @@ class transUnitsActions extends sfActions
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
-            if (!isset($filters['cat_id'])) $filters['cat_id'] = 1; //English catalog
             
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/transUnits/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/transUnits/filters');
@@ -102,7 +101,9 @@ class transUnitsActions extends sfActions
         if (isset($this->filters['cat_id']) && strlen($this->filters['cat_id']) > 0)
         {
             $c->add(TransUnitPeer::CAT_ID, $this->filters['cat_id']);
-        }  
+        }  else {
+            $c->add(TransUnitPeer::CAT_ID, 1); //default to english
+        }
               
         if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {

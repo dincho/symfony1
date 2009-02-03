@@ -31,8 +31,9 @@
         <label></label><?php echo input_tag('trans[85]', (isset($trans[85])) ? $trans[85]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[119]', (isset($trans[119])) ? $trans[119]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[135]', (isset($trans[135])) ? $trans[135]->getTarget() : null) ?><br />
-        
+
         <br /><label>To Free members</label>
+        <label></label><?php echo input_tag('trans[137]', (isset($trans[137])) ? $trans[137]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[86]', (isset($trans[86])) ? $trans[86]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[124]', (isset($trans[124])) ? $trans[124]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[125]', (isset($trans[125])) ? $trans[125]->getTarget() : null) ?><br />        
