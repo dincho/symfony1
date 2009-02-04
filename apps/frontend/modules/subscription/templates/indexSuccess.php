@@ -76,7 +76,7 @@ In order to see more matches and send messages, please upgrade your subscription
                             array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement', array('class' => 'sec_link')))) ?>
         <br /><br /><br />
         
-        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
 <br class="clear" />

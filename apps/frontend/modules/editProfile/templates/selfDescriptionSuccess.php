@@ -21,6 +21,6 @@
       <?php include_partial('question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
     <?php endforeach; ?>
         
-    <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
+    <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
     <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>

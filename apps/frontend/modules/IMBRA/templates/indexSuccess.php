@@ -60,7 +60,7 @@
     <?php echo __('IMBRA note') ?>
     
     <?php if( $imbra->getId() ): ?>
-        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link')) ?><br />
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Resubmit'), array('class' => 'button')) ?><br /><br /><br /><br />
         <?php slot('footer_menu') ?>
             <?php include_partial('content/footer_menu') ?>
