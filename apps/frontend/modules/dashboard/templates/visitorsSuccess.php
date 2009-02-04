@@ -1,4 +1,8 @@
 <?php use_helper('prDate', 'prProfilePhoto') ?>
+
+<p><?php echo __('To get new match results, change your <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">Search Criteria</a>') ?></p>
+<br />
+
 <div id="winks">
     <?php foreach ($visits as $visit): ?>
         <?php $member = $visit->getMemberRelatedByMemberId() ?>
