@@ -48,7 +48,7 @@ matches:
     param:  { module: search, action: index }
     
 visitors:
-    url:    /:sf_culture/dashboard/visitors
+    url:    /:sf_culture/visitors
     param:  { module: dashboard, action: visitors, sf_culture: en  }
 
 hotlist:
