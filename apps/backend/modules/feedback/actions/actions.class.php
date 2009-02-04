@@ -207,6 +207,27 @@ class feedbackActions extends sfActions
         }
     }
 
+
+    public function executeAddToBugTrac()
+    {
+        $message = FeedbackPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($message);
+        
+        $login_url = 'http://' .  sfConfig::get('app_trac_username') . ':' .sfConfig::get('app_trac_password') .'@' . sfConfig::get('app_trac_url') . 'login/xmlrpc';
+        $description = "'''From Email: " . $message->getMailFrom();
+        if($message->getMemberId()) $description .= "\n[[BR]]Member ID: " . $message->getMemberId();
+        $description .= "'''[[BR]][[BR]]\n" .$message->getBody();
+        
+        require_once('XMl/RPC2/Client.php');
+        $server = XML_RPC2_Client::create($login_url);
+        $ticket_number = $server->remoteCall___('ticket.create', array($message->getSubject(), $description, 
+        array('milestone' => sfConfig::get('app_trac_milestone'), 'type' => sfConfig::get('app_trac_ticket_type'))));
+        
+        
+        $this->setFlash('msg_ok', 'Ticket #' . $ticket_number . ' has been added to the Bug Tracking system');
+        $this->redirect('feedback/read?id=' . $message->getId());
+    }
+        
     protected function addSendFiltersCriteria(Criteria $c)
     {
         $has_second_crit = false;
@@ -363,7 +384,7 @@ class feedbackActions extends sfActions
             $this->redirect('feedback/compose');
         }
     }
-
+    
     protected function processSort()
     {
         $this->sort_namespace = 'backend/feedback/sort';

@@ -36,4 +36,5 @@
   <?php echo button_to('Delete', 'feedback/delete?marked[]=' . $message->getId()) ?>
   <?php echo button_to('Reply', 'feedback/reply?id=' . $message->getId()) ?>
   <?php echo button_to('Edit As New', 'feedback/open?id=' . $message->getId()) ?>
+  <?php echo button_to('Add to BugTrac', 'feedback/addToBugTrac?id=' . $message->getId(), 'confirm=Did you confirmed this bug and collected all details already?') ?>
 </fieldset>
