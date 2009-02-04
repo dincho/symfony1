@@ -48,7 +48,8 @@ class hotlistActions extends prActions
         array('%USERNAME%' => $profile->getUsername(), '%HOSTLIST_URL%' => $this->getController()->genUrl('@hotlist')));
         $this->setFlash('msg_ok', $msg_ok);
         
-        $this->redirect('@profile?username=' . $profile->getUsername());
+        //$this->redirect('@profile?username=' . $profile->getUsername());
+        $this->redirectToReferer();
     }
 
     public function validateAdd()
