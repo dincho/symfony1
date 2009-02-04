@@ -29,7 +29,7 @@
       &nbsp;&nbsp;&nbsp;&nbsp;
       <?php echo button_to(__('Close'), 'messages/index', 'class=button_mini') ?>
       <?php if( !$message->getIsReplied() && !$message->getSentBox() && $from_member->isActive()): ?>
-        <?php echo button_to(__('Reply'), 'messages/reply?profile_id=' . $from_member->getId() . '&id=' . $message->getId(), 'class=button_mini') ?>
+        &nbsp;<?php echo button_to(__('Reply'), 'messages/reply?profile_id=' . $from_member->getId() . '&id=' . $message->getId(), 'class=button_mini') ?>
       <?php endif; ?>
     </div>
 </div>
