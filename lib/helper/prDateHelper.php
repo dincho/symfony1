@@ -18,8 +18,9 @@ function format_date_pr($time = null, $time_format = ', h:mm a', $date_format = 
   } else {
       $string = format_date($time, $date_format);
   }
+  
+  if( date('Y', $time) != date('Y') ) $time_format = ', yyyy h:mm a';
 
-  //if( date('Y', $time) != date('Y', $today)) $string .= date(' Y', $time);
   $string .= format_date($time, $time_format);
   
   return $string;
