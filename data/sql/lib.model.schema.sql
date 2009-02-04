@@ -437,6 +437,7 @@ CREATE TABLE `stock_photo`
 	`homepages` VARCHAR(255),
 	`homepages_set` TINYINT,
 	`homepages_pos` TINYINT,
+	`assistants` VARCHAR(255),
 	`updated_at` DATETIME,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;

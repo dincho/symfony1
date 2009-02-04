@@ -9,4 +9,12 @@
  */ 
 class StockPhotoPeer extends BaseStockPhotoPeer
 {
+    public static function getAssistantPhotoByCulture($culture = 'en')
+    {
+        $c = new Criteria();
+        $c->add(self::ASSISTANTS, $culture);
+        $c->setLimit(1);
+        
+        return self::doSelectOne($c);
+    }
 }

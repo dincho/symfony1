@@ -1,8 +1,7 @@
+ALTER TABLE `stock_photo` ADD `assistants` VARCHAR(255);
 ALTER TABLE `imbra_reply_template` ADD CONSTRAINT `imbra_reply_template_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `user` (`id`);
-ALTER TABLE `subscription` ADD `can_create_profile` INTEGER default 0 NOT NULL;
-ALTER TABLE `subscription` ADD `create_profiles` INTEGER default 0 NOT NULL;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

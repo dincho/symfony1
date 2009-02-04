@@ -1,21 +1,14 @@
 <?php use_helper('dtForm') ?>
 
-<?php echo __('If you need immediate help, please check <a href="{HELP_URL}" class="sec_link">Help</a>. We usually respond within 24 hours.', array('{HELP_URL}' => url_for('@page?slug=help'))) ?>
+<?php if( $photo ): ?>
+    <?php $photo_path = image_path( ($photo->getImageUrlPath('cropped', '70x105')) ? $photo->getImageUrlPath('cropped', '70x105') : $photo->getImageUrlPath('file', '70x105')) ?>
+<?php endif; ?>  
+
+<?php echo __('Assistant request headline') ?>
 <?php echo form_tag('dashboard/contactYourAssistant', array('id' => 'report_bug')) ?>
     <fieldset>
         <div id="assistant_right">
-            <?php echo __('Studies show there is a 95% chance other members already asked the same question. So before you write, review these questions and answers.') ?><br />
-            <?php echo link_to(__('I forgot my password'), '@page?slug=help#1', 'class=sec_link') ?><br />
-            <?php echo link_to(__('I cannot contact other member, even though I\'m logged in.'), '@page?slug=help#2', 'class=sec_link') ?><br />
-            <?php echo link_to(__('Special note to AOL users'), '@page?slug=help#3', 'class=sec_link') ?><br />
-            <?php echo link_to(__('How do I sing up?'), '@page?slug=help#4', 'class=sec_link') ?><br />
-            <?php echo link_to(__('How do I unsubscribe?'), '@page?slug=help#5', 'class=sec_link') ?><br />
-            <?php echo link_to(__('Can I delete my account?'), '@page?slug=help#6', 'class=sec_link') ?><br />
-            <?php echo link_to(__('... more questions and answers'), '@page?slug=help', 'class=sec_link') ?><br />
-            <div id="assistant_profile">
-                <?php echo image_tag('pic/banner_assistant.jpg') ?>
-                <p><?php echo __('Still can’t find the answer? Please write me a message. I’ll do my best to respond within 24 hours. Good Luck!<br /><br />Agnieszka, Online Assistant') ?></p>
-            </div>
+            <?php echo strtr(__('Assistant request content'), array('%ASSISTANT_PHOTO_PATH%' => $photo_path)) ?>
         </div>  
             
         <?php echo pr_label_for('subject', 'Subject:') ?>

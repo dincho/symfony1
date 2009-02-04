@@ -13,7 +13,7 @@ abstract class BaseStockPhotoPeer {
 	const CLASS_DEFAULT = 'lib.model.StockPhoto';
 
 	
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -41,6 +41,9 @@ abstract class BaseStockPhotoPeer {
 	const HOMEPAGES_POS = 'stock_photo.HOMEPAGES_POS';
 
 	
+	const ASSISTANTS = 'stock_photo.ASSISTANTS';
+
+	
 	const UPDATED_AT = 'stock_photo.UPDATED_AT';
 
 	
@@ -49,18 +52,18 @@ abstract class BaseStockPhotoPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'File', 'Cropped', 'Gender', 'Homepages', 'HomepagesSet', 'HomepagesPos', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (StockPhotoPeer::ID, StockPhotoPeer::FILE, StockPhotoPeer::CROPPED, StockPhotoPeer::GENDER, StockPhotoPeer::HOMEPAGES, StockPhotoPeer::HOMEPAGES_SET, StockPhotoPeer::HOMEPAGES_POS, StockPhotoPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'file', 'cropped', 'gender', 'homepages', 'homepages_set', 'homepages_pos', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'File', 'Cropped', 'Gender', 'Homepages', 'HomepagesSet', 'HomepagesPos', 'Assistants', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (StockPhotoPeer::ID, StockPhotoPeer::FILE, StockPhotoPeer::CROPPED, StockPhotoPeer::GENDER, StockPhotoPeer::HOMEPAGES, StockPhotoPeer::HOMEPAGES_SET, StockPhotoPeer::HOMEPAGES_POS, StockPhotoPeer::ASSISTANTS, StockPhotoPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'file', 'cropped', 'gender', 'homepages', 'homepages_set', 'homepages_pos', 'assistants', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'File' => 1, 'Cropped' => 2, 'Gender' => 3, 'Homepages' => 4, 'HomepagesSet' => 5, 'HomepagesPos' => 6, 'UpdatedAt' => 7, ),
-		BasePeer::TYPE_COLNAME => array (StockPhotoPeer::ID => 0, StockPhotoPeer::FILE => 1, StockPhotoPeer::CROPPED => 2, StockPhotoPeer::GENDER => 3, StockPhotoPeer::HOMEPAGES => 4, StockPhotoPeer::HOMEPAGES_SET => 5, StockPhotoPeer::HOMEPAGES_POS => 6, StockPhotoPeer::UPDATED_AT => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'file' => 1, 'cropped' => 2, 'gender' => 3, 'homepages' => 4, 'homepages_set' => 5, 'homepages_pos' => 6, 'updated_at' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'File' => 1, 'Cropped' => 2, 'Gender' => 3, 'Homepages' => 4, 'HomepagesSet' => 5, 'HomepagesPos' => 6, 'Assistants' => 7, 'UpdatedAt' => 8, ),
+		BasePeer::TYPE_COLNAME => array (StockPhotoPeer::ID => 0, StockPhotoPeer::FILE => 1, StockPhotoPeer::CROPPED => 2, StockPhotoPeer::GENDER => 3, StockPhotoPeer::HOMEPAGES => 4, StockPhotoPeer::HOMEPAGES_SET => 5, StockPhotoPeer::HOMEPAGES_POS => 6, StockPhotoPeer::ASSISTANTS => 7, StockPhotoPeer::UPDATED_AT => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'file' => 1, 'cropped' => 2, 'gender' => 3, 'homepages' => 4, 'homepages_set' => 5, 'homepages_pos' => 6, 'assistants' => 7, 'updated_at' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -127,6 +130,8 @@ abstract class BaseStockPhotoPeer {
 		$criteria->addSelectColumn(StockPhotoPeer::HOMEPAGES_SET);
 
 		$criteria->addSelectColumn(StockPhotoPeer::HOMEPAGES_POS);
+
+		$criteria->addSelectColumn(StockPhotoPeer::ASSISTANTS);
 
 		$criteria->addSelectColumn(StockPhotoPeer::UPDATED_AT);
 

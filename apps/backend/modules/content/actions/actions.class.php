@@ -420,5 +420,24 @@ class contentActions extends sfActions
         }
         
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SYSTEM_MESSAGES, $this->culture);
-    }    
+    }
+    
+    public function executeAssistant()
+    {
+        $this->left_menu_selected = 'Assistant';
+        $bc = $this->getUser()->getBC();
+        $bc->replaceLast(array('name' => 'Assistant', 'uri' => 'content/assistant'));
+        $bc->add(array('name' => 'Edit Assistant'));
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->getUser()->checkPerm(array('content_edit'));
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect('content/assistant?culture=' .  $this->culture);
+        }
+        
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::ASSISTANT, $this->culture);
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->culture);
+    }
 }

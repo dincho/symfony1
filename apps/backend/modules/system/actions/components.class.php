@@ -87,6 +87,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Member Stories', 'uri' => 'memberStories/list'),
                                            array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
                                            array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
+                                           array('title' => 'Assistant', 'uri' => 'content/assistant'),
                                            array('title' => 'Photos', 'uri' => 'photos/list?sort=Member::created_at&type=desc'),
                                            array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),

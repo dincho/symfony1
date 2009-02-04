@@ -26,6 +26,7 @@ class TransCollectionPeer extends BaseTransCollectionPeer
     const REGISTRATION_SEARCH = 14;
     const IMBRA_APP = 16;
     const SYSTEM_MESSAGES = 18;
+    const ASSISTANT = 19;
     
     public static function getCollection($id, $culture)
     {

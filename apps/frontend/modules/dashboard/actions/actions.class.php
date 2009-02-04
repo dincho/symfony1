@@ -256,6 +256,7 @@ class dashboardActions extends prActions
     
     public function executeContactYourAssistant()
     {
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = $this->getUser()->getProfile();
@@ -276,6 +277,8 @@ class dashboardActions extends prActions
             $this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
             $this->redirect('dashboard/index');
         }
+        
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
     }
     
     public function validateContactYourAssistant()
@@ -308,7 +311,15 @@ class dashboardActions extends prActions
     
     public function handleErrorContactYourAssistant()
     {
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title'));
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
         return sfView::SUCCESS;
+    }
+    
+    public function executeContactAssistantConfirmation()
+    {
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title', 'uri' => 'dashboard/contactYourAssistant'))->add(array('name' => 'Assistant response title'));
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
     }
     
     public function executeSearchCriteria()

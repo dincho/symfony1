@@ -183,6 +183,7 @@ propel:
     homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
     homepages_set:            { type: tinyint } 
     homepages_pos:            { type: tinyint }
+    assistants:               { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) 
     updated_at:
   imbra_question:
     id:

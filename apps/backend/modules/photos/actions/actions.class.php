@@ -14,7 +14,7 @@ class photosActions extends sfActions
     public function preExecute()
     {
         $this->top_menu_selected = 'content';
-        $this->left_menu_selected = 10;
+        $this->left_menu_selected = 11;
         $this->getUser()->getBC()->clear()->add(array('name' => 'content', 'uri' => 'content/list'))
         ->add(array('name' => 'Stock Photos', 'uri' => 'photos/stockPhotos'));
     }
@@ -158,6 +158,27 @@ class photosActions extends sfActions
         $this->photo = $photo;
     }
     
+    
+    public function executeAddToAssistant()
+    {
+        $this->getUser()->checkPerm(array('content_edit'));
+        $this->getUser()->getBC()->add(array('name' => 'Assistant'));
+        $namespace = 'backend/photos/addtoassistant';
+        
+        $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+        $this->forward404Unless($photo);
+        $user = $this->getUser();
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $user->setAttribute('catalog', $this->getRequestParameter('catalog'), $namespace);
+            $this->redirect('photos/crop?type=3&photo_id=' . $photo->getId());
+        }
+        
+        $this->photo = $photo;
+        $this->catalog = ( $user->hasAttribute('catalog', $namespace) ) ? $user->getAttribute('catalog', array(), $namespace) : $photo->getAssistants();
+    }    
+    
     public function executeCrop()
     {
         $this->getUser()->checkPerm(array('content_edit'));
@@ -167,20 +188,7 @@ class photosActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $photo->setGender($this->getRequestParameter('gender'));
-            
-            if( $this->getRequestParameter('type') == 1) //homepage
-            {
-                $namespace = 'backend/photos/addtohomepage';
-                $user = $this->getUser();
-                
-                $photo->setHomepagesArray($user->getAttribute('catalogs', array(), $namespace));
-                $user->setAttribute('catalogs', null, $namespace);
-                $photo->setHomepagesSet($user->getAttribute('homepages_set', null, $namespace));
-                $user->setAttribute('homepages_set', null, $namespace);
-                $photo->setHomepagesPos($user->getAttribute('homepages_pos', null, $namespace));
-                $user->setAttribute('homepages_pos', null, $namespace);
-            }
+            $user = $this->getUser();
             
             if( $this->hasRequestParameter('crop') )
             {
@@ -192,10 +200,38 @@ class photosActions extends sfActions
                 $crop_area['height'] = $this->getRequestParameter('crop_height');
                 $photo->updateCroppedImage($crop_area);
             }
+                        
+            if( $this->getRequestParameter('type') == 1) //homepage
+            {
+                $photo->setGender($this->getRequestParameter('gender'));
+                $photo->addEffects('file', '100x95');
+                
+                $namespace = 'backend/photos/addtohomepage';
+                $photo->setHomepagesArray($user->getAttribute('catalogs', array(), $namespace));
+                $user->setAttribute('catalogs', null, $namespace);
+                $photo->setHomepagesSet($user->getAttribute('homepages_set', null, $namespace));
+                $user->setAttribute('homepages_set', null, $namespace);
+                $photo->setHomepagesPos($user->getAttribute('homepages_pos', null, $namespace));
+                $user->setAttribute('homepages_pos', null, $namespace);
+            } elseif($this->getRequestParameter('type') == 2) //member stories
+            {
+                $photo->setGender($this->getRequestParameter('gender'));
+            } elseif( $this->getRequestParameter('type') == 3) //assistant
+            {
+                $namespace = 'backend/photos/addtoassistant';
+                $catalog = $user->getAttribute('catalog', null, $namespace);
+                
+                $select = new Criteria();
+                $select->add(StockPhotoPeer::ASSISTANTS, $catalog);
+                $update = new Criteria();
+                $update->add(StockPhotoPeer::ASSISTANTS, null);
+                BasePeer::doUpdate($select, $update, Propel::getConnection());
+                                
+                $photo->setAssistants($catalog);
+                $user->setAttribute('catalog', null, $namespace);
+            }
             
-            $photo->addEffects('file', '100x95');
             $photo->save();
-            
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('photos/stockPhotos');
         }
@@ -212,6 +248,10 @@ class photosActions extends sfActions
             ->add(array('name' => 'Crop'));            
             $dims['w'] = 220;
             $dims['h'] = 225;
+        } elseif ($this->getRequestParameter('type') == 3) //assistant
+        {
+            $dims['w'] = 70;
+            $dims['h'] = 105;            
         }
         
         $this->getResponse()->addJavascript('/cropper/lib/prototype.js');

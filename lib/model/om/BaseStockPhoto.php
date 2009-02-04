@@ -37,6 +37,10 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 
 
 	
+	protected $assistants;
+
+
+	
 	protected $updated_at;
 
 	
@@ -98,6 +102,13 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 	{
 
 		return $this->homepages_pos;
+	}
+
+	
+	public function getAssistants()
+	{
+
+		return $this->assistants;
 	}
 
 	
@@ -235,6 +246,22 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setAssistants($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->assistants !== $v) {
+			$this->assistants = $v;
+			$this->modifiedColumns[] = StockPhotoPeer::ASSISTANTS;
+		}
+
+	} 
+	
 	public function setUpdatedAt($v)
 	{
 
@@ -270,13 +297,15 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 
 			$this->homepages_pos = $rs->getInt($startcol + 6);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 7, null);
+			$this->assistants = $rs->getString($startcol + 7);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 8, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 8; 
+						return $startcol + 9; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating StockPhoto object", $e);
 		}
@@ -479,6 +508,9 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 				return $this->getHomepagesPos();
 				break;
 			case 7:
+				return $this->getAssistants();
+				break;
+			case 8:
 				return $this->getUpdatedAt();
 				break;
 			default:
@@ -498,7 +530,8 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 			$keys[4] => $this->getHomepages(),
 			$keys[5] => $this->getHomepagesSet(),
 			$keys[6] => $this->getHomepagesPos(),
-			$keys[7] => $this->getUpdatedAt(),
+			$keys[7] => $this->getAssistants(),
+			$keys[8] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -536,6 +569,9 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 				$this->setHomepagesPos($value);
 				break;
 			case 7:
+				$this->setAssistants($value);
+				break;
+			case 8:
 				$this->setUpdatedAt($value);
 				break;
 		} 	}
@@ -552,7 +588,8 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setHomepages($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setHomepagesSet($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setHomepagesPos($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setUpdatedAt($arr[$keys[7]]);
+		if (array_key_exists($keys[7], $arr)) $this->setAssistants($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setUpdatedAt($arr[$keys[8]]);
 	}
 
 	
@@ -567,6 +604,7 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES)) $criteria->add(StockPhotoPeer::HOMEPAGES, $this->homepages);
 		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES_SET)) $criteria->add(StockPhotoPeer::HOMEPAGES_SET, $this->homepages_set);
 		if ($this->isColumnModified(StockPhotoPeer::HOMEPAGES_POS)) $criteria->add(StockPhotoPeer::HOMEPAGES_POS, $this->homepages_pos);
+		if ($this->isColumnModified(StockPhotoPeer::ASSISTANTS)) $criteria->add(StockPhotoPeer::ASSISTANTS, $this->assistants);
 		if ($this->isColumnModified(StockPhotoPeer::UPDATED_AT)) $criteria->add(StockPhotoPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
@@ -609,6 +647,8 @@ abstract class BaseStockPhoto extends BaseObject  implements Persistent {
 		$copyObj->setHomepagesSet($this->homepages_set);
 
 		$copyObj->setHomepagesPos($this->homepages_pos);
+
+		$copyObj->setAssistants($this->assistants);
 
 		$copyObj->setUpdatedAt($this->updated_at);
 
