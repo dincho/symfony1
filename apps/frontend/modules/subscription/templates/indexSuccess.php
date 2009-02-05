@@ -7,7 +7,7 @@ In order to see more matches and send messages, please upgrade your subscription
     <fieldset style="width: 60%;">
         <div class="column">
             <div class="upgrade_img">&nbsp;</div>
-            <span class="top">&nbsp;</span>
+            <span class="top_one">&nbsp;</span>
             <span class="type"><?php echo __('Create a profile') ?></span><br />
             <span class="type"><?php echo __('Post a photo') ?></span><br />
             <span class="type"><?php echo __('Send & receive winks') ?></span><br />
@@ -18,7 +18,7 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="type"><?php echo __('First %NUM% ', array('%NUM%' => $sub1->getTrial1Period() )) . pr_format_payment_period_type($sub1->getTrial1PeriodType()) ?></span><br />
             <span class="type"><?php echo __('Next %NUM% ', array('%NUM%' => $sub1->getTrial2Period() )) . pr_format_payment_period_type($sub1->getTrial2PeriodType()) ?></span><br />
             <span class="type"><?php echo __('After that') ?></span><br />
-            <span class="select"><?php echo __('Select Membership') ?></span>
+            <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
             <div class="column <?php if($subscription->getId() == $member->getSubscriptionId()+1) echo 'upgrade_to' ?>">

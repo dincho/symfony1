@@ -613,6 +613,17 @@ p {
 #subscription div.upgrade_to .upgrade_img {
     background: #35773b url(/images/upgrade_subscription.gif) no-repeat 7px
         center;
+        width: 139px;
+}
+
+#subscription span.select_one {
+    height: 11px;
+    display: block;
+    font-size: 11px;
+    background-color: #3d3d3d;
+    margin-top: 8px;
+    padding: 8px;
+    width: 139px;
 }
 
 #subscription span.select {
@@ -622,6 +633,7 @@ p {
     background-color: #3d3d3d;
     margin-top: 8px;
     padding: 8px;
+    width: 123px;
 }
 
 #subscription span.select input {
@@ -639,6 +651,17 @@ p {
     margin-left: 7px;
 }
 
+#subscription span.top_one {
+    display: block;
+    height: 21px;
+    background-color: #3d3d3d;
+    font-weight: bold;
+    color: #d3d3d3;
+    font-size: 11px;
+    padding: 10px 15px 0 7px;
+    width: 133px;
+}
+
 #subscription span.top {
     display: block;
     height: 21px;
@@ -647,10 +670,11 @@ p {
     color: #d3d3d3;
     font-size: 11px;
     padding: 10px 15px 0 7px;
+    width: 117px;
 }
-
 #subscription .upgrade_to span.top {
     padding-right: 35px;
+    width: 97px !important;
 }
 /* END Subscription */
 
