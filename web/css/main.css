@@ -1766,6 +1766,7 @@ div.best_video div.right img {
 
 #registration_box_complete_page fieldset {
     border: 0px;
+    padding-left: 0px;
 }
 
 #registration_box_complete_page label {
