@@ -45,6 +45,11 @@ class IMBRAActions extends prActions
 
             }
             $new_imbra->save();
+
+	    $member = $this->getUser()->getProfile();
+	    $member->setUsCitizen(true);
+	    $member->save();
+
             $this->getUser()->completeRegistration();
             $this->setFlash('msg_ok', 'Your IMBRA Information have been updated');
             $this->redirect('dashboard/index');
