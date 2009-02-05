@@ -327,7 +327,18 @@ class registrationActions extends prActions
                 $this->getUser()->completeRegistration();
             } //else the upload button is pressed "commit", so show the photos ..
         }
+        
         $this->photos = $this->member->getMemberPhotos();
+        
+        //message deletion confirmation
+        if( $this->getRequestParameter('confirm_delete') )
+        {
+            $i18 = $this->getContext()->getI18N();
+            $del_msg = $i18->__('Are you sure you want to delete selected photo?') . ' <a href="javascript:window.history.go(-1);" class="sec_link">'.$i18->__('No').'</a>&nbsp;';
+            $del_url = sfContext::getInstance()->getController()->genUrl('registration/deletePhoto?id=' . $this->getRequestParameter('confirm_delete'));
+            $del_msg .= '<a href="'.$del_url.'" class="sec_link">'.$i18->__('Yes').'</a>';
+            $this->setFlash('msg_error', $del_msg, false);
+        }         
     }
 
     public function validatePhotos()

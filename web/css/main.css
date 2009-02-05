@@ -1165,6 +1165,11 @@ span {
     display: block;
 }
 
+#secondary_container .photo span.delete {
+	background-color: #F00;
+	padding: 4px;
+}
+
 .public_reg_notice {
     color: #e0b400;
     font-size: 11px;

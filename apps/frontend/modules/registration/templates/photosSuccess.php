@@ -16,10 +16,10 @@
                 <?php if( $photo->isMain()): ?>
                     <label for="main_photo"><?php echo __('Main Photo') ?></label>
                 <?php endif; ?><br />
-                  <span>
+                  <span <?php if($sf_request->getParameter('confirm_delete') == $photo->getId()) echo 'class=delete'; ?>>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
-                  <?php echo button_to(__('Delete'), 'registration/deletePhoto?id=' . $photo->getId(), array('class' => 'button_mini', 'confirm' => __('Are you sure you want to delete this photo?'))) ?>
+                  <?php echo button_to(__('Delete'), 'registration/photos?confirm_delete=' . $photo->getId(), array('class' => 'button_mini')) ?>
               </div>
         <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
         </div>
