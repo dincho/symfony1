@@ -20,9 +20,7 @@
     <fieldset>
         <label><input type="checkbox" name="tos" id="tos" class="tos" value="1" /></label>
         
-        <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
-                                    array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
-                                          '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>        
+        <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>      
         <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos')) ?>
     </fieldset>
     <fieldset class="actions">

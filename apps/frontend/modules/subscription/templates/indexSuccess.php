@@ -72,8 +72,7 @@ In order to see more matches and send messages, please upgrade your subscription
     </fieldset>
     <br class="clear" />
         <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />
-        <?php echo __('Prices and avialable features subject to changes without notice. Please read %link_to_user_agreement% for details.', 
-                            array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement', array('class' => 'sec_link')))) ?>
+        <?php echo __('Prices and avialable features subject to changes without notice. Please read <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> for details.') ?>
         <br /><br /><br />
         
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />

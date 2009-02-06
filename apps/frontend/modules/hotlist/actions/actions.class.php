@@ -44,8 +44,8 @@ class hotlistActions extends prActions
         if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
         
         //confirm msg
-        $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%HOSTLIST_URL%" class="sec_link">See your hot-list</a>', 
-        array('%USERNAME%' => $profile->getUsername(), '%HOSTLIST_URL%' => $this->getController()->genUrl('@hotlist')));
+        $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
+        array('%USERNAME%' => $profile->getUsername()));
         $this->setFlash('msg_ok', $msg_ok);
         
         //$this->redirect('@profile?username=' . $profile->getUsername());

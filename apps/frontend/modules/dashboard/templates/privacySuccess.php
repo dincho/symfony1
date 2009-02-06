@@ -10,8 +10,8 @@
     <?php echo pr_label_for('contact_only_full_members', 'I want to be contacted by Full Members only.') ?><br />
     
     <div class="center_text">
-        <?php echo __('You may also deactivate (hide) your profile by <a href="{DEACTIVATE_URL}" class="sec_link">clicking here</a>.', array('{DEACTIVATE_URL}' => url_for('dashboard/deactivate'))) ?><br /><br />
-        <?php echo __('You may also delete your account by <a href="{DELETE_PROFILE_URL}" class="actions">clicking here</a>.', array('{DELETE_PROFILE_URL}' => url_for('dashboard/deleteYourAccount'))) ?>
+        <?php echo __('You may also deactivate (hide) your profile by <a href="%URL_FOR_DEACTIVATE_PROFILE%" class="sec_link">clicking here</a>.') ?><br /><br />
+        <?php echo __('You may also delete your account by <a href="%URL_FOR_DELETE_ACCOUNT%" class="actions">clicking here</a>.') ?>
     </div>
     <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
     <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>

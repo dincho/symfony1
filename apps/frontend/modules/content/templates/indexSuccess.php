@@ -43,9 +43,7 @@
                         <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
                         
-                        <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
-                                            array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement', array('class' => 'textsub')),
-                                                  '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'), array('class' => 'textsub'))) ?>
+                        <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
                         
                         <div class="tos_contaner">
                             <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>

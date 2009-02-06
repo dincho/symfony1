@@ -1,4 +1,4 @@
-<?php echo __('To get new match results, change your %LINK_TO_SEARCH_CRITERIA%. <span style="font-size: 11px">(To unblock a member click "Unblock")</span>',  array('%LINK_TO_SEARCH_CRITERIA%' => link_to(__('Search Criteria'), 'dashboard/searchCriteria', array('class' => 'sec_link')))) ?>
+<?php echo __('To get new match results, change your <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">Search Criteria</a>. <span style="font-size: 11px">(To unblock a member click "Unblock")</span>') ?>
 <br /><br />
 <table class="blocked_members">
 <?php foreach ($blocks as $block): ?>

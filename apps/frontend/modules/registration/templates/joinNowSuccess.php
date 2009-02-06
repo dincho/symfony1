@@ -33,9 +33,7 @@
         </fieldset>
         <div id="ajax_response"></div>
                 
-        <?php $tos_text = __('I am 18 or older and I agree to the %link_to_user_agreement% and %link_to_privacy_policy%.', 
-                            array('%link_to_user_agreement%' => link_to(__('Terms of Use'), '@page?slug=user_agreement'),
-                                  '%link_to_privacy_policy%' => link_to(__('Privacy Policy'), '@page?slug=privacy_policy'))) ?>
+        <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
         <?php echo pr_label_for('terms', $tos_text, array('class' => 'tos'), false) ?>
         <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input', 'style' => 'float: left; margin-left: 333px;')) ?>
         
