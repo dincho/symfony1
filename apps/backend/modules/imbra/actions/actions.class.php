@@ -91,7 +91,7 @@ class imbraActions extends sfActions
             $mail->addAddress($this->member->getEmail(), $this->member->getFullName());
             
             $mail->setSubject($this->getRequestParameter('subject'));
-            $mail->setBody($this->getRequestParameter('body'));
+            $mail->setBody($this->getRequestParameter('body') . $this->getRequestParameter('footer'));
             $mail->Send();
             
             $this->imbra->setImbraStatusId(ImbraStatusPeer::DENIED);
