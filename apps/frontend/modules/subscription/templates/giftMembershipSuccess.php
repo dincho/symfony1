@@ -1,7 +1,7 @@
-<?php echo __('%USERNAME% uses Free Membership and %she_he% will only be able to reply to your message, but never write you a new one. You may nicely surprise %USERNAME% and buy %her_his%:<br /><br />', 
+<?php echo __('%USERNAME% uses Free Membership and %she_he% will only be able to reply to your message, but never write you a new one. You may nicely surprise %USERNAME% and buy %her_him%:<br /><br />', 
             array('%USERNAME%' => $member->getUsername(),
-                 '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
-                 '%her_his%' => ( $member->getSex() == 'M' ) ? 'his' : 'her'
+                 '%she_he%' => ( $member->getSex() == 'M' ) ? 'he' : 'she',
+                 '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her'
             )); ?>
 <?php echo form_tag('subscription/paymentGift') ?>
     <?php echo input_hidden_tag('profile', $member->getUsername()) ?>
