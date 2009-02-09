@@ -11,7 +11,9 @@
 
 </head>
 <body>
-    <?php include_partial('content/headerCompleteRegistration'); ?>
+    <?php if( $sf_user->isAuthenticated() && $sf_user->getAttribute('status_id') == MemberStatusPeer::ABANDONED ): ?>
+        <?php include_partial('content/headerCompleteRegistration'); ?>
+    <?php endif; ?>
     <div id="box-index">              
         <!--- box border -->
         <div id="lb"><div id="rb">
@@ -28,5 +30,9 @@
         <!-- -->
     </div>
     <?php include_component('content', 'footer'); ?>
+    <span class="footer_footer">
+        <?php echo __('<a href="%URL_FOR_COPYRIGHT%">Copyright 2007-2009 by PolishRomance.com %VERSION%</a>- Patent Pending - All Rights Reserved', array('%VERSION%' => sfConfig::get('app_version'))) ?> 
+        &nbsp;-&nbsp;<?php include_partial('system/page_execution'); ?>
+    </span>    
 </body>
 </html>

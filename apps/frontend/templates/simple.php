@@ -29,7 +29,13 @@
                     <?php endif; ?> 
                     <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
-            <?php include_partial('content/messages'); ?>          
+            <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
+                      $sf_data->get('sf_flash')->has('msg_warning') || 
+                      $sf_data->get('sf_flash')->has('msg_ok') || 
+                      $sf_data->get('sf_flash')->has('msg_info') ): ?>
+                <?php include_partial('content/messages'); ?>
+            <?php endif; ?>
+                      
             <?php include_partial('content/formErrors'); ?>          
             <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'header_span' => @$header_span)); ?>
             <div id="secondary_container">
@@ -42,5 +48,9 @@
         <!-- -->
     </div>
     <?php include_component('content', 'footer'); ?>
+    <span class="footer_footer">
+        <?php echo __('<a href="%URL_FOR_COPYRIGHT%">Copyright 2007-2009 by PolishRomance.com %VERSION%</a>- Patent Pending - All Rights Reserved', array('%VERSION%' => sfConfig::get('app_version'))) ?> 
+        &nbsp;-&nbsp;<?php include_partial('system/page_execution'); ?>
+    </span>    
 </body>
 </html>

@@ -1,0 +1,17 @@
+_homepagePhotoSet:
+    enabled: on    
+page:
+    enabled: on
+_breadcrumb:
+    enabled: on
+    contextual: true
+_footer:
+    enabled: on
+    contextual: true
+_footer_menu:
+    enabled: on
+    contextual: true
+_headerMenu:
+    enabled: on
+    contextual: true
+    

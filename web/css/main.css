@@ -1610,8 +1610,18 @@ div.best_video div.right img {
     line-height: 18px;
 }
 
-#footer .footer_footer {
+.footer_footer {
     font-size: 10px;
+}
+
+.footer_footer a:link,.footer_footer a:visited,.footer_footer a:active {
+    text-decoration: none;
+    color: #3d3d3d;
+}
+
+.footer_footer a:hover {
+    text-decoration: underline;
+    color: #3d3d3d;
 }
 
 #footer a:link,#footer a:visited,#footer a:active {

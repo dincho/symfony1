@@ -29,6 +29,11 @@ class contentActions extends prActions
             $this->redirect('dashboard/index');
         }
         
+        $last_homepage_set = $this->getUser()->getAttribute('last_homepage_set', 3);
+        $homepage_set = ( $last_homepage_set >= 3 ) ? 1 : $last_homepage_set + 1;
+        $this->getUser()->setAttribute('last_homepage_set', $homepage_set);
+        $this->homepage_set = $homepage_set;
+                
         $this->getResponse()->setTitle('Homepage title');
         $this->getResponse()->addMeta('description', 'Homepage description');
         $this->getResponse()->addMeta('keywords', 'Homepage keywords');

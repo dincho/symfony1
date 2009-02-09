@@ -18,8 +18,4 @@
         <?php if(array_key_exists('affiliates', $links_map)) echo link_to($links_map['affiliates'], '@page?slug=affiliates') . '&nbsp;&nbsp;&bull;&nbsp;'  ?>
         <?php echo link_to(__('Tell a Friend'), 'content/tellFriend') ?><br />
     <?php endif; ?>
-    <span class="footer_footer">
-        <?php echo __('<a href="%URL_FOR_COPYRIGHT%">Copyright 2007-2009 by PolishRomance.com %VERSION%</a>- Patent Pending - All Rights Reserved', array('%VERSION%' => sfConfig::get('app_version'))) ?> 
-        &nbsp;-&nbsp;<?php include_partial('system/page_execution'); ?>
-    </span>
 </div>

@@ -1,3 +1,7 @@
+staging:
+  .settings:
+    web_debug:  on
+    cache:      on
 prod:
   .settings:
     no_script_name:           on

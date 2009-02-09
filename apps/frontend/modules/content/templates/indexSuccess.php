@@ -19,7 +19,7 @@
     </div>
     <div id="center">
         <div id="index_image">
-            <?php include_component('content', 'homepagePhotoSet'); ?>
+            <?php include_component('content', 'homepagePhotoSet', array('homepage_set' => $homepage_set)); ?>
         </div>
         <div id="under_index_image">
             <h2><?php echo __('BROWSE FOR FREE NOW') ?></h2>
