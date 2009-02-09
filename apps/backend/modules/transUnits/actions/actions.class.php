@@ -107,7 +107,7 @@ class transUnitsActions extends sfActions
               
         if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
-            $c->add(TransUnitPeer::SOURCE, $this->filters['search_query'] . '%', Criteria::LIKE);
+            $c->add(TransUnitPeer::SOURCE, '%' . $this->filters['search_query'] . '%', Criteria::LIKE);
         }        
     }
         
