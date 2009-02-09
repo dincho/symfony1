@@ -10,7 +10,7 @@
 <?php echo form_tag('registration/index', array('id' => 'public_reg_form')) ?>
     <fieldset>
         <?php echo pr_label_for('country', 'Country of Residence') ?>
-        <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
+        <?php echo pr_select_country_tag('country', $member->getCountry(), array('include_custom' => 'Select Country')) ?><br />
         
         <?php echo pr_label_for('state_id', 'Area') ?>
         <?php echo pr_object_select_state_tag($member, 'getStateId') ?><br />

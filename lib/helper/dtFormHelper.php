@@ -114,7 +114,7 @@ function pr_select_country_tag($name, $selected = null, $options = array())
     }
         
     $option_tags = options_for_select($new_countries, $selected, $options);
-    unset($options['include_blank'], $options['include_custom']);
+    
     
     
     $option_tags = content_tag('option', $countries['CA'], array('value' => 'CA'))."\n" . $option_tags;
@@ -122,7 +122,12 @@ function pr_select_country_tag($name, $selected = null, $options = array())
     $option_tags = content_tag('option', $countries['GB'], array('value' => 'GB'))."\n" . $option_tags;
     $option_tags = content_tag('option', $countries['PL'], array('value' => 'PL'))."\n" . $option_tags;
     $option_tags = content_tag('option', $countries['US'], array('value' => 'US'))."\n" . $option_tags;
+    if( isset($options['include_custom']) )
+    {
+    	$option_tags = content_tag('option', $options['include_custom'], array('value' => null))."\n" . $option_tags;
+    }
         
+    unset($options['include_blank'], $options['include_custom']);
     return select_tag($name, $option_tags, $options);
 }
 
