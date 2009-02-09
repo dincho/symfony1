@@ -101,6 +101,21 @@ class profileActions extends prActions
             $this->redirect('@dashboard');
         }
         
+        //privacy
+        $prPrivavyValidator = new prPrivacyValidator();
+        $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
+        $prPrivavyValidator->initialize($this->getContext(), array(
+          'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+          'check_onlyfull' => false,
+        ));
+        
+        $error = '';
+        if( !$prPrivavyValidator->execute(&$value, &$error) )
+        {
+            $this->setFlash('msg_error', $error);
+            $this->redirectToReferer();
+        }
+                    
         //add a visit
         $this->getUser()->viewProfile($member);
 

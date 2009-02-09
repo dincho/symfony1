@@ -1,0 +1,56 @@
+<?php
+class prPrivacyValidator extends sfValidator
+{
+	protected $sender;
+	protected $receiver;
+	
+	public function setProfiles(BaseMember $sender, BaseMember $receiver)
+	{
+        $this->sender = $sender;
+        $this->receiver = $receiver;
+	}
+	
+	public function execute(&$value, &$error) 
+	{
+        
+       if ( $this->getParameter('check_block') && $this->receiver->hasBlockFor($this->sender->getId()) )
+       {
+           $error = $this->getParameter('block_error');
+           return false;
+       }
+        
+       if ( $this->getParameter('check_sex') && 
+            ($this->receiver->getLookingFor() != $this->sender->getSex() || $this->sender->getLookingFor() != $this->receiver->getSex()) )
+       {
+           $error = $this->getParameter('sex_error');
+           return false;
+       }
+       
+       if ( $this->getParameter('check_onlyfull') && $this->sender->getSubscriptionId() == SubscriptionPeer::FREE && $this->receiver->getContactOnlyFullMembers() )
+       {
+           $error = $this->getParameter('onlyfull_error');
+           return false;
+       }       
+            		
+		return true;
+	}
+	
+	public function initialize($context, $parameters = null)
+	{
+		// Initialize parent
+		parent::initialize ( $context );
+		
+		$this->setParameter('check_block', true);
+		$this->setParameter('check_sex', true);
+		$this->setParameter('check_onlyfull', true);
+		
+		$this->setParameter('block_error', 'This member has blocked you');
+		$this->setParameter('sex_error', 'Due to privacy restrictions you cannot interact with this profile');
+		$this->setParameter('onlyfull_error', 'Due to privacy restrictions you cannot interact with this profile');
+		
+		// Set parameters
+		$this->getParameterHolder ()->add($parameters);
+		
+		return true;
+	}
+}

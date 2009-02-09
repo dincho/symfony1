@@ -53,15 +53,31 @@ class winksActions extends prActions
     {
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
+        $member = $this->getUser()->getProfile();
         
-        if( $this->getUser()->getId() == $profile->getId() )
+        if( $member->getId() == $profile->getId() )
         {
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
             $this->redirect('profile/index?username=' . $profile->getUsername() );
         }
         
-        $subscription = $this->getUser()->getProfile()->getSubscription();
+        //2. Privacy
+        $prPrivavyValidator = new prPrivacyValidator();
+        $prPrivavyValidator->setProfiles($member, $profile);
+        $prPrivavyValidator->initialize($this->getContext(), array(
+          'block_error' => 'You can not send wink to this profile!',
+          'sex_error' => 'Due to privacy restrictions you cannot send wink to this profile',
+          'check_onlyfull' => false,
+        ));
         
+        $error = '';
+        if( !$prPrivavyValidator->execute(&$value, &$error) )
+        {
+            $this->getRequest()->setError('privacy', $error);
+            return false;
+        }
+                    
+        $subscription = $this->getUser()->getProfile()->getSubscription();
         if( !$subscription->getCanWink() )
         {
             if( $subscription->getId() == SubscriptionPeer::FREE )

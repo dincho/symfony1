@@ -126,6 +126,8 @@ class messagesActions extends prActions
             $this->forward404Unless($message);
             
             $profile = $message->getMemberRelatedByFromMemberId();
+            $member = $this->getUser()->getProfile();
+            
             //1. is the other member active ?
             if ( $profile->getmemberStatusId() != MemberStatusPeer::ACTIVE )
             {
@@ -133,15 +135,24 @@ class messagesActions extends prActions
                 return false;
             }
             
-            //2. has blocked this member ?
-            if ( $profile->hasBlockFor($this->getUser()->getId()) )
+            //2. Privacy
+            $prPrivavyValidator = new prPrivacyValidator();
+            $prPrivavyValidator->setProfiles($member, $profile);
+            $prPrivavyValidator->initialize($this->getContext(), array(
+              'block_error' => 'You can not send message to this member!',
+              'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
+              'check_onlyfull' => false,
+            ));
+            
+            $error = '';
+            if( !$prPrivavyValidator->execute(&$value, &$error) )
             {
-                $this->getRequest()->setError('message', 'You can not send message to this member!');
+                $this->getRequest()->setError('privacy', $error);
                 return false;
             }
 
             //3. subscription limits/restrictions ?
-            $subscription = $this->getUser()->getProfile()->getSubscription();
+            $subscription = $member->getSubscription();
             if( !$subscription->getCanReplyMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
@@ -153,7 +164,7 @@ class messagesActions extends prActions
                 return false;
             }
             
-            if( $this->getUser()->getProfile()->getCounter('ReplyMessages') >= $subscription->getReplyMessages() )
+            if( $member->getCounter('ReplyMessages') >= $subscription->getReplyMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
                 {
@@ -164,7 +175,7 @@ class messagesActions extends prActions
                 return false;
             }
             
-            if( $this->getRequestParameter('tos', 0) != 1 && !$this->getUser()->getProfile()->getLastImbra(true) && $profile->getLastImbra(true) )
+            if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
             {
                 $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
                 return false;                
@@ -221,21 +232,23 @@ class messagesActions extends prActions
                 return false;
             }
             
-            //2. has blocked this member ?
-            if ( $profile->hasBlockFor($member->getId()) )
-            {
-                $this->getRequest()->setError('message', 'You can not send message to this member!');
-                return false;
-            }
-            
-            //3. wants to receive messages only from paid members ?
-            if ( $member->getSubscriptionId() == SubscriptionPeer::FREE && $profile->getContactOnlyFullMembers() )
-            {
-                $this->getRequest()->setError('message', 'This member accept messages only from paid members!');
-                return false;
-            }
-            
-            //4. subscription limits/restrictions ?
+            //2. Privacy
+            $prPrivavyValidator = new prPrivacyValidator();
+            $prPrivavyValidator->setProfiles($member, $profile);
+			$prPrivavyValidator->initialize($this->getContext(), array(
+			  'block_error' => 'You can not send message to this member!',
+			  'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
+			  'onlyfull_error' => 'This member accept messages only from paid members!',
+			));
+			
+			$error = '';
+			if( !$prPrivavyValidator->execute(&$value, &$error) )
+			{
+				$this->getRequest()->setError('privacy', $error);
+				return false;
+			}
+			
+            //3. subscription limits/restrictions ?
             $subscription = $member->getSubscription();
             if( !$subscription->getCanSendMessages() )
             {
