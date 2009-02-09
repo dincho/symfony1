@@ -24,12 +24,12 @@ class contentComponents extends sfComponents
         $c = new Criteria();
         $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
         $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $culture .'", ' . StockPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
-        $c->add(StockPhotoPeer::HOMEPAGES_SET, $homepage_set);
+        $c->add(StockPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
         $c->addAscendingOrderByColumn(StockPhotoPeer::HOMEPAGES_POS);
         $c->setLimit(9);
         $photos = StockPhotoPeer::doSelect($c);
         
-        if( count($photos) < 9 && $homepage_set != 1)
+        if( count($photos) < 9 && $this->homepage_set != 1)
         {
             $c->add(StockPhotoPeer::HOMEPAGES_SET, 1);
             $photos = StockPhotoPeer::doSelect($c);
