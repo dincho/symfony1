@@ -118,6 +118,7 @@ function pr_select_country_tag($name, $selected = null, $options = array())
     
     
     $option_tags = content_tag('option', $countries['CA'], array('value' => 'CA'))."\n" . $option_tags;
+    $option_tags = content_tag('option', $countries['IE'], array('value' => 'IE'))."\n" . $option_tags;
     $option_tags = content_tag('option', $countries['GB'], array('value' => 'GB'))."\n" . $option_tags;
     $option_tags = content_tag('option', $countries['PL'], array('value' => 'PL'))."\n" . $option_tags;
     $option_tags = content_tag('option', $countries['US'], array('value' => 'US'))."\n" . $option_tags;
