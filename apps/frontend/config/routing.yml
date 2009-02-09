@@ -45,7 +45,7 @@ dashboard:
                     
 matches:
     url:    /:sf_culture/matches
-    param:  { module: search, action: index }
+    param:  { module: search, action: index, sf_culture: en }
     
 visitors:
     url:    /:sf_culture/visitors
