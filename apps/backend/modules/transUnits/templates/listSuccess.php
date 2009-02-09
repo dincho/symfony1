@@ -1,5 +1,8 @@
 <?php use_helper('Object') ?>
-<div class="filter_right"><?php echo button_to ('Add Translation Unit', 'transUnits/create') ?></div>
+<div class="filter_right">
+    <?php echo button_to ('Clear Cache', 'system/clearCache') ?>
+    <?php echo button_to ('Add Translation Unit', 'transUnits/create') ?>
+</div>
 
 <?php echo form_tag('transUnits/list', array('method' => 'get', 'id' => 'search_filter')) ?>
     <?php echo input_hidden_tag('filter', 'filter', 'class=hidden') ?>
