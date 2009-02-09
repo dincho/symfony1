@@ -10,6 +10,11 @@
  */
 class dashboardActions extends sfActions
 {
+	public function executeList()
+	{
+		$this->forward('dashboard', 'index');
+	}
+	
     public function executeIndex()
     {
         $c = new Criteria();
