@@ -81,7 +81,7 @@ class Dashboard
     public static function getMessagesPendingReview()
     {
 	$r = new CustomQueryObject();
-	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM message WHERE  is_reviewed=0');
+	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM message WHERE  is_reviewed=0 AND sent_box = 0');
 	return $ret[0];
     }
 }
