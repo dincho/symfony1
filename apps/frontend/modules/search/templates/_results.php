@@ -20,10 +20,12 @@
                     </p>
                     <p></p>
                     <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
-                    <?php if( !is_null($match->getReversePct())): ?>
-                        <p><?php echo __('%she_he% matches you: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
+                    <?php if( !is_null($match->getPct())): ?>
+                        <p><?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
                     <?php endif; ?>
-                    <p><?php echo __('You match %her_him%: %MATCH%%', array('%MATCH%' => $match->getPct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
+                    <?php if( !is_null($match->getReversePct())): ?>
+                        <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
+                    <?php endif; ?>
                 </div>
             </div>  
             <?php if( $i < $pager->getMaxPerPage() && $i%3 == 0): ?>
