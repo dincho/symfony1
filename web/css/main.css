@@ -389,6 +389,24 @@ p {
     width: 230px;
 }
 
+#assistant_profile_confirm {
+    background-color: #4f4f4f;
+    width: 327px;
+    height: 106px;
+    font-size: 11px;
+    line-height: 11px;
+}
+
+#assistant_profile_confirm img {
+    float: left;
+    margin-right: 8px;
+}
+
+#assistant_profile_confirm p {
+	padding: 0;
+	margin: 0;
+}
+
 #secondary_container #sign_in {
     margin-left: auto;
     margin-right: auto;

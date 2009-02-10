@@ -274,8 +274,8 @@ class dashboardActions extends prActions
             
             $member->incCounter('AssistantContacts');
             
-            $this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
-            $this->redirect('dashboard/index');
+            //$this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
+            $this->redirect('dashboard/contactAssistantConfirmation');
         }
         
         $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());

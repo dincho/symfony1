@@ -1,4 +1,5 @@
 <?php use_helper('dtForm') ?>
+<?php $photo_path = ''?>
 
 <?php if( $photo ): ?>
     <?php $photo_path = image_path( ($photo->getImageUrlPath('cropped', '70x105')) ? $photo->getImageUrlPath('cropped', '70x105') : $photo->getImageUrlPath('file', '70x105')) ?>
