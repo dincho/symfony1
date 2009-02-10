@@ -104,8 +104,8 @@ class photosActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs', array())), $namespace);
-            $user->setAttribute('homepages_set', $this->getRequestParameter('homepages_set'), $namespace);
-            $user->setAttribute('homepages_pos', $this->getRequestParameter('homepages_pos'), $namespace);
+            $user->setAttribute('homepages_set', $this->getRequestParameter('homepages_set', null), $namespace);
+            $user->setAttribute('homepages_pos', $this->getRequestParameter('homepages_pos', null), $namespace);
             $this->redirect('photos/crop?type=1&photo_id=' . $photo->getId());
         }
         
@@ -206,12 +206,13 @@ class photosActions extends sfActions
                 $photo->setGender($this->getRequestParameter('gender'));
                 $photo->addEffects('file', '100x95');
                 
+                
                 $namespace = 'backend/photos/addtohomepage';
                 $photo->setHomepagesArray($user->getAttribute('catalogs', array(), $namespace));
                 $user->setAttribute('catalogs', null, $namespace);
-                $photo->setHomepagesSet($user->getAttribute('homepages_set', null, $namespace));
+                $photo->setHomepagesSet(($user->getAttribute('homepages_set', null, $namespace)) ?$user->getAttribute('homepages_set', null, $namespace) : null);
                 $user->setAttribute('homepages_set', null, $namespace);
-                $photo->setHomepagesPos($user->getAttribute('homepages_pos', null, $namespace));
+                $photo->setHomepagesPos(($user->getAttribute('homepages_pos', null, $namespace)) ? $user->getAttribute('homepages_pos', null, $namespace) : null);
                 $user->setAttribute('homepages_pos', null, $namespace);
             } elseif($this->getRequestParameter('type') == 2) //member stories
             {
