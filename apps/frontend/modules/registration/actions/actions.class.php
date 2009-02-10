@@ -50,6 +50,8 @@ class registrationActions extends prActions
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($member); //just in case
+        $this->forward404Unless(!$member->getHasEmailConfirmation());
+        
         $bc = $this->getUser()->getBC();
         $bc->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => '@signin'));
         
