@@ -46,8 +46,14 @@
   padding-right: 10px;
   color: #9F9F9F;
   font-weight: normal;
+  width: 100px;
 }
 
+#html_content {
+    	
+		
+}
+	
 .email_fields input, .email_fields textarea {
 	width: 650px;
 }
