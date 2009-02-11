@@ -87,9 +87,9 @@ class messagesActions extends prActions
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
                 {
-                    $this->setFlash('msg_error', 'For the feature that you want want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
+                    $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
                 } else {
-                    $this->setFlash('msg_error', 'Paid: For the feature that you want want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
+                    $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
                 }
                 $this->redirect('messages/index');  
             }
@@ -168,9 +168,9 @@ class messagesActions extends prActions
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
                 {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
                 } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
                 }
                 return false;
             }
@@ -265,9 +265,9 @@ class messagesActions extends prActions
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
                 {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
                 } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
                 }
                 return false;
             }

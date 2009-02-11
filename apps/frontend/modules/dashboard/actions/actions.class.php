@@ -299,9 +299,9 @@ class dashboardActions extends prActions
         {
             if( $subscription->getId() == SubscriptionPeer::FREE )
             {
-                $this->getRequest()->setError('subscription', 'For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+                $this->getRequest()->setError('subscription', 'For the feature that you want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
             } else {
-                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
             }
             return false;            
         }

@@ -360,7 +360,7 @@ class registrationActions extends prActions
             if ($cnt_photos >= $subscription->getPostPhotos())
             {
                 $this->getRequest()->setError('subscription', 
-                        'For the feature that you want want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
+                        'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
                 return false;
             }
         }
