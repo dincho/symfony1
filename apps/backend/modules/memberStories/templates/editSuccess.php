@@ -6,7 +6,7 @@
   <div class="legend">Edit <?php echo $story->getSlug() ?>.html</div>
       <fieldset class="form_fields float-left">
         <label for="link_name">Link Name:</label>
-        <?php echo object_input_tag($story, 'getLinkName', error_class('link_name')) ?><br />
+        <div style=float:left;"><?php echo object_input_tag($story, 'getLinkName', error_class('link_name')) ?></div><br />
         
         <label for="culture">Language:</label>
         <?php echo object_select_language_tag($story, 'getCulture', array('languages' => array('en', 'pl'))); ?><br />
@@ -25,7 +25,7 @@
        
       </fieldset>
   
-  <fieldset class="form_fields email_fields">
+  <fieldset class="form_fields email_fields" style="margin-top: 150px;">
     <label for="html_content">HTML Content:</label>
     <?php echo textarea_tag('html_content', $story->getContent(), 'rows=20 cols=38 id=html_content ' . error_class('html_content')) ?>
   </fieldset>        
