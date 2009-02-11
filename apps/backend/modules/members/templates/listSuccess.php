@@ -7,7 +7,7 @@
 
 <?php include_partial('members/search_filter', array('filters' => $filters)); ?>
 
-<table class="zebra">
+<table class="zebra" style="position: absolute; left: 260px; top: 220px;">
   <thead>
     <tr>
       <th></th>
