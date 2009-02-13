@@ -119,7 +119,14 @@ class profileActions extends prActions
         //add a visit
         $this->getUser()->viewProfile($member);
 
-        if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
+        if($this->getFlash('msg_ok') == 'Congratulations, your registration is complete.')
+        {
+            if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'Congratulations, your registration is complete.', false);
+        }
+        else
+        {
+            if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
+        }
         
         //@TODO recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
