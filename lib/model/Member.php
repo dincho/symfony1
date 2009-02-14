@@ -14,9 +14,10 @@ class Member extends BaseMember
         parent::setPassword($new_val);
     }
     
-    public function setNewPassword($v)
+    public function setNewPassword($v, $hash_it = true)
     {
-        parent::setNewPassword(sha1(SALT . $v . SALT));
+    	$new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
+        parent::setNewPassword($new_val);
     }
     
     public function getFullName()

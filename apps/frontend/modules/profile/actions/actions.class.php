@@ -292,7 +292,7 @@ class profileActions extends prActions
         
         $this->forward404Unless($member->getNewPassword() == $hash);
         $member->setPassword($member->getNewPassword(), false);
-        $member->setNewPassword(NULL);
+        $member->setNewPassword(NULL, false);
         $member->save();
         $this->message('new_password_confirmed');
     }
