@@ -13,7 +13,7 @@ class staticPagesComponents extends sfComponents
      {
          $c = new Criteria();
          $c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
-         $c->addAscendingOrderByColumn(MemberCounterPeer::PROFILE_VIEWS);
+         $c->addDescendingOrderByColumn(MemberCounterPeer::PROFILE_VIEWS);
          $c->add(MemberPeer::YOUTUBE_VID, null, Criteria::ISNOTNULL);
          $c->setLimit(3);
          
