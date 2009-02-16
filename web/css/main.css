@@ -2262,6 +2262,7 @@ div.best_video div.right img {
     margin-top: 5px;
     height: 50px;
     width: 100%;
+    width: 340px;
     margin-bottom: 5px;
 }
 
@@ -2277,7 +2278,7 @@ div.best_video div.right img {
 }
 
 #profile_double_box .right {
-    border-left: 6px solid #000;
+    border-left: 6px solid #2B2B2B;
 }
 
 /* Profile description and map */
