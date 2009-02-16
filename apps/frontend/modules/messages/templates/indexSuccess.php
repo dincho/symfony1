@@ -22,7 +22,7 @@
             <?php $class = ( isset($class) ) ? 'delete bold' : 'delete'; ?>
         <?php endif; ?>
     
-        <tr <?php if(isset($class)) echo 'class="' . $class ?>" >
+        <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, array('class' => 'checkbox', 'read' => (int) $message->getIsRead())) ?></td>
             <td><?php echo link_to($message->getMemberRelatedByFromMemberId()->getUsername(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
             <td><?php echo link_to($message->getSubject(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
@@ -56,7 +56,7 @@
             <?php $class = 'delete'; ?>
         <?php endif; ?>
         
-        <tr <?php if(isset($class)) echo 'class="' . $class ?>" >
+        <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, 'class=checkbox') ?></td>
             <td><?php echo link_to($message->getMemberRelatedByToMemberId()->getUsername(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
             <td><?php echo link_to($message->getSubject(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
