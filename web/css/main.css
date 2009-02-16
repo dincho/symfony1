@@ -555,6 +555,12 @@ p {
 
 #winks div.member_profile img.x {
     float: right;
+    
+}
+
+#winks div.member_profile img.x2 {
+	float: right;
+    margin-top: 86px;    
 }
 
 #winks div.member_profile div.input {

@@ -19,7 +19,7 @@
                     <?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to(__('Remove from Winks'), 'winks/delete?id=' . $received_wink->getId()) ?>
                 </div>                
-                <?php echo link_to(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $received_wink->getId()) ?>
+                <?php echo link_to(image_tag('butt_x.gif', 'class=x2'), 'winks/delete?id=' . $received_wink->getId()) ?>
             </div>
         <?php endforeach; ?>
     </div>
