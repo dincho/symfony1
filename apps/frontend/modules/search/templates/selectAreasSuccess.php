@@ -22,7 +22,7 @@
     </fieldset>
     
     <br class="clear" />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br />
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?><br />
     <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
 </form>
 <br class="clear" />
