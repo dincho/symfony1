@@ -1,0 +1,14 @@
+default:
+  is_secure: on
+  credentials:  [[ feedback, feedback_edit ]]
+compose:
+  credentials: feedback_edit
+reply: 
+  credentials: feedback_edit
+delete:
+  credentials: feedback_edit
+addEmailRecepients:
+  credentials: feedback_edit
+addToBugTrac:
+  credentials: feedback_edit
+
