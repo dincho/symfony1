@@ -240,7 +240,7 @@ class profileActions extends prActions
             {
                 //set temp pass
                 $new_pass = Tools::generateString(8);
-                $member->setPassword($new_pass);
+                $member->setNewPassword($new_pass);
                 Events::triggerForgotPassword($member);
                 $member->save();
             }
@@ -270,9 +270,11 @@ class profileActions extends prActions
         $member = MemberPeer::retrieveByUsername($username);
         $this->forward404Unless($member);
         
-        $pass_hash = sha1(SALT . $member->getPassword() . SALT);
+        $pass_hash = sha1(SALT . $member->getNewPassword() . SALT);
         $this->forward404Unless($hash == $pass_hash);
 
+        $member->setPassword($member->getNewPassword(), false);
+        $member->setNewPassword(NULL, false);
         $member->setMustChangePwd(true);
         $member->save();
         

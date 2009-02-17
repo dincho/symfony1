@@ -69,7 +69,7 @@ class Events
     public static function triggerForgotPassword($member)
     {
         sfLoader::loadHelpers(array('Url'));
-        $global_vars = array('{CONFIRMATION_URL}' => url_for('profile/forgotPasswordConfirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getPassword() . SALT), array('absolute' => true)));
+        $global_vars = array('{CONFIRMATION_URL}' => url_for('profile/forgotPasswordConfirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), array('absolute' => true)));
         self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
     }
     
