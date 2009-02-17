@@ -1534,6 +1534,7 @@ span.sec_link {
 .member .member_box .profile_info p {
     margin: 0;
     padding: 0;
+    padding-bottom: 3px;
     color: #92897E;
     height: 11px;
 }
@@ -1542,6 +1543,9 @@ span.sec_link {
     margin: 0;
     padding: 0;
     color: #d3d3d3;
+    
+    width: 146px;
+    height: 26px;
 }
 
 .member .member_box .profile_info u {
