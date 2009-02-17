@@ -27,6 +27,7 @@ class editProfileActions extends prActions
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             $update_confirmation = $member->isModified(); //using this to determine if some field is changed, before changing the passwords.
+            $update_msg = 'Your Registration Information has been updated';
             
             $flash_error = '';
             if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
@@ -46,6 +47,7 @@ class editProfileActions extends prActions
                     $member->setPassword($this->getRequestParameter('password'));
                     $member->setMustChangePwd(false);
                     $this->getUser()->setAttribute('must_change_pwd', false);
+                    $update_confirmation = true;
                 } else
                 {
                     $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
@@ -59,7 +61,7 @@ class editProfileActions extends prActions
             
             $member->save();
             
-            if( $update_confirmation ) $this->setFlash('msg_ok', 'Your Registration Information has been updated');
+            if( $update_confirmation ) $this->setFlash('msg_ok', $update_msg);
             if ($flash_error) $this->setFlash('msg_error', $flash_error);
             $this->redirect('dashboard/index'); //the dashboard
         }
