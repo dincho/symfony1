@@ -158,7 +158,7 @@ class contentActions extends prActions
             Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'), $this->getRequestParameter('friend_full_name'), 
                     $this->getRequestParameter('friend_email'), $this->getRequestParameter('comments'));
             
-            $this->message('tell_friend_confirm');
+            $this->redirect('content/tellFriendConfirm');
         }
     }
 
@@ -168,9 +168,9 @@ class contentActions extends prActions
         return sfView::SUCCESS;
     }
 
-    public function executeTellFriendConfirmation()
+    public function executeTellFriendConfirm()
     {
-    
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'))->add(array('name' => 'Confirmation'));
     }
 
     public function executeEmails()

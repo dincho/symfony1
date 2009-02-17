@@ -8,6 +8,8 @@ message:
   is_secure: off
 tellFriend:
   is_secure: off
+tellFriendConfirm:
+  is_secure: off
 emails:
   is_secure: off
 changeLanguage:

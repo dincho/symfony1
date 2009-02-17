@@ -5,7 +5,7 @@
     <fieldset>
         <legend><?php echo __('Your Friend\'s Information') ?></legend>
         <?php echo pr_label_for('friend_email', 'Email') ?>
-        <?php echo input_tag('friend_email') ?><Br />
+        <?php echo input_tag('friend_email') ?><br />
         
         <?php echo pr_label_for('friend_full_name', 'Full Name') ?>
         <?php echo input_tag('friend_full_name') ?>
@@ -18,7 +18,7 @@
         <?php echo pr_label_for('full_name', 'Full Name') ?>
         <?php echo input_tag('full_name') ?><br />
         
-        <?php echo pr_label_for('comments', 'Comments <span>(optional)<span>') ?>
+        <?php echo pr_label_for('comments', 'Comments <span>(optional)</span>') ?>
         <?php echo textarea_tag('comments', null, array('rows' => 4, 'cols' => 20)) ?>
     </fieldset>
     <div id="tell_a_friend_div">
