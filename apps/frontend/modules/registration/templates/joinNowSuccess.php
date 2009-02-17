@@ -34,7 +34,7 @@
         <div id="ajax_response"></div>
                 
         <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
-        <?php echo pr_label_for('terms', $tos_text, array('class' => 'tos'), false) ?>
+        <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos'), false) ?>
         <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input', 'style' => 'float: left; margin-left: 333px;')) ?>
         
         <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>

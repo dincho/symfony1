@@ -1,5 +1,8 @@
 fillin:
   enabled: true
+  param:
+    content_type:   xml
+    name: self_desc_form
 fields:
   answers:
     required:

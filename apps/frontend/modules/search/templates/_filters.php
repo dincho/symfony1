@@ -8,14 +8,14 @@
         <?php echo __('Location') ?>
         &nbsp;&nbsp;
         <?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ) ?>
-        <label for="filter_location_0"><?php echo __('Everywhere') ?></label>
+        <label for="filters_location"><?php echo __('Everywhere') ?></label>
         &nbsp;&nbsp;&nbsp;
         <?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1) ) ?>
-        <label for="filter_location_1"><?php echo __('In selected countries only') ?></label>
+        <label for="filters_location_1"><?php echo __('In selected countries only') ?></label>
         <span><?php echo link_to(__('Select Countries'), 'search/selectCountries') ?></span>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ) ?>
-        <label for="filter_location_2"><?php echo __('In my area only') ?></label>
+        <label for="filters_location_2"><?php echo __('In my area only') ?></label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland'])  ) ?>
         <label for="filters_include_poland"><?php echo __('Include matches in Poland') ?></label>

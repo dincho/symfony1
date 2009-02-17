@@ -173,6 +173,7 @@ function pr_select_state_tag($country = 'US', $name, $selected = null, $options 
     
     $states = StatePeer::getAllByCountry($country);
     $options_for_select = objects_for_select($states, 'getId', 'getTitle', $selected);
+    unset($options['include_custom'], $options['include_blank']);
     
     return select_tag($name, $options_for_select, $options);
 }
@@ -223,7 +224,10 @@ function pr_select_language_level($name, $selected = null, $options = array())
 {
     $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');
     
-    return select_tag($name, options_for_select($levels, $selected, $options), $options);
+    $options_select = $options;
+    unset($options_select['include_custom']);
+    
+    return select_tag($name, options_for_select($levels, $selected, $options), $options_select);
 }
 
 function pr_format_language_level($key = null)

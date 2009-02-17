@@ -14,7 +14,7 @@
     <?php echo pr_label_for('deactivate_profile', 'Activate your profile') ?><br />
     
     <?php echo radiobutton_tag('deactivate_profile', 1, ($member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED) ) ?>
-    <?php echo pr_label_for('deactivate_profile', 'Deactivate your profile') ?><br />
+    <?php echo pr_label_for('deactivate_profile_1', 'Deactivate your profile') ?><br />
     
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
     <?php echo submit_tag(__('Save'), array('class' => 'button', 'name' => 'save')) ?>

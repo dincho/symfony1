@@ -11,7 +11,7 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="top_one">&nbsp;</span>
             <span class="type"><?php echo __('Create a profile') ?></span><br />
             <span class="type"><?php echo __('Post a photo') ?></span><br />
-            <span class="type"><?php echo __('Send & receive winks') ?></span><br />
+            <span class="type"><?php echo __('Send and receive winks') ?></span><br />
             <span class="type"><?php echo __('Respond to messages') ?></span><br />
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />

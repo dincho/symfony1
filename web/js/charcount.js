@@ -7,6 +7,7 @@ Date:       08/14/08
 
 Modified: Dincho Todorov
 Modified: Date 19.11.2008
+Note: removed html attributes to not be used, because of xhtml validation
 */
 var LabelCounter = 0;
 
@@ -15,35 +16,29 @@ function parseCharCounts()
     //Get Everything...
     var elements = document.getElementsByTagName('textarea');
     var element = null;
-    var maxlength = 9;
     var newlabel = null;
     
     for(var i=0; i < elements.length; i++)
     {
         element = elements[i];
         
-        if(element.getAttribute('maxlength') != null && element.getAttribute('limiterid') == null)
-        {
-            maxlength = element.getAttribute('maxlength');
-            
-            //Create new label
-            newlabel = document.createElement('label');
-            newlabel.id = 'limitlbl_' + LabelCounter;
-            newlabel.className = 'char_remaining';
-            newlabel.style.color = 'red';
-            newlabel.style.display = 'block'; //Make it block so it sits nicely.
-            newlabel.innerHTML = "Updating...";
-            
-            //Attach limiter to our textarea
-            element.setAttribute('limiterid', newlabel.id);
-            element.onkeyup = function(){ displayCharCounts(this); };
-            
-            //Append element
-            element.parentNode.insertBefore(newlabel, element.nextSibling);
-            
-            //Force the update now!
-            displayCharCounts(element);
-        }
+        //Create new label
+        newlabel = document.createElement('label');
+        newlabel.id = 'limitlbl_' + LabelCounter;
+        newlabel.className = 'char_remaining';
+        newlabel.style.color = 'red';
+        newlabel.style.display = 'block'; //Make it block so it sits nicely.
+        newlabel.innerHTML = "Updating...";
+        
+        //Attach limiter to our textarea
+        element.setAttribute('limiterid', newlabel.id);
+        element.onkeyup = function(){ displayCharCounts(this); };
+        
+        //Append element
+        element.parentNode.insertBefore(newlabel, element.nextSibling);
+        
+        //Force the update now!
+        displayCharCounts(element);
         
         //Push up the number
         LabelCounter++;
@@ -53,7 +48,7 @@ function parseCharCounts()
 function displayCharCounts(element)
 {
     var limitLabel = document.getElementById(element.getAttribute('limiterid'));
-    var maxlength = element.getAttribute('maxlength');
+    var maxlength = 2500;
     var enforceLength = true;
     if(element.getAttribute('lengthcut') != null && element.getAttribute('lengthcut').toLowerCase() == 'true')
     {

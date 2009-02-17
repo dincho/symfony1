@@ -1,5 +1,5 @@
 <?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'title error' : 'title'; ?>
-<label class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>">
     <?php echo ++$i; ?>. <?php echo $question->getTitle() ?> 
     <span>
     <?php if($question->getType() == 'age'): ?>
@@ -8,4 +8,4 @@
         <?php echo ($question->getIsRequired()) ? __('(select one)') : __('(optional, select one)')?>
     <?php endif; ?>
     </span>
-</label>
+</div>

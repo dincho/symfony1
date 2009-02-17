@@ -1223,7 +1223,7 @@ span {
     font-size: 11px;
 }
 
-label.title {
+div.title, label.title {
     margin-top: 40px;
     height: 16px;
     line-height: 16px;
@@ -1235,7 +1235,7 @@ label.title {
     padding-left: 6px;
 }
 
-#secondary_container label.title_first {
+div.title_first, #secondary_container label.title_first {
     margin-top: 10px;
     height: 16px;
     line-height: 16px;

@@ -1,15 +1,15 @@
 <?php use_helper('dtForm') ?>
-<?php $photo_path = ''?>
+<?php $photo_tag = ''?>
 
 <?php if( $photo ): ?>
-    <?php $photo_path = image_path( ($photo->getImageUrlPath('cropped', '70x105')) ? $photo->getImageUrlPath('cropped', '70x105') : $photo->getImageUrlPath('file', '70x105')) ?>
+    <?php $photo_tag = image_tag( ($photo->getImageUrlPath('cropped', '70x105')) ? $photo->getImageUrlPath('cropped', '70x105') : $photo->getImageUrlPath('file', '70x105')) ?>
 <?php endif; ?>  
 
 <?php echo __('Assistant request headline') ?>
 <?php echo form_tag('dashboard/contactYourAssistant', array('id' => 'report_bug')) ?>
     <fieldset>
         <div id="assistant_right">
-            <?php echo strtr(__('Assistant request content'), array('%ASSISTANT_PHOTO_PATH%' => $photo_path)) ?>
+            <?php echo strtr(__('Assistant request content'), array('%ASSISTANT_IMAGE%' => $photo_tag)) ?>
         </div>  
             
         <?php echo pr_label_for('subject', 'Subject:') ?>

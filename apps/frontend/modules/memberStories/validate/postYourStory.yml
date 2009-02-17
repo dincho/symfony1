@@ -1,5 +1,7 @@
 fillin:
-    enabled:    true
+  enabled:    true
+  param:
+    content_type:   xml    
 fields:
   story_title:
     required:

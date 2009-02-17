@@ -1,5 +1,7 @@
 fillin:
   enabled: true
+  param:
+    content_type:   xml  
 fields:
   friend_email:
     required:
