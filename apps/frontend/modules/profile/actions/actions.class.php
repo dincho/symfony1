@@ -69,63 +69,62 @@ class profileActions extends prActions
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
         
-        $member_status_id = $member->getMemberStatusId();
-        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));
-        
-        if( $member_status_id != MemberStatusPeer::ACTIVE
-            && $this->getRequestParameter('admin_hash') != $admin_hash)
+        if( $this->getUser()->getId() != $member->getId() )
         {
-            $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
-                                $member_status_id == MemberStatusPeer::PENDING ||
-                                $member_status_id == MemberStatusPeer::DENIED
-                                );
-                                
-            switch ($member_status_id) {
-            	case MemberStatusPeer::SUSPENDED:
-            	case MemberStatusPeer::SUSPENDED_FLAGS:
-            	case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
-            	    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
-            	break;
-            	case MemberStatusPeer::CANCELED:
-            	case MemberStatusPeer::CANCELED_BY_MEMBER:
-            	    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
-            	break;
-            	case MemberStatusPeer::DEACTIVATED:
-            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by his owner');
-            	break;
-            	
-            	default:
-            	break;
-            }
-            
-            $this->redirect('@dashboard');
-        }
-        
-        //privacy
-        $prPrivavyValidator = new prPrivacyValidator();
-        $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
-        $prPrivavyValidator->initialize($this->getContext(), array(
-          'sex_error' => 'Due to privacy restrictions you cannot see this profile',
-          'check_onlyfull' => false,
-        ));
-        
-        $error = '';
-        if( !$prPrivavyValidator->execute(&$value, &$error) )
-        {
-            $this->setFlash('msg_error', $error);
-            $this->redirectToReferer();
+	        $member_status_id = $member->getMemberStatusId();
+	        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));
+	        
+	        if( $member_status_id != MemberStatusPeer::ACTIVE
+	            && $this->getRequestParameter('admin_hash') != $admin_hash)
+	        {
+	            $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
+	                                $member_status_id == MemberStatusPeer::PENDING ||
+	                                $member_status_id == MemberStatusPeer::DENIED
+	                                );
+	                                
+	            switch ($member_status_id) {
+	            	case MemberStatusPeer::SUSPENDED:
+	            	case MemberStatusPeer::SUSPENDED_FLAGS:
+	            	case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+	            	    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+	            	break;
+	            	case MemberStatusPeer::CANCELED:
+	            	case MemberStatusPeer::CANCELED_BY_MEMBER:
+	            	    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+	            	break;
+	            	case MemberStatusPeer::DEACTIVATED:
+	            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by his owner');
+	            	break;
+	            	
+	            	default:
+	            	break;
+	            }
+	            
+	            $this->redirect('@dashboard');
+	        }
+	        
+	        //privacy
+	        $prPrivavyValidator = new prPrivacyValidator();
+	        $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
+	        $prPrivavyValidator->initialize($this->getContext(), array(
+	          'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+	          'check_onlyfull' => false,
+	        ));
+	        
+	        $error = '';
+	        if( !$prPrivavyValidator->execute(&$value, &$error) )
+	        {
+	            $this->setFlash('msg_error', $error);
+	            $this->redirectToReferer();
+	        }
         }
                     
         //add a visit
         $this->getUser()->viewProfile($member);
 
-        if($this->getFlash('msg_ok') == 'Congratulations, your registration is complete.')
+        if( $this->getUser()->getId() == $member->getId() && !$this->hasFlash('msg_ok') ) 
         {
-            if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'Congratulations, your registration is complete.', false);
-        }
-        else
-        {
-            if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
+        	$this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
         }
         
         //@TODO recent conversatoions - this need refactoring and move to the model

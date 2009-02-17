@@ -77,6 +77,7 @@ class myUser extends sfBasicSecurityUser
         
         if ($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
         {
+        	
             if ($member->mustFillIMBRA())
             {
                 $action->redirect('IMBRA/index');
@@ -87,15 +88,17 @@ class myUser extends sfBasicSecurityUser
                 } else {
                     $member->changeStatus(MemberStatusPeer::ACTIVE, false);
                     Events::triggerWelcome($member);
-                    $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
                 }
                 $member->save();
                 $member->updateMatches();
+                
                 $this->setAttribute('status_id', $member->getMemberStatusId());
                 $action->setFlash('msg_ok', 'Congratulations, your registration is complete.'); 
                 $action->redirect('@my_profile');
             }
         }
+        
+        
     }
     
     public function viewProfile($profile)
