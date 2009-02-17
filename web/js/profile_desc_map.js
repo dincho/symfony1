@@ -1,13 +1,19 @@
+var showing_map = false;
+
 function show_profile_desc()
 {
     document.getElementById('profile_map').style.display = 'none';
     document.getElementById('profile_desc').style.display = '';
     GUnload();
+    showing_map = false;
 }
 
 function show_profile_map(address, cityInfo)
 {
+	if( showing_map ) return;
+	
     if (GBrowserIsCompatible()) {
+    	showing_map = true;
         document.getElementById('profile_desc').style.display = 'none';
         document.getElementById('profile_map').style.display = '';      
         var map = new GMap2(document.getElementById("gmap"), { size: new GSize(320,320) } );
