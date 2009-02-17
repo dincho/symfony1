@@ -13,6 +13,9 @@ class Notification extends BaseNotification
     {
         $content = $this->getBody() . $this->getFooter();
         $content = str_replace(array_keys($global_vars), array_values($global_vars), $content);
+
+	$subject = $this->getSubject();
+        $subject = str_replace(array_keys($global_vars), array_values($global_vars), $subject);
         
         if( !is_null($object) )
         {
@@ -42,7 +45,7 @@ class Notification extends BaseNotification
             $mail->setSender($this->getSendFrom());            
         }
 
-        $mail->setSubject($this->getSubject());
+        $mail->setSubject($subject);
         $mail->setBody($content);
         
         if( $this->getToAdmins() )
