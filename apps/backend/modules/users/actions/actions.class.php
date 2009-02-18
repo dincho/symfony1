@@ -87,11 +87,11 @@ class usersActions extends sfActions
         $this->user = UserPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($this->user);
         
-        $criteria = new Criteria();
+/*        $criteria = new Criteria();
         $criteria->addAscendingOrderByColumn(GroupsPeer::GROUP_NAME);
         $this->groups = GroupsPeer::doSelect($criteria);
         $this->user_groups = sfNewSecurityQueries::getUserGroups($this->getRequestParameter('id'));
-        
+*/        
         return sfView::SUCCESS;
     }
 
