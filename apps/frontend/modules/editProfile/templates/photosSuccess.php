@@ -34,7 +34,11 @@
         
     <?php echo __('YouTube URL ') ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
-    
+    <?php if(!$sf_request->getParameter('confirm_delete')):  ?>
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
     <?php echo submit_tag(__('Save'), array('class' => 'button', 'name' => 'save')) ?>
+    <?php else: ?>
+    <br /><br /><span><?php echo __('Please select Yes or No at the top of the page') ?></span><br />
+     <?php echo submit_tag(__('Save'), array('class' => 'button_disabled', 'name' => 'save', 'disabled' => 'disabled')) ?>
+    <?php endif; ?>
 </form>

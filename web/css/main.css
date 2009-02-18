@@ -2712,6 +2712,18 @@ button, .button, form .button {
     margin-top: 5px;
 }
 
+form .button_disabled {
+    height: 28px !important;
+    width: auto !important;
+    background: #333333;
+    font-family: Arial;
+    font-size: 12px !important;
+    border: 0px ; /* right-bottom */
+    padding: 6px 8px !important;
+    cursor: arrow;
+    margin-top: 5px;
+}
+
 .button_save_and_cont {
     height: 28px !important;
     width: 120px !important;
