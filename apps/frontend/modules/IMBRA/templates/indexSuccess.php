@@ -50,7 +50,7 @@
     <?php echo object_input_tag($imbra, 'getCity', array('class' => 'input_text_width', 'size' => 26)) ?><br />
     
     <?php echo pr_label_for('state_id', 'State', array('class' => 'form_1')) ?>
-    <?php echo pr_select_state_tag('US', 'state_id', $imbra->getStateId(), array('include_custom' => '- Select -', 'class' => 'input_text_width')) ?><br />
+    <?php echo pr_select_state_tag('US', 'state_id', $imbra->getStateId(), array('include_custom' => '- Select -', 'class' => 'input_text_width', 'style' => 'width: 150px')) ?><br />
     
     
     <?php echo pr_label_for('zip', 'Zip Code', array('class' => 'form_1')) ?>
