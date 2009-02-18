@@ -28,7 +28,7 @@ class memberStoriesActions extends prActions
         $c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
         $c->setLimit(1);
         
-        $stories = MemberStoryPeer::doSelectJoinStockPhoto($c);
+        $stories = MemberStoryPeer::doSelectJoinStockPhoto2($c);
         $this->forward404Unless($stories);
         $this->story = $stories[0];
         
