@@ -59,11 +59,20 @@ class editProfileActions extends prActions
                 }
             }
             
-            $member->save();
             
-            if( $update_confirmation ) $this->setFlash('msg_ok', $update_msg);
             if ($flash_error) $this->setFlash('msg_error', $flash_error);
-            $this->redirect('dashboard/index'); //the dashboard
+            if( $member->isModified() ) 
+            {
+                $this->setFlash('msg_ok', $update_msg);
+                $member->save();
+                $this->redirect('dashboard/index'); //the dashboard
+            }
+            else
+            {
+                $this->setFlash('msg_error', 'You have not made any changes.');
+            }
+            
+            
         }
         $this->member = $member;
     }
@@ -206,9 +215,16 @@ class editProfileActions extends prActions
         {
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
-            $this->member->save();
-            $this->setFlash('msg_ok', 'Your Posting have been updated');
-            $this->redirect('dashboard/index');
+            if($this->member->isModified())
+            {
+                $this->member->save();
+                $this->setFlash('msg_ok', 'Your Posting have been updated');
+                $this->redirect('dashboard/index');
+            }
+            else
+            {
+                $this->setFlash('msg_error', 'You have not made any changes.');
+            }
         }
     }
 
