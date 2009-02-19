@@ -1766,9 +1766,10 @@ div.best_video div.right img {
 
 #register .tos_contaner {
     width: 238px;
-    height: 35px;
+    height: 33px;
     background-color: #363639;
     line-height: 14px;
+    padding-top: 2px;
 }
 
 #register #terms {
