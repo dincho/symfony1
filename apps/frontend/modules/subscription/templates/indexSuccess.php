@@ -16,9 +16,9 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />
             <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
-            <span class="type"><?php echo __('First %NUM% ', array('%NUM%' => $sub1->getTrial1Period() )) . pr_format_payment_period_type($sub1->getTrial1PeriodType()) ?></span><br />
-            <span class="type"><?php echo __('Next %NUM% ', array('%NUM%' => $sub1->getTrial2Period() )) . pr_format_payment_period_type($sub1->getTrial2PeriodType()) ?></span><br />
-            <span class="type"><?php echo __('After that') ?></span><br />
+            <span class="type"><?php echo __('First Month')?></span><br />
+            <span class="type"><?php echo __('Month 2 through 6') ?></span><br />
+            <span class="type"><?php echo __('Month 7+') ?></span><br />
             <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
