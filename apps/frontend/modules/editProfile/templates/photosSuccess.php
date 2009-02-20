@@ -42,3 +42,6 @@
      <?php echo submit_tag(__('Save'), array('class' => 'button_disabled', 'name' => 'save', 'disabled' => 'disabled')) ?>
     <?php endif; ?>
 </form>
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
