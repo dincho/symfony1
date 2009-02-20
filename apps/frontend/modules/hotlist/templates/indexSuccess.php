@@ -2,7 +2,7 @@
 
 <div id="winks">
     <div class="you_recived">
-        You're on the Hotlist of these members<br /><br />
+        <?php echo __('You\'re on the Hotlist of these members')?><br /><br />
         <?php foreach ($others_hotlists as $others_hotlist_row): ?>
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">
@@ -22,8 +22,8 @@
         <?php endforeach; ?>
     </div>
     <div class="you_sent">
-        You've added these members to your Hotlist<br />
-        <span>Click on the "x" in the lower corner of a profile to remove it from the list.</span>
+        <?php echo __('You\'ve added these members to your Hotlist')?><br />
+        <span><?php echo __('Click on the "x" in the lower corner of a profile to remove it from the list.')?></span>
         <?php foreach ($hotlists as $hotlist_row): ?>
             <?php $profile = $hotlist_row->getMemberRelatedByProfileId(); ?>
             <div class="member_profile">
