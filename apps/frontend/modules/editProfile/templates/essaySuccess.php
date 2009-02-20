@@ -28,3 +28,6 @@
 </form>
 <br class="clear" />
 <?php echo javascript_tag('parseCharCounts();') ?>
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
