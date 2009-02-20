@@ -69,7 +69,8 @@ class transUnitsActions extends sfActions
             $this->getUser()->checkPerm(array('content_edit'));
             //$trans_unit->setCatId($this->getRequestParameter('cat_id'));
             //$trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
-            //$trans_unit->setSource($this->getRequestParameter('source'));
+            $trans_unit->setTranslated($this->getRequestParameter('translated'));
+            $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->save();
             $this->redirect('transUnits/list');                
@@ -82,6 +83,8 @@ class transUnitsActions extends sfActions
         $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($trans_unit);
         $trans_unit->delete();
+        
+        $this->setFlash('msg_ok', 'The unit has been deleted');
         return $this->redirect('transUnits/list');
     }
     
@@ -108,6 +111,11 @@ class transUnitsActions extends sfActions
         if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             $c->add(TransUnitPeer::SOURCE, '%' . $this->filters['search_query'] . '%', Criteria::LIKE);
+        }        
+              
+        if ( isset($this->filters['translated']) )
+        {
+            $c->add(TransUnitPeer::TRANSLATED, (bool) $this->filters['translated']);
         }        
     }
         

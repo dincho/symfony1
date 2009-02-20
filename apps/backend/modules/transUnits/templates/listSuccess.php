@@ -12,7 +12,12 @@
     </fieldset>
     <fieldset class="search_fields">
         <label for="cat_id">Catalog:</label><br />
-            <?php echo select_tag('filters[cat_id]', objects_for_select($catalogs, 'getCatId', '__toString', isset($filters['cat_id']) ? $filters['cat_id'] : 'en')) ?>       
+        <?php echo select_tag('filters[cat_id]', objects_for_select($catalogs, 'getCatId', '__toString', isset($filters['cat_id']) ? $filters['cat_id'] : 'en')) ?>       
+    
+    </fieldset>
+    <fieldset class="search_fields">
+        <label for="filters[translated]">Translated:</label><br />
+        <?php echo select_tag('filters[translated]', options_for_select(array('' => 'All', 0 => 'No', 1 => 'Yes'), isset($filters['translated']) ? $filters['translated'] : null)) ?>       
     
     </fieldset>
     <fieldset>
