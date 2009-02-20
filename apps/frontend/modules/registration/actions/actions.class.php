@@ -228,6 +228,8 @@ class registrationActions extends prActions
 
     public function handleErrorSelfDescription()
     {
+    	$this->setLayout('simple');
+    	
         $this->header_span = 'Step 2 of 4';
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
