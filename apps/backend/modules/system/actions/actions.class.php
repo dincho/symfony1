@@ -99,7 +99,7 @@ class systemActions extends sfActions
 
   public function executeSecure()
   {
-    
+    $this->getUser()->getBC()->removeFirst();
   }
   
   public function executeTest()
