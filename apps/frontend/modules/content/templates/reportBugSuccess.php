@@ -13,3 +13,6 @@
     <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
     </div>
 </form>
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
