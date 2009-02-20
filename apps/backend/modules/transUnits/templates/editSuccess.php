@@ -15,6 +15,9 @@
 	    <label for="target">Target:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
 	    
+	    <label for="tags">Tags:</label>
+	    <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?><br />
+	    
 	    <label for="translated">Translated:</label>
 	    <?php echo object_checkbox_tag($trans_unit, 'getTranslated', array('class' => 'checkbox'))?><br />
     </fieldset>

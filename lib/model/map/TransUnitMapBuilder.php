@@ -48,6 +48,8 @@ class TransUnitMapBuilder {
 
 		$tMap->addColumn('TRANSLATED', 'Translated', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
+		$tMap->addColumn('TAGS', 'Tags', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 		$tMap->addColumn('DATE_ADDED', 'DateAdded', 'int', CreoleTypes::INTEGER, true, 11);
 
 		$tMap->addColumn('DATE_MODIFIED', 'DateModified', 'int', CreoleTypes::INTEGER, true, 11);

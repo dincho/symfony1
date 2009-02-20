@@ -52,7 +52,7 @@ class transUnitsActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::createNewUnit($this->getRequestParameter('source'));
+            TransUnitPeer::createNewUnit($this->getRequestParameter('source'), $this->getRequestParameter('tags'));
             $this->setFlash('msg_ok', 'Translation unit has been added.');
             $this->redirect('transUnits/list');
         }
@@ -72,7 +72,18 @@ class transUnitsActions extends sfActions
             $trans_unit->setTranslated($this->getRequestParameter('translated'));
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
+            $trans_unit->setTags($this->getRequestParameter('tags'));
             $trans_unit->save();
+            
+            
+            //update all tags
+            $select = new Criteria();
+            $select->add(TransUnitPeer::SOURCE, $this->getRequestParameter('source'));
+            
+            $update = new Criteria();
+            $update->add(TransUnitPeer::TAGS, $this->getRequestParameter('tags'));
+            BasePeer::doUpdate($select, $update, Propel::getConnection());
+            
             $this->redirect('transUnits/list');                
         }
     }
@@ -111,6 +122,11 @@ class transUnitsActions extends sfActions
         if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             $c->add(TransUnitPeer::SOURCE, '%' . $this->filters['search_query'] . '%', Criteria::LIKE);
+        }        
+              
+        if (isset($this->filters['tags']) && strlen($this->filters['tags']) > 0)
+        {
+            $c->add(TransUnitPeer::TAGS, '%' . $this->filters['tags'] . '%', Criteria::LIKE);
         }        
               
         if ( isset($this->filters['translated']) )

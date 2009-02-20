@@ -48,7 +48,7 @@ class TransUnitPeer extends BaseTransUnitPeer
         $catalog->save();
     }
     
-    public static function createNewUnit($source)
+    public static function createNewUnit($source, $tags = '')
     {
         $catalogs = CataloguePeer::doSelect(new Criteria());
         
@@ -57,6 +57,7 @@ class TransUnitPeer extends BaseTransUnitPeer
             $trans_unit = new TransUnit();
             $trans_unit->setCatId($catalog->getCatId());
             $trans_unit->setSource($source);
+            $trans_unit->setTags($tags);
             $trans_unit->save();
         }
     }

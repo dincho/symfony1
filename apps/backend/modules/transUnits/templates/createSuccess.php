@@ -6,6 +6,9 @@
   <fieldset class="form_fields">
     <label for="source">Source:</label>
     <?php echo textarea_tag('source', null, array ('size' => '60x5')) ?><br />
+    
+    <label for="tags">Tags:</label>
+    <?php echo textarea_tag('tags', null, array ('size' => '60x5')) ?><br />
   </fieldset>
 
   <fieldset class="actions">
