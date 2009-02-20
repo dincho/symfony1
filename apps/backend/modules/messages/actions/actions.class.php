@@ -124,7 +124,7 @@ class messagesActions extends sfActions
         $select->add(MessagePeer::IS_REVIEWED, false);
         
         $update = new Criteria();
-        $update = $c->add(MessagePeer::IS_REVIEWED, true);
+        $update->add(MessagePeer::IS_REVIEWED, true);
         BasePeer::doUpdate($select, $update, Propel::getConnection());
         
         $this->member = $sender;
