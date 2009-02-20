@@ -25,13 +25,15 @@
     <div id="profile_double_box">
         <div class="left">
             <?php if( $sf_user->isAuthenticated() && $sf_user->getId() != $member->getId() && $match): ?>
-                <?php if( !is_null($match->getReversePct()) ): ?>
+                <?php if( $match->getReversePct() > 0 ): ?>
                     <?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />            
                 <?php endif; ?>
-                <?php if( !is_null($match->getPct()) ): ?>
+                <?php if( $match->getPct() > 0 ): ?>
                     <?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
                 <?php endif; ?>
-                    <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedMatch()) ) ?><br />  
+                <?php if( $match->getCombinedMatch() > 0 ): ?>
+                    <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedMatch()) ) ?><br />
+                <?php endif; ?>  
                                      
             <?php endif; ?>
         </div>
