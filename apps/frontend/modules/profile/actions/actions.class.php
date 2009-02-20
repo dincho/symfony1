@@ -171,20 +171,19 @@ class profileActions extends prActions
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         
-        if ($this->getRequest()->getMethod() != sfRequest::POST)
-        {
-            if ($this->getUser()->isAuthenticated())
-            {
-                if (! $this->getUser()->hasCredential(array('member'), false))
-                    $this->executeSignout();
-                $this->redirect('@homepage');
-            }
-        } else
+        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
         {
             $member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
+            $this->forward404Unless($member);
             $this->getUser()->SignIn($member);
 
             $this->redirect('dashboard/index');
+                    	
+
+        } elseif ($this->getUser()->isAuthenticated())
+        {
+            if (! $this->getUser()->hasCredential(array('member'), false)) $this->executeSignout();
+            $this->redirect('@homepage');
         }
     }
 
@@ -192,7 +191,8 @@ class profileActions extends prActions
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
         
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if ( $this->getRequest()->getMethod() == sfRequest::POST 
+             && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
         {
             $email = $this->getRequestParameter('email');
             $password = sha1(SALT . $this->getRequestParameter('password') . SALT);
