@@ -15,7 +15,7 @@ class profileActions extends prActions
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
         
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
-        $this->forward404Unless($member);
+        $this->forward404Unless($member || $member->getStatusId() != MemberStatusPeer::ACTIVE);
         
         //add a visit
         $this->getUser()->viewProfile($member);
@@ -89,11 +89,13 @@ class profileActions extends prActions
 	            	    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
 	            	break;
 	            	case MemberStatusPeer::CANCELED:
+	            		$this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
+	            		break;
 	            	case MemberStatusPeer::CANCELED_BY_MEMBER:
 	            	    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
 	            	break;
 	            	case MemberStatusPeer::DEACTIVATED:
-	            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by his owner');
+	            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
 	            	break;
 	            	
 	            	default:
