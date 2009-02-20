@@ -54,6 +54,9 @@ class hotlistActions extends prActions
 
     public function validateAdd()
     {
+        $bc = $this->getUser()->getBC();
+        $bc->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
+            	
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
         
