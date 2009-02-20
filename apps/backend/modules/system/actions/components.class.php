@@ -58,6 +58,28 @@ class systemComponents extends sfComponents
         $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
         $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
     }
+    if( $this->getContext()->getModuleName() == 'feedback' || $this->getContext()->getModuleName() == 'feedbackTemplates')
+    {        
+        $c = new Criteria();
+    	$c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
+        $feedback_cnt_all = FeedbackPeer::doCount($c);
+        
+        $c1 = clone $c;
+        $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
+        $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
+        $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
+        $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
+        $c1->add($crit);
+        $feedback_cnt_paid = FeedbackPeer::doCount($c1);
+    
+        $c2 = clone $c;
+        $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
+        $feedback_cnt_external = FeedbackPeer::doCount($c2);
+    
+        $c3 = clone $c;
+        $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
+        $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+    }
     
     $this->menu = array();
     $full_menu = array( 'members'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
@@ -117,7 +139,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'),
                                            array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
                                            array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),
-                                           array('title' => 'Templates', 'uri' => 'feedbackTemplates/list'),
+                                           array('title' => 'Templates', 'uri' => 'feedbackTemplates/'),
                                            ),
                         'messages' => array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
                                            ),
