@@ -29,6 +29,7 @@ class staticPagesComponents extends sfComponents
          $criteria = $c->getNewCriterion(ProfileViewPeer::CREATED_AT, $lastmonth, Criteria::LIKE);
          $c->addAnd($criteria);
          $c->addGroupByColumn(ProfileViewPeer::PROFILE_ID);
+         $c->addDescendingOrderByColumn('COUNT(profile_view.profile_id)');
          $c->setLimit(3);
          
          $this->members = MemberPeer::doSelect($c);
