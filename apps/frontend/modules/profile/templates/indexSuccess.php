@@ -65,7 +65,7 @@
                 <?php foreach ($questions as $question): ?>
                     <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
-                            <dt><?php echo $question->getDescTitle() ?></dt>
+                            <dt><?php echo __($question->getDescTitle()) ?></dt>
                             <dd>
                                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
                                     <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?>
@@ -105,7 +105,7 @@
     </div>
     <table class="conversations_messages" cellspacing="0" cellpadding="0">
         <tr>
-            <th colspan="2">Recent Conversations</th>
+            <th colspan="2"><?php echo __('Recent Conversations')?></th>
             <th class="right_column"><?php echo link_to(__('See all messages'), 'messages/list', 'class=sec_link') ?></th>
         </tr>
         <?php if( count($recent_conversations) > 0 ): ?>
