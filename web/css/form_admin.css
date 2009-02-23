@@ -1,6 +1,7 @@
 .form {
   font-size: 13px;
   font-family: Ariel, Helvetica, sans-serif;
+  float: left;
 }
 
 .form_fields label, .form_fields input.text, .form_fields select {
@@ -16,6 +17,7 @@
   border: 1px solid #9DB2C7;
   margin-right: 2px;
   background-color: #EFEFEF;
+  float: left;
 }
 
 .form_fields input:focus, .form_fields select:focus, .form_fields textarea:focus {
