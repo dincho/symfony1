@@ -26,6 +26,7 @@
         <?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array('style' => 'margin-right: 0') ) ?>
         <label for="filter_location_2"  style="margin-right: 92px"><?php echo __('In my area only') ?></label>
         
+        &nbsp;
         <?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland']), array('style' => 'margin-right: 0')  ) ?>
         <label for="filters_include_poland"><?php echo __('Include matches in Poland') ?></label><br />
         
