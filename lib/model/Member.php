@@ -387,6 +387,7 @@ class Member extends BaseMember
     
     public function getContinueRegistrationUrl()
     {
+        $user = New User();
         if (!$this->getFirstName()) //1. Step 1 - registration
         {
             $url = 'registration/index';
@@ -397,6 +398,9 @@ class Member extends BaseMember
         {
             $url = 'registration/essay';
         } elseif ($this->countMemberPhotos() <= 0) //Step 4 - Photos
+        {
+            $url = 'registration/photos';
+        } elseif ($this->countMemberPhotos() > 0 && $this->getFirstName() && $this->getBirthDay() && $this->getEssayHeadline() && !$this->mustFillIMBRA() && MemberStatusPeer::ABANDONED)
         {
             $url = 'registration/photos';
         } elseif ( $this->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
