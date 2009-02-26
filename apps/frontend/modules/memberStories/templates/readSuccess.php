@@ -7,7 +7,7 @@
     </div>
     <?php if( $story->getStockPhotoId() ): ?>
         <?php $stockPhoto = $story->getStockPhoto() ?>
-        <?php echo image_tag(($stockPhoto->getImageFilename('cropped') ? $stockPhoto->getImageUrlPath('cropped', '220x225') : $stockPhoto->getImageUrlPath('file', '220x225')), array('id=member_story_img')) ?>
+        <?php echo image_tag(($stockPhoto->getImageFilename('cropped') ? $stockPhoto->getImageUrlPath('cropped', '220x225') : $stockPhoto->getImageUrlPath('file', '220x225')), array('id' => 'member_story_img')) ?>
     <?php endif; ?>
 </div>
 <div id="member_story_content">
