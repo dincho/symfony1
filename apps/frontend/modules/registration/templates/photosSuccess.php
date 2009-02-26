@@ -32,7 +32,7 @@
     
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <?php echo input_file_tag('new_photo', array('class' => 'file_input')) ?><br />
-    <?php echo submit_tag('Upload', array('id' => 'upload', 'class' => 'button')) ?>
+    <?php echo submit_tag(__('Upload'), array('id' => 'upload', 'class' => 'button')) ?>
     <hr /><br />
         
     <?php echo __("YouTube URL ") ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
