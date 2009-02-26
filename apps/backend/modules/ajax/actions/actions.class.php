@@ -78,4 +78,28 @@ class ajaxActions extends sfActions
       
       return sfView::NONE;
   }
+  
+  public function executeUpdateEmailRecipients()
+  {
+      $member = MemberPeer::retrieveByPK($this->getRequestParameter('member_id'));
+      $marked = array($this->getRequestParameter('member_id') => $member->getUsername());
+      if( $marked )
+      {
+            if(in_array($member->getUsername(),$this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers')))
+            {
+                $temp_array = Array();
+                $temp_array = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers');
+                unset($temp_array[$this->getRequestParameter('member_id')]);
+                $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/selectedMembers');
+                $this->getUser()->getAttributeHolder()->add($temp_array, 'backend/feedback/selectedMembers');
+                
+            }
+            else
+            {
+                $this->getUser()->getAttributeHolder()->add($marked, 'backend/feedback/selectedMembers');
+            }
+      }
+      
+      return sfView::NONE;  
+  }
 }

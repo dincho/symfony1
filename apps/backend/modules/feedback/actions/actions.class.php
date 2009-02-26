@@ -54,7 +54,7 @@ class feedbackActions extends sfActions
     public function executeCompose()
     {
         //replace mailbox and add compose
-        $this->getUser()->getBC()->replaceLast(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
+        $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
         $this->selectTemplate();
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -367,22 +367,35 @@ class feedbackActions extends sfActions
 
     public function executeAddEmailRecipients()
     {
-        $this->getUser()->getBC()->replaceLast(array('name' => 'Add Email Recipients', 'uri' => '#'));
+        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
+        $this->selectedMembers = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers');
+        $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
+        $this->getUser()->getBC()->add(array('name' => 'Add Email Recipients', 'uri' => '#'));
+
+        $this->processSort();
+        
         $c = new Criteria();
         $this->addFiltersCriteria($c);
-        $c->setLimit(20);
+        $this->addSortCriteria($c);
+        $c->setDistinct();
+        
         $this->members = MemberPeer::doSelectJoinAll($c);
         
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if ($this->getRequest()->getMethod() == sfRequest::POST && !$this->getRequestParameter('per_page'))
         {
-            $marked = $this->getRequestParameter('marked', false);
-            if (is_array($marked) && ! empty($marked))
-            {
-                $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/selectedMembers');
-                $this->getUser()->getAttributeHolder()->add($marked, 'backend/feedback/selectedMembers');
-            }
             $this->redirect('feedback/compose');
         }
+        
+        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        $pager = new sfPropelPager('Member', $per_page);
+        $pager->setCriteria($c);
+       
+        $pager->setPage($this->getRequestParameter('page', 1));
+
+        $pager->init();
+        $this->pager = $pager;
+        
+        
     }
     
     protected function processSort()

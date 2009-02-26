@@ -1,4 +1,5 @@
 <?php use_helper('Number') ?>
+<?php use_helper('Number', 'xSortableTitle') ?>
 
 <div id="filter">
     <?php include_partial('members/search_filter', array('filters' => $filters)); ?>
@@ -10,22 +11,25 @@
     <tr>
       <th></th>
       <th></th>
-      <th>Username</th>
-      <th>ID</th>
-      <th>Last name</th>
-      <th>First name</th>
-      <th>Sex</th>
-      <th>Email</th>
-      <th>Joined</th>
-      <th>Sub</th>
-      <th>Reviewed</th>
-      <th>Status</th>
+      <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Joined', 'Member::created_at', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sub', 'Subscription::title', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Reviewed', 'User::username', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Status', 'MemberStatus::title', $sort_namespace) ?></th>
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($members as $member): ?>
+  <?php foreach ($pager->getResults() as $member): ?>
   <tr>
-    <td class="marked"><?php echo checkbox_tag('marked[]', $member->getUsername(), null) ?></td>
+    <td class="marked"><?php echo checkbox_tag('marked[]', $member->getUsername(), in_array($member->getUsername(),$selectedMembers), 
+                                                        array('class' => 'checkbox', 
+                                                        'onchange' => "new Ajax.Request('". url_for('ajax/UpdateEmailRecipients?member_id=' . $member->getId()) ."', {method: 'get'});")) ?>
+        </td>
     <td class="starred"><?php echo link_to(($member->IsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'members/star?id=' . $member->getId()) ?></td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
@@ -43,3 +47,4 @@
 </table>
 <?php echo submit_tag('Add') ?>
 </form>
+<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'feedback/addEmailRecipients')); ?>
