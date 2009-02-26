@@ -156,7 +156,7 @@ class contentActions extends prActions
         {
             
             Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'), $this->getRequestParameter('friend_full_name'), 
-                    $this->getRequestParameter('friend_email'), $this->getRequestParameter('comments'));
+                    $this->getRequestParameter('friend_email'), nl2br($this->getRequestParameter('comments')));
             
             $this->redirect('content/tellFriendConfirm');
         }
