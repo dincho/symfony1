@@ -35,6 +35,7 @@ class hotlistActions extends prActions
     public function executeAdd()
     {
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
+        $n = $this->getRequestParameter('n');
         $this->forward404Unless($profile);
         $hotlist = new Hotlist();
         $hotlist->setMemberId($this->getUser()->getId());
@@ -42,12 +43,12 @@ class hotlistActions extends prActions
         $hotlist->save();
         
         if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
-        
+        if (!isset($n)) {
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
         array('%USERNAME%' => $profile->getUsername()));
         $this->setFlash('msg_ok', $msg_ok);
-        
+        }
         //$this->redirect('@profile?username=' . $profile->getUsername());
         $this->redirectToReferer();
     }
@@ -106,7 +107,7 @@ class hotlistActions extends prActions
         
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been removed from your hotlist. To undo, <a href="%ADD_URL%" class="sec_link">click here</a>.', 
-        array('%USERNAME%' => $hotlist->getMemberRelatedByProfileId()->getUsername(), '%ADD_URL%' => $this->getController()->genUrl('hotlist/add?profile_id=' . $hotlist->getProfileId())));
+        array('%USERNAME%' => $hotlist->getMemberRelatedByProfileId()->getUsername(), '%ADD_URL%' => $this->getController()->genUrl('hotlist/add?profile_id=' . $hotlist->getProfileId() . '&n=1')));
         $this->setFlash('msg_ok', $msg_ok);
         
         $this->redirect('@hotlist');
