@@ -173,13 +173,15 @@ class editProfileActions extends prActions
             $questions = DescQuestionPeer::getQuestionsAssoc();
             $answers = $this->getRequestParameter('answers');
             $others = $this->getRequestParameter('others');
-            
             $has_error = false;
             
             foreach ($questions as $question)
             {
-                if ($question->getIsRequired() && (! isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || (! is_null(
-                        $question->getOther()) && $answers[$question->getId()] == 'other' && ! $others[$question->getId()])))
+                if ($question->getIsRequired() && 
+                    (!isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || 
+                        (!is_null($question->getOther()) && $answers[$question->getId()] == 'other' && !$others[$question->getId()])
+                    || ( $question->getType() == 'other_langs' && !$this->hasValidAnswerForOtherLang($question->getId()) )
+                    ))
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
                     $has_error = true;
@@ -194,6 +196,19 @@ class editProfileActions extends prActions
         }
         
         return true;
+    }
+    
+    protected function hasValidAnswerForOtherLang($question_id)
+    {
+    	$answers = $this->getRequestParameter('answers');
+    	$question_answers = $answers[$question_id];
+        
+        for($i=1; $i<5; $i++)
+        {
+        	if( $question_answers[$i] && $question_answers['lang_levels'][$i] ) return true;
+        }
+    	
+        return false;
     }
 
     public function handleErrorSelfDescription()
