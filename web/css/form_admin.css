@@ -3,6 +3,11 @@
   font-family: Ariel, Helvetica, sans-serif;
   float: left;
 }
+.form2 {
+  font-size: 13px;
+  font-family: Ariel, Helvetica, sans-serif;
+  
+}
 
 .form_fields label, .form_fields input.text, .form_fields select {
   display: block;
