@@ -20,6 +20,9 @@
         <label>New password confirmation</label><?php echo input_tag('trans[95]', (isset($trans[95])) ? $trans[95]->getTarget() : null) ?><br />
         <label></label><?php echo textarea_tag('trans[96]', (isset($trans[96])) ? $trans[96]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
         
+        <label>Forgot password confirmation</label><?php echo input_tag('trans[143]', (isset($trans[143])) ? $trans[143]->getTarget() : null) ?><br />
+        <label></label><?php echo textarea_tag('trans[144]', (isset($trans[144])) ? $trans[144]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
+        
         <label>Status canceled</label><?php echo input_tag('trans[97]', (isset($trans[97])) ? $trans[97]->getTarget() : null) ?><br />
         <label></label><?php echo textarea_tag('trans[98]', (isset($trans[98])) ? $trans[98]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
         

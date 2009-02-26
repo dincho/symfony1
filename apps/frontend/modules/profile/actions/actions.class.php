@@ -259,8 +259,9 @@ class profileActions extends prActions
 
     public function executeForgotPasswordInfo()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->replaceLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'))->add(
-                array('name' => 'You have successfully changed your password', 'profile/forgotPasswordConfirm'));
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->
+        replaceLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'))->
+        add(array('name' => 'Forgot password info headline', 'profile/forgotPasswordConfirm'));
     }
 
     public function executeForgotPasswordConfirm()
