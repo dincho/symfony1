@@ -101,7 +101,7 @@ class myUser extends sfBasicSecurityUser
         
     }
     
-    public function viewProfile($profile)
+   /* public function viewProfile($profile)
     {
         $views = $this->getAttributeHolder()->getAll('frontend/viewed_profiles', array());
         if( $this->getId() != $profile->getId() && !in_array($profile->getId(), $views) ) //not looking himself and not already been here
@@ -116,6 +116,34 @@ class myUser extends sfBasicSecurityUser
                 $visit->setMemberRelatedByMemberId($this->getProfile());
                 $visit->setMemberRelatedByProfileId($profile);
                 $visit->save();
+                
+                if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
+            } else {
+                $profile->incCounter('ProfileViews');
+            }
+        }
+    }*/
+    public function viewProfile($profile)
+    {
+        if( $this->getId() != $profile->getId() ) //not looking himself and not already been here
+        {
+            if ($this->isAuthenticated())
+            {
+            	$c = new Criteria();
+            	$c->add(ProfileViewPeer::MEMBER_ID, $this->getId());
+            	$c->add(ProfileViewPeer::PROFILE_ID, $profile->getId());
+            	
+            	$already_visit = ProfileViewPeer::doSelectOne($c);
+            	if( $already_visit )
+            	{
+            		$already_visit->setCreatedAt(time());
+            		$already_visit->save();
+            	} else {
+	                $visit = new ProfileView();
+	                $visit->setMemberRelatedByMemberId($this->getProfile());
+	                $visit->setMemberRelatedByProfileId($profile);
+	                $visit->save();
+            	}
                 
                 if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
             } else {
