@@ -49,11 +49,15 @@ class prMail extends sfMail
             $webemail = new WebEmail();
             $webemail->setSubject($this->getSubject());
             $webemail->setBody($this->getBody());
-            $webemail->save();
+            $webemail->generateHash();
+            
             
             $global_vars = array('{WEB_MAIL_URL}' => BASE_URL .'en/emails/'. $webemail->getHash() . '.html');
             $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
+            $webemail->setBody($body); //set body again with parsed URL
+            
+            $webemail->save();
         }
         parent::send();
     }

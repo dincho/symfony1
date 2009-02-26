@@ -11,11 +11,18 @@ class WebEmail extends BaseWebEmail
 {
     public function save($con = null)
     {
-        if( $this->isNew() )
+        if( $this->isNew() && !$this->getHash())
         {
-            $this->setHash(sha1(SALT . $this->getSubject() . SALT . $this->getBody() . SALT . time() . SALT));
+            $this->generateHash();
         }
         
         return parent::save($con);
-    }     
+    }
+    
+    public function generateHash()
+    {
+    	$this->setHash(sha1(SALT . $this->getSubject() . SALT . $this->getBody() . SALT . time() . SALT));
+    	
+    	return $this->getHash();
+    }
 }
