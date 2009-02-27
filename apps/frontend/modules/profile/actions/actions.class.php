@@ -208,6 +208,35 @@ class profileActions extends prActions
             if (! $member)
             {
                 $this->getRequest()->setError('login', 'Email and password do not match. Please try again.');
+                $firstloginattempt = 1;
+                if($this->getFlash("loginattempt"))
+                {
+                    if($this->getFlash("loginattempt")<4)
+                    {
+                        $this->setFlash("loginattempt", $this->getFlash("loginattempt")+1);
+                    }
+                    else
+                    {
+                        $c = new Criteria();
+                        $c->add(MemberPeer::EMAIL, $email);
+                        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED_BY_MEMBER, Criteria::NOT_EQUAL);
+                        $c->setLimit(1);
+                        $member = MemberPeer::doSelectOne($c);
+                        if($member)
+                        {
+                            $member->setMustChangePwd(1);
+                            $member->save();
+                        }
+                        
+                        $this->setFlash('msg_error', 'You unsuccessfully tried to log in too many times. Your account is blocked. Please reset your password to unblock it.');
+                        $this->redirect('profile/forgotYourPassword');
+                    }   
+                }
+                else
+                {
+                    $this->setFlash("loginattempt", $firstloginattempt);
+                }
+                
                 return false;
             }
         }
