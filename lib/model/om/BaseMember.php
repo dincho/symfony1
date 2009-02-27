@@ -211,6 +211,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	
 	protected $created_at;
 
+
+	
+	protected $dashboard_msg = 0;
+
 	
 	protected $aMemberStatus;
 
@@ -914,6 +918,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	
+	public function getDashboardMsg()
+	{
+
+		return $this->dashboard_msg;
 	}
 
 	
@@ -1715,6 +1726,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setDashboardMsg($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->dashboard_msg !== $v || $v === 0) {
+			$this->dashboard_msg = $v;
+			$this->modifiedColumns[] = MemberPeer::DASHBOARD_MSG;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -1821,11 +1848,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 50, null);
 
+			$this->dashboard_msg = $rs->getInt($startcol + 51);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 51; 
+						return $startcol + 52; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2609,6 +2638,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 50:
 				return $this->getCreatedAt();
 				break;
+			case 51:
+				return $this->getDashboardMsg();
+				break;
 			default:
 				return null;
 				break;
@@ -2670,6 +2702,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[48] => $this->getLastProfileView(),
 			$keys[49] => $this->getLastActivityNotification(),
 			$keys[50] => $this->getCreatedAt(),
+			$keys[51] => $this->getDashboardMsg(),
 		);
 		return $result;
 	}
@@ -2838,6 +2871,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 50:
 				$this->setCreatedAt($value);
 				break;
+			case 51:
+				$this->setDashboardMsg($value);
+				break;
 		} 	}
 
 	
@@ -2896,6 +2932,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[48], $arr)) $this->setLastProfileView($arr[$keys[48]]);
 		if (array_key_exists($keys[49], $arr)) $this->setLastActivityNotification($arr[$keys[49]]);
 		if (array_key_exists($keys[50], $arr)) $this->setCreatedAt($arr[$keys[50]]);
+		if (array_key_exists($keys[51], $arr)) $this->setDashboardMsg($arr[$keys[51]]);
 	}
 
 	
@@ -2954,6 +2991,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::LAST_PROFILE_VIEW)) $criteria->add(MemberPeer::LAST_PROFILE_VIEW, $this->last_profile_view);
 		if ($this->isColumnModified(MemberPeer::LAST_ACTIVITY_NOTIFICATION)) $criteria->add(MemberPeer::LAST_ACTIVITY_NOTIFICATION, $this->last_activity_notification);
 		if ($this->isColumnModified(MemberPeer::CREATED_AT)) $criteria->add(MemberPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(MemberPeer::DASHBOARD_MSG)) $criteria->add(MemberPeer::DASHBOARD_MSG, $this->dashboard_msg);
 
 		return $criteria;
 	}
@@ -3083,6 +3121,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setLastActivityNotification($this->last_activity_notification);
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setDashboardMsg($this->dashboard_msg);
 
 
 		if ($deepCopy) {

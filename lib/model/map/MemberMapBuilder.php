@@ -134,5 +134,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
+		$tMap->addColumn('DASHBOARD_MSG', 'DashboardMsg', 'int', CreoleTypes::INTEGER, false, 1);
+
 	} 
 } 

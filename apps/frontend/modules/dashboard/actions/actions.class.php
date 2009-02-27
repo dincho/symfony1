@@ -432,4 +432,14 @@ class dashboardActions extends prActions
         
         return sfView::SUCCESS;
     }
+    
+    public function executeHide()
+    {
+        $member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($member);
+        
+        $member->setDashboardMsg(1);
+        $member->save();
+        $this->redirect('dashboard/index');
+    }
 }

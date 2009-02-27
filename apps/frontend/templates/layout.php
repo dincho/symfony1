@@ -31,6 +31,13 @@
                 </div>
                 <?php include_component('content','headerMenu', array('username' => $sf_user->getUsername(), 'auth' => $sf_user->isAuthenticated())); ?>
             </div>
+            <?php if(isset($member)): ?>
+                <?php if(substr_count($_SERVER['REQUEST_URI'], "dashboard.html")>0 && $member->getDashboardMsg()==0): ?>
+                    <div id="msgs">
+                        <p class="msg_ok"><?php echo ___("This is your control panel. Here you can find everything you need to use the website "); echo link_to("(don't show this message again)", 'dashboard/hide') ?></p>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
             <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
                       $sf_data->get('sf_flash')->has('msg_warning') || 
                       $sf_data->get('sf_flash')->has('msg_ok') || 

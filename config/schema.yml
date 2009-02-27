@@ -106,6 +106,7 @@ propel:
     last_profile_view:        { type: timestamp }
     last_activity_notification:        { type: timestamp }
     created_at:
+    dashboard_msg:            { type: integer, size: 1, required: false, default: 0 }
   member_status:
     id:
     title:                    { type: varchar, size: 255 }
