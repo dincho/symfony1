@@ -32,7 +32,7 @@
         <hr />
     <?php endforeach; ?>
     
-    <?php echo __('IMBRA notice') ?>
+    <?php echo ___('IMBRA notice') ?>
     <label class="form_1"><?php echo __("Date")?></label>
     <?php echo ($imbra->getCreatedAt()) ? $imbra->getCreatedAt('M d, Y') : date('M d, Y') ?>
     <br />
