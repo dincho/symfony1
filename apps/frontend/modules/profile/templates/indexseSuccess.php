@@ -18,40 +18,60 @@
 </div>
 
             <?php $area_info = ($member->getState()->getInfo()) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getStateId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
-                <div>
-		<?php echo __('Country') ?> <?php echo format_country($member->getCountry()) ?>
-		</div>
-                <div>
-		<?php echo __('Area') ?> <?php echo ($member->getStateId()) ? $member->getState() : __('None') ?>&nbsp;
-		</div>
-                <div>
-		<?php echo __('City') ?> <?php echo $member->getCity() ?>
-		</div>
+            
+<table border='0' >
+
+<tr>
+<td>  
+		<?php echo __('Country') ?></td><td> <?php echo format_country($member->getCountry()) ?>
+ </td>
+</tr>		
+<tr>
+<td>
+		<?php echo __('Area') ?> </td><td><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?>&nbsp;
+ </td>
+</tr>       
+<tr>
+<td>
+		<?php echo __('City') ?> </td><td><?php echo $member->getCity() ?>
+ </td>
+</tr> 
                 <?php if( !$member->getDontDisplayZodiac() ): ?>
-                    <div>
-			<?php echo __('Zodiac') ?> <?php echo $member->getZodiac()->getSign() ?>
-		    </div>
+<tr>
+<td>
+			<?php echo __('Zodiac') ?> </td><td><?php echo $member->getZodiac()->getSign() ?>
+ </td>
+</tr> 
                 <?php endif; ?>
                 <?php foreach ($questions as $question): ?>
                     <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
-                            <div>
+<tr>
+<td>
 			    
 			    <?php echo $question->getDescTitle() ?>
 
                                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
-                                    <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?>
+                                   </td><td> <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?>
                                 <?php else: ?>
-                                    <?php echo $member_answers[$question->getId()]->getOther(); ?>
+                                   </td><td> <?php echo $member_answers[$question->getId()]->getOther(); ?>
                                 <?php endif; ?>
-                            </div>
+ </td>
+</tr>
                         <?php endif; ?>
                     <?php elseif( $question->getType() == 'native_lang' && ( isset($member_answers[$question->getId()])) ): ?>
                     
-                    <div>
-			<?php echo __('Language'); ?> <?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (native)
+<tr>
+
+<td >
+			<?php echo __('Language'); ?> </td><td><?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (native)
 			
-			</div>
+ </td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
                     <?php elseif( $question->getType() == 'other_langs' ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
                             <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
@@ -67,7 +87,9 @@
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-                
+ </td>
+</tr>
+</table>               
 
 
 <?php 
