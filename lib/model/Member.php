@@ -257,6 +257,11 @@ class Member extends BaseMember
         return ( is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
     }
     
+    public function mustPayIMBRA()
+    {
+        return ( $this->getImbraPayment() != 'completed' && $this->getLastImbra() );
+    }
+    
     public function getNbUnreadMessages()
     {
         $c = new Criteria();
@@ -387,7 +392,6 @@ class Member extends BaseMember
     
     public function getContinueRegistrationUrl()
     {
-        $user = New User();
         if (!$this->getFirstName()) //1. Step 1 - registration
         {
             $url = 'registration/index';
@@ -397,15 +401,15 @@ class Member extends BaseMember
         } elseif (! $this->getEssayHeadline()) //3. Step - essay 
         {
             $url = 'registration/essay';
-        } elseif ($this->countMemberPhotos() <= 0) //Step 4 - Photos
+        } elseif ( is_null($this->getYoutubeVid()) ) //Step 4 - Photos
         {
             $url = 'registration/photos';
-        } elseif ($this->countMemberPhotos() > 0 && $this->getFirstName() && $this->getBirthDay() && $this->getEssayHeadline() && !$this->mustFillIMBRA() && ($this->getMemberStatusID()==MemberStatusPeer::ABANDONED))
-        {
-            $url = 'registration/photos';
-        } elseif ( $this->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
+        }elseif ( $this->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
         {
             $url = 'IMBRA/index';
+        } elseif ( $this->mustPayIMBRA()) //Step 6 - IMBRA payment (if US citizen)
+        {
+            $url = 'IMBRA/payment';
         } else {
             throw new sfException('Unknown registration step');
         }

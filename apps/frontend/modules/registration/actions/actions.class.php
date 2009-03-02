@@ -211,7 +211,7 @@ class registrationActions extends prActions
                 if ($question->getIsRequired() && 
                     (!isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || 
                         (!is_null($question->getOther()) && $answers[$question->getId()] == 'other' && !$others[$question->getId()])
-                    || ( $question->getType() == 'other_langs' && !$this->hasValidAnswerForOtherLang($question->getId()) )
+                    || ( $question->getType() == 'other_langs' && $answers[$question->getId()]  != 'other' && !$this->hasValidAnswerForOtherLang($question->getId()) )
                     ))
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
@@ -233,7 +233,6 @@ class registrationActions extends prActions
     {
         $answers = $this->getRequestParameter('answers');
         $question_answers = $answers[$question_id];
-        
         for($i=1; $i<5; $i++)
         {
             if( $question_answers[$i] && $question_answers['lang_levels'][$i] ) return true;
@@ -338,7 +337,7 @@ class registrationActions extends prActions
             $youtube_url = $this->getRequestParameter('youtube_url');
             $matches = array();
             preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9_]+)#i', $youtube_url, $matches);
-            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
+            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : '');
             $this->member->save();
             
             //if the form is submited by "Save and continue" button

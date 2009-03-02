@@ -234,6 +234,7 @@ class imbraActions extends sfActions
         if (isset($this->filters['imbra_status_id']))
         {
             $c->add(MemberImbraPeer::IMBRA_STATUS_ID, $this->filters['imbra_status_id']);
+            $c->add(MemberPeer::IMBRA_PAYMENT, 'completed');
         }
         
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)

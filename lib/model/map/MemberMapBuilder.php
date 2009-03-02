@@ -136,5 +136,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('DASHBOARD_MSG', 'DashboardMsg', 'int', CreoleTypes::INTEGER, false, 1);
 
+		$tMap->addColumn('IMBRA_PAYMENT', 'ImbraPayment', 'string', CreoleTypes::VARCHAR, false, 100);
+
 	} 
 } 

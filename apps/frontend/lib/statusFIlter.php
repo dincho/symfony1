@@ -34,6 +34,7 @@ class statusFilter extends sfFilter
                     	if( $user->getAttribute('must_confirm_email') && !($module == 'registration' && $action == 'requestNewActivationEmail')) $AI->redirect('registration/requestNewActivationEmail');
                         if ( $module != 'registration' && $module != 'IMBRA' )
                         {
+                        	
                             /*if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
                                 && $member->countMemberPhotos() > 0 ) $user->completeRegistration();*/
                             $AI->message('complete_registration');

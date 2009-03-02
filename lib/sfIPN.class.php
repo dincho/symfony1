@@ -151,6 +151,27 @@ class sfIPN
                        }             	    
             	break;
             	
+            	//IMBRA payments
+                case 'web_accept':
+	                $member = MemberPeer::retrieveByUsername($this->params['custom']);
+	                if( $member )
+	                {
+	                     if( $this->params['payment_status'] == 'Pending')
+	                     {
+	                     	$member->setImbraPayment('pending');
+	                     } elseif( $this->params['payment_status'] == 'Completed' )
+	                     {
+	                     	$member->setImbraPayment('completed');
+	                     } elseif( $this->params['payment_status'] == 'Failed' )
+	                     {
+	                     	$member->setImbraPayment(null);
+	                     }
+	                    
+	                     $member->save();
+	                    return true;
+	                }
+                break;
+                            	
             	default:
             	    sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->params['txn_type']);
             	break;

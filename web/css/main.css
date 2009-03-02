@@ -470,6 +470,11 @@ p {
     margin-top: 20px;
 }
 
+
+#secondary_container #form_2 fieldset {
+    border: 0;
+}
+
 /*** END FORMS ***/
 
 /* Winks */

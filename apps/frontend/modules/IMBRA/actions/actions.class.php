@@ -51,7 +51,7 @@ class IMBRAActions extends prActions
 	    $member->save();
 
             $this->getUser()->completeRegistration();
-            $this->setFlash('msg_ok', 'Your IMBRA Information have been updated');
+            if( !$member->mustPayIMBRA()) $this->setFlash('msg_ok', 'Your IMBRA Information have been updated');
             $this->redirect('dashboard/index');
         }
         $this->imbra = $member->getLastImbra();
@@ -135,5 +135,54 @@ class IMBRAActions extends prActions
                 $this->redirect('IMBRA/index');
             }
         }
+    }
+    
+    public function executePayment()
+    {
+        $member = $this->getUser()->getProfile();
+        //$this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
+        $this->getUser()->getBC()->clear()->add(array('name' => 'IMBRA Information', 'uri' => 'IMBRA/index'))->add(array('name' => 'IMBRA Payment'));
+        $this->amount = 39;
+        
+        $EWP = new sfEWP();
+        $parameters = array("cmd" => "_xclick",
+                            "business" => sfConfig::get('app_paypal_business'),
+                            "item_name" => 'IMBRA Application',
+                            'item_number' => 'imbra',
+                            'lc' => 'US',
+                            'no_note' => 1,
+                            'no_shipping' => 1,
+                            'currency_code' => 'GBP',
+                            'rm' => 1, //return method 1 = GET, 2 = POST
+                            'cbt' => 'Return to ' .sfConfig::get('app_primary_domain'),
+                            'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true), 
+                            'return' => $this->getController()->genUrl('IMBRA/paymentConfirmation', true),
+                            'cancel_return' => $this->getController()->genUrl('IMBRA/paymentCanceled', true),
+                            'amount' => $this->amount,
+                            'custom' => $member->getUsername(),
+                            
+        );
+        
+        $this->member = $member;
+        $this->encrypted = $EWP->encryptFields($parameters);    	
+    }
+    
+    public function executePaymentConfirmation()
+    {
+    	$this->getUser()->getBC()->clear()->add(array('name' => 'IMBRA Confirmation'));
+    }
+    
+    public function executePaymentCanceled()
+    {
+        $bc = $this->getUser()->getBC();
+        $bc->clear();
+        
+        if( $this->getUser()->isAuthenticated() )
+        {
+        	$bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
+        }
+        
+        $bc->add(array('name' => 'IMBRA Information', 'uri' => 'IMBRA/index'));
+        $bc->add(array('name' => 'Payment Canceled'));
     }
 }

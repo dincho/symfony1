@@ -81,6 +81,9 @@ class myUser extends sfBasicSecurityUser
             if ($member->mustFillIMBRA())
             {
                 $action->redirect('IMBRA/index');
+            } elseif( $member->mustPayIMBRA() )
+            {
+            	$action->redirect('IMBRA/payment');
             } else {
                 if ($member->getSubscription()->getPreApprove())
                 {

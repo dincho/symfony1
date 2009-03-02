@@ -24,6 +24,8 @@ class Reports
             SUM(IF( UNIX_TIMESTAMP(%DATE_FIELD%) BETWEEN %DF% AND %DT%, 1, 0 )) AS period
         FROM member_imbra AS t1
         LEFT JOIN imbra_status imbra_s ON t1.imbra_status_id = imbra_s.id
+        LEFT JOIN member AS t3 ON t1.member_id = t3.id
+        WHERE t3.imbra_payment = "completed"
         GROUP BY t1.imbra_status_id WITH ROLLUP', 
         array('%TITLE_FIELD%' => 'imbra_s.title', '%DATE_FIELD%' => 't1.created_at', 
               '%DF%' => $filters['date_from'], '%DT%' => $filters['date_to']));

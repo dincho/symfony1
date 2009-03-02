@@ -215,6 +215,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	
 	protected $dashboard_msg = 0;
 
+
+	
+	protected $imbra_payment;
+
 	
 	protected $aMemberStatus;
 
@@ -925,6 +929,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->dashboard_msg;
+	}
+
+	
+	public function getImbraPayment()
+	{
+
+		return $this->imbra_payment;
 	}
 
 	
@@ -1742,6 +1753,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setImbraPayment($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->imbra_payment !== $v) {
+			$this->imbra_payment = $v;
+			$this->modifiedColumns[] = MemberPeer::IMBRA_PAYMENT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -1850,11 +1877,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->dashboard_msg = $rs->getInt($startcol + 51);
 
+			$this->imbra_payment = $rs->getString($startcol + 52);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 52; 
+						return $startcol + 53; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2641,6 +2670,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 51:
 				return $this->getDashboardMsg();
 				break;
+			case 52:
+				return $this->getImbraPayment();
+				break;
 			default:
 				return null;
 				break;
@@ -2703,6 +2735,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[49] => $this->getLastActivityNotification(),
 			$keys[50] => $this->getCreatedAt(),
 			$keys[51] => $this->getDashboardMsg(),
+			$keys[52] => $this->getImbraPayment(),
 		);
 		return $result;
 	}
@@ -2874,6 +2907,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 51:
 				$this->setDashboardMsg($value);
 				break;
+			case 52:
+				$this->setImbraPayment($value);
+				break;
 		} 	}
 
 	
@@ -2933,6 +2969,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[49], $arr)) $this->setLastActivityNotification($arr[$keys[49]]);
 		if (array_key_exists($keys[50], $arr)) $this->setCreatedAt($arr[$keys[50]]);
 		if (array_key_exists($keys[51], $arr)) $this->setDashboardMsg($arr[$keys[51]]);
+		if (array_key_exists($keys[52], $arr)) $this->setImbraPayment($arr[$keys[52]]);
 	}
 
 	
@@ -2992,6 +3029,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::LAST_ACTIVITY_NOTIFICATION)) $criteria->add(MemberPeer::LAST_ACTIVITY_NOTIFICATION, $this->last_activity_notification);
 		if ($this->isColumnModified(MemberPeer::CREATED_AT)) $criteria->add(MemberPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(MemberPeer::DASHBOARD_MSG)) $criteria->add(MemberPeer::DASHBOARD_MSG, $this->dashboard_msg);
+		if ($this->isColumnModified(MemberPeer::IMBRA_PAYMENT)) $criteria->add(MemberPeer::IMBRA_PAYMENT, $this->imbra_payment);
 
 		return $criteria;
 	}
@@ -3123,6 +3161,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setDashboardMsg($this->dashboard_msg);
+
+		$copyObj->setImbraPayment($this->imbra_payment);
 
 
 		if ($deepCopy) {

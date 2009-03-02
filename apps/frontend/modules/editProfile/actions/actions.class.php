@@ -180,7 +180,7 @@ class editProfileActions extends prActions
                 if ($question->getIsRequired() && 
                     (!isset($answers[$question->getId()]) || empty($answers[$question->getId()]) || 
                         (!is_null($question->getOther()) && $answers[$question->getId()] == 'other' && !$others[$question->getId()])
-                    || ( $question->getType() == 'other_langs' && !$this->hasValidAnswerForOtherLang($question->getId()) )
+                    || ( $question->getType() == 'other_langs' && $answers[$question->getId()]  != 'other' && !$this->hasValidAnswerForOtherLang($question->getId()) )
                     ))
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');

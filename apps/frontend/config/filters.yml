@@ -9,6 +9,8 @@ ipblock:
     class: ipblockFilter
 status:
     class:  statusFilter
+imbraPayment:
+    class:  imbraPaymentFilter
 mustChangePwd:
     enabled: yes
     class:  mustChangePwdFilter

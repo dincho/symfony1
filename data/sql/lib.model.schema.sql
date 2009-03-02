@@ -179,6 +179,7 @@ CREATE TABLE `member`
 	`last_activity_notification` DATETIME,
 	`created_at` DATETIME,
 	`dashboard_msg` INTEGER(1) default 0,
+	`imbra_payment` VARCHAR(100),
 	PRIMARY KEY (`id`),
 	INDEX `member_FI_1` (`member_status_id`),
 	CONSTRAINT `member_FK_1`

@@ -49,6 +49,8 @@ class systemComponents extends sfComponents
     if( $this->getContext()->getModuleName() == 'imbra' || $this->getContext()->getModuleName() == 'imbraReplyTemplates')
     {
         $c4 = new Criteria();
+        $c4->add(MemberPeer::IMBRA_PAYMENT, 'complted');
+        $c4->addJoin(MemberImbraPeer::MEMBER_ID, MemberPeer::ID);
         $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
         $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
         

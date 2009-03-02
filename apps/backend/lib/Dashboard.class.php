@@ -12,7 +12,7 @@ class Dashboard
     {
 
 	$r = new CustomQueryObject();
-	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM member_imbra WHERE imbra_status_id='.ImbraStatusPeer::PENDING);
+	$ret =  $r->query('SELECT   SUM(IF(DATE(t1.created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(t1.created_at) < CURDATE() - interval 2 day AND DATE(t1.created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(t1.created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM member_imbra AS t1 LEFT JOIN member AS t2 ON (t1.member_id = t2.id) WHERE t2.imbra_payment = "completed" && t1.imbra_status_id='.ImbraStatusPeer::PENDING);
 	return $ret[0];
     }
     
