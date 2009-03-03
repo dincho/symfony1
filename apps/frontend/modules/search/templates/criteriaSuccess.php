@@ -1,6 +1,7 @@
 <?php include_partial('searchTypes'); ?>
 
 <?php if($has_criteria): ?>
+    <?php echo __('Profiles sorted by search criteria.') ?>
     <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
     <?php include_partial('filters', array('filters' => $filters)); ?>
     
