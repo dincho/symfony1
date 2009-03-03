@@ -97,7 +97,8 @@ class transUnitsActions extends sfActions
             $update->add(TransUnitPeer::TAGS, $this->getRequestParameter('tags'));
             BasePeer::doUpdate($select, $update, Propel::getConnection());
             
-            $this->redirect('transUnits/list');                
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect($this->getUser()->getRefererUrl());                
         }
     }
 
