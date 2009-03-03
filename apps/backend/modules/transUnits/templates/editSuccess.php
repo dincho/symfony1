@@ -12,6 +12,11 @@
 	    <label for="source">Source:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5')) ?><br />
 	    
+	    <?php  if( $trans_unit->getCatId() != 1): ?>
+		    <label for="en_target">English Target:</label>
+		    <?php echo object_textarea_tag($en_trans_unit, 'getTarget', array ('size' => '60x5', 'control_name' => 'en_target')) ?><br />
+	    <?php endif; ?>
+	    
 	    <label for="target">Target:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
 	    

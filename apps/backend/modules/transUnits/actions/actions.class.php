@@ -64,17 +64,30 @@ class transUnitsActions extends sfActions
         $this->forward404Unless($trans_unit);
         $this->trans_unit = $trans_unit;
         
+        if( $trans_unit->getCatId() != 1)
+        {
+	        $c = new Criteria();
+	        $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+	        $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
+	        $en_trans_unit = TransUnitPeer::doSelectOne($c);
+	        $this->forward404Unless($en_trans_unit);
+	        $this->en_trans_unit = $en_trans_unit;
+        }
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            //$trans_unit->setCatId($this->getRequestParameter('cat_id'));
-            //$trans_unit->setMsgCollectionId($this->getRequestParameter('msg_collection_id'));
             $trans_unit->setTranslated($this->getRequestParameter('translated'));
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->setTags($this->getRequestParameter('tags'));
             $trans_unit->save();
             
+            if( $trans_unit->getCatId() != 1)
+            {
+                $en_trans_unit->setTarget($this->getRequestParameter('en_target'));
+                $en_trans_unit->save();
+            }
             
             //update all tags
             $select = new Criteria();
