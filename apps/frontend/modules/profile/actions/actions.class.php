@@ -381,6 +381,7 @@ class profileActions extends prActions
     public function executeMyProfile()
     {
         $this->getRequest()->setParameter('username', $this->getUser()->getUsername());
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => '@dashboard'))->add(array('name' => 'Profile'));
         $this->forward('profile', 'index');
     }
 }
