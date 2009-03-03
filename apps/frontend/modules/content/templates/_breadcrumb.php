@@ -1,6 +1,11 @@
 <div id="header_text">
     <span>
     <?php echo __('You are here: ')?>
+    
+    <?php if(has_slot('header_title')): ?>
+        <?php $sf_user->getBC()->replaceLast(array('name' => get_slot('header_title'))); ?>
+    <?php endif; ?>
+    
     <?php $sf_user->getBC()->draw(); ?>
     </span>
     <div id="header_title">

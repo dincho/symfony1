@@ -1,6 +1,10 @@
 <?php use_helper('Javascript') ?>
 <?php echo __('Select the areas you want to find members in. To view a detailed map, roll-over the ares names..') ?><br /><br />
 
+<?php slot('header_title') ?>
+    <?php echo __('%COUNTRY% areas', array('%COUNTRY%' => format_country($sf_request->getParameter('country'))))?>
+<?php end_slot(); ?>
+
 <div id="areas_map"></div>
 
 <form action="<?php echo url_for('search/selectAreas')?>" id="areas" name="areas_form" method="post">
