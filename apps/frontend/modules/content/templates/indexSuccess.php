@@ -27,19 +27,19 @@
                 <?php use_helper('dtForm'); ?>
                 <?php echo form_tag('registration/joinNow') ?>
                     <fieldset>
-                        <?php echo pr_label_for('username'); ?>
+                        <?php echo pr_label_for('username', __('Username')); ?>
                         <?php echo input_tag('username') ?><br class="clear" />
                         
-                        <?php echo pr_label_for('email', 'Your email') ?>
+                        <?php echo pr_label_for('email', __('Your email')) ?>
                         <?php echo input_tag('email') ?><br class="clear" />
                         
-                        <?php echo pr_label_for('password', 'Create Password') ?>
+                        <?php echo pr_label_for('password', __('Create Password')) ?>
                         <?php echo input_password_tag('password') ?><br class="clear" />
                         
-                        <?php echo pr_label_for('repeat_password', 'Repeat Password') ?>
+                        <?php echo pr_label_for('repeat_password', __('Repeat Password')) ?>
                         <?php echo input_password_tag('repeat_password') ?><br class="clear" />
                         
-                        <?php echo pr_label_for('looking_for', 'You are') ?>
+                        <?php echo pr_label_for('looking_for', __('You are')) ?>
                         <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
                         
