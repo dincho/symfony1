@@ -97,6 +97,11 @@ class sfI18N
   	$this->predefined_hashes[$key] = $value;
   }
   
+  public function getPredefinedHashes()
+  {
+  	return $this->predefined_hashes;
+  }
+  
   public function setMessageSourceDir($dir, $culture)
   {
     $this->messageSource = $this->createMessageSource($dir);

@@ -111,7 +111,9 @@ class contentActions extends prActions
         $c->add(StaticPagePeer::SLUG, $this->getRequestParameter('slug'));
         $pages = StaticPagePeer::doSelectWithI18n($c);
         $this->forward404Unless($pages);
-        $this->page = $pages[0];
+        $page = $pages[0];
+        $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
+        $this->page = $page;
         $this->getResponse()->setTitle('PolishRomance - ' . $this->page->getTitle());
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
     }
