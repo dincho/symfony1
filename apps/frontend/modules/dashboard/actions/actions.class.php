@@ -145,7 +145,7 @@ class dashboardActions extends prActions
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($member); //just in case
         
-        $this->getUser()->getBC()->replaceLast(array('name' => ($member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED) ? 'Activate Profile' : 'Deactivate Profile' ));
+        $this->getUser()->getBC()->replaceLast(array('name' => ($member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED) ? 'Activate Profile' : 'Deactivate Profile1' ));
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             if( $this->getRequestParameter('deactivate_profile') == 1 && $member->getMemberStatusId() == MemberStatusPeer::ACTIVE )

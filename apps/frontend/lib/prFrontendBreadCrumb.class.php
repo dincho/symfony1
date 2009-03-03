@@ -34,7 +34,7 @@ class prFrontendBreadCrumb extends xBreadcrumb
   public function getLastName()
   {
       $el = $this->getLast();
-      return $el['name'];
+      return $this->humanize($el['name']);
   }
   
   public function draw()
@@ -43,27 +43,38 @@ class prFrontendBreadCrumb extends xBreadcrumb
     
     $stack = $this->getStack();
     $cnt = count($stack)-1; //do not add link to last element
-    
     sfLoader::loadHelpers(array('I18N'));
     
     for( $i=0; $i<$cnt; $i++ )
     {
-      $name = trim(ereg_replace('([A-Z])', ' \\1', $stack[$i]['name']));
+      $name = $this->humanize($stack[$i]['name']);
       
       if( isset($stack[$i]['uri']) )
       {
-        $content .= link_to(ucfirst(__($name)), $stack[$i]['uri']) . $this->delim;
+        $content .= link_to(__($name), $stack[$i]['uri']) . $this->delim;
       } else {
-        $content .= ucfirst(__($name)) . $this->delim;
+        $content .= __($name) . $this->delim;
       }
     }
     
     //add last element manual, just text not a link
-    $content .= __(trim(ucfirst(ereg_replace('([A-Z])', ' \\1', $stack[$i++]['name']))));
+    $content .= __($this->humanize($stack[$i++]['name']));
     
     //at least, draw the breadcrumb content
     //echo content_tag('div', $content, array('class' => $this->class));
     echo $content;
+  }
+  
+  public function humanize($string)
+  {
+    $tmp = $string;
+    $tmp = str_replace('::', '/', $tmp);
+    $tmp = sfToolkit::pregtr($tmp, array('/([A-Z]+)([A-Z][a-z])/' => '\\1 \\2',
+                                         '/([a-z\d])([A-Z])/'     => '\\1 \\2'));
+
+    $tmp = strtolower($tmp);
+      	
+  	return ucwords($tmp);
   }
     
 }
