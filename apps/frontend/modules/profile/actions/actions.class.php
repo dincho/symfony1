@@ -70,11 +70,13 @@ class profileActions extends prActions
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
         
+        //secure action for non-admins
+        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));                                  
+        $this->forwardIf(!$this->getUser()->isAuthenticated() && $this->getRequestParameter('admin_hash') != $admin_hash, sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
+                    
         if( $this->getUser()->getId() != $member->getId() )
         {
 	        $member_status_id = $member->getMemberStatusId();
-	        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));
-	        
 	        if( $member_status_id != MemberStatusPeer::ACTIVE
 	            && $this->getRequestParameter('admin_hash') != $admin_hash)
 	        {
@@ -82,7 +84,7 @@ class profileActions extends prActions
 	                                $member_status_id == MemberStatusPeer::PENDING ||
 	                                $member_status_id == MemberStatusPeer::DENIED
 	                                );
-	                                
+	                               
 	            switch ($member_status_id) {
 	            	case MemberStatusPeer::SUSPENDED:
 	            	case MemberStatusPeer::SUSPENDED_FLAGS:
