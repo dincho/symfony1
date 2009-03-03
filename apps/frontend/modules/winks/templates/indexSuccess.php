@@ -3,7 +3,7 @@
 <?php echo __('These are the winks you received and sent. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
 <div id="winks">
     <div class="you_recived">
-        Winks you received<br /><br />
+        <?php echo __('Winks you received')?><br /><br />
         <?php foreach ($received_winks as $received_wink): ?>
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
             <div class="member_profile">
