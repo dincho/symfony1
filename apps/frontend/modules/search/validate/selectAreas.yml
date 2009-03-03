@@ -1,0 +1,8 @@
+fillin:
+  enabled: true
+  param:
+    content_type:   xml  
+fields:
+  areas:
+    required:
+        msg: Please select at least one area or click Cancel to go back to Seach.

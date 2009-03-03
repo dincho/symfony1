@@ -1,0 +1,8 @@
+fillin:
+  enabled: true
+  param:
+    content_type:   xml  
+fields:
+  countries:
+    required:
+        msg: Please select at least one country and click Save or click Cancel to go back to search.

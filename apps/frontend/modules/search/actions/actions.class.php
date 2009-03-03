@@ -185,12 +185,7 @@ class searchActions extends prActions
                 }
             }
             
-            if( $user->isAuthenticated() )
-            {
-                $this->redirect('search/index');
-            } else {
-                $this->redirect('search/public');
-            }
+            $this->setFlash('msg_ok', 'Success, your changes have been saved. To return to your search, click here.', false);
         }
         
         if ($polish_cities)
@@ -204,6 +199,29 @@ class searchActions extends prActions
         
         $this->areas = StatePeer::getAllByCountry($country);
     }
+    
+    public function handleErrorSelectAreas()
+    {
+        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
+        $this->getResponse()->addJavascript('areas_map.js');
+        $country = $this->getRequestParameter('country');
+        $polish_cities = $this->getRequestParameter('polish_cities');
+        $user = $this->getUser();
+        $user->getBC()->add(array('name' => 'Select Areas', 'search/selectAreas'));
+            	
+        if ($polish_cities)
+        {
+            $this->selected_areas = $user->getAttributeHolder()->getAll('frontend/search/polish_areas');
+        } else
+        {
+            $selected_areas = $user->getAttributeHolder()->getAll('frontend/search/areas');
+            $this->selected_areas = isset($selected_areas[$country]) ? $selected_areas[$country] : array();
+        }
+        
+        $this->areas = StatePeer::getAllByCountry($country);    
+
+        return sfView::SUCCESS;
+    }
 
     public function executeSelectCountries()
     {
@@ -215,19 +233,28 @@ class searchActions extends prActions
             $user->getAttributeHolder()->removeNamespace('frontend/search/countries');
             $user->getAttributeHolder()->add($this->getRequestParameter('countries'), 'frontend/search/countries');
             
-            if( $user->isAuthenticated() )
-            {
-                $this->redirect('search/index');
-            } else {
-                $this->redirect('search/public');
-            }
+            $this->setFlash('msg_ok', 'Success, your changes have been saved. To return to your search, click here.', false);
         }
         
-        $this->selected_countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
-        $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+        $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
+        $c = new sfCultureInfo($user->getCulture());
         $this->countries = $c->getCountries();
         asort($this->countries);
         $this->states = StatePeer::getCountriesWithStates();
+    }
+    
+    public function handleErrorSelectCountries()
+    {
+        $user = $this->getUser();
+        $user->getBC()->add(array('name' => 'Select Countries', 'search/selectCountries'));
+            	
+        $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
+        $c = new sfCultureInfo($user->getCulture());
+        $this->countries = $c->getCountries();
+        asort($this->countries);
+        $this->states = StatePeer::getCountriesWithStates();  
+
+        return sfView::SUCCESS;
     }
 
     public function executeAreaFilter()
