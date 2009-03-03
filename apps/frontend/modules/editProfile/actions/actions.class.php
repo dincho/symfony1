@@ -35,7 +35,7 @@ class editProfileActions extends prActions
                 $flash_error .= 'IMPORTANT! Your email address change is not complete! You must confirm your new email 
                                 address before you can use it to log in to our website. We have sent you 2 emails – 1 on your current 
                                 email address and 1 on your new email address. Please go to these messages and confirm the change. 
-                                Until you do so, you will have to use your current email address.<br />';
+                                Until you do so, you will have to use your current email address.';
                 $member->setTmpEmail($this->getRequestParameter('email'));
                 Events::triggerNewEmailConfirm($member);
             }
@@ -53,7 +53,7 @@ class editProfileActions extends prActions
                     $flash_error .= 'IMPORTANT! Your password change is complete! You must confirm it before you can use it to log 
                                     in to our website. We have sent you an email. Please go to the message and confirm the change. Until 
                                     you do so, you will have to use your current password to log in.  
-                                    Thank you for understanding.<br />';
+                                    Thank you for understanding.';
                     $member->setNewPassword($this->getRequestParameter('password'));
                     Events::triggerNewPasswordConfirm($member);
                 }
