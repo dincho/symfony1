@@ -194,6 +194,7 @@ class sfI18N
       $retval = $this->globalMessageFormat->format($string, $args, $catalogue);
     }
 
+    if( $string === $retval && sfContext::getInstance()->getUser()->getCulture() != 'en') return null;
     return $retval;
   }
 
