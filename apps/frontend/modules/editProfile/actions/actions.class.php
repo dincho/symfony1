@@ -272,8 +272,7 @@ class editProfileActions extends prActions
             if ($this->getRequestParameter('main_photo'))
             {
                 $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo)
-                    $this->member->setMemberPhoto($photo);
+                if ($photo) $this->member->setMemberPhoto($photo);
             }
             
             //YouTube Video
@@ -288,7 +287,11 @@ class editProfileActions extends prActions
             {
                 $this->setFlash('msg_ok', 'Your Photos have been updated');
                 $this->redirect('dashboard/index');
-            } //else the upload button is pressed "commit", so show the photos ..
+            } 
+            
+            //else the upload button is pressed "commit", so show the photos .. 
+            //BUT redirect to itself, to prevent form resubmit
+            $this->redirect('editProfile/photos');
         }
         
         

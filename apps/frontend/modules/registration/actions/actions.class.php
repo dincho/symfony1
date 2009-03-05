@@ -348,7 +348,11 @@ class registrationActions extends prActions
             if (! $this->getRequestParameter('commit'))
             {
                 $this->getUser()->completeRegistration();
-            } //else the upload button is pressed "commit", so show the photos ..
+            }
+            
+            //else the upload button is pressed "commit", so show the photos .. 
+            //BUT redirect to itself, to prevent form resubmit
+            $this->redirect('registration/photos');
         }
         
         $this->photos = $this->member->getMemberPhotos();
