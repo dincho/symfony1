@@ -330,6 +330,69 @@ class membersActions extends sfActions
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_crit_desc = $this->member->getSearchCritDescsArray();
     }
+    
+    public function validateEditSearchCriteria()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $questions = DescQuestionPeer::doSelect(new Criteria());
+            $answers = $this->getRequestParameter('answers', array());
+            //print_r($answers);exit();
+            $has_error = false;
+            $add_error = false;
+            foreach ($questions as $question)
+            {
+                if( $question->getType() == 'age' )
+                {
+                    $ages = $answers[$question->getId()];
+                    if( !is_array($ages) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] )
+                    {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please enter correct ages range');
+                        $has_error = true;      
+                    }
+                } elseif( $question->getType() == 'select' && (!is_array($answers[$question->getId()]) || $answers[$question->getId()]['from'] > $answers[$question->getId()]['to']) )
+                {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select correct range');
+                        $has_error = true;
+                } elseif( $question->getIsRequired() && !isset($answers[$question->getId()]) )
+                {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information');
+                        $has_error = true;
+                        
+                }
+            }
+            
+            if ($has_error)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public function handleErrorEditSearchCriteria()
+    {
+        if ($this->getRequestParameter('id'))
+        {
+            $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
+            $this->forward404Unless($member);
+            $this->getUser()->getBC()->add(array('name' => $member->getUsername(), 'uri' => 'members/edit?id=' . $member->getId()));
+            
+            $this->member = $member;
+        }
+            	
+        $this->getUser()->getBC()->add(array('name' => 'Search Criteria', 'uri' => 'members/editSearchCriteria?id=' . $this->member->getId()));
+        $this->getResponse()->addJavascript('SC_select_all');
+        
+        $questions = DescQuestionPeer::doSelect(new Criteria());
+        $this->questions = $questions;
+        
+        $this->answers = DescAnswerPeer::getAnswersAssoc();
+        $this->member_crit_desc = $this->member->getSearchCritDescsArray();       
+
+        return sfView::SUCCESS;
+    }
 
     public function executeEditStatusHistory()
     {

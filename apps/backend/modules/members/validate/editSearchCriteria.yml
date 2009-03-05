@@ -1,0 +1,9 @@
+fillin:
+  enabled: true
+  param:
+    content_type:   xml
+    name: self_description_form
+fields:
+  answers:
+    required:
+        msg:    You must fill out the missing information below

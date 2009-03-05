@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'Javascript') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
@@ -20,7 +20,9 @@
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
                                      $answer->getId(),
-                                     ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId())) ? true : false, ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
+                                     fillIn('answers['. $question->getId() .'][]', 'c', false, ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId()))),
+                                     //( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId())) ? true : false, 
+                                     ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
           <label><?php echo html_entity_decode($answer->getSearchTitle(), null, 'utf-8') ?></label><br />
         <?php endforeach; ?>
         <label><?php echo link_to_function('Select All', 'SC_select_all(document.forms.self_description_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> - any option is fine</label><br />
