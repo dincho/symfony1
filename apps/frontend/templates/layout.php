@@ -46,7 +46,7 @@
             <?php endif; ?>
             
             <?php include_partial('content/formErrors'); ?>          
-            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title)); ?>
+            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated())); ?>
             <div id="secondary_container">
                 <?php echo $sf_data->getRaw('sf_content') ?>
             </div>
