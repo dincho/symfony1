@@ -67,6 +67,40 @@
     <?php include_partial('actions', array('form_name' => 'messages_form_sent', 'no_read_unread' => true)); ?>
 </form>
 <?php endif; ?>
+
+<?php if( count($draft_messages) > 0): ?>
+<div class="text_1 messages_show_hide">
+    <?php echo link_to_function('[<span id="messages_form_draft_tick">+</span>]', 'show_hide_tick("messages_form_draft")', 'class=sec_link') ?> <span class="public_reg_notice">Draft Messages</span>
+</div>
+
+<?php if($sf_request->hasParameter('confirm_delete_draft')): ?>
+    <?php $action = 'messages/DeleteDraft' ?>
+<?php else: ?>
+    <?php $action = 'messages/index?confirm_delete_draft=1&form_id=messages_form_draft'; ?>
+<?php endif; ?>
+
+<?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft', 'style' => 'display: none;')) ?>    
+    <?php include_partial('actionsdraft', array('form_name' => 'messages_form_draft', 'no_read_unread' => true)); ?>
+    <table cellspacing="0" cellpadding="0" class="messages" id="draft_messages"> 
+    <?php foreach ($draft_messages as $message): ?>
+        
+        <?php unset($class); ?>
+        <?php $is_selected = in_array($message->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
+        <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?> 
+            <?php $class = 'delete'; ?>
+        <?php endif; ?>
+        
+        <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
+            <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, 'class=checkbox') ?></td>
+            <td><?php echo link_to($message->getMemberRelatedByToMemberId()->getUsername(), 'messages/send?draft_id='.$message->getId().'&profile_id=' . $message->getToMemberId(), array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to($message->getSubject(), 'messages/send?draft_id='.$message->getId().'&profile_id=' . $message->getToMemberId(), array('class' => 'sec_link')) ?></td>
+            <td><?php //echo link_to(format_date_pr($message->getCreatedAt(null)), 'messages/send?draft_id='.$message->getId().'&profile_id=' . $message->getToMemberId(), array('class' => 'sec_link')) ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </table>
+    <?php include_partial('actionsdraft', array('form_name' => 'messages_form_draft', 'no_read_unread' => true)); ?>
+</form>
+<?php endif; ?>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

@@ -918,6 +918,24 @@ span.online-assistant {
     margin-right: 30px;
     color: #d3d3d3;
 }
+
+#messages_form_draft {
+    padding: 0px;
+    margin: 0px;
+    color: #d3d3d3;
+    width: 720px;
+}
+
+#messages_form_draft fieldset {
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#messages_form_draft input.delete {
+    margin-right: 30px;
+    color: #d3d3d3;
+}
 /* END Member Messages */
 
 #secondary_container hr {

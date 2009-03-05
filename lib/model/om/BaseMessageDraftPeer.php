@@ -1,0 +1,804 @@
+<?php
+
+
+abstract class BaseMessageDraftPeer {
+
+	
+	const DATABASE_NAME = 'propel';
+
+	
+	const TABLE_NAME = 'message_draft';
+
+	
+	const CLASS_DEFAULT = 'lib.model.MessageDraft';
+
+	
+	const NUM_COLUMNS = 5;
+
+	
+	const NUM_LAZY_LOAD_COLUMNS = 0;
+
+
+	
+	const ID = 'message_draft.ID';
+
+	
+	const FROM_MEMBER_ID = 'message_draft.FROM_MEMBER_ID';
+
+	
+	const TO_MEMBER_ID = 'message_draft.TO_MEMBER_ID';
+
+	
+	const SUBJECT = 'message_draft.SUBJECT';
+
+	
+	const CONTENT = 'message_draft.CONTENT';
+
+	
+	private static $phpNameMap = null;
+
+
+	
+	private static $fieldNames = array (
+		BasePeer::TYPE_PHPNAME => array ('Id', 'FromMemberId', 'ToMemberId', 'Subject', 'Content', ),
+		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID, MessageDraftPeer::FROM_MEMBER_ID, MessageDraftPeer::TO_MEMBER_ID, MessageDraftPeer::SUBJECT, MessageDraftPeer::CONTENT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'from_member_id', 'to_member_id', 'subject', 'content', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+	);
+
+	
+	private static $fieldKeys = array (
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'FromMemberId' => 1, 'ToMemberId' => 2, 'Subject' => 3, 'Content' => 4, ),
+		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID => 0, MessageDraftPeer::FROM_MEMBER_ID => 1, MessageDraftPeer::TO_MEMBER_ID => 2, MessageDraftPeer::SUBJECT => 3, MessageDraftPeer::CONTENT => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'from_member_id' => 1, 'to_member_id' => 2, 'subject' => 3, 'content' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+	);
+
+	
+	public static function getMapBuilder()
+	{
+		include_once 'lib/model/map/MessageDraftMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.MessageDraftMapBuilder');
+	}
+	
+	public static function getPhpNameMap()
+	{
+		if (self::$phpNameMap === null) {
+			$map = MessageDraftPeer::getTableMap();
+			$columns = $map->getColumns();
+			$nameMap = array();
+			foreach ($columns as $column) {
+				$nameMap[$column->getPhpName()] = $column->getColumnName();
+			}
+			self::$phpNameMap = $nameMap;
+		}
+		return self::$phpNameMap;
+	}
+	
+	static public function translateFieldName($name, $fromType, $toType)
+	{
+		$toNames = self::getFieldNames($toType);
+		$key = isset(self::$fieldKeys[$fromType][$name]) ? self::$fieldKeys[$fromType][$name] : null;
+		if ($key === null) {
+			throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(self::$fieldKeys[$fromType], true));
+		}
+		return $toNames[$key];
+	}
+
+	
+
+	static public function getFieldNames($type = BasePeer::TYPE_PHPNAME)
+	{
+		if (!array_key_exists($type, self::$fieldNames)) {
+			throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants TYPE_PHPNAME, TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM. ' . $type . ' was given.');
+		}
+		return self::$fieldNames[$type];
+	}
+
+	
+	public static function alias($alias, $column)
+	{
+		return str_replace(MessageDraftPeer::TABLE_NAME.'.', $alias.'.', $column);
+	}
+
+	
+	public static function addSelectColumns(Criteria $criteria)
+	{
+
+		$criteria->addSelectColumn(MessageDraftPeer::ID);
+
+		$criteria->addSelectColumn(MessageDraftPeer::FROM_MEMBER_ID);
+
+		$criteria->addSelectColumn(MessageDraftPeer::TO_MEMBER_ID);
+
+		$criteria->addSelectColumn(MessageDraftPeer::SUBJECT);
+
+		$criteria->addSelectColumn(MessageDraftPeer::CONTENT);
+
+	}
+
+	const COUNT = 'COUNT(message_draft.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT message_draft.ID)';
+
+	
+	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+	
+	public static function doSelectOne(Criteria $criteria, $con = null)
+	{
+		$critcopy = clone $criteria;
+		$critcopy->setLimit(1);
+		$objects = MessageDraftPeer::doSelect($critcopy, $con);
+		if ($objects) {
+			return $objects[0];
+		}
+		return null;
+	}
+	
+	public static function doSelect(Criteria $criteria, $con = null)
+	{
+		return MessageDraftPeer::populateObjects(MessageDraftPeer::doSelectRS($criteria, $con));
+	}
+	
+	public static function doSelectRS(Criteria $criteria, $con = null)
+	{
+
+    foreach (sfMixer::getCallables('BaseMessageDraftPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    {
+      call_user_func($callable, 'BaseMessageDraftPeer', $criteria, $con);
+    }
+
+
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		if (!$criteria->getSelectColumns()) {
+			$criteria = clone $criteria;
+			MessageDraftPeer::addSelectColumns($criteria);
+		}
+
+				$criteria->setDbName(self::DATABASE_NAME);
+
+						return BasePeer::doSelect($criteria, $con);
+	}
+	
+	public static function populateObjects(ResultSet $rs)
+	{
+		$results = array();
+	
+				$cls = MessageDraftPeer::getOMClass();
+		$cls = Propel::import($cls);
+				while($rs->next()) {
+		
+			$obj = new $cls();
+			$obj->hydrate($rs);
+			$results[] = $obj;
+			
+		}
+		return $results;
+	}
+
+	
+	public static function doCountJoinMemberRelatedByFromMemberId(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(MessageDraftPeer::FROM_MEMBER_ID, MemberPeer::ID);
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinMemberRelatedByToMemberId(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(MessageDraftPeer::TO_MEMBER_ID, MemberPeer::ID);
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinMemberRelatedByFromMemberId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MessageDraftPeer::addSelectColumns($c);
+		$startcol = (MessageDraftPeer::NUM_COLUMNS - MessageDraftPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberPeer::addSelectColumns($c);
+
+		$c->addJoin(MessageDraftPeer::FROM_MEMBER_ID, MemberPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MessageDraftPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getMemberRelatedByFromMemberId(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addMessageDraftRelatedByFromMemberId($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initMessageDraftsRelatedByFromMemberId();
+				$obj2->addMessageDraftRelatedByFromMemberId($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinMemberRelatedByToMemberId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MessageDraftPeer::addSelectColumns($c);
+		$startcol = (MessageDraftPeer::NUM_COLUMNS - MessageDraftPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		MemberPeer::addSelectColumns($c);
+
+		$c->addJoin(MessageDraftPeer::TO_MEMBER_ID, MemberPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MessageDraftPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = MemberPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getMemberRelatedByToMemberId(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addMessageDraftRelatedByToMemberId($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initMessageDraftsRelatedByToMemberId();
+				$obj2->addMessageDraftRelatedByToMemberId($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+	{
+		$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(MessageDraftPeer::FROM_MEMBER_ID, MemberPeer::ID);
+
+		$criteria->addJoin(MessageDraftPeer::TO_MEMBER_ID, MemberPeer::ID);
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAll(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MessageDraftPeer::addSelectColumns($c);
+		$startcol2 = (MessageDraftPeer::NUM_COLUMNS - MessageDraftPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		MemberPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
+
+		MemberPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + MemberPeer::NUM_COLUMNS;
+
+		$c->addJoin(MessageDraftPeer::FROM_MEMBER_ID, MemberPeer::ID);
+
+		$c->addJoin(MessageDraftPeer::TO_MEMBER_ID, MemberPeer::ID);
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MessageDraftPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+
+					
+			$omClass = MemberPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getMemberRelatedByFromMemberId(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addMessageDraftRelatedByFromMemberId($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initMessageDraftsRelatedByFromMemberId();
+				$obj2->addMessageDraftRelatedByFromMemberId($obj1);
+			}
+
+
+					
+			$omClass = MemberPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3 = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getMemberRelatedByToMemberId(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addMessageDraftRelatedByToMemberId($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initMessageDraftsRelatedByToMemberId();
+				$obj3->addMessageDraftRelatedByToMemberId($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAllExceptMemberRelatedByFromMemberId(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doCountJoinAllExceptMemberRelatedByToMemberId(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(MessageDraftPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$rs = MessageDraftPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAllExceptMemberRelatedByFromMemberId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MessageDraftPeer::addSelectColumns($c);
+		$startcol2 = (MessageDraftPeer::NUM_COLUMNS - MessageDraftPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MessageDraftPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptMemberRelatedByToMemberId(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		MessageDraftPeer::addSelectColumns($c);
+		$startcol2 = (MessageDraftPeer::NUM_COLUMNS - MessageDraftPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = MessageDraftPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+	
+	public static function getTableMap()
+	{
+		return Propel::getDatabaseMap(self::DATABASE_NAME)->getTable(self::TABLE_NAME);
+	}
+
+	
+	public static function getOMClass()
+	{
+		return MessageDraftPeer::CLASS_DEFAULT;
+	}
+
+	
+	public static function doInsert($values, $con = null)
+	{
+
+    foreach (sfMixer::getCallables('BaseMessageDraftPeer:doInsert:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseMessageDraftPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		if ($values instanceof Criteria) {
+			$criteria = clone $values; 		} else {
+			$criteria = $values->buildCriteria(); 		}
+
+		$criteria->remove(MessageDraftPeer::ID); 
+
+				$criteria->setDbName(self::DATABASE_NAME);
+
+		try {
+									$con->begin();
+			$pk = BasePeer::doInsert($criteria, $con);
+			$con->commit();
+		} catch(PropelException $e) {
+			$con->rollback();
+			throw $e;
+		}
+
+		
+    foreach (sfMixer::getCallables('BaseMessageDraftPeer:doInsert:post') as $callable)
+    {
+      call_user_func($callable, 'BaseMessageDraftPeer', $values, $con, $pk);
+    }
+
+    return $pk;
+	}
+
+	
+	public static function doUpdate($values, $con = null)
+	{
+
+    foreach (sfMixer::getCallables('BaseMessageDraftPeer:doUpdate:pre') as $callable)
+    {
+      $ret = call_user_func($callable, 'BaseMessageDraftPeer', $values, $con);
+      if (false !== $ret)
+      {
+        return $ret;
+      }
+    }
+
+
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$selectCriteria = new Criteria(self::DATABASE_NAME);
+
+		if ($values instanceof Criteria) {
+			$criteria = clone $values; 
+			$comparison = $criteria->getComparison(MessageDraftPeer::ID);
+			$selectCriteria->add(MessageDraftPeer::ID, $criteria->remove(MessageDraftPeer::ID), $comparison);
+
+		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
+
+				$criteria->setDbName(self::DATABASE_NAME);
+
+		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
+	
+
+    foreach (sfMixer::getCallables('BaseMessageDraftPeer:doUpdate:post') as $callable)
+    {
+      call_user_func($callable, 'BaseMessageDraftPeer', $values, $con, $ret);
+    }
+
+    return $ret;
+  }
+
+	
+	public static function doDeleteAll($con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+		$affectedRows = 0; 		try {
+									$con->begin();
+			$affectedRows += BasePeer::doDeleteAll(MessageDraftPeer::TABLE_NAME, $con);
+			$con->commit();
+			return $affectedRows;
+		} catch (PropelException $e) {
+			$con->rollback();
+			throw $e;
+		}
+	}
+
+	
+	 public static function doDelete($values, $con = null)
+	 {
+		if ($con === null) {
+			$con = Propel::getConnection(MessageDraftPeer::DATABASE_NAME);
+		}
+
+		if ($values instanceof Criteria) {
+			$criteria = clone $values; 		} elseif ($values instanceof MessageDraft) {
+
+			$criteria = $values->buildPkeyCriteria();
+		} else {
+						$criteria = new Criteria(self::DATABASE_NAME);
+			$criteria->add(MessageDraftPeer::ID, (array) $values, Criteria::IN);
+		}
+
+				$criteria->setDbName(self::DATABASE_NAME);
+
+		$affectedRows = 0; 
+		try {
+									$con->begin();
+			
+			$affectedRows += BasePeer::doDelete($criteria, $con);
+			$con->commit();
+			return $affectedRows;
+		} catch (PropelException $e) {
+			$con->rollback();
+			throw $e;
+		}
+	}
+
+	
+	public static function doValidate(MessageDraft $obj, $cols = null)
+	{
+		$columns = array();
+
+		if ($cols) {
+			$dbMap = Propel::getDatabaseMap(MessageDraftPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(MessageDraftPeer::TABLE_NAME);
+
+			if (! is_array($cols)) {
+				$cols = array($cols);
+			}
+
+			foreach($cols as $colName) {
+				if ($tableMap->containsColumn($colName)) {
+					$get = 'get' . $tableMap->getColumn($colName)->getPhpName();
+					$columns[$colName] = $obj->$get();
+				}
+			}
+		} else {
+
+		}
+
+		$res =  BasePeer::doValidate(MessageDraftPeer::DATABASE_NAME, MessageDraftPeer::TABLE_NAME, $columns);
+    if ($res !== true) {
+        $request = sfContext::getInstance()->getRequest();
+        foreach ($res as $failed) {
+            $col = MessageDraftPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $request->setError($col, $failed->getMessage());
+        }
+    }
+
+    return $res;
+	}
+
+	
+	public static function retrieveByPK($pk, $con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$criteria = new Criteria(MessageDraftPeer::DATABASE_NAME);
+
+		$criteria->add(MessageDraftPeer::ID, $pk);
+
+
+		$v = MessageDraftPeer::doSelect($criteria, $con);
+
+		return !empty($v) > 0 ? $v[0] : null;
+	}
+
+	
+	public static function retrieveByPKs($pks, $con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$objs = null;
+		if (empty($pks)) {
+			$objs = array();
+		} else {
+			$criteria = new Criteria();
+			$criteria->add(MessageDraftPeer::ID, $pks, Criteria::IN);
+			$objs = MessageDraftPeer::doSelect($criteria, $con);
+		}
+		return $objs;
+	}
+
+} 
+if (Propel::isInit()) {
+			try {
+		BaseMessageDraftPeer::getMapBuilder();
+	} catch (Exception $e) {
+		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
+	}
+} else {
+			require_once 'lib/model/map/MessageDraftMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.MessageDraftMapBuilder');
+}

@@ -436,3 +436,9 @@ propel:
     is_renewal:        { type: boolean, required: true, default: 0 }
     member_subscr_id:   { type: integer, required: false }
     created_at:
+  message_draft:
+    id:
+    from_member_id:           { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    to_member_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    subject:                  { type: varchar, size: 255 }
+    content:                  { type: longvarchar }

@@ -1237,5 +1237,32 @@ CREATE TABLE `ipn_history`
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
+#-----------------------------------------------------------------------------
+#-- message_draft
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `message_draft`;
+
+
+CREATE TABLE `message_draft`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`from_member_id` INTEGER  NOT NULL,
+	`to_member_id` INTEGER  NOT NULL,
+	`subject` VARCHAR(255),
+	`content` TEXT,
+	PRIMARY KEY (`id`),
+	INDEX `message_draft_FI_1` (`from_member_id`),
+	CONSTRAINT `message_draft_FK_1`
+		FOREIGN KEY (`from_member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE,
+	INDEX `message_draft_FI_2` (`to_member_id`),
+	CONSTRAINT `message_draft_FK_2`
+		FOREIGN KEY (`to_member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

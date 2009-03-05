@@ -49,4 +49,17 @@ class ajaxActions extends prActions
             return sfView::NONE;
         }
     }
+    
+    public function executeSaveToDraft()
+    {
+        $subject = $this->getRequestParameter('subject');
+        $content = $this->getRequestParameter('content');
+        $draft_id = $this->getRequestParameter('draft_id');
+        $message = MessageDraftPeer::retrieveByPK($draft_id);
+        $message->setSubject($subject);
+        $message->setContent($content);
+        $message->save();
+        
+        return sfView::NONE;
+    }
 }

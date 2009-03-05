@@ -382,6 +382,18 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	protected $lastMemberMatchRelatedByMember2IdCriteria = null;
 
 	
+	protected $collMessageDraftsRelatedByFromMemberId;
+
+	
+	protected $lastMessageDraftRelatedByFromMemberIdCriteria = null;
+
+	
+	protected $collMessageDraftsRelatedByToMemberId;
+
+	
+	protected $lastMessageDraftRelatedByToMemberIdCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -2225,6 +2237,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collMessageDraftsRelatedByFromMemberId !== null) {
+				foreach($this->collMessageDraftsRelatedByFromMemberId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collMessageDraftsRelatedByToMemberId !== null) {
+				foreach($this->collMessageDraftsRelatedByToMemberId as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -2490,6 +2518,22 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 				if ($this->collMemberMatchsRelatedByMember2Id !== null) {
 					foreach($this->collMemberMatchsRelatedByMember2Id as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMessageDraftsRelatedByFromMemberId !== null) {
+					foreach($this->collMessageDraftsRelatedByFromMemberId as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMessageDraftsRelatedByToMemberId !== null) {
+					foreach($this->collMessageDraftsRelatedByToMemberId as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -3262,6 +3306,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			foreach($this->getMemberMatchsRelatedByMember2Id() as $relObj) {
 				$copyObj->addMemberMatchRelatedByMember2Id($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMessageDraftsRelatedByFromMemberId() as $relObj) {
+				$copyObj->addMessageDraftRelatedByFromMemberId($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMessageDraftsRelatedByToMemberId() as $relObj) {
+				$copyObj->addMessageDraftRelatedByToMemberId($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -5526,6 +5578,146 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 		$this->collMemberMatchsRelatedByMember2Id[] = $l;
 		$l->setMemberRelatedByMember2Id($this);
+	}
+
+	
+	public function initMessageDraftsRelatedByFromMemberId()
+	{
+		if ($this->collMessageDraftsRelatedByFromMemberId === null) {
+			$this->collMessageDraftsRelatedByFromMemberId = array();
+		}
+	}
+
+	
+	public function getMessageDraftsRelatedByFromMemberId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessageDraftPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMessageDraftsRelatedByFromMemberId === null) {
+			if ($this->isNew()) {
+			   $this->collMessageDraftsRelatedByFromMemberId = array();
+			} else {
+
+				$criteria->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getId());
+
+				MessageDraftPeer::addSelectColumns($criteria);
+				$this->collMessageDraftsRelatedByFromMemberId = MessageDraftPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getId());
+
+				MessageDraftPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMessageDraftRelatedByFromMemberIdCriteria) || !$this->lastMessageDraftRelatedByFromMemberIdCriteria->equals($criteria)) {
+					$this->collMessageDraftsRelatedByFromMemberId = MessageDraftPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMessageDraftRelatedByFromMemberIdCriteria = $criteria;
+		return $this->collMessageDraftsRelatedByFromMemberId;
+	}
+
+	
+	public function countMessageDraftsRelatedByFromMemberId($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessageDraftPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getId());
+
+		return MessageDraftPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMessageDraftRelatedByFromMemberId(MessageDraft $l)
+	{
+		$this->collMessageDraftsRelatedByFromMemberId[] = $l;
+		$l->setMemberRelatedByFromMemberId($this);
+	}
+
+	
+	public function initMessageDraftsRelatedByToMemberId()
+	{
+		if ($this->collMessageDraftsRelatedByToMemberId === null) {
+			$this->collMessageDraftsRelatedByToMemberId = array();
+		}
+	}
+
+	
+	public function getMessageDraftsRelatedByToMemberId($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessageDraftPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMessageDraftsRelatedByToMemberId === null) {
+			if ($this->isNew()) {
+			   $this->collMessageDraftsRelatedByToMemberId = array();
+			} else {
+
+				$criteria->add(MessageDraftPeer::TO_MEMBER_ID, $this->getId());
+
+				MessageDraftPeer::addSelectColumns($criteria);
+				$this->collMessageDraftsRelatedByToMemberId = MessageDraftPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MessageDraftPeer::TO_MEMBER_ID, $this->getId());
+
+				MessageDraftPeer::addSelectColumns($criteria);
+				if (!isset($this->lastMessageDraftRelatedByToMemberIdCriteria) || !$this->lastMessageDraftRelatedByToMemberIdCriteria->equals($criteria)) {
+					$this->collMessageDraftsRelatedByToMemberId = MessageDraftPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMessageDraftRelatedByToMemberIdCriteria = $criteria;
+		return $this->collMessageDraftsRelatedByToMemberId;
+	}
+
+	
+	public function countMessageDraftsRelatedByToMemberId($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessageDraftPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MessageDraftPeer::TO_MEMBER_ID, $this->getId());
+
+		return MessageDraftPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMessageDraftRelatedByToMemberId(MessageDraft $l)
+	{
+		$this->collMessageDraftsRelatedByToMemberId[] = $l;
+		$l->setMemberRelatedByToMemberId($this);
 	}
 
 
