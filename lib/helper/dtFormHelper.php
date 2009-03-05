@@ -76,7 +76,9 @@ function pr_label_for($id, $label = null, $options = array(), $translate = true)
 
 function looking_for_options($selected = '', $html_options = array())
 {
-    $options = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man', 'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
+	$t = sfContext::getInstance()->getI18N();
+    $options = array('M_F' => $t->__('Man looking for woman'), 'F_M' => $t->__('Woman looking for man'), 
+                     'M_M' => $t->__('Man looking for man'), 'F_F' => $t->__('Woman looking for woman'));
     
     return options_for_select($options, $selected, $html_options);
 }
