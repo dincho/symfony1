@@ -37,7 +37,7 @@
             <?php endif; ?>
                       
             <?php include_partial('content/formErrors'); ?>          
-            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'header_span' => @$header_span)); ?>
+            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'header_current_step' => @$header_current_step, 'header_steps' => @$header_steps)); ?>
             <div id="secondary_container">
                 <?php echo $sf_data->getRaw('sf_content') ?>
             </div>

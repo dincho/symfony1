@@ -10,11 +10,15 @@
  */
 class registrationActions extends prActions
 {
+	public function preExecute()
+	{
+		$this->header_steps = 4;
+	}
+	
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
         $this->setLayout('simple');
-        $this->header_span = '';
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Join headline', 'uri' => 'registration/joinNow'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -96,7 +100,7 @@ class registrationActions extends prActions
     public function executeIndex()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 1 of 4';
+        $this->header_current_step = 1;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
         
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
@@ -124,7 +128,7 @@ class registrationActions extends prActions
     public function handleErrorIndex()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 1 of 4';
+        $this->header_current_step = 1;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
@@ -137,7 +141,7 @@ class registrationActions extends prActions
     public function executeSelfDescription()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 2 of 4';
+        $this->header_current_step = 2;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
         ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
@@ -245,7 +249,7 @@ class registrationActions extends prActions
     {
     	$this->setLayout('simple');
     	
-        $this->header_span = 'Step 2 of 4';
+        $this->header_current_step = 2;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
         ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
@@ -261,7 +265,7 @@ class registrationActions extends prActions
     public function executeEssay()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 3 of 4';
+        $this->header_current_step = 3;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
@@ -286,7 +290,7 @@ class registrationActions extends prActions
     public function handleErrorEssay()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 3 of 4';
+        $this->header_current_step = 3;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
@@ -303,7 +307,7 @@ class registrationActions extends prActions
     public function executePhotos()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 4 of 4';
+        $this->header_current_step = 4;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
@@ -388,7 +392,7 @@ class registrationActions extends prActions
     public function handleErrorPhotos()
     {
         $this->setLayout('simple');
-        $this->header_span = 'Step 4 of 4';
+        $this->header_current_step = 4;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))

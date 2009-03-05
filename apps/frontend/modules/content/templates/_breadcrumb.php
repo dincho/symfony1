@@ -14,8 +14,8 @@
                 <?php echo __($sf_user->getBC()->getLastName()) ?>
             <?php endif; ?>
         </h2>
-        <?php if( isset($header_span) ): ?>
-            <span><?php echo $header_span; ?></span>
+        <?php if( isset($header_current_step) && isset($header_steps)): ?>
+            <span><?php echo __('Step %CURRENT_STEP% of %STEPS%', array('%CURRENT_STEP%' => $header_current_step, '%STEPS%' => $header_steps)); ?></span>
         <?php endif; ?>
     </div>
 </div>
