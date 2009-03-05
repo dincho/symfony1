@@ -627,7 +627,7 @@ p {
 
 /* Subscriptions */
 #subscription {
-    height: 500px;
+    min-height: 500px;
     margin: 40px auto 0 auto;
 }
 
