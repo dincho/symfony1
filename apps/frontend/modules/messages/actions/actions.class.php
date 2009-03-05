@@ -120,8 +120,6 @@ class messagesActions extends prActions
     
     public function validateReply()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
             $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
             $this->forward404Unless($message);
             
@@ -180,7 +178,6 @@ class messagesActions extends prActions
                 $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
                 return false;                
             }            
-        }
         return true;
     }
     
@@ -219,8 +216,6 @@ class messagesActions extends prActions
 
     public function validateSend()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
             $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
             $this->forward404Unless($profile);
             $member = $this->getUser()->getProfile();
@@ -278,7 +273,6 @@ class messagesActions extends prActions
                 return false;                
             }
                         
-        }
         return true;        
     }
     
