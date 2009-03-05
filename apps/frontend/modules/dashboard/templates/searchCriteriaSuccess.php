@@ -12,7 +12,7 @@
       
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle()) . '<span> ' .$required_title. '</span>'; ?>
-        <?php echo content_tag('div', $label_title, array('class' => 'title')) ?>
+        <?php echo content_tag_with_error('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
                                      $answer->getId(), fillIn('answers['. $question->getid() .'][]', 'c', false, ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId()))),
@@ -27,7 +27,7 @@
         
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle()) . '<span> ' .$required_title. '</span>'; ?>
-        <?php echo content_tag('div', $label_title, array('class' => 'title')) ?>
+        <?php echo content_tag_with_error('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
         <?php echo select_tag('answers['. $question->getid() .'][from]',
                               objects_for_select($answers[$question->getId()],
                               'getId', 
@@ -50,10 +50,9 @@
       
       <?php elseif( $question->getType() == 'age'): ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle()); ?>
-        <?php $label_class = ($i == 1) ? 'title_first'  : 'title'; ?>
-        <?php echo content_tag('div', $label_title, array('class' => $label_class)) ?>
-        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(0) : 18, array('class' => 'age')) ?><?php echo __('&nbsp;to&nbsp;') ?>
-        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(1) : 100, array('class' => 'age')) ?><br />
+        <?php echo content_tag_with_error('div', $label_title, array('class' => 'title_first', 'id' => 'answers[' . $question->getId() . ']')) ?>
+        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(0) : 18, array('class' => 'age', 'id' => 'answers_1_1')) ?><?php echo __('&nbsp;to&nbsp;') ?>
+        <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(1) : 100, array('class' => 'age', 'id' => 'answers_1_2')) ?><br />
         <label><?php echo __('the "age factor" is: ') ?></label>
         <?php echo pr_select_match_weight('weights['. $question->getid() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>        
       <?php endif; ?>

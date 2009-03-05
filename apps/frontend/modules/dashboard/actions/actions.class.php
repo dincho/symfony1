@@ -399,14 +399,28 @@ class dashboardActions extends prActions
         {
             $questions = DescQuestionPeer::doSelect(new Criteria());
             $answers = $this->getRequestParameter('answers', array());
-            
+            //print_r($answers);exit();
             $has_error = false;
+            $add_error = false;
             foreach ($questions as $question)
             {
-                if( $question->getIsRequired() && !isset($answers[$question->getId()]) )
+                if( $question->getType() == 'age' )
                 {
-                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Search Criteria: You must fill out the missing information below indicated in red.');
-                    $has_error = true;
+                	$ages = $answers[$question->getId()];
+                	if( !is_array($ages) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] )
+                	{
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please enter correct ages range');
+                        return false;            		
+                	}
+                } elseif( $question->getType() == 'select' && (!is_array($answers[$question->getId()]) || $answers[$question->getId()]['from'] > $answers[$question->getId()]['to']) )
+                {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select correct range for questions below indicated in red');
+                        return false;
+                } elseif( $question->getIsRequired() && !isset($answers[$question->getId()]) )
+                {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Search Criteria: You must fill out the missing information below indicated in red.');
+                        $has_error = true;
+                        
                 }
             }
             

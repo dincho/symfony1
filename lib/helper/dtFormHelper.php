@@ -74,6 +74,25 @@ function pr_label_for($id, $label = null, $options = array(), $translate = true)
     return label_for($id, $label, $options);
 }
 
+function content_tag_with_error($name, $content = '', $options = array())
+{
+	$request = sfContext::getInstance()->getRequest();
+	
+    if ($request->hasErrors() && $request->hasError($options['id']))
+    {
+        if (array_key_exists('class', $options))
+        {
+            $options['class'] .= ' error';
+        } else
+        {
+            $options = array_merge($options, array('class' => 'error'));
+        }
+    }
+    	
+    $options['id'] = get_id_from_name($options['id'], null);
+	return content_tag($name, $content, $options);
+}
+
 function looking_for_options($selected = '', $html_options = array())
 {
 	$t = sfContext::getInstance()->getI18N();
