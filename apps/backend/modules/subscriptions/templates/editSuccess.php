@@ -91,7 +91,7 @@
   <?php endforeach; ?>
   <br />
   
-  <div class="actions" style="margin-top: -260px">
+  <div class="actions">
     <?php echo button_to('Cancel', 'subscriptions/list')  . submit_tag('Save', 'class=button') ?>
   </div>
 </form>
