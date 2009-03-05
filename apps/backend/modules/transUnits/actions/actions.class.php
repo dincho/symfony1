@@ -143,7 +143,7 @@ class transUnitsActions extends sfActions
             $c->add(TransUnitPeer::TAGS, '%' . $this->filters['tags'] . '%', Criteria::LIKE);
         }        
               
-        if ( isset($this->filters['translated']) )
+        if ( isset($this->filters['translated']) && $this->filters['translated'] != '')
         {
             $c->add(TransUnitPeer::TRANSLATED, (bool) $this->filters['translated']);
         }        
