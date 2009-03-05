@@ -4,7 +4,7 @@
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
 <br /><br />
 
-<?php echo form_tag('members/edit', 'class=form2') ?>
+<?php echo form_tag('members/edit', 'class=form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Member Information</div>
   <table class="details">
