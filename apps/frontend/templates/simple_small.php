@@ -44,7 +44,7 @@
         <!-- -->
     </div>
     <div id="footer">
-        <span class="footer_footer"><?php echo __('<a href="%URL_FOR_COPYRIGHT%">Copyright 2007-2009 by PolishRomance.com %VERSION%</a>- Patent Pending - All Rights Reserved', array('%VERSION%' => sfConfig::get('app_version'))) ?></span>
+        <div class="footer_footer"><?php echo link_to(__('&copy; Copyright 2007-2008 by PolishRomance.com'), '@page?slug=copyright') ?> - Patent Pending - All Rights Reserved</div>
     </div>
 </body>
 </html>

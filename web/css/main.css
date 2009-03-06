@@ -1684,6 +1684,7 @@ div.best_video div.right img {
 
 .footer_footer {
     font-size: 10px;
+    padding-top: 8px;
 }
 
 .footer_footer a:link,.footer_footer a:visited,.footer_footer a:active {
