@@ -19,6 +19,8 @@
 
             <?php $area_info = ($member->getState()->getInfo()) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getStateId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
             
+            
+<br />            
 <table border='0' >
 
 <tr>
@@ -97,11 +99,13 @@ $c = new Criteria;
 $c->add(MemberPeer::ID, $member->getId(), Criteria::GREATER_THAN);
 $m = MemberPeer::doSelectOne($c);
 if ($m):?>
+<br />
 <div>
 <?php echo link_to(__('[next]'), '@profilese?username='.$m->getUsername());?>
 </div>
 <?php endif;?>
-
+<br />
 <div>
 <?php echo link_to(__('Click here to return to My Polish Love'), '@homepage');?>
 </div>
+<br />
