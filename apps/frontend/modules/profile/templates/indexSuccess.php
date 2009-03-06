@@ -75,10 +75,10 @@
                 <?php foreach ($questions as $question): ?>
                     <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
-                            <dt><?php echo __($question->getDescTitle()) ?></dt>
+                            <dt><?php echo __($question->getDescTitle(ESC_RAW)) ?></dt>
                             <dd>
                                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
-                                    <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle() ?>
+                                    <?php echo $answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle(ESC_RAW) ?>
                                 <?php else: ?>
                                     <?php echo $member_answers[$question->getId()]->getOther(); ?>
                                 <?php endif; ?>
