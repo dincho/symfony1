@@ -23,6 +23,11 @@
 	    <label for="tags">Tags:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?><br />
 	    
+	    <label for="link">Link:</label>
+	    <?php echo object_input_tag($trans_unit, 'getLink', array('style' => 'width: 420px')) ?>
+	    <?php if( $trans_unit->getLink() ) echo link_to('Open', $trans_unit->getLink(), array('popup' => true, 'class' => 'float-left'))?>
+	    <br />
+	    
 	    <label for="translated">Translated:</label>
 	    <?php echo object_checkbox_tag($trans_unit, 'getTranslated', array('class' => 'checkbox'))?><br />
     </fieldset>

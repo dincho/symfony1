@@ -26,7 +26,8 @@
     </fieldset>
     <fieldset>
         <label for="search">&nbsp;</label><br />
-        <?php echo submit_tag('Search', 'id=search') ?>       
+        <?php echo submit_tag('Search', 'id=search') ?>
+        <?php echo button_to('Tags', 'transUnits/tagList')?>
     </fieldset>
 </form>
 <table class="zebra">

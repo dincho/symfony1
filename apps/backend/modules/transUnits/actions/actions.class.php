@@ -47,12 +47,20 @@ class transUnitsActions extends sfActions
         $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
 
+    
+    public function executeTagList()
+    {
+    	$this->tags = TransUnitPeer::getTagsList();
+    }
+    
+    
     public function executeCreate()
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::createNewUnit($this->getRequestParameter('source'), $this->getRequestParameter('tags'));
+            TransUnitPeer::createNewUnit($this->getRequestParameter('source'), 
+                                         $this->getRequestParameter('tags'));
             $this->setFlash('msg_ok', 'Translation unit has been added.');
             $this->redirect('transUnits/list');
         }
@@ -81,6 +89,7 @@ class transUnitsActions extends sfActions
             $trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->setTags($this->getRequestParameter('tags'));
+            $trans_unit->setLink($this->getRequestParameter('link'));
             $trans_unit->save();
             
             if( $trans_unit->getCatId() != 1)

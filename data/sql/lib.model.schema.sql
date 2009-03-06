@@ -1001,6 +1001,7 @@ CREATE TABLE `trans_unit`
 	`author` VARCHAR(255) default '' NOT NULL,
 	`translated` INTEGER default 0 NOT NULL,
 	`tags` TEXT,
+	`link` TEXT,
 	`date_added` INTEGER(11) default 0 NOT NULL,
 	`date_modified` INTEGER(11) default 0 NOT NULL,
 	PRIMARY KEY (`id`),

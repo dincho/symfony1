@@ -45,6 +45,10 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 
 	
+	protected $link;
+
+
+	
 	protected $date_added = 0;
 
 
@@ -124,6 +128,13 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 	{
 
 		return $this->tags;
+	}
+
+	
+	public function getLink()
+	{
+
+		return $this->link;
 	}
 
 	
@@ -287,6 +298,22 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLink($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->link !== $v) {
+			$this->link = $v;
+			$this->modifiedColumns[] = TransUnitPeer::LINK;
+		}
+
+	} 
+	
 	public function setDateAdded($v)
 	{
 
@@ -341,15 +368,17 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 
 			$this->tags = $rs->getString($startcol + 8);
 
-			$this->date_added = $rs->getInt($startcol + 9);
+			$this->link = $rs->getString($startcol + 9);
 
-			$this->date_modified = $rs->getInt($startcol + 10);
+			$this->date_added = $rs->getInt($startcol + 10);
+
+			$this->date_modified = $rs->getInt($startcol + 11);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 11; 
+						return $startcol + 12; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating TransUnit object", $e);
 		}
@@ -567,9 +596,12 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				return $this->getTags();
 				break;
 			case 9:
-				return $this->getDateAdded();
+				return $this->getLink();
 				break;
 			case 10:
+				return $this->getDateAdded();
+				break;
+			case 11:
 				return $this->getDateModified();
 				break;
 			default:
@@ -591,8 +623,9 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 			$keys[6] => $this->getAuthor(),
 			$keys[7] => $this->getTranslated(),
 			$keys[8] => $this->getTags(),
-			$keys[9] => $this->getDateAdded(),
-			$keys[10] => $this->getDateModified(),
+			$keys[9] => $this->getLink(),
+			$keys[10] => $this->getDateAdded(),
+			$keys[11] => $this->getDateModified(),
 		);
 		return $result;
 	}
@@ -636,9 +669,12 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 				$this->setTags($value);
 				break;
 			case 9:
-				$this->setDateAdded($value);
+				$this->setLink($value);
 				break;
 			case 10:
+				$this->setDateAdded($value);
+				break;
+			case 11:
 				$this->setDateModified($value);
 				break;
 		} 	}
@@ -657,8 +693,9 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[6], $arr)) $this->setAuthor($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setTranslated($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setTags($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setDateAdded($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setDateModified($arr[$keys[10]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLink($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setDateAdded($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setDateModified($arr[$keys[11]]);
 	}
 
 	
@@ -675,6 +712,7 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(TransUnitPeer::AUTHOR)) $criteria->add(TransUnitPeer::AUTHOR, $this->author);
 		if ($this->isColumnModified(TransUnitPeer::TRANSLATED)) $criteria->add(TransUnitPeer::TRANSLATED, $this->translated);
 		if ($this->isColumnModified(TransUnitPeer::TAGS)) $criteria->add(TransUnitPeer::TAGS, $this->tags);
+		if ($this->isColumnModified(TransUnitPeer::LINK)) $criteria->add(TransUnitPeer::LINK, $this->link);
 		if ($this->isColumnModified(TransUnitPeer::DATE_ADDED)) $criteria->add(TransUnitPeer::DATE_ADDED, $this->date_added);
 		if ($this->isColumnModified(TransUnitPeer::DATE_MODIFIED)) $criteria->add(TransUnitPeer::DATE_MODIFIED, $this->date_modified);
 
@@ -722,6 +760,8 @@ abstract class BaseTransUnit extends BaseObject  implements Persistent {
 		$copyObj->setTranslated($this->translated);
 
 		$copyObj->setTags($this->tags);
+
+		$copyObj->setLink($this->link);
 
 		$copyObj->setDateAdded($this->date_added);
 

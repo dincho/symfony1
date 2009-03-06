@@ -61,4 +61,23 @@ class TransUnitPeer extends BaseTransUnitPeer
             $trans_unit->save();
         }
     }
+    
+    public static function getTagsList()
+    {
+        $c = new Criteria();
+        $c->add(TransUnitPeer::TAGS, '', Criteria::NOT_EQUAL);
+        
+        $units = TransUnitPeer::doSelect($c);
+        
+        $tags = array();
+        foreach ($units as $unit)
+        {
+        	$tags = array_merge($tags, array_map('trim', explode(',', $unit->getTags())));
+        }
+        
+        $tags = array_unique($tags);
+        sort($tags);
+        
+        return $tags;
+    }
 }
