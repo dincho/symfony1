@@ -1,6 +1,6 @@
 <?php use_helper('Object') ?>
 <div class="filter_right">
-    <?php echo button_to ('Clear Cache', 'system/clearCache') ?>
+    <?php echo button_to ('Clear Cache', 'system/clearI18NCache') ?>
     <?php echo button_to ('Add Translation Unit', 'transUnits/create') ?>
 </div>
 

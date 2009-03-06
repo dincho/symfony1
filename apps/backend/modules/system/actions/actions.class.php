@@ -107,7 +107,7 @@ class systemActions extends sfActions
     
   }
   
-  public function executeClearCache()
+  public function executeClearI18NCache()
   {
 	$this->getUser()->checkPerm(array('content_edit'));
 	
@@ -117,6 +117,20 @@ class systemActions extends sfActions
 	sfToolkit::clearGlob($cache_dir);
 	
 	$this->setFlash('msg_ok', 'Frontend i18n cache has been removed');
+	$this->redirect($this->getUser()->getRefererUrl());
+	
+  }
+  
+  public function executeClearGlobalCache()
+  {
+	$this->getUser()->checkPerm(array('content_edit'));
+	
+	//clear the cache
+	$sf_root_cache_dir = sfConfig::get('sf_root_cache_dir');
+	$cache_dir = $sf_root_cache_dir.'/frontend/';
+	sfToolkit::clearGlob($cache_dir);
+	
+	$this->setFlash('msg_ok', 'Frontend global templates cache has been removed');
 	$this->redirect($this->getUser()->getRefererUrl());
 	
   }

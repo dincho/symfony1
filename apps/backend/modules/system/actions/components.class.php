@@ -119,6 +119,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
                                            array('title' => 'Settings', 'uri' => 'settings/list'),
                                            array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
+                                           array('title' => 'Clear Global Cache', 'uri' => 'system/clearGlobalCache'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            ),
