@@ -56,7 +56,9 @@ class contentActions extends sfActions
         
         
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::HOMEPAGE, $this->culture);
-        $this->member_stories = MemberStoryPeer::doSelect(new Criteria());
+        $c = new Criteria();
+        $c->add(MemberStoryPeer::CULTURE, $this->culture);
+        $this->member_stories = MemberStoryPeer::doSelect($c);
         $this->homepage_stories = explode(',', $homepage_story->getMemberStories());
         
     }
