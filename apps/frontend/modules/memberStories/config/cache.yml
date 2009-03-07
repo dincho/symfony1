@@ -1,2 +1,3 @@
 _homepageList:
     enabled: on
+    contextual: true
