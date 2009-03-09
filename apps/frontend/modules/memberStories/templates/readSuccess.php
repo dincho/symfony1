@@ -14,10 +14,6 @@
     <?php echo $sf_data->getRaw('story')->getContent(); ?>
 </div>
 
-<?php if( !$sf_user->isAuthenticated() ): ?>
-    <?php // echo link_to(__('Join the site now and browse Polish singles for free'), 'registration/joinNow', array('class' => 'sec_link')) ?>
-<?php endif; ?>
-
 <?php slot('header_title') ?>
     <?php echo $story->getTitle() ?>
 <?php end_slot(); ?>
