@@ -211,7 +211,7 @@ class Member extends BaseMember
     public function getGAddress()
     {
         $address_info[] = $this->getCity();
-        //if( $this->getStateId() ) $address_info[] = $this->getState()->getISOCode();
+        if( $this->getStateId() ) $address_info[] = $this->getState()->getTitle();
         $address_info[] = $this->getCountry();
         
         return implode(', ', $address_info);
