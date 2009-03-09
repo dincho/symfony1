@@ -25,7 +25,7 @@ class memberStoriesActions extends prActions
     {
         $c = new Criteria();
         $c->add(MemberStoryPeer::SLUG, $this->getRequestParameter('slug'));
-        $c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
+        //$c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
         $c->setLimit(1);
         
         $stories = MemberStoryPeer::doSelectJoinStockPhoto2($c);
