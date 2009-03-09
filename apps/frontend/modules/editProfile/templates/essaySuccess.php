@@ -6,7 +6,7 @@
 <?php echo form_tag('editProfile/essay', array('id' => 'essay')) ?>
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:')) ?><br />
-        <?php echo object_input_tag($member, 'getEssayHeadline', array('class' => 'essay', 'size' => 30) ) ?><br /><br />
+        <?php echo object_input_tag($member, 'getEssayHeadline', array('class' => 'essay', 'size' => 30, 'maxlength' => 50) ) ?><br /><br />
         
         <?php echo pr_label_for('introduction', __('Introduction:')) ?><br />
         <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 'id' => 'introduction')) ?><br />
