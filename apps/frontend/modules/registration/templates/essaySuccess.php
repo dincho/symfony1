@@ -4,7 +4,7 @@
 <?php echo __('Essay instructions') ?>
 <?php echo form_tag('registration/essay', array('id' => 'essay')) ?>
     <fieldset>
-        <?php echo pr_label_for('headline', 'Headline:') ?><br />
+        <?php echo pr_label_for('essay_headline', 'Headline:') ?><br />
         <?php echo object_input_tag($member, 'getEssayHeadline', array('class' => 'essay', 'size' => 30) ) ?><br /><br />
         
         <?php echo pr_label_for('introduction', 'Introduction:') ?><br />
