@@ -64,7 +64,9 @@
             <li><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Posing/Essay'), 'editProfile/essay', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Photos'), 'editProfile/photos', array('class' => 'sec_link')) ?></li>
-            <li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
+            <?php if( $member->getUsCitizen() == 1 ): ?>
+                <li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
+            <?php endif; ?>
             <?php if( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
                 <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate', array('class' => 'sec_link')) ?></li>
             <?php elseif( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
