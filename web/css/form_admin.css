@@ -55,7 +55,9 @@
   font-weight: normal;
   width: 100px;
 }
-
+#labels_120 label {
+  width: 120px;
+}
 #html_content {
     	
 		
