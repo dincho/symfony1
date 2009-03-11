@@ -4,7 +4,7 @@
 <?php echo form_tag('content/profilepage', 'class=form') ?>
     <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
     <div class="legend">Edit Profile Page</div>
-    <fieldset class="form_fields">
+    <fieldset class="form_fields" id="labels_120">
         <div class="float-right">
             <label for="profile_max_photos">Display Photos</label>
             <?php echo input_tag('profile_max_photos', sfConfig::get('app_settings_profile_max_photos'), array('class' => 'mini')) ?><br />
