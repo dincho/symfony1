@@ -23,7 +23,12 @@ class usersActions extends sfActions
 
     public function executeList()
     {
-        $this->users = UserPeer::doSelect(new Criteria());
+        $this->processSort();
+        
+        $c = new Criteria();
+        $this->addSortCriteria($c);
+        
+        $this->users = UserPeer::doSelect($c);
     }
 
     public function executeShow()
@@ -168,5 +173,40 @@ class usersActions extends sfActions
     {
         $this->user = $this->getuser()->getProfile();
         return sfView::SUCCESS;
+    }
+    
+    protected function processSort()
+    {
+        $this->sort_namespace = 'backend/users/sort';
+        
+        if ($this->getRequestParameter('sort'))
+        {
+            $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
+            $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
+        }
+        
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $this->getUser()->setAttribute('sort', 'User::username', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('type', 'asc', $this->sort_namespace); //default order
+        }
+    }
+
+    protected function addSortCriteria($c)
+    {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $sort_arr = explode('::', $sort_column);
+            $peer = $sort_arr[0] . 'Peer';
+            
+            $sort_column = call_user_func(array($peer, 'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
+            {
+                $c->addAscendingOrderByColumn($sort_column);
+            } else
+            {
+                $c->addDescendingOrderByColumn($sort_column);
+            }
+        }
     }
 }

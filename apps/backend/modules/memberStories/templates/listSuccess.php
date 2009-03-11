@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'Number') ?>
+<?php use_helper('Javascript', 'Number', 'xSortableTitle') ?>
 
 <?php echo form_tag('memberStories/update') ?>
     <?php echo input_hidden_tag('culture', $culture) ?>
@@ -9,9 +9,9 @@
             </tr>            
             <tr>
                 <th></th>
-                <th>Sort Order</th>
-                <th>Name</th>
-                <th>URL Name</th>
+                <th><?php echo sortable_title('Sort Order', 'MemberStory::sort_order', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('Name', 'MemberStory::title', $sort_namespace) ?></th>
+                <th><?php echo sortable_title('URL Name', 'MemberStory::slug', $sort_namespace) ?></th>
             </tr>
         </thead>
         

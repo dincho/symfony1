@@ -1,3 +1,5 @@
+<?php use_helper('xSortableTitle') ?>
+
 <?php echo form_tag('users/delete') ?>
   <table class="zebra">
     <thead>
@@ -6,11 +8,11 @@
       </tr>
       <tr>
         <th></th>
-        <th>Username</th>
-        <th>Last name</th>
-        <th>First name</th>
-        <th>Email</th>
-        <th>Status</th>
+        <th><?php echo sortable_title('Username', 'User::username', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Last name', 'User::first_name', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('First name', 'User::last_name', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Email', 'User::email', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Status', 'User::is_enabled', $sort_namespace) ?></th>
       </tr>
     </thead>
     <tbody>

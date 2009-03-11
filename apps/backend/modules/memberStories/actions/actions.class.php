@@ -28,8 +28,11 @@ class memberStoriesActions extends sfActions
 
     public function executeList()
     {
+        $this->processSort();
+        
         $c = new Criteria();
-        $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
+        $this->addSortCriteria($c);
+        
         $c->add(MemberStoryPeer::CULTURE, $this->culture); 
         $this->stories = MemberStoryPeer::doSelect($c);
     }
@@ -109,5 +112,40 @@ class memberStoriesActions extends sfActions
             }
         }
         $this->redirect('memberStories/list?culture=' . $this->getRequestParameter('culture'));
+    }
+    
+    protected function processSort()
+    {
+        $this->sort_namespace = 'backend/memberStories/sort';
+        
+        if ($this->getRequestParameter('sort'))
+        {
+            $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
+            $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
+        }
+        
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $this->getUser()->setAttribute('sort', 'MemberStory::sort_order', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('type', 'asc', $this->sort_namespace); //default order
+        }
+    }
+
+    protected function addSortCriteria($c)
+    {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
+        {
+            $sort_arr = explode('::', $sort_column);
+            $peer = $sort_arr[0] . 'Peer';
+            
+            $sort_column = call_user_func(array($peer, 'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
+            {
+                $c->addAscendingOrderByColumn($sort_column);
+            } else
+            {
+                $c->addDescendingOrderByColumn($sort_column);
+            }
+        }
     }
 }

@@ -1,8 +1,10 @@
+<?php use_helper('xSortableTitle') ?>
+
 <table class="zebra">
     <thead>
         <tr>
-         <th>Title</th>
-         <th>URL Name</th>
+         <th><?php echo sortable_title('Title', 'StaticPageI18n::title', $sort_namespace) ?></th>
+         <th><?php echo sortable_title('URL Name', 'StaticPageI18n::link_name', $sort_namespace) ?></th>
          <th>Languages</th>
         </tr>
     </thead>
