@@ -7,7 +7,13 @@
         <?php echo link_to(image_tag('polish_romance.gif', 'alt=logo'), '#') ?>
     </div>
     <div id="right" class="index">
-        <?php echo __('Already a Member?') . link_to(image_tag('sign_in.gif', 'alt=logo'), 'profile/signIn') ?>
+        <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>
+        <?php if( $current_culture == "en" ): ?>
+            <?php $signupbutton = link_to(image_tag('sign_in.gif', 'alt=logo'), 'profile/signIn') ?>
+        <?php else: ?>
+            <?php $signupbutton = link_to(image_tag('sign_in_pl.gif', 'alt=logo'), 'profile/signIn') ?>
+        <?php endif; ?>
+        <?php echo __('Already a Member?').$signupbutton ?>
     </div>
 </div>
 <div id="header_text" class="index">
@@ -52,7 +58,12 @@
                         
                     </fieldset>
                     <div class="reg_submit_container">
-                        <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit')) ?>
+                        <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>
+                        <?php if( $current_culture == "en" ): ?>
+                            <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit')) ?>
+                        <?php else: ?>
+                            <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit_pl')) ?>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>

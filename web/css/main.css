@@ -1848,6 +1848,15 @@ div.best_video div.right img {
     height: 33px;
 }
 
+#register #reg_submit_pl {
+    border: 0px;
+    cursor: pointer;
+    margin-top: 50px;
+    background: url(/images/go_pl.gif) no-repeat;
+    width: 58px;
+    height: 33px;
+}
+
 #register input {
     width: 146px;
 }
