@@ -872,7 +872,7 @@ span.online-assistant {
     padding: 0px;
     margin: 0px;
     color: #d3d3d3;
-    width: 720px;
+    width: 730px;
 }
 
 #messages_form fieldset {
@@ -896,7 +896,7 @@ span.online-assistant {
 }
 
 .messages_show_hide {
-    width: 714px;
+    width: 724px;
     border: none;
     margin-top: 20px;
 }
@@ -905,7 +905,7 @@ span.online-assistant {
     padding: 0px;
     margin: 0px;
     color: #d3d3d3;
-    width: 720px;
+    width: 730px;
 }
 
 #messages_form_sent fieldset {
