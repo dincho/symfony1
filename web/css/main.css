@@ -11,7 +11,7 @@ body {
 
 
 
-a.highlighted_link   {
+a.highlighted_link, a.highlighted_link:visited   {
     border: 1px solid transparent;
     background-color: transparent;
     width: 97px;
@@ -1456,7 +1456,8 @@ span.sec_link {
 
 #search_box span  a:visited,a:active,a:link {
     text-decoration: none;
-    color: #6aa7ff;
+    /* color: #6aa7ff; old color */
+    color: #2B2B2B;
 }
 
 #search_box select {
