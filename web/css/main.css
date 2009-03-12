@@ -11,7 +11,7 @@ body {
 
 
 
-a.highlighted_link, a.highlighted_link:visited   {
+a.highlighted_link {
     border: 1px solid transparent;
     background-color: transparent;
     width: 97px;
@@ -21,9 +21,10 @@ a.highlighted_link, a.highlighted_link:visited   {
     padding: 0px;
     margin-top: 0px;
     text-align: center;
+    background-color: #E0B400;
 }
 
-a.highlighted_link:hover {
+a.highlighted_link:hover, a.highlighted_link:visited  {
     border: 1px solid #E0B400;
     background-color: #E0B400;
 }
@@ -1456,12 +1457,16 @@ span.sec_link {
     margin-left: -120px;
 }
 
-#search_box span  a:visited,a:active,a:link {
+#search_box span a:visited, #search_box span a:link {
     text-decoration: none;
-    /* color: #6aa7ff; old color */
-    color: #2B2B2B;
+    color: #6aa7ff; 
 }
 
+#search_box span a:active, #search_box span a:hover {
+    text-decoration: underline;
+    color: #6aa7ff;
+}    
+    
 #search_box select {
     background-color: #363639;
     border: 1px solid #7995ae;
