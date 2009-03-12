@@ -2540,7 +2540,8 @@ div.best_video div.right img {
     text-align: center;
     vertical-align: bottom;
     height: 22px;
-    width: 312px;
+    width: 307px;
+    padding-bottom: 2px;
 }
 
 /* Help page */
