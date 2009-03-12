@@ -16,7 +16,7 @@
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
                                      $answer->getId(), fillIn('answers['. $question->getid() .'][]', 'c', false, ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId()))),
-                                     ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
+                                     ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)', 'style' => 'border: 0px;') : array('style' => 'border: 0px;')) ?>
           <label><?php echo __($answer->getSearchTitle(ESC_RAW)) ?></label><br />
         <?php endforeach; ?>
         <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> <?php echo __('- any option is fine'); ?><br />
