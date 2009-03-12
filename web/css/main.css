@@ -1312,6 +1312,8 @@ div.title_first, #secondary_container label.title_first {
 #self_desc_form .radio {
     width: 30px;
     margin-left: 2px;
+    border: 0px;
+    background: #2B2B2B;
 }
 
 #self_desc_form .date_tag_wrap select {
