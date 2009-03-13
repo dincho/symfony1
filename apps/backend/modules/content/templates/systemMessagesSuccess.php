@@ -14,7 +14,7 @@
         <label>Delete Your Account</label><?php echo input_tag('trans[91]', (isset($trans[91])) ? $trans[91]->getTarget() : null) ?><br />
         <label></label><?php echo textarea_tag('trans[92]', (isset($trans[92])) ? $trans[92]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
         
-        <label>Email verification</label><?php echo input_tag('trans[93]', (isset($trans[93])) ? $trans[93]->getTarget() : null) ?><br />
+        <label>New email confirmation</label><?php echo input_tag('trans[93]', (isset($trans[93])) ? $trans[93]->getTarget() : null) ?><br />
         <label></label><?php echo textarea_tag('trans[94]', (isset($trans[94])) ? $trans[94]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
         
         <label>New password confirmation</label><?php echo input_tag('trans[95]', (isset($trans[95])) ? $trans[95]->getTarget() : null) ?><br />
