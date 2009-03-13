@@ -42,7 +42,10 @@ class searchActions extends prActions
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
         $c->add(MemberPeer::PUBLIC_SEARCH, true);
-        $c->setLimit(12);
+        
+        $rows = sfConfig::get('app_settings_search_rows_public', 4);
+        $limit = $rows * 3; //3 boxes/profiles per row        
+        $c->setLimit($limit);
         
         $this->processPublicFilters($c);
         $this->members = MemberPeer::doSelectJoinAll($c);

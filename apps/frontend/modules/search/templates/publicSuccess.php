@@ -1,6 +1,6 @@
 <?php use_helper('Date', 'dtForm') ?>
 
-<?php echo __('To see more profiles, set your preferences and to use our search engine, please <a href="%URL_FOR_JOIN_NOW%" class="sec_link">join for free now</a>.', array('%URL_FOR_JOIN_NOW%' => url_for('registration/joinNow'))) ?>
+<?php echo __('To see more profiles, set your preferences and to use our search engine, please join for free now.') ?>
 <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
     <p class="search_p">
         <label for="looking_for" style="margin-right: 15px"><?php echo __('You are') ?></label>

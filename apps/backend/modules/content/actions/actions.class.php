@@ -205,9 +205,6 @@ class contentActions extends sfActions
         
     public function executeSearchPublic()
     {
-        $this->setFlash('msg_error', 'Not implemented yet.');
-        $this->redirect('content/searchpages');
-        
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
         $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));

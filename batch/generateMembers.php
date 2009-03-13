@@ -60,6 +60,8 @@ $member->setLookingFor($looking_for);
 $member->setLastStatusChange(Tools::randomTimestamp());
 $member->setEssayHeadline(RandomGenerator::getSentence());
 $member->setEssayIntroduction(RandomGenerator::getSentence(50, 20));
+$member->setPublicSearch(rand(0,1));
+
 if( rand(0, 1))
 {
     $member->setYoutubeVid(($sex == 'F') ? 'y9Epdt8e1h8' : 'd8krIwgzJEA');
