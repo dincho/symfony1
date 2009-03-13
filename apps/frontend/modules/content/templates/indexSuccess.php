@@ -22,6 +22,7 @@
 <div id="middle">
     <div id="middle_left">
         <?php echo __('Homepage introduction') ?>
+        <?php include_partial("content/bookmark"); ?>
     </div>
     <div id="center">
         <div id="index_image">
