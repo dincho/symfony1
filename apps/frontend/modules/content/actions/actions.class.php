@@ -115,6 +115,9 @@ class contentActions extends prActions
         $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
         $this->page = $page;
         $this->getResponse()->setTitle('PolishRomance - ' . $this->page->getTitle());
+        $this->getResponse()->addMeta('description', $this->page->getDescription());
+        $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
+                
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
     }
 
