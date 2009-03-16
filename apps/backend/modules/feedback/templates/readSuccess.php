@@ -19,7 +19,7 @@
         <?php endif; ?>
         <tr>
             <th>Subject</th>
-            <td><?php echo $message->getSubject() ?></td>
+            <td><?php echo strip_tags($message->getSubject()) ?></td>
         </tr>
         <tr>
             <th>To</th>
@@ -28,7 +28,7 @@
         
     </table>
     <hr />
-    <p><?php echo nl2br($message->getBody()) ?></p>
+    <p><?php echo nl2br(strip_tags($message->getBody(), 'br')) ?></p>
 </div>
 
 <fieldset class="actions">

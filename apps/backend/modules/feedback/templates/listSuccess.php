@@ -27,7 +27,7 @@
                     <td><?php echo $message->getMailFrom(); ?></td>
                     <td><?php echo $message->getNameFrom(); ?></td>
                 <?php endif; ?>
-                <td><?php echo Tools::truncate($message->getSubject(), 100); ?></td>
+                <td><?php echo Tools::truncate(strip_tags($message->getSubject()), 100); ?></td>
                 <td class="preview_button">
                     <?php echo button_to_remote('Preview', array('url' => 'ajax/getFeedbackById?id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
                 </td>
