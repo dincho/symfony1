@@ -59,6 +59,8 @@ class prMail extends sfMail
             
             $webemail->save();
         }
+        
+        $this->setBody(nl2br($this->getBody()));
         parent::send();
     }
 }
