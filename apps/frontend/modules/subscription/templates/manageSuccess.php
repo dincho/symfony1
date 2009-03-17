@@ -3,7 +3,7 @@
 <?php if( $member->getLastPaypalItem() == 'membership'): ?>
     <span class="public_reg_notice"><strong><?php echo __('Your Auto-Renewal Status') ?></strong></span><br />
     <?php if( is_null($member->getPaypalUnsubscribedAt()) ): ?>
-        <?php echo __('Your auto-renewal is ON. That means your account will be automatically charged every month for as long as you want to be a full member.') ?>
+        <?php echo __('Your auto-renewal is ON. That means your account will be automatically charged every month for as long as you want to be a full member.', array('%EOT_DATE%' => date('M d, Y', $member->getEotDate())) ) ?>
         <br /><br />
         <?php echo __('If you unsubscribe now, you will still use Full Member account until the end of the subscription period - that is until %EOT_DATE%. On that day the system will automatically switch your membership to Basic account and you will still be able to use our website.<br />However Full Member\'s  features will not be available to you.<br />', array('%EOT_DATE%' => date('M d, Y', $member->getEotDate()))) ?>
         <br />
