@@ -80,4 +80,15 @@ class TransUnitPeer extends BaseTransUnitPeer
         
         return $tags;
     }
+    
+    public static function getTagsWithKeys()
+    {
+    	$ret = array();
+    	foreach (self::getTagsList() as $tag)
+    	{
+    		$ret[$tag] = $tag;
+    	}
+    	
+    	return $ret;
+    }
 }

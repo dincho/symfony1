@@ -1,0 +1,4 @@
+editSuccess:
+    javascripts: [add_tags]
+createSuccess:
+    javascripts: [add_tags]
