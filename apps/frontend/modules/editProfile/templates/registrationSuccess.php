@@ -3,7 +3,7 @@
 <?php echo __('Here you may change your registration information.') ?><br />
 <span><?php echo __('Make changes and click save.') ?></span>
 
-<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
+<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg', 'AUTOCOMPLETE' => 'OFF')) ?>
     <fieldset>
         <?php echo pr_label_for('email', 'Your email address') ?>
         <?php echo object_input_tag($member, 'getEmail') ?><br />    
