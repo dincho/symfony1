@@ -42,10 +42,6 @@
         </div></div></div></div>
         <!-- -->
     </div>
-    <?php include_component('content', 'footer'); ?>
-    <span class="footer_footer">
-        <?php echo __('<a href="%URL_FOR_COPYRIGHT%">Copyright 2007-2009 by PolishRomance.com %VERSION%</a>- Patent Pending - All Rights Reserved', array('%VERSION%' => sfConfig::get('app_version'))) ?> 
-        &nbsp;-&nbsp;<?php include_partial('system/page_execution'); ?>
-    </span>    
+    <?php include_component('content', 'footer'); ?>   
 </body>
 </html>
