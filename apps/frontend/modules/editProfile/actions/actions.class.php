@@ -57,7 +57,29 @@ class editProfileActions extends prActions
             if ($flash_error) $this->setFlash('msg_error', $flash_error);
             if( $member->isModified() ) 
             {
-                $this->setFlash('msg_ok', $update_msg);
+                if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
+                {
+                    $this->setFlash('msg_ok', '', false);
+                }
+                else
+                {
+                    if ($this->getRequestParameter('password')) //password changed
+                    {
+                        if ($this->getUser()->getAttribute('must_change_pwd', false))
+                        {
+                            $this->setFlash('msg_ok', '', false);
+                        }
+                        else
+                        {
+                            $this->setFlash('msg_ok', '', false);
+                        }
+                        
+                    }
+                    else
+                    {
+                        $this->setFlash('msg_ok', $update_msg, true);   
+                    }
+                } 
                 $member->save();
                 $this->redirect('dashboard/index'); //the dashboard
             }
