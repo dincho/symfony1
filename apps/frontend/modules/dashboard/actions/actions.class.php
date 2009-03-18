@@ -97,12 +97,6 @@ class dashboardActions extends prActions
         $c->setLimit(7);
         
         $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
-        
-        if($this->getFlash('msg_error')== 'You have not made any changes.')
-        {
-            $this->setFlash('msg_error', NULL);
-            
-        }
     }
     
     public function executeVisitors()
@@ -151,7 +145,6 @@ class dashboardActions extends prActions
             if( $this->getRequestParameter('deactivate_profile') == 1 && $member->getMemberStatusId() == MemberStatusPeer::ACTIVE )
             {
                 $member->changeStatus(MemberStatusPeer::DEACTIVATED);
-                $this->setFlash('msg_error', '');
                 $this->setFlash('msg_ok', 'Your account has been deactivated');
                 Events::triggerAccountDeactivation($member);
                 $member->save();
@@ -161,16 +154,12 @@ class dashboardActions extends prActions
             } elseif( $this->getRequestParameter('deactivate_profile') == 0 && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
             {
                 $member->changeStatus(MemberStatusPeer::ACTIVE);
-                $this->setFlash('msg_error', '');
                 $this->setFlash('msg_ok', 'Your account has been reactivated');
                 $member->save();
             
                 $this->redirect('dashboard/index');
             } else {
-                if(!$member->isModified())
-                {
-                    $this->setFlash('msg_error', 'You have not made any changes.');
-                }
+                $this->setFlash('msg_error', 'You have not made any changes.', false);
             }
             
 
@@ -219,20 +208,15 @@ class dashboardActions extends prActions
                 $member->setEmailNotifications($this->getRequestParameter('email_notifications', 0));
             }
             
-            if($member->isModified())
+            if( $member->isModified() )
             {
                 $member->save();
-            
                 $this->setFlash('msg_ok', 'Your Email Notifications Settings have been updated');
                 $this->redirect('dashboard/index');
             }
-            else
-            {
-                $this->setFlash('msg_error', 'You have not made any changes.');
-            }
             
+            $this->setFlash('msg_error', 'You have not made any changes.', false);
         }
-        
         $this->member = $member;
     }
     
@@ -240,27 +224,28 @@ class dashboardActions extends prActions
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
-        $modif = 0;
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            if($member->getDontUsePhotos()==$this->getRequestParameter('dont_use_photos') and $member->getContactOnlyFullMembers()==$this->getRequestParameter('contact_only_full_members'))
-            {
-                $modif = 1;
-            }
+        	$modified = false;
+            if( $member->getDontUsePhotos() != $this->getRequestParameter('dont_use_photos') ||
+                $member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members'))
+                {
+                	$modified = true;
+                }
+            
             $member->setDontUsePhotos($this->getRequestParameter('dont_use_photos', 0));
             if( $this->getRequestParameter('dont_use_photos', 0) == 1) $member->setPublicSearch(false);
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
-            if($modif == 0)
-            {
-            $member->save();
             
-            $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
-            $this->redirect('dashboard/index');
-            }
-            else
+            if( $modified )
             {
-                 $this->setFlash('msg_error', 'You have not made any changes.');
+	            $member->save();
+	            $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
+	            $this->redirect('dashboard/index');
             }
+            
+            $this->setFlash('msg_error', 'You have not made any changes.', false);
         }
         
         $this->member = $member;

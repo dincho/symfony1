@@ -53,42 +53,17 @@ class editProfileActions extends prActions
                 }
             }
             
-            
-            if ($flash_error) $this->setFlash('msg_error', $flash_error);
-            if( $member->isModified() ) 
+            if( $flash_error || $update_confirmation )
             {
-                if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
-                {
-                    $this->setFlash('msg_ok', '', false);
-                }
-                else
-                {
-                    if ($this->getRequestParameter('password')) //password changed
-                    {
-                        if ($this->getUser()->getAttribute('must_change_pwd', false))
-                        {
-                            $this->setFlash('msg_ok', '', false);
-                        }
-                        else
-                        {
-                            $this->setFlash('msg_ok', '', false);
-                        }
-                        
-                    }
-                    else
-                    {
-                        $this->setFlash('msg_ok', $update_msg, true);   
-                    }
-                } 
-                $member->save();
-                $this->redirect('dashboard/index'); //the dashboard
+                if ($flash_error) $this->setFlash('msg_error', $flash_error);
+                if ($update_confirmation) $this->setFlash('msg_ok', $update_msg);
+                
+	            $member->save();
+	            $this->redirect('dashboard/index'); //the dashboard
+                            
+            } else {
+            	$this->setFlash('msg_error', 'You have not made any changes.', false);
             }
-            else
-            {
-                $this->setFlash('msg_error', 'You have not made any changes.');
-            }
-            
-            
         }
         $this->member = $member;
     }
@@ -242,20 +217,20 @@ class editProfileActions extends prActions
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
+            
             if($this->member->isModified())
             {
                 $this->member->save();
                 $this->setFlash('msg_ok', 'Your Posting have been updated');
                 $this->redirect('dashboard/index');
             }
-            else
-            {
-                $this->setFlash('msg_error', 'You have not made any changes.');
-            }
+            
+            $this->setFlash('msg_error', 'You have not made any changes.', false);
         }
     }
 
