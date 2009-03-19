@@ -3,7 +3,7 @@
 <?php echo __('Here you may change your registration information.') ?><br />
 <span><?php echo __('Make changes and click save.') ?></span>
 
-<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg', 'AUTOCOMPLETE' => 'OFF')) ?>
+<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
     <fieldset>
         <?php echo pr_label_for('email', 'Your email address') ?>
         <?php echo object_input_tag($member, 'getEmail') ?><br />    
@@ -60,5 +60,18 @@ function updateStates(request, json)
   {
      S.options[i] = new Option(json[i].title, json[i].id);
   }
+}
+") ?>
+<?php echo javascript_tag("
+if (document.getElementsByTagName) 
+{ 
+    var inputElements = document.getElementsByTagName('input'); 
+    for (i=0; inputElements[i]; i++) 
+    { 
+        if (inputElements[i].id && (inputElements[i].id.indexOf('password') != -1)) 
+        { 
+            inputElements[i].setAttribute('autocomplete','off'); 
+        } 
+    } 
 }
 ") ?>
