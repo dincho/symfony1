@@ -242,8 +242,7 @@ body .public_matches_search {
 
 #header_text #header_title h2 {
     padding-left: 6px;
-    margin: 0px;
-    height: 21px;
+    margin: 3px;
     font-size: 18px;
     color: #d3d3d3;
     line-height: 20px;
@@ -1051,8 +1050,8 @@ span {
     color: #92897e;
     margin-top: 2px;
     background-color: #363639;
-    height: 18px;
-    line-height: 18px;
+    height: 21px;
+    line-height: 19px;
     color: #d3d3d3;
 }
 
@@ -1062,10 +1061,10 @@ span {
     color: #aca49c;
     margin: 2px;
     padding: 0px;
-    width: 150px;
-    font-size: 10px;
+    width: 151px;
+    height: 19px;
     font-family: Arial;
-    font-size: 11px;    
+    font-size: 10px;   
 }
 
 #public_reg_form.member_reg input {

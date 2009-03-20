@@ -7,7 +7,7 @@
     <div id="header_title">
         <?php echo image_tag('header_text/left.gif', 'class=float-left') ?>
         <?php echo image_tag('header_text/right.gif', 'class=float-right') ?>
-        <h2>
+        <h2 style="float:none;">
             <?php if(has_slot('header_title')): ?>
                 <?php include_slot('header_title') ?>
             <?php else: ?>

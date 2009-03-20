@@ -1,8 +1,8 @@
 <?php use_helper('dtForm', 'Javascript', 'Object'); ?>
 
 <?php echo __('Here you may change your registration information.') ?><br />
-<span><?php echo __('Make changes and click save.') ?></span>
-
+<span><?php echo __('Make changes and click save.') ?></span><br />
+<br style="line-height:10px;" />
 <?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
     <fieldset>
         <?php echo pr_label_for('email', 'Your email address') ?>
