@@ -1252,6 +1252,8 @@ CREATE TABLE `message_draft`
 	`to_member_id` INTEGER  NOT NULL,
 	`subject` VARCHAR(255),
 	`content` TEXT,
+	`reply_to` INTEGER,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `message_draft_FI_1` (`from_member_id`),
 	CONSTRAINT `message_draft_FK_1`

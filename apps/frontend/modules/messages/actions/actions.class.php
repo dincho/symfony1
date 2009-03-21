@@ -113,8 +113,6 @@ class messagesActions extends prActions
     
     public function executeReply()
     {
-        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
-        
         $c = new Criteria();
         $c->add(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
         $c->add(MessagePeer::SENT_BOX, false);
@@ -124,36 +122,18 @@ class messagesActions extends prActions
         $message = MessagePeer::doSelectOne($c);
         $this->forward404Unless($message);
         
-                if($this->getRequestParameter('draft_id'))
-        {
-            $this->draft = MessageDraftPeer::retrieveByPK($this->getRequestParameter('draft_id'));
-            $this->draftcontent = str_replace("<br />","",$this->draft->getContent());
-        }
-        else
-        {
-            if( $this->getRequest()->getMethod() != sfRequest::POST)
-            {
-                $draft_id = New MessageDraft();
-                $draft_id->setToMemberId($this->getRequestParameter('profile_id'));
-                $draft_id->setFromMemberId($this->getUser()->getProfile()->getID());
-                $draft_id->save();
-                $temp_draft_id = $draft_id->getId();
-                $this->redirect("messages/reply?draft_id=".$temp_draft_id."&profile_id=". $this->getRequestParameter('profile_id')."&id=". $this->getRequestParameter('id'));      
-            }      
-        }
-        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $send_msg = $message->reply($this->getRequestParameter('subject'), $this->getRequestParameter('content'));
-            if($this->getRequestParameter('draft_id'))
-            {
-                $c = new Criteria();
-                $c->add(MessageDraftPeer::ID, $this->getRequestParameter('draft_id'));
-                MessageDraftPeer::doDelete($c);
-            }
+            $send_msg = $message->reply($this->getRequestParameter('subject'), 
+                                        $this->getRequestParameter('content'), 
+                                        $this->getRequestParameter('draft_id'));
             $this->sendConfirmation($send_msg->getId());
         }
         
+        $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
+                                                          $message->getToMemberId(), 
+                                                          $message->getFromMemberId(),
+                                                          $message->getId());
         $this->message = $message;
     }
     
@@ -229,12 +209,16 @@ class messagesActions extends prActions
         $this->message = MessagePeer::doSelectOne($c);
         $this->forward404Unless($this->message);
 
+        $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
+                                                          $this->message->getToMemberId(), 
+                                                          $this->message->getFromMemberId(), 
+                                                          $this->message->getId());
+        
         return sfView::SUCCESS;
     }
     
     public function executeSend()
     {
-        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
         $this->profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($this->profile);
         $this->member = $this->getUser()->getProfile();
@@ -244,37 +228,21 @@ class messagesActions extends prActions
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
             $this->redirect('profile/index?username=' . $this->profile->getUsername() );
         }
-        if($this->getRequestParameter('draft_id'))
-        {
-            $this->draft = MessageDraftPeer::retrieveByPK($this->getRequestParameter('draft_id'));
-            $this->draftcontent = str_replace("<br />","",$this->draft->getContent());
-        }
-        else
-        {
-            if( $this->getRequest()->getMethod() != sfRequest::POST)
-            {
-                $draft_id = New MessageDraft();
-                $draft_id->setToMemberId($this->getRequestParameter('profile_id'));
-                $draft_id->setFromMemberId($this->getUser()->getProfile()->getID());
-                $draft_id->save();
-                $temp_draft_id = $draft_id->getId();
-                $this->redirect("messages/send?draft_id=".$temp_draft_id."&profile_id=". $this->getRequestParameter('profile_id'));      
-            }      
-        }
-                
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $send_msg = MessagePeer::send($this->getUser()->getProfile(), $this->profile, 
-                            $this->getRequestParameter('subject'), $this->getRequestParameter('content'));
-        	if($this->getRequestParameter('draft_id'))
-            {
-                $c = new Criteria();
-                $c->add(MessageDraftPeer::ID, $this->getRequestParameter('draft_id'));
-                MessageDraftPeer::doDelete($c);
-            }
+            $send_msg = MessagePeer::send($this->member, $this->profile, 
+                                          $this->getRequestParameter('subject'), 
+                                          $this->getRequestParameter('content'),
+                                          null,
+                                          $this->getRequestParameter('draft_id'));
+
             $this->sendConfirmation($send_msg->getId());
-            
         }
+        
+        $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
+                                                          $this->member->getId(), 
+                                                          $this->profile->getId());
     }
 
     public function validateSend()
@@ -344,6 +312,7 @@ class messagesActions extends prActions
         $this->profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($this->profile);
         $this->member = $this->getUser()->getProfile();
+        $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), $this->member->getId(), $this->profile->getId());
                 
         return sfView::SUCCESS;
     }
@@ -379,12 +348,9 @@ class messagesActions extends prActions
         $marked = $this->getRequestParameter('selected', array());
         if ( !empty($marked) )
         {
-            //perm delete trashed emails
             $c = new Criteria();
             $c->add(MessageDraftPeer::ID, $marked, Criteria::IN);
-            $crit = $c->getNewCriterion(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
-            $crit->addOr($c->getNewCriterion(MessageDraftPeer::TO_MEMBER_ID, $this->getUser()->getId()));
-            $c->add($crit);
+            $c->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
             MessageDraftPeer::doDelete($c);
         }
         

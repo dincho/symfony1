@@ -2,7 +2,7 @@
 <span><?php echo __('Message will be automatically saved to drafts every 1 minute') ?></span>
 <?php echo form_tag('messages/reply', array('class'  => 'msg_form')) ?>
     <?php echo input_hidden_tag('id', $message->getId(), 'class=hidden') ?>
-    <?php echo input_hidden_tag('draft_id', $sf_request->getParameter('draft_id'), 'class=hidden') ?>
+    <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     <?php $profile =  $message->getMemberRelatedByFromMemberId(); ?>
     <?php $member =  $message->getMemberRelatedByToMemberId(); ?>
     <fieldset class="background_000">
@@ -10,29 +10,17 @@
         <span class="msg_to"><?php echo $profile->getUsername() ?></span><br /><br />
         
         <?php echo pr_label_for('subject', 'Subject:') ?>
-        <?php if(isset($draft)): ?>
-            <?php echo input_tag('subject', $draft->getSubject(), 'id=title') ?><br />		    
-        <?php else: ?>
-        <?php echo input_tag('subject', null, 'id=title') ?><br />
-        <?php endif; ?>
+        <?php echo input_tag('subject', $draft->getSubject(), 'id=title') ?><br />		    
     </fieldset>
     <fieldset class="background_f4">
         <?php echo pr_label_for('content', 'Message:') ?>
-        <?php if(isset($draft)): ?>
-		    <?php echo textarea_tag('content',  $draftcontent, array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
-         <?php else: ?>
-        <?php echo textarea_tag('content', null, array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
-         <?php endif; ?>
-   <!-- PVL -->  
+	    <?php echo textarea_tag('content',  $draft->getContent(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
    
-   <div id="selected_location" ></div>
-     <?php echo periodically_call_remote(array(
-    'frequency' => 60,
-    'update'    => 'selected_location',
-    'url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
-    'with'      => "'content=' + \$F('your_story') + '&subject=' + \$F('title')"
-    )) ?>
-       <!-- PVL --> 
+	     <?php echo periodically_call_remote(array(
+	    'frequency' => 60,
+	    'url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
+	    'with'      => "'content=' + \$F('your_story') + '&subject=' + \$F('title')"
+	    )) ?>
 		
         <?php if( !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
           <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>

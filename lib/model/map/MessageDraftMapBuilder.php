@@ -42,5 +42,9 @@ class MessageDraftMapBuilder {
 
 		$tMap->addColumn('CONTENT', 'Content', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('REPLY_TO', 'ReplyTo', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 	} 
 } 

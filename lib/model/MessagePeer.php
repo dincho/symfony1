@@ -9,7 +9,7 @@
  */ 
 class MessagePeer extends BaseMessagePeer
 {
-    public static function send(BaseMember $from_member, BaseMember $to_member, $subject = '', $content = '', $reply_to = null)
+    public static function send(BaseMember $from_member, BaseMember $to_member, $subject = '', $content = '', $reply_to = null, $draft_id = null)
     {
         //add to recepient
         $message = new Message();
@@ -31,13 +31,12 @@ class MessagePeer extends BaseMessagePeer
         if( $from_member->getSubscriptionId() == SubscriptionPeer::FREE &&
             $to_member->getSubscriptionId() == SubscriptionPeer::FREE )
         {
-            $controller = sfContext::getInstance()->getController();
             $auto_reply = new Message();
             $auto_reply->setFromMemberId($to_member->getId());
             $auto_reply->setToMemberId($from_member->getId());
             $auto_reply->setSubject('Re: ' . $subject . ' - (auto-response)');
             $msg = 'Messages - please upgrade auto-response';
-            $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $to_member->getUsername(), '%URL_FOR_SUBSCRIPTION%' => $controller->genUrl('subscription/index')));
+            $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $to_member->getUsername()));
             
             $auto_reply->setContent($msg);
             $auto_reply->isReply(true);
@@ -53,7 +52,8 @@ class MessagePeer extends BaseMessagePeer
         //update last activity
         $from_member->setLastActivity(time());
         $from_member->save();
-                
+
+        if( !is_null($draft_id) ) MessageDraftPeer::clear($draft_id, $from_member->getId());
         return $sent_message;
     }
 }

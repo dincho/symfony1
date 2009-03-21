@@ -443,3 +443,5 @@ propel:
     to_member_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     subject:                  { type: varchar, size: 255 }
     content:                  { type: longvarchar }
+    reply_to:                 { type: integer, required: false }
+    updated_at:

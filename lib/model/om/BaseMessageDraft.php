@@ -27,6 +27,14 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 	
 	protected $content;
 
+
+	
+	protected $reply_to;
+
+
+	
+	protected $updated_at;
+
 	
 	protected $aMemberRelatedByFromMemberId;
 
@@ -72,6 +80,35 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 	{
 
 		return $this->content;
+	}
+
+	
+	public function getReplyTo()
+	{
+
+		return $this->reply_to;
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -163,6 +200,39 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setReplyTo($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->reply_to !== $v) {
+			$this->reply_to = $v;
+			$this->modifiedColumns[] = MessageDraftPeer::REPLY_TO;
+		}
+
+	} 
+	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = MessageDraftPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -177,11 +247,15 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 
 			$this->content = $rs->getString($startcol + 4);
 
+			$this->reply_to = $rs->getInt($startcol + 5);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 6, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+						return $startcol + 7; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating MessageDraft object", $e);
 		}
@@ -239,6 +313,11 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
       }
     }
 
+
+    if ($this->isModified() && !$this->isColumnModified(MessageDraftPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
 
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
@@ -386,6 +465,12 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 			case 4:
 				return $this->getContent();
 				break;
+			case 5:
+				return $this->getReplyTo();
+				break;
+			case 6:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -401,6 +486,8 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 			$keys[2] => $this->getToMemberId(),
 			$keys[3] => $this->getSubject(),
 			$keys[4] => $this->getContent(),
+			$keys[5] => $this->getReplyTo(),
+			$keys[6] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -431,6 +518,12 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 			case 4:
 				$this->setContent($value);
 				break;
+			case 5:
+				$this->setReplyTo($value);
+				break;
+			case 6:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -443,6 +536,8 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[2], $arr)) $this->setToMemberId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setSubject($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setContent($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setReplyTo($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedAt($arr[$keys[6]]);
 	}
 
 	
@@ -455,6 +550,8 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MessageDraftPeer::TO_MEMBER_ID)) $criteria->add(MessageDraftPeer::TO_MEMBER_ID, $this->to_member_id);
 		if ($this->isColumnModified(MessageDraftPeer::SUBJECT)) $criteria->add(MessageDraftPeer::SUBJECT, $this->subject);
 		if ($this->isColumnModified(MessageDraftPeer::CONTENT)) $criteria->add(MessageDraftPeer::CONTENT, $this->content);
+		if ($this->isColumnModified(MessageDraftPeer::REPLY_TO)) $criteria->add(MessageDraftPeer::REPLY_TO, $this->reply_to);
+		if ($this->isColumnModified(MessageDraftPeer::UPDATED_AT)) $criteria->add(MessageDraftPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -492,6 +589,10 @@ abstract class BaseMessageDraft extends BaseObject  implements Persistent {
 		$copyObj->setSubject($this->subject);
 
 		$copyObj->setContent($this->content);
+
+		$copyObj->setReplyTo($this->reply_to);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		$copyObj->setNew(true);

@@ -52,13 +52,17 @@ class ajaxActions extends prActions
     
     public function executeSaveToDraft()
     {
-        $subject = $this->getRequestParameter('subject');
-        $content = $this->getRequestParameter('content');
-        $draft_id = $this->getRequestParameter('draft_id');
-        $message = MessageDraftPeer::retrieveByPK($draft_id);
-        $message->setSubject($subject);
-        $message->setContent($content);
-        $message->save();
+        $c = new Criteria();
+        $c->add(MessageDraftPeer::ID, $this->getRequestParameter('draft_id'));
+        $c->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
+        $draft = MessageDraftPeer::doSelectOne($c);
+        
+        if ( $draft )
+        {
+	        $draft->setSubject($this->getRequestParameter('subject'));
+	        $draft->setContent($this->getRequestParameter('content'));
+	        $draft->save();
+        }
         
         return sfView::NONE;
     }

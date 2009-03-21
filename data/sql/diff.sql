@@ -1,24 +1,4 @@
-ALTER TABLE `trans_unit` ADD `link` TEXT;
-
-CREATE TABLE `message_draft`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`from_member_id` INTEGER  NOT NULL,
-	`to_member_id` INTEGER  NOT NULL,
-	`subject` VARCHAR(255),
-	`content` TEXT,
-	PRIMARY KEY (`id`),
-	INDEX `message_draft_FI_1` (`from_member_id`),
-	CONSTRAINT `message_draft_FK_1`
-		FOREIGN KEY (`from_member_id`)
-		REFERENCES `member` (`id`)
-		ON DELETE CASCADE,
-	INDEX `message_draft_FI_2` (`to_member_id`),
-	CONSTRAINT `message_draft_FK_2`
-		FOREIGN KEY (`to_member_id`)
-		REFERENCES `member` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
+ALTER TABLE `message_draft` ADD `updated_at` DATETIME;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -40,6 +20,7 @@ ALTER TABLE `member` CHANGE `dashboard_msg` `dashboard_msg` INTEGER(1) default 0
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 0 NOT NULL;
+ALTER TABLE `message_draft` DROP `created_at`;
 /* old definition: int(11) NOT NULL default '1'
    new definition: INTEGER(11) default 1 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `cat_id` `cat_id` INTEGER(11) default 1 NOT NULL;

@@ -45,9 +45,14 @@ class Message extends BaseMessage
         return parent::save($con);
     }
     
-    public function reply($subject = '', $content = '')
+    public function reply($subject = '', $content = '', $draft_id = null)
     {
-        $send_message = MessagePeer::send($this->getMemberRelatedByToMemberId(), $this->getMemberRelatedByFromMemberId(), $subject, $content, $this->getId());
+        $send_message = MessagePeer::send($this->getMemberRelatedByToMemberId(), 
+                                          $this->getMemberRelatedByFromMemberId(), 
+                                          $subject, 
+                                          $content, 
+                                          $this->getId(),
+                                          $draft_id);
         $this->setIsReplied(true);
         $this->save();
         

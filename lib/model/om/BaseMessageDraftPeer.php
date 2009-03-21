@@ -13,7 +13,7 @@ abstract class BaseMessageDraftPeer {
 	const CLASS_DEFAULT = 'lib.model.MessageDraft';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 7;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -35,23 +35,29 @@ abstract class BaseMessageDraftPeer {
 	const CONTENT = 'message_draft.CONTENT';
 
 	
+	const REPLY_TO = 'message_draft.REPLY_TO';
+
+	
+	const UPDATED_AT = 'message_draft.UPDATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'FromMemberId', 'ToMemberId', 'Subject', 'Content', ),
-		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID, MessageDraftPeer::FROM_MEMBER_ID, MessageDraftPeer::TO_MEMBER_ID, MessageDraftPeer::SUBJECT, MessageDraftPeer::CONTENT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'from_member_id', 'to_member_id', 'subject', 'content', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'FromMemberId', 'ToMemberId', 'Subject', 'Content', 'ReplyTo', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID, MessageDraftPeer::FROM_MEMBER_ID, MessageDraftPeer::TO_MEMBER_ID, MessageDraftPeer::SUBJECT, MessageDraftPeer::CONTENT, MessageDraftPeer::REPLY_TO, MessageDraftPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'from_member_id', 'to_member_id', 'subject', 'content', 'reply_to', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'FromMemberId' => 1, 'ToMemberId' => 2, 'Subject' => 3, 'Content' => 4, ),
-		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID => 0, MessageDraftPeer::FROM_MEMBER_ID => 1, MessageDraftPeer::TO_MEMBER_ID => 2, MessageDraftPeer::SUBJECT => 3, MessageDraftPeer::CONTENT => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'from_member_id' => 1, 'to_member_id' => 2, 'subject' => 3, 'content' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'FromMemberId' => 1, 'ToMemberId' => 2, 'Subject' => 3, 'Content' => 4, 'ReplyTo' => 5, 'UpdatedAt' => 6, ),
+		BasePeer::TYPE_COLNAME => array (MessageDraftPeer::ID => 0, MessageDraftPeer::FROM_MEMBER_ID => 1, MessageDraftPeer::TO_MEMBER_ID => 2, MessageDraftPeer::SUBJECT => 3, MessageDraftPeer::CONTENT => 4, MessageDraftPeer::REPLY_TO => 5, MessageDraftPeer::UPDATED_AT => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'from_member_id' => 1, 'to_member_id' => 2, 'subject' => 3, 'content' => 4, 'reply_to' => 5, 'updated_at' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
@@ -114,6 +120,10 @@ abstract class BaseMessageDraftPeer {
 		$criteria->addSelectColumn(MessageDraftPeer::SUBJECT);
 
 		$criteria->addSelectColumn(MessageDraftPeer::CONTENT);
+
+		$criteria->addSelectColumn(MessageDraftPeer::REPLY_TO);
+
+		$criteria->addSelectColumn(MessageDraftPeer::UPDATED_AT);
 
 	}
 
