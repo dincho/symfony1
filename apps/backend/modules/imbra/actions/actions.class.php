@@ -97,6 +97,9 @@ class imbraActions extends sfActions
             $this->imbra->setImbraStatusId(ImbraStatusPeer::DENIED);
             $this->imbra->save();
             
+            $this->member->changeStatus(MemberStatusPeer::DENIED);
+            $this->member->save();
+            
             $this->setFlash('msg_ok', 'IMBRA application have been denied.');
             $this->redirect('imbra/list');
         }
