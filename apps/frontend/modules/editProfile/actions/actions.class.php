@@ -194,12 +194,17 @@ class editProfileActions extends prActions
     	$answers = $this->getRequestParameter('answers');
     	$question_answers = $answers[$question_id];
         
+    	$has_one_answer = false;
         for($i=1; $i<5; $i++)
         {
-        	if( $question_answers[$i] && $question_answers['lang_levels'][$i] ) return true;
+        	if( $question_answers[$i] )
+        	{
+        		$has_one_answer = true;
+        		if( !$question_answers['lang_levels'][$i] ) return false;
+        	}
         }
     	
-        return false;
+        return $has_one_answer;
     }
 
     public function handleErrorSelfDescription()
