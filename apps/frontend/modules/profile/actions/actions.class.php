@@ -182,16 +182,37 @@ class profileActions extends prActions
             $this->forward404Unless($member);
             $this->getUser()->SignIn($member);
 
-            $this->redirect('dashboard/index');
+            //$this->redirect('dashboard/index');
+            $this->afterSignInRedirect();
                     	
 
         } elseif ($this->getUser()->isAuthenticated())
         {
             if (! $this->getUser()->hasCredential(array('member'), false)) $this->executeSignout();
             $this->redirect('@homepage');
+        } else {
+	      $referer_rel = $_SERVER["REQUEST_URI"];
+	      $referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
+	      $this->getRequest()->setAttribute('referer', $referer_abs);          	
         }
     }
-
+    
+  
+	protected function afterSignInRedirect()
+	{
+	  $referer = $this->getRequestParameter('referer');
+	  $host    = $this->getRequest()->getHost();
+	  
+	  if( false !== strpos($referer, $host) )
+	  {
+	    $this->redirect( $referer );
+	  }
+	  else
+	  {
+	    $this->redirect( '@homepage' );
+	  }    
+	}
+  
     public function validateSignIn()
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));

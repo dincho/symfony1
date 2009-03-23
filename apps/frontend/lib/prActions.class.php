@@ -22,7 +22,7 @@ class prActions extends sfActions
     
     public function redirectToLastReferer()
     {
-        $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
+        $stack = $this->getUser()->getAttributeHolder()->getAll('frontend/member/referer_stack');
         return isset($stack[0]) ? $stack[0] : null;        
     }
 }

@@ -24,10 +24,8 @@ class systemActions extends sfActions
         $this->redirect('@homepage');
       }
       
-      //helps to redirect to requested page
       $referer_rel = $_SERVER["REQUEST_URI"];
       $referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
-      
       $this->getRequest()->setAttribute('referer', $referer_abs);
       
     } else {
@@ -38,10 +36,25 @@ class systemActions extends sfActions
       $logged->save();
       
       //$user->setCulture($logged->getCulture());
-      $this->redirectToReferer();
+      $this->afterSignInRedirect();
     }
   }
   
+	protected function afterSignInRedirect()
+	{
+	  $referer = $this->getRequestParameter('referer');
+	  $host    = $this->getRequest()->getHost();
+	  
+	  if( false !== strpos($referer, $host) )
+	  {
+	    $this->redirect( $referer );
+	  }
+	  else
+	  {
+	    $this->redirect( '@homepage' );
+	  }    
+	}
+      
   public function validateLogin()
   {
     if( $this->getRequest()->getMethod() == sfRequest::POST )
