@@ -321,6 +321,11 @@ p {
     border: 0;
 }
 
+#areas_map_container {
+  position: fixed;
+  margin: 75px 0 0 260px;
+}
+
 #areas_map {
     float: right;
     width: 450px;

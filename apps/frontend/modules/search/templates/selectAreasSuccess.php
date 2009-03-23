@@ -5,7 +5,11 @@
     <?php echo __('%COUNTRY% areas', array('%COUNTRY%' => format_country($sf_request->getParameter('country'))))?>
 <?php end_slot(); ?>
 
-<div id="areas_map"></div>
+<div id="areas_map_container">
+    <div id="areas_map"></div>
+</div>
+
+
 
 <form action="<?php echo url_for('search/selectAreas')?>" id="areas" name="areas_form" method="post">
     <?php echo input_hidden_tag('country', $sf_request->getParameter('country'), array('id' => 'country')) ?>
