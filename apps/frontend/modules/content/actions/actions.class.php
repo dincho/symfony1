@@ -187,6 +187,18 @@ class contentActions extends prActions
         $this->email = $email;
     }
     
+    public function executeBlockedUser()
+    {
+    	$this->setLayout('simple_small');
+    	$this->setTemplate('page');
+    	
+        $c = new Criteria();
+        $c->add(StaticPagePeer::SLUG, 'blocked_user');
+        $pages = StaticPagePeer::doSelectWithI18n($c);
+        $this->forward404Unless($pages);
+        $this->page = $pages[0];
+    }
+    
     public function executeAreaInfo()
     {
         $state = StatePeer::retrieveByPK($this->getRequestParameter('area_id'));

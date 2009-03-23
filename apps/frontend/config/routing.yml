@@ -9,7 +9,7 @@ page:
 
 blocked_user:
     url:  /:sf_culture/blocked_user
-    param: { module: content, action: page, sf_culture: en, slug: blocked_user }
+    param: { module: content, action: blockedUser, sf_culture: en }
 
 signin:
     url:   /:sf_culture/signin
