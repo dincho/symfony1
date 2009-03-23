@@ -1692,11 +1692,12 @@ div.best_video div.right img {
     clear: both;
     color: #3d3d3d;
     line-height: 18px;
+    padding-top: 6px;
 }
 
 .footer_footer {
     font-size: 10px;
-    padding-top: 8px;
+    padding-top: 6px;
 }
 
 .footer_footer a:link,.footer_footer a:visited,.footer_footer a:active {
