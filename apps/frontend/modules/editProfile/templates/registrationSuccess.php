@@ -23,9 +23,6 @@
         <?php echo pr_label_for('state_id', 'Area') ?>
         <?php echo pr_object_select_state_tag($member, 'getStateId') ?><br />
         
-        <?php echo pr_label_for('district', 'District/ County etc.') ?>
-        <?php echo object_input_tag($member, 'getDistrict') ?><br />
-        
         <?php echo pr_label_for('city', 'City') ?>
         <?php echo object_input_tag($member, 'getCity') ?><br />
         

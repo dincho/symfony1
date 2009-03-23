@@ -111,7 +111,6 @@ class registrationActions extends prActions
         {
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state_id'));
-            $member->setDistrict($this->getRequestParameter('district'));
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
