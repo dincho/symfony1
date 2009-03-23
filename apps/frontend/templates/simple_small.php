@@ -44,7 +44,7 @@
         <!-- -->
     </div>
     <div id="footer">
-        <div class="footer_footer"><?php echo link_to(__('&copy; Copyright 2007-2008 by PolishRomance.com'), '@page?slug=copyright') ?> - Patent Pending - All Rights Reserved</div>
+        <?php include_partial('content/footer_copyright');?>
     </div>
 </body>
 </html>

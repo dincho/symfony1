@@ -11,12 +11,6 @@ class contentComponents extends sfComponents
         
     }
     
-    public function executeFooter()
-    {
-        
-    }
-    
-
     public function executeHomepagePhotoSet()
     {
         $culture = $this->getUser()->getCulture();
