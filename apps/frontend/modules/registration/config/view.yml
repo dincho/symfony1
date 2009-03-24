@@ -1,2 +1,2 @@
 essaySuccess:
-    javascripts: [ charcount ]
+    javascripts: [ charcount, essay_polish_letters ]

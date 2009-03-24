@@ -1160,6 +1160,19 @@ span {
     font-size: 10px;
 }
 
+#essay_polish_letters {
+}
+
+#essay_polish_letters a,  #essay_polish_letters a:visited {
+    color: #73a7ff;
+    padding-right: 5px;
+    font-size: 12px;
+}
+
+#essay_polish_letters a:hover {
+	color: #a8c8ff;
+}
+	
 #secondary_container #essay input.essay {
     background-color: #363639;
     border: 1px solid #7995ae;
