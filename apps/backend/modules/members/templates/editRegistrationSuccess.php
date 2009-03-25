@@ -8,6 +8,12 @@
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Registration</div>
   <fieldset class="form_fields">
+  
+    <?php echo pr_label_for('password', 'Change Password') ?>
+    <?php echo input_password_tag('password') ?><br />
+    
+    <?php echo pr_label_for('repeat_password', 'Repeat Password') ?>
+    <?php echo input_password_tag('repeat_password') ?><br />
     
     <label for="country">Country of Residence</label>
     <?php echo object_select_country_tag($member, 'getCountry', error_class('first_name')) ?><br />

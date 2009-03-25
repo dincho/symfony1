@@ -116,6 +116,7 @@ class membersActions extends sfActions
                 $this->member->setLastName($this->getRequestParameter('last_name'));
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
+                $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
                 $this->member->changeSubscription($this->getRequestParameter('subscription_id'));
                 $this->member->save();
                 $this->setFlash('msg_ok', 'Your changes have been saved');
@@ -158,10 +159,24 @@ class membersActions extends sfActions
             $this->member->setCity($this->getRequestParameter('city'));
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
+            if ($this->getRequestParameter('password')) //password changed
+            {
+                $this->member->setPassword($this->getRequestParameter('password'));
+            }
             $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editRegistration?id=' . $this->member->getId());
         }
+    }
+    
+    public function handleErroreditRegistration()
+    {
+        $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
+        
+        $this->states = StatePeer::getAllByCountry($this->member->getCountry());
+        $this->member->setStateId(($this->getRequestParameter('state_id')) ? $this->getRequestParameter('state_id') : null);
+        $this->forward404Unless($this->member); //just in case
+        return sfView::SUCCESS;
     }
 
     public function executeEditSelfDescription()

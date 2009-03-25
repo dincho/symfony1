@@ -12,6 +12,9 @@
                
             <label for="member_status_id">Status</label>
             <?php echo object_select_tag($member, 'getMemberStatusId', array ('related_class' => 'MemberStatus','include_blank' => false,)) ?><br />
+            
+            <label for="orientation">Orientation</label>
+            <?php echo select_tag('orientation', looking_for_options_admin($member->getSex(), $member->getLookingFor())) ?><br />
         
             <label for="member_id">ID</label>
             <var id="member_id"><?php echo $member->getId() ?></var><br />

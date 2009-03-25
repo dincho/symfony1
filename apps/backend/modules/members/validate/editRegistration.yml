@@ -1,0 +1,12 @@
+fillin:
+  enabled: true
+fields:
+  password:
+    required:
+    group:      password_group
+  repeat_password:
+    group:      password_group
+    group_msg:  Please retype the password.
+    sfCompareValidator:
+      check:  password
+      compare_error:  Please enter identical passwords.

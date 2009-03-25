@@ -102,6 +102,15 @@ function looking_for_options($selected = '', $html_options = array())
     return options_for_select($options, $selected, $html_options);
 }
 
+function looking_for_options_admin($sex, $lookingfor, $html_options = array())
+{
+    $selected = $sex."_".$lookingfor;
+    $options = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man', 
+                     'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
+    
+    return options_for_select($options, $selected, $html_options);
+}
+
 function pr_select_country_tag($name, $selected = null, $options = array())
 {
     $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
