@@ -9,16 +9,20 @@
       <?php include_partial('editProfile/question_title', array('question' => $question, 'i' => $i++)); ?>
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
         <?php include_partial('editProfile/question_type_radio', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
+        <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php elseif( $question->getType() == 'select' && isset($answers[$question->getId()]) ): ?>
         <?php include_partial('editProfile/question_type_select', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
+        <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php elseif( $question->getType() == 'native_lang' ): ?>
         <?php echo pr_select_language_tag('answers['. $question->getid() .']', ( isset($member_answers[$question->getId()]) ) ? $member_answers[$question->getId()]->getCustom() : null ) ?><br />
+        <?php include_partial('editProfile/question_other_checkbox', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php elseif( $question->getType() == 'age' ): ?>
         <?php include_partial('editProfile/question_type_age', array('member' => $member, 'question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
+        <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php elseif( $question->getType() == 'other_langs' ): ?>
         <?php include_partial('editProfile/question_type_other_langs', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
+        <?php include_partial('editProfile/question_other_checkbox', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php endif; ?>
-      <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
     <?php endforeach; ?>
         
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
