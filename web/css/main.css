@@ -21,7 +21,6 @@ a.highlighted_link {
     padding: 0px;
     margin-top: 0px;
     text-align: center;
-    background-color: #E0B400;
 }
 
 a.highlighted_link:hover, a.highlighted_link:visited  {
