@@ -4,7 +4,7 @@
         <?php  include_partial('content/lang');?>
     </div>
     <div id="polish_romance_logo">
-        <?php echo link_to(image_tag('polish_romance.gif', 'alt=logo'), '#') ?>
+        <?php echo link_to(domain_image_tag('logo_index.gif', 'alt=logo'), '#') ?>
     </div>
     <div id="right" class="index">
         <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>

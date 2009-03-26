@@ -215,13 +215,42 @@ class contentActions extends prActions
     public function executeChangeLanguage()
     {
         $ref = $this->getUser()->getRefererUrl();
+        $new_culture = $this->getRequestParameter('lang');
+        $current_culture = $this->getUser()->getCulture();
         
-        if( $this->getRequestParameter('lang') )
+        $this->redirectUnless($this->getRequestParameter('lang'), $ref);
+       	$this->redirectUnless($current_culture != $new_culture, $ref);
+       	
+        $culture_domain = sfConfig::get('app_domains_' . $new_culture);
+        $current_culture_domain = sfConfig::get('app_domains_' . $current_culture);       	
+        
+        //cross domains sessions, add the session to the URL if redirect is to other domain
+        if( $culture_domain )
         {
-            $this->getUser()->setCulture($this->getRequestParameter('lang'));
-            $ref = preg_replace('/sf_culture\=[a-z]+/', 'sf_culture=' . $this->getRequestParameter('lang'), $ref);
+            $ref .= (strpos($ref, '?')) ? '&' : '?';
+            $ref .= 'PRSSID=' . session_id();
         }
         
-        $this->redirect($ref);
+        $ref = $this->getController()->genUrl($ref);
+        
+        if( $culture_domain ) //do not have :sf_culture in routes
+        {
+        	$ref = preg_replace('#/' . $current_culture . '#', '', $ref);
+        } else { //has :sf_culture in routes
+        	if( $current_culture_domain )
+        	{
+        	   $culture_domain = sfConfig::get('app_base_domain');
+        	} else {
+        		$culture_domain = $this->getRequest()->getHost();
+        	}
+        	$match_cnt = 0;
+        	$ref = preg_replace('#/'. $current_culture .'/#', '/'.$new_culture.'/', $ref, 1, $match_cnt);
+        	if( $current_culture_domain ) $ref = '/' . $new_culture . $ref;
+        }
+
+        $this->getUser()->setCulture($new_culture);
+        $url = 'http'.($this->getRequest()->isSecure() ? 's' : '').'://'.$culture_domain.$ref;
+        
+        $this->redirect($url);
     }
 }

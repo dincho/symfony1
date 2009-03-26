@@ -27,7 +27,7 @@
                             <?php $logo_style = 'padding-right: 150px' ?>
                         </div>
                     <?php endif; ?> 
-                    <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage', array('style' => @$logo_style)) ?>
+                    <?php echo link_to(domain_image_tag('logo.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
             <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
                       $sf_data->get('sf_flash')->has('msg_warning') || 

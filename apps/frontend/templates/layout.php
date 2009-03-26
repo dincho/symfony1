@@ -27,7 +27,7 @@
         <div id="content">  
             <div id="header">
                 <div id="left">
-                    <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage') ?>
+                    <?php echo link_to(domain_image_tag('logo.gif'), '@homepage') ?>
                 </div>
                 <?php include_component('content','headerMenu', array('username' => $sf_user->getUsername(), 'auth' => $sf_user->isAuthenticated())); ?>
             </div>

@@ -1,16 +1,16 @@
 default:
-    beta_period:   off
-    primary_domain: PolishRomance.com
-    brand_text:     LoveStreet.pl
+    beta_period:     off
+    brand_text:      LoveStreet.pl
     admin_user_salt: wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
+    base_domain:     pd.dincho.bonex.us #always have :sf_culture in the routess
+    domains:         #do not have :sf_culture in the routes
+        pl:          pl.pd.dincho.bonex.us
     version:         "v1.1/trunk"
     mail:
-        host:      mail.bonex.us
-        port:      993
-        username:  autocheck@polishromance.com
-        password:  dincho
-        from:      admin@PolishRomance.com
-        mailer:    smtp
-        smtp_host:  217.145.91.128
-        #smtp_username:  autocheck@polishromance.com
-        #smtp_password:  dincho
+        host:        mail.bonex.us
+        port:        993
+        username:    autocheck@polishromance.com
+        password:    dincho
+        from:        admin@PolishRomance.com
+        mailer:      smtp
+        smtp_host:   217.145.91.128

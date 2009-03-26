@@ -20,7 +20,7 @@
         <!--  -->   
         <div id="content">  
             <div id="header">
-                <?php echo link_to(image_tag('polish_romance_small.gif'), '@homepage') ?>
+                <?php echo link_to(domain_image_tag('logo.gif'), '@homepage') ?>
             </div>
             <div id="header_text">
                 <div id="header_title">

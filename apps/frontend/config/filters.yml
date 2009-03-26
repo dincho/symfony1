@@ -21,6 +21,9 @@ referer:
     param:
         namespace:  frontend/member/referer_stack
 
+domainsFilter:
+    class: DomainsFilter
+            
 cache:     ~
 common:    ~
 flash:     ~
