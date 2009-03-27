@@ -74,11 +74,11 @@ class profileActions extends prActions
         $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));                                  
         $this->forwardIf(!$this->getUser()->isAuthenticated() && $this->getRequestParameter('admin_hash') != $admin_hash, sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
                     
-        if( $this->getUser()->getId() != $member->getId() )
+        
+        if( $this->getRequestParameter('admin_hash') != $admin_hash && $this->getUser()->getId() != $member->getId() )
         {
 	        $member_status_id = $member->getMemberStatusId();
-	        if( $member_status_id != MemberStatusPeer::ACTIVE
-	            && $this->getRequestParameter('admin_hash') != $admin_hash)
+	        if( $member_status_id != MemberStatusPeer::ACTIVE )
 	        {
 	            $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
 	                                $member_status_id == MemberStatusPeer::PENDING ||
@@ -123,7 +123,7 @@ class profileActions extends prActions
 	            $this->redirectToReferer();
 	        }
         }
-                    
+        
         //add a visit
         $this->getUser()->viewProfile($member);
 
