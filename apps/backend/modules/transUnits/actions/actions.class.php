@@ -65,6 +65,11 @@ class transUnitsActions extends sfActions
             $this->redirect('transUnits/list');
         }
     }
+    
+    public function handleErrorCreate()
+    {
+    	return sfView::SUCCESS;
+    }
 
     public function executeEdit()
     {
@@ -111,6 +116,25 @@ class transUnitsActions extends sfActions
         }
     }
 
+    public function handleErrorEdit()
+    {
+        $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
+        $this->forward404Unless($trans_unit);
+        $this->trans_unit = $trans_unit;
+        
+        if( $trans_unit->getCatId() != 1)
+        {
+            $c = new Criteria();
+            $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+            $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
+            $en_trans_unit = TransUnitPeer::doSelectOne($c);
+            $this->forward404Unless($en_trans_unit);
+            $this->en_trans_unit = $en_trans_unit;
+        }
+            	
+    	return sfView::SUCCESS;
+    }
+    
     public function executeDelete()
     {
         $this->getUser()->checkPerm(array('content_edit'));

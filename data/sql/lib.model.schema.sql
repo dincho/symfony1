@@ -997,7 +997,7 @@ CREATE TABLE `trans_unit`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`cat_id` INTEGER(11) default 1 NOT NULL,
 	`msg_collection_id` INTEGER,
-	`source` TEXT  NOT NULL,
+	`source` VARCHAR(1000)  NOT NULL,
 	`target` TEXT  NOT NULL,
 	`comments` TEXT,
 	`author` VARCHAR(255) default '' NOT NULL,
@@ -1007,7 +1007,7 @@ CREATE TABLE `trans_unit`
 	`date_added` INTEGER(11) default 0 NOT NULL,
 	`date_modified` INTEGER(11) default 0 NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `trans_unit_FI_1` (`cat_id`),
+	UNIQUE KEY `cat_id_source` (`cat_id`, `source`),
 	CONSTRAINT `trans_unit_FK_1`
 		FOREIGN KEY (`cat_id`)
 		REFERENCES `catalogue` (`cat_id`),

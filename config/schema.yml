@@ -357,7 +357,7 @@ propel:
     id:
     cat_id:                 { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
     msg_collection_id:
-    source:                 { type: longvarchar, required: true  }
+    source:                 { type: varchar, required: true, size: 1000  }
     target:                 { type: longvarchar, required: true  }
     comments:               { type: longvarchar }
     author:                 { type: varchar, size: 255, required: true, default: ''}
@@ -366,6 +366,8 @@ propel:
     link:                   { type: longvarchar }
     date_added:             { type: integer, size: 11, required: true,  default: 0 }
     date_modified:          { type: integer, size: 11, required: true,  default: 0 }
+    #_uniques:        
+      #cat_id_source:        [ cat_id, source ]
   trans_collection:
     id:
     name:                   { type: varchar, size: 255 }

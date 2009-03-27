@@ -1,0 +1,10 @@
+fillin:
+  enabled: true
+fields:
+  source:
+    required:
+        msg:    Please enter source
+    sfPropelUniqueValidator:
+      class:        TransUnit
+      column:       source
+      unique_error: This source already exists.
