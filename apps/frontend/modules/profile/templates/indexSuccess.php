@@ -66,7 +66,7 @@
              ?>
             <br class="clear" />
             <dl>
-                <dt><?php echo __('Orientation') ?></dt><dd><?php echo __($orientationstring) ?></dd>
+                <dt><?php echo __('Orientation') ?></dt><dd><?php echo __($member->getOrientationString()) ?></dd>
                 <dt><?php echo __('Country') ?></dt><dd><?php echo format_country($member->getCountry()) ?></dd>
                 <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?>&nbsp;<?php if($member->getStateId()) echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getStateId(), 'class=sec_link') ?></dd>
                 <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?></dd>

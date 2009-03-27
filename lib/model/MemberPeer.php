@@ -457,19 +457,4 @@ class MemberPeer extends BaseMemberPeer
         }
         return $results;
     }
-    
-    public static function getOrientationString($username)
-    {
-        $c = new Criteria();
-        $c->add(MemberPeer::USERNAME, $username);
-        $c->setLimit(1);
-        
-        $member = MemberPeer::doSelectOne($c);
-        
-        ( $member->getSex() == 'M' ) ? $orientation ='Man' : $orientation='Woman';
-        $orientation.=" looking for ";
-        ( $member->getLookingfor() == 'M' ) ? $orientation .='man' : $orientation .='woman';
-        
-        return $orientation;
-    }
 }

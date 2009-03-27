@@ -426,4 +426,13 @@ class Member extends BaseMember
     {
         return ($this->getMemberStatusId() == MemberStatusPeer::ACTIVE);
     }
+    
+    public function getOrientationString()
+    {   
+        ( $this->getSex() == 'M' ) ? $orientation ='Man' : $orientation='Woman';
+        $orientation.=" looking for ";
+        ( $this->getLookingfor() == 'M' ) ? $orientation .='man' : $orientation .='woman';
+        
+        return $orientation;
+    }
 }
