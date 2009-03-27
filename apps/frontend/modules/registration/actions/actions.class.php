@@ -107,45 +107,43 @@ class registrationActions extends prActions
         $this->forward404Unless($member); //just in case
         $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
         
+        if( !$member->getOriginalFirstName() )
+        {
+            $member->setFirstName($this->getRequestParameter('first_name', $member->getFirstName()));  
+            $member->parseLookingFor($this->getRequestParameter('orientation', $member->getOrientation()));
+        }
+                
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-        
-            $i18 = $this->getContext()->getI18N();
-            $conf_msg = $i18->__('Please confirm that Name and Orientation are filled correctly?') . ' <a href="javascript:window.history.go(-1);" class="sec_link">'.$i18->__('No').'</a>&nbsp;';
-            $conf_url = "javascript:document.public_reg_form.action='".sfContext::getInstance()->getController()->genUrl('registration/index')."?confirm=1'; document.public_reg_form.submit();";
-            $conf_msg .= '<a href="'.$conf_url.'">'.$i18->__('Yes').'</a>';
-            
-            if(!$this->getRequest()->hasError('country')&&
-            !$this->getRequest()->hasError('state_id')&&
-            !$this->getRequest()->hasError('city')&&
-            !$this->getRequest()->hasError('zip')&&
-            !$this->getRequest()->hasError('nationality')&&
-            !$this->getRequest()->hasError('last_name'))
-            {
-                $this->conf = 1;
-            }
-                
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state_id'));
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
-            $member->setFirstName($this->getRequestParameter('first_name'));  
-            $member->setOriginalFirstName($this->getRequestParameter('first_name'));        
-            
-            if($this->getRequestParameter('confirm')== 1)
+
+            if( $member->getOriginalFirstName() ) //already confirmed
             {
-                $member->parseLookingFor($this->getRequestParameter('orientation_hidden', 'M_F'));
                 $member->save();
                 $this->redirect('registration/selfDescription');
+            } else { //not confirmed yet
+                if( $this->hasRequestParameter('confirmed') ) //form confirmation ?
+	            {
+	                $member->setOriginalFirstName($this->getRequestParameter('first_name'));
+	                $member->save();
+	                $this->redirect('registration/selfDescription');
+	            } else { //ask for confirmation
+	                $this->redirect('registration/index?confirm=1&first_name=' . $member->getFirstName() . '&orientation=' . $member->getOrientation() );
+	            }
             }
-            else
-            {
-                $member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
-                $this->youare = $this->getRequestParameter('orientation', 'M_F');
-                $this->setFlash('msg_error', $conf_msg, false);
-            }
-            
+        }
+        
+        if( $this->hasRequestParameter('confirm') ) 
+        {
+            $i18n = $this->getContext()->getI18N();
+            $i18n_options = array('%URL_FOR_CANCEL%' => $this->getController()->genUrl('registration/index?first_name=' . $member->getFirstName() . '&orientation=' . $member->getOrientation()), 
+                                  '%URL_FOR_CONFIRM%' => 'javascript:document.public_reg_form.submit();');
+            $conf_msg = $i18n->__('Please confirm that Name and Orientation are filled correctly? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
+        	$this->setFlash('msg_error', $conf_msg, false);
         }
         
         $this->member = $member;
@@ -160,8 +158,7 @@ class registrationActions extends prActions
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($this->member); //just in case
         
-
-        return sfView::SUCCESS;
+       return sfView::SUCCESS;
     }
 
     public function executeSelfDescription()

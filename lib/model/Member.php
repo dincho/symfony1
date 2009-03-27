@@ -64,6 +64,11 @@ class Member extends BaseMember
         $this->setLookingFor($sex_looking[1]);
     }
     
+    public function getOrientation()
+    {
+    	return $this->getSex() . '_' . $this->getLookingFor();
+    }
+    
     /*
    * @return MemberImbra
    */

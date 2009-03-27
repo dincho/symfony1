@@ -17,9 +17,6 @@ class editProfileActions extends prActions
         $this->forward404Unless($member); //just in case
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $sex_looking = explode('_', $this->getRequestParameter('looking_for', 'M_F'));
-            //$member->setSex($sex_looking[0]);
-            //$member->setLookingFor($sex_looking[1]);
             $member->setCountry($this->getRequestParameter('country'));
             $member->setStateId($this->getRequestParameter('state_id'));
             $member->setCity($this->getRequestParameter('city'));
