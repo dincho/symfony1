@@ -180,6 +180,8 @@ CREATE TABLE `member`
 	`created_at` DATETIME,
 	`dashboard_msg` INTEGER(1) default 0,
 	`imbra_payment` VARCHAR(100),
+	`original_first_name` VARCHAR(80)  NOT NULL,
+	`original_last_name` VARCHAR(80)  NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `member_FI_1` (`member_status_id`),
 	CONSTRAINT `member_FK_1`

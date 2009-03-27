@@ -138,5 +138,9 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('IMBRA_PAYMENT', 'ImbraPayment', 'string', CreoleTypes::VARCHAR, false, 100);
 
+		$tMap->addColumn('ORIGINAL_FIRST_NAME', 'OriginalFirstName', 'string', CreoleTypes::VARCHAR, true, 80);
+
+		$tMap->addColumn('ORIGINAL_LAST_NAME', 'OriginalLastName', 'string', CreoleTypes::VARCHAR, true, 80);
+
 	} 
 } 

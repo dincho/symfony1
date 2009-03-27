@@ -36,3 +36,9 @@
             
             <label for="ip">IP</label>
             <var id="ip"><?php echo $member->getIP() ?></var><br />
+            
+            <label for="member_original_first_name">Original First Name</label>
+            <var id="member_original_first_name"><?php echo $member->getOriginalFirstName() ?></var><br />
+            
+            <label for="member_original_last_name">Original Last Name</label>
+            <var id="member_original_last_name"><?php echo $member->getOriginalLastName() ?></var><br />

@@ -219,6 +219,14 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	
 	protected $imbra_payment;
 
+
+	
+	protected $original_first_name;
+
+
+	
+	protected $original_last_name;
+
 	
 	protected $aMemberStatus;
 
@@ -948,6 +956,20 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->imbra_payment;
+	}
+
+	
+	public function getOriginalFirstName()
+	{
+
+		return $this->original_first_name;
+	}
+
+	
+	public function getOriginalLastName()
+	{
+
+		return $this->original_last_name;
 	}
 
 	
@@ -1781,6 +1803,38 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setOriginalFirstName($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->original_first_name !== $v) {
+			$this->original_first_name = $v;
+			$this->modifiedColumns[] = MemberPeer::ORIGINAL_FIRST_NAME;
+		}
+
+	} 
+	
+	public function setOriginalLastName($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->original_last_name !== $v) {
+			$this->original_last_name = $v;
+			$this->modifiedColumns[] = MemberPeer::ORIGINAL_LAST_NAME;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -1891,11 +1945,15 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->imbra_payment = $rs->getString($startcol + 52);
 
+			$this->original_first_name = $rs->getString($startcol + 53);
+
+			$this->original_last_name = $rs->getString($startcol + 54);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 53; 
+						return $startcol + 55; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2717,6 +2775,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 52:
 				return $this->getImbraPayment();
 				break;
+			case 53:
+				return $this->getOriginalFirstName();
+				break;
+			case 54:
+				return $this->getOriginalLastName();
+				break;
 			default:
 				return null;
 				break;
@@ -2780,6 +2844,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[50] => $this->getCreatedAt(),
 			$keys[51] => $this->getDashboardMsg(),
 			$keys[52] => $this->getImbraPayment(),
+			$keys[53] => $this->getOriginalFirstName(),
+			$keys[54] => $this->getOriginalLastName(),
 		);
 		return $result;
 	}
@@ -2954,6 +3020,12 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 52:
 				$this->setImbraPayment($value);
 				break;
+			case 53:
+				$this->setOriginalFirstName($value);
+				break;
+			case 54:
+				$this->setOriginalLastName($value);
+				break;
 		} 	}
 
 	
@@ -3014,6 +3086,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[50], $arr)) $this->setCreatedAt($arr[$keys[50]]);
 		if (array_key_exists($keys[51], $arr)) $this->setDashboardMsg($arr[$keys[51]]);
 		if (array_key_exists($keys[52], $arr)) $this->setImbraPayment($arr[$keys[52]]);
+		if (array_key_exists($keys[53], $arr)) $this->setOriginalFirstName($arr[$keys[53]]);
+		if (array_key_exists($keys[54], $arr)) $this->setOriginalLastName($arr[$keys[54]]);
 	}
 
 	
@@ -3074,6 +3148,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::CREATED_AT)) $criteria->add(MemberPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(MemberPeer::DASHBOARD_MSG)) $criteria->add(MemberPeer::DASHBOARD_MSG, $this->dashboard_msg);
 		if ($this->isColumnModified(MemberPeer::IMBRA_PAYMENT)) $criteria->add(MemberPeer::IMBRA_PAYMENT, $this->imbra_payment);
+		if ($this->isColumnModified(MemberPeer::ORIGINAL_FIRST_NAME)) $criteria->add(MemberPeer::ORIGINAL_FIRST_NAME, $this->original_first_name);
+		if ($this->isColumnModified(MemberPeer::ORIGINAL_LAST_NAME)) $criteria->add(MemberPeer::ORIGINAL_LAST_NAME, $this->original_last_name);
 
 		return $criteria;
 	}
@@ -3207,6 +3283,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setDashboardMsg($this->dashboard_msg);
 
 		$copyObj->setImbraPayment($this->imbra_payment);
+
+		$copyObj->setOriginalFirstName($this->original_first_name);
+
+		$copyObj->setOriginalLastName($this->original_last_name);
 
 
 		if ($deepCopy) {
