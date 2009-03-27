@@ -130,7 +130,7 @@ class contentActions extends prActions
 
     public function executeReportBug()
     {
-        $this->getUser()->getBC()->clear()->add(array('name' => 'My Account', 'uri' => '@dashboard'))->add(array('name' => 'Report Bug'));
+        $this->getUser()->getBC()->removeFirst();
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = $this->getUser()->getProfile();
