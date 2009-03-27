@@ -1,7 +1,7 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox') ?>
 
 <?php slot('header_title') ?>
-    <?php echo truncate_text($member->getEssayHeadline(), 40, '') . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
+    <?php echo $member->getEssayHeadline() . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
 <?php end_slot(); ?>
 
 <div id="profile_right">
