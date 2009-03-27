@@ -69,6 +69,8 @@ class profileActions extends prActions
         
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
+       
+        $this->orientationstring = MemberPeer::getOrientationString($this->getRequestParameter('username'));
         
         //secure action for non-admins
         $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));                                  
