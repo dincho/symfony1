@@ -1,6 +1,6 @@
 all:
   gmaps:
-    key:  ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTOjc6tZlOd2Q94PUnF6QR1iGuGgxTnnQJqpQtbpcZHIiEeD15-3MEaVw
+    key:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business: admin_1231849319_biz@polishromance.com
     test:     1

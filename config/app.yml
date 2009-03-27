@@ -2,10 +2,10 @@ default:
     beta_period:     off
     brand_text:      LoveStreet.pl
     admin_user_salt: wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    base_domain:     pd.dincho.bonex.us #always have :sf_culture in the routess
+    base_domain:     pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:         #do not have :sf_culture in the routes
         pl:          pl.pd.dincho.bonex.us
-    version:         "v1.1/trunk"
+    version:         "v1.1/r583"
     mail:
         host:        mail.bonex.us
         port:        993
