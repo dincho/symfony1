@@ -397,7 +397,7 @@ class Member extends BaseMember
     
     public function getContinueRegistrationUrl()
     {
-        if (!$this->getFirstName()) //1. Step 1 - registration
+        if (!$this->getOriginalFirstName()) //1. Step 1 - registration
         {
             $url = 'registration/index';
         } elseif (! $this->getBirthDay()) //2. Step 2 - self description 

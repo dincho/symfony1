@@ -38,6 +38,12 @@
     <?php echo __("YouTube URL ") ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br /><br />
     
-    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save')) ?><br /><br />
+    <?php if(!$sf_request->getParameter('confirm_delete')):  ?>
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save')) ?><br /><br />
+    <?php else: ?>
+        <span><?php echo __('Please select Yes or No at the top of the page') ?></span><br />
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_disabled', 'name' => 'save', 'disabled' => 'disabled')) ?><br /><br />
+    <?php endif; ?>
+        
     <?php echo __('Photos note') ?>
 </form>

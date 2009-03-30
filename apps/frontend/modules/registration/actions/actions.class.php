@@ -347,37 +347,33 @@ class registrationActions extends prActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))
+            if ( $this->getRequestParameter('commit') )
             {
-                $new_photo = new MemberPhoto();
-                $new_photo->setMember($this->member);
-                $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
-                $new_photo->save();
-            }
-            
-            //set main photo
-            if ($this->getRequestParameter('main_photo'))
-            {
-                $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo)
-                    $photo->setAsMainPhoto();
-            }
-            
-            //YouTube Video
-            $youtube_url = $this->getRequestParameter('youtube_url');
-            $matches = array();
-            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9_]+)#i', $youtube_url, $matches);
-            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : '');
-            $this->member->save();
-            
-            //if the form is submited by "Save and continue" button
-            if (! $this->getRequestParameter('commit'))
-            {
+                if( $this->getRequest()->getFileSize('new_photo') )
+                {
+                    $new_photo = new MemberPhoto();
+                    $new_photo->setMember($this->member);
+                    $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
+                    $new_photo->save();
+                }
+            } else { //the form is submited by "Save and continue" button
+                //set main photo
+                if ($this->getRequestParameter('main_photo'))
+                {
+                    $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
+                    if ($photo) $photo->setAsMainPhoto();
+                }
+
+                //YouTube Video
+                $youtube_url = $this->getRequestParameter('youtube_url');
+                $matches = array();
+                preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9_]+)#i', $youtube_url, $matches);
+                $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : '');
+                
+                $this->member->save();
                 $this->getUser()->completeRegistration();
             }
             
-            //else the upload button is pressed "commit", so show the photos .. 
-            //BUT redirect to itself, to prevent form resubmit
             $this->redirect('registration/photos');
         }
         
