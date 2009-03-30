@@ -12,7 +12,7 @@
     if( $sf_request->hasParameter('confirm') )
     {
          $first_name_options = array("style" => "border-color:#F00;", "readonly" => "true");
-         $submit_button_options = array("class" => "button", "disabled" => "true");
+         $submit_button_options = array("class" => "button_disabled", "disabled" => "true");
          $orientation_options = array("style" => "border-color:#F00;", "disabled" => "true");
     }    
     elseif( $member->getOriginalFirstName() )
