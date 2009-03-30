@@ -7,25 +7,25 @@
     <div class="subscription_container" style="border: none;">  
       <fieldset class="form_fields">
         
-        <label for="limit_label">&nbsp;</label><br />
+        <label for="limit_label" id="labels_160">&nbsp;</label><br />
         
-        <label for="post_photo">Create Profile:</label><br />
+        <label for="post_photo" id="labels_160">Create Profile:</label><br />
         
-        <label for="post_photo">Post a photo:</label><br />
+        <label for="post_photo" id="labels_160">Post a photo:</label><br />
         
-        <label for="send_wink">Send &amp; receive winks:</label><br />
+        <label for="send_wink" id="labels_160">Send &amp; receive winks:</label><br />
         
-        <label for="read_messages">Read new messages:</label><br />
+        <label for="read_messages" id="labels_160">Read new messages:</label><br />
         
-        <label for="reply_messages">Respond to messages:</label><br />
+        <label for="reply_messages" id="labels_160">Respond to messages:</label><br />
         
-        <label for="send_messages">Send Messages:</label><br />
+        <label for="send_messages" id="labels_160">Send Messages:</label><br />
         
-        <label for="see_viewed">See who`s viewed your profile:</label><br />
+        <label for="see_viewed" id="labels_160">See who`s viewed your profile:</label><br />
         
-        <label for="contact_assistant">Contact Online Assistant:</label><br />
+        <label for="contact_assistant" id="labels_160">Contact Online Assistant:</label><br />
         
-        <label for="pre_approve">Pre-Approval:</label><br />
+        <label for="pre_approve" id="labels_160">Pre-Approval:</label><br />
         
         <hr style="width: auto;" />
         <label class="period_label" style="width:60px" >First&nbsp;</label>
