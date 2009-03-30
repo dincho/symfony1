@@ -1,4 +1,5 @@
-These are stories written by our members. If you want to share your story with others, please <?php echo link_to(__('post it here'), 'memberStories/postYourStory', 'class=sec_link') ?>
+<?php echo __('Member stories instructions', array('%URL_FOR_POST_YOUR_STORY%' => url_for('memberStories/postYourStory'))); ?>
+
 <ul id="member_stories_ul">
 <?php foreach ($stories as $story): ?>
     <li><?php echo link_to($story->getLinkName(), '@member_story_by_slug?slug=' . $story->getSlug()) ?></li>
