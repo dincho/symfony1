@@ -42,7 +42,7 @@ class DomainsRoutingConfigHandler extends sfRoutingConfigHandler
 	
 	$domain_routes = var_export($routing->getRoutes(), 1);
 	$domains_array = "'" .implode("','", array_values($domains_culture)) . "'";
-    $retval .= sprintf("\nif(in_array(\$_SERVER['HTTP_HOST'], array(%s))  ) {
+    $retval .= sprintf("\nif(in_array(@\$_SERVER['HTTP_HOST'], array(%s))  ) {
                                    \$routes->setRoutes(\n%s\n); \n}", 
                                    $domains_array, $domain_routes);		
 
