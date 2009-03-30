@@ -4,17 +4,17 @@
 <?php echo form_tag('memberStories/postYourStory', array('class' => 'msg_form', 'id' => 'post_story')) ?>
     <fieldset>
         <?php if( !$sf_user->isAuthenticated() ): ?>
-            <?php echo pr_label_for('your_name', 'Your Name') ?>
+            <?php echo pr_label_for('your_name', __('Your Name')) ?>
             <?php echo input_tag('your_name') ?><br />
             
-            <?php echo pr_label_for('email', 'Email') ?>
+            <?php echo pr_label_for('email', __('Email')) ?>
             <?php echo input_tag('email') ?><br />
         <?php endif; ?>
         
-        <?php echo pr_label_for('story_title', 'Title') ?>
+        <?php echo pr_label_for('story_title', __('Title')) ?>
         <?php echo input_tag('story_title') ?><br />
         
-        <?php echo pr_label_for('your_story', 'Your Story') ?>
+        <?php echo pr_label_for('your_story', __('Your Story')) ?>
         <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30)) ?><br />
     </fieldset>
     <fieldset>
