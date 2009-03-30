@@ -23,7 +23,7 @@ a.highlighted_link {
     text-align: center;
 }
 
-a.highlighted_link:hover, a.highlighted_link:visited  {
+a.highlighted_link:hover  {
     border: 1px solid #E0B400;
     background-color: #E0B400;
 }
