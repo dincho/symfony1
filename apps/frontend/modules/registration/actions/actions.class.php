@@ -107,12 +107,6 @@ class registrationActions extends prActions
         $this->forward404Unless($member); //just in case
         $this->forward404Unless($member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
         
-        if( !$member->getOriginalFirstName() )
-        {
-            $member->setFirstName($this->getRequestParameter('first_name', $member->getFirstName()));  
-            $member->parseLookingFor($this->getRequestParameter('orientation', $member->getOrientation()));
-        }
-                
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member->setCountry($this->getRequestParameter('country'));
@@ -120,7 +114,7 @@ class registrationActions extends prActions
             $member->setCity($this->getRequestParameter('city'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
-
+            
             if( $member->getOriginalFirstName() ) //already confirmed
             {
                 $member->save();
@@ -132,7 +126,10 @@ class registrationActions extends prActions
 	                $member->save();
 	                $this->redirect('registration/selfDescription');
 	            } else { //ask for confirmation
-	                $this->redirect('registration/index?confirm=1&first_name=' . $member->getFirstName() . '&orientation=' . $member->getOrientation() );
+                    $member->setFirstName($this->getRequestParameter('first_name'));  
+                    $member->parseLookingFor($this->getRequestParameter('orientation'));	                
+	                $member->save();
+	                $this->redirect('registration/index?confirm=1' );
 	            }
             }
         }
@@ -140,7 +137,7 @@ class registrationActions extends prActions
         if( $this->hasRequestParameter('confirm') ) 
         {
             $i18n = $this->getContext()->getI18N();
-            $i18n_options = array('%URL_FOR_CANCEL%' => $this->getController()->genUrl('registration/index?first_name=' . $member->getFirstName() . '&orientation=' . $member->getOrientation()), 
+            $i18n_options = array('%URL_FOR_CANCEL%' => $this->getController()->genUrl('registration/index'), 
                                   '%URL_FOR_CONFIRM%' => 'javascript:document.public_reg_form.submit();');
             $conf_msg = $i18n->__('Please confirm that Name and Orientation are filled correctly? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
         	$this->setFlash('msg_error', $conf_msg, false);
