@@ -223,12 +223,6 @@ class messagesActions extends prActions
         $this->forward404Unless($this->profile);
         $this->member = $this->getUser()->getProfile();
             
-        if( $this->getUser()->getId() == $this->profile->getId() )
-        {
-            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $this->profile->getUsername() );
-        }
-        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $send_msg = MessagePeer::send($this->member, $this->profile, 
@@ -251,6 +245,12 @@ class messagesActions extends prActions
             $this->forward404Unless($profile);
             $member = $this->getUser()->getProfile();
             
+            if( $this->getUser()->getId() == $profile->getId() )
+            {
+                $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+                $this->redirect('profile/index?username=' . $profile->getUsername() );
+            }
+                    
             //1. is the other member active ?
             if ( $profile->getmemberStatusId() != MemberStatusPeer::ACTIVE )
             {

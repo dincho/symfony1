@@ -111,6 +111,12 @@ class subscriptionActions extends prActions
         $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
         ->add(array('name' => 'Buy' . $member->getUsername() . ' a gift'));
         
+        if( $this->getUser()->getId() == $member->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $member->getUsername() );
+        }
+                    
         $this->member = $member;
     }
     
@@ -119,6 +125,13 @@ class subscriptionActions extends prActions
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
         $this->forward404Unless($member);
         $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
+        
+        if( $this->getUser()->getId() == $member->getId() )
+        {
+            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
+            $this->redirect('profile/index?username=' . $member->getUsername() );
+        }
+                
         $this->getUser()->getBC()->clear()->add(array('name' => 'Payment'));
         $this->amount = 29.95;
         
