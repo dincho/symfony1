@@ -68,13 +68,17 @@ class prFrontendBreadCrumb extends xBreadcrumb
   public function humanize($string)
   {
     $tmp = $string;
-    $tmp = str_replace('::', '/', $tmp);
-    $tmp = sfToolkit::pregtr($tmp, array('/([A-Z]+)([A-Z][a-z])/' => '\\1 \\2',
-                                         '/([a-z\d])([A-Z])/'     => '\\1 \\2'));
-
-    $tmp = strtolower($tmp);
-      	
-  	return ucwords($tmp);
+      
+    if( strpos($string, ' ') === false )
+    {
+        $tmp = str_replace('::', '/', $tmp);
+        $tmp = sfToolkit::pregtr($tmp, array('/([A-Z]+)([A-Z][a-z])/' => '\\1 \\2',
+                                             '/([a-z\d])([A-Z])/'     => '\\1 \\2'));
+    
+        $tmp = strtolower($tmp);
+        $tmp = ucwords($tmp);
+    }
+  	return $tmp;
   }
     
 }

@@ -5,8 +5,8 @@
 //$sf_symfony_data_dir = '/usr/share/php/data/symfony';
 
 //symfony directories (osx)
-$sf_symfony_lib_dir  = dirname(__FILE__).'/../lib/symfony';
-$sf_symfony_data_dir = dirname(__FILE__).'/../data/symfony';
+$sf_symfony_lib_dir  = '/usr/share/php/symfony10/lib';
+$sf_symfony_data_dir = '/usr/share/php/symfony10/data';
 
 //symfony directories (Orlin's windows)
 //$sf_symfony_lib_dir  = 'C:\_symfony_installed_\symfony-1.0.19\symfony-1.0.19\lib';

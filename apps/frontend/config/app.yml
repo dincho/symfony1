@@ -6,5 +6,5 @@ all:
     test:     1
     cert_id:  J5XZAGF5S38TJ
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
-    #notify_url: http://pd.dincho.bonex.us:8003/frontend_dev.php/IPN.html #this URL should be always absolute!!!
-    notify_url: http://pd.dincho.bonex.us/frontend_dev.php/IPN.html
+    notify_url: http://pd.dincho.bonex.us:8003/frontend_dev.php/IPN.html #this URL should be always absolute!!!
+    #notify_url: http://pd.dincho.bonex.us/frontend_dev.php/IPN.html
