@@ -6,7 +6,7 @@
 <?php echo __('Photos instructions') ?>
 <?php echo __('Photos note') ?>
 
-<?php echo form_tag('registration/photos', array('multipart' => true)) ?>
+<?php echo form_tag('registration/photos', array('multipart' => true, 'id' => 'photos_registration')) ?>
     <?php $cnt_photos = count($photos); ?>
     <?php if($cnt_photos > 0): ?>
         <div class="photos">
