@@ -175,6 +175,11 @@ label.full_row {
   padding: 0 10px;	
 }
 
+#member_registration_form label {
+	width: 180px;
+}
+
+
 .form_fields .bool_select { width: 50px; }
 .form_fields .limit_input { width: 50px; }
 .form_fields .period_input { width: 30px; }

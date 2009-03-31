@@ -4,7 +4,7 @@
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
 <br /><br />
 
-<?php echo form_tag('members/editRegistration', 'class=form') ?>
+<?php echo form_tag('members/editRegistration', 'class=form id=member_registration_form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Registration</div>
   <fieldset class="form_fields">
@@ -15,22 +15,22 @@
     <?php echo pr_label_for('repeat_password', 'Repeat Password', array('id' => 'labels_160')) ?>
     <?php echo input_password_tag('repeat_password') ?><br />
     
-    <label for="country" id="labels_160">Country of Residence</label>
+    <label for="country">Country of Residence</label>
     <?php echo object_select_country_tag($member, 'getCountry', error_class('first_name')) ?><br />
     
-    <label for="state_id" id="labels_160">State / Province</label>
+    <label for="state_id">State / Province</label>
     <?php echo select_tag('state_id', objects_for_select($states, 'getId', 'getTitle', $member->getStateId(), 'include_blank=true'), error_class('state_id')) ?><br />
 
-    <label for="district" id="labels_160">District / Borough / County</label>
+    <label for="district">District / Borough / County</label>
     <?php echo object_input_tag($member, 'getDistrict', error_class('district')) ?><br />
           
-    <label for="city" id="labels_160">City</label>
+    <label for="city">City</label>
     <?php echo object_input_tag($member, 'getCity', error_class('city')) ?><br />
     
-    <label for="zip" id="labels_160">Zip Code</label>
+    <label for="zip">Zip Code</label>
     <?php echo object_input_tag($member, 'getZip', error_class('zip')) ?><br />
     
-    <label for="nationality" id="labels_160">Nationality</label>
+    <label for="nationality">Nationality</label>
     <?php echo object_input_tag($member, 'getNationality', error_class('nationality')) ?><br />
   </fieldset> 
   <fieldset class="actions">
