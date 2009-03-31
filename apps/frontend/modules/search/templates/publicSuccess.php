@@ -2,39 +2,49 @@
 
 <?php echo __('To see more profiles, set your preferences and to use our search engine, please join for free now.') ?>
 <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
-    <p class="search_p">
-        <label for="looking_for" style="margin-right: 15px"><?php echo __('You are') ?></label>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr bgcolor="#3d3d3d">
+        <td style="padding: 10px 0pt 2px 5px;" height="30"><?php echo __('You are') ?></td>
+        <td colspan="2" style="width: 280px;">
         <?php echo select_tag('filters[looking_for]', looking_for_options(isset($filters['looking_for']) ? $filters['looking_for'] : null)) ?>
-        
-        <label><?php echo __('Age') ?></label>
+        </td>
+        <td style="width: 190px;">Age 
+
         <?php echo input_tag('filters[age_from]', isset($filters['age_from']) ? $filters['age_from'] : 18, array('class' => 'age')) ?>
-        <label><?php echo __('to') ?></label>
-        <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age', 'style' => 'margin-right: 60px')) ?>
-        
-        <?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video']), array('style' => 'margin-right: 0')) ?>
-        <label for="filters_only_with_video"><?php echo __('Show only profiles with video') ?></label>
-    </p>
-    <p class="search_p" style="height: 35px; border: none; text-align: left;">
-        <label style="margin-right: 8px"><?php echo __('Location') ?></label>
-        <?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0), array('style' => 'margin-right: 0') ) ?>
-        <label for="filter_location_0" style="margin-right: 25px"><?php echo __('Everywhere') ?></label>
-        
-        <?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1), array('style' => 'margin-right: 0') ) ?>
-        <label for="filter_location_1"  style="margin-right: 25px"><?php echo __('In selected countries only') ?></label>
-        
-        
-        <?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array('style' => 'margin-right: 0') ) ?>
-        <label for="filter_location_2"  style="margin-right: 92px"><?php echo __('In my area only') ?></label>
-        
-        &nbsp;
-        <?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland']), array('style' => 'margin-right: 0')  ) ?>
-        <label for="filters_include_poland"><?php echo __('Include matches in Poland') ?></label><br />
-        
-        <?php echo link_to(__('Select Countries'), 'search/selectCountries', array('style' => 'margin-left: 182px;')) ?>
-        <?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('style' => 'margin-left: 282px;')) ?>
-    </p>
-    
-    <?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results')")) ?>
+        &nbsp;&nbsp;&nbsp;<?php echo __('to') ?>&nbsp;&nbsp;&nbsp;
+        <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age')) ?>
+        </td>
+        <td style="width: 200px;">
+        <?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video']), array('style' => 'margin-right: 0')) ?>&nbsp;<?php echo __('Show only profiles with video') ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" bgcolor="Black" style="height: 1px;"></td>
+    </tr>
+    <tr bgcolor="#3d3d3d">
+        <td style="padding: 10px 0pt 2px 5px;"><strong><?php echo __('Location') ?></strong></td>
+        <td> <?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0), array('style' => 'margin-right: 0') ) ?>&nbsp;<?php echo __('Everywhere') ?></td>
+
+        <td><?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1), array('style' => 'margin-right: 0') ) ?>&nbsp;<?php echo __('In selected countries only') ?></td>
+        <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array('style' => 'margin-right: 0') ) ?>&nbsp;<?php echo __('In my area only') ?></td>
+        <td><?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland']), array('style' => 'margin-right: 0')  ) ?>&nbsp;<?php echo __('Include matches in Poland') ?></td>
+    </tr>
+    <tr bgcolor="#3d3d3d">
+        <td></td>
+        <td></td>
+
+        <td style="padding-left: 20px;"><?php echo link_to(__('Select Countries'), 'search/selectCountries') ?></td>
+        <td></td>
+        <td style="padding-left: 20px;"><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1') ?></td>
+    </tr>
+    <tr>
+        <td colspan="5" style="padding: 4px 0pt;" align="eft"><?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results')")) ?></td>
+
+    </tr>
+
+</tbody>
+</table> 
+
 </form>
 
 <div id="match_results">
