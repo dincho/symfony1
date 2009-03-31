@@ -59,10 +59,6 @@
   width: 120px;
 }
 
-#labels_160 {
-  width: 160px;
-}
-
 #html_content {
     	
 		
@@ -189,6 +185,11 @@ label.full_row {
 	padding-left: 65px;
 }
 
+.subscription_container label {
+    margin-bottom: 8px;
+    width: 180px;
+}
+
 label.period_label {
 	width: auto;
 	padding: 0 2px;
@@ -197,10 +198,6 @@ label.period_label {
 .subscription_container {
     float: left;
     border-left: 1px solid #ccc;
-}
-
-.subscription_container label {
-    margin-bottom: 8px;
 }
 
 .subscription_container hr {
