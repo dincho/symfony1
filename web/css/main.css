@@ -2840,3 +2840,43 @@ form .button_disabled {
 }
 
 /* END New buttons */
+
+/* Search Filter Table */
+table.search_filter {
+    width: 100%;
+}
+tr.tr_1 {
+    background-color: #3d3d3d;
+}
+
+
+td.td_1 {
+    padding: 10px 0pt 2px 5px;
+    height: 30px;
+}
+
+td.td_2 {
+	background-color: #000000;
+    height: 1px;
+}
+
+
+td.td_3 {
+	padding: 10px 0pt 2px 5px;
+}
+
+td.td_4 {
+	padding-left: 20px;
+}
+
+
+td.td_5 {
+	padding: 4px 0pt;
+}
+
+
+/* END Search Filter Table */
+
+.margin_right_zero {
+    margin-right: 0;
+}
