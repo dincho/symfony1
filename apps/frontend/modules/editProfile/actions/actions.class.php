@@ -292,10 +292,12 @@ class editProfileActions extends prActions
         //message deletion confirmation
         if( $this->getRequestParameter('confirm_delete') )
         {
-        	$i18 = $this->getContext()->getI18N();
-            $del_msg = $i18->__('Are you sure you want to delete selected photo?') . ' <a href="javascript:window.history.go(-1);" class="sec_link">'.$i18->__('No').'</a>&nbsp;';
-            $del_url = sfContext::getInstance()->getController()->genUrl('editProfile/deletePhoto?id=' . $this->getRequestParameter('confirm_delete'));
-            $del_msg .= '<a href="'.$del_url.'" class="sec_link">'.$i18->__('Yes').'</a>';
+            $contoller = $this->getController();
+            $i18n = $this->getContext()->getI18N();
+            
+            $i18n_options = array('%URL_FOR_CANCEL%' => $contoller->genUrl('editProfile/photos'), 
+                                  '%URL_FOR_CONFIRM%' => $contoller->genUrl('editProfile/deletePhoto?id=' . $this->getRequestParameter('confirm_delete')));
+            $del_msg = $i18n->__('Are you sure you want to delete selected photo? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
             $this->setFlash('msg_error', $del_msg, false);
         }        
     }
