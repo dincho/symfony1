@@ -7,6 +7,8 @@
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
       <?php include_partial('editProfile/question_title', array('question' => $question, 'i' => $i++)); ?>
+      <?php ( sfContext::getInstance()->getRequest()->hasError('answers['.$question->getId().']') ) ? $style = "background:#A51D1F;" : $style = " "; ?>
+      <div style="<?php echo $style ?>">
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
         <?php include_partial('editProfile/question_type_radio', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
         <?php include_partial('editProfile/question_other', array('question' => $question, 'member_answers' => $member_answers) ); ?>
@@ -23,6 +25,7 @@
         <?php include_partial('editProfile/question_type_other_langs', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
         <?php include_partial('editProfile/question_other_checkbox', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php endif; ?>
+      </div>
     <?php endforeach; ?>
         
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>

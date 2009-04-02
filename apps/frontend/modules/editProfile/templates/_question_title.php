@@ -1,4 +1,4 @@
-<?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'title error' : 'title'; ?>
+<?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'title' : 'title'; ?>
 <div class="<?php echo $class; ?>">
     <?php echo ++$i; ?>. <?php echo __($question->getTitle(ESC_RAW)) ?> 
     <span>
