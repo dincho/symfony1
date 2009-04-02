@@ -227,7 +227,8 @@ class Member extends BaseMember
         list($b_Y, $b_m, $b_d) = explode('-', $this->getBirthday());
         list($now_Y, $now_m, $now_d) = explode('-', date('Y-m-d', time()));
         $age = $now_Y - $b_Y - 1;
-        if( $now_m >= $b_m && $now_d >= $b_d ) 
+        
+        if( $now_m > $b_m || ( $now_m = $b_m && $now_d >= $b_d) ) 
         {
             $age++;
         }
