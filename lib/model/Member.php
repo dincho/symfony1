@@ -436,4 +436,16 @@ class Member extends BaseMember
         
         return $orientation;
     }
+    
+    /* Subscription shortcuts */
+    public function isSubscriptionFree()
+    {
+        return ($this->getSubscriptionId() == SubscriptionPeer::FREE);
+    }
+    
+    public function isSubscriptionPaid()
+    {
+        return ($this->getSubscriptionId() == SubscriptionPeer::PAID);
+    }
+    
 }

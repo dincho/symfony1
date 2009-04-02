@@ -27,9 +27,11 @@ class MessagePeer extends BaseMessagePeer
         $message->save();
         $sent_message->save();
         
-        //add auto reply message if both members are with free subscriptions
-        if( $from_member->getSubscriptionId() == SubscriptionPeer::FREE &&
-            $to_member->getSubscriptionId() == SubscriptionPeer::FREE )
+        //add auto reply message if nessecary
+        if( $from_member->isSubscriptionFree() && 
+            !$from_member->getSubscription()->getCanSendMessages() && 
+            ( $to_member->isSubscriptionFree() || !$to_member->getSubscription()->getCanReadMessages() )
+          )
         {
             $auto_reply = new Message();
             $auto_reply->setFromMemberId($to_member->getId());

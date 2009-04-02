@@ -58,8 +58,9 @@ class messagesActions extends prActions
                                  (!$message->getSentBox() && $message->getToMemberId() == $this->getUser()->getId()));
         
         if( !$message->getSentBox() && !$message->getIsSystem() &&
-            $message->getMemberRelatedByFromMemberId()->getSubscriptionId() == SubscriptionPeer::FREE &&
-            $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
+            $message->getMemberRelatedByFromMemberId()->isSubscriptionFree() &&
+            !$message->getMemberRelatedByFromMemberId()->getSubscription()->getCanSendMessages() &&
+            $this->getUser()->getProfile()->isSubscriptionFree() )
             {
                 $this->message('upgrade_to_read_message');
             }
@@ -82,9 +83,11 @@ class messagesActions extends prActions
     {
         $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($message);
+        
         if( !$message->getIsRead() && !$message->getSentBox() && !$message->getIsSystem())
         {
             $subscription = $this->getUser()->getProfile()->getSubscription();
+            
             if( !$subscription->getCanReadMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
@@ -93,6 +96,13 @@ class messagesActions extends prActions
                 } else {
                     $this->setFlash('msg_error', 'Paid: In order to read a message you need to upgrade your membership.');
                 }
+                $this->redirect('messages/index');
+            } elseif ( $subscription->getId() == SubscriptionPeer::FREE && 
+                       $message->getMemberRelatedByFromMemberId()->isSubscriptionFree() &&
+                       !$message->getMemberRelatedByFromMemberId()->getSubscription()->getCanSendMessages())
+            {
+                //received by FREE member with send messages OFF
+                $this->setFlash('msg_error', 'Sender of the message is not a paid member. At least one of you must be a paid member for either send or receive messages.');
                 $this->redirect('messages/index');
             }
             
@@ -106,6 +116,7 @@ class messagesActions extends prActions
                 }
                 $this->redirect('messages/index');  
             }
+            
         }
         
         return true;
@@ -276,14 +287,9 @@ class messagesActions extends prActions
 			
             //3. subscription limits/restrictions ?
             $subscription = $member->getSubscription();
-            if( !$subscription->getCanSendMessages() )
+            if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'In order to send message you need to upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
-                }
+                $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
                 return false;
             }
             
