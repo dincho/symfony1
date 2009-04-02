@@ -1,5 +1,4 @@
-<?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'title' : 'title'; ?>
-<div class="<?php echo $class; ?>">
+<div class="title">
     <?php echo ++$i; ?>. <?php echo __($question->getTitle(ESC_RAW)) ?> 
     <span>
     <?php if($question->getType() == 'age'): ?>

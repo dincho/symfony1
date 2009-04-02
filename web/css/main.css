@@ -2887,3 +2887,7 @@ td.td_5 {
 .margin_right_zero {
     margin-right: 0;
 }
+
+.form_err {
+    background:#A51D1F;
+}

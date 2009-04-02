@@ -8,15 +8,15 @@
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
     
-    <?php $divstyle = ( sfContext::getInstance()->getRequest()->hasError('answers['.$question->getId().']') ) ? "background:#A51D1F;" : " "; ?>
-    <?php $style = ( sfContext::getInstance()->getRequest()->hasError('answers['.$question->getId().']') ) ? "border: 0px; background:#A51D1F;" : "border: 0px;"; ?>
+    <?php $divstyle = ( $sf_request->hasError('answers['.$question->getId().']') ) ? "form_err" : " "; ?>
+    <?php $style = ( $sf_request->hasError('answers['.$question->getId().']') ) ? "border: 0px; background:#A51D1F;" : "border: 0px;"; ?>
       
       <?php if( $question->getType() == 'radio' && isset($answers[$question->getId()]) ): ?>
       
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)) . '<span> ' .$required_title. '</span>'; ?>
         <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
-        <div style="<?php echo $divstyle ?>">
+        <div class="<?php echo $divstyle ?>">
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
                                      $answer->getId(), fillIn('answers['. $question->getid() .'][]', 'c', false, ( isset($member_crit_desc[$question->getId()]) && $member_crit_desc[$question->getId()]->hasAnswer($answer->getId()))),
@@ -33,7 +33,7 @@
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)) . '<span> ' .$required_title. '</span>'; ?>
         <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
-        <div style="<?php echo $divstyle ?>">
+        <div class="<?php echo $divstyle ?>">
         <?php echo select_tag('answers['. $question->getid() .'][from]',
                               objects_for_select($answers[$question->getId()],
                               'getId', 
@@ -58,7 +58,7 @@
       <?php elseif( $question->getType() == 'age'): ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)); ?>
         <?php echo content_tag('div', $label_title, array('class' => 'title_first', 'id' => 'answers[' . $question->getId() . ']')) ?>
-        <div style="<?php echo $divstyle ?>">
+        <div class="<?php echo $divstyle ?>">
         <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(0) : 18, array('class' => 'age', 'id' => 'answers_1_1')) ?><?php echo __('&nbsp;to&nbsp;') ?>
         <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(1) : 100, array('class' => 'age', 'id' => 'answers_1_2')) ?><br />
         </div>
