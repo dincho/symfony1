@@ -25,7 +25,7 @@ class myUser extends sfBasicSecurityUser
      */
     public function getProfile()
     {
-        if (is_null($this->profile))
+        if(is_null($this->profile))
         {
             $this->profile = MemberPeer::retrieveByPkJoinAll($this->getId());
         }
@@ -36,7 +36,7 @@ class myUser extends sfBasicSecurityUser
     {
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
-                
+        
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());
@@ -44,7 +44,7 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('member_id', $member->getId());
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
-        if( $member->getMemberStatusId() == MemberStatusPeer::ABANDONED ) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
+        if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
         
         //login history
         $history = new MemberLoginHistory();
@@ -52,7 +52,7 @@ class myUser extends sfBasicSecurityUser
         $history->setLastLogin($member->getLastLogin());
         $history->save();
         
-        $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
+        $member->setLastIp(ip2long($_SERVER ['REMOTE_ADDR']));
         $member->setLastLogin(time());
         $member->save();
     }
@@ -67,7 +67,7 @@ class myUser extends sfBasicSecurityUser
     public function getRefererUrl()
     {
         $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
-        return isset($stack[1]) ? $stack[1] : null;
+        return isset($stack [1]) ? $stack [1] : null;
     }
 
     public function completeRegistration()
@@ -75,20 +75,22 @@ class myUser extends sfBasicSecurityUser
         $member = $this->getProfile();
         $action = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
         
-        if ($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
+        if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
         {
-        	
-            if ($member->mustFillIMBRA())
+            
+            if($member->mustFillIMBRA())
             {
                 $action->redirect('IMBRA/index');
-            } elseif( $member->mustPayIMBRA() )
+            } elseif($member->mustPayIMBRA())
             {
-            	$action->redirect('IMBRA/payment');
-            } else {
-                if ($member->getSubscription()->getPreApprove())
+                $action->redirect('IMBRA/payment');
+            } else
+            {
+                if($member->getSubscription()->getPreApprove())
                 {
                     $member->changeStatus(MemberStatusPeer::PENDING, false);
-                } else {
+                } else
+                {
                     $member->changeStatus(MemberStatusPeer::ACTIVE, false);
                     Events::triggerWelcome($member);
                 }
@@ -96,60 +98,38 @@ class myUser extends sfBasicSecurityUser
                 $member->updateMatches();
                 
                 $this->setAttribute('status_id', $member->getMemberStatusId());
-                $action->setFlash('msg_ok', 'Congratulations, your registration is complete.'); 
+                $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
                 $action->redirect('@my_profile');
             }
         }
-        
-        
     }
-    
-   /* public function viewProfile($profile)
-    {
-        $views = $this->getAttributeHolder()->getAll('frontend/viewed_profiles', array());
-        if( $this->getId() != $profile->getId() && !in_array($profile->getId(), $views) ) //not looking himself and not already been here
-        {
-            $views[] = $profile->getId();
-            $this->getAttributeHolder()->removeNamespace('frontend/viewed_profiles');
-            $this->getAttributeHolder()->add($views, 'frontend/viewed_profiles');
-            
-            if ($this->isAuthenticated())
-            {
-                $visit = new ProfileView();
-                $visit->setMemberRelatedByMemberId($this->getProfile());
-                $visit->setMemberRelatedByProfileId($profile);
-                $visit->save();
-                
-                if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
-            } else {
-                $profile->incCounter('ProfileViews');
-            }
-        }
-    }*/
+
     public function viewProfile($profile)
     {
-        if( $this->getId() != $profile->getId() ) //not looking himself and not already been here
+        if($this->getId() != $profile->getId()) //not looking himself and not already been here
         {
-            if ($this->isAuthenticated())
+            if($this->isAuthenticated())
             {
-            	$c = new Criteria();
-            	$c->add(ProfileViewPeer::MEMBER_ID, $this->getId());
-            	$c->add(ProfileViewPeer::PROFILE_ID, $profile->getId());
-            	
-            	$already_visit = ProfileViewPeer::doSelectOne($c);
-            	if( $already_visit )
-            	{
-            		$already_visit->setCreatedAt(time());
-            		$already_visit->save();
-            	} else {
-	                $visit = new ProfileView();
-	                $visit->setMemberRelatedByMemberId($this->getProfile());
-	                $visit->setMemberRelatedByProfileId($profile);
-	                $visit->save();
-            	}
+                $c = new Criteria();
+                $c->add(ProfileViewPeer::MEMBER_ID, $this->getId());
+                $c->add(ProfileViewPeer::PROFILE_ID, $profile->getId());
                 
-                if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
-            } else {
+                $already_visit = ProfileViewPeer::doSelectOne($c);
+                if($already_visit)
+                {
+                    $already_visit->setCreatedAt(time());
+                    $already_visit->save();
+                } else
+                {
+                    $visit = new ProfileView();
+                    $visit->setMemberRelatedByMemberId($this->getProfile());
+                    $visit->setMemberRelatedByProfileId($profile);
+                    $visit->save();
+                }
+                
+                if($profile->getEmailNotifications() === 0) Events::triggerAccountActivity($profile);
+            } else
+            {
                 $profile->incCounter('ProfileViews');
             }
         }

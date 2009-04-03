@@ -2,44 +2,21 @@
 class Tools
 {
 
-    public static function getMimeType($file)
-    {
-        //copy file to other dir do not work for some reason, symlink works
-        //$magic_mime = SF_ROOT_DIR.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'magic';
-        $magic_mime = '/usr/share/file/magic';
-        if (! function_exists('finfo_open'))
-            throw new Exception(__METHOD__ . " require PECL fileinfo installed.");
-        if (! file_exists($magic_mime) || ! is_readable($magic_mime))
-        {
-            throw new Exception(__METHOD__ . ' unable to read magic mime file: ' . $magic_mime);
-        }
-        $finfo = finfo_open(FILEINFO_MIME, $magic_mime);
-        $mime = finfo_file($finfo, $file);
-        finfo_close($finfo);
-        return $mime;
-    }
-
-    public static function Mime2Ext($mime)
-    {
-        $mimeTypes = unserialize(file_get_contents(sfConfig::get('sf_symfony_data_dir') . '/data/mime_types.dat'));
-        return isset($mimeTypes[$mime]) ? '.' . $mimeTypes[$mime] : '.bin';
-    }
-
     public static function generateString($length = 8)
     {
         $sting = "";
         // define possible characters
         $possible = "0123456789abcdfghjkmnpqrstvwxyzABCDFGHJKMNPQRSTVWXYZ";
         $i = 0;
-        while ($i < $length)
+        while($i < $length)
         {
             // pick a random character from the possible ones
             $char = substr($possible, mt_rand(0, strlen($possible) - 1), 1);
             // we don't want this character if it's already in the string
-            if (! strstr($sting, $char))
+            if(!strstr($sting, $char))
             {
                 $sting .= $char;
-                $i ++;
+                $i++;
             }
         }
         return $sting;
@@ -53,15 +30,14 @@ class Tools
     public static function truncate($text, $numb, $etc = '...', $plain = true)
     {
         $text = html_entity_decode($text, ENT_QUOTES);
-        if( $plain ) $text = strip_tags($text);
-        if (strlen($text) > $numb)
+        if($plain) $text = strip_tags($text);
+        if(strlen($text) > $numb)
         {
             $text = substr($text, 0, $numb);
-            if (strrpos($text, " "))
-                $text = substr($text, 0, strrpos($text, " "));
+            if(strrpos($text, " ")) $text = substr($text, 0, strrpos($text, " "));
             $text = $text . $etc;
         }
-        if( $plain) $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+        if($plain) $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
         return $text;
     }
 
@@ -72,13 +48,12 @@ class Tools
 
     public static function createThumbnails($obj)
     {
-        foreach ($obj->getThumbSizes() as $thumbSize)
+        foreach($obj->getThumbSizes() as $thumbSize)
         {
-            $thumbnail = new sfThumbnail($thumbSize['width'], $thumbSize['height']);
+            $thumbnail = new sfThumbnail($thumbSize ['width'], $thumbSize ['height']);
             $thumbnail->loadFile($obj->getImagePath());
-            $thumbDir = $obj->getImagesPath() . $thumbSize['width'] . 'x' . $thumbSize['height'] . DIRECTORY_SEPARATOR;
-            if (! file_exists($thumbDir))
-                mkdir($thumbDir, 0777, true);
+            $thumbDir = $obj->getImagesPath() . $thumbSize ['width'] . 'x' . $thumbSize ['height'] . DIRECTORY_SEPARATOR;
+            if(!file_exists($thumbDir)) mkdir($thumbDir, 0777, true);
             $thumbFIle = $thumbDir . $obj->getImage();
             $thumbnail->save($thumbFIle);
             chmod($thumbFIle, 0666);
@@ -93,10 +68,52 @@ class Tools
         $timestamp = rand($time1, $time2);
         return $timestamp;
     }
-    
+
     public static function getStringRequestParameterAsArray($name)
     {
         return array_map('trim', explode(',', sfContext::getInstance()->getRequest()->getParameter($name)));
+    }
+
+    /* IP conversions/checks */
+    public static function cdrtobin($cdrin)
+    {
+        return str_pad(str_pad("", $cdrin, "1"), 32, "0");
+    }
+
+    public static function bintodq($binin)
+    {
+        $binin = explode(".", chunk_split($binin, 8, "."));
+        for($i = 0; $i < 4; $i++)
+        {
+            $dq [$i] = bindec($binin [$i]);
+        }
+        return implode(".", $dq);
+    }
+
+    public static function short_mask_to_long($m)
+    {
+        return self::bintodq(self::cdrtobin($m));
+    }
+
+    public static function ip2host($ip)
+    {
+        return gethostbyaddr($ip);
+    }
+
+    public static function isValidEmail($email)
+    {
+        if(eregi("^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}", $email))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public static function isValidIp($ip)
+    {
+        return ereg('^([0-9]{1,3}\.){3}[0-9]{1,3}$', $ip);
     }
 }
 ?>

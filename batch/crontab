@@ -1,10 +1,10 @@
 MAILTO=dincho.todorov@bonex.us
-*/5     *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/mailbox_import.php
-01      *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationAbandoned.php
-01      04     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/updateMatches.php
-01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationAccountActivity.php
-01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationLoginReminder.php
-01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/notificationRegistrationReminder.php
-01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/clearFreeMembersCounters.php
-10      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/clearGiftMembershipCounters.php
-20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/clearDeletedWinks.php
+*/5     *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/mailbox_import.php
+01      *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationAbandoned.php
+01      04     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/updateMatches.php
+01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationAccountActivity.php
+01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationLoginReminder.php
+01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationRegistrationReminder.php
+01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearFreeMembersCounters.php
+10      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearGiftMembershipCounters.php
+20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDeletedWinks.php

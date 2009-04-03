@@ -1,0 +1,11 @@
+1. change batch scripts environment
+2. clear dev controllers
+3. change global SALT and admin frontend URL SALT
+4. change IPN URL
+5. change GMaps api key
+6. change paypal certificates
+7. change Mail servers and boxes in config/app.yml
+8. change domains in config/app.yml
+9. change database credentials
+10. create MemberPhoto, StatePhoto, StockPhoto as subdirectories of web/uploads/images/
+11. change backend admin password after deploy

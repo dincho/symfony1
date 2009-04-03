@@ -92,13 +92,13 @@ class ipblockingActions extends sfActions
                 return false;
             }
             
-            if (($item_type == 2 || $item_type == 3) && ! tools::ip_valid($item))
+            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item))
             {
                 $this->getRequest()->setError('item', 'Please enter a valid IP ');
                 return false;
             }
             
-            if ($item_type == 1 && ! tools::validEmail($item))
+            if ($item_type == 1 && ! Tools::isValidEmail($item))
             {
                 $this->getRequest()->setError('item', 'Please enter a valid email address');
                 return false;
@@ -121,13 +121,13 @@ class ipblockingActions extends sfActions
                 return false;
             }
             
-            if (($item_type == 2 || $item_type == 3) && ! tools::ip_valid($item))
+            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item))
             {
                 $this->getRequest()->setError('item', 'Please enter a valid IP ');
                 return false;
             }
             
-            if ($item_type == 1 && ! tools::validEmail($item))
+            if ($item_type == 1 && ! Tools::isValidEmail($item))
             {
                 $this->getRequest()->setError('item', 'Please enter a valid email address');
                 return false;

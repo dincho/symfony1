@@ -1,7 +1,7 @@
 <?php
 class prMail extends sfMail
 {
-    //used to container the recepient
+    //used as recepient container
     //since the phpmailer property is protected
     private $to;
     private $copy_to_web = false;
@@ -56,8 +56,6 @@ class prMail extends sfMail
             $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
             $webemail->setBody($body); //set body again with parsed URL
-            
-
             $webemail->save();
         }
         
