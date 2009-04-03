@@ -12,7 +12,5 @@ tellFriendConfirm:
   is_secure: off
 emails:
   is_secure: off
-changeLanguage:
-  is_secure: off
 blockedUser:
   is_secure: off
