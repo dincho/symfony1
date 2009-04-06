@@ -11,6 +11,7 @@ function url_for_language($new_culture, $url = null)
     
     $culture_domain = sfConfig::get('app_domains_' . $new_culture);
     $current_culture_domain = sfConfig::get('app_domains_' . $current_culture);
+    if( $current_culture_domain != $context->getRequest()->getHost() ) $current_culture_domain = null;
     
     //cross domains sessions, add the session to the URL if redirect is to other domain
     if($culture_domain || $current_culture_domain)
@@ -25,6 +26,7 @@ function url_for_language($new_culture, $url = null)
         $url = preg_replace('#/' . $current_culture . '#', '', $url);
         $url = 'http' . ($context->getRequest()->isSecure() ? 's' : '') . '://' . $culture_domain . $url;
     } else { //has :sf_culture in routes
+        
         $url = preg_replace('#sf_culture='. $current_culture. '#', 'sf_culture=' . $new_culture, $url);
         
         if($current_culture_domain)
