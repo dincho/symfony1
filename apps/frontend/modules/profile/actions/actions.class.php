@@ -12,54 +12,22 @@ class profileActions extends prActions
 
     public function executeIndexse()
     {
-        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
-        
+        $this->setLayout('se');
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member || $member->getStatusId() != MemberStatusPeer::ACTIVE);
         
-        //add a visit
-        $this->getUser()->viewProfile($member);
-
-        if( $this->getUser()->getId() == $member->getId() ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
+        $title = $this->getContext()->getI18N()->__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername()));
+        $this->getResponse()->setTitle($title);
         
-        //@TODO recent conversatoions - this need refactoring and move to the model
-        $c = new Criteria();
-        $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
-        $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $this->getUser()->getId()));
-        $crit->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, true));
-        
-        $crit2 = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $member->getId()));
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, false));
-        
-        $c->add($crit);
-        $c->addOr($crit2);
-        $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
-        $c->setLimit(sfConfig::get('app_settings_profile_num_recent_messages'));
-        $this->recent_conversations = MessagePeer::doSelect($c);
-
-        $c = new Criteria();
-        $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
-        $c->add(MemberMatchPeer::MEMBER2_ID, $member->getId());
-        $c->setLimit(1);
-        $this->match = MemberMatchPeer::doSelectOne($c);
+        $c = new Criteria;
+        $c->add(MemberPeer::ID, $member->getId(), Criteria::GREATER_THAN);
+        $c->adD(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $this->next_member = MemberPeer::doSelectOne($c);
         
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
         $this->member = $member;
-        
-        //IMBRA
-        $this->imbra = $member->getLastImbra($approved = true);
-        if ($this->imbra)
-        {
-            $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en';
-            $this->imbra->setCulture($imbra_culture);
-            $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
-            $this->imbra_answers = $this->imbra->getImbraAnswersArray();
-        }
-        
-        $this->profile_pager = new ProfilePager($member->getUsername());
     }
 
     public function executeIndex()
