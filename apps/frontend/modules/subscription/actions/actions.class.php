@@ -108,8 +108,14 @@ class subscriptionActions extends prActions
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
         $this->forward404Unless($member);
         $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
-        $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
-        ->add(array('name' => 'Buy' . $member->getUsername() . ' a gift'));
+        
+        $i18n = $this->getContext()->getI18N();
+        $bc_parent = $i18n->__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername()));
+        $bc_buy_string = $i18n->__('Buy %USERNAME% a gift', array('%USERNAME%' => $member->getUsername()));
+                
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => $bc_parent, 'uri' => '@profile?username=' . $member->getUsername()))
+        ->add(array('name' => $bc_buy_string));
         
         if( $this->getUser()->getId() == $member->getId() )
         {
