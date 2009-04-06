@@ -36,5 +36,7 @@ class StaticPageMapBuilder {
 
 		$tMap->addColumn('SLUG', 'Slug', 'string', CreoleTypes::VARCHAR, true, 255);
 
+		$tMap->addColumn('HAS_MINI_MENU', 'HasMiniMenu', 'boolean', CreoleTypes::BOOLEAN, true, null);
+
 	} 
 } 

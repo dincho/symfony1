@@ -38,7 +38,7 @@ class TransUnitMapBuilder {
 
 		$tMap->addForeignKey('MSG_COLLECTION_ID', 'MsgCollectionId', 'int', CreoleTypes::INTEGER, 'msg_collection', 'ID', false, null);
 
-		$tMap->addColumn('SOURCE', 'Source', 'string', CreoleTypes::LONGVARCHAR, true, null);
+		$tMap->addColumn('SOURCE', 'Source', 'string', CreoleTypes::VARCHAR, true, 1000);
 
 		$tMap->addColumn('TARGET', 'Target', 'string', CreoleTypes::LONGVARCHAR, true, null);
 

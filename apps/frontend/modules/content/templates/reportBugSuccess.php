@@ -14,5 +14,5 @@
     </div>
 </form>
 <?php slot('footer_menu') ?>
-    <?php include_partial('content/footer_menu') ?>
+    <?php include_partial('content/footer_menu', array('auth' => $sf_user->isAuthenticated())) ?>
 <?php end_slot(); ?>

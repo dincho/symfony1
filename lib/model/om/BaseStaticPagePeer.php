@@ -13,7 +13,7 @@ abstract class BaseStaticPagePeer {
 	const CLASS_DEFAULT = 'lib.model.StaticPage';
 
 	
-	const NUM_COLUMNS = 2;
+	const NUM_COLUMNS = 3;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -26,23 +26,26 @@ abstract class BaseStaticPagePeer {
 	const SLUG = 'static_page.SLUG';
 
 	
+	const HAS_MINI_MENU = 'static_page.HAS_MINI_MENU';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Slug', ),
-		BasePeer::TYPE_COLNAME => array (StaticPagePeer::ID, StaticPagePeer::SLUG, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'slug', ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Slug', 'HasMiniMenu', ),
+		BasePeer::TYPE_COLNAME => array (StaticPagePeer::ID, StaticPagePeer::SLUG, StaticPagePeer::HAS_MINI_MENU, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'slug', 'has_mini_menu', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Slug' => 1, ),
-		BasePeer::TYPE_COLNAME => array (StaticPagePeer::ID => 0, StaticPagePeer::SLUG => 1, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'slug' => 1, ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Slug' => 1, 'HasMiniMenu' => 2, ),
+		BasePeer::TYPE_COLNAME => array (StaticPagePeer::ID => 0, StaticPagePeer::SLUG => 1, StaticPagePeer::HAS_MINI_MENU => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'slug' => 1, 'has_mini_menu' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	
@@ -99,6 +102,8 @@ abstract class BaseStaticPagePeer {
 		$criteria->addSelectColumn(StaticPagePeer::ID);
 
 		$criteria->addSelectColumn(StaticPagePeer::SLUG);
+
+		$criteria->addSelectColumn(StaticPagePeer::HAS_MINI_MENU);
 
 	}
 

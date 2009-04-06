@@ -1007,7 +1007,7 @@ CREATE TABLE `trans_unit`
 	`date_added` INTEGER(11) default 0 NOT NULL,
 	`date_modified` INTEGER(11) default 0 NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `cat_id_source` (`cat_id`, `source`),
+	INDEX `trans_unit_FI_1` (`cat_id`),
 	CONSTRAINT `trans_unit_FK_1`
 		FOREIGN KEY (`cat_id`)
 		REFERENCES `catalogue` (`cat_id`),
@@ -1061,6 +1061,7 @@ CREATE TABLE `static_page`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`slug` VARCHAR(255)  NOT NULL,
+	`has_mini_menu` INTEGER default 0 NOT NULL,
 	PRIMARY KEY (`id`)
 )Type=InnoDB;
 

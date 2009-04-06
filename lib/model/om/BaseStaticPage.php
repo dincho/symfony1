@@ -15,6 +15,10 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 	
 	protected $slug;
 
+
+	
+	protected $has_mini_menu = false;
+
 	
 	protected $collStaticPageI18ns;
 
@@ -42,6 +46,13 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 	{
 
 		return $this->slug;
+	}
+
+	
+	public function getHasMiniMenu()
+	{
+
+		return $this->has_mini_menu;
 	}
 
 	
@@ -77,6 +88,16 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setHasMiniMenu($v)
+	{
+
+		if ($this->has_mini_menu !== $v || $v === false) {
+			$this->has_mini_menu = $v;
+			$this->modifiedColumns[] = StaticPagePeer::HAS_MINI_MENU;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -85,11 +106,13 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 
 			$this->slug = $rs->getString($startcol + 1);
 
+			$this->has_mini_menu = $rs->getBoolean($startcol + 2);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 2; 
+						return $startcol + 3; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating StaticPage object", $e);
 		}
@@ -271,6 +294,9 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 			case 1:
 				return $this->getSlug();
 				break;
+			case 2:
+				return $this->getHasMiniMenu();
+				break;
 			default:
 				return null;
 				break;
@@ -283,6 +309,7 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getSlug(),
+			$keys[2] => $this->getHasMiniMenu(),
 		);
 		return $result;
 	}
@@ -304,6 +331,9 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 			case 1:
 				$this->setSlug($value);
 				break;
+			case 2:
+				$this->setHasMiniMenu($value);
+				break;
 		} 	}
 
 	
@@ -313,6 +343,7 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setSlug($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setHasMiniMenu($arr[$keys[2]]);
 	}
 
 	
@@ -322,6 +353,7 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(StaticPagePeer::ID)) $criteria->add(StaticPagePeer::ID, $this->id);
 		if ($this->isColumnModified(StaticPagePeer::SLUG)) $criteria->add(StaticPagePeer::SLUG, $this->slug);
+		if ($this->isColumnModified(StaticPagePeer::HAS_MINI_MENU)) $criteria->add(StaticPagePeer::HAS_MINI_MENU, $this->has_mini_menu);
 
 		return $criteria;
 	}
@@ -353,6 +385,8 @@ abstract class BaseStaticPage extends BaseObject  implements Persistent {
 	{
 
 		$copyObj->setSlug($this->slug);
+
+		$copyObj->setHasMiniMenu($this->has_mini_menu);
 
 
 		if ($deepCopy) {
