@@ -14,7 +14,7 @@ class Notification extends BaseNotification
         $content = $this->getBody() . $this->getFooter();
         $content = str_replace(array_keys($global_vars), array_values($global_vars), $content);
 
-	$subject = $this->getSubject();
+        $subject = $this->getSubject();
         $subject = str_replace(array_keys($global_vars), array_values($global_vars), $subject);
         
         if( !is_null($object) )
@@ -45,6 +45,7 @@ class Notification extends BaseNotification
             $mail->setSender($this->getSendFrom());            
         }
 
+        
         $mail->setSubject($subject);
         $mail->setBody($content);
         
@@ -56,10 +57,7 @@ class Notification extends BaseNotification
             $mail->CopyToWeb();
         }
         
+        if( $this->getBcc() ) $mail->addBcc($this->getBcc());
         $mail->send();
-        
-/*        print_r($matches);
-        print_r($body);
-        exit();*/
     }
 }
