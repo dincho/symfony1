@@ -127,7 +127,7 @@ class contentActions extends prActions
         $this->getRequest()->setParameter('msg_tpl', $this->getFlash('msg_tpl')); //add because of the cache
         
         $this->setLayout('simple');
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Message'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
     }
 
     public function executeReportBug()
