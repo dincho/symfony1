@@ -31,7 +31,7 @@
             <h2><?php echo __('BROWSE FOR FREE NOW') ?></h2>
             <div id="register">
                 <?php use_helper('dtForm'); ?>
-                <?php echo form_tag('registration/joinNow') ?>
+                <?php echo form_tag('registration/joinNow', array('autocomplete' => 'off')) ?>
                     <fieldset>
                         <?php echo pr_label_for('username', __('Username')); ?>
                         <?php echo input_tag('username') ?><br class="clear" />

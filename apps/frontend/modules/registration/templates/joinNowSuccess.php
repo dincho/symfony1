@@ -1,7 +1,7 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
 <?php echo __('JoinNow instructions') ?>
-<?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page')) ?>
+<?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
     <fieldset>
         <!-- 
         <label for="another_language"></label>
