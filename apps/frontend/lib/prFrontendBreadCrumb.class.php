@@ -7,6 +7,7 @@ class prFrontendBreadCrumb extends xBreadcrumb
   private static $instance = null;
   private $delim = '&nbsp;&gt;&nbsp;';
   private $class = 'breadcrumb';
+  private $tr_last = true;
   
   protected function __construct()
   {
@@ -48,17 +49,19 @@ class prFrontendBreadCrumb extends xBreadcrumb
     for( $i=0; $i<$cnt; $i++ )
     {
       $name = $this->humanize($stack[$i]['name']);
+      if( !isset($stack[$i]['tr']) || $stack[$i]['tr'] ) $name = __($name);
       
       if( isset($stack[$i]['uri']) )
       {
-        $content .= link_to(__($name), $stack[$i]['uri']) . $this->delim;
+        $content .= link_to($name, $stack[$i]['uri']) . $this->delim;
       } else {
-        $content .= __($name) . $this->delim;
+        $content .= $name . $this->delim;
       }
     }
     
     //add last element manual, just text not a link
-    $content .= __($this->humanize($stack[$i++]['name']));
+    $last_name = ( $this->tr_last ) ? __($this->humanize($stack[$i++]['name'])) : $this->humanize($stack[$i++]['name']);
+    $content .= $last_name;
     
     //at least, draw the breadcrumb content
     //echo content_tag('div', $content, array('class' => $this->class));
@@ -79,6 +82,13 @@ class prFrontendBreadCrumb extends xBreadcrumb
         $tmp = ucwords($tmp);
     }
   	return $tmp;
+  }
+  
+  public function dontTrLast()
+  {
+      $this->tr_last = false;
+      
+      return $this;
   }
     
 }

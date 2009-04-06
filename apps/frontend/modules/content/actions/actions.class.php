@@ -118,7 +118,9 @@ class contentActions extends prActions
         $this->getResponse()->addMeta('description', $this->page->getDescription());
         $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
                 
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
+        $this->getUser()->getBC()->clear()->dontTrLast()
+        ->add(array('name' => 'Home', 'uri' => '@homepage'))
+        ->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
     }
 
     public function executeMessage()
