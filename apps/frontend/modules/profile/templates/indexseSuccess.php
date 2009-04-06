@@ -30,9 +30,9 @@
             <tr>
                 <td><?php echo $question->getDescTitle() ?></td>
                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
-                   <td><?php echo strip_tags($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle()) ?></td>
+                   <td><?php echo strip_tags(html_entity_decode($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle())) ?></td>
                 <?php else: ?>
-                   <td><?php echo $member_answers[$question->getId()]->getOther(); ?></td>
+                   <td><?php echo html_entity_decode(($member_answers[$question->getId()]->getOther())); ?></td>
                 <?php endif; ?>
             </tr>
             <?php endif; ?>
