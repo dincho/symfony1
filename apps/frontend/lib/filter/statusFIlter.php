@@ -31,7 +31,12 @@ class statusFilter extends sfFilter
                 switch ($user->getAttribute('status_id')) {
                     case MemberStatusPeer::ABANDONED:
                     	
-                    	if( $user->getAttribute('must_confirm_email') && !($module == 'registration' && $action == 'requestNewActivationEmail')) $AI->redirect('registration/requestNewActivationEmail');
+                    	if( $user->getAttribute('must_confirm_email') && 
+                    	    $module_action != 'registration/requestNewActivationEmail' &&
+                    	    $module_action != 'registration/activate')
+                    	{
+                    	    $AI->redirect('registration/requestNewActivationEmail');
+                    	}
                         if ( $module != 'registration' && $module != 'IMBRA' )
                         {
                         	
