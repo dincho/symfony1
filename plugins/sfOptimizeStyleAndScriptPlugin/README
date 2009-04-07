@@ -1,0 +1,75 @@
+= sfOptimizeStyleAndScriptPlugin plugin = 
+
+Merge and compress stylesheets and javascripts files
+
+== Features ==
+
+ * Merge js and css files
+ * Automaticly replace css url() path attribute by the new right path
+ * Compress merged files (use JsMin and CssMin, see lib/vendor/ dir)
+ * Cache them in the http web dir
+ 
+== Limitations ==
+
+ * No Unit Test and Not strongly tested.
+ * Not tested on version > symfony 1.0.x
+ * Js compression not work with sfDebugBar
+ * css or js include not supported, they will be not merged and urls can be wrong. 
+   (for scriptaculous, include manually every files you need, not just scriptaculous.js)
+
+== Installation ==
+
+ - Make sure sf_web_dir is well setted, otherwise add in app/config.php :
+ 
+    {{{
+    ...
+    sfConfig::add(array(
+       'sf_web_dir'		=> SF_ROOT_DIR.DIRECTORY_SEPARATOR.<web_dir>
+    ));
+    ...
+    }}}
+
+ - Add the filter in your filter.yml
+    
+    {{{
+    #!yml
+    ...
+    common:    
+      class: sfOptimizeStyleAndScript
+    ...
+    }}}
+
+ - Clear Cache (symfony cc)
+
+== Settings ==
+
+ * In settings.yml file, (this is default values):
+  
+    {{{
+    #!yml
+    ...
+    
+    .settings:
+    
+      optimizer_dir:            cache        # cache directory in http web dir
+      optimizer_js_lifetime:    86400        # lifetime for js file, in second
+      optimizer_js_compressed:  false        # compress merged result with JsMin
+      optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
+      optimizer_css_compressed: false        # compress merged result with JsMin
+
+	...
+    }}}
+
+== Maintainers ==
+ 
+Michel Meyer
+
+== Contributors ==
+
+Douglas Crockford's JSMin JavaScript minifier 
+http://www.crockford.com/javascript/jsmin.html and http://code.google.com/p/jsmin-php/ 
+
+for CssMin look at:
+http://code.google.com/p/cssmin/
+
+Thanks to all of you !

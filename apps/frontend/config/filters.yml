@@ -26,5 +26,9 @@ domainsFilter:
             
 cache:     ~
 common:    ~
+
+#common:    
+#  class: sfOptimizeStyleAndScript
+  
 flash:     ~
 execution: ~

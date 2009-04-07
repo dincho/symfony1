@@ -2,9 +2,24 @@ staging:
   .settings:
     web_debug:  on
     cache:      on
+    
+    #CSS and JS optimizer
+    optimizer_dir:            cache        # cache directory in http web dir
+    optimizer_js_lifetime:    86400        # lifetime for js file, in second
+    optimizer_js_compressed:  true        # compress merged result with JsMin
+    optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
+    optimizer_css_compressed: true        # compress merged result with JsMin    
+    
 prod:
   .settings:
     no_script_name:           on
+    
+    #CSS and JS optimizer
+    optimizer_dir:            cache        # cache directory in http web dir
+    optimizer_js_lifetime:    86400        # lifetime for js file, in second
+    optimizer_js_compressed:  true        # compress merged result with JsMin
+    optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
+    optimizer_css_compressed: true        # compress merged result with JsMin    
 
 dev:
   .settings:
@@ -14,7 +29,7 @@ dev:
     cache:                  off
     no_script_name:         off
     etag:                   off
-
+    
 test:
   .settings:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
@@ -106,3 +121,10 @@ all:
 
     # ORM
     orm:                    propel
+    
+    #CSS and JS optimizer
+    optimizer_dir:            cache        # cache directory in http web dir
+    optimizer_js_lifetime:    86400        # lifetime for js file, in second
+    optimizer_js_compressed:  false        # compress merged result with JsMin
+    optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
+    optimizer_css_compressed: false        # compress merged result with JsMin    
