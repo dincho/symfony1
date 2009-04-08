@@ -169,7 +169,9 @@ class dashboardActions extends prActions
     
     public function executeDeleteYourAccount()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
+        $this->getUser()->getBC()
+        ->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
+        ->replaceLast(array('name' => 'Delete your account headline'));
     }
     
     public function executeDeleteConfirmation()
