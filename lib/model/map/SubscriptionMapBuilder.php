@@ -72,6 +72,10 @@ class SubscriptionMapBuilder {
 
 		$tMap->addColumn('AMOUNT', 'Amount', 'double', CreoleTypes::DECIMAL, true, 7);
 
+		$tMap->addColumn('PERIOD', 'Period', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addColumn('PERIOD_TYPE', 'PeriodType', 'string', CreoleTypes::CHAR, true, 1);
+
 		$tMap->addColumn('TRIAL1_AMOUNT', 'Trial1Amount', 'double', CreoleTypes::DECIMAL, true, 7);
 
 		$tMap->addColumn('TRIAL1_PERIOD', 'Trial1Period', 'int', CreoleTypes::INTEGER, true, null);

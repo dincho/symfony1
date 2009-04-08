@@ -16,9 +16,12 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />
             <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
-            <span class="type"><?php echo __('First Month')?></span><br />
-            <span class="type"><?php echo __('Month 2 through 6') ?></span><br />
-            <span class="type"><?php echo __('Month 7+') ?></span><br />
+            <span class="type"><?php echo __('First %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial1PeriodType()), array('%PERIOD%' => $sub1->getTrial1Period()))?></span><br />
+            <span class="type">
+                <?php echo __(pr_format_payment_period_type($sub1->getTrial2PeriodType()) . ' %PERIOD_FROM% through %PERIOD_TO%', 
+                                array('%PERIOD_FROM%' => $sub1->getTrial1Period()+1, '%PERIOD_TO%' => $sub1->getTrial1Period()+$sub1->getTrial2Period())) ?>
+            </span><br />
+            <span class="type"><?php echo __(pr_format_payment_period_type($sub1->getPeriodType()) . ' %PERIOD%+', array('%PERIOD%' => $sub1->getTrial1Period()+$sub1->getTrial2Period()+1)) ?></span><br />
             <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>

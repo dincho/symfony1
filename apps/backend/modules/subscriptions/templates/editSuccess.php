@@ -41,6 +41,8 @@
         
         <!--  PERIOD 3 -->
         <label class="period_label" style="width:60px">After that&nbsp;</label>
+        <?php echo object_input_tag($sub1, 'getPeriod', 'class=period_input_left') ?>
+        <?php echo pr_select_payment_period_type('period_type', $sub1->getPeriodType(), array('style' => 'width: 80px')) ?> 
         <br />
               
       </fieldset>

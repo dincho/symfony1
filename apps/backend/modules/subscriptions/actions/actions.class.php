@@ -57,6 +57,8 @@ class subscriptionsActions extends sfActions
                 $subscription->setTrial2Period($this->getRequestParameter('trial2_period'));
                 $subscription->setTrial2PeriodType($this->getRequestParameter('trial2_period_type'));
                 $subscription->setTrial2Amount($req_subs[$subscription->getId()]['trial2_amount']);
+                $subscription->setPeriod($this->getRequestParameter('period'));
+                $subscription->setPeriodType($this->getRequestParameter('period_type'));                
                 $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
                 $subscription->save();                
             }

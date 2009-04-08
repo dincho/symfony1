@@ -686,6 +686,8 @@ CREATE TABLE `subscription`
 	`contact_assistant` INTEGER default 0 NOT NULL,
 	`pre_approve` INTEGER default 0 NOT NULL,
 	`amount` DECIMAL(7,2)  NOT NULL,
+	`period` INTEGER  NOT NULL,
+	`period_type` CHAR(1)  NOT NULL,
 	`trial1_amount` DECIMAL(7,2)  NOT NULL,
 	`trial1_period` INTEGER  NOT NULL,
 	`trial1_period_type` CHAR(1)  NOT NULL,

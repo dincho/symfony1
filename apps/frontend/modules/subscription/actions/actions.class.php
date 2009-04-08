@@ -93,8 +93,8 @@ class subscriptionActions extends prActions
                             'p2' => $subscription->getTrial2Period(),
                             't2' => $subscription->getTrial2PeriodType(),
                             'a3' => $subscription->getAmount(),
-                            'p3' => 1,
-                            't3' => 'D',
+                            'p3' => $subscription->getPeriod(),
+                            't3' => $subscription->getPeriodType(),
                             'custom' => $member->getUsername(),
                             
         );

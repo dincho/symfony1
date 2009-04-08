@@ -89,6 +89,14 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 
 	
+	protected $period;
+
+
+	
+	protected $period_type;
+
+
+	
 	protected $trial1_amount;
 
 
@@ -267,6 +275,20 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 	{
 
 		return $this->amount;
+	}
+
+	
+	public function getPeriod()
+	{
+
+		return $this->period;
+	}
+
+	
+	public function getPeriodType()
+	{
+
+		return $this->period_type;
 	}
 
 	
@@ -572,6 +594,38 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setPeriod($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->period !== $v) {
+			$this->period = $v;
+			$this->modifiedColumns[] = SubscriptionPeer::PERIOD;
+		}
+
+	} 
+	
+	public function setPeriodType($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->period_type !== $v) {
+			$this->period_type = $v;
+			$this->modifiedColumns[] = SubscriptionPeer::PERIOD_TYPE;
+		}
+
+	} 
+	
 	public function setTrial1Amount($v)
 	{
 
@@ -700,23 +754,27 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 
 			$this->amount = $rs->getFloat($startcol + 19);
 
-			$this->trial1_amount = $rs->getFloat($startcol + 20);
+			$this->period = $rs->getInt($startcol + 20);
 
-			$this->trial1_period = $rs->getInt($startcol + 21);
+			$this->period_type = $rs->getString($startcol + 21);
 
-			$this->trial1_period_type = $rs->getString($startcol + 22);
+			$this->trial1_amount = $rs->getFloat($startcol + 22);
 
-			$this->trial2_amount = $rs->getFloat($startcol + 23);
+			$this->trial1_period = $rs->getInt($startcol + 23);
 
-			$this->trial2_period = $rs->getInt($startcol + 24);
+			$this->trial1_period_type = $rs->getString($startcol + 24);
 
-			$this->trial2_period_type = $rs->getString($startcol + 25);
+			$this->trial2_amount = $rs->getFloat($startcol + 25);
+
+			$this->trial2_period = $rs->getInt($startcol + 26);
+
+			$this->trial2_period_type = $rs->getString($startcol + 27);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 26; 
+						return $startcol + 28; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Subscription object", $e);
 		}
@@ -969,21 +1027,27 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 				return $this->getAmount();
 				break;
 			case 20:
-				return $this->getTrial1Amount();
+				return $this->getPeriod();
 				break;
 			case 21:
-				return $this->getTrial1Period();
+				return $this->getPeriodType();
 				break;
 			case 22:
-				return $this->getTrial1PeriodType();
+				return $this->getTrial1Amount();
 				break;
 			case 23:
-				return $this->getTrial2Amount();
+				return $this->getTrial1Period();
 				break;
 			case 24:
-				return $this->getTrial2Period();
+				return $this->getTrial1PeriodType();
 				break;
 			case 25:
+				return $this->getTrial2Amount();
+				break;
+			case 26:
+				return $this->getTrial2Period();
+				break;
+			case 27:
 				return $this->getTrial2PeriodType();
 				break;
 			default:
@@ -1016,12 +1080,14 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 			$keys[17] => $this->getContactAssistant(),
 			$keys[18] => $this->getPreApprove(),
 			$keys[19] => $this->getAmount(),
-			$keys[20] => $this->getTrial1Amount(),
-			$keys[21] => $this->getTrial1Period(),
-			$keys[22] => $this->getTrial1PeriodType(),
-			$keys[23] => $this->getTrial2Amount(),
-			$keys[24] => $this->getTrial2Period(),
-			$keys[25] => $this->getTrial2PeriodType(),
+			$keys[20] => $this->getPeriod(),
+			$keys[21] => $this->getPeriodType(),
+			$keys[22] => $this->getTrial1Amount(),
+			$keys[23] => $this->getTrial1Period(),
+			$keys[24] => $this->getTrial1PeriodType(),
+			$keys[25] => $this->getTrial2Amount(),
+			$keys[26] => $this->getTrial2Period(),
+			$keys[27] => $this->getTrial2PeriodType(),
 		);
 		return $result;
 	}
@@ -1098,21 +1164,27 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 				$this->setAmount($value);
 				break;
 			case 20:
-				$this->setTrial1Amount($value);
+				$this->setPeriod($value);
 				break;
 			case 21:
-				$this->setTrial1Period($value);
+				$this->setPeriodType($value);
 				break;
 			case 22:
-				$this->setTrial1PeriodType($value);
+				$this->setTrial1Amount($value);
 				break;
 			case 23:
-				$this->setTrial2Amount($value);
+				$this->setTrial1Period($value);
 				break;
 			case 24:
-				$this->setTrial2Period($value);
+				$this->setTrial1PeriodType($value);
 				break;
 			case 25:
+				$this->setTrial2Amount($value);
+				break;
+			case 26:
+				$this->setTrial2Period($value);
+				break;
+			case 27:
 				$this->setTrial2PeriodType($value);
 				break;
 		} 	}
@@ -1142,12 +1214,14 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[17], $arr)) $this->setContactAssistant($arr[$keys[17]]);
 		if (array_key_exists($keys[18], $arr)) $this->setPreApprove($arr[$keys[18]]);
 		if (array_key_exists($keys[19], $arr)) $this->setAmount($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setTrial1Amount($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setTrial1Period($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setTrial1PeriodType($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setTrial2Amount($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setTrial2Period($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setTrial2PeriodType($arr[$keys[25]]);
+		if (array_key_exists($keys[20], $arr)) $this->setPeriod($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setPeriodType($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setTrial1Amount($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setTrial1Period($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setTrial1PeriodType($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setTrial2Amount($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setTrial2Period($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setTrial2PeriodType($arr[$keys[27]]);
 	}
 
 	
@@ -1175,6 +1249,8 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SubscriptionPeer::CONTACT_ASSISTANT)) $criteria->add(SubscriptionPeer::CONTACT_ASSISTANT, $this->contact_assistant);
 		if ($this->isColumnModified(SubscriptionPeer::PRE_APPROVE)) $criteria->add(SubscriptionPeer::PRE_APPROVE, $this->pre_approve);
 		if ($this->isColumnModified(SubscriptionPeer::AMOUNT)) $criteria->add(SubscriptionPeer::AMOUNT, $this->amount);
+		if ($this->isColumnModified(SubscriptionPeer::PERIOD)) $criteria->add(SubscriptionPeer::PERIOD, $this->period);
+		if ($this->isColumnModified(SubscriptionPeer::PERIOD_TYPE)) $criteria->add(SubscriptionPeer::PERIOD_TYPE, $this->period_type);
 		if ($this->isColumnModified(SubscriptionPeer::TRIAL1_AMOUNT)) $criteria->add(SubscriptionPeer::TRIAL1_AMOUNT, $this->trial1_amount);
 		if ($this->isColumnModified(SubscriptionPeer::TRIAL1_PERIOD)) $criteria->add(SubscriptionPeer::TRIAL1_PERIOD, $this->trial1_period);
 		if ($this->isColumnModified(SubscriptionPeer::TRIAL1_PERIOD_TYPE)) $criteria->add(SubscriptionPeer::TRIAL1_PERIOD_TYPE, $this->trial1_period_type);
@@ -1248,6 +1324,10 @@ abstract class BaseSubscription extends BaseObject  implements Persistent {
 		$copyObj->setPreApprove($this->pre_approve);
 
 		$copyObj->setAmount($this->amount);
+
+		$copyObj->setPeriod($this->period);
+
+		$copyObj->setPeriodType($this->period_type);
 
 		$copyObj->setTrial1Amount($this->trial1_amount);
 

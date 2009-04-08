@@ -262,6 +262,8 @@ propel:
     contact_assistant:        { type: integer, default: 0, required: true }
     pre_approve:              { type: boolean, default: false, required: true }
     amount:                   { type: decimal, size: 7, scale: 2, required: true }
+    period:                   { type: integer, required: true }
+    period_type:              { type: char, size: 1, required: true, required: true }    
     trial1_amount:            { type: decimal, size: 7, scale: 2, required: true }
     trial1_period:            { type: integer, required: true }
     trial1_period_type:       { type: char, size: 1, required: true, required: true }
