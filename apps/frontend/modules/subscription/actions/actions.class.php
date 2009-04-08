@@ -169,6 +169,10 @@ class subscriptionActions extends prActions
         
     public function executeThankyou()
     {
+        $this->getUser()->getBC()->clear()
+             ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
+             ->add(array('name' => 'Subscription', 'uri' => 'subscription/manage'))
+             ->add(array('name' => 'Thank you for your payment'));        
     }
         
     public function executeThankyouGift()
