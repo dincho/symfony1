@@ -2804,7 +2804,7 @@ button, .button, form .button {
     border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
     padding: 6px 8px !important;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 5px !important;
 }
 
 form .button_disabled {
@@ -2842,9 +2842,8 @@ form .button_disabled {
     font-size: 11px !important;
     border: 1px solid #171717; /* right-bottom */
     border-color: #3c3c3c #171717 #171717 #3c3c3c !important;
-    padding: 0 2px !important;
     cursor: pointer;
-    margin-top: 2px;
+    margin-top: 5px !important;
 }
 
 /* END New buttons */
