@@ -40,38 +40,7 @@ In order to see more matches and send messages, please upgrade your subscription
                 <span class="select"><?php echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?></span>
             </div>        
         <?php endforeach; ?>
-        <!-- 
-        <div class="column">
-            <div class="upgrade_img">&nbsp;</div>
-            <span class="top">Free Membership</span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check">&nbsp;</span>
-            <span class="check">&nbsp;</span>
-            <span class="check">&nbsp;</span>
-            <span class="check">Free</span>
-            <span class="check">Free</span>
-            <span class="check">Free</span>
-            <span class="select"><input type="radio" name="subscribe" id="sub1" /></span>
-        </div>
-        <div class="column upgrade_to">
-            <div class="upgrade_img">&nbsp;</div>
-            <span class="top">Full Membership</span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check"><img src="/images/check_mark.gif" alt="" /></span>
-            <span class="check">&pound;14.95</span>
-            <span class="check">&pound;9.95</span>
-            <span class="check">&pound;6.95</span>
-            <span class="select"><input type="radio" name="subscribe" id="sub2" /></span>
-        </div>
-         -->
+ 
     </fieldset>
     <br class="clear" />
         <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />
