@@ -93,7 +93,7 @@ class dashboardActions extends prActions
         $c->add(ProfileViewPeer::MEMBER_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, ProfileViewPeer::PROFILE_ID);
         $c->addGroupByColumn(ProfileViewPeer::PROFILE_ID);
-        $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
+        $c->addDescendingOrderByColumn(ProfileViewPeer::UPDATED_AT);
         $c->setLimit(7);
         
         $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);

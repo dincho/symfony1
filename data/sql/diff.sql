@@ -1,5 +1,4 @@
-ALTER TABLE `subscription` ADD `period` INTEGER  NOT NULL;
-ALTER TABLE `subscription` ADD `period_type` CHAR(1)  NOT NULL;
+ALTER TABLE `profile_view` ADD `updated_at` DATETIME;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;

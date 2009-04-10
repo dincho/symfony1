@@ -618,6 +618,7 @@ CREATE TABLE `profile_view`
 	`member_id` INTEGER  NOT NULL,
 	`profile_id` INTEGER  NOT NULL,
 	`created_at` DATETIME,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `profile_view_FI_1` (`member_id`),
 	CONSTRAINT `profile_view_FK_1`

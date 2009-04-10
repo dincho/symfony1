@@ -13,7 +13,7 @@ abstract class BaseProfileViewPeer {
 	const CLASS_DEFAULT = 'lib.model.ProfileView';
 
 	
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,23 +32,26 @@ abstract class BaseProfileViewPeer {
 	const CREATED_AT = 'profile_view.CREATED_AT';
 
 	
+	const UPDATED_AT = 'profile_view.UPDATED_AT';
+
+	
 	private static $phpNameMap = null;
 
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ProfileId', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (ProfileViewPeer::ID, ProfileViewPeer::MEMBER_ID, ProfileViewPeer::PROFILE_ID, ProfileViewPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'profile_id', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'MemberId', 'ProfileId', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ProfileViewPeer::ID, ProfileViewPeer::MEMBER_ID, ProfileViewPeer::PROFILE_ID, ProfileViewPeer::CREATED_AT, ProfileViewPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'member_id', 'profile_id', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ProfileId' => 2, 'CreatedAt' => 3, ),
-		BasePeer::TYPE_COLNAME => array (ProfileViewPeer::ID => 0, ProfileViewPeer::MEMBER_ID => 1, ProfileViewPeer::PROFILE_ID => 2, ProfileViewPeer::CREATED_AT => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'profile_id' => 2, 'created_at' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'MemberId' => 1, 'ProfileId' => 2, 'CreatedAt' => 3, 'UpdatedAt' => 4, ),
+		BasePeer::TYPE_COLNAME => array (ProfileViewPeer::ID => 0, ProfileViewPeer::MEMBER_ID => 1, ProfileViewPeer::PROFILE_ID => 2, ProfileViewPeer::CREATED_AT => 3, ProfileViewPeer::UPDATED_AT => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'member_id' => 1, 'profile_id' => 2, 'created_at' => 3, 'updated_at' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	
@@ -109,6 +112,8 @@ abstract class BaseProfileViewPeer {
 		$criteria->addSelectColumn(ProfileViewPeer::PROFILE_ID);
 
 		$criteria->addSelectColumn(ProfileViewPeer::CREATED_AT);
+
+		$criteria->addSelectColumn(ProfileViewPeer::UPDATED_AT);
 
 	}
 

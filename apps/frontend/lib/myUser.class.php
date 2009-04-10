@@ -117,7 +117,7 @@ class myUser extends sfBasicSecurityUser
                 $already_visit = ProfileViewPeer::doSelectOne($c);
                 if($already_visit)
                 {
-                    $already_visit->setCreatedAt(time());
+                    $already_visit->setUpdatedAt(time());
                     $already_visit->save();
                 } else
                 {
@@ -125,9 +125,10 @@ class myUser extends sfBasicSecurityUser
                     $visit->setMemberRelatedByMemberId($this->getProfile());
                     $visit->setMemberRelatedByProfileId($profile);
                     $visit->save();
+                    
+                    if($profile->getEmailNotifications() === 0) Events::triggerAccountActivity($profile);
                 }
                 
-                if($profile->getEmailNotifications() === 0) Events::triggerAccountActivity($profile);
             } else
             {
                 $profile->incCounter('ProfileViews');

@@ -236,6 +236,7 @@ propel:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade } #viewed member/profile id
     created_at:
+    updated_at:
   block:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

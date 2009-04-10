@@ -23,6 +23,10 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 	
 	protected $created_at;
 
+
+	
+	protected $updated_at;
+
 	
 	protected $aMemberRelatedByMemberId;
 
@@ -68,6 +72,28 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -152,6 +178,23 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = ProfileViewPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -164,11 +207,13 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 3, null);
 
+			$this->updated_at = $rs->getTimestamp($startcol + 4, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 4; 
+						return $startcol + 5; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ProfileView object", $e);
 		}
@@ -230,6 +275,11 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(ProfileViewPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(ProfileViewPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -375,6 +425,9 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 			case 3:
 				return $this->getCreatedAt();
 				break;
+			case 4:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -389,6 +442,7 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 			$keys[1] => $this->getMemberId(),
 			$keys[2] => $this->getProfileId(),
 			$keys[3] => $this->getCreatedAt(),
+			$keys[4] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -416,6 +470,9 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 			case 3:
 				$this->setCreatedAt($value);
 				break;
+			case 4:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -427,6 +484,7 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setMemberId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setProfileId($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
 	}
 
 	
@@ -438,6 +496,7 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ProfileViewPeer::MEMBER_ID)) $criteria->add(ProfileViewPeer::MEMBER_ID, $this->member_id);
 		if ($this->isColumnModified(ProfileViewPeer::PROFILE_ID)) $criteria->add(ProfileViewPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(ProfileViewPeer::CREATED_AT)) $criteria->add(ProfileViewPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(ProfileViewPeer::UPDATED_AT)) $criteria->add(ProfileViewPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -473,6 +532,8 @@ abstract class BaseProfileView extends BaseObject  implements Persistent {
 		$copyObj->setProfileId($this->profile_id);
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		$copyObj->setNew(true);
