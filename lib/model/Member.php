@@ -127,18 +127,20 @@ class Member extends BaseMember
         }
     }
     
+    public function getLastSubscriptionHistory()
+    {
+        $c = new Criteria();
+        $c->addDescendingOrderByColumn(SubscriptionHistoryPeer::ID);
+        $c->add(SubscriptionHistoryPeer::MEMBER_ID, $this->getId());
+        $c->setLimit(1);
+        return SubscriptionHistoryPeer::doSelectOne($c);        
+    }
+    
     public function changeSubscription($subscription_id)
     {
         if ($this->getSubscriptionId() != $subscription_id )
         {
-            
-            
-            //get last subscription history
-            $c = new Criteria();
-            $c->addDescendingOrderByColumn(SubscriptionHistoryPeer::ID);
-            $c->add(SubscriptionHistoryPeer::MEMBER_ID, $this->getId());
-            $c->setLimit(1);
-            $last_history = SubscriptionHistoryPeer::doSelectOne($c);
+            $last_history = $this->getLastSubscriptionHistory();
             
             $history = new SubscriptionHistory();
             $history->setSubscriptionId($subscription_id);
@@ -385,10 +387,38 @@ class Member extends BaseMember
     
     public function getEotDate()
     {
-        $last_payment = $this->getLastPaypalPaymentAt(null); //ts
-        $eot = $last_payment + 31 * 24 * 60 * 60; //30 days after last payment, see PP WPS integration guide
+        $c = new Criteria();
+        $c->add(IpnHistoryPeer::SUBSCR_ID, $this->getLastPaypalSubscrId());
+        $c->add(IpnHistoryPeer::TXN_TYPE, 'subscr_signup');
+        $ipn_history = IpnHistoryPeer::doSelectOne($c);
         
-        return $eot;
+        if( !$ipn_history ) return null;
+        
+        $subscribed_at = $ipn_history->getCreatedAt(null);
+        
+        $period_types_map = array('D' => 3, 'W' => 4, 'M' => 5, 'Y' => 7);
+        $eot = new sfDate($subscribed_at);
+        
+        list($period, $period_type) = explode(' ', $ipn_history->getParam('period1'));
+        $period_type = $period_types_map[$period_type];
+        $eot->add($period, $period_type); //period 1
+        
+        if( $eot->get() < time() ) //passed period 1, add period 2
+        {
+            list($period, $period_type) = explode(' ', $ipn_history->getParam('period2'));
+            $period_type = $period_types_map[$period_type];
+            $eot->add($period, $period_type); //period 2
+
+            if ( $eot->get() < time() ) //period 3/normal
+            {
+                $eot = new sfDate($this->getLastPaypalPaymentAt(null));
+                list($period, $period_type) = explode(' ', $ipn_history->getParam('period3'));
+                $period_type = $period_types_map[$period_type];
+                $eot->add($period, $period_type); //period 3
+            }
+        }
+        
+        return $eot->get();
     }
     
     public function getIP()

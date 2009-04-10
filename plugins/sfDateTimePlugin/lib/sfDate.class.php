@@ -169,7 +169,7 @@ class sfDate
 		{
 			$ts = sfTime::now();
 		}
-		else if (is_a($ts, 'sfDate'))
+		else if ( $ts instanceof sfDate)
 		{
 			$ts = $ts->get();
 		}
