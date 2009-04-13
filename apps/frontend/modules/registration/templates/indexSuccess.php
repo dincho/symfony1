@@ -51,7 +51,7 @@
         <?php echo object_input_tag($member, 'getFirstName', $first_name_options) ?><br />
         
         <?php echo pr_label_for('orientation', __('You are')) ?>
-        <?php echo select_tag('orientation', looking_for_options_admin($member->getSex(), $member->getLookingFor()), $orientation_options) ?><br />
+        <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
     </fieldset>
     <?php echo __('Registration notice') ?> 
     <fieldset>
