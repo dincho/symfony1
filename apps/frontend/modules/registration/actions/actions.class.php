@@ -141,6 +141,7 @@ class registrationActions extends prActions
                                   '%URL_FOR_CONFIRM%' => 'javascript:document.public_reg_form.submit();');
             $conf_msg = $i18n->__('Please confirm that Name and Orientation are filled correctly? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
         	$this->setFlash('msg_error', $conf_msg, false);
+					$this->setFlash('msg_no_i18n', true, false);
         }
         
         $this->member = $member;
