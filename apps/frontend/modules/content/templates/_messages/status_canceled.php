@@ -1,5 +1,5 @@
 <?php slot('header_title') ?>
-    <?php echo __('Status canceled headline') ?>
+<?php echo 'Status canceled headline' ?>
 <?php end_slot(); ?>
 
 <?php echo __('Status canceled body',

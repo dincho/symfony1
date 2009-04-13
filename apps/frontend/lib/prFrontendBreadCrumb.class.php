@@ -40,6 +40,13 @@ class prFrontendBreadCrumb extends xBreadcrumb
   
   public function draw()
   {
+		//add header_title slot as last element if exists
+		$slots = sfContext::getInstance()->getResponse()->getParameter('slots', array(), 'symfony/view/sfView/slot');
+		if( isset($slots['header_title']) )
+		{
+			$this->add(array('name' => trim($slots['header_title'])));
+		}
+			
     $content = '';
     
     $stack = $this->getStack();
