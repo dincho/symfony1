@@ -17,7 +17,7 @@
         <div class="dashboard-menu">
             <?php echo link_to(__('Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($matches as $match_profile): ?>
-                <?php echo link_to_unless(!$match_profile->isActive(), image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
+                <?php echo link_to(image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
