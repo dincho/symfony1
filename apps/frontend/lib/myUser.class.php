@@ -96,10 +96,17 @@ class myUser extends sfBasicSecurityUser
                 }
                 $member->save();
                 $member->updateMatches();
-                
                 $this->setAttribute('status_id', $member->getMemberStatusId());
-                $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
-                $action->redirect('@my_profile');
+
+								//show congratulation message only if pre approve is OFF
+                if( $member->getSubscription()->getPreApprove() ) 
+								{
+									$action->message('status_pending');
+								} else {
+									$action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
+									$action->redirect('@my_profile');
+								}
+                
             }
         }
     }
