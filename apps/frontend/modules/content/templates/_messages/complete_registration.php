@@ -1,5 +1,5 @@
 <?php slot('header_title') ?>
-<?php echo 'Complete Registration' ?>
+<?php echo __('Complete Registration') ?>
 <?php end_slot(); ?>
 
 <?php $url = $sf_user->getProfile()->getContinueRegistrationUrl(); ?>

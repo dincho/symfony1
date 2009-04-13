@@ -1,7 +1,7 @@
 <?php echo use_helper('dtForm', 'Object', 'fillIn') ?>
 
 <?php slot('header_title') ?>
-    <?php echo ___('IMBRA headline') ?>
+<?php echo ___('IMBRA headline') ?>
 <?php end_slot(); ?>
 
 <?php echo form_tag('IMBRA/index', array('id' => 'imbra_2')) ?>

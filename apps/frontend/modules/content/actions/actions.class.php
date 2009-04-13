@@ -119,9 +119,7 @@ class contentActions extends prActions
         $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
                 
         $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
-        $this->getUser()->getBC()->clear()->dontTrLast()
-        ->add($bc_middle)
-        ->add(array('name' => $this->page->getLinkName(), 'uri' => '#'));
+        $this->getUser()->getBC()->clear()->add($bc_middle);
     }
 
     public function executeMessage()

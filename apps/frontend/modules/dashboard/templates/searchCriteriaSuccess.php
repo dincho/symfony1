@@ -1,6 +1,6 @@
 <?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
 <?php slot('header_title') ?>
-    <?php echo __('Search criteria headline') ?>
+<?php echo __('Search criteria headline') ?>
 <?php end_slot(); ?>
 
 <?php echo __("Search criteria instructions"); ?>

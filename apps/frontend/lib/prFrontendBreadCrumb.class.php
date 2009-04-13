@@ -34,8 +34,10 @@ class prFrontendBreadCrumb extends xBreadcrumb
   
   public function getLastName()
   {
+			sfLoader::loadHelpers(array('I18N'));
+	
       $el = $this->getLast();
-      return $this->humanize($el['name']);
+      return ( $this->tr_last ) ? __($this->humanize($el['name'])) : $this->humanize($el['name']);
   }
   
   public function draw()
@@ -45,6 +47,7 @@ class prFrontendBreadCrumb extends xBreadcrumb
 		if( isset($slots['header_title']) )
 		{
 			$this->add(array('name' => trim($slots['header_title'])));
+			$this->tr_last = false;
 		}
 			
     $content = '';
@@ -97,6 +100,11 @@ class prFrontendBreadCrumb extends xBreadcrumb
       
       return $this;
   }
+
+	public function isLastItemTranslatable()
+	{
+		return $this->tr_last;
+	}
     
 }
 ?>
