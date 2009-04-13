@@ -6,7 +6,7 @@
   <?php endforeach; ?>  
   <?php else: ?>
     <?php $errors = $sf_request->getErrors(ESC_RAW); ?>
-    <p class="msg_error"><?php echo array_pop($errors) ?></p>
+    <p class="msg_error"><?php echo __(array_pop($errors)) ?></p>
   <?php endif; ?>
 </div>
 <?php endif; ?>
