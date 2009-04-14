@@ -28,7 +28,7 @@
         
     </table>
     <hr />
-    <p><?php echo nl2br(strip_tags($message->getBody(), 'br')) ?></p>
+    <p><?php echo nl2br(strip_tags($message->getBody(), '<br><strong>')) ?></p>
 </div>
 
 <fieldset class="actions">
