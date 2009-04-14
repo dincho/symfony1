@@ -2179,7 +2179,7 @@ div.best_video div.right img {
     background-color: #4f4f4f;
     height: 220px;
     width: 720px;
-    padding: 0px;
+    padding-top: 3px;
     margin-top: 30px;
 }
 

@@ -3,7 +3,7 @@
 <?php echo __('I\'d like tell my friend about PolishRomance.com') ?>
 <?php echo form_tag('content/tellFriend', array('id' => 'tell_a_friend_container')) ?>
     <fieldset>
-        <legend><?php echo __('Your Friend\'s Information') ?></legend>
+        <legend style='margin-left: 60px;'><?php echo __('Your Friend\'s Information') ?></legend>
         <?php echo pr_label_for('friend_email', __('Email')) ?>
         <?php echo input_tag('friend_email') ?><br />
         
@@ -11,7 +11,7 @@
         <?php echo input_tag('friend_full_name') ?>
     </fieldset>
     <fieldset>
-        <legend><?php echo __('Your Information') ?></legend>
+        <legend style='margin-left: 60px;'><?php echo __('Your Information') ?></legend>
         <?php echo pr_label_for('email', __('Email')) ?>
         <?php echo input_tag('email') ?><br />
         
