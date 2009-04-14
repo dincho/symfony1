@@ -64,14 +64,28 @@ class sfOptimizeStyleAndScript extends sfFilter
 
 		$response->setParameter('javascripts_included', true, 'symfony/view/asset');
 		$already_seen = array();
-
+		$remote_files = array();
+		$ret = '';
+		
 		$javascripts_files = $response->getParameterHolder()->getAll('helper/asset/auto/javascript');
+
+		foreach ($javascripts_files as $key => $value) {
+			if( strpos($value, 'http://') !== false )
+			{
+				$remote_files[] = $value;
+				unset($javascripts_files[$key]);
+			}
+		}
+		
 		$encoded_name 	   = $this->makeMd5($javascripts_files);
 
 		//cache test (in cache for one day by default)
 		if($include_file = $this->getCachedFile($encoded_name, '.js', sfConfig::get('sf_optimizer_js_lifetime', 86400)))
 		{
-			return javascript_include_tag($include_file);
+			foreach($remote_files as $remote_file) $ret .= javascript_include_tag($remote_file);
+			$ret .= javascript_include_tag($include_file);
+			
+			return $ret;			
 		}
 
 		foreach (array('first', '', 'last') as $position)
@@ -83,8 +97,11 @@ class sfOptimizeStyleAndScript extends sfFilter
 					$files = array($files);
 				}
 
+
 				foreach($files as $file)
 				{
+					if( strpos($file, 'http://') !== false ) continue; //skip remote files
+					
 					$file  = javascript_path($file);
 
 					if (isset($already_seen[$file])) continue;
@@ -107,7 +124,10 @@ class sfOptimizeStyleAndScript extends sfFilter
 		
 		if($file = $this->saveFile($encoded_name.'_'.time().'.js', 'javascript'))
 		{
-			return javascript_include_tag($file);
+			foreach($remote_files as $remote_file) $ret .= javascript_include_tag($remote_file);
+			$ret .= javascript_include_tag($file);
+			
+			return $ret;
 		}
 		else 
 		{
