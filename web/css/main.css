@@ -2192,6 +2192,7 @@ div.best_video div.right img {
 #tell_a_friend_container span {
     color: #92897e;
     font-size: 10px;
+    margin-top: 0px;
 }
 
 #tell_a_friend_container label {
@@ -2218,7 +2219,7 @@ div.best_video div.right img {
     margin: 0px;
     padding: 3px;
     border: 0px;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
 }
 
 #tell_a_friend_container legend {

@@ -19,7 +19,7 @@
         <?php echo input_tag('full_name') ?><br />
         
         <?php echo pr_label_for('comments', __('Comments <span>(optional)</span>')) ?>
-        <?php echo textarea_tag('comments', null, array('rows' => 4, 'cols' => 20)) ?>
+        <?php echo textarea_tag('comments', null, array('rows' => 2, 'cols' => 20)) ?>
     </fieldset>
     <div id="tell_a_friend_div">
         <strong><?php echo __('Our Privacy Policy') ?></strong><br /><br />
