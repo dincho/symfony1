@@ -33,7 +33,8 @@ class profileActions extends prActions
     public function executeIndex()
     {
         $this->current_culture = ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en';
-        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . sfConfig::get('app_gmaps_key'));
+				$key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
         
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member);
