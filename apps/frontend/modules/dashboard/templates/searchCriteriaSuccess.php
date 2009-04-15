@@ -25,7 +25,7 @@
         <?php endforeach; ?>
         </div>
         <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> <?php echo __('- any option is fine'); ?><br />
-        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle()) ?></label>
+        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle(ESC_RAW)) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
         
       <?php elseif( $question->getType() == 'select' && isset($answers[$question->getId()]) ): ?>
@@ -44,7 +44,7 @@
                               'getId', 
                               'getTitle',
                               ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getSelectValue(1) : null )) ?><br />
-        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle()) ?></label>
+        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle(ESC_RAW)) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
         </div>
         
@@ -52,7 +52,7 @@
       
         <?php echo pr_label_for('answers[' . $question->getId() . ']', ++$i .'. '. __($question->getSearchTitle(ESC_RAW)), array('class' => 'title')) ?>        
         <?php echo input_hidden_tag('answers['. $question->getid() .']', 1 ,array('class' => 'hidden')) ?><br />
-        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle()) ?></label>
+        <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle(ESC_RAW)) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
       
       <?php elseif( $question->getType() == 'age'): ?>

@@ -191,7 +191,14 @@ function pr_select_language_tag($name, $selected = null, $options = array())
     $option_tags = options_for_select($new_languages, $selected, $options);
     $option_tags = content_tag('option', $languages['en'], array('value' => 'en'))."\n" . $option_tags;
     $option_tags = content_tag('option', $languages['pl'], array('value' => 'pl'))."\n" . $option_tags;
-    $option_tags = content_tag('option', 'Select Language', array('value' => ''))."\n" . $option_tags;
+    
+    if( sfConfig::get('sf_i18n') )
+    {
+        $option_tags = content_tag('option', __('Select Language'), array('value' => ''))."\n" . $option_tags;
+    } else {
+        $option_tags = content_tag('option', 'Select Language', array('value' => ''))."\n" . $option_tags;
+    }
+    
     
     return select_tag($name, $option_tags, $options);
 
@@ -252,7 +259,13 @@ function pr_object_select_state_tag($object, $method, $options = array(), $defau
 
 function pr_select_language_level($name, $selected = null, $options = array())
 {
-    $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');
+    
+    if( sfConfig::get('sf_i18n') )
+    {
+        $levels = array(1 => __('Fluent'), 2 => __('Good'), 3 => __('Basic'), 4 => __('Translation Needed'));
+    } else {
+        $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');
+    }
     
     $options_select = $options;
     unset($options_select['include_custom']);
@@ -262,15 +275,26 @@ function pr_select_language_level($name, $selected = null, $options = array())
 
 function pr_format_language_level($key = null)
 {
-    $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');
+    if( sfConfig::get('sf_i18n') )
+    {
+        $levels = array(1 => __('Fluent'), 2 => __('Good'), 3 => __('Basic'), 4 => __('Translation Needed'));
+    } else {
+        $levels = array(1 => 'Fluent', 2 => 'Good', 3 => 'Basic', 4 => 'Translation Needed');
+    }
+    
     
     return array_key_exists($key, $levels) ? $levels[$key] : null;
 }
 
 function pr_select_match_weight($name, $selected = null, $options = array())
 {
-    //var_dump($selected);exit();
-    $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
+    if( sfConfig::get('sf_i18n') )
+    {
+        $weights = array(21 => __('Very Important'), 8 => __('Important'), 3 => __('Somehow Important'), 1 => __('Not Important')); 
+    } else {
+        $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
+    }
+    
     return select_tag($name, options_for_select($weights, $selected, $options), $options);
 }
 
