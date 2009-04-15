@@ -44,7 +44,8 @@ class subscriptionActions extends prActions
              ->add(array('name' => 'Subscription', 'uri' => 'subscription/manage'));
              
         $this->member = $this->getUser()->getProfile();
-        $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::PAID, 'subscription/payment');
+        $this->redirectIf($this->member->getSubscriptionId() == SubscriptionPeer::FREE, 'subscription/payment');
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             if( $this->getRequestParameter('sub_auto_renew') == 0 && $this->member->getSubAutoRenew() == 1)
