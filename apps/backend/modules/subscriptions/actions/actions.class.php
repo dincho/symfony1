@@ -70,4 +70,142 @@ class subscriptionsActions extends sfActions
     $this->subscriptions = $subscriptions;
     $this->sub1 = $subscriptions[0];
   }
+
+  public function validateEdit()
+  {
+    if( $this->getRequest()->getMethod() == sfRequest::POST )
+    {
+        if( !is_numeric($this->getRequestParameter('trial1_period')) || $this->getRequestParameter('trial1_period') < 0 )
+        {
+            $this->getRequest()->setError('trial1_period', 'Please enter a positive integer or 0');
+            return false;
+        } 
+               
+        if( !is_numeric($this->getRequestParameter('trial2_period')) || $this->getRequestParameter('trial2_period') < 0 )
+        {
+            $this->getRequest()->setError('trial2_period', 'Please enter a positive integer or 0');
+            return false;
+        }
+                       
+        if( !is_numeric($this->getRequestParameter('period')) || $this->getRequestParameter('period') <= 0 )
+        {
+            $this->getRequest()->setError('period', 'Please enter a positive integer');
+            return false;
+            
+        }
+        
+        //trial period 1
+        switch ($this->getRequestParameter('trial1_period_type')) {
+            case 'D':
+                if( $this->getRequestParameter('trial1_period') > 90 )
+                {
+                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 90');
+                    return false;
+                }
+                break;
+            case 'W':
+                if( $this->getRequestParameter('trial1_period') > 52 )
+                {
+                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 52');
+                    return false;
+                }            
+                break;
+            case 'M':
+                if( $this->getRequestParameter('trial1_period') > 24 )
+                {
+                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 24');
+                    return false;
+                }            
+                break;
+            case 'Y':
+                if( $this->getRequestParameter('trial1_period') > 5 )
+                {
+                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 5');
+                    return false;
+                }            
+                break;
+            default:
+                break;
+        }
+        
+        //trial period 2
+        switch ($this->getRequestParameter('trial2_period_type')) {
+            case 'D':
+                if( $this->getRequestParameter('trial2_period') > 90 )
+                {
+                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 90');
+                    return false;
+                }
+                break;
+            case 'W':
+                if( $this->getRequestParameter('trial2_period') > 52 )
+                {
+                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 52');
+                    return false;
+                }            
+                break;
+            case 'M':
+                if( $this->getRequestParameter('trial2_period') > 24 )
+                {
+                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 24');
+                    return false;
+                }            
+                break;
+            case 'Y':
+                if( $this->getRequestParameter('trial2_period') > 5 )
+                {
+                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 5');
+                    return false;
+                }            
+                break;
+            default:
+                break;
+        }
+        
+        //regular subscription
+        switch ($this->getRequestParameter('period_type')) {
+            case 'D':
+                if( $this->getRequestParameter('period') > 90 )
+                {
+                    $this->getRequest()->setError('period', 'Allowable range is 1 to 90');
+                    return false;
+                }
+                break;
+            case 'W':
+                if( $this->getRequestParameter('period') > 52 )
+                {
+                    $this->getRequest()->setError('period', 'Allowable range is 1 to 52');
+                    return false;
+                }            
+                break;
+            case 'M':
+                if( $this->getRequestParameter('period') > 24 )
+                {
+                    $this->getRequest()->setError('period', 'Allowable range is 1 to 24');
+                    return false;
+                }            
+                break;
+            case 'Y':
+                if( $this->getRequestParameter('period') > 5 )
+                {
+                    $this->getRequest()->setError('period', 'Allowable range is 1 to 5');
+                    return false;
+                }            
+                break;
+            default:
+                break;
+        }               
+    }
+    
+    return true;
+  }
+  
+  public function handleErrorEdit()
+  {
+      $subscriptions = SubscriptionPeer::doSelect(new Criteria());
+      $this->subscriptions = $subscriptions;
+      $this->sub1 = $subscriptions[0];  
+      
+      return sfView::SUCCESS;    
+  }
 }

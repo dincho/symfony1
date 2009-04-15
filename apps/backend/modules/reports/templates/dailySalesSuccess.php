@@ -102,6 +102,7 @@
         <td><?php echo ($toDate == 0) ? 0 : round($paid_toDate/$toDate*100) ?></td>
         <td><?php echo ($period == 0) ? 0 : round($paid_period/$period*100) ?></td>
     </tr>
+		<?php if(isset($dailySalesPaidMembers[5])): ?>
     <tr>
         <td>Full Memb. Deletion % (14/II)</td>
         <td><?php echo ($paid_today == 0) ? 0 : round($dailySalesPaidMembers[5]->getToday()/$paid_today*100) ?></td>
@@ -113,6 +114,8 @@
         <td><?php echo ($paid_toDate == 0) ? 0 : round($dailySalesPaidMembers[5]->getToDate()/$paid_toDate*100) ?></td>
         <td><?php echo ($paid_period == 0) ? 0 : round($dailySalesPaidMembers[5]->getPeriod()/$paid_period*100) ?></td>
     </tr>
+		<?php endif; ?>
+		<?php if(isset($dailySalesByStatus[2])): ?>
     <tr>
         <td>Deletion % (3/ I)</td>
         <td><?php echo ($today == 0) ? 0 : round($dailySalesByStatus[2]->getToday()/$today*100) ?></td>
@@ -124,6 +127,8 @@
         <td><?php echo ($toDate == 0) ? 0 : round($dailySalesByStatus[2]->getToDate()/$toDate*100) ?></td>
         <td><?php echo ($period == 0) ? 0 : round($dailySalesByStatus[2]->getPeriod()/$period*100) ?></td>
     </tr>
+		<?php endif; ?>
+		<?php if(isset($dailySalesPaidMembers[2])): ?>
     <tr>
         <td>Full Memb. Renewals % (11/ II)</td>
         <td><?php echo ($paid_today == 0) ? 0 : round($dailySalesPaidMembers[2]->getToday()/$paid_today*100) ?></td>
@@ -135,5 +140,6 @@
         <td><?php echo ($paid_toDate == 0) ? 0 : round($dailySalesPaidMembers[2]->getToDate()/$paid_toDate*100) ?></td>
         <td><?php echo ($paid_period == 0) ? 0 : round($dailySalesPaidMembers[2]->getPeriod()/$paid_period*100) ?></td>
     </tr>
+		<?php endif; ?>
 <?php endif; ?>
 </table>

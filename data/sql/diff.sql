@@ -1,4 +1,3 @@
-ALTER TABLE `profile_view` ADD `updated_at` DATETIME;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -23,9 +22,6 @@ ALTER TABLE `member_story` CHANGE `sort_order` `sort_order` INTEGER(11) default 
 /* old definition: int(11) NOT NULL default '1'
    new definition: INTEGER(11) default 1 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `cat_id` `cat_id` INTEGER(11) default 1 NOT NULL;
-/* old definition: text NOT NULL
-   new definition: VARCHAR(1000)  NOT NULL */
-ALTER TABLE `trans_unit` CHANGE `source` `source` VARCHAR(1000)  NOT NULL;
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `trans_unit` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;

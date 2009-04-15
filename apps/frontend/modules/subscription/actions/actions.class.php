@@ -81,7 +81,7 @@ class subscriptionActions extends prActions
                             'no_shipping' => 1,
                             'currency_code' => 'GBP',
                             'rm' => 1, //return method 1 = GET, 2 = POST
-                            'src' => 0, //Recurring or not
+                            'src' => 1, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
