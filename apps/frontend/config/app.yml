@@ -1,10 +1,13 @@
 all:
   gmaps_key:
     pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pr_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business: admin_1231849319_biz@polishromance.com
     test:     1
-    cert_id:  J5XZAGF5S38TJ
+    cert_id:  9CKZZ95GS2NCL
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
     notify_url: http://pd.dincho.bonex.us:8003/frontend_dev.php/IPN.html #this URL should be always absolute!!!
     #notify_url: http://pd.dincho.bonex.us/frontend_dev.php/IPN.html
