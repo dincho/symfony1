@@ -142,6 +142,10 @@ class transUnitsActions extends sfActions
         $this->forward404Unless($trans_unit);
         $trans_unit->delete();
         
+        $c = new Criteria();
+        $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+        TransUnitPeer::doDelete($c);
+        
         $this->setFlash('msg_ok', 'The unit has been deleted');
         return $this->redirect('transUnits/list');
     }

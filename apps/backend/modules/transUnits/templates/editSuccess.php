@@ -38,7 +38,7 @@
     
     <fieldset class="actions">
     <?php echo button_to('Cancel', 'transUnits/list?cancel=1')  . 
-               button_to('Delete', 'transUnits/delete?id=' . $trans_unit->getId(), 'confirm=Are you sure you want to delete this unit?') . 
+               button_to('Delete', 'transUnits/delete?id=' . $trans_unit->getId(), 'confirm=Are you sure you want to delete this unit? All other units with this source will be also deleted!') . 
                submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
