@@ -27,7 +27,7 @@
       <?php endif; ?>
       </div>
     <?php endforeach; ?>
-        
+    <br /><br />    
     <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>
 <br />
