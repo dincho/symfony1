@@ -9,7 +9,7 @@
 class statusFilter extends sfFilter
 {
 
-    static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 'profile/signout');
+    static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 'profile/signout', 'memberStories/index', 'memberStories/read');
     
     public function execute($filterChain)
     {
