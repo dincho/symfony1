@@ -9,7 +9,7 @@
 		        <td colspan="2" style="width: 280px;">
 		        <?php echo select_tag('filters[looking_for]', looking_for_options(isset($filters['looking_for']) ? $filters['looking_for'] : null)) ?>
 		        </td>
-		        <td style="width: 190px;"><?php echo __('Age'); ?> 
+		        <td style="width: 190px;" nowrap ><?php echo __('Age'); ?> 
 		
 		        <?php echo input_tag('filters[age_from]', isset($filters['age_from']) ? $filters['age_from'] : 18, array('class' => 'age')) ?>
 		        &nbsp;&nbsp;&nbsp;<?php echo __('to') ?>&nbsp;&nbsp;&nbsp;
