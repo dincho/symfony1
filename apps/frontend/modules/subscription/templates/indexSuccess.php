@@ -20,7 +20,7 @@ In order to see more matches and send messages, please upgrade your subscription
             <span class="type">
                 <?php echo __('Next %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial2PeriodType()), array('%PERIOD%' => $sub1->getTrial2Period())) ?>
             </span><br />
-            <span class="type"><?php echo __('Then', array('%PERIOD%' => $sub1->getTrial1Period()+$sub1->getTrial2Period()+1)) ?></span><br />
+            <span class="type"><?php echo __('Then every %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) ?></span><br />
             <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
