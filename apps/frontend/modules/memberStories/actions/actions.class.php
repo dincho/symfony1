@@ -37,8 +37,7 @@ class memberStoriesActions extends prActions
         $this->getResponse()->addMeta('description', $this->story->getDescription());
         
         $bc = $this->getUser()->getBC()->clear();
-        if( !$this->getUser()->isAuthenticated() ) $bc->add(array('name' => 'Home', 'uri' => '@homepage'));
-        $bc->add(array('name' => $this->story->getLinkName(), 'uri' => '@member_story_by_slug?slug=' . $this->story->getSlug()));
+        $bc->add(array('name' => 'Home', 'uri' => '@homepage'));
     
     }
 
