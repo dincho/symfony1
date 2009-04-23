@@ -34,7 +34,7 @@
             <?php if(isset($member)): ?>
                 <?php if(substr_count($_SERVER['REQUEST_URI'], "dashboard.html")>0 && $member->getDashboardMsg()==0): ?>
                     <div id="msgs">
-                        <p class="msg_ok"><?php echo ___("This is your control panel. Here you can find everything you need to use the website "); echo link_to("(don't show this message again)", 'dashboard/hide') ?></p>
+                        <p class="msg_ok"><?php echo __("This is your control panel. Here you can find everything you need to use the website "); echo link_to("(don't show this message again)", 'dashboard/hide') ?></p>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
