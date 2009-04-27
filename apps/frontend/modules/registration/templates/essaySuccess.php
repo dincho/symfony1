@@ -5,8 +5,8 @@
 <?php echo form_tag('registration/essay', array('id' => 'essay')) ?>
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:')) ?><br />
-        <?php echo object_input_tag($member, 'getEssayHeadline', array('class' => 'essay', 'size' => 30, 'maxlength' => 50) ) ?><br /><br />
-
+				<?php echo input_tag('essay_headline', strip_tags($member->getEssayHeadline(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 50))?><br /><br />
+				
         <?php if( $sf_user->getCulture() == 'pl'): ?>
         <div id="essay_polish_letters">
             <?php echo link_to_function('ą', 'pl_letter_press("ą")') ?>
