@@ -9,6 +9,11 @@ fields:
   your_story:
     required:
         msg:    Please enter a content.
+    sfStringValidator:
+      min:          50
+      min_error:    "We also like short stories, but please make it at least 50 characters, so that we can share your story with others"
+      max:          2500
+      max_error:    Your story may contain maximum 2500 characters.        
   tos:
     required:
         msg: You must agree to Terms of Use and Privacy Policy to continue.        

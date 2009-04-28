@@ -1,4 +1,4 @@
-<?php use_helper('dtForm') ?>
+<?php use_helper('dtForm', 'Javascript') ?>
 
 <?php echo __('If you have experience of personal relation with a Polish single and would like to share it with other members, please fill out the form below.<br />After review, we will publish your story and your name.') ?>
 <?php echo form_tag('memberStories/postYourStory', array('class' => 'msg_form', 'id' => 'post_story')) ?>
@@ -15,7 +15,8 @@
         <?php echo input_tag('story_title') ?><br />
         
         <?php echo pr_label_for('your_story', __('Your Story')) ?>
-        <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30)) ?><br />
+        <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30, 'maxlength' => 2500)) ?><br />
+				<?php echo javascript_tag('parseCharCounts();') ?>
     </fieldset>
     <fieldset>
         <label><input type="checkbox" name="tos" id="tos" class="tos" value="1" /></label>
@@ -28,6 +29,7 @@
         <?php echo submit_tag(__('Submit'), array('class' => 'button')) ?>
     </fieldset>
 </form>
+
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu', array('auth' => $sf_user->isAuthenticated())) ?>

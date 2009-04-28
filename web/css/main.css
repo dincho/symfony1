@@ -1155,7 +1155,7 @@ span {
     padding: 0px;
 }
 
-#essay label.char_remaining {
+label.char_remaining {
     font-size: 10px;
 }
 
@@ -2167,6 +2167,14 @@ div.best_video div.right img {
 #post_story label {
     color: #92897E;
     font-size: 10px;
+}
+
+#post_story label.char_remaining {
+    color: #92897E;
+    font-size: 10px;
+    padding: 0;
+    width: 320px;
+    margin: 0 0 0 60px;
 }
 
 #post_story label a {
