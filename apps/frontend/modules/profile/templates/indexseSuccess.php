@@ -28,9 +28,9 @@
         <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
             <?php if( isset($member_answers[$question->getId()]) ): ?>
             <tr>
-                <td><?php echo $question->getDescTitle() ?></td>
+                <td><?php echo __($question->getDescTitle(ESC_RAW)) ?></td>
                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
-                   <td><?php echo strip_tags(html_entity_decode($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle())) ?></td>
+                   <td><?php echo __(strip_tags(html_entity_decode($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle(ESC_RAW)))) ?></td>
                 <?php else: ?>
                    <td><?php echo $member_answers[$question->getId()]->getOther(); ?></td>
                 <?php endif; ?>
