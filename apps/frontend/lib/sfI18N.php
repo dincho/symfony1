@@ -77,6 +77,7 @@ class sfI18N
 	                 '%URL_FOR_SUBSCRIPTION%' => $con->genUrl('subscription/index'),
 	                 '%URL_FOR_HOMEPAGE%' => $con->genUrl('@homepage'),
 	                 '%URL_FOR_JOIN_NOW%' => $con->genUrl('registration/joinNow'),
+	                 '%URL_FOR_SEND_NEW_ACTIVATION_EMAIL%' => $con->genUrl('registration/requestNewActivationEmail?confirm=1'),
 	                 '%URL_FOR_MY_PROFILE%' => $con->genUrl('profile/myProfile'),
 	                 '%URL_FOR_DEACTIVATE_PROFILE%' => $con->genUrl('dashboard/deactivate'),
 	                 '%URL_FOR_EMAIL_NOTIFICATIONS%' => $con->genUrl('dashboard/emailNotifications'),
