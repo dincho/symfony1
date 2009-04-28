@@ -1,7 +1,7 @@
 <?php use_helper('dtForm') ?>
 
 <?php echo ( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ) ? __('Here you can activate your profile') : __('Here you can deactivate your profile') ?><br />
-<?php echo __('When deactivated, your profile is not visible, but you are still be able to change your profile and settings.') ?> <?php echo link_to(__('To delete your account, click here.'), 'dashboard/deleteYourAccount', array('class' => 'sec_link')) ?><br />
+
 <span><?php echo __('Make changes and click Save.') ?></span>
 <?php echo form_tag('dashboard/deactivate', array('id' => 'deactivate')) ?>
     <?php if( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
