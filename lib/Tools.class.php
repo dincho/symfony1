@@ -115,5 +115,16 @@ class Tools
     {
         return ereg('^([0-9]{1,3}\.){3}[0-9]{1,3}$', $ip);
     }
+
+	  public static function slugify($text)
+	  {
+	    // replace all non words to _ ( Unicode save )
+	    $text = preg_replace('/[^\p{L}]+/u', '_', $text);
+
+	    $text = trim($text, '_');
+
+	    return $text;
+	  }
+
 }
 ?>
