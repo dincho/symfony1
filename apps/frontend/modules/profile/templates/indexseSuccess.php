@@ -1,7 +1,7 @@
 <?php use_helper('dtForm') ?>
 
 <div><?php echo __("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername()));?></div><br />
-<div><?php echo __('%AGE% year old %SEX%', array('%AGE%' => $member->getAge(), '%SEX%' => ($member->getSex() == 'F' ? 'woman' : 'man') ) );?></div><br />
+<div><?php echo __('%AGE% year old %SEX%', array('%AGE%' => $member->getAge(), '%SEX%' => ($member->getSex() == 'F' ? __('woman') : __('man')) ) );?></div><br />
 <div><?php echo $member->getEssayHeadline() ;?></div><br />
 <div><?php echo $member->getEssayIntroduction() ;?></div><br /> 
 
