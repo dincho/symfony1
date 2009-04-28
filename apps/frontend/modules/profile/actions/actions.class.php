@@ -139,6 +139,7 @@ class profileActions extends prActions
         }
         
         $this->profile_pager = new ProfilePager($member->getUsername());
+				$this->getUser()->getBC()->add(array('name' => $member->getEssayHeadline() . ' / ' . $member->getUsername() . ' /  ' . $member->getAge()));
     }
 
     public function executeSignIn()
