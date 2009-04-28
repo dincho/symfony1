@@ -119,6 +119,11 @@ class xBreadcrumb
       return $this->stack[count($this->stack)-1];
   }
   
+	public function getElement($index)
+	{
+		return (isset($this->stack[$index])) ? $this->stack[$index] : null;
+	}
+	
   public function clear()
   {
     $this->stack = array();

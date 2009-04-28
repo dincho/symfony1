@@ -1,9 +1,15 @@
 <div id="header_text">
     <span>
     <?php echo __('You are here: ')?>
+		<?php $BC = $sf_user->getBC(); ?>
+    <?php $stack = $BC->getStack(); $cnt = count($stack)-1; //do not add link to last element ?>
     
-    <?php $sf_user->getBC()->draw(); ?>
-		
+    <?php for( $i=0; $i<$cnt; $i++ ): ?>
+      <?php $name = ( !isset($stack[$i]['tr']) || $stack[$i]['tr'] ) ? __($BC->getElementName($i)) : $BC->getElementName($i); ?>
+      <?php echo (( isset($stack[$i]['uri']) ) ? link_to($name, $stack[$i]['uri']) : $name). $BC->getDelimiter(); ?>
+    <?php endfor; ?>
+
+    <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
     </span>
     <div id="header_title">
         <?php echo image_tag('header_text/left.gif', 'class=float-left') ?>

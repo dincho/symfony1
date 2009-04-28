@@ -1,9 +1,9 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox') ?>
 
 <?php slot('header_title') ?>
-    <?php echo strip_tags($member->getEssayHeadline(ESC_RAW)) . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
+		<?php //headline escaped in BC partial ?>
+    <?php echo $member->getEssayHeadline(ESC_RAW) . ' / ' . $member->getUsername() . ' /  ' . $member->getAge() ?>
 <?php end_slot(); ?>
-
 <div id="profile_right">
     <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
    
