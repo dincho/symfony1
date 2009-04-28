@@ -50,7 +50,7 @@
                     <?php $lang_answers = $member_answers[$question->getId()]->getOtherLangs(); ?>
                     <?php foreach ($lang_answers as $lang_answer): ?>
                         <?php if( $lang_answer['lang'] ): ?>
-                            <?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)
+                            <?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)<br />
                         <?php endif; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
