@@ -99,6 +99,7 @@ class sfI18N
 	                 '%URL_FOR_SAFETY_TIPS%' => $con->genUrl('@page?slug=safety_tips'),
 	                 '%URL_FOR_LEGAL_RESOURCES%' => $con->genUrl('@page?slug=legal_resources'),
 	                 '%URL_FOR_IMMIGRANT_RIGHTS%' => $con->genUrl('@page?slug=immigrant_rights'),
+	                 '%URL_FOR_WRITING_TIPS%' => $con->genUrl('@page?slug=writing_tips'),
 	                ));
   	}                  	
   	return $this->predefined_hashes;
