@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Login Reminder batch script - cron
+ * Members deactivation batch script - cron
  *
- * Here goes a brief description of the purpose of the batch script
+ * Inactive Members are set to status DEACTIVATED, after {X} days from notification ( LoginReminder ) sent date
  *
  * @package    pr
  * @subpackage batch
@@ -26,15 +26,18 @@ $databaseManager->initialize();
 
 // batch process here
 $notification = NotificationPeer::retrieveByPK(NotificationPeer::LOGIN_REMINDER);
-$days = (int) $notification->getDays();
+$ddays = sfConfig::get('app_settings_deactivation_days', 0);
+$days = (int) $notification->getDays() + $ddays;
 
-if ( $notification->getIsActive() && $days > 0 && $notification->getWhn() == 'A')
+if ( $ddays > 0 )
 {
-    $c = new Criteria();
-    $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
-    $c->add(MemberPeer::LAST_LOGIN, 'DATE('. MemberPeer::LAST_LOGIN .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
-    $members = MemberPeer::doSelect($c);
-    
-    foreach ($members as $member) Events::triggerLoginReminder($member);
+  $select = new Criteria();
+  $select->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+  $select->add(MemberPeer::LAST_LOGIN, 'DATE('. MemberPeer::LAST_LOGIN .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
+  
+  $update = new Criteria();
+	$update->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::DEACTIVATED);
+	
+	BasePeer::doUpdate($select, $update, Propel::getConnection());
 }
 

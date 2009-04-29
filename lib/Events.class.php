@@ -203,7 +203,8 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
+        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)), 
+														 '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
         self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
