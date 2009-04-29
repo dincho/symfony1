@@ -6,6 +6,10 @@
 <div><?php echo $member->getEssayIntroduction() ;?></div><br /> 
 
 <table border="0">
+		<tr>
+			<td><?php echo __('Orientation') ?></td>
+			<td><?php echo __($member->getOrientationString()) ?></td>	
+		</tr>
     <tr>
         <td><?php echo __('Country') ?></td>
         <td><?php echo format_country($member->getCountry()) ?></td>
