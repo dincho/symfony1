@@ -17,15 +17,19 @@
 		    <?php echo object_textarea_tag($en_trans_unit, 'getTarget', array ('size' => '60x5', 'control_name' => 'en_target')) ?><br />
 	    <?php endif; ?>
 	    
-	    <label for="target">Target:</label>
+	    <div style="float:left;">
+        <label for="target">Target:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
 	    
 	    <label for="tags">Tags:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?>
+        </div>
+        <div style="float:none;">
 	    <?php echo select_tag('defined_tags', 
 	                           options_for_select(TransUnitPeer::getTagsWithKeys(), null), 
-	                           array('multiple' => true, 'style' => 'width:250px; height:97px', 'onclick' => 'add_tags(this.value, "tags")'))?>
-	    <br />
+	                           array('multiple' => true, 'style' => 'width:250px; height:207px', 'onclick' => 'add_tags(this.value, "tags")'))?>
+	    </div>
+        <br />
 	    
 	    <label for="link">Link:</label>
 	    <?php echo object_input_tag($trans_unit, 'getLink', array('style' => 'width: 420px')) ?>
