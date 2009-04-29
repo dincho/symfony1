@@ -4,7 +4,7 @@
 <?php echo link_to(__('Click here to return to My Polish Love'), '@homepage');?><br /><br />
 
 <?php foreach ($pager->getResults() as $member):?>
-    <?php echo link_to($member->getEssayHeadline(), '@profilese?username=' . $member->getUsername()) ?><br />
+    <?php echo link_to($member->getEssayHeadline(), '@profilese?username=' . $member->getUsername() . '&headline=' . Tools::slugify($member->getEssayHeadline(ESC_RAW))) ?><br />
 <?php endforeach;?>
 
 <?php if( $pager->haveToPaginate() ): ?>

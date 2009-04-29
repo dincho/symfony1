@@ -20,7 +20,7 @@ signout:
     param: { module: profile, action: signout, sf_culture: en  }
     
 profilese:
-    url:   /:sf_culture/profiles_search_engine/:username/*
+    url:   /:sf_culture/profiles_search_engine/:username/:headline/*
     param: { module: profile, action: indexse, sf_culture: en }
     
 profile:
