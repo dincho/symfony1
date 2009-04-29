@@ -13,6 +13,6 @@ default:
         password:       dincho
         from:           admin@PolishRomance.com
         mailer:         smtp
-        smtp_host:      217.145.91.128
+        smtp_host:      217.145.91.129
         smtp_username:  polishromance@cookydolls.com
         smtp_password:  dincho
