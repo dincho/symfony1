@@ -1,5 +1,5 @@
 <?php
-function format_date_pr($time = null, $time_format = ', h:mm a', $date_format = 'm')
+function format_date_pr($time = null, $time_format = ', hh:mm', $date_format = 'm')
 {
   if( !$time ) $time = time();
   
@@ -19,7 +19,7 @@ function format_date_pr($time = null, $time_format = ', h:mm a', $date_format = 
       $string = format_date($time, $date_format);
   }
   
-  if( date('Y', $time) != date('Y') ) $time_format = ', yyyy h:mm a';
+  if( date('Y', $time) != date('Y') ) $time_format = ', yyyy hh:mm';
 
   $string .= format_date($time, $time_format);
   
