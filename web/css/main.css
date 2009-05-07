@@ -119,14 +119,15 @@ body .public_matches_search {
     float: right;
     font-size: 11px;
     color: #4b4b4b;
+    margin-top: 4px;
 }
 
 #header #right .username {
     color: white;
 }
 
-#header #right a,#header #right span {
-    padding: 0 5px;
+#header #right a, #header #right span {
+    padding: 0 6px;
 }
 
 #header #right a.last,#header #right span.last {
@@ -134,7 +135,7 @@ body .public_matches_search {
 }
 
 #header #right img {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 #header #right p.second_row {
@@ -166,16 +167,18 @@ body .public_matches_search {
 /* bullets color */
 #header #right p {
     color: #92897E;
+    margin: 0;
 }
 
 #header {
     height: 60px;
     width: 100%;
+    margin-top: 8px;
 }
 
 #header #left {
     float: left;
-    margin-left: 5px;
+    margin: 0 0 0 4px;
 }
 
 #header #right img {
@@ -186,9 +189,9 @@ body .public_matches_search {
 #msgs {
     background-color: #000;
     border: 1px solid #3d3d3d;
-    margin: 12px auto;
-    padding: 6px;
-    width: 720px;
+    margin: 11px auto 0 auto;
+    padding: 4px 5px;
+    width: 678px;
     font-size: 12px;
     font-weight: bold;
     text-align: left;
@@ -213,17 +216,21 @@ body .public_matches_search {
     color: #61D76C;
 }
 
+#msgs a {
+  color: #73A7FF;
+}
+
 /* END error and info messges */ /* breadcrumb */
 #header_text {
     text-align: left;
     font-size: 10px;
-    color: #fff;
-    margin: 10px 20px 0 20px;
+    width: 707px;
+    margin: 10px auto 0 auto;
     color: #92897e;
 }
 
 #header_text span {
-    padding-left: 5px;
+    padding-left: 9px;
 }
 
 #header_text a:visited,a:active,a:link,a:hover {
@@ -236,16 +243,16 @@ body .public_matches_search {
 }
 
 #header_text #header_title {
-    margin: 5px 0;
+    margin: 0;
 }
 
 #header_text #header_title h2 {
-    padding-left: 6px;
     margin: 3px;
     font-size: 18px;
     color: #d3d3d3;
-    line-height: 20px;
+    line-height: 22px;
     font-weight: normal;
+    height: 22px;
     background-color: #3d3d3d;
 }
 
@@ -277,8 +284,7 @@ body .public_matches_search {
 }
 
 #content {
-    padding: 25px;
-    padding-top: 10px;
+    padding: 5px 20px 25px 20px;
     text-align: center;
 }
 
@@ -290,12 +296,13 @@ p {
 
 #secondary_container {
     padding-top: 35px;
-    margin: 0 25px;
+    width: 700px;
+    margin: 0 auto;
     text-align: left;
     font-size: 11px;
-    min-height: 380px;
+    min-height: 377px;
     height: auto !important;
-    height: 380px;
+    height: 377px;
     color: #d3d3d3;
 }
 
@@ -348,7 +355,7 @@ p {
 
 #countries .fieldcountry {
     float: left;
-    width: 225px;
+    width: 215px;
     margin: 5px;
 }
 
@@ -368,7 +375,7 @@ p {
 #report_bug {
     margin-top: 15px;
     margin-bottom: -15px;
-    width: 720px;
+    width: 700px;
 }
 
 #report_bug fieldset {
@@ -431,20 +438,16 @@ p {
 }
 
 #secondary_container #sign_in {
-    margin-left: auto;
-    margin-right: auto;
     width: 444px;
-    margin-top: 110px;
+    margin: 100px auto 0 auto;
     text-align: center;
 }
 
 #secondary_container #sign_in fieldset {
     border: 1px solid #4f4f4f;
-    margin: 0px;
+    margin: 0 auto 0 auto;
     width: 218px;
     padding: 2px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #secondary_container #sign_in legend {
@@ -757,7 +760,7 @@ span.online-assistant {
 
 #dashboard-container div.left,#dashboard-container div.right {
     float: left;
-    width: 341px;
+    width: 325px;
     height: 225px;
     background-color: #000000;
     padding: 12px;
@@ -823,7 +826,7 @@ span.online-assistant {
 #dashboard-container div.bottom {
     clear: both;
     height: 155px;
-    width: 710px;
+    width: 680px;
     background-color: #000;
     border-top: 1px solid #4F4F4F;
     padding: 10px;
@@ -876,7 +879,7 @@ span.online-assistant {
     padding: 0px;
     margin: 0px;
     color: #d3d3d3;
-    width: 730px;
+    width: 700px;
 }
 
 #messages_form fieldset {
@@ -900,7 +903,7 @@ span.online-assistant {
 }
 
 .messages_show_hide {
-    width: 724px;
+    width: 694px;
     border: none;
     margin-top: 20px;
 }
@@ -1406,11 +1409,10 @@ select.language_level {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
-    margin-top: 15px;
+    margin-top: 14px;
     padding: 0;
     text-align: left;
-    width: 80%; /* <-- use this to tie width to viewport size */
-    width: 830px; /* <-- use this for a set width */
+    width: 818px; /* <-- use this for a set width */
     background: #2b2b2b;
 }
 
@@ -1422,7 +1424,6 @@ select.language_level {
     margin-top: 15px;
     padding: 0;
     text-align: left;
-    width: 80%; /* <-- use this to tie width to viewport size */
     width: 842px; /* <-- use this for a set width */
     background: #2b2b2b;
 }
@@ -1544,7 +1545,7 @@ span.sec_link {
 }
 
 .member .member_box {
-    width: 235px;
+    width: 225px;
     float: left;
     height: 120px;
     color: #d3d3d3;
@@ -1616,10 +1617,8 @@ span.sec_link {
     margin: 0;
     padding: 0;
     padding-bottom: 3px;
-    
     color: #d3d3d3;
-    
-    width: 146px;
+    width: 126px;
     height: 26px;
 }
 
@@ -1711,7 +1710,7 @@ div.best_video div.right img {
     clear: both;
     color: #3d3d3d;
     line-height: 18px;
-    padding-top: 6px;
+    padding-top: 3px;
 }
 
 .footer_footer {
@@ -1748,7 +1747,7 @@ div.best_video div.right img {
     clear: both;
     line-height: 14px;
     font-size: 11px;
-    width: 712px;
+    width: 692px;
     text-align: left;
 }
 
@@ -2186,7 +2185,7 @@ div.best_video div.right img {
 #tell_a_friend_container {
     background-color: #4f4f4f;
     height: 220px;
-    width: 720px;
+    width: 700px;
     padding-top: 3px;
     margin-top: 30px;
 }
@@ -2272,7 +2271,8 @@ div.best_video div.right img {
 }
 
 /* END flaggind */ /* profile */ /* left */
-#profile_left { /*width:350px; */
+#profile_left { 
+    width:350px;
     height: 100%;
     min-height: 660px;
     text-align: left;
@@ -2303,11 +2303,10 @@ div.best_video div.right img {
 #profile_right {
     float: right;
     font-size: 11px;
-    /* width:340px; */
+    width:340px;
     height: 100%;
     color: #d3d3d3;
     text-align: left;
-    width: 46%;
 }
 
 /* Profile Pager */
@@ -2504,7 +2503,7 @@ div.best_video div.right img {
 
 #message_details {
     background-color: black;
-    width: 715px;
+    width: 700px;
 }
 
 #message_details .message_header {

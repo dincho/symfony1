@@ -12,7 +12,7 @@
         <span><?php echo link_to('Forgot your Password?', 'profile/forgotYourPassword', array('class' => 'sec_link_small')) ?></span>
     </fieldset>
     <br/>
-    <?php echo submit_tag('Sign In', array('class' => 'button sign_in')) ?><br />
+    <?php echo submit_tag('Sign In', array('class' => 'button sign_in')) ?><br /><br />
     <?php echo __('New to PolishRomance.com? <a href="%URL_FOR_JOIN_NOW%" class="sec_link">Join for free</a>') ?>
 </form>
 </div>
