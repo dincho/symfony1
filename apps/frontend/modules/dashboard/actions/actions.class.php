@@ -177,7 +177,7 @@ class dashboardActions extends prActions
     public function executeDeleteConfirmation()
     {
         $this->getUser()->getBC()->removeFirst()
-        ->addFirst(array('name' => 'Delete Your Account', 'uri' => 'profile/deleteYourAccount'))
+        ->addFirst(array('name' => 'Delete Your Account', 'uri' => 'dashboard/deleteYourAccount'))
         ->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
