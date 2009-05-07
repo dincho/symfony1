@@ -2386,7 +2386,11 @@ div.best_video div.right img {
     color: #92897e;
     font-size: 10px;
     padding-left: 5px;
-    line-height: 15px;
+    line-height: 12px;
+}
+
+#profile_double_box .left .middle {
+    padding-top: 6px;
 }
 
 #profile_double_box .right {
