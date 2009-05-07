@@ -43,6 +43,12 @@ class blockActions extends prActions
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
             $this->redirect('profile/index?username=' . $profile->getUsername() );
         }
+
+				if( $profile->getStatusId() != StatusPeer::ACTIVE )
+				{
+					$this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is no longer available', array('%USERNAME%' => $profile->getUsername())));
+					$this->redirectToReferer();
+				}
                 
         $c = new Criteria();
         $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());

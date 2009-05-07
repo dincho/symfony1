@@ -76,7 +76,12 @@ class messagesActions extends prActions
             $this->getUser()->getProfile()->incCounter('ReadMessages');
         }
         
-        $this->message = $message;
+
+      $member = ( $message->getSentBox() ) ? $message->getMemberRelatedByToMemberId() : $from_member = $message->getMemberRelatedByFromMemberId();
+			if( !$member->isActive() ) 
+				$this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $member->getUsername())), false);
+				
+    	$this->message = $message;
     }
     
     public function validateView()

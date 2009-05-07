@@ -6,15 +6,19 @@
                 <?php if( $message->getSentBox() ): ?>
                     <?php $to_member = $message->getMemberRelatedByToMemberId(); ?>
                     <?php echo __('To:') . '&nbsp;' . $to_member->getUsername() ?>
-                    &nbsp;&nbsp;&nbsp;<?php echo link_to_unless(!$to_member->isActive(), __('See Profile'), '@profile?username=' . $to_member->getUsername(), 'class=sec_link') ?>
-                    &nbsp;&nbsp;<?php echo link_to_unless(!$to_member->isActive(), __('Flag'), 'content/flag?username=' . $to_member->getUsername(), array('class' => 'sec_link')) ?>
-                    &nbsp;&nbsp;<?php echo link_to_unless(!$to_member->isActive(), __('Block'), 'block/add?profile_id=' . $message->getToMemberId(), 'class=sec_link') ?>
+										<?php if( $to_member->isActive() ): ?>
+                    &nbsp;&nbsp;&nbsp;<?php echo link_to(__('See Profile'), '@profile?username=' . $to_member->getUsername(), 'class=sec_link') ?>
+                    &nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $to_member->getUsername(), array('class' => 'sec_link')) ?>
+                    &nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $message->getToMemberId(), 'class=sec_link') ?>
+										<?php endif; ?>
                 <?php else: ?>
                     <?php $from_member = $message->getMemberRelatedByFromMemberId(); ?>
                     <?php echo __('From:') . '&nbsp;' . $from_member->getUsername() ?>
-                    &nbsp;&nbsp;&nbsp;<?php echo link_to_unless(!$from_member->isActive(), __('See Profile'), '@profile?username=' . $from_member->getUsername(), 'class=sec_link') ?>
-                    &nbsp;&nbsp;<?php echo link_to_unless(!$from_member->isActive(), __('Flag'), 'content/flag?username=' . $from_member->getUsername(), array('class' => 'sec_link')) ?>
-                    &nbsp;&nbsp;<?php echo link_to_unless(!$from_member->isActive(), __('Block'), 'block/add?profile_id=' . $message->getFromMemberId(), 'class=sec_link') ?>                  
+										<?php if( $from_member->isActive() ): ?>
+                    &nbsp;&nbsp;&nbsp;<?php echo link_to(__('See Profile'), '@profile?username=' . $from_member->getUsername(), 'class=sec_link') ?>
+                    &nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $from_member->getUsername(), array('class' => 'sec_link')) ?>
+                    &nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $message->getFromMemberId(), 'class=sec_link') ?>                  
+										<?php endif; ?>
                 <?php endif; ?>
             </p>
             <p><?php echo __('Sent:') . '&nbsp;' . format_date_pr($message->getCreatedAt(null)); ?></p>
