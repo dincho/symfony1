@@ -86,7 +86,7 @@ class subscriptionActions extends prActions
                             'sra' => 1, //Reattemt recurring payments on failture
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
-                            'cancel_return' => $this->getController()->genUrl('subscription/cancel', true),
+                            'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $subscription->getId(), true),
                             'a1' => $subscription->getTrial1Amount(),
                             'p1' => $subscription->getTrial1Period(),
                             't1' => $subscription->getTrial1PeriodType(),
