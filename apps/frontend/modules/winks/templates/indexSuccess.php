@@ -7,7 +7,7 @@
         <?php foreach ($received_winks as $received_wink): ?>
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
+                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $age=is_null($member->getBirthday())?"":$member->getAge() ?></span>
                 <?php echo link_to_unless(!$member->isActive(), profile_photo($member, 'float-left'), '@profile?username=' . $member->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
@@ -28,7 +28,7 @@
         <?php foreach ($sent_winks as $sent_wink): ?>
             <?php $profile = $sent_wink->getMemberRelatedByProfileId(); ?>        
             <div class="member_profile">
-                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
+                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $age=is_null($profile->getBirthday())?"":$profile->getAge() ?></span>
                 <?php echo link_to_unless(!$profile->isActive(), profile_photo($profile, 'float-left'), '@profile?username=' . $profile->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
