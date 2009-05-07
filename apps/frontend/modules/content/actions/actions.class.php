@@ -116,13 +116,20 @@ class contentActions extends prActions
         $pages = StaticPagePeer::doSelectWithI18n($c);
         $this->forward404Unless($pages);
         $page = $pages[0];
+
         $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
         $this->page = $page;
         $this->getResponse()->setTitle('PolishRomance - ' . $this->page->getTitle());
         $this->getResponse()->addMeta('description', $this->page->getDescription());
         $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
-                
-        $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
+        
+				if( $page->getSlug() == 'best_videos_rules' )
+				{
+					$bc_middle = array('name' => 'Best Videos', 'uri' => '@page?slug=best_videos');
+				} else {
+        	$bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
+				}
+				
         $this->getUser()->getBC()->clear()->add($bc_middle);
     }
 
