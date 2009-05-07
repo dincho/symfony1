@@ -259,6 +259,17 @@ class Member extends BaseMember
         
         return ( $cnt > 0) ? true : false;
     }
+
+    public function hasInHotlist($member_id)
+    {
+        $c = new Criteria();
+        $c->add(HotlistPeer::MEMBER_ID, $this->getId());
+        $c->add(HotlistPeer::PROFILE_ID, $member_id);
+        
+        $cnt = HotlistPeer::doCount($c);
+        
+        return ( $cnt > 0) ? true : false;
+    }
     
     public function mustFillIMBRA()
     {
