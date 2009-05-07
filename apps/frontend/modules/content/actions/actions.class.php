@@ -79,6 +79,10 @@ class contentActions extends prActions
             $this->redirect('@profile?username=' . $profile->getUsername());
         }
         
+				$this->getUser()->getBC()->replaceFirst(array(
+					'name' => sfI18N::getInstance()->__('%USERNAME%\'s profile', array('%USERNAME%' => $profile->getUsername())),
+					'uri' => '@profile?username=' . $profile->getUsername()
+					));
         $this->profile = $profile;
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
     }
