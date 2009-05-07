@@ -2358,6 +2358,10 @@ div.best_video div.right img {
     padding-left: 30px;
 }
 
+#profile_right #profile_top span {
+  color: #2B2B2B;
+}
+
 #profile_right .profile_gift {
     display: block;
     height: 23px;
