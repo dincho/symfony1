@@ -17,9 +17,11 @@
         <?php echo pr_label_for('description', 'Description:') ?>
         <?php echo textarea_tag('description', null, array('id' =>'description', 'class' => 'text_area', 'rows' => 16, 'cols' => 52)) ?>
     </fieldset>
-
-    <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
+    
+    <div class="online_assistant">
+        <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
+        <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
+    </div>
 </form>
 
 <?php slot('footer_menu') ?>

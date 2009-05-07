@@ -2897,6 +2897,12 @@ td.search_filter_td_5 {
 
 /* END Search Filter Table */
 
+.online_assistant {
+    background: #000;
+    margin-top: -5px;
+    padding: 3px;
+}
+
 .margin_right_zero {
     margin-right: 0;
 }
