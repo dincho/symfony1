@@ -169,7 +169,7 @@ class registrationActions extends prActions
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($this->member); //just in case
-        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+        //$this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {

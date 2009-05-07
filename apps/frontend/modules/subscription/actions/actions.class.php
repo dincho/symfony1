@@ -125,21 +125,6 @@ class subscriptionActions extends prActions
         }
                     
         $this->member = $member;
-    }
-    
-    public function executePaymentGift()
-    {
-        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
-        $this->forward404Unless($member);
-        $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
-        
-        if( $this->getUser()->getId() == $member->getId() )
-        {
-            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $member->getUsername() );
-        }
-                
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Payment'));
         $this->amount = 29.95;
         
         $EWP = new sfEWP();
@@ -164,7 +149,6 @@ class subscriptionActions extends prActions
                             
         );
         
-        $this->username = $member->getUsername();
         $this->encrypted = $EWP->encryptFields($parameters);
     }
         
