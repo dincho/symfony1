@@ -34,7 +34,7 @@ class Dashboard
     public static function getMemberFeedbackForReply()
     {
 	$r = new CustomQueryObject();
-	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND member_id IS NOT NULL ');
+	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND member_id IS NOT NULL AND ' . FeedbackPeer::IS_READ . ' = 0');
 	return $ret[0];
 
     }
@@ -42,7 +42,7 @@ class Dashboard
     public static function getExternalFeedbackForReply()
     {
 	$r = new CustomQueryObject();
-	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND member_id IS  NULL ');
+	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND member_id IS  NULL AND ' . FeedbackPeer::IS_READ . ' = 0');
 	return $ret[0];
 
     }
@@ -72,7 +72,7 @@ class Dashboard
     public static function getBugsSuggestionsFeedback()
     {
 	$r = new CustomQueryObject();
-	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND is_read=0 AND mail_to="'.FeedbackPeer::BUGS_SUGGESIONS_ADDRESS.'"');
+	$ret =  $r->query('SELECT   SUM(IF(DATE(created_at) >= CURDATE() - interval 2 day, 1, 0)) as 2days, SUM(IF(DATE(created_at) < CURDATE() - interval 2 day AND DATE(created_at) >= CURDATE() - interval 7 day, 1, 0)) as 3days,  SUM(IF(DATE(created_at) < CURDATE() - interval 8 day , 1, 0)) as 8days FROM feedback WHERE  mailbox="'.FeedbackPeer::INBOX.'" AND mail_to="'.FeedbackPeer::BUGS_SUGGESIONS_ADDRESS.'"' . 'AND ' . FeedbackPeer::IS_READ . ' = 0');
 	return $ret[0];
 
     }
