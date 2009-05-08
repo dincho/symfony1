@@ -5,31 +5,31 @@
 <br style="line-height:10px;" />
 <?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
     <fieldset>
-        <?php echo pr_label_for('email', 'Your email address') ?>
+        <?php echo pr_label_for('email', __('Your email address')) ?>
         <?php echo object_input_tag($member, 'getEmail') ?><br />    
         
-        <?php echo pr_label_for('password', 'Create Password') ?>
+        <?php echo pr_label_for('password', __('Create Password')) ?>
         <?php echo input_password_tag('password') ?><br />
         
-        <?php echo pr_label_for('repeat_password', 'Repeat Password') ?>
+        <?php echo pr_label_for('repeat_password', __('Repeat Password')) ?>
         <?php echo input_password_tag('repeat_password') ?><br />
         
-        <?php echo pr_label_for('looking_for', 'You are') ?>
+        <?php echo pr_label_for('looking_for', __('You are')) ?>
         <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor()), array("disabled" => "true")) ?><br />
         
-        <?php echo pr_label_for('country', 'Country of Residence') ?>
+        <?php echo pr_label_for('country', __('Country of Residence')) ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         
-        <?php echo pr_label_for('state_id', 'Area') ?>
+        <?php echo pr_label_for('state_id', __('Area')) ?>
         <?php echo pr_object_select_state_tag($member, 'getStateId') ?><br />
         
-        <?php echo pr_label_for('city', 'City') ?>
+        <?php echo pr_label_for('city', __('City')) ?>
         <?php echo object_input_tag($member, 'getCity') ?><br />
         
-        <?php echo pr_label_for('zip', 'Zip Code') ?>
+        <?php echo pr_label_for('zip', __('Zip Code')) ?>
         <?php echo object_input_tag($member, 'getZip') ?><br />
         
-        <?php echo pr_label_for('nationality', 'Nationality') ?>
+        <?php echo pr_label_for('nationality', __('Nationality')) ?>
         <?php echo object_input_tag($member, 'getNationality') ?><br />
     </fieldset>
     <fieldset>
