@@ -72,4 +72,4 @@
     <?php echo link_to(__('[next]'), '@profilese?username='.$next_member->getUsername() . '&headline=' . Tools::slugify($next_member->getEssayHeadline(ESC_RAW)));?><br /><br />
 <?php endif;?>
 
-<?php echo link_to(__('Click here to return to My Polish Love'), '@homepage');?>
+<?php echo __('Click here to return to My Polish Love Home Page'); ?>
