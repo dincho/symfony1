@@ -7,7 +7,7 @@
     <?php foreach ($visits as $visit): ?>
         <?php $member = $visit->getMemberRelatedByMemberId() ?>
         <div class="member_profile_viewers">
-            <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $member->getAge() ?></span>
+            <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $age=is_null($member->getBirthday())?"":$member->getAge() ?></span>
             <?php echo link_to_unless(!$member->isActive(), profile_photo($member, 'float-left'), '@profile?username=' . $member->getUsername()) ?>
             <div class="input">
                 <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => format_date_pr($member->getCreatedAt(null)))) ?></span>
