@@ -226,15 +226,21 @@ class Member extends BaseMember
     
     public function getAge()
     {
-        list($b_Y, $b_m, $b_d) = explode('-', $this->getBirthday());
-        list($now_Y, $now_m, $now_d) = explode('-', date('Y-m-d', time()));
-        $age = $now_Y - $b_Y - 1;
-        
-        if( $now_m > $b_m || ( $now_m = $b_m && $now_d >= $b_d) ) 
+        if( is_null($this->getBirthday()) )
         {
-            $age++;
+            $age = "";
         }
-        
+        else
+        {
+            list($b_Y, $b_m, $b_d) = explode('-', $this->getBirthday());
+            list($now_Y, $now_m, $now_d) = explode('-', date('Y-m-d', time()));
+            $age = $now_Y - $b_Y - 1;
+            
+            if( $now_m > $b_m || ( $now_m = $b_m && $now_d >= $b_d) ) 
+            {
+                $age++;
+            }
+        }
         return $age;
     }
     
