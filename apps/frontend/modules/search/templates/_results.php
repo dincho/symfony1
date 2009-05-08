@@ -13,7 +13,7 @@
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
 
-                    <p><?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?pager=1&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                     <p style="padding-bottom: 3px;">
                         <?php echo link_to_unless(!$member->isActive(), __('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
                         <?php include_partial('search/last_action', array('match' => $match)); ?>

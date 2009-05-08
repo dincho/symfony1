@@ -139,7 +139,33 @@ class profileActions extends prActions
         }
         
         $this->profile_pager = new ProfilePager($member->getUsername());
-				$this->getUser()->getBC()->add(array('name' => $member->getEssayHeadline() . ' / ' . $member->getUsername() . ' /  ' . $member->getAge()));
+
+				$bc = $this->getUser()->getBC();
+				$bc->replaceFirst(array('name' => 'Dashboard', 'uri' => '@dashboard'));
+				
+				switch ($this->getRequestParameter('bc')) {
+					case 'search':
+						$bc->add(array('name' => 'Search', 'uri' => '@matches'));
+						break;
+					case 'messages':
+						$bc->add(array('name' => 'Messages', 'uri' => 'messages/index'));
+						break;
+					case 'winks':
+						$bc->add(array('name' => 'Winks', 'uri' => '@winks'));
+						break;
+					case 'hotlist':
+						$bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
+						break;
+					case 'visitors':
+						$bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
+						break;					
+					case 'blocked':
+						$bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
+						break;
+					default:
+						break;
+				}
+				$bc->add(array('name' => $member->getEssayHeadline() . ' / ' . $member->getUsername() . ' /  ' . $member->getAge()));
     }
 
     public function executeSignIn()
@@ -152,18 +178,16 @@ class profileActions extends prActions
             $this->forward404Unless($member);
             $this->getUser()->SignIn($member);
 
-            //$this->redirect('dashboard/index');
             $this->afterSignInRedirect();
-                    	
 
         } elseif ($this->getUser()->isAuthenticated())
         {
-            if (! $this->getUser()->hasCredential(array('member'), false)) $this->executeSignout();
-            $this->redirect('@homepage');
+           if (! $this->getUser()->hasCredential(array('member'), false)) $this->executeSignout();
+           $this->redirect('@homepage');
         } else {
-	      $referer_rel = $_SERVER["REQUEST_URI"];
-	      $referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
-	      $this->getRequest()->setAttribute('referer', $referer_abs);          	
+					$referer_rel = $_SERVER["REQUEST_URI"];
+					$referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
+					$this->getRequest()->setAttribute('referer', $referer_abs);          	
         }
     }
     

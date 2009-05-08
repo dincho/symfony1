@@ -24,8 +24,8 @@ profilese:
     param: { module: profile, action: indexse, sf_culture: en }
     
 profile:
-    url:   /:sf_culture/profiles/:username/*
-    param: { module: profile, action: index, sf_culture: en }
+    url:   /:sf_culture/:bc/profile/:username/*
+    param: { module: profile, action: index, sf_culture: en, bc: dashboard }
     
 my_profile:
     url:   /:sf_culture/myProfile
