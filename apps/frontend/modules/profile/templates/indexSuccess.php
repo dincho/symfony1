@@ -85,7 +85,7 @@
                         <?php endif; ?>
                     <?php elseif( $question->getType() == 'native_lang' && ( isset($member_answers[$question->getId()])) ): ?>
                     
-                    <dt><?php echo __('Language'); ?></dt><dd><?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (native)</dd>
+                    <dt><?php echo __('Language'); ?></dt><dd><?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (<?php echo __('native'); ?>)</dd>
                     <?php elseif( $question->getType() == 'other_langs' ): ?>
                         <?php if( isset($member_answers[$question->getId()]) ): ?>
                             <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
