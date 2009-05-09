@@ -7,7 +7,15 @@
     </div>
     <?php if( $story->getStockPhotoId() ): ?>
         <?php $stockPhoto = $story->getStockPhoto() ?>
-        <?php echo image_tag(($stockPhoto->getImageFilename('cropped') ? $stockPhoto->getImageUrlPath('cropped', '220x225') : $stockPhoto->getImageUrlPath('file', '220x225')), array('id' => 'member_story_img')) ?>
+        <?php $img_tag = image_tag(($stockPhoto->getImageFilename('cropped') ? $stockPhoto->getImageUrlPath('cropped', '220x225') : $stockPhoto->getImageUrlPath('file', '220x225')), array('id' => 'member_story_img')) ?>
+
+	    <?php if( sfConfig::get('app_beta_period') ): ?>
+	        <?php echo link_to($img_tag, 'registration/joinNow') ?>
+	    <?php else: ?>
+	        <?php $looking_for = ( $stockPhoto->getGender() == 'M') ? 'F_M' : 'M_F'; ?>
+	        <?php echo link_to($img_tag,  'search/public?filter=filter&filters[looking_for]=' . $looking_for) ?>
+	    <?php endif; ?>
+
     <?php endif; ?>
 </div>
 <div id="member_story_content">

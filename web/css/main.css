@@ -2046,6 +2046,7 @@ div.best_video div.right img {
     margin: 0 0 10px 0;
     list-style-type: disc;
     list-style-position: inside;
+    width: 220px;
 }
 
 #member_story_right ul a {
@@ -2056,6 +2057,13 @@ div.best_video div.right img {
     text-decoration: underline;
 }
 
+#member_story_right a:hover img {
+    border: 1px solid #E0B400;
+    background-color: #E0B400;  
+}
+
+#member_story_img { display: block; margin: 0 auto; }
+
 #member_story_list {
     color: #92897e;
     background-color: #221f20;
@@ -2065,7 +2073,7 @@ div.best_video div.right img {
 
 #member_story_content {
     margin-bottom: 30px;
-    width: 485px;
+    width: 461px;
 }
 
 #member_story_content, #member_story_content p {
