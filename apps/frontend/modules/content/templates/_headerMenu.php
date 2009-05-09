@@ -4,7 +4,7 @@
 <div id="right">
     <?php if( !$sf_user->isAuthenticated()): ?>
         <p>
-            <?php echo pr_link_to(__('Join Now'), 'registration/joinNow') ?>&bull;<?php echo pr_link_to(__('Members Stories'), '@member_stories') ?>&bull;<?php echo pr_link_to(__('Home'), '@homepage', 'class=last') ?>
+            <?php echo pr_link_to(__('Join Now'), 'registration/joinNow') ?>&bull;<?php echo pr_link_to(__('Members Stories'), 'memberStories/index') ?>&bull;<?php echo pr_link_to(__('Home'), '@homepage', 'class=last') ?>
             <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>
             <?php if( $current_culture == "en" ): ?>
                 <?php echo link_to(image_tag('sign_in.gif'), 'profile/signIn') ?>
