@@ -1,4 +1,4 @@
-<?php use_helper('prDate', 'prProfilePhoto') ?>
+<?php use_helper('prDate', 'prProfilePhoto', 'Date') ?>
 
 <?php echo __('These are the winks you received and sent. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
 <div id="winks">
@@ -12,7 +12,7 @@
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% winked at you %date%', 
-                                   array('%date%' => format_date_pr($received_wink->getCreatedAt(null)),
+                                   array('%date%' => distance_of_time_in_words($received_wink->getCreatedAt(null)),
                                          '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
                                )); ?>
                     </span>
@@ -33,7 +33,7 @@
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('You winked at %her_his% %date%', 
-                                   array('%date%' => format_date_pr($sent_wink->getCreatedAt(null)),
+                                   array('%date%' => distance_of_time_in_words($sent_wink->getCreatedAt(null)),
                                          '%her_his%' => ( $profile->getSex() == 'M' ) ? 'him' : 'her',
                                )); ?>
                     </span>

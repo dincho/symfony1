@@ -1,4 +1,4 @@
-<?php use_helper('prDate', 'prProfilePhoto') ?>
+<?php use_helper('prDate', 'prProfilePhoto', 'Date') ?>
 
 <p><?php echo __('To get new match results, change your <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">Search Criteria</a>') ?></p>
 <br />
@@ -10,7 +10,7 @@
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $member->getAge() ?></span>
             <?php echo link_to_unless(!$member->isActive(), profile_photo($member, 'float-left'), '@profile?bc=visitors&username=' . $member->getUsername()) ?>
             <div class="input">
-                <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => format_date_pr($member->getCreatedAt(null)))) ?></span>
+                <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => distance_of_time_in_words($member->getCreatedAt(null)))) ?></span>
                 <?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?bc=visitors&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
             </div>
         </div>        

@@ -1,4 +1,4 @@
-<?php use_helper('prDate', 'prProfilePhoto') ?>
+<?php use_helper('prDate', 'prProfilePhoto', 'Date') ?>
 
 <div id="winks">
     <div class="you_recived">
@@ -11,7 +11,7 @@
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% added you to %her_his% hotlist %date%', 
-                                   array('%date%' => format_date_pr($others_hotlist_row->getCreatedAt(null)),
+                                   array('%date%' => distance_of_time_in_words($others_hotlist_row->getCreatedAt(null)),
                                          '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
                                          '%her_his%' => ( $member->getSex() == 'M' ) ? 'his' : 'her'
                                )); ?>
@@ -30,7 +30,7 @@
                 <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
                 <?php echo link_to_unless(!$profile->isActive(), profile_photo($profile, 'float-left'), '@profile?bc=hotlist&username=' . $profile->getUsername()) ?>
                 <div class="input">
-                    <span class="public_reg_notice"><?php echo __('Added to your hotlist %date%', array('%date%' => format_date_pr($hotlist_row->getCreatedAt(null)))) ?></span>
+                    <span class="public_reg_notice"><?php echo __('Added to your hotlist %date%', array('%date%' => distance_of_time_in_words($hotlist_row->getCreatedAt(null)))) ?></span>
                     <?php echo link_to_unless(!$profile->isActive(), __('View Profile'), '@profile?bc=hotlist&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to(__('Remove from Hotlist'), 'hotlist/delete?id=' . $hotlist_row->getId()) ?>
                 </div>
