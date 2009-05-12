@@ -63,7 +63,7 @@ class prMail extends sfMail
         
         try
         {
-            //parent::send();
+            parent::send();
         } catch ( sfException $e )
         {
             if(SF_ENVIRONMENT == 'dev') throw new sfException($e->getMessage(), $e->getCode());
