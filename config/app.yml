@@ -5,7 +5,7 @@ default:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
-    version:            "v1.1.5/trunk"
+    version:            "v1.1.6/trunk"
     mail:
         host:           mail.bonex.us
         port:           993
