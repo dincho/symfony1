@@ -97,6 +97,14 @@ class dashboardActions extends prActions
         $c->setLimit(7);
         
         $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
+        
+        if( $member->getDashboardMsg() == 0 ) //not hidden
+        {
+          $this->setFlash('msg_ok', 
+                          sfI18N::getInstance()->__('This is your control panel. Here you can find everything you need to use the website', 
+                          array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
+                          , false);
+        }
     }
     
     public function executeVisitors()
