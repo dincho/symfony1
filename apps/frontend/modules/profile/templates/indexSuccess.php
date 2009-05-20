@@ -33,13 +33,13 @@
                     <?php if( $member->hasSearchCriteria() ): ?>
                         <?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />
                     <?php else: ?>
-                        <?php echo __('You match %her_him%: (not calculated yet)', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />
+                        <?php echo __('You match %her_him%: (no result)', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />
                     <?php endif; ?>
                     
                     <?php if( $sf_user->getProfile()->hasSearchCriteria() ): ?>
                         <?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
                     <?php else: ?>
-                        <?php echo __('%she_he% matches you: (not calculated yet)') ?><br />
+                        <?php echo __('%she_he% matches you: (no result)', array('%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
                     <?php endif; ?>
                     
                     <?php if( $match->getCombinedMatch() > 0 ): ?>
