@@ -6,7 +6,13 @@
    <div id="profile_top">
         <?php echo link_to(__('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php echo link_to(__('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to_unless($sf_user->getProfile()->hasInHotlist($member->getId()),__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        
+        <?php if( $hotlist ): ?>
+           <?php echo link_to(__('Remove from Hotlist'), 'hotlist/delete?id=' . $hotlist->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php else: ?>
+          <?php echo link_to(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php endif; ?>
+        
         <?php echo link_to_unless($sf_user->getProfile()->hasBlockFor($member->getId()), __('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername(), 'class=sec_link') ?>
    </div>

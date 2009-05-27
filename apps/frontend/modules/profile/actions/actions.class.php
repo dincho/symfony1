@@ -138,6 +138,12 @@ class profileActions extends prActions
             $this->imbra_answers = $this->imbra->getImbraAnswersArray();
         }
         
+        //hotlist - is already hotlisted ?
+        $c = new Criteria();
+        $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
+        $c->add(HotlistPeer::PROFILE_ID, $member->getId());
+        $this->hotlist = HotlistPeer::doSelectOne($c);
+                
         $this->profile_pager = new ProfilePager($member->getUsername());
 
 				$bc = $this->getUser()->getBC();
