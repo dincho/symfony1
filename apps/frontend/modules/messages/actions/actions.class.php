@@ -29,6 +29,11 @@ class messagesActions extends prActions
         $c1 = new Criteria();
         //$c1->addDescendingOrderByColumn(MessageDraftPeer::CREATED_AT);
         $c1->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
+        
+        $crit = $c1->getNewCriterion(MessageDraftPeer::SUBJECT, '', Criteria::NOT_EQUAL);
+        $crit->addOr($c1->getNewCriterion(MessageDraftPeer::CONTENT, '', Criteria::NOT_EQUAL));
+        $c1->add($crit);
+        
         $this->draft_messages = MessageDraftPeer::doSelectJoinMemberRelatedByToMemberId($c1);
         
         //message deletion confirmation
