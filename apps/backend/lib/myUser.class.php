@@ -87,6 +87,6 @@ class myUser extends sfBasicSecurityUser
     public function getRefererUrl()
     {
         $stack = $this->getAttributeHolder()->getAll('backend/user/referer_stack');
-        return isset($stack[1]) ? $stack[1] : null;
+        return isset($stack[1]) ? str_replace(array('cancel=1','cancel=1'), "", $stack[1]) : null;
     }
 }

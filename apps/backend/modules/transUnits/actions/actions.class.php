@@ -14,15 +14,14 @@ class transUnitsActions extends sfActions
     {
         if ($this->getRequestParameter('cancel') == 1)
         {
-          $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved');
-          $this->redirect($this->getModuleName().'/'.$this->getActionName().'?id=' . $this->getRequestParameter('id'));
+          $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved', false);
         }
             
         $this->left_menu_selected = 'Translation Units';
         $this->top_menu_selected = 'content';
         
         $bc = $this->getUser()->getBC();
-        $bc->replaceFirst(array('name' => 'Translation Units', 'uri' => 'transUnits/list'));        
+        $bc->replaceFirst(array('name' => 'Translation Units', 'uri' => 'transUnits/list'));    
     }
     
     public function executeList()

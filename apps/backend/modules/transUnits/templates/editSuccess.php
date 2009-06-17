@@ -41,7 +41,8 @@
     </fieldset>
     
     <fieldset class="actions">
-    <?php echo button_to('Cancel', $sf_user->getRefererUrl() . '&cancel=1')  . 
+    <?php $cancel_param = ( strpos($sf_user->getRefererUrl(), "?") ) ? '&cancel=1' : '?cancel=1'; ?>
+    <?php echo button_to('Cancel', $sf_user->getRefererUrl() . $cancel_param)  . 
                button_to('Delete', 'transUnits/delete?id=' . $trans_unit->getId(), 'confirm=Are you sure you want to delete this unit? All other units with this source will be also deleted!') . 
                submit_tag('Save', 'class=button') ?>
     </fieldset>

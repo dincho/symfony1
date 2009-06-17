@@ -1,3 +1,7 @@
+ALTER TABLE `member` ADD CONSTRAINT `member_FK_3`
+		FOREIGN KEY (`state_id`)
+		REFERENCES `state` (`id`)
+		ON DELETE RESTRICT;
 /* old definition: int(11) NOT NULL auto_increment
    new definition: INTEGER(11)  NOT NULL AUTO_INCREMENT */
 ALTER TABLE `catalogue` CHANGE `cat_id` `cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT;
@@ -7,6 +11,8 @@ ALTER TABLE `catalogue` CHANGE `date_created` `date_created` INTEGER(11) default
 /* old definition: int(11) NOT NULL default '0'
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `catalogue` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;
+DROP TABLE `geo2`;
+DROP TABLE `geodata`;
 /* old definition: int(1) default '0'
    new definition: INTEGER(1) default 0 */
 ALTER TABLE `ipblock` CHANGE `item_type` `item_type` INTEGER(1) default 0;
