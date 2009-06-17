@@ -29,13 +29,13 @@ if( $current_day <= $last_clear_day)
 {
     $c = new Criteria();
     $c->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID, Criteria::NOT_EQUAL);
-    $c->add(MemberPeer::CREATED_AT, 'MONTH(' . MemberPeer::CREATED_AT . ') '. Criteria::GREATER_THAN .' ' . date('m'), Criteria::CUSTOM);
+    $c->add(MemberPeer::LAST_SUBSCRIPTION_CHANGE, 'MONTH(' . MemberPeer::LAST_SUBSCRIPTION_CHANGE . ') '. Criteria::GREATER_THAN .' ' . date('m'), Criteria::CUSTOM);
     
     if( $current_day == $last_clear_day ) 
     {
-        $c->add(MemberPeer::CREATED_AT, 'DAY(' . MemberPeer::CREATED_AT . ') '. Criteria::GREATER_EQUAL .' ' . $current_day, Criteria::CUSTOM);
+        $c->add(MemberPeer::LAST_SUBSCRIPTION_CHANGE, 'DAY(' . MemberPeer::LAST_SUBSCRIPTION_CHANGE . ') '. Criteria::GREATER_EQUAL .' ' . $current_day, Criteria::CUSTOM);
     } else {
-        $c->add(MemberPeer::CREATED_AT, 'DAY(' . MemberPeer::CREATED_AT . ') '. Criteria::EQUAL .' ' . $current_day, Criteria::CUSTOM);
+        $c->add(MemberPeer::LAST_SUBSCRIPTION_CHANGE, 'DAY(' . MemberPeer::LAST_SUBSCRIPTION_CHANGE . ') '. Criteria::EQUAL .' ' . $current_day, Criteria::CUSTOM);
     }
     
     $members = MemberPeer::doSelectJoinMemberCounter($c);

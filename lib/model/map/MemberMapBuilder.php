@@ -142,5 +142,7 @@ class MemberMapBuilder {
 
 		$tMap->addColumn('ORIGINAL_LAST_NAME', 'OriginalLastName', 'string', CreoleTypes::VARCHAR, true, 80);
 
+		$tMap->addColumn('LAST_SUBSCRIPTION_CHANGE', 'LastSubscriptionChange', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 	} 
 } 

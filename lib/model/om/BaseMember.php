@@ -227,6 +227,10 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	
 	protected $original_last_name;
 
+
+	
+	protected $last_subscription_change;
+
 	
 	protected $aMemberStatus;
 
@@ -970,6 +974,28 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 	{
 
 		return $this->original_last_name;
+	}
+
+	
+	public function getLastSubscriptionChange($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->last_subscription_change === null || $this->last_subscription_change === '') {
+			return null;
+		} elseif (!is_int($this->last_subscription_change)) {
+						$ts = strtotime($this->last_subscription_change);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [last_subscription_change] as date/time value: " . var_export($this->last_subscription_change, true));
+			}
+		} else {
+			$ts = $this->last_subscription_change;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -1835,6 +1861,23 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLastSubscriptionChange($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [last_subscription_change] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->last_subscription_change !== $ts) {
+			$this->last_subscription_change = $ts;
+			$this->modifiedColumns[] = MemberPeer::LAST_SUBSCRIPTION_CHANGE;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -1949,11 +1992,13 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 
 			$this->original_last_name = $rs->getString($startcol + 54);
 
+			$this->last_subscription_change = $rs->getTimestamp($startcol + 55, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 55; 
+						return $startcol + 56; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Member object", $e);
 		}
@@ -2781,6 +2826,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 54:
 				return $this->getOriginalLastName();
 				break;
+			case 55:
+				return $this->getLastSubscriptionChange();
+				break;
 			default:
 				return null;
 				break;
@@ -2846,6 +2894,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			$keys[52] => $this->getImbraPayment(),
 			$keys[53] => $this->getOriginalFirstName(),
 			$keys[54] => $this->getOriginalLastName(),
+			$keys[55] => $this->getLastSubscriptionChange(),
 		);
 		return $result;
 	}
@@ -3026,6 +3075,9 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 			case 54:
 				$this->setOriginalLastName($value);
 				break;
+			case 55:
+				$this->setLastSubscriptionChange($value);
+				break;
 		} 	}
 
 	
@@ -3088,6 +3140,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[52], $arr)) $this->setImbraPayment($arr[$keys[52]]);
 		if (array_key_exists($keys[53], $arr)) $this->setOriginalFirstName($arr[$keys[53]]);
 		if (array_key_exists($keys[54], $arr)) $this->setOriginalLastName($arr[$keys[54]]);
+		if (array_key_exists($keys[55], $arr)) $this->setLastSubscriptionChange($arr[$keys[55]]);
 	}
 
 	
@@ -3150,6 +3203,7 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MemberPeer::IMBRA_PAYMENT)) $criteria->add(MemberPeer::IMBRA_PAYMENT, $this->imbra_payment);
 		if ($this->isColumnModified(MemberPeer::ORIGINAL_FIRST_NAME)) $criteria->add(MemberPeer::ORIGINAL_FIRST_NAME, $this->original_first_name);
 		if ($this->isColumnModified(MemberPeer::ORIGINAL_LAST_NAME)) $criteria->add(MemberPeer::ORIGINAL_LAST_NAME, $this->original_last_name);
+		if ($this->isColumnModified(MemberPeer::LAST_SUBSCRIPTION_CHANGE)) $criteria->add(MemberPeer::LAST_SUBSCRIPTION_CHANGE, $this->last_subscription_change);
 
 		return $criteria;
 	}
@@ -3287,6 +3341,8 @@ abstract class BaseMember extends BaseObject  implements Persistent {
 		$copyObj->setOriginalFirstName($this->original_first_name);
 
 		$copyObj->setOriginalLastName($this->original_last_name);
+
+		$copyObj->setLastSubscriptionChange($this->last_subscription_change);
 
 
 		if ($deepCopy) {

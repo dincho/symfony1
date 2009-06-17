@@ -1,3 +1,4 @@
+ALTER TABLE `member` ADD `last_subscription_change` DATETIME;
 ALTER TABLE `member` ADD CONSTRAINT `member_FK_3`
 		FOREIGN KEY (`state_id`)
 		REFERENCES `state` (`id`)
@@ -12,6 +13,7 @@ ALTER TABLE `catalogue` CHANGE `date_created` `date_created` INTEGER(11) default
    new definition: INTEGER(11) default 0 NOT NULL */
 ALTER TABLE `catalogue` CHANGE `date_modified` `date_modified` INTEGER(11) default 0 NOT NULL;
 DROP TABLE `geo2`;
+DROP TABLE `geo3`;
 DROP TABLE `geodata`;
 /* old definition: int(1) default '0'
    new definition: INTEGER(1) default 0 */

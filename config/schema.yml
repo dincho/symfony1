@@ -110,6 +110,7 @@ propel:
     imbra_payment:            { type: varchar, size: 100, required: false }
     original_first_name:      { type: varchar, size: 80, required: true }  
     original_last_name:       { type: varchar, size: 80, required: true }
+    last_subscription_change: { type: timestamp }
   member_status:
     id:
     title:                    { type: varchar, size: 255 }

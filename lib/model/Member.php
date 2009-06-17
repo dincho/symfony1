@@ -152,6 +152,7 @@ class Member extends BaseMember
 
             $this->setSubscriptionId($subscription_id);
             $this->addSubscriptionHistory($history);
+            $this->setLastSubscriptionChange(time());
         }
     }
     
