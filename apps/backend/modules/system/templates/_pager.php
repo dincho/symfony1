@@ -15,8 +15,8 @@
         <?php endforeach; ?>
         <div>
           <?php echo link_to('First', $route . '?page=1' . '&per_page=' .$per_page . @$query_string) ?>
-          <?php echo link_to('Previous', $route . '?page='.$pager->getPreviousPage() . '&per_page=' .$per_page . @$query_string) ?>&nbsp;|
-          <?php echo link_to('Next', $route . '?page='.$pager->getNextPage() . '&per_page=' .$per_page . @$query_string) ?>
+          <?php echo link_to_unless($pager->getPage() == 1, 'Previous', $route . '?page='.$pager->getPreviousPage() . '&per_page=' .$per_page . @$query_string) ?>&nbsp;|
+          <?php echo link_to_unless($pager->getPage() == $pager->getLastPage(), 'Next', $route . '?page='.$pager->getNextPage() . '&per_page=' .$per_page . @$query_string) ?>
           <?php echo link_to('Last', $route . '?page='.$pager->getLastPage() . '&per_page=' .$per_page . @$query_string) ?>
         </div>
     <?php endif; ?>
