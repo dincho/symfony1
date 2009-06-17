@@ -12,7 +12,6 @@ class profileActions extends prActions
 
     public function executeIndexse()
     {
-        $this->setLayout('se');
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
         $this->forward404Unless($member || $member->getStatusId() != MemberStatusPeer::ACTIVE);
         

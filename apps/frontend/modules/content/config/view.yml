@@ -1,4 +1,6 @@
 emailsSuccess:
-    stylesheets: [  ]
+  stylesheets: [  ]
 searchEngineSuccess:
-  has_layout: off
+  layout:      se
+  stylesheets: [-*]
+  javascripts: [-*]
