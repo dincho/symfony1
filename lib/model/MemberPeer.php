@@ -410,7 +410,7 @@ class MemberPeer extends BaseMemberPeer
     public static function getFrontendProfileUrl($username)
     {
         $hash = sha1(sfConfig::get('app_admin_user_hash') . $username . sfConfig::get('app_admin_user_hash'));
-        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/profiles/' . $username . '/admin_hash/' . $hash . '.html';
+        return sfContext::getInstance()->getRequest()->getUriPrefix() . '/en/dashboard/profile/' . $username . '/admin_hash/' . $hash . '.html';
     }
 
     public static function doSelectJoinStockPhoto(Criteria $c, $con = null)
