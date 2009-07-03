@@ -119,17 +119,18 @@ class contentActions extends prActions
 
         $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
         $this->page = $page;
-        $this->getResponse()->setTitle('PolishRomance - ' . $this->page->getTitle());
+        $this->getResponse()->setTitle($this->page->getTitle());
         $this->getResponse()->addMeta('description', $this->page->getDescription());
         $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
         
-				if( $page->getSlug() == 'best_videos_rules' )
-				{
-					$bc_middle = array('name' => 'Best Videos', 'uri' => '@page?slug=best_videos');
-				} else {
-        	$bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
-				}
-				
+        if( $page->getSlug() == 'best_videos_rules' )
+        {
+            $links_map = StaticPagePeer::getLinskMap();
+            $bc_middle = array('name' => $links_map['best_videos'], 'uri' => '@page?slug=best_videos');
+        } else {
+            $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
+        }
+
         $this->getUser()->getBC()->clear()->add($bc_middle);
     }
 
