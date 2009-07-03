@@ -1,7 +1,7 @@
 <div id="header_text">
     <span>
     <?php echo __('You are here: ')?>
-		<?php $BC = $sf_user->getBC(); ?>
+    <?php $BC = $sf_user->getBC(); ?>
     <?php $stack = $BC->getStack(); $cnt = count($stack)-1; //do not add link to last element ?>
     
     <?php for( $i=0; $i<$cnt; $i++ ): ?>

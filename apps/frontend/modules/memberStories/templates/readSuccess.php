@@ -27,5 +27,5 @@
 </div>
 
 <?php slot('header_title') ?>
-    <?php echo $story->getTitle() ?>
+    <?php echo $story->getTitle(ESC_RAW) ?>
 <?php end_slot(); ?>

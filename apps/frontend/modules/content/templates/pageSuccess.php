@@ -4,7 +4,7 @@
 <?php endif; ?>
 
 <?php slot('header_title') ?>
-    <?php echo $page->getTitle() ?>
+    <?php echo $page->getTitle(ESC_RAW) ?>
 <?php end_slot(); ?>
 
 <?php if ($page->getHasMiniMenu()): ?> 

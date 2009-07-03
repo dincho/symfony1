@@ -34,8 +34,8 @@ class prFrontendBreadCrumb extends xBreadcrumb
   
   public function getLastName()
   {
-			sfLoader::loadHelpers(array('I18N'));
-	
+      sfLoader::loadHelpers(array('I18N'));
+
       $el = $this->getLast();
       return ( $this->tr_last ) ? __($this->humanize($el['name'])) : $this->humanize($el['name']);
   }
@@ -63,33 +63,34 @@ class prFrontendBreadCrumb extends xBreadcrumb
       return $this;
   }
 
-	public function isLastItemTranslatable()
-	{
-		return $this->tr_last;
-	}
-	
-	public function getStack()
-	{
-		//add header_title slot as last element if exists
-		$slots = sfContext::getInstance()->getResponse()->getParameter('slots', array(), 'symfony/view/sfView/slot');
-		if( isset($slots['header_title']) )
-		{
-			$this->add(array('name' => trim($slots['header_title'])));
-			$this->tr_last = false;
-		}
-		
-		return parent::getStack();
-	}
-	
-	public function getDelimiter()
-	{
-		return $this->delim;
-	}
+    public function isLastItemTranslatable()
+    {
+        return $this->tr_last;
+    }
+
+    public function getStack()
+    {
+        //add header_title slot as last element if exists
+        $slots = sfContext::getInstance()->getResponse()->getParameter('slots', array(), 'symfony/view/sfView/slot');
+
+        if( isset($slots['header_title']) )
+        {
+            $this->add(array('name' => trim($slots['header_title'])));
+            $this->tr_last = false;
+        }
+
+        return parent::getStack();
+    }
+
+    public function getDelimiter()
+    {
+        return $this->delim;
+    }
   
-  public function getElementName($index)
-	{
-		$el = $this->getElement($index);
-		return (isset($el['name'])) ? $this->humanize($el['name']) : null;
-	}
+    public function getElementName($index)
+    {
+        $el = $this->getElement($index);
+        return (isset($el['name'])) ? $this->humanize($el['name']) : null;
+    }
 }
 ?>
