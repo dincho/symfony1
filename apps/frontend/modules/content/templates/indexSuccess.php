@@ -53,7 +53,7 @@
                         
                         <div class="tos_contaner">
                             <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>
-                            <?php echo pr_label_for('tos', $tos_text, array('class' => 'terms'), false) ?>
+                            <?php echo content_tag('label', $tos_text, array('class' => 'terms'), false) ?>
                         </div>
                         
                     </fieldset>
