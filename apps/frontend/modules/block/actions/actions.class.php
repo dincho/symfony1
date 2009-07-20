@@ -44,11 +44,11 @@ class blockActions extends prActions
             $this->redirect('profile/index?username=' . $profile->getUsername() );
         }
 
-				if( $profile->getStatusId() != StatusPeer::ACTIVE )
-				{
-					$this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is no longer available', array('%USERNAME%' => $profile->getUsername())));
-					$this->redirectToReferer();
-				}
+        if( $profile->getMemberStatusId() != MemberStatusPeer::ACTIVE )
+        {
+            $this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is no longer available', array('%USERNAME%' => $profile->getUsername())));
+            $this->redirectToReferer();
+        }
                 
         $c = new Criteria();
         $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
