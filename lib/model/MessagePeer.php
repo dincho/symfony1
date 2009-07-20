@@ -38,7 +38,7 @@ class MessagePeer extends BaseMessagePeer
             $auto_reply->setToMemberId($from_member->getId());
             $auto_reply->setSubject('Re: ' . $subject . ' - (auto-response)');
             $msg = 'Messages - please upgrade auto-response';
-            $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $to_member->getUsername()));
+            if( sfConfig::get('sf_i18n') ) $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $to_member->getUsername()));
             
             $auto_reply->setContent($msg);
             $auto_reply->isReply(true);
