@@ -373,7 +373,7 @@ p {
 
 /**** FORMS ****/
 #report_bug {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: -15px;
     width: 700px;
 }
@@ -382,17 +382,17 @@ p {
     background-color: #4f4f4f;
     border: 0;
     display: table-cell;
-    margin: 0px;
-    margin-bottom: 5px;
+    margin: 0;
+    padding: 3px 0 0 0;
 }
 
 #report_bug label {
     float: left;
     display: block;
-    width: 60px;
+    width: 58px;
     display: table-row;
     color: #e0b400;
-    margin-bottom: 2px;
+    padding: 1px 4px;
 }
 
 #secondary_container #report_bug fieldset input {
@@ -402,8 +402,8 @@ p {
 
 #report_bug #assistant_right {
     float: right;
-    width: 315px;
-    padding-left: 5px;
+    width: 293px;
+    padding: 10px 10px 0 10px;
 }
 
 #assistant_profile {
@@ -416,7 +416,17 @@ p {
 
 #assistant_profile p {
     float: right;
-    width: 230px;
+    width: 218px;
+    padding-left: 5px;
+}
+
+#report_bug .actions {
+    background: #000;
+    padding: 5px;
+}
+
+#report_bug .actions input {
+  margin-top: 10px !important;
 }
 
 #assistant_profile_confirm {
@@ -2909,11 +2919,7 @@ td.search_filter_td_5 {
 
 /* END Search Filter Table */
 
-.online_assistant {
-    background: #000;
-    margin-top: -5px;
-    padding: 3px;
-}
+
 
 .margin_right_zero {
     margin-right: 0;
