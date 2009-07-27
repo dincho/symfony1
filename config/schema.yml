@@ -488,6 +488,8 @@ propel:
     orig_dsg:                 { type: varchar, size: 255 }
     population:               { type: integer, size: 10 }
     info:                     { type: longvarchar }
+    _indexes:
+      complex:                [country, dsg, adm1, adm2, name]
   geo_photo:
     id:
     geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
