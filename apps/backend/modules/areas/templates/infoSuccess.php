@@ -8,7 +8,7 @@
     </fieldset>
     
     <fieldset class="actions">
-        <?php echo button_to('Cancel', 'areas/edit?country=' . $adm1->getCountry()) ?>
+        <?php echo button_to('Cancel', 'areas/view?country=' . $adm1->getCountry()) ?>
         <?php echo submit_tag('Save') ?>
     </fieldset>
 </form><br />

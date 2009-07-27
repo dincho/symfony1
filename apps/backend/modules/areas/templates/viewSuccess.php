@@ -12,14 +12,12 @@
         <thead>
             <tr>
                 <th>Areas</th>
-                <th>View/Edit info</th>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($adm1s as $adm1): ?> 
-            <tr>
+            <tr rel="<?php echo url_for('areas/info?id=' . $adm1->getId()) ?>">
                 <td><?php echo $adm1->getName(); ?></td>
-                <td><?php echo link_to('Info', 'areas/info?id=' . $adm1->getId(), array('class' => 'float-left')) ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
