@@ -26,7 +26,7 @@ class IMBRAActions extends prActions
             $new_imbra->setDob($this->getRequestParameter('dob'));
             $new_imbra->setAddress($this->getRequestParameter('address'));
             $new_imbra->setCity($this->getRequestParameter('city'));
-            $new_imbra->setStateId($this->getRequestParameter('state_id'));
+            $new_imbra->setAdm1Id($this->getRequestParameter('adm1_id'));
             $new_imbra->setZip($this->getRequestParameter('zip'));
             $new_imbra->setPhone($this->getRequestParameter('phone'));
             $explains = $this->getRequestParameter('explains');

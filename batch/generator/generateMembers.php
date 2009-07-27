@@ -24,16 +24,15 @@ $databaseManager->initialize();
 // batch process here
 
 $user_ids = array(1);
-$countries = array('PL', 'BG', 'US');
-$languages = array('pl', 'bg', 'en');
-$us_states = array('AL', 'FL');
+$countries = array('PL', 'BG', 'US', 'GB');
+$languages = array('pl', 'bg', 'en', 'en');
 $photos['M'] = glob($image_fixtures_dir .'/M/*.jpg');
 $photos['F'] = glob($image_fixtures_dir .'/F/*.jpg');
 $sex_arr = array("F", "M");
 $descQuestions = DescQuestionPeer::doSelect(new Criteria());
 $descAnswers = DescAnswerPeer::getAnswersAssoc();
 $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
-$generate_number = isset($argv[1]) ? min((int) $argv[1], 600) : 10; //default 10, max 600 cause of memory overload
+$generate_number = isset($argv[1]) ? min((int) $argv[1], 500) : 10; //default 10, max 500 cause of memory overload
 $num_photos = isset($argv[2]) ? (int) $argv[2] : 0;
 
 
@@ -46,6 +45,8 @@ $looking_for = $sex_arr[rand(0,1)];
 $first_name = RandomGenerator::getFirstname($sex);
 $surname = RandomGenerator::getSurname();
 $username = $first_name . '_' . $surname;
+
+echo "Generating member - $i: " . $username . "\n";
 
 $member = new Member();
 $member->setUsername( $username  );
@@ -75,18 +76,45 @@ if( rand(0,1) )
     $member->setReviewedAt(Tools::randomTimestamp());
 }
 
+/** Attaching some random GEO info **/
 $country_rand = array_rand($countries);
-if( $countries[$country_rand] == 'US' )
+$country_iso = $countries[$country_rand];
+
+echo "\tCountry: " . $country_iso . "\n";
+$member->setCountry($country_iso);
+
+$c = new Criteria();
+$c->add(GeoPeer::DSG, "ADM1");
+$c->add(GeoPeer::COUNTRY, $country_iso);
+$c->addDescendingOrderByColumn("RAND()");
+$adm1 = GeoPeer::doSelectOne($c);
+
+if( $adm1 )
 {
-    $state_id = rand(118, 120); //Alabama or Flodira
-    $member->setStateId($state_id);
-    //$city = RandomGenerator::getCity('US', $us_states[$state_id-1]);
-} else {
-    //$city = RandomGenerator::getCity($countries[$country_rand]);
+    echo "\tADM1: " . $adm1->getName() . "\n";
+    $member->setAdm1Id($adm1->getId());
+    $c->add(GeoPeer::DSG, "ADM2");
+    $c->add(GeoPeer::ADM1, $adm1->getName());
+    $adm2 = GeoPeer::doSelectOne($c);
+    
+    if( $adm2 )
+    {
+        echo "\tADM2: " . $adm2->getName() . "\n";
+        $member->setAdm2Id($adm2->getId());
+        $c->add(GeoPeer::ADM2, $adm2->getName());   
+    }
 }
 
-//$member->setCity($city);
-$member->setCountry($countries[$country_rand]);
+$c->add(GeoPeer::DSG, "PPL");
+$city = GeoPeer::doSelectOne($c);
+
+if( $city )
+{
+    $member->setCityId($city->getId());
+    echo "\tCity: " .$city->getName() . "\n";
+}
+
+/** END GEO **/
 $member->setLanguage($languages[$country_rand]);
 $member->setIsStarred(rand(0,1));
 
@@ -162,7 +190,7 @@ foreach ($descQuestions as $descQuestion)
 
 //saving
 $member->save();
-echo "Generated member - $i: " . $member->getUsername() . "\n";
+
 
 //free some memory
 unset($member);

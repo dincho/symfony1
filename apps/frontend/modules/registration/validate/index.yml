@@ -3,12 +3,6 @@ fillin:
   param:
     content_type:   xml  
 fields:
-  country:
-    required:
-        msg:    Please select your country of residence
-  city:
-    required:
-      msg:  Please provide city where live.
   zip:
     required:
       msg:  Please provide your zip/ postal code.

@@ -5,10 +5,9 @@
 <?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />
 <?php endif; ?>
-
-<?php if( is_null($member->getUsCitizen()) ): ?>
-    <?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
-<?php endif; ?>
+	<?php if( !sfConfig::get('app_settings_imbra_disable') && is_null($member->getUsCitizen()) ): ?>
+    	<?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
+	<?php endif; ?>
 <br class="clear" />
 
 <div id="dashboard-container">
@@ -64,9 +63,9 @@
             <li><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Posing/Essay'), 'editProfile/essay', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Photos'), 'editProfile/photos', array('class' => 'sec_link')) ?></li>
-            <?php if( $member->getUsCitizen() == 1 ): ?>
-                <li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
-            <?php endif; ?>
+            	<?php if( !sfConfig::get('app_settings_imbra_disable') && $member->getUsCitizen() == 1 ): ?>
+                	<li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
+            	<?php endif; ?>
             <?php if( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
                 <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate', array('class' => 'sec_link')) ?></li>
             <?php elseif( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>

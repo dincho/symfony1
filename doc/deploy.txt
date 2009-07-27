@@ -9,3 +9,5 @@
 9. change database credentials
 10. create MemberPhoto, StatePhoto, StockPhoto as subdirectories of web/uploads/images/
 11. change backend admin password after deploy
+
+f

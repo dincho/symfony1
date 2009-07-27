@@ -222,7 +222,7 @@ class Member extends BaseMember
     public function getGAddress()
     {
         $address_info[] = $this->getCity();
-        if( $this->getStateId() ) $address_info[] = $this->getState()->getTitle();
+        if( $this->getAdm1Id() ) $address_info[] = $this->getAdm1()->getName();
         $address_info[] = $this->getCountry();
         
         return implode(', ', $address_info);
@@ -283,7 +283,7 @@ class Member extends BaseMember
     
     public function mustFillIMBRA()
     {
-        return ( is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
+        return ( !sfConfig::get('app_settings_imbra_disable') && is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
     }
     
     public function mustPayIMBRA()
@@ -528,4 +528,21 @@ class Member extends BaseMember
         return ($this->getSubscriptionId() == SubscriptionPeer::PAID);
     }
     
+    public function getAdm1()
+    {
+        $adm1 = GeoPeer::retrieveByPK($this->getAdm1Id());
+        return $adm1;
+    }
+    
+    public function getAdm2()
+    {
+        $adm2 = GeoPeer::retrieveByPK($this->getAdm2Id());
+        return $adm2;
+    }
+    
+    public function getCity()
+    {
+        $city = GeoPeer::retrieveByPK($this->getCityId());
+        return $city;
+    }
 }

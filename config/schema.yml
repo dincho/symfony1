@@ -72,9 +72,9 @@ propel:
     reviewed_at:              { type: timestamp, required: false }
     is_starred:               { type: boolean, default: false, required: true }
     country:                  { type: char, size: 2, required: true }
-    state_id:                 { type: integer, required: false, foreignTable: state, foreignReference: id, onDelete: restrict }
-    district:                 { type: varchar, size: 100, required: true }
-    city:                     { type: varchar, size: 60, required: true } #the longest city name in the world have 58 chars
+    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
+    adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
+    city_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
     zip:                      { type: varchar, size: 20, required: true }
     nationality:              { type: varchar, size: 255, required: true }
     language:                 { type: varchar, size: 3, required: true } #this filed is currently used only for match engine
@@ -123,17 +123,24 @@ propel:
     total_flags:              { type: integer, required: true, default: 0 }
     sent_flags:               { type: integer, required: true, default: 0 }
     sent_winks:               { type: integer, required: true, default: 0 }
+    sent_winks_day:           { type: integer, required: true, default: 0 }
     received_winks:           { type: integer, required: true, default: 0 }
+    received_winks_day:       { type: integer, required: true, default: 0 }
     read_messages:            { type: integer, required: true, default: 0 }
+    read_messages_day:        { type: integer, required: true, default: 0 }
     sent_messages:            { type: integer, required: true, default: 0 }
+    sent_messages_day:        { type: integer, required: true, default: 0 }
     received_messages:        { type: integer, required: true, default: 0 }
     reply_messages:           { type: integer, required: true, default: 0 }
+    reply_messages_day:       { type: integer, required: true, default: 0 }
     unsuspensions:            { type: integer, required: true, default: 0 }
     assistant_contacts:       { type: integer, required: true, default: 0 }
+    assistant_contacts_day:   { type: integer, required: true, default: 0 }
     profile_views:            { type: integer, required: true, default: 0 }
     made_profile_views:       { type: integer, required: true, default: 0 }
     hotlist:                  { type: integer, required: true, default: 0 }
     on_others_hotlist:        { type: integer, required: true, default: 0 }
+    active:                   { type: integer, size: 1, required: true, default: 0 }
   member_note:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -155,6 +162,7 @@ propel:
     is_required:              { type: boolean, required: true, default: true }
     select_greather:          { type: boolean, required: true, default: false }
     other:                    { type: varchar, size: 255, required: false }
+    include_custom:           { type: varchar, size: 255, required: false }
   desc_answer:
     id:
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
@@ -220,7 +228,7 @@ propel:
     dob:                      { type: varchar, size: 100 }
     address:                  { type: varchar, size: 255 }
     city:                     { type: varchar, size: 100 }
-    state_id:
+    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
     zip:                      { type: varchar, size: 20 }                  
     phone:                    { type: varchar, size: 30 }                  
     created_at:
@@ -252,16 +260,21 @@ propel:
     post_photos:              { type: integer, default: 0, required: true }
     can_wink:                 { type: boolean, default: false, required: true }
     winks:                    { type: integer, default: 0, required: true }
+    winks_day:                { type: integer, default: 0, required: true }
     can_read_messages:        { type: boolean, default: false, required: true }
     read_messages:            { type: integer, default: 0, required: true }
+    read_messages_day:        { type: integer, default: 0, required: true }
     can_reply_messages:       { type: boolean, default: false, required: true }
     reply_messages:           { type: integer, default: 0, required: true }
+    reply_messages_day:       { type: integer, default: 0, required: true }
     can_send_messages:        { type: boolean, default: false, required: true }
     send_messages:            { type: integer, default: 0, required: true }
+    send_messages_day:        { type: integer, default: 0, required: true }
     can_see_viewed:           { type: boolean, default: false, required: true }
     see_viewed:               { type: integer, default: 0, required: true }
     can_contact_assistant:    { type: boolean, default: false, required: true }
     contact_assistant:        { type: integer, default: 0, required: true }
+    contact_assistant_day:    { type: integer, default: 0, required: true }
     pre_approve:              { type: boolean, default: false, required: true }
     amount:                   { type: decimal, size: 7, scale: 2, required: true }
     period:                   { type: integer, required: true }
@@ -389,6 +402,13 @@ propel:
     keywords:       { type: varchar, size: 255, required: false }
     description:    { type: longvarchar, required: false }
     content:        { type: longvarchar, required: true }
+  bestv_tmpl:
+    id:
+    updated_at:
+  bestv_tmpl_i18n:    
+    header:         { type: longvarchar, required: false }
+    body_winner:    { type: longvarchar, required: false }
+    footer:         { type: longvarchar, required: false }    
   member_story:
     id:
     culture:            { type: varchar, size: 7 }
@@ -454,3 +474,21 @@ propel:
     content:                  { type: longvarchar }
     reply_to:                 { type: integer, required: false }
     updated_at:
+  geo:
+    id:
+    name:                     { type: varchar, size: 89 }
+    dsg:                      { type: varchar, size: 4 }
+    country:                  { type: varchar, size: 2 }
+    adm1:                     { type: varchar, size: 37 }
+    adm2:                     { type: varchar, size: 35 }
+    latitude:                 { type: float }
+    longitude:                { type: float }
+    alt_names:                { type: varchar, size: 400 }
+    orig_name:                { type: varchar, size: 197 }
+    orig_dsg:                 { type: varchar, size: 255 }
+    population:               { type: integer, size: 10 }
+    info:                     { type: longvarchar }
+  geo_photo:
+    id:
+    geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
+    file:                     { type: varchar, size: 255 }

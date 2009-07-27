@@ -1,7 +1,10 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
+<?php if ( !isset($member) ): ?>
+    <?php $member = new Member(); ?>
+<?php endif; ?>
 
-<?php echo form_tag('members/create', array('class' => 'form')) ?>
+<?php echo form_tag('members/create', array('class' => 'form', "id" => "member_registration_form")) ?>
     <div class="legend">Create member</div>
     <fieldset class="form_fields">
          
@@ -19,19 +22,28 @@
         
         <label for="looking_for">You are</label>
         <?php echo select_tag('looking_for', looking_for_options()) ?><br />
-                
+
         <label for="country">Country of Residence</label>
-        <?php echo select_country_tag('country', 'US', array('class' => error_class('country', true))) ?><br />
+        <?php echo pr_select_country_tag('country', $member->getCountry(), array('class' => error_class('country', true), 'include_custom' => 'Please Select')) ?><br />
         
         <label for="state_id">State / Province</label>
-        <?php echo pr_select_state_tag( ($sf_request->hasParameter('country') )? $sf_request->getParameter('country') : 'US', 'state_id', null, array('class' => error_class('state_id', true))) ?><br />
+        <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('class' => error_class('adm1_id', true), 'include_custom' => 'Please Select')) ?><br />
         
         <label for="district">District / Borough / County</label>
-        <?php echo input_tag('district', null, error_class('district')) ?><br />
-              
-        <label for="city">City</label>
-        <?php echo input_tag('city', null, error_class('city')) ?><br />
+        <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', 
+                                            array('class' => error_class('adm2_id', true), 
+                                                  'include_custom' => 'Please Select',
+                                                  'onchange' => 'clearCity()')) ?><br />
         
+        <label for="city">City</label>
+        <?php echo input_auto_complete_tag('city', null,
+            'ajax/AutocompleteCity',
+            array('autocomplete' => 'off', 'class' => error_class('city', true)),
+            array('use_style'    => true, 
+            'frequency' => 0.2,
+            'with'  => " value+'&country='+$('country').value+'&adm1_id='+$('adm1_id').value+'&adm2_id='+$('adm2_id').value"
+        ));?><br />
+                        
         <label for="zip">Zip Code</label>
         <?php echo input_tag('zip', null, error_class('zip')) ?><br />
         
@@ -52,23 +64,4 @@
     </fieldset>    
 </form>
 
-
-<?php echo observe_field('country', array(
-    'success'  => 'updateStates(request, json)',
-    'url'      => 'ajax/getStatesByCountry',
-    'with'     => "'country=' + value",
-)) ?>
-
-<?php echo javascript_tag("
-function updateStates(request, json)
-{
-  var nbElementsInResponse = json.length;
-  var S = $('state_id');
-  S.options.length = 0;  
-  
-  for (var i = 0; i < nbElementsInResponse; i++)
-  {
-     S.options[i] = new Option(json[i].title, json[i].id);
-  }
-}
-") ?>
+<?php include_partial('members/geo_fields_js'); ?>

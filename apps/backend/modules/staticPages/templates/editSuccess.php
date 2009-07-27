@@ -33,7 +33,7 @@
     <?php endif; ?>
     
     <label for="html_content">HTML Content:</label>
-    <?php $content = ($sf_request->getParameter('regenerate_best_videos') && $page->getSlug() == 'best_videos') ? get_component('staticPages', 'bestVideos') : $page->getContent() ?>
+    <?php $content = ($sf_request->getParameter('regenerate_best_videos') && $page->getSlug() == 'best_videos') ? get_component('staticPages', 'bestVideos', array('culture' => $page->getCulture())) : $page->getContent() ?>
     <?php echo textarea_tag('html_content', $content, 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
   </fieldset>        
 

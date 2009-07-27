@@ -18,8 +18,10 @@ class editProfileActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state_id'));
-            $member->setCity($this->getRequestParameter('city'));
+            $member->setAdm1Id($this->getRequestParameter('adm1_id'));
+            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $member->setCityId($city->getId());
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             $update_confirmation = $member->isModified(); //using this to determine if some field is changed, before changing the passwords.
@@ -71,6 +73,7 @@ class editProfileActions extends prActions
             $member = MemberPeer::retrieveByPK($this->getUser()->getid());
             $this->forward404Unless($member); //just in case
             $mail = $this->getRequestParameter('email');
+            
             if ($member->getEmail() != $mail) //new mail
             {
                 $myValidator = new sfPropelUniqueValidator();
@@ -82,11 +85,22 @@ class editProfileActions extends prActions
                     return false;
                 }
             }
+            
             if ($this->getUser()->getAttribute('must_change_pwd') && ! $this->getRequestParameter('password'))
             {
                 $this->getRequest()->setError('password', 'You must change your password!');
                 return false;
             }
+            
+            $geoValidator = new prGeoValidator();
+            $geoValidator->initialize($this->getContext());
+
+            $value = $error = null;
+            if( !$geoValidator->execute(&$value, &$error) )
+            {
+                $this->getRequest()->setError($error['field_name'], $error['msg']);
+                return false;
+            }            
         }
         return true;
     }

@@ -16,8 +16,12 @@
     </tr>		
     <tr>
         <td><?php echo __('Area') ?> </td>
-        <td><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?></td>
-    </tr>       
+        <td><?php echo ($member->getAdm1Id()) ? $member->getAdm1() : __('None') ?></td>
+    </tr>     
+    <tr>
+        <td><?php echo __('District') ?> </td>
+        <td><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : __('None') ?></td>
+    </tr>   
     <tr>
         <td><?php echo __('City') ?> </td>
         <td><?php echo $member->getCity() ?></td>

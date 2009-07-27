@@ -69,7 +69,7 @@
     <div id="desc_map_container">
         <div id="profile_desc">
             <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch') ?>
-            <?php $area_info = ($member->getState()->getInfo()) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getStateId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
+            <?php $area_info = ($member->getAdm1Id() && $member->getAdm1()->getInfo()) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getAdm1Id() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
             <?php echo link_to_function(__('Map'), 
                         'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")', 
                         'class=switch inactive');
@@ -78,7 +78,8 @@
             <dl>
                 <dt><?php echo __('Orientation') ?></dt><dd><?php echo __($member->getOrientationString()) ?></dd>
                 <dt><?php echo __('Country') ?></dt><dd><?php echo format_country($member->getCountry()) ?></dd>
-                <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getStateId()) ? $member->getState() : __('None') ?>&nbsp;<?php if($member->getStateId()) echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getStateId(), 'class=sec_link') ?></dd>
+                <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getAdm1Id()) ? $member->getAdm1() : __('None') ?>&nbsp;<?php if($member->getAdm1Id()) echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getAdm1Id(), 'class=sec_link') ?></dd>
+                <dt><?php echo __('District') ?></dt><dd><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : __('None') ?></dd>
                 <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?></dd>
                 <?php if( !$member->getDontDisplayZodiac() ): ?>
                     <dt><?php echo __('Zodiac') ?></dt><dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
@@ -135,7 +136,7 @@
                 <tr>
                     <td><?php echo link_to($user, 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
                     <td><?php echo link_to(Tools::truncate($message->getSubject(), 30), 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
-                    <td><?php echo link_to(format_date_pr($message->getCreatedAt(null)), 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
+                    <td><?php echo link_to(format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'), 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
@@ -174,8 +175,7 @@
     <p style="width: 350px;"><?php echo $member->getEssayIntroduction() ?></p>
     <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
-
-<?php if( $imbra ): ?>
+	<?php if(!sfConfig::get('app_settings_imbra_disable') && $imbra ): ?>
 
     <a name="profile_imbra_info" class="sec_link"><?php echo link_to_function('[<span id="profile_imbra_details_tick">-</span>] ' . __('IMBRA Information'), 'show_hide_tick("profile_imbra_details")', 'class=sec_link') ?></a>
     <div id="profile_imbra_details">
@@ -188,7 +188,7 @@
             <?php echo $imbra->getName() ?><br />
             <?php echo $imbra->getCreatedAt('%B %d, %Y') ?><br />
             <?php echo __('Born ') .  $imbra->getDob()?><br />
-            <?php printf('%s, %s, USA', $imbra->getCity(), $imbra->getState()->getTitle() ) ?>
+            <?php printf('%s, %s, USA', $imbra->getCity(), $imbra->getAdm1()->getTitle() ) ?>
         </p>
     </div>
-<?php endif; ?>
+	<?php endif; ?>

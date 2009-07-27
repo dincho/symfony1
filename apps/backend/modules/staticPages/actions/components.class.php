@@ -11,13 +11,6 @@ class staticPagesComponents extends sfComponents
 {
      public function executeBestVideos()
      {
-         /*$c = new Criteria();
-         $c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
-         $c->addDescendingOrderByColumn(MemberCounterPeer::PROFILE_VIEWS);
-         $c->add(MemberPeer::YOUTUBE_VID, null, Criteria::ISNOTNULL);
-         $c->setLimit(3);
-         
-         $this->members = MemberPeer::doSelect($c);*/
          
          $lastm = new DateTime($this->get_last_month());
          $lastmonth = $lastm->format("Y-m");
@@ -32,7 +25,25 @@ class staticPagesComponents extends sfComponents
          $c->addDescendingOrderByColumn('COUNT(profile_view.profile_id)');
          $c->setLimit(3);
          
-         $this->members = MemberPeer::doSelect($c);
+         $members = MemberPeer::doSelect($c);
+		 
+		 $cc = new Criteria();
+         $cc->add(BestvTmplI18nPeer::CULTURE, $this->culture);
+         $template = BestvTmplI18nPeer::doSelectOne($cc);
+         
+         $content = str_replace('{WINNER}', ($members[0]->getFirstName() ." ". $members[0]->getLastName()), $template->getHeader());
+         $i=1;
+         foreach ($members as $member) {
+         	$tmpl_name=array('{FULL_NAME}', '{USERNAME}', '{YOUTUBE}', '{N}');
+         	$source_name=array(($member->getFirstName() ." ". $member->getLastName()), $member->getUsername(), $member->getYoutubeVid(), $i);
+            $content .= str_replace($tmpl_name, $source_name, $template->getBodyWinner());
+            
+            $i++;
+         }
+         $content .= $template->getFooter();
+
+         $this->content = $content;
+            
      }
      
      public static function get_last_month() 

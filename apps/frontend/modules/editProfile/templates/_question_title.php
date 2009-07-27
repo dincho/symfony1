@@ -1,5 +1,5 @@
 <div class="title">
-    <?php echo ++$i; ?>. <?php echo __($question->getTitle(ESC_RAW)) ?> 
+    <?php echo ++$i; ?>. <?php echo __($question->getTitle(ESC_RAW)) ?>  <?php echo (($question->getIsRequired()) ? '<span style="color:red;">(*)</span>' : '') ?> 
     <span>
     <?php if($question->getType() == 'age'): ?>
         <?php echo __('(If you\'re not 19 or older, you are not allowed to be here - you must leave now!)') ?>

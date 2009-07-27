@@ -20,8 +20,7 @@
 	    'url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
 	    'with'      => "'content=' + \$F('your_story') + '&subject=' + \$F('title')"
 	    )) ?>
-		
-        <?php if( !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
+        <?php if( !sfConfig::get('app_settings_imbra_disable') && !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
           <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>
 		  <label class="imbra_tos">
 		      <?php echo __('I am familiar with <a href="%URL_FOR_PROFILE_IMBRA%" class="sec_link">background check information provided by this member</a> and I have read the <a href="%URL_FOR_IMMIGRANT_RIGHTS%" class="sec_link">Information About Legal Rights and Resources for Immigrant Victims of Domestic Violence</a>. I also understand that Polish-Romance never reveals my personal information (email, address etc.) to other members.', 

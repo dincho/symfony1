@@ -95,9 +95,17 @@ function content_tag_with_error($name, $content = '', $options = array())
 
 function looking_for_options($selected = '', $html_options = array())
 {
-	$t = sfContext::getInstance()->getI18N();
-    $options = array('M_F' => $t->__('Man looking for woman'), 'F_M' => $t->__('Woman looking for man'), 
-                     'M_M' => $t->__('Man looking for man'), 'F_F' => $t->__('Woman looking for woman'));
+    if( sfConfig::get('sf_i18n') )
+    {
+	    $t = sfContext::getInstance()->getI18N();
+        $options = array('M_F' => $t->__('Man looking for woman'), 'F_M' => $t->__('Woman looking for man'), 
+                         'M_M' => $t->__('Man looking for man'), 'F_F' => $t->__('Woman looking for woman'));
+    }
+    else
+    {
+        $options = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man',
+                           'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
+    }
     
     return options_for_select($options, $selected, $html_options);
 }
@@ -202,18 +210,18 @@ function pr_select_language_tag($name, $selected = null, $options = array())
 
 }
 
-function pr_select_state_tag($country = 'US', $name, $selected = null, $options = array())
+function pr_select_adm1_tag($country = 'US', $name, $selected = null, $options = array())
 {
     use_helper('Object');
     
-    $states = StatePeer::getAllByCountry($country);
-    $options_for_select = objects_for_select($states, 'getId', 'getTitle', $selected);
+    $adm1 = GeoPeer::getAllByCountry($country);
+    $options_for_select = objects_for_select($adm1, 'getId', 'getName', $selected);
     unset($options['include_custom'], $options['include_blank']);
     
     return select_tag($name, $options_for_select, $options);
 }
 
-function pr_object_select_state_tag($object, $method, $options = array(), $default_value = null)
+function pr_object_select_adm1_tag($object, $method, $options = array(), $default_value = null)
 {
     use_helper('Object');
     
@@ -228,9 +236,66 @@ function pr_object_select_state_tag($object, $method, $options = array(), $defau
     $text_method = _get_option($options, 'text_method');
     
     $country = sfContext::getInstance()->getRequest()->getParameter('country', $object->getCountry());
-    $states = StatePeer::getAllByCountry($country);
-    $select_options = _get_options_from_objects($states, $text_method);
+    $adm1 = GeoPeer::getAllByCountry($country);
+    $select_options = _get_options_from_objects($adm1, $text_method);
     
+    if(empty($select_options))
+    {
+        //we do not need custom options if the tag is empty
+        unset($options['include_custom'], $options['include_blank'], $options['include_title']);        
+    }
+        
+    if ($value = _get_option($options, 'include_custom'))
+    {
+        $select_options = array('' => $value) + $select_options;
+    } else if (_get_option($options, 'include_title'))
+    {
+        $select_options = array('' => '-- ' . _convert_method_to_name($method, $options) . ' --') + $select_options;
+    } else if (_get_option($options, 'include_blank'))
+    {
+        $select_options = array('' => '') + $select_options;
+    }
+    
+    if (is_object($object))
+    {
+        $value = _get_object_value($object, $method, $default_value);
+    } else
+    {
+        $value = $object;
+    }
+    
+    $option_tags = options_for_select($select_options, $value, $options);
+    
+    return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
+}
+
+function pr_object_select_adm2_tag($object, $method, $options = array(), $default_value = null)
+{
+    use_helper('Object');
+    
+    $options = _parse_attributes($options);
+    
+    $related_class = _get_option($options, 'related_class', false);
+    if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
+    {
+        $related_class = $match[1];
+    }
+    
+    $text_method = _get_option($options, 'text_method');
+    
+    $adm1 = sfContext::getInstance()->getRequest()->getParameter('adm1_id', $object->getAdm1Id());
+    if($adm1) //adm1 selected
+    {
+        $adm2 = GeoPeer::getAllByAdm1($adm1);
+        $select_options = _get_options_from_objects($adm2, $text_method);
+    }
+    
+    if(!isset($select_options) || empty($select_options))
+    {
+        $select_options = Array();
+        //we do not need custom options if the tag is empty
+        unset($options['include_custom'], $options['include_blank'], $options['include_title']);        
+    }
     if ($value = _get_option($options, 'include_custom'))
     {
         $select_options = array('' => $value) + $select_options;

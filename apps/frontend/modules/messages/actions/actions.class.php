@@ -79,6 +79,7 @@ class messagesActions extends prActions
             $msg->save();
             
             $this->getUser()->getProfile()->incCounter('ReadMessages');
+            $this->getUser()->getProfile()->incCounter('ReadMessagesDay');
         }
         
 
@@ -114,6 +115,17 @@ class messagesActions extends prActions
                 //received by FREE member with send messages OFF
                 $this->setFlash('msg_error', 'Sender of the message is not a paid member. At least one of you must be a paid member for either send or receive messages.');
                 $this->redirect('messages/index');
+            }
+            
+            if( $this->getUser()->getProfile()->getCounter('ReadMessagesDay') >= $subscription->getReadMessagesDay() )
+            {
+                if( $subscription->getId() == SubscriptionPeer::FREE )
+                {
+                    $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
+                } else {
+                    $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
+                }
+                $this->redirect('messages/index');  
             }
             
             if( $this->getUser()->getProfile()->getCounter('ReadMessages') >= $subscription->getReadMessages() )
@@ -198,6 +210,17 @@ class messagesActions extends prActions
                     $this->getRequest()->setError('subscription', 'In order to reply to message you need to upgrade your membership.');
                 } else {
                     $this->getRequest()->setError('subscription', 'Paid: In order to reply to message you need to upgrade your membership.');
+                }
+                return false;
+            }
+            
+            if( $member->getCounter('ReplyMessagesDay') >= $subscription->getReplyMessagesDay() )
+            {
+                if( $subscription->getId() == SubscriptionPeer::FREE )
+                {
+                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
+                } else {
+                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
                 }
                 return false;
             }
@@ -303,6 +326,17 @@ class messagesActions extends prActions
                 return false;
             }
             
+            if( $member->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
+            {
+                if( $subscription->getId() == SubscriptionPeer::FREE )
+                {
+                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                } else {
+                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                }
+                return false;
+            }
+            
             if( $member->getCounter('SentMessages') >= $subscription->getSendMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
@@ -314,7 +348,7 @@ class messagesActions extends prActions
                 return false;
             }
             
-            if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
+            if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
             {
                 $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
                 return false;                

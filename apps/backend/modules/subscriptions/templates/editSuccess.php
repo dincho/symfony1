@@ -53,28 +53,33 @@
         <var><b><?php echo $sub->getTitle() ?></b></var><br /><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanCreateProfile', array('control_name' => 'subs['. $sub->getId() .'][can_create_profile]')) ?>
-        <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />
+        <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />        
         
         <?php echo object_bool_select_tag($sub, 'getCanPostPhoto', array('control_name' => 'subs['. $sub->getId() .'][can_post_photo]')) ?>
-        <?php echo object_input_tag($sub, 'getPostPhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_photos]')) ?><br />
+        <?php echo object_input_tag($sub, 'getPostPhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_photos]')) ?><br />       
         
         <?php echo object_bool_select_tag($sub, 'getCanWink', array('control_name' => 'subs['. $sub->getId() .'][can_wink]')) ?>
-        <?php echo object_input_tag($sub, 'getWinks', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][winks]')) ?><br />
+        <?php echo object_input_tag($sub, 'getWinks', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][winks]')) ?>
+        <?php echo object_input_tag($sub, 'getWinksDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][winks_day]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanReadMessages', array('control_name' => 'subs['. $sub->getId() .'][can_read_messages]')) ?>
-        <?php echo object_input_tag($sub, 'getReadMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][read_messages]')) ?><br />
+        <?php echo object_input_tag($sub, 'getReadMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][read_messages]')) ?>
+        <?php echo object_input_tag($sub, 'getReadMessagesDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][read_messages_day]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanReplyMessages', array('control_name' => 'subs['. $sub->getId() .'][can_reply_messages]')) ?>
-        <?php echo object_input_tag($sub, 'getReplyMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][reply_messages]')) ?><br />
+        <?php echo object_input_tag($sub, 'getReplyMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][reply_messages]')) ?>
+        <?php echo object_input_tag($sub, 'getReplyMessagesDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][reply_messages_day]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanSendMessages', array('control_name' => 'subs['. $sub->getId() .'][can_send_messages]')) ?>
-        <?php echo object_input_tag($sub, 'getSendMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][send_messages]')) ?><br />
+        <?php echo object_input_tag($sub, 'getSendMessages', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][send_messages]')) ?>
+        <?php echo object_input_tag($sub, 'getSendMessagesDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][send_messages_day]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanSeeViewed', array('control_name' => 'subs['. $sub->getId() .'][can_see_viewed]')) ?>
         <?php echo object_input_tag($sub, 'getSeeViewed', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][see_viewed]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanContactAssistant', array('control_name' => 'subs['. $sub->getId() .'][can_contact_assistant]')) ?>
-        <?php echo object_input_tag($sub, 'getContactAssistant', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][contact_assistant]')) ?><br />
+        <?php echo object_input_tag($sub, 'getContactAssistant', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][contact_assistant]')) ?>
+        <?php echo object_input_tag($sub, 'getContactAssistantDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][contact_assistant_day]')) ?><br />
         
         <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]') ) ?><br />
       

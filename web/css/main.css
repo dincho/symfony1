@@ -878,7 +878,7 @@ span.online-assistant {
 }
 
 .messages .checkboxes {
-    width: 75px;
+    width: 70px;
 }
 
 .messages tr td input {
@@ -901,6 +901,10 @@ span.online-assistant {
 #messages_form input.delete {
     margin-right: 30px;
     color: #d3d3d3;
+}
+
+#messages_form .unread_circle  {
+  padding: 0 2px;
 }
 
 .text_1 {
@@ -1434,7 +1438,7 @@ select.language_level {
     margin-top: 15px;
     padding: 0;
     text-align: left;
-    width: 842px; /* <-- use this for a set width */
+    width: 842px; /* -- use this for a set width */
     background: #2b2b2b;
 }
 
@@ -1509,6 +1513,27 @@ span.sec_link {
     padding: 0px;
     width: 155px;
     font-size: 10px;
+}
+
+.input_radius{
+    width: 20px;
+    background-color: #363639;
+    border: 1px solid #7995ae;
+    color: #aca49c;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding: 0px;
+    height: 14px;
+}
+
+#search_box select.select_radius {
+    background-color: #363639;
+    border: 1px solid #7995ae;
+    color: #aca49c;
+    padding: 0px;
+    margin-right: 0;
+    width: 40px;
+    font-size: 11px;
 }
 
 .age {
@@ -1665,7 +1690,7 @@ span.sec_link {
 
 
 
-*/ /*profile*/ /*subscribe*/
+/*profile*/ /*subscribe*/
 .save,#public_reg_form.member_reg input.save {
     background: url(/images/input/save.gif) no-repeat;
     border: 0px;
@@ -2669,7 +2694,7 @@ input:focus, select:focus, textarea:focus {
     background-color: #2B2B1A !important;
 }
 
-input.focused  /* used by js */ { 
+input.focused { /* used by js */
     border: 1px solid #85854A !important;
     background-color: #2B2B1A !important;
 }
@@ -2927,4 +2952,9 @@ td.search_filter_td_5 {
 
 .form_err {
     background:#A51D1F;
+}
+
+.autoComplete{
+    background:#CCCCCC;
+    color:#000000;
 }

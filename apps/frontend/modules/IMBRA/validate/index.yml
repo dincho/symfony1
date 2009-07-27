@@ -15,7 +15,7 @@ fields:
     city:
         required:
             msg: Please type your city
-    state_id:
+    adm1_id:
         required:
             msg: Please select your state
     zip:

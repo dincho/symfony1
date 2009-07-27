@@ -33,10 +33,10 @@ In order to see more matches and send messages, please upgrade your subscription
                 <span class="check"><?php echo ($subscription->getCanReplyMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                <span class="check"><?php echo ($subscription->getTrial1Amount() > 0 ) ? format_currency($subscription->getTrial1Amount(), 'GBP') : __('Free')?></span>
-                <span class="check"><?php echo ($subscription->getTrial2Amount() > 0 ) ? format_currency($subscription->getTrial2Amount(), 'GBP') : __('Free')?></span>
-                <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), 'GBP') : __('Free')?></span>
+                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>                
+                <span class="check"><?php echo ($subscription->getTrial1Amount() > 0 ) ? format_currency($subscription->getTrial1Amount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial1PeriodType()), array('%PERIOD%' => $sub1->getTrial1Period())): __('Free')?></span>                              
+                <span class="check"><?php echo ($subscription->getTrial2Amount() > 0 ) ? format_currency($subscription->getTrial2Amount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial2PeriodType()), array('%PERIOD%' => $sub1->getTrial2Period())) : __('Free')?></span>                
+                <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) : __('Free')?></span>
                 <span class="select"><?php echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?></span>
             </div>        
         <?php endforeach; ?>

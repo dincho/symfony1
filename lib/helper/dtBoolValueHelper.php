@@ -11,3 +11,9 @@ function boolValue($value, $true_value = 'yes', $false_value = 'no')
 	$_val = ( $value ) ? $true_value : $false_value;
 	return boolColor($_val, $value);
 }
+
+function kmmilValue($value, $true_value = 'km', $false_value = 'mil')
+{
+    $_val = ( $value ) ? $true_value : $false_value;
+    return $_val;
+}

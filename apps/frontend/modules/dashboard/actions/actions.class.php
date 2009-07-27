@@ -302,6 +302,7 @@ class dashboardActions extends prActions
             $feedback->save();
             
             $member->incCounter('AssistantContacts');
+            $member->incCounter('AssistantContactsDay');
             
             //$this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
             $this->redirect('dashboard/contactAssistantConfirmation');
@@ -322,6 +323,17 @@ class dashboardActions extends prActions
                 $this->getRequest()->setError('subscription', 'Paid: In order to contact assistant you need to upgrade your membership.');
             }
             return false;
+        }
+        
+        if( $this->getUser()->getProfile()->getCounter('AssistantContactsDay') >= $subscription->getContactAssistantDay() )
+        {
+            if( $subscription->getId() == SubscriptionPeer::FREE )
+            {
+                $this->getRequest()->setError('subscription', 'For the feature that you want to use - contact assistant - you have reached the daily limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            } else {
+                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - contact assistant - you have reached the daily limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
+            }
+            return false;            
         }
                 
         if( $this->getUser()->getProfile()->getCounter('AssistantContacts') >= $subscription->getContactAssistant() )

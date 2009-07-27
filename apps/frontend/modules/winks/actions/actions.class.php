@@ -89,6 +89,17 @@ class winksActions extends prActions
             return false;
         }
         
+        if( $this->getUser()->getProfile()->getCounter('SentWinksDay') >= $subscription->getWinksDay() )
+        {
+            if( $subscription->getId() == SubscriptionPeer::FREE )
+            {
+                $this->getRequest()->setError('subscription', 'For the feature that you want to use - send wink - you have reached the daily limit up to which you can use it with your membership. In order to send wink, please upgrade your membership.');
+            } else {
+                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send wink - you have reached the daily limit up to which you can use it with your membership. In order to send wink, please upgrade your membership.');
+            }
+            return false;            
+        }
+        
         if( $this->getUser()->getProfile()->getCounter('SentWinks') >= $subscription->getWinks() )
         {
             if( $subscription->getId() == SubscriptionPeer::FREE )

@@ -3,7 +3,7 @@
 
 <?php if( count($received_messages) > 0): ?>
 <div class="text_1 messages_show_hide">
-    <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Received Messages')?></span>
+    <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Received Messages <strong>(%cnt_unread%)</strong>', array('%cnt_unread%' => $cnt_unread))?></span>
 </div>
 <?php if($sf_request->hasParameter('confirm_delete')): ?>
     <?php $action = 'messages/delete' ?>
@@ -24,9 +24,12 @@
     
         <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, array('class' => 'checkbox', 'read' => (int) $message->getIsRead())) ?></td>
+            <td class="unread_circle">
+                <?php if( !$message->getIsRead() ) echo image_tag('circle-blue.png'); ?>
+            </td>
             <td><?php echo link_to($message->getMemberRelatedByFromMemberId()->getUsername(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
             <td><?php echo link_to($message->getSubject(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
-            <td><?php echo link_to(format_date_pr($message->getCreatedAt(null)), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to(format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
         </tr>
     <?php endforeach; ?>
     </table>
@@ -68,7 +71,7 @@
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, 'class=checkbox') ?></td>
             <td><?php echo link_to($message->getMemberRelatedByToMemberId()->getUsername(), $message_form_link, array('class' => 'sec_link')) ?></td>
             <td><?php if($message->getSubject()) echo link_to($message->getSubject(), $message_form_link, array('class' => 'sec_link')) ?></td>
-            <td><?php echo link_to(format_date_pr($message->getUpdatedAt(null)), $message_form_link, array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to(format_date_pr($message->getUpdatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'), $message_form_link, array('class' => 'sec_link')) ?></td>
         </tr>
     <?php endforeach; ?>
     </table>
@@ -102,7 +105,7 @@
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, 'class=checkbox') ?></td>
             <td><?php echo link_to($message->getMemberRelatedByToMemberId()->getUsername(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
             <td><?php echo link_to($message->getSubject(), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
-            <td><?php echo link_to(format_date_pr($message->getCreatedAt(null)), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to(format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'), 'messages/view?id=' . $message->getId(), array('class' => 'sec_link')) ?></td>
         </tr>
     <?php endforeach; ?>
     </table>

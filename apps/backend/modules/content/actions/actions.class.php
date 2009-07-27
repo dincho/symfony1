@@ -439,4 +439,32 @@ class contentActions extends sfActions
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::ASSISTANT, $this->culture);
         $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->culture);
     }
+    public function executeBestVideo()
+    {
+        $this->left_menu_selected = 'Best Videos Templates';
+        $bc = $this->getUser()->getBC();
+        $bc->replaceLast(array('name' => 'Best Videos Templates', 'uri' => 'content/bestVideo'));
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->getUser()->checkPerm(array('content_edit'));
+			
+			$c = new Criteria();
+			$c->add(BestvTmplI18nPeer::CULTURE, $this->culture);
+			$update = BestvTmplI18nPeer::doSelectOne($c);
+			
+			$update->setHeader($this->getRequestParameter('Header'));
+			$update->setBodyWinner($this->getRequestParameter('BodyWinner'));
+			$update->setFooter($this->getRequestParameter('Footer'));
+			$update->save();
+            
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect('content/bestVideo?culture=' .  $this->culture);
+        }
+                
+        $c = new Criteria();
+        $c->add(BestvTmplI18nPeer::CULTURE, $this->getRequestParameter('culture', $this->culture));
+        $this->video = BestvTmplI18nPeer::doSelectOne($c);
+        
+    }
 }

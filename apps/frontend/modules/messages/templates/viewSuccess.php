@@ -21,7 +21,7 @@
 										<?php endif; ?>
                 <?php endif; ?>
             </p>
-            <p><?php echo __('Sent:') . '&nbsp;' . format_date_pr($message->getCreatedAt(null)); ?></p>
+            <p><?php echo __('Sent:') . '&nbsp;' . format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?></p>
             <p><?php echo __('Subject:') . '&nbsp;' . $message->getSubject() ?></p>
     </div>
     <div class="message_desc"><?php echo strip_tags($sf_data->getRaw('message')->getContent(), '<br><a>'); ?></div>

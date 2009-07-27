@@ -20,10 +20,10 @@
     <fieldset>
         <?php foreach ($areas as $area): ?>
             <?php echo checkbox_tag('areas[]', $area->getId(), (in_array($area->getId(), $sf_data->getRaw('selected_areas')) || $sf_request->hasParameter('select_all')) ) ?>
-            <label for="areas_<?php echo $area->getId() ?>"><?php echo link_to_function($area->getTitle(), 
+            <label for="areas_<?php echo $area->getId() ?>"><?php echo link_to_function($area->getName(), 
                         'void()', 
                         array('class' => 'slf', 
-                              'onmouseover' => 'show_area("'. $area->getTitle().'")',
+                              'onmouseover' => 'show_area("'. $area->getName().'")',
                               'onmouseout' => "map.removeOverlay(g_marker)"
                         )) ?></label><br />
         <?php endforeach; ?>

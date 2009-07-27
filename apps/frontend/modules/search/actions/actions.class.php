@@ -201,7 +201,7 @@ class searchActions extends prActions
             $this->selected_areas = isset($selected_areas[$country]) ? $selected_areas[$country] : array();
         }
         
-        $this->areas = StatePeer::getAllByCountry($country);
+        $this->areas = GeoPeer::getAllByCountry($country);
     }
     
     public function handleErrorSelectAreas()
@@ -223,7 +223,7 @@ class searchActions extends prActions
             $this->selected_areas = isset($selected_areas[$country]) ? $selected_areas[$country] : array();
         }
         
-        $this->areas = StatePeer::getAllByCountry($country);    
+        $this->areas = GeoPeer::getAllByCountry($country);    
 
         return sfView::SUCCESS;
     }
@@ -245,7 +245,7 @@ class searchActions extends prActions
         $c = new sfCultureInfo($user->getCulture());
         $this->countries = $c->getCountries();
         asort($this->countries);
-        $this->states = StatePeer::getCountriesWithStates();
+        $this->adm1s = GeoPeer::getCountriesWithStates();
     }
     
     public function handleErrorSelectCountries()
@@ -257,23 +257,23 @@ class searchActions extends prActions
         $c = new sfCultureInfo($user->getCulture());
         $this->countries = $c->getCountries();
         asort($this->countries);
-        $this->states = StatePeer::getCountriesWithStates();  
+        $this->adm1s = GeoPeer::getCountriesWithStates();  
 
         return sfView::SUCCESS;
     }
 
     public function executeAreaFilter()
     {
-        $state = StatePeer::retrieveByPK($this->getRequestParameter('id'));
-        $this->forward404Unless($state);
+        $adm1 = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($adm1);
         
-        $country = $state->getCountry();
+        $country = $adm1->getCountry();
         
         $countries[] = $country;
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/countries');
         $this->getUser()->getAttributeHolder()->add($countries, 'frontend/search/countries');
         
-        $selected_areas[$country] = array($state->getId());
+        $selected_areas[$country] = array($adm1->getId());
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/areas');
         $this->getUser()->getAttributeHolder()->add($selected_areas, 'frontend/search/areas');
         
@@ -359,13 +359,13 @@ class searchActions extends prActions
                 if (!empty($selected_countries))
                 {
                     $selected_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/areas');
-                    //print_r($selected_countries);print_r($selected_areas);exit();
+                    
                     foreach ($selected_countries as $key => $selected_country)
                     {
                         if (array_key_exists($selected_country, $selected_areas))
                         {
                             $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_country);
-                            $crit->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $selected_areas[$selected_country], Criteria::IN));
+                            $crit->addAnd($c->getNewCriterion(MemberPeer::ADM1_ID, $selected_areas[$selected_country], Criteria::IN));
                             //$crit->addOr($crit2);
                             
 
@@ -376,9 +376,40 @@ class searchActions extends prActions
                     if (!isset($crit)) $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
                 }
                 break;
-            //in my state only
+            //within given radius from where I live
             case 2:
-                $crit = $c->getNewCriterion(MemberPeer::STATE_ID, $this->getUser()->getProfile()->getStateId());
+                $this->validateRadius();
+                $user = $this->getUser();
+                $member = MemberPeer::retrieveByPK($user->getId());
+                $cityid = $member->getCityId();
+                $radius = $this->filters['radius'];
+                
+                if ($this->filters['kmmils'] == 'km') // must convert kilometers in miles 
+                {
+                    $radius = $radius / 1.61; // One mile is 1.61 kilometers 
+                }                
+
+                $conf = Propel::getConfiguration();
+                $conf = $conf['datasources']['propel']['connection'];
+                unset($conf['port']);
+                $connection = Creole::getConnection($conf);
+                
+                $sql="call radiussearch(%d,%d)";
+                $sql = sprintf($sql, $cityid, $radius);
+
+                $stmt = $connection->createStatement();
+                $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+
+                if($rs)
+                {
+                    $area_aray = array();
+                    foreach ($rs as $result)
+                    {
+                        array_push($area_aray, $result['id']);
+                    }
+                    $crit = $c->getNewCriterion(MemberPeer::CITY_ID, $area_aray, Criteria::IN);
+                }
+                
                 break;
             default:
                 break;
@@ -390,12 +421,31 @@ class searchActions extends prActions
             $crit3 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
             if (count($polish_areas) > 0)
             {
-                $crit3->addAnd($c->getNewCriterion(MemberPeer::STATE_ID, $polish_areas, Criteria::IN));
+                $crit3->addAnd($c->getNewCriterion(MemberPeer::ADM1_ID, $polish_areas, Criteria::IN));
             }
             
             $crit->addOr($crit3);
         }
         if (isset($crit))
             $c->add($crit);
+    }
+    
+    protected function validateRadius()
+    {
+        $radius = $this->filters['radius'];
+        
+        if( !$radius )
+        {
+            $this->setFlash('msg_error', "Please enter radius");
+            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
+            $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
+        }
+        
+        if( $radius < 0 || $radius >1000 )
+        {
+            $this->setFlash('msg_error', "Radius must be betwen 0 and 1000");
+            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
+            $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
+        }       
     }
 }

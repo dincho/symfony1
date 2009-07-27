@@ -217,14 +217,14 @@ class contentActions extends prActions
     
     public function executeAreaInfo()
     {
-        $state = StatePeer::retrieveByPK($this->getRequestParameter('area_id'));
-        $this->forward404Unless($state);
+        $adm1 = GeoPeer::retrieveByPK($this->getRequestParameter('area_id'));
+        $this->forward404Unless($adm1);
         
         $this->getUser()->getBC()->clear()
         ->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
         ->add(array('name' => 'profile', 'uri' => '@profile?username=' . $this->getRequestParameter('username')))
         ->add(array('name' => 'area information'));
         
-        $this->state = $state;
+        $this->adm1 = $adm1;
     }
 }

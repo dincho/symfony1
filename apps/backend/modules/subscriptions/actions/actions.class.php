@@ -39,16 +39,21 @@ class subscriptionsActions extends sfActions
                 $subscription->setPostPhotos($req_subs[$subscription->getId()]['post_photos']);
                 $subscription->setCanWink($req_subs[$subscription->getId()]['can_wink']);
                 $subscription->setWinks($req_subs[$subscription->getId()]['winks']);
+                $subscription->setWinksDay($req_subs[$subscription->getId()]['winks_day']);
                 $subscription->setCanReadMessages($req_subs[$subscription->getId()]['can_read_messages']);
                 $subscription->setReadMessages($req_subs[$subscription->getId()]['read_messages']);
+                $subscription->setReadMessagesDay($req_subs[$subscription->getId()]['read_messages_day']);
                 $subscription->setCanReplyMessages($req_subs[$subscription->getId()]['can_reply_messages']);
                 $subscription->setReplyMessages($req_subs[$subscription->getId()]['reply_messages']);
+                $subscription->setReplyMessagesDay($req_subs[$subscription->getId()]['reply_messages_day']);
                 $subscription->setCanSendMessages($req_subs[$subscription->getId()]['can_send_messages']);
                 $subscription->setSendMessages($req_subs[$subscription->getId()]['send_messages']);
+                $subscription->setSendMessagesDay($req_subs[$subscription->getId()]['send_messages_day']);
                 $subscription->setCanSeeViewed($req_subs[$subscription->getId()]['can_see_viewed']);
                 $subscription->setSeeViewed($req_subs[$subscription->getId()]['see_viewed']);
                 $subscription->setCanContactAssistant($req_subs[$subscription->getId()]['can_contact_assistant']);
                 $subscription->setContactAssistant($req_subs[$subscription->getId()]['contact_assistant']);
+                $subscription->setContactAssistantDay($req_subs[$subscription->getId()]['contact_assistant_day']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
                 
                 $subscription->setTrial1Period($this->getRequestParameter('trial1_period'));

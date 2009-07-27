@@ -110,10 +110,13 @@ class registrationActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state_id'));
-            $member->setCity($this->getRequestParameter('city'));
+            $member->setAdm1Id($this->getRequestParameter('adm1_id'));
+            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $member->setCityId($city->getId());
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
+            
             
             if( $member->getOriginalFirstName() ) //already confirmed
             {
@@ -147,6 +150,25 @@ class registrationActions extends prActions
         $this->member = $member;
     }
 
+    public function validateIndex()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $validator = new prGeoValidator();
+            $validator->initialize($this->getContext());
+
+            $value = $error = null;
+            if( !$validator->execute(&$value, &$error) )
+            {
+                $this->getRequest()->setError($error['field_name'], $error['msg']);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    
     public function handleErrorIndex()
     {
         $this->setLayout('simple');
@@ -408,6 +430,7 @@ class registrationActions extends prActions
                 $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
                 return false;
             }
+            
             
             if ($cnt_photos >= $subscription->getPostPhotos())
             {

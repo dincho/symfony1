@@ -16,16 +16,25 @@
     <?php echo input_password_tag('repeat_password') ?><br />
     
     <label for="country">Country of Residence</label>
-    <?php echo object_select_country_tag($member, 'getCountry', error_class('first_name')) ?><br />
+    <?php echo pr_select_country_tag('country', $member->getCountry(), array('class' => error_class('country', true), 'include_custom' => 'Please Select')) ?><br />
     
     <label for="state_id">State / Province</label>
-    <?php echo select_tag('state_id', objects_for_select($states, 'getId', 'getTitle', $member->getStateId(), 'include_blank=true'), error_class('state_id')) ?><br />
-
+    <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('class' => error_class('adm1_id', true), 'include_custom' => 'Please Select')) ?><br />
+    
     <label for="district">District / Borough / County</label>
-    <?php echo object_input_tag($member, 'getDistrict', error_class('district')) ?><br />
-          
+    <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', 
+                                        array('class' => error_class('adm2_id', true), 
+                                              'include_custom' => 'Please Select',
+                                              'onchange' => 'clearCity()')) ?><br />
+    
     <label for="city">City</label>
-    <?php echo object_input_tag($member, 'getCity', error_class('city')) ?><br />
+    <?php echo input_auto_complete_tag('city', $member->getCity(),
+        'ajax/AutocompleteCity',
+        array('autocomplete' => 'off', 'class' => error_class('city', true)),
+        array('use_style'    => true, 
+        'frequency' => 0.2,
+        'with'  => " value+'&country='+$('country').value+'&adm1_id='+$('adm1_id').value+'&adm2_id='+$('adm2_id').value"
+    ));?><br />
     
     <label for="zip">Zip Code</label>
     <?php echo object_input_tag($member, 'getZip', error_class('zip')) ?><br />
@@ -39,26 +48,4 @@
 </form>
 
 <?php include_partial('members/bottomMenu', array('member_id' => $member->getId())); ?>
-
-<?php echo observe_field('country', array(
-    'success'  => 'updateStates(request, json)',
-    'url'      => 'ajax/getStatesByCountry',
-    'with'     => "'country=' + value",
-    //'loading'  => visual_effect('appear', 'loader1'),
-    //'complete' => visual_effect('fade', 'loader1').
-    //              visual_effect('highlight', 'did_id'),    
-)) ?>
-
-<?php echo javascript_tag("
-function updateStates(request, json)
-{
-  var nbElementsInResponse = json.length;
-  var S = $('state_id');
-  S.options.length = 0;  
-  
-  for (var i = 0; i < nbElementsInResponse; i++)
-  {
-     S.options[i] = new Option(json[i].title, json[i].id);
-  }
-}
-") ?>
+<?php include_partial('members/geo_fields_js'); ?>

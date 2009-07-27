@@ -20,7 +20,11 @@
 		        <?php echo __('In selected countries only') ?>
 		        </td>
 		        <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ) ?>&nbsp;
-		        <?php echo __('In my area only') ?>
+		        <?php echo __('Within') ?>&nbsp;<?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
+                &nbsp;
+                <?php echo select_tag('filters[kmmils]',  options_for_select(array( 'mil' => __('mil'), 'km' => __('km')), isset($filters['kmmils'])?$filters['kmmils']:sfConfig::get('app_settings_search_default_kilometers_miles')), array('class' => 'select_radius')) ?>
+                &nbsp;
+                <?php echo __('radius from my city') ?>
 		        </td>
 		        <td><?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland'])  ) ?>&nbsp;
 		        <?php echo __('Include matches in Poland') ?>

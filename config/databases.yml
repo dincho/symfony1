@@ -2,5 +2,5 @@ all:
   propel:
     class:          sfPropelDatabase
     param:
-      dsn:          mysql://pr:polish@localhost/polish_romance
+      dsn:          mysqli://pr:polish@localhost/polish_romance
       encoding:     utf8

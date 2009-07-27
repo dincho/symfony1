@@ -4,6 +4,7 @@ all:
     pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     pr_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business: admin_1231849319_biz@polishromance.com
     test:     1

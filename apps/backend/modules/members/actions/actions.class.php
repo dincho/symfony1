@@ -71,9 +71,11 @@ class membersActions extends sfActions
 
     public function executeCreate()
     {
+        $member = new Member();
+        $this->member = $member;
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $member = new Member();
+            
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
@@ -81,9 +83,10 @@ class membersActions extends sfActions
             $member->changeSubscription(SubscriptionPeer::FREE);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setCountry($this->getRequestParameter('country'));
-            $member->setStateId($this->getRequestParameter('state_id'));
-            $member->setDistrict($this->getRequestParameter('district'));
-            $member->setCity($this->getRequestParameter('city'));
+            $member->setAdm1Id($this->getRequestParameter('adm1_id'));
+            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $member->setCityId($city->getId());
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             $member->setFirstName($this->getRequestParameter('first_name'));
@@ -96,6 +99,24 @@ class membersActions extends sfActions
             $this->setFlash('msg_ok', 'You have added a member, please finish registration');
             $this->redirect('members/editSelfDescription?id=' . $member->getId());
         }
+    }
+    
+    public function validateCreate()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $geoValidator = new prGeoValidator();
+            $geoValidator->initialize($this->getContext());
+
+            $value = $error = null;
+            if( !$geoValidator->execute(&$value, &$error) )
+            {
+                $this->getRequest()->setError($error['field_name'], $error['msg']);
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     public function handleErrorCreate()
@@ -148,15 +169,17 @@ class membersActions extends sfActions
 
     public function executeEditRegistration()
     {
+        $this->forward404Unless($this->member);
         $this->getUser()->getBC()->add(array('name' => 'Registration', 'uri' => 'members/editRegistration?id=' . $this->member->getId()));
-        $this->states = StatePeer::getAllByCountry($this->member->getCountry());
+        $this->adm1s = GeoPeer::getAllByCountry($this->member->getCountry());
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setCountry($this->getRequestParameter('country'));
-            $this->member->setStateId(($this->getRequestParameter('state_id')) ? $this->getRequestParameter('state_id') : null);
-            $this->member->setDistrict($this->getRequestParameter('district'));
-            $this->member->setCity($this->getRequestParameter('city'));
+            $this->member->setAdm1Id(($this->getRequestParameter('adm1_id')) ? $this->getRequestParameter('adm1_id') : null);
+            $this->member->setAdm2Id(($this->getRequestParameter('adm2_id')) ? $this->getRequestParameter('adm2_id') : null);
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $this->member->setCityId($city->getId());
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
             if ($this->getRequestParameter('password')) //password changed
@@ -169,12 +192,27 @@ class membersActions extends sfActions
         }
     }
     
+    public function validateEditRegistration()
+    {
+        if ($this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $geoValidator = new prGeoValidator();
+            $geoValidator->initialize($this->getContext());
+
+            $value = $error = null;
+            if( !$geoValidator->execute(&$value, &$error) )
+            {
+                $this->getRequest()->setError($error['field_name'], $error['msg']);
+                return false;
+            }            
+        }
+        
+        return true;
+    }
+    
     public function handleErroreditRegistration()
     {
         $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
-        
-        $this->states = StatePeer::getAllByCountry($this->member->getCountry());
-        $this->member->setStateId(($this->getRequestParameter('state_id')) ? $this->getRequestParameter('state_id') : null);
         $this->forward404Unless($this->member); //just in case
         return sfView::SUCCESS;
     }
