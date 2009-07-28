@@ -392,6 +392,7 @@ class searchActions extends prActions
                 $conf = Propel::getConfiguration();
                 $conf = $conf['datasources']['propel']['connection'];
                 unset($conf['port']);
+                $conf['phptype'] = 'mysqli';
                 $connection = Creole::getConnection($conf);
                 
                 $sql="call radiussearch(%d,%d)";

@@ -24,7 +24,7 @@ all:
     class: myUser
 
   storage:
-    class: sfMySQLiSessionStorage
+    class: sfMySQLSessionStorage
     param:
       session_name: polishRomance
       database: propel
