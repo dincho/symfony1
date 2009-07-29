@@ -116,15 +116,31 @@ class Tools
         return ereg('^([0-9]{1,3}\.){3}[0-9]{1,3}$', $ip);
     }
 
-	  public static function slugify($text)
-	  {
-	    // replace all non words to _ ( Unicode save )
-	    $text = preg_replace('/[^\p{L}]+/u', '_', $text);
+    public static function slugify($text)
+    {
+        // replace all non words to _ ( Unicode save )
+        $text = preg_replace('/[^\p{L}]+/u', '_', $text);
 
-	    $text = trim($text, '_');
+        $text = trim($text, '_');
 
-	    return $text;
-	  }
+        return $text;
+    }
+    
+    public static function getAgeFromDateString($date = null)
+    {
+        if( is_null($date) ) return null;
+        
+        list($b_Y, $b_m, $b_d) = explode('-', $date);
+        list($now_Y, $now_m, $now_d) = explode('-', date('Y-m-d', time()));
+        $age = $now_Y - $b_Y - 1;
+        
+        if( $now_m > $b_m || ( $now_m == $b_m && $now_d >= $b_d) ) 
+        {
+            $age++;
+        }
+        
+        return $age;
+    }
 
 }
 ?>

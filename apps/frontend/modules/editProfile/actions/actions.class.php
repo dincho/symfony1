@@ -174,7 +174,7 @@ class editProfileActions extends prActions
             $questions = DescQuestionPeer::getQuestionsAssoc();
             $answers = $this->getRequestParameter('answers');
             $others = $this->getRequestParameter('others');
-            $has_error = false;
+            $has_error = false; $you_must_fill = false;
             
             foreach ($questions as $question)
             {
@@ -184,14 +184,32 @@ class editProfileActions extends prActions
                     || ( $question->getType() == 'other_langs' && $answers[$question->getId()]  != 'other' && !$this->hasValidAnswerForOtherLang($question->getId()) )
                     ))
                 {
-                    $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information below indicated in red.');
+                    $this->getRequest()->setError('answers[' . $question->getId() . ']', null);
                     $has_error = true;
+                    $you_must_fill = true;
+                } elseif( $question->getType() == 'age' )
+                {
+                    $value = $answers[$question->getId()];
+                    if( !$value['month'] || !$value['day'] || !$value['year'])
+                    {
+                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select you date of birthday.');
+                        $has_error = true;                        
+                    } else {
+                        $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
+                        $age = Tools::getAgeFromDateString($birthday);
+                    
+                        if( $age < 18 )
+                        {
+                            $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must be 18 or older.');
+                            $has_error = true;
+                        }
+                    }
                 }
             }
             
             if ($has_error)
             {
-                $this->setFlash('only_last_error', true);
+                if( $you_must_fill ) $this->getRequest()->setError(null, 'You must fill out the missing information below indicated in red.');
                 return false;
             }
         }
