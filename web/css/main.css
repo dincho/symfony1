@@ -1837,7 +1837,7 @@ div.best_video div.right img {
     border: 0px;
     margin: 0px;
     padding: 0px;
-    width: 240px;
+    width: 246px;
     line-height: 19px;
     float: left;
 }
@@ -1875,6 +1875,7 @@ div.best_video div.right img {
     background-color: #363639;
     color: #aca49c;
     float: left;
+    margin-left:3px;
     display: block;
     height: 12px;
 }
@@ -1885,8 +1886,9 @@ div.best_video div.right img {
 }
 
 #register .tos_contaner {
-    width: 238px;
-    height: 33px;
+    width: 243px;
+    height: 31px;
+    margin-top:2px;
     background-color: #363639;
     line-height: 14px;
     padding-top: 2px;
