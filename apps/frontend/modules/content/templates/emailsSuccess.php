@@ -2,4 +2,4 @@
     <?php echo $email->getSubject(); ?>
 <?php end_slot(); ?>
 
-<?php echo $email->getBody(ESC_RAW) ?>
+<?php echo nl2br($email->getBody(ESC_RAW)); ?>
