@@ -1938,7 +1938,7 @@ div.best_video div.right img {
     border: 0px;
     cursor: pointer;
     margin-top: 50px;
-    background: url(/web/images/go_pl.gif) no-repeat;
+    background: url(/images/go_pl.gif) no-repeat;
     width: 58px;
     height: 33px;
 }
@@ -1947,7 +1947,7 @@ div.best_video div.right img {
     border: 0px;
     cursor: pointer;
     margin-top: 50px;
-    background: url(/web/images/go_pl_over.gif) no-repeat;
+    background: url(/images/go_pl_over.gif) no-repeat;
     width: 58px;
     height: 33px;
 }
