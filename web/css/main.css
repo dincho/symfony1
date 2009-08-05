@@ -483,6 +483,10 @@ p {
     margin-top: 3px;
 }
 
+#secondary_container #sign_in fieldset input {
+  width: 148px;
+}
+
 #secondary_container #forgot_password {
     margin-top: 20px;
 }
