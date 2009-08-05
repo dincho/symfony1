@@ -1,9 +1,5 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
-<?php slot('header_title') ?>
-    <?php echo __('Registration headline') ?>
-<?php end_slot(); ?>
-
 <?php 
 	$first_name_options = array();
 	$submit_button_options = array("class" => "button");
