@@ -2,7 +2,7 @@
 
 <?php if($has_criteria): ?>
     <?php echo __('Profiles sorted by match percentage.') ?>
-    <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
+    <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box">
     <?php include_partial('filters', array('filters' => $filters)); ?>
     
     <?php if( isset($pager) ): ?>
