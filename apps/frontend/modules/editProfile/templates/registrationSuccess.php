@@ -14,13 +14,13 @@
         <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">(*)</span>') ?>
         <?php echo input_password_tag('repeat_password') ?><br />
         
-        <?php echo pr_label_for('looking_for', __('You are')) ?>
+        <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">(*)</span>') ?>
         <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor()), array("disabled" => "true")) ?><br />
         
         <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">(*)</span>') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         
-        <?php echo pr_label_for('adm1_id', __('Area')) ?>
+        <?php echo pr_label_for('adm1_id', __('Area') . '<span style="color:red;">(*)</span>') ?>
         <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('include_custom' => __('Please Select'))) ?><br />
         
         <?php echo pr_label_for('adm2_id', __('District / Borough / County')) ?>

@@ -30,7 +30,7 @@
         <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">(*)</span>') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry(), array('include_custom' => __('Please Select'))) ?><br />
         
-        <?php echo pr_label_for('adm1_id', __('Area')) ?>
+        <?php echo pr_label_for('adm1_id', __('Area') . '<span style="color:red;">(*)</span>') ?>
         <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('include_custom' => __('Please Select'))) ?><br />
         
         <?php echo pr_label_for('adm2_id', __('District / Borough / County')) ?>
@@ -55,7 +55,7 @@
         <?php echo pr_label_for('first_name', __('First Name') . '<span style="color:red;">(*)</span>') ?>
         <?php echo object_input_tag($member, 'getFirstName', $first_name_options) ?><br />
         
-        <?php echo pr_label_for('orientation', __('You are')) ?>
+        <?php echo pr_label_for('orientation', __('You are') . '<span style="color:red;">(*)</span>') ?>
         <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
     </fieldset>
     <?php echo __('Registration notice') ?> 
