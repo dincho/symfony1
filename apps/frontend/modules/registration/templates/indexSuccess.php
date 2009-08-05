@@ -33,7 +33,7 @@
         <?php echo pr_label_for('adm1_id', __('Area') . '<span style="color:red;">(*)</span>') ?>
         <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('include_custom' => __('Please Select'))) ?><br />
         
-        <?php echo pr_label_for('adm2_id', __('District / Borough / County')) ?>
+        <?php echo pr_label_for('adm2_id', __('District / Borough')) ?>
         <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', array('include_custom' => __('Please Select'), 'onchange' => 'clearCity()')) ?><br />
         
         <?php echo pr_label_for('city', __('City') . '<span style="color:red;">(*)</span>') ?>
