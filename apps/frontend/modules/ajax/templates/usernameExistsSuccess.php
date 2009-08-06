@@ -1,7 +1,7 @@
 <?php if( isset($error_msg) ): ?>
-    <p class="msg_error"><?php echo __($error_msg, array('%USERNAME%' => $username)) ?></p>
+    <p class="msg_error"><?php echo $error_msg; ?></p>
 <?php else: ?>
-    <p class="msg_ok"><?php echo __('Congratulations, your username "%USERNAME%" is available.', array('%USERNAME%' => $username)) ?></p>
+    <p class="msg_ok"><?php echo $ok_msg; ?></p>
     <script type="text/javascript">
         $("label_username").className = "";
         var msgs = $("msgs");
