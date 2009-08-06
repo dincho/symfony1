@@ -152,6 +152,8 @@ class registrationActions extends prActions
 
     public function validateIndex()
     {
+        $return = true;
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $validator = new prGeoValidator();
@@ -162,48 +164,33 @@ class registrationActions extends prActions
             $first_name = $this->getRequestParameter('first_name');
 
             $value = $error = null;
+            
             if( !$validator->execute(&$value, &$error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
-                if( !$zip )
-                {
-                    $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                }
-            
-                if( !$nationality )
-                {
-                    $this->getRequest()->setError('nationality', 'Please provide your nationality.');
-                }
-                
-                if( !$first_name )
-                {
-                    $this->getRequest()->setError('first_name', 'Please provide your First Name.');
-                }
-                return false;
+                $return = false;
             }
-            else
+            
+            if( !$zip )
             {
-                if( !$zip )
-                {
-                    $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                }
-            
-                if( !$nationality )
-                {
-                    $this->getRequest()->setError('nationality', 'Please provide your nationality.');
-                }
-                
-                if( !$first_name )
-                {
-                    $this->getRequest()->setError('first_name', 'Please provide your First Name.');
-                }
-                return false;
+                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                $return = false;
+            }
+        
+            if( !$nationality )
+            {
+                $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                $return = false;
             }
             
-            
+            if( !$first_name )
+            {
+                $this->getRequest()->setError('first_name', 'Please provide your First Name.');
+                $return = false;
+            }
         }
         
-        return true;
+        return $return;
     }
     
     
