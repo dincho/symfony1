@@ -68,6 +68,8 @@ class editProfileActions extends prActions
 
     public function validateRegistration()
     {
+        $return = true;
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = MemberPeer::retrieveByPK($this->getUser()->getid());
@@ -82,14 +84,14 @@ class editProfileActions extends prActions
                 if (! $myValidator->execute($mail, $error))
                 {
                     $this->getRequest()->setError('email', $error);
-                    return false;
+                    $return = false;
                 }
             }
             
             if ($this->getUser()->getAttribute('must_change_pwd') && ! $this->getRequestParameter('password'))
             {
                 $this->getRequest()->setError('password', 'You must change your password!');
-                return false;
+                $return = false;
             }
             
             $geoValidator = new prGeoValidator();
@@ -99,10 +101,25 @@ class editProfileActions extends prActions
             if( !$geoValidator->execute(&$value, &$error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
-                return false;
+                $return = false;
             }            
+            
+            $zip = $this->getRequestParameter('zip');
+            $nationality = $this->getRequestParameter('nationality');
+            
+            if( !$zip )
+            {
+                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                $return = false;
+            }
+        
+            if( !$nationality )
+            {
+                $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                $return = false;
+            }
         }
-        return true;
+        return $return;
     }
 
     public function handleErrorRegistration()
