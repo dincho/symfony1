@@ -10,9 +10,3 @@ fields:
     sfCompareValidator:
       check:  password
       compare_error:  Please enter identical passwords.
-  zip:
-    required:
-      msg:  Please provide your zip/ postal code.
-  nationality:
-    required:
-      msg:  Please provide your nationality.

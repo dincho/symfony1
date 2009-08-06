@@ -103,20 +103,74 @@ class membersActions extends sfActions
     
     public function validateCreate()
     {
+        $return = true;
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
+            
+            $zip = $this->getRequestParameter('zip');
+            $nationality = $this->getRequestParameter('nationality');
+            $first_name = $this->getRequestParameter('first_name');
+            $username = $this->getRequestParameter('username');
 
             $value = $error = null;
             if( !$geoValidator->execute(&$value, &$error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
-                return false;
+                $return = false;
             }
+            
+            if( !$zip )
+            {
+                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                $return = false;
+            }
+        
+            if( !$nationality )
+            {
+                $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                $return = false;
+            }
+            
+            if( !$first_name )
+            {
+                $this->getRequest()->setError('first_name', 'Please provide your First Name.');
+                $return = false;
+            }
+            
+            if( !$username )
+            {
+                $this->getRequest()->setError('username', 'Pease create your username.');
+                $return = false;
+            }
+          
+            $myRegexValidator = new sfRegexValidator();
+            $myRegexValidator->initialize($this->getContext(), array(
+                'match'       => 'Yes',
+                'pattern'     => '/^[a-zA-Z0-9_]{4,20}$/',
+            ));
+            if (!$myRegexValidator->execute($username, $error))
+            {
+                $this->getRequest()->setError('username', 'Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.');
+                $return = false;
+            }
+            
+            $myUniqueValidator = new sfPropelUniqueValidator();
+            $myUniqueValidator->initialize($this->getContext(), array(
+                'class'        => 'Member',
+                'column'       => 'username',
+            ));
+            if (!$myUniqueValidator->execute($username, $error))
+            {
+                $this->getRequest()->setError('username', 'This username is already taken.');
+                $return = false;
+            }
+
         }
         
-        return true;
+        return $return;
     }
     
     public function handleErrorCreate()
@@ -194,20 +248,37 @@ class membersActions extends sfActions
     
     public function validateEditRegistration()
     {
+        $return = true;
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST )
         {
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
+            
+            $zip = $this->getRequestParameter('zip');
+            $nationality = $this->getRequestParameter('nationality');
 
             $value = $error = null;
             if( !$geoValidator->execute(&$value, &$error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
-                return false;
-            }            
+                $return = false;
+            } 
+            
+            if( !$zip )
+            {
+                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                $return = false;
+            }
+        
+            if( !$nationality )
+            {
+                $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                $return = false;
+            }           
         }
         
-        return true;
+        return $return;
     }
     
     public function handleErroreditRegistration()

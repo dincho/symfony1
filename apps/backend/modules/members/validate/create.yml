@@ -22,27 +22,7 @@ fields:
       msg:  Please retype the password.
     sfCompareValidator:
       check:  password
-      compare_error:  Please enter identical passwords.
-  zip:
-    required:
-      msg:  Please provide your zip/ postal code.
-  nationality:
-    required:
-      msg:  Please provide your nationality.
-  first_name:
-    required:
-      msg:  Please provide your first name      
-  username:
-    required:
-      msg:       Pease create your username.
-    sfRegexValidator:
-        match:        Yes
-        match_error:  Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.
-        pattern:      /^[a-zA-Z0-9_]{4,20}$/      
-    sfPropelUniqueValidator:
-      class:        Member
-      column:       username
-      unique_error: This username is already taken.
+      compare_error:  Please enter identical passwords. 
   looking_for:
     sfStringValidator:
       values:       [M_F, F_M, M_M, F_F]
