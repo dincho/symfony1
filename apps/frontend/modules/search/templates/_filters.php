@@ -1,7 +1,14 @@
     <table border="0" cellpadding="0" cellspacing="0" class="search_filter">
       <tbody>
         <tr class="search_filter_top_row">
-            <td colspan="5"><?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video'])) . __('Show only profiles with video') ?></td>
+            <td colspan="2"><?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video'])) . __('Show only profiles with video') ?></td>
+            <td colspan="2">&nbsp;<?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland']) ) . __('Include matches in Poland') ?></td>
+            <td></td>
+        </tr>
+        <tr class="search_filter_bottom_row">
+            <td colspan="2"></td>
+            <td colspan="2"><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('class' => 'sec_link')) ?></td>
+            <td></td>
         </tr>
         <tr class="separator">
             <td colspan="5"></td>
@@ -16,7 +23,7 @@
                 <?php echo select_tag('filters[kmmils]',  options_for_select(array( 'mil' => __('mil'), 'km' => __('km')), isset($filters['kmmils'])?$filters['kmmils']:sfConfig::get('app_settings_search_default_kilometers_miles')), array('class' => 'select_radius')) ?>
                 &nbsp;<?php echo __('radius from my city') ?>
             </td>
-            <td><?php echo checkbox_tag('filters[include_poland]', 1, isset($filters['include_poland']) ) . __('Include matches in Poland') ?></td>
+            <td></td>
         </tr>
         <tr class="search_filter_bottom_row">
             <td></td>
@@ -24,7 +31,7 @@
     
             <td><?php echo link_to(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
             <td></td>
-            <td><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('class' => 'sec_link')) ?></td>
+            <td></td>
         </tr>
         <tr class="actions">
             <td colspan="5">
