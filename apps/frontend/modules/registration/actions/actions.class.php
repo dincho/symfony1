@@ -156,13 +156,51 @@ class registrationActions extends prActions
         {
             $validator = new prGeoValidator();
             $validator->initialize($this->getContext());
+            
+            $zip = $this->getRequestParameter('zip');
+            $nationality = $this->getRequestParameter('nationality');
+            $first_name = $this->getRequestParameter('first_name');
 
             $value = $error = null;
             if( !$validator->execute(&$value, &$error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
+                if( !$zip )
+                {
+                    $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                }
+            
+                if( !$nationality )
+                {
+                    $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                }
+                
+                if( !$first_name )
+                {
+                    $this->getRequest()->setError('first_name', 'Please provide your First Name.');
+                }
                 return false;
             }
+            else
+            {
+                if( !$zip )
+                {
+                    $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
+                }
+            
+                if( !$nationality )
+                {
+                    $this->getRequest()->setError('nationality', 'Please provide your nationality.');
+                }
+                
+                if( !$first_name )
+                {
+                    $this->getRequest()->setError('first_name', 'Please provide your First Name.');
+                }
+                return false;
+            }
+            
+            
         }
         
         return true;
