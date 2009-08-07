@@ -18,7 +18,9 @@ class settingsActions extends sfActions
     
     public function executeList()
     {
-        $this->settings = sfSettingPeer::doSelect(new Criteria());
+      $c = new Criteria();
+      $c->addAscendingOrderByColumn(sfSettingPeer::DESCRIPTION);
+      $this->settings = sfSettingPeer::doSelect($c);
     }
     
     public function executeEdit()
