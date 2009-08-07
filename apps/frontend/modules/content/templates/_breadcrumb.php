@@ -9,10 +9,10 @@
       <?php echo (( isset($stack[$i]['uri']) ) ? link_to($name, $stack[$i]['uri']) : $name). $BC->getDelimiter(); ?>
     <?php endfor; ?>
 
-    <?php if( !$sf_flash->has('custom_bc') ): ?>
-        <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
+    <?php if( $BC->getCustomLastItem() ): ?>
+        <?php echo $BC->getCustomLastItem() . __("'s Profile") ?>
     <?php else: ?>
-        <?php echo $sf_flash->get('custom_bc') ?>
+        <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
     <?php endif; ?>
     </span>
     <div id="header_title">

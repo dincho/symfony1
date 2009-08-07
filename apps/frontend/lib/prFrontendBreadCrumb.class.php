@@ -8,6 +8,7 @@ class prFrontendBreadCrumb extends xBreadcrumb
   private $delim = ' > '; //escaped in the View
   private $class = 'breadcrumb';
   private $tr_last = true;
+  private $custom_bc;
   
   protected function __construct()
   {
@@ -91,6 +92,17 @@ class prFrontendBreadCrumb extends xBreadcrumb
     {
         $el = $this->getElement($index);
         return (isset($el['name'])) ? $this->humanize($el['name']) : null;
+    }
+    
+    public function setCustomLastItem($value)
+    {
+        $this->custom_bc = $value;
+
+    }
+    
+    public function getCustomLastItem()
+    {
+        return $this->custom_bc;
     }
 }
 ?>
