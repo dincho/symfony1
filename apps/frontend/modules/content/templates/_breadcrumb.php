@@ -10,7 +10,7 @@
     <?php endfor; ?>
 
     <?php if( $BC->getCustomLastItem() ): ?>
-        <?php echo $BC->getCustomLastItem() . __("'s Profile") ?>
+        <?php echo $BC->getCustomLastItem(); //this setter takes already internationalized values since the output is not internationalized because the need of specific parameters ?>
     <?php else: ?>
         <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
     <?php endif; ?>
