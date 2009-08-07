@@ -32,7 +32,7 @@ class profileActions extends prActions
     public function executeIndex()
     {
         $this->current_culture = ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en';
-				$key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        $key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
         
         $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
@@ -45,51 +45,51 @@ class profileActions extends prActions
         
         if( $this->getRequestParameter('admin_hash') != $admin_hash && $this->getUser()->getId() != $member->getId() )
         {
-	        $member_status_id = $member->getMemberStatusId();
-	        if( $member_status_id != MemberStatusPeer::ACTIVE )
-	        {
-	            $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
-	                                $member_status_id == MemberStatusPeer::PENDING ||
-	                                $member_status_id == MemberStatusPeer::DENIED
-	                                );
-	                               
-	            switch ($member_status_id) {
-	            	case MemberStatusPeer::SUSPENDED:
-	            	case MemberStatusPeer::SUSPENDED_FLAGS:
-	            	case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
-	            	    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
-	            	break;
-	            	case MemberStatusPeer::CANCELED:
-	            		$this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
-	            		break;
-	            	case MemberStatusPeer::CANCELED_BY_MEMBER:
-	            	    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
-	            	break;
-	            	case MemberStatusPeer::DEACTIVATED:
-	            	    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
-	            	break;
-	            	
-	            	default:
-	            	break;
-	            }
-	            
-	            $this->redirect('@dashboard');
-	        }
-	        
-	        //privacy
-	        $prPrivavyValidator = new prPrivacyValidator();
-	        $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
-	        $prPrivavyValidator->initialize($this->getContext(), array(
-	          'sex_error' => 'Due to privacy restrictions you cannot see this profile',
-	          'check_onlyfull' => false,
-	        ));
-	        
-	        $error = '';
-	        if( !$prPrivavyValidator->execute(&$value, &$error) )
-	        {
-	            $this->setFlash('msg_error', $error);
-	            $this->redirectToReferer();
-	        }
+          $member_status_id = $member->getMemberStatusId();
+          if( $member_status_id != MemberStatusPeer::ACTIVE )
+          {
+              $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
+                                  $member_status_id == MemberStatusPeer::PENDING ||
+                                  $member_status_id == MemberStatusPeer::DENIED
+                                  );
+                                 
+              switch ($member_status_id) {
+                case MemberStatusPeer::SUSPENDED:
+                case MemberStatusPeer::SUSPENDED_FLAGS:
+                case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+                    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                break;
+                case MemberStatusPeer::CANCELED:
+                  $this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
+                  break;
+                case MemberStatusPeer::CANCELED_BY_MEMBER:
+                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                break;
+                case MemberStatusPeer::DEACTIVATED:
+                    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
+                break;
+                
+                default:
+                break;
+              }
+              
+              $this->redirect('@dashboard');
+          }
+          
+          //privacy
+          $prPrivavyValidator = new prPrivacyValidator();
+          $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
+          $prPrivavyValidator->initialize($this->getContext(), array(
+            'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+            'check_onlyfull' => false,
+          ));
+          
+          $error = '';
+          if( !$prPrivavyValidator->execute(&$value, &$error) )
+          {
+              $this->setFlash('msg_error', $error);
+              $this->redirectToReferer();
+          }
         }
         
         //add a visit
@@ -97,7 +97,7 @@ class profileActions extends prActions
 
         if( $this->getUser()->getId() == $member->getId() && !$this->hasFlash('msg_ok') ) 
         {
-        	$this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
+          $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
         }
         
         //@TODO recent conversatoions - this need refactoring and move to the model
@@ -145,33 +145,33 @@ class profileActions extends prActions
                 
         $this->profile_pager = new ProfilePager($member->getUsername());
 
-				$bc = $this->getUser()->getBC();
-				$bc->replaceFirst(array('name' => 'Dashboard', 'uri' => '@dashboard'));
-				
-				switch ($this->getRequestParameter('bc')) {
-					case 'search':
-						$bc->add(array('name' => 'Search', 'uri' => '@matches'));
-						break;
-					case 'messages':
-						$bc->add(array('name' => 'Messages', 'uri' => 'messages/index'));
-						break;
-					case 'winks':
-						$bc->add(array('name' => 'Winks', 'uri' => '@winks'));
-						break;
-					case 'hotlist':
-						$bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
-						break;
-					case 'visitors':
-						$bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
-						break;					
-					case 'blocked':
-						$bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
-						break;
-					default:
-						break;
-				}
+        $bc = $this->getUser()->getBC();
+        $bc->replaceFirst(array('name' => 'Dashboard', 'uri' => '@dashboard'));
+        
+        switch ($this->getRequestParameter('bc')) {
+          case 'search':
+            $bc->add(array('name' => 'Search', 'uri' => '@matches'));
+            break;
+          case 'messages':
+            $bc->add(array('name' => 'Messages', 'uri' => 'messages/index'));
+            break;
+          case 'winks':
+            $bc->add(array('name' => 'Winks', 'uri' => '@winks'));
+            break;
+          case 'hotlist':
+            $bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
+            break;
+          case 'visitors':
+            $bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
+            break;          
+          case 'blocked':
+            $bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
+            break;
+          default:
+            break;
+        }
                 $bc->setCustomLastItem(__("%USERNAME%'s Profile", array('%USERNAME%' => $member->getUsername())));
-				$bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
+        $bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
     }
 
     public function executeSignIn()
@@ -191,27 +191,27 @@ class profileActions extends prActions
            if (! $this->getUser()->hasCredential(array('member'), false)) $this->executeSignout();
            $this->redirect('@homepage');
         } else {
-					$referer_rel = $_SERVER["REQUEST_URI"];
-					$referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
-					$this->getRequest()->setAttribute('referer', $referer_abs);          	
+          $referer_rel = $_SERVER["REQUEST_URI"];
+          $referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
+          $this->getRequest()->setAttribute('referer', $referer_abs);            
         }
     }
     
   
-	protected function afterSignInRedirect()
-	{
-	  $referer = $this->getRequestParameter('referer');
-	  $host    = $this->getRequest()->getHost();
-	  
-	  if( false !== strpos($referer, $host) )
-	  {
-	    $this->redirect( $referer );
-	  }
-	  else
-	  {
-	    $this->redirect( '@homepage' );
-	  }    
-	}
+  protected function afterSignInRedirect()
+  {
+    $referer = $this->getRequestParameter('referer');
+    $host    = $this->getRequest()->getHost();
+    
+    if( false !== strpos($referer, $host) )
+    {
+      $this->redirect( $referer );
+    }
+    else
+    {
+      $this->redirect( '@homepage' );
+    }    
+  }
   
     public function validateSignIn()
     {
@@ -329,10 +329,18 @@ class profileActions extends prActions
         $pass_hash = sha1(SALT . $member->getNewPassword() . SALT);
         $this->forward404Unless($hash == $pass_hash);
 
-        $member->setPassword($member->getNewPassword(), false);
-        $member->setNewPassword(NULL, false);
-        $member->setMustChangePwd(true);
-        $member->save();
+        /* 
+          don't force pending and abandoned members to change passwords 
+          to prevent redirect loop since forcing so will jail them to the 
+          editProfile/registration witch is not accesable for these statuses
+        */
+        if( !in_array($member->getMemberStatusId(), array(MemberStatusPeer::PENDING, MemberStatusPeer::ABANDONED)) )
+        {
+          $member->setPassword($member->getNewPassword(), false);
+          $member->setNewPassword(NULL, false);
+          $member->setMustChangePwd(true);
+          $member->save();
+        }
         
         $this->getUser()->SignIn($member);
         $this->redirect('dashboard/index');
