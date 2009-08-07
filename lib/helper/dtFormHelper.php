@@ -191,7 +191,7 @@ function pr_select_language_tag($name, $selected = null, $options = array())
     {
         $value = mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
         $char = mb_substr($value, 0, 1, 'utf-8');
-        $opt_key = '-------------' . $char . '-------------';
+        $opt_key = '------' . $char . '---------';
         
         $new_languages[$opt_key][$key] = $value;
         $languages[$key] = $value; //save the new ucfirst value
