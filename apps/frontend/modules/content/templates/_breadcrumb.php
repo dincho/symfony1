@@ -9,7 +9,11 @@
       <?php echo (( isset($stack[$i]['uri']) ) ? link_to($name, $stack[$i]['uri']) : $name). $BC->getDelimiter(); ?>
     <?php endfor; ?>
 
-    <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
+    <?php if( !$sf_flash->has('custom_bc') ): ?>
+        <?php echo $BC->getLastName(); //add last element manual, just text not a link ?>
+    <?php else: ?>
+        <?php echo $sf_flash->get('custom_bc') ?>
+    <?php endif; ?>
     </span>
     <div id="header_title">
         <?php echo image_tag('header_text/left.gif', 'class=float-left') ?>

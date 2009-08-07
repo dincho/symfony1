@@ -170,6 +170,7 @@ class profileActions extends prActions
 					default:
 						break;
 				}
+                $this->setFlash('custom_bc',$member->getUsername(), false);
 				$bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
     }
 
