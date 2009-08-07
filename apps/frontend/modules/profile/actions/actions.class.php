@@ -170,7 +170,6 @@ class profileActions extends prActions
 					default:
 						break;
 				}
-                //$bc->setCustomLastItem($member->getUsername() . __("'s Profile"));
                 $bc->setCustomLastItem(__("%USERNAME%'s Profile", array('%USERNAME%' => $member->getUsername())));
 				$bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
     }
