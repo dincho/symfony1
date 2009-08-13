@@ -29,7 +29,7 @@
     
     <label for="city">City</label>
     <?php echo input_auto_complete_tag('city', $member->getCity(),
-        'ajax/AutocompleteCity',
+        'ajax/autocompleteCity',
         array('autocomplete' => 'off', 'class' => error_class('city', true)),
         array('use_style'    => true, 
         'frequency' => 0.2,

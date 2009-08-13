@@ -28,7 +28,7 @@
         
         <?php echo pr_label_for('city', __('City') . '<span style="color:red;">(*)</span>') ?>
         <?php echo input_auto_complete_tag('city', $member->getCity(),
-            'ajax/AutocompleteCity',
+            'ajax/autocompleteCity',
             array('autocomplete' => 'off'),
             array('use_style'    => true, 
             'frequency' => 0.2,
