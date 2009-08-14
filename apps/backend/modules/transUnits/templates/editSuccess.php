@@ -24,7 +24,7 @@
 	    <label for="tags">Tags:</label>
 	    <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?>
         </div>
-        <div style="float:none;">
+        <div style="float:left;">
 	    <?php echo select_tag('defined_tags', 
 	                           options_for_select(TransUnitPeer::getTagsWithKeys(), null), 
 	                           array('multiple' => true, 'style' => 'width:250px; height:207px', 'onclick' => 'add_tags(this.value, "tags")'))?>
