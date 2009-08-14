@@ -17,6 +17,9 @@ fields:
   password:
     required:
       msg:  Please create password.
+    sfCompareValidator:
+      check:  repeat_password
+      compare_error:  null
   repeat_password:
     required:
       msg:  Please retype the password.
