@@ -1524,7 +1524,7 @@ span.sec_link {
 }
 
 .input_radius{
-    width: 100px;
+    width: 80px;
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
@@ -1540,7 +1540,7 @@ span.sec_link {
     color: #aca49c;
     padding: 0px;
     margin-right: 0;
-    width: 40px;
+    width: 60px;
     font-size: 11px;
 }
 
