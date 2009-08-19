@@ -11,7 +11,7 @@ function profile_photo($profile, $class="")
 {
     if( $profile->isActive() )
     {
-        return image_tag($profile->getMainPhoto()->getImg('80x100'));
+        return link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
     } else {
         return content_tag('div', __('Sorry, this profile is no longer available'), array('class' => 'profile_not_available ' . $class));
     }
