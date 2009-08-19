@@ -365,6 +365,7 @@ class dashboardActions extends prActions
     
     public function executeSearchCriteria()
     {
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
         
