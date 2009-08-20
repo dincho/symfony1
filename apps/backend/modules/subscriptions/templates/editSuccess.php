@@ -8,6 +8,7 @@
       <fieldset class="form_fields">
         
         <label for="limit_label">&nbsp;</label><br />
+        <label for="limit_label">&nbsp;</label><br />
         
         <label for="post_photo">Create Profile:</label><br />
         
@@ -50,8 +51,8 @@
   <?php foreach($subscriptions as $sub): ?>
   <div class="subscription_container">
       <fieldset class="form_fields">
-        <var><b><?php echo $sub->getTitle() ?></b></var><br /><br />
-        
+        <var><b><?php echo $sub->getTitle() ?></b></var><br />
+        <var>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monthly&nbsp;&nbsp;&nbsp;&nbsp;Daily</var><br /><br />
         <?php echo object_bool_select_tag($sub, 'getCanCreateProfile', array('control_name' => 'subs['. $sub->getId() .'][can_create_profile]')) ?>
         <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />        
         
