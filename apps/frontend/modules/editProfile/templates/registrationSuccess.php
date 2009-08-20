@@ -20,28 +20,28 @@
         </div><br />
         <?php endif; ?>
         
-        <?php echo pr_label_for('email', __('Your email address') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('email', __('Your email address') . '<span style="color:red;">*</span>') ?>
         <?php echo object_input_tag($member, 'getEmail') ?><br />    
         
-        <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('password') ?><br />
         
-        <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('repeat_password') ?><br />
         
-        <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor()), array("disabled" => "true")) ?><br />
         
-        <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">*</span>') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
         
-        <?php echo pr_label_for('adm1_id', __('Area') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('adm1_id', __('Area') . '<span style="color:red;">*</span>') ?>
         <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('include_custom' => __('Please Select'))) ?><br />
         
         <?php echo pr_label_for('adm2_id', __('District / Borough')) ?>
         <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', array('include_custom' => __('Please Select'), 'onchange' => 'clearCity()')) ?><br />
         
-        <?php echo pr_label_for('city', __('City') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('city', __('City') . '<span style="color:red;">*</span>') ?>
         <?php echo input_auto_complete_tag('city', strip_tags($member->getCity(ESC_RAW)),
             'ajax/autocompleteCity',
             array('autocomplete' => 'off'),
@@ -53,10 +53,10 @@
             'with'  => " value+'&country='+$('country').value+'&adm1_id='+$('adm1_id').value+'&adm2_id='+$('adm2_id').value"
         ));?><br />
         
-        <?php echo pr_label_for('zip', __('Zip Code') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('zip', __('Zip Code') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('zip', strip_tags($member->getZip(ESC_RAW)) ,array('class' => 'essay', 'size' => 30, 'maxlength' => 50)) ?><br />
         
-        <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('nationality', strip_tags($member->getNationality(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 50)) ?><br />
     </fieldset>
     <fieldset>

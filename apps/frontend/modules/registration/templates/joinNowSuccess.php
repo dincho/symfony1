@@ -8,19 +8,19 @@
         <input type="text" name="another_language" id="another_language" /> <span class="another_language_span">(Please specify)</span><br />
          -->
          
-        <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
         
-        <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('password') ?><br />
         
-        <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('repeat_password') ?><br />
         
-        <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">(*)</span>') ?>
+        <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('looking_for', looking_for_options()) ?><br />
 
-        <?php echo pr_label_for('username', __('Username') . '<span style="color:red;">(*)</span>'); ?>
+        <?php echo pr_label_for('username', __('Username') . '<span style="color:red;">*</span>'); ?>
         <?php echo input_tag('username') ?>
         <span class="check_available">
         <?php echo button_to_remote(__('Check Availability'), array(
