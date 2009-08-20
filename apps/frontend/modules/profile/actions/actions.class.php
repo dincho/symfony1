@@ -291,7 +291,7 @@ class profileActions extends prActions
             //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
             $c = new Criteria();
             $c->add(MemberPeer::EMAIL, $this->getRequestParameter('email'));
-            $c->add(MemberPeer::MEMBER_STATUS_ID, array(MemberStatusPeer::CANCELED, MemberStatusPeer::CANCELED_BY_MEMBER), Criteria::NOT_IN);
+            $c->add(MemberPeer::MEMBER_STATUS_ID, array(MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED, MemberStatusPeer::SUSPENDED_FLAGS, MemberStatusPeer::SUSPENDED,MemberStatusPeer::CANCELED, MemberStatusPeer::CANCELED_BY_MEMBER), Criteria::NOT_IN);
             $c->setLimit(1);
             $member = MemberPeer::doSelectOne($c);
             
