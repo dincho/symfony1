@@ -55,13 +55,17 @@ class profileActions extends prActions
                                  
               switch ($member_status_id) {
                 case MemberStatusPeer::SUSPENDED:
-                case MemberStatusPeer::SUSPENDED_FLAGS:
-                case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
                     $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
                 break;
+                case MemberStatusPeer::SUSPENDED_FLAGS:
+                    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                break;
+                case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                break;
                 case MemberStatusPeer::CANCELED:
-                  $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
-                  break;
+                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                break;
                 case MemberStatusPeer::CANCELED_BY_MEMBER:
                     $this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
                 break;
