@@ -16,32 +16,32 @@
         <div class="dashboard-menu">
             <?php echo link_to(__('Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($matches as $match_profile): ?>
-                <?php echo link_to(image_tag($match_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $match_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$match_profile->isActive(), profile_small_photo($match_profile), '@profile?username=' . $match_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($messages as $message_profile): ?>
-                <?php echo link_to_unless(!$message_profile->isActive(), image_tag($message_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $message_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$message_profile->isActive(), profile_small_photo($message_profile), '@profile?username=' . $message_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Winks ( %count% )', array('%count%' => $winks_cnt)), '@winks', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($winks as $wink_profile): ?>
-                <?php echo link_to_unless(!$wink_profile->isActive(), image_tag($wink_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $wink_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$wink_profile->isActive(), profile_small_photo($wink_profile), '@profile?username=' . $wink_profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Hotlist ( %count% )', array('%count%' => $hotlist_cnt)), '@hotlist', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($hotlist as $hotlist_profile): ?>
-                <?php echo link_to_unless(!$hotlist_profile->isActive(), image_tag($hotlist_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $hotlist_profile->getUsername()) ?>
+                <?php echo link_to_unless(!$hotlist_profile->isActive(), profile_small_photo($hotlist_profile), '@profile?username=' . $hotlist_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
             <?php if( $member->getSubscription()->getCanSeeViewed() ): ?>
                 <?php foreach ($visits as $visit_profile): ?>
-                    <?php echo link_to_unless(!$visit_profile->isActive(), image_tag($visit_profile->getMainPhoto()->getImg('30x30')), '@profile?username=' . $visit_profile->getUsername()) ?>
+                    <?php echo link_to_unless(!$visit_profile->isActive(), profile_small_photo($visit_profile), '@profile?username=' . $visit_profile->getUsername()) ?>
                 <?php endforeach; ?>
             <?php else: ?>
                 <?php $max_no_photos = min($visits_cnt, 5); ?>

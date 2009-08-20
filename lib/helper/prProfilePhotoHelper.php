@@ -16,3 +16,13 @@ function profile_photo($profile, $class="")
         return content_tag('div', __('Sorry, this profile is no longer available'), array('class' => 'profile_not_available ' . $class));
     }
 }
+
+function profile_small_photo($profile)
+{
+    if( $profile->isActive() )
+    {
+        return link_to(image_tag($profile->getMainPhoto()->getImg('30x30')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
+    } else {
+        return image_tag('not_available_30x30.jpg');
+    }
+}
