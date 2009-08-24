@@ -100,7 +100,7 @@
             <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong><br class="clear" />
             <?php foreach ($recent_visits as $profile): ?>
                 <div class="photo">
-                    <?php echo link_to_unless(!$profile->isActive(), profile_photo($profile, 'profile_not_available_dash'), '@profile?username=' . $profile->getUsername()) ?>
+                    <?php echo link_to_unless(!$profile->isActive(), profile_photo_dash_visitors($profile, 'profile_not_available_dash'), '@profile?username=' . $profile->getUsername()) ?>
                     <p><?php echo link_to_unless(!$profile->isActive(), $profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?></p>
                 </div>            
             <?php endforeach; ?>

@@ -15,7 +15,7 @@
         <div class="member_box">
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
             <?php echo profile_photo($member, 'float-left') ?>
-            
+            <?php if( $profile->isActive() ): ?>
             <div class="profile_info">
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                 <p></p>
@@ -29,6 +29,11 @@
                 <?php $when =  ($member->isLoggedIn()) ? 'Online' : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
+            <?php else: ?>
+                <div class="profile_info">
+                	<p><?php echo __('Sorry, this profile is no longer available',  array('class' => 'profile_not_available ')) ?></p>
+                </div>       
+           <?php endif; ?>
         </div>
 </div>
 <?php elseif($sf_request->getParameter('profile_id')): ?>
