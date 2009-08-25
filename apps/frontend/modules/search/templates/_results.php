@@ -28,7 +28,7 @@
                     <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
                 </div>
                 <?php else: ?>
-                <h2><div>&nbsp;</div><div><span>&nbsp;</span></div></h2>
+                <h2><div>&nbsp;</div><div>&nbsp;</div></h2>
                 <?php echo profile_photo($member, 'float-left') ?>
                 <div class="profile_info">                	
                 	<p class="profile_location"><span class="profile_not_available_dash_matsh"><?php echo  __('Sorry, this profile is no longer available') ?></span></p>
