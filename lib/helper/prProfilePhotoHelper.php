@@ -13,8 +13,7 @@ function profile_photo($profile, $class="")
     {
         return link_to(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
     } else {
-        return content_tag('div', __('Sorry, this profile is no longer available'), array('class' => 'profile_not_available ' . $class));
-        image_tag('/static/member_photo/' . $profile->getSex() . '/no_photo_80x100.jpg');
+        return image_tag('static/member_photo/' . $profile->getSex() . '/no_photo_80x100.jpg');
     }
 }
 

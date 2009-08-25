@@ -15,7 +15,7 @@
         <div class="member_box">
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
             <?php echo profile_photo($member, 'float-left') ?>
-            <?php if( $profile->isActive() ): ?>
+            <?php if( $sf_user->getProfile()->isActive() ): ?>
             <div class="profile_info">
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                 <p></p>
@@ -30,9 +30,9 @@
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
             <?php else: ?>
-                <div class="profile_info">
-                	<p><?php echo __('Sorry, this profile is no longer available',  array('class' => 'profile_not_available ')) ?></p>
-                </div>       
+                <div class="profile_info">                	
+                	<p class="profile_location"><span style="border:none; color: #F00; font-size: 12px; font-weight: bold; padding-top: 45px; text-align: center;"><?php echo  __('Sorry, this profile is no longer available') ?></span></p>
+                </div>        
            <?php endif; ?>
         </div>
 </div>

@@ -9,7 +9,6 @@
     	<?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
 	<?php endif; ?>
 <br class="clear" />
-
 <div id="dashboard-container">
     <div class="left">
         <div class="go-to"><?php echo __('Go to:') ?></div>

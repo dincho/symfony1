@@ -1694,6 +1694,14 @@ span.sec_link {
   margin: 5px 2px;  
 }
 
+.profile_not_available_dash_matsh {
+	border:none !important;
+	color: #F00 !important;
+	font-size: 12px !important;
+	font-weight: bold !important; 
+	padding-top: 45px !important; 
+	text-align: center !important;
+}
 /*search*/ /* profile setings */ /* END profile settings */
 
 

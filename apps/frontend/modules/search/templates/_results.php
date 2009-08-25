@@ -6,10 +6,10 @@
     <div class="member">
         <?php $i=1;foreach($pager->getResults() as $match): ?>
             <?php $member = $match->getMemberRelatedByMember2Id(); ?>
-            <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
+            <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">                
+                <?php if( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?> 
                 <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
-                <?php echo profile_photo($member, 'float-left') ?>
-                <?php if( $profile->isActive() ): ?>                       
+                <?php echo profile_photo($member, 'float-left') ?>                      
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
 
@@ -28,8 +28,10 @@
                     <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
                 </div>
                 <?php else: ?>
-                <div class="profile_info">
-                	<p><?php echo __('Sorry, this profile is no longer available',  array('class' => 'profile_not_available ')) ?></p>
+                <h2><div>&nbsp;</div><div><span>&nbsp;</span></div></h2>
+                <?php echo profile_photo($member, 'float-left') ?>
+                <div class="profile_info">                	
+                	<p class="profile_location"><span class="profile_not_available_dash_matsh"><?php echo  __('Sorry, this profile is no longer available') ?></span></p>
                 </div>       
                 <?php endif; ?>
             </div>  
