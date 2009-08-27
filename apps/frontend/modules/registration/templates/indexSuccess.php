@@ -1,5 +1,7 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
+<?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
+
 <?php 
 	$first_name_options = array();
 	$submit_button_options = array("class" => "button");

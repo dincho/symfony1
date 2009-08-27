@@ -1,4 +1,5 @@
 <?php use_helper('dtForm', 'Javascript', 'Object'); ?>
+<?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
 
 <?php echo __('Here you may change your registration information.') ?><br />
 <span><?php echo __('Make changes and click save.') ?></span><br />
