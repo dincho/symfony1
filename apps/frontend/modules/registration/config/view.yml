@@ -1,4 +1,2 @@
 essaySuccess:
     javascripts: [ charcount, essay_polish_letters ]
-indexSuccess:
-    javascripts: [ essay_polish_letters ]
