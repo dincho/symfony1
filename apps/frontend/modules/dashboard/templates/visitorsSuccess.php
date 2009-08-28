@@ -10,7 +10,7 @@
             <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $member->getAge() ?></span>
             <?php echo link_to_unless(!$member->isActive(), profile_photo($member, 'float-left'), '@profile?bc=visitors&username=' . $member->getUsername()) ?>
             <div class="input">
-                <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => distance_of_time_in_words($member->getCreatedAt(null)))) ?></span>
+                <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => distance_of_time_in_words($visit->getUpdatedAt(null)))) ?></span>
                 <?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?bc=visitors&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
             </div>
         </div>        
