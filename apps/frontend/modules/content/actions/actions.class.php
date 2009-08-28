@@ -222,8 +222,8 @@ class contentActions extends prActions
         
         $this->getUser()->getBC()->clear()
         ->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
-        ->add(array('name' => 'profile', 'uri' => '@profile?username=' . $this->getRequestParameter('username')))
-        ->add(array('name' => 'area information'));
+        ->add(array('name' => 'profile', 'uri' => '@profile?username=' . $this->getRequestParameter('username')));
+        //->add(array('name' => 'area information'));
         
         $this->adm1 = $adm1;
     }
