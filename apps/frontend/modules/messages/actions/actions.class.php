@@ -37,22 +37,14 @@ class messagesActions extends prActions
         $this->draft_messages = MessageDraftPeer::doSelectJoinMemberRelatedByToMemberId($c1);
         
         //message deletion confirmation
-        if( $this->getRequestParameter('confirm_delete') && count($this->getRequestParameter('selected', array())) > 0)
+        if( ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) && count($this->getRequestParameter('selected', array())) > 0)
         {
-            $del_msg = 'Are you sure you want to delete selected message(s)? <a href="javascript:window.history.go(-1);" class="sec_link">No</a>&nbsp;';
-            $del_msg .= '<a href="javascript:document.getElementById(\''. $this->getRequestParameter('form_id').'\').submit()" class="sec_link">Yes</a>';
-            //$del_msg = $this->getContext()->getI18N()->__($del_msg, array('%YES_LINK%' => $del_msg_yes));
-            $this->setFlash('msg_error', $del_msg, false);
-        }
-        
-        if( $this->getRequestParameter('confirm_delete_draft') && count($this->getRequestParameter('selected', array())) > 0)
-        {
-            $del_msg = 'Are you sure you want to delete selected message(s)? <a href="javascript:window.history.go(-1);" class="sec_link">No</a>&nbsp;';
-            $del_msg .= '<a href="javascript:document.getElementById(\''. $this->getRequestParameter('form_id').'\').submit()" class="sec_link">Yes</a>';
-            //$del_msg = $this->getContext()->getI18N()->__($del_msg, array('%YES_LINK%' => $del_msg_yes));
-            $this->setFlash('msg_error', $del_msg, false);
-        }
-        
+            $i18n = $this->getContext()->getI18N();
+            $i18n_options = array('%URL_FOR_CANCEL%' => 'javascript:window.history.go(-1);', 
+                                  '%URL_FOR_CONFIRM%' => 'javascript:document.getElementById(\''. $this->getRequestParameter('form_id').'\').submit()');
+            $del_msg = $i18n->__('Are you sure you want to delete selected message(s)? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
+            $this->setFlash('msg_error', $del_msg, false);            
+        }        
     }
     
     public function executeView()
