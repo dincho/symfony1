@@ -174,7 +174,14 @@ class profileActions extends prActions
           default:
             break;
         }
-                $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername())));
+        
+        if( $member->getUsername() == $this->getUser()->getUsername() ) //looking myself
+        {
+          $bc->setCustomLastItem(__('Profile'));
+        } else {
+          $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername())));
+        }
+        
         $bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
     }
 
@@ -414,7 +421,7 @@ class profileActions extends prActions
     public function executeMyProfile()
     {
         $this->getRequest()->setParameter('username', $this->getUser()->getUsername());
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => '@dashboard'))->add(array('name' => 'Profile'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
         $this->forward('profile', 'index');
     }
 }
