@@ -7,8 +7,8 @@
     <div class="subscription_container" style="border: none;">  
       <fieldset class="form_fields">
         
-        <label for="limit_label">&nbsp;</label><br />
-        <label for="limit_label">&nbsp;</label><br />
+        <label for="limit_label" style="height: 40px; margin: 0">&nbsp;</label><br />
+
         
         <label for="post_photo">Create Profile:</label><br />
         
@@ -52,7 +52,7 @@
   <div class="subscription_container">
       <fieldset class="form_fields">
         <var><b><?php echo $sub->getTitle() ?></b></var><br />
-        <var>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monthly&nbsp;&nbsp;&nbsp;&nbsp;Daily</var><br /><br />
+        <var>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monthly&nbsp;&nbsp;&nbsp;&nbsp;Daily</var><br />
         <?php echo object_bool_select_tag($sub, 'getCanCreateProfile', array('control_name' => 'subs['. $sub->getId() .'][can_create_profile]')) ?>
         <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />        
         
@@ -82,18 +82,18 @@
         <?php echo object_input_tag($sub, 'getContactAssistant', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][contact_assistant]')) ?>
         <?php echo object_input_tag($sub, 'getContactAssistantDay', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][contact_assistant_day]')) ?><br />
         
-        <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]') ) ?><br />
+        <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]', 'class' => 'checkbox') ) ?><br />
       
       <hr style="width: 140px;" />
-<!--      <hr style="width: auto;" />-->
-	  <?php echo input_tag('subs['. $sub->getId() .'][trial1_amount]', format_currency($sub->getTrial1Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-	  <label class="period_label">&pound;</label><br />
-	  
-	  <?php echo input_tag('subs['. $sub->getId() .'][trial2_amount]', format_currency($sub->getTrial2Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-	  <label class="period_label">&pound;</label><br />
-	  
-	  <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-	  <label class="period_label">&pound;</label><br />
+
+    <?php echo input_tag('subs['. $sub->getId() .'][trial1_amount]', format_currency($sub->getTrial1Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
+    <label class="period_label">&pound;</label><br />
+    
+    <?php echo input_tag('subs['. $sub->getId() .'][trial2_amount]', format_currency($sub->getTrial2Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
+    <label class="period_label">&pound;</label><br />
+    
+    <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
+    <label class="period_label">&pound;</label><br />
     </fieldset>
   </div>
   <?php endforeach; ?>

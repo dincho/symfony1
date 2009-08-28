@@ -180,7 +180,7 @@ label.full_row {
 }
 
 
-.form_fields .bool_select { width: 50px; }
+.form_fields .bool_select { width: 52px; }
 .form_fields .limit_input { width: 50px; }
 .form_fields .period_input { width: 30px; }
 .form_fields .period_input_left { width: 30px; float: left;}

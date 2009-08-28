@@ -431,3 +431,22 @@ div.member_flags table {
     line-height: 13px;
     font-size: 12px;
 }
+
+.subscription_container .form_fields label {
+  height: 17px;
+  margin-bottom: 6px;
+}
+
+.subscription_container .form_fields var {
+  padding: 2px 0;
+}
+
+.subscription_container .form_fields .checkbox {
+  height: 16px;
+  margin: 0 0 6px 0;
+}
+
+ 
+.subscription_container .form_fields select {
+ height: 18px;
+}
