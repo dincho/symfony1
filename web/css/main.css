@@ -2522,6 +2522,7 @@ div.best_video div.right img {
 #gmap {
     text-align: center;
     margin: 10px auto;
+    overflow: hidden;
 }
 
 /* END Profile description and map */
