@@ -13,7 +13,7 @@
     <hr />
     <?php $request_answers = $sf_request->getParameter('answers') ?>
     <?php foreach ($sf_data->getRaw('imbra_questions') as $question): ?>
-        <label><?php echo __($question->getTitle()); ?></label><br />
+        <?php echo content_tag('label', __($question->getTitle()), array('class' => ($sf_request->hasError('answers['. $question->getId().']')) ? 'error' : '' ) )?><br />
         <?php if( !$question->getOnlyExplain() ): ?>
             <?php echo label_for('answers[' . $question->getId() . ']', 'No') ?>
             <?php echo radiobutton_tag('answers[' . $question->getId() . ']', 0, fillIn('answers[' . $question->getId() . ']', 'r', false, (isset($imbra_answers[$question->getId()]) && $imbra_answers[$question->getId()]->getAnswer() == 0)), array('onchange' => 'imbra_explain('. $question->getId().', this.value)') ) ?>
