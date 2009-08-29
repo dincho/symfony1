@@ -75,21 +75,68 @@ class memberStoriesActions extends prActions
     public function validatePostYourStory()
     {
         $return = true;
-        if ($this->getRequest()->getMethod() == sfRequest::POST && ! $this->getUser()->isAuthenticated())
+        if($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            if (! $this->getRequestParameter('your_name'))
-            {
-                $this->getRequest()->setError('your_name', 'You must provide your name. ');
-                
-                $return = false;
-            }
+          if(!$this->getUser()->isAuthenticated())
+          {
+              if (! $this->getRequestParameter('your_name'))
+              {
+                  $this->getRequest()->setError('your_name', 'You must provide your name. ');
+                  $return = false;
+              }
             
-            if (! $this->getRequestParameter('email'))
+              $email = $this->getRequestParameter('email');
+              if (!$email)
+              {
+                  $this->getRequest()->setError('email', 'You must provide your email address.');
+                  $return = false;
+              } else {
+                $emailValidator = new sfEmailValidator();
+                $emailValidator->initialize($this->getContext(), array(
+                  'strict'      => true,
+                  'email_error' => 'Please provide email address in correct format.',
+                ));
+            
+                if (!$emailValidator->execute($email, $mailerror)) 
+                {
+                  $this->getRequest()->setError('email', $mailerror);
+                  $return = false;
+                }                
+              }
+          }
+          
+          if( !$this->getRequestParameter('story_title') )
+          {
+            $this->getRequest()->setError('story_title', 'Please enter a title.');
+            $return = false;
+          }          
+          
+          $your_story = $this->getRequestParameter('your_story');
+          if( !$your_story )
+          {
+            $this->getRequest()->setError('your_story', 'Please enter a content.');
+            $return = false;
+          } else {          
+            $myValidator = new sfStringValidator();
+            $myValidator->initialize($this->getContext(), array(
+              'min'       => 50,
+              'min_error' => 'We also like short stories, but please make it at least 50 characters, so that we can share your story with others',
+              'max'       => 2500,
+              'max_error' => 'Your story may contain maximum 2500 characters.',
+            ));
+            
+            if (!$myValidator->execute($your_story, $error)) 
             {
-                $this->getRequest()->setError('email', 'You must provide your email address.');
-                
-                $return = false;
+              $this->getRequest()->setError('your_story', $error);
+              $return = false;
             }
+          }
+          
+          if( !$this->getRequestParameter('tos') )
+          {
+            $this->getRequest()->setError('tos', 'You must agree to Terms of Use and Privacy Policy to continue.');
+            $return = false;
+          }            
         }
         return $return;
     }
