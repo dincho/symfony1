@@ -98,7 +98,7 @@ class dashboardActions extends prActions
         
         $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
         
-        if( $member->getDashboardMsg() == 0 ) //not hidden
+        if( $member->getDashboardMsg() == 0 && !$this->hasFlash('msg_ok') ) //not hidden and has no other message
         {
           $this->setFlash('msg_ok', 
                           sfI18N::getInstance()->__('This is your control panel. Here you can find everything you need to use the website', 
@@ -237,7 +237,7 @@ class dashboardActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-        	$modified = false;
+            $modified = false;
             if( $member->getDontUsePhotos() != $this->getRequestParameter('dont_use_photos') ||
                 $member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members'))
                 {
