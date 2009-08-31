@@ -90,7 +90,7 @@ class transUnitsActions extends sfActions
         {
             $this->getUser()->checkPerm(array('content_edit'));
             $trans_unit->setTranslated($this->getRequestParameter('translated'));
-            $trans_unit->setSource($this->getRequestParameter('source'));
+            //$trans_unit->setSource($this->getRequestParameter('source'));
             $trans_unit->setTarget($this->getRequestParameter('target'));
             $trans_unit->setTags($this->getRequestParameter('tags'));
             $trans_unit->setLink($this->getRequestParameter('link'));
