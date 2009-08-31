@@ -2361,7 +2361,7 @@ div.best_video div.right img {
 }
 
 #profile_left img.thumb {
-    margin-top: 12px;
+    margin-top: 8px;
     border: 2px solid #2b2b2b;
 }
 
@@ -2370,7 +2370,7 @@ div.best_video div.right img {
 }
 
 #profile_left img.current_thumb {
-    margin-top: 12px;
+    margin-top: 8px;
     border: 2px solid #e0b400;
 }
 

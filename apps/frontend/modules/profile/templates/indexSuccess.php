@@ -154,8 +154,6 @@
                                $member->getMainPhoto()->getImageUrlPath('file'), $link_options, $image_options );
         ?>     
     </div>
-    <br />
-    <!--<a href="#"><img src="/images/pic/M_thumb1.jpg" alt="m_thumb" class="thumb_selected" border="0" /></a> -->
     <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
             <?php $class = 'current_thumb';?>
