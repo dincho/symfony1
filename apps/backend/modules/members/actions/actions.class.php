@@ -192,7 +192,15 @@ class membersActions extends sfActions
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
-                $this->member->changeSubscription($this->getRequestParameter('subscription_id'));
+                
+                //change the subscription and clear the last subscription item
+                $subscription_id = $this->getRequestParameter('subscription_id');
+                if ( $this->member->getSubscriptionId() != $subscription_id )
+                {
+                  $this->member->setLastPaypalItem(null);
+                  $this->member->changeSubscription($subscription_id);
+                }
+                
                 $this->member->save();
                 $this->setFlash('msg_ok', 'Your changes have been saved');
                 $this->redirect('members/edit?id=' . $this->member->getId());

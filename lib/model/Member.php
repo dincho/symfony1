@@ -412,25 +412,34 @@ class Member extends BaseMember
         $period_types_map = array('D' => 3, 'W' => 4, 'M' => 5, 'Y' => 7);
         $eot = new sfDate($subscribed_at);
         
-        list($period, $period_type) = explode(' ', $ipn_history->getParam('period1'));
-        $period_type = $period_types_map[$period_type];
-        $info['EOT'] =  $eot->add($period, $period_type); //period 1
-        $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount1');
+        if( !is_null($ipn_history->getParam('period1')) )
+        {
+          list($period, $period_type) = explode(' ', $ipn_history->getParam('period1'));
+          $period_type = $period_types_map[$period_type];
+          $info['EOT'] =  $eot->add($period, $period_type); //period 1
+          $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount1');
+        }
         
         if( $eot->get() < time() ) //passed period 1, add period 2
         {
-            list($period, $period_type) = explode(' ', $ipn_history->getParam('period2'));
-            $period_type = $period_types_map[$period_type];
-            $info['EOT'] = $eot->add($period, $period_type); //period 2
-            $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount2');
-
+            if( !is_null($ipn_history->getParam('period2')) )
+            {
+              list($period, $period_type) = explode(' ', $ipn_history->getParam('period2'));
+              $period_type = $period_types_map[$period_type];
+              $info['EOT'] = $eot->add($period, $period_type); //period 2
+              $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount2');
+            }
+            
             if ( $eot->get() < time() ) //period 3/normal
             {
-                $eot = new sfDate($this->getLastPaypalPaymentAt(null));
-                list($period, $period_type) = explode(' ', $ipn_history->getParam('period3'));
-                $period_type = $period_types_map[$period_type];
-                $info['EOT'] = $eot->add($period, $period_type); //period 3
-                $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount3');
+                if( !is_null($ipn_history->getParam('period3')) )
+                {
+                  $eot = new sfDate($this->getLastPaypalPaymentAt(null));
+                  list($period, $period_type) = explode(' ', $ipn_history->getParam('period3'));
+                  $period_type = $period_types_map[$period_type];
+                  $info['EOT'] = $eot->add($period, $period_type); //period 3
+                  $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount3');
+                }
             }
         }
         
@@ -440,6 +449,7 @@ class Member extends BaseMember
     
     public function getEotDate($object_return = false)
     {
+      
         $info = $this->getSubscriptionInfo();
         return ($object_return) ? $info['EOT'] : $info['EOT']->get();
     }
