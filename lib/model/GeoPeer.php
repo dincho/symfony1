@@ -36,12 +36,12 @@ class GeoPeer extends BaseGeoPeer
     {
         $c = new Criteria();
         $c->addGroupByColumn(GeoPeer::COUNTRY);
-        $adm1s = self::doSelect($c);
-        
+        $c->clearSelectColumns()->addSelectColumn(GeoPeer::COUNTRY)->addSelectColumn(GeoPeer::COUNT);
+        $rs = self::doSelectRs($c);
+
         $ret = array();
-        foreach ($adm1s as $adm1)
-        {
-            $ret[] = $adm1->getCountry();
+        while($rs->next()) {
+            $ret[] = $rs->getString(1);
         }
         
         return $ret;

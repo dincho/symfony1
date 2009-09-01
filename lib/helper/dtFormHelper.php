@@ -124,6 +124,9 @@ function pr_select_country_tag($name, $selected = null, $options = array())
     $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
     $countries = $c->getCountries();
     
+    //remove continents out of the array ( first 30 elements )
+    $countries = array_slice($countries, 30, null, true);
+        
     if ($country_option = _get_option($options, 'countries'))
     {
         foreach ($countries as $key => $value)
@@ -131,7 +134,7 @@ function pr_select_country_tag($name, $selected = null, $options = array())
             if (!in_array($key, $country_option))
             {
                 unset($countries[$key]);
-            }
+            }        
         }
     }
     
