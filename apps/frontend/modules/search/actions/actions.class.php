@@ -161,7 +161,7 @@ class searchActions extends prActions
         $country = $this->getRequestParameter('country');
         $polish_cities = $this->getRequestParameter('polish_cities');
         $user = $this->getUser();
-        $user->getBC()->add(array('name' => 'Select Areas', 'search/selectAreas'));
+        $user->getBC()->removeFirst();
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -231,7 +231,7 @@ class searchActions extends prActions
     public function executeSelectCountries()
     {
         $user = $this->getUser();
-        $user->getBC()->add(array('name' => 'Select Countries', 'search/selectCountries'));
+        $user->getBC()->removeFirst()->add(array('name' => 'Select Countries', 'search/selectCountries'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -251,7 +251,6 @@ class searchActions extends prActions
         $this->countries = $countries;
 
         $this->adm1s = GeoPeer::getCountriesWithStates();
-        //print_r($this->adm1s);exit();
     }
     
     public function handleErrorSelectCountries()
