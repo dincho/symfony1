@@ -13,7 +13,7 @@
     <div class="left">
         <div class="go-to"><?php echo __('Go to:') ?></div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Dash - Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($matches as $match_profile): ?>
                 <?php echo link_to_unless(!$match_profile->isActive(), profile_small_photo($match_profile), '@profile?username=' . $match_profile->getUsername()) ?>
             <?php endforeach; ?>
