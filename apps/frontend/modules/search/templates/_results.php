@@ -43,6 +43,4 @@
     </div>
     <?php include_partial('pager', array('pager' => $pager, 'route' => $route)); ?>
 </div>
-<?php else: ?>
-    <div class="msg_error text-center"><?php echo __('No results found, please revise your criteria and try again.') ?></div>
 <?php endif; ?>

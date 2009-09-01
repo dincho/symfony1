@@ -9,9 +9,12 @@
 
 <br />
 <?php if( isset($filters['keyword']) && strlen($filters['keyword']) > 3): ?>
-    <p><?php echo __('Profiles with a "%KEYWORD%" keyword.', array('%KEYWORD%' => $filters['keyword']) ) ?></p>
+    
 <?php endif; ?>
 
-<?php if( isset($pager) ): ?>
+<?php if( isset($pager) && $pager->getNbResults() > 0 ): ?>
+    <p><?php echo __('Profiles with a "%KEYWORD%" keyword.', array('%KEYWORD%' => $filters['keyword']) ) ?></p>
     <?php include_partial('results', array('pager' => $pager, 'route' => 'search/byKeyword')); ?>
+<?php else: ?>
+    <div class="msg_error text-center"><?php echo __('No results found - by keyword') ?></div>
 <?php endif; ?>

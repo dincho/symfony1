@@ -14,7 +14,7 @@
 <div class="member">
         <div class="member_box">
         	<?php if( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
-            <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2><span><?php echo $member->getId() ?></span>
+            <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
             <?php echo profile_photo($member, 'float-left') ?>            
             <div class="profile_info">
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
@@ -26,7 +26,7 @@
                     <p></p><p></p>
                 <?php endif; ?>
                 <p></p>
-                <?php $when =  ($member->isLoggedIn()) ? 'Online' : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
+                <?php $when =  ($member->isLoggedIn()) ? __('Online') : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
             <?php else: ?>
