@@ -312,6 +312,10 @@ p {
     padding: 0px;
     text-align: left;
     float: left;
+    min-height:500px;
+    height:auto !important;
+    height:500px;
+
 }
 
 #areas a.slf,#areas a.slf:visited,#areas a.slf:active {
