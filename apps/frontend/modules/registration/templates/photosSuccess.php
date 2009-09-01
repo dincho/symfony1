@@ -6,7 +6,12 @@
 <?php echo __('Photos instructions') ?>
 <?php echo __('Photos note') ?>
 
-<?php echo form_tag('registration/photos', array('multipart' => true, 'id' => 'photos_registration')) ?>
+<?php echo form_tag('registration/photos', 
+                    array('multipart' => true, 
+                    'id' => 'photos_registration',
+                    'onsubmit' => 'return check_upload_field("'. __('You have not uploaded the file you have selected! Do you want to continue?') .'");'
+                    )) ?>
+                        
     <?php $cnt_photos = count($photos); ?>
     <?php if($cnt_photos > 0): ?>
         <div class="photos">
@@ -32,14 +37,14 @@
     
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <?php echo input_file_tag('new_photo', array('class' => 'file_input')) ?>
-    <?php echo submit_tag(__('Upload'), array('id' => 'upload', 'class' => 'button')) ?>
+    <?php echo submit_tag(__('Upload'), array('id' => 'upload', 'class' => 'button', 'onclick' => 'save_button = false')) ?>
     <hr /><br />
         
     <?php echo __("YouTube URL ") ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br /><br /><br /><br />
     
     <?php if(!$sf_request->getParameter('confirm_delete')):  ?>
-        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save')) ?><br /><br />
+        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button', 'name' => 'save', 'onclick' => 'save_button = true')) ?><br /><br />
     <?php else: ?>
         <span><?php echo __('Please select Yes or No at the top of the page') ?></span><br />
         <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_disabled', 'name' => 'save', 'disabled' => 'disabled')) ?><br /><br />

@@ -1228,11 +1228,6 @@ label.char_remaining {
     border: 3px solid #000;
 }
 
-
-.file_input {
-    border: 1px solid red;
-}
-
 #secondary_container .save_and_cont_photos {
     border: 0px;
     margin-left: 5px;
@@ -1331,7 +1326,7 @@ div.title_first, #secondary_container label.title_first {
     padding-left: 6px;
 }
 
-#secondary_container .input_text_width {
+#secondary_container .input_text_width, #secondary_container .file_input {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
