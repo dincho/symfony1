@@ -9,7 +9,7 @@
     <fieldset class="fieldcountry">
         <legend><span style="border: none; height: 1px;">&nbsp;</span></legend> 
         
-        <?php echo checkbox_tag('countries[]', 'US', in_array('US', $sf_data->getRaw('selected_countries'))) ?>
+        <?php echo checkbox_tag('countries[]', 'US', in_array('US', $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
         <label>
             <?php echo format_country('US') ?>
             <?php if( in_array('US', $sf_data->getRaw('adm1s')) ): ?>
@@ -18,7 +18,7 @@
             <?php endif; ?>            
         </label><br />
         
-        <?php echo checkbox_tag('countries[]', 'PL', in_array('PL', $sf_data->getRaw('selected_countries'))) ?>
+        <?php echo checkbox_tag('countries[]', 'PL', in_array('PL', $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
         <label>
             <?php echo format_country('PL') ?>
             <?php if( in_array('PL', $sf_data->getRaw('adm1s')) ): ?>
@@ -27,7 +27,7 @@
             <?php endif; ?>             
         </label><br />
         
-        <?php echo checkbox_tag('countries[]', 'GB', in_array('GB', $sf_data->getRaw('selected_countries'))) ?>
+        <?php echo checkbox_tag('countries[]', 'GB', in_array('GB', $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
         <label>
             <?php echo format_country('GB') ?>
             <?php if( in_array('GB', $sf_data->getRaw('adm1s')) ): ?>
@@ -36,7 +36,7 @@
             <?php endif; ?>              
         </label><br />
         
-        <?php echo checkbox_tag('countries[]', 'IE', in_array('IE', $sf_data->getRaw('selected_countries'))) ?>
+        <?php echo checkbox_tag('countries[]', 'IE', in_array('IE', $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
         <label>
             <?php echo format_country('IE') ?>
             <?php if( in_array('IE', $sf_data->getRaw('adm1s')) ): ?>
@@ -45,7 +45,7 @@
             <?php endif; ?>               
         </label><br />
         
-        <?php echo checkbox_tag('countries[]', 'CA', in_array('CA', $sf_data->getRaw('selected_countries'))) ?>
+        <?php echo checkbox_tag('countries[]', 'CA', in_array('CA', $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
         <label>
             <?php echo format_country('CA') ?>
             <?php if( in_array('CA', $sf_data->getRaw('adm1s')) ): ?>
@@ -59,7 +59,7 @@
                     <legend><span><?php echo $value{0}; $p_char = $value{0} ?></span></legend>    
                 <?php endif; ?>
                 
-                <?php echo checkbox_tag('countries[]', $key, in_array($key, $sf_data->getRaw('selected_countries'))) ?>
+                <?php echo checkbox_tag('countries[]', $key, in_array($key, $sf_data->getRaw('selected_countries')), array('onchange' => 'select_same_countries(this)')) ?>
                 <label>
                     <?php echo $value ?>
                     <?php if( in_array($key, $sf_data->getRaw('adm1s')) ): ?>

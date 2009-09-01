@@ -3,4 +3,4 @@ all:
 selectAreasSuccess:
     javascripts:    [SC_select_all]
 selectCountriesSuccess:
-    javascripts:    [select_all_areas]
+    javascripts:    [select_all_areas, select_same_countries]
