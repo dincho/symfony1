@@ -1,4 +1,4 @@
-<?php use_helper('prDate', 'prProfilePhoto') ?>
+<?php use_helper('Date', 'prProfilePhoto') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -26,7 +26,7 @@
                     <p></p><p></p>
                 <?php endif; ?>
                 <p></p>
-                <?php $when =  ($member->isLoggedIn()) ? __('Online') : pr_distance_of_time_in_words($member->getLastLogin(null)); ?>
+                <?php $when =  ($member->isLoggedIn()) ? __('Online') : distance_of_time_in_words($member->getLastLogin(null)); ?>
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
             <?php else: ?>
