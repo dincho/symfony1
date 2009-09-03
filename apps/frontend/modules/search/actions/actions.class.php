@@ -260,9 +260,13 @@ class searchActions extends prActions
             	
         $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
         $c = new sfCultureInfo($user->getCulture());
-        $this->countries = $c->getCountries();
-        asort($this->countries);
-        $this->adm1s = GeoPeer::getCountriesWithStates();  
+        $countries = $c->getCountries();
+        //remove continents out of the array ( first 30 elements )
+        $countries = array_slice($countries, 30, null, true);
+        asort($countries);
+        $this->countries = $countries;
+
+        $this->adm1s = GeoPeer::getCountriesWithStates(); 
 
         return sfView::SUCCESS;
     }
