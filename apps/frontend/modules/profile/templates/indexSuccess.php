@@ -186,7 +186,7 @@
             <?php echo $imbra->getName() ?><br />
             <?php echo $imbra->getCreatedAt('%B %d, %Y') ?><br />
             <?php echo __('Born ') .  $imbra->getDob()?><br />
-            <?php printf('%s, %s, USA', $imbra->getCity(), $imbra->getAdm1()->getTitle() ) ?>
+            <?php printf('%s, %s, USA', $imbra->getCity(), $imbra->getGeo()->getName() ) ?>
         </p>
     </div>
 	<?php endif; ?>
