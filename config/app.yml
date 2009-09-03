@@ -7,12 +7,12 @@ default:
         pl:             pl.pd.dincho.bonex.us
     version:            "v1.2.2/HEAD"
     mail:
-        host:           mail.bonex.us
-        port:           993
+        host:           secure.emailsrvr.com
+        port:           143 #should be 993 on production/test server
         username:       autocheck@polishromance.com
         password:       dincho
         from:           admin@PolishRomance.com
         mailer:         smtp
-        smtp_host:      217.145.91.129
-        smtp_username:  polishromance@cookydolls.com
-        smtp_password:  dincho
+        smtp_host:      smtp.emailsrvr.com
+        smtp_username:  admin@polishromance.com
+        smtp_password:  polish_romance

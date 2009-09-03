@@ -12,12 +12,12 @@ class IMAP
     public function __construct()
     {
         $this->port = sfConfig::get('app_mail_port');
-        $this->host = '{'. sfConfig::get('app_mail_host') .':'. $this->port .'/imap/ssl/novalidate-cert/user=autocheck@polishromance.com}INBOX';
+        $this->host = '{'. sfConfig::get('app_mail_host') .':'. $this->port .'/imap}INBOX';
         $this->user = sfConfig::get('app_mail_username');
         $this->pass = sfConfig::get('app_mail_password');
         
         $this->stream = imap_open($this->host,$this->user,$this->pass);
-        
+              
         if( $this->stream === false ) throw new sfException('Can not connect to mail server: ' . imap_last_error() );
         
     }
