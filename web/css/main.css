@@ -675,7 +675,7 @@ p {
     border-right: 0px;
 }
 
-#subscription div.column .upgrade_img {
+#subscription div.column .upgrade_header {
     height: 44px;
 }
 
@@ -683,10 +683,14 @@ p {
     border: 1px solid #35773b;
 }
 
-#subscription div.upgrade_to .upgrade_img {
-    background: #35773b url(/images/upgrade_subscription.gif) no-repeat 7px
-        center;
-        width: 139px;
+#subscription div.upgrade_to .upgrade_header {
+    background-color: #35773b;
+    font-family: Myriad, Myriad Pro, sans-serif;
+    font-size: 14px;
+    color: white;
+    padding: 6px;
+    width: 127px;
+    height: 32px;
 }
 
 #subscription span.select_one {

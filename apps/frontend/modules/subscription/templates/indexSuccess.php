@@ -6,7 +6,7 @@
     <fieldset style="width: 65%;">
         <div style='float: left; margin-top: 44px; width: 1px; height: 316px; border-right: 1px solid #3D3D3D;'></div>
         <div class="column" >
-            <div class="upgrade_img">&nbsp;</div>
+            <div class="upgrade_header">&nbsp;</div>
             <span class="top_one">&nbsp;</span>
             <span class="type"><?php echo __('Create a profile') ?></span><br />
             <span class="type"><?php echo __('Post a photo') ?></span><br />
@@ -24,7 +24,13 @@
         </div>
         <?php foreach($subscriptions as $subscription): ?>
             <div class="column <?php if($subscription->getId() == $member->getSubscriptionId()+1) echo 'upgrade_to' ?>">
-                <div class="upgrade_img">&nbsp;</div>
+                <div class="upgrade_header">
+                  <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
+                    <?php echo __('Upgrade Your Subscription Now!'); ?>
+                  <?php else: ?>
+                    &nbsp;
+                  <?php endif; ?>
+                </div>
                 <span class="top"><?php echo $subscription->getTitle() ?></span>
                 <span class="check"><?php echo image_tag('check_mark.gif') ?></span>
                 <span class="check"><?php echo ($subscription->getCanPostPhoto()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
