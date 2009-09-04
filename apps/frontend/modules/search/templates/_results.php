@@ -12,13 +12,13 @@
                 <?php echo profile_photo($member, 'float-left') ?>                      
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
-
+                    <p></p>
                     <p><?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                    <p style="padding-bottom: 3px;">
+                    <p>
                         <?php echo link_to_unless(!$member->isActive(), __('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
                         <?php include_partial('search/last_action', array('match' => $match)); ?>
                     </p>
-
+                    <p style="padding: 0;"></p>
                     <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
                     <?php if( $sf_user->getProfile()->hasSearchCriteria()): ?>
                         <p><?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
