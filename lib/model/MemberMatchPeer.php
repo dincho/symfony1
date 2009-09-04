@@ -98,5 +98,32 @@ class MemberMatchPeer extends BaseMemberMatchPeer
             $results[] = $rs->getString(1);
         }
         return $results;
-    }    
+    }
+    
+    
+    public static function doCountJoinMemberRelatedByMember2IdReverse(Criteria $crit, $distinct = false, $con = null)
+    {
+        $criteria = new Criteria();
+        $criteria->add(MemberMatchPeer::MEMBER1_ID, $crit->get(MemberMatchPeer::MEMBER1_ID));
+        
+        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+          $criteria->addSelectColumn(MemberMatchPeer::COUNT_DISTINCT);
+        } else {
+          $criteria->addSelectColumn(MemberMatchPeer::COUNT);
+        }
+
+        foreach($criteria->getGroupByColumns() as $column)
+        {
+          $criteria->addSelectColumn($column);
+        }
+
+        
+        $criteria->add(MemberMatchPeer::ID, '(SELECT m2.pct
+                                              FROM member_match AS m2
+                                              WHERE m2.member1_id = member_match.member2_id
+                                              AND m2.member2_id = member_match.member1_id) > 0', Criteria::CUSTOM);
+        $criteria->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);                                    
+        $rs = MemberMatchPeer::doSelectRS($criteria, $con);
+        return ($rs->next()) ? $rs->getInt(1) : 0;
+    }        
 }

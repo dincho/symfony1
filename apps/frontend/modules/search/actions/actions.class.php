@@ -99,10 +99,11 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
+        $c->addHaving($c->getNewCriterion(MemberMatchPeer::ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
         $c->addDescendingOrderByColumn('reverse_pct');
         $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row        
-        $this->initPager($c, $per_page);
+        $this->initPager($c, $per_page, 'doSelectJoinMemberRelatedByMember2Id', 'doCountJoinMemberRelatedByMember2IdReverse');
     }
 
     public function executeMatches()
@@ -293,7 +294,7 @@ class searchActions extends prActions
         $this->redirect('search/index');
     }
 
-    protected function initPager(Criteria $c, $per_page = 12)
+    protected function initPager(Criteria $c, $per_page = 12, $peerMethod = 'doSelectJoinMemberRelatedByMember2Id', $peerCountMethod = 'doCountJoinMemberRelatedByMember2Id')
     {
         $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/profile_pager');
@@ -302,8 +303,8 @@ class searchActions extends prActions
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod('doSelectJoinMemberRelatedByMember2Id');
-        $pager->setPeerCountMethod('doCountJoinMemberRelatedByMember2Id');
+        $pager->setPeerMethod($peerMethod);
+        $pager->setPeerCountMethod($peerCountMethod);
         $pager->setMaxRecordLimit(600); //max 600 results due to FS
         $pager->init();
         $this->pager = $pager;

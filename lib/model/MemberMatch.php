@@ -60,5 +60,5 @@ class MemberMatch extends BaseMemberMatch
         } catch (Exception $e) {
             throw new PropelException("Error populating MemberMatch object", $e);
         }
-    }   
+    }
 }
