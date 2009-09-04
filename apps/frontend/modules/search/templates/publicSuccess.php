@@ -50,7 +50,7 @@
     <div class="member">
         <?php $i=1;foreach($members as $member): ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
-                <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?><span><?php echo $member->getAge() ?></span></h2>
+                <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
                 <?php echo image_tag($member->getMainPhoto()->getImg('80x100')) ?>
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
