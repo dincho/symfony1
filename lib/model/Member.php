@@ -266,6 +266,19 @@ class Member extends BaseMember
         return ( $cnt > 0) ? true : false;
     }
     
+    public function hasWinkTo($member_id)
+    {
+        $c = new Criteria();
+        $c->add(WinkPeer::MEMBER_ID, $this->getId());
+        $c->add(WinkPeer::PROFILE_ID, $member_id);
+        $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
+        $c->add(WinkPeer::SENT_BOX, true);
+        
+        $cnt = WinkPeer::doCount($c);
+        
+        return ( $cnt > 0) ? true : false;
+    }
+    
     public function mustFillIMBRA()
     {
         return ( !sfConfig::get('app_settings_imbra_disable') && is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );

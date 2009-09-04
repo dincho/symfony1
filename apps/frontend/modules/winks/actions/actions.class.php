@@ -26,8 +26,8 @@ class winksActions extends prActions
         
         $c = new Criteria();
         $c->add(WinkPeer::PROFILE_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $c->add(WinkPeer::SENT_BOX, false);
+        $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
         
         $member = $this->getUser()->getProfile();
@@ -111,11 +111,7 @@ class winksActions extends prActions
             return false;            
         }
                 
-        $c = new Criteria();
-        $c->add(WinkPeer::MEMBER_ID, $this->getUser()->getId());
-        $c->add(WinkPeer::PROFILE_ID, $profile->getId());
-        $cnt = WinkPeer::doCount($c);
-        if ($cnt > 0)
+        if ($this->getUser()->getProfile()->hasWinkTo($profile->getId()))
         {
             $this->getRequest()->setError('winks', 'Your already has sent wink to this member.');
             return false;

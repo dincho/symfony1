@@ -114,6 +114,13 @@ class WinkPeer extends BaseWinkPeer
         
     public static function send(BaseMember $from_member, BaseMember $to_member)
     {
+        //cleanup all old winks to this member
+        $c = new Criteria();
+        $c->add(WinkPeer::MEMBER_ID, $from_member->getId());
+        $c->add(WinkPeer::PROFILE_ID, $to_member->getId());
+        $c->add(WinkPeer::SENT_BOX, false);
+        self::doDelete($c);
+                
         //add to recepient
         $wink = new Wink();
         $wink->setMemberRelatedByMemberId($from_member);
