@@ -1,0 +1,21 @@
+fillin:
+  enabled: true
+  param:
+    content_type:   xml   
+fields:
+  essay_headline:
+    required:
+        msg:    You must provide a headline.
+    sfStringValidator:
+      min:          3
+      min_error:    Headline must contain minimum 3 characters.
+      max:          60
+      max_error:    Headline may contain maximum 60 characters.     
+  essay_introduction:
+    required:
+        msg:    You must provide a description (essay's body).
+    sfStringValidator:
+      min:          12
+      min_error:    Introduction must contain minimum 12 characters.
+      max:          2500
+      max_error:    Introduction may contain maximum 2500 characters.

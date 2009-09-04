@@ -79,7 +79,7 @@ class membersActions extends sfActions
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
-            $member->changeStatus(MemberStatusPeer::ACTIVE);
+            $member->changeStatus(MemberStatusPeer::PENDING);
             $member->changeSubscription(SubscriptionPeer::FREE);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setCountry($this->getRequestParameter('country'));
@@ -363,6 +363,15 @@ class membersActions extends sfActions
         }
     }
 
+    public function handleErrorEditEssay()
+    {
+      $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
+      $this->forward404Unless($member);
+      $this->member = $member;
+      
+      return sfView::SUCCESS;
+    }
+    
     public function executeEditPhotos()
     {
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
