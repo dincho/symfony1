@@ -65,14 +65,15 @@ class TransUnitPeer extends BaseTransUnitPeer
     public static function getTagsList()
     {
         $c = new Criteria();
+        $c->add(TransUnitPeer::CAT_ID, 1); //only english catalog is enough
         $c->add(TransUnitPeer::TAGS, '', Criteria::NOT_EQUAL);
-        
+        $c->addGroupByColumn(TransUnitPeer::TAGS);  
         $units = TransUnitPeer::doSelect($c);
-        
+
         $tags = array();
         foreach ($units as $unit)
         {
-        	$tags = array_merge($tags, array_map('trim', explode(',', $unit->getTags())));
+          $tags = array_merge($tags, array_map('trim', explode(',', $unit->getTags())));
         }
         
         $tags = array_unique($tags);
@@ -83,12 +84,12 @@ class TransUnitPeer extends BaseTransUnitPeer
     
     public static function getTagsWithKeys()
     {
-    	$ret = array();
-    	foreach (self::getTagsList() as $tag)
-    	{
-    		$ret[$tag] = $tag;
-    	}
-    	
-    	return $ret;
+      $ret = array();
+      foreach (self::getTagsList() as $tag)
+      {
+        $ret[$tag] = $tag;
+      }
+      
+      return $ret;
     }
 }
