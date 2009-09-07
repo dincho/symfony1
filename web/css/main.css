@@ -71,16 +71,6 @@ body .sign_in {
     margin: 20px auto 10px auto;
 }
 
-body .public_matches_search {
-    background-image: url(/images/input/search.gif);
-    border: 0px;
-    width: 56px;
-    height: 28px;
-    cursor: pointer;
-    float: left;
-    margin-top: 5px;
-}
-
 #secondary_container span.loading {
     display: block;
     width: 135px;
@@ -1120,18 +1110,6 @@ span {
     clear: left;
 }
 
-#secondary_container #public_reg_form .save_and_cont {
-    border: 0px;
-    margin-left: 5px;
-    width: 120px;
-    height: 28px;
-    background-color: #363639;
-    color: #aca49c;
-    background-image: url(/images/input/save_cont.gif);
-    color: #fff;
-    cursor: pointer;
-}
-
 #secondary_container span.check_available input {
     margin-left: 163px;
 }
@@ -1140,16 +1118,6 @@ span {
     margin: 0px;
     margin-top: 15px;
     padding: 0px;
-}
-
-#essay fieldset .save_and_cont {
-    margin: 14px 0 5px 0;
-    width: 120px;
-    height: 28px;
-    background-color: #363639;
-    background-image: url(/images/input/save_cont.gif);
-    cursor: pointer;
-    display: block;
 }
 
 #essay #tips {
@@ -1236,56 +1204,9 @@ label.char_remaining {
     border: 3px solid #000;
 }
 
-#secondary_container .save_and_cont_photos {
-    border: 0px;
-    margin-left: 5px;
-    margin-bottom: 15px;
-    margin-top: 30px;
-    width: 120px;
-    height: 28px;
-    background-color: #363639;
-    background-image: url(/images/input/save_cont.gif);
-    cursor: pointer;
-    display: block;
-}
-
 #secondary_container div.photo {
     float: left;
     margin: 5px;
-}
-
-#secondary_container input.delete {
-    width: 40px;
-    height: 17px;
-    cursor: pointer;
-    border: 0px;
-    background: url(/images/input/butt_delete.gif) no-repeat;
-    margin-left: 2px;
-    margin-top: 6px;
-    margin-bottom: 2px;
-}
-
-#secondary_container input.close {
-    width: 36px;
-    height: 17px;
-    cursor: pointer;
-    border: 0px;
-    background: url(/images/input/butt_close.gif) no-repeat;
-    margin-left: 2px;
-    margin-top: 6px;
-    margin-bottom: 2px;
-    margin-left: 20px;
-}
-
-#secondary_container input.reply {
-    width: 37px;
-    height: 17px;
-    cursor: pointer;
-    border: 0px;
-    background: url(/images/input/butt_reply.gif) no-repeat;
-    margin-left: 2px;
-    margin-top: 6px;
-    margin-bottom: 2px;
 }
 
 #secondary_container div.photo label {
@@ -1381,18 +1302,6 @@ div.title_first, #secondary_container label.title_first {
 
 
 /* personality */
-#secondary_container .save_and_cont {
-    border: 0px;
-    margin-left: 5px;
-    margin-bottom: 5px;
-    width: 120px;
-    height: 28px;
-    background-color: #363639;
-    background-image: url(/images/input/save_cont.gif);
-    cursor: pointer;
-    display: block;
-}
-
 select.language_level {
     border: 1px solid #7995ae;
     background-color: #363639;
@@ -1704,19 +1613,7 @@ span.sec_link {
 }
 /*search*/ /* profile setings */ /* END profile settings */
 
-
-
 /*profile*/ /*subscribe*/
-.save,#public_reg_form.member_reg input.save {
-    background: url(/images/input/save.gif) no-repeat;
-    border: 0px;
-    margin: 4px;
-    color: #fff;
-    width: 46px;
-    height: 28px;
-    padding-bottom: 3px;
-    cursor: pointer;
-}
 
 /* Best videos */
 
@@ -2030,19 +1927,6 @@ div.best_video div.right img {
     text-decoration: underline;
 }
 
-#registration_box_complete_page .submit_join {
-    margin-top: 20px;
-    margin-left: 5px;
-    width: 120px;
-    height: 28px;
-    background-color: #363639;
-    color: #aca49c;
-    background-image: url(/images/input/save_cont.gif);
-    border: 0px;
-    color: #fff;
-    cursor: pointer;
-}
-
 #registration_box_complete_page input,#registration_box_complete_page select
     {
     width: 146px;
@@ -2319,15 +2203,6 @@ div.best_video div.right img {
     float: right;
     margin-top: -160px;
     width: 460px;
-}
-
-#tell_a_friend_container input.send_friend {
-    width: 33px;
-    height: 17px;
-    border: 0;
-    background: url(/images/input/butt_send.gif);
-    cursor: pointer;
-    margin-top: 6px;
 }
 
 /* Flagging */
@@ -2856,37 +2731,6 @@ label.error, #secondary_container div.error,
 }
 
 /* End form errors */
-
-.submit {
-    background: url(/images/input/butt_submit.gif) no-repeat;
-    border: none !important;
-    width: 56px !important;
-    height: 28px;
-    cursor: pointer;
-    float: left;
-    margin-left: 5px;
-    margin-top: 5px;
-}
-
-.submit_class {
-    background-image: url(/images/input/butt_submit.gif);
-    border: 0px;
-    width: 56px;
-    height: 28px;
-    cursor: pointer;
-    margin-left: 5px;
-    margin-top: 5px;
-}
-
-.send_mini {
-    background-image: url(/images/input/butt_send.gif);
-    border: 0px;
-    width: 33px;
-    height: 17px;
-    cursor: pointer;
-    margin-left: 5px;
-    margin-top: 5px;
-}
 
 /* New buttons - I18N Ready */
 button, .button, form .button {

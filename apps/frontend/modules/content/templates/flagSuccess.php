@@ -12,14 +12,14 @@
                 <?php echo radiobutton_tag('flag_category', $flag_cat->getId(), false) ?>
                 <?php echo pr_label_for('flag_category_' . $flag_cat->getId(), $flag_cat->getTitle()) ?><br />
             <?php endforeach; ?>
-	        <br />
+          <br />
             <?php if( sfConfig::get('app_settings_flags_comment_field') ): ?>
-	        <span><?php echo __('(type an optional comment below)') ?></span><br />
+          <span><?php echo __('(type an optional comment below)') ?></span><br />
             <?php echo textarea_tag('comment', null, array('rows' => 4, 'cols' => '70', 'class' => 'text_area')) ?>
-	        <br /><br /><br />
+          <br /><br /><br />
             <?php endif; ?>
             <?php echo link_to(__('Cancel and go back to previous page'), $sf_data->getRaw('sf_user')->getRefererUrl(), array('class' => 'sec_link_small')) ?><br />
-	        <input type="submit" class="submit" value="" />
+            <?php echo submit_tag(__('Submit'), array('class' => 'button' ))?>
         </fieldset>
     </div>
 </form>
