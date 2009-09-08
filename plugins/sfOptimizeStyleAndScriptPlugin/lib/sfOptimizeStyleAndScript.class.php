@@ -146,7 +146,7 @@ class sfOptimizeStyleAndScript extends sfFilter
     $response->setParameter('stylesheets_included', true, 'symfony/view/asset');
     $already_seen = array();
 
-    $stylesheets_files = key($response->getParameterHolder()->getAll('helper/asset/auto/stylesheet'));
+    $stylesheets_files = $response->getParameterHolder()->getAll('helper/asset/auto/stylesheet');
     $encoded_name      = $this->makeMd5($stylesheets_files);
 
     //cache test (in cache for one day by default)
