@@ -1,8 +1,4 @@
 <?php use_helper('dtForm') ?>
-<?php slot('header_title') ?>
-    <?php echo __('Photos headline') ?>
-<?php end_slot(); ?>
-
 <?php echo __('Photos instructions') ?>
 <?php echo __('Photos note') ?>
 
