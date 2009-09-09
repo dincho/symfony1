@@ -1,2 +1,2 @@
 indexSuccess:
-  javascripts:    [messages, message_delete_confirm]
+  javascripts:    [messages]
