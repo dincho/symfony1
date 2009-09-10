@@ -1838,19 +1838,16 @@ div.best_video div.right img {
 #register #reg_submit {
     border: 0px;
     cursor: pointer;
-    margin-top: 50px;
     background: url(/images/go.gif) no-repeat;
     width: 58px;
     height: 33px;
+    padding: 0;
+    margin: 0;
+    margin-top: 50px;
 }
 
 #register #reg_submit:hover {
-    border: 0px;
-    cursor: pointer;
-    margin-top: 50px;
     background: url(/images/go_over.gif) no-repeat;
-    width: 58px;
-    height: 33px;
 }
 
 #register #reg_submit_pl {
