@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink') ?>
 
 <?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">
@@ -13,9 +13,9 @@
                 <div class="profile_info">
                     <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                     <p></p>
-                    <p><?php echo link_to_unless(!$member->isActive(), __('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to_unless_ref(!$member->isActive(), __('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                     <p>
-                        <?php echo link_to_unless(!$member->isActive(), __('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                        <?php echo link_to_unless_ref(!$member->isActive(), __('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
                         <?php include_partial('search/last_action', array('match' => $match)); ?>
                     </p>
                     <p style="padding: 0;"></p>

@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -20,8 +20,8 @@
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                 <p></p>
                 <?php if( $member->isActive() ): ?>
-                    <p><?php echo link_to('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                    <p><?php echo link_to(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
                 <?php else: ?>
                     <p></p><p></p>
                 <?php endif; ?>

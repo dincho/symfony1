@@ -1,4 +1,4 @@
-<?php use_helper('prProfilePhoto') ?>
+<?php use_helper('prProfilePhoto', 'prLink') ?>
 
 <span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
 
@@ -99,8 +99,8 @@
             <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong><br class="clear" />
             <?php foreach ($recent_visits as $profile): ?>
                 <div class="photo">
-                    <?php echo link_to_unless(!$profile->isActive(), profile_photo_dash_visitors($profile, 'profile_not_available_dash'), '@profile?username=' . $profile->getUsername()) ?>
-                    <p><?php echo link_to_unless(!$profile->isActive(), $profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?></p>
+                    <?php echo profile_photo_dash_visitors($profile, 'profile_not_available_dash'); ?>
+                    <p><?php echo link_to_unless_ref(!$profile->isActive(), $profile->getUsername(), '@profile?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></p>
                 </div>            
             <?php endforeach; ?>
         </div>

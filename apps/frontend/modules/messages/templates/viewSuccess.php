@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'prDate') ?>
+<?php use_helper('Javascript', 'prDate', 'prLink') ?>
 
 <div id="message_details">
     <div class="message_header">
@@ -7,7 +7,7 @@
                     <?php $to_member = $message->getMemberRelatedByToMemberId(); ?>
                     <?php echo __('To:') . '&nbsp;' . $to_member->getUsername() ?>
                     <?php if( $to_member->isActive() ): ?>
-                    &nbsp;&nbsp;&nbsp;<?php echo link_to(__('See Profile'), '@profile?bc=messages&username=' . $to_member->getUsername(), 'class=sec_link') ?>
+                    &nbsp;&nbsp;&nbsp;<?php echo link_to_ref(__('See Profile'), '@profile?bc=messages&username=' . $to_member->getUsername(), array('class' => 'sec_link')) ?>
                     &nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $to_member->getUsername(), array('class' => 'sec_link')) ?>
                     &nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $message->getToMemberId(), 'class=sec_link') ?>
                     <?php endif; ?>
@@ -15,7 +15,7 @@
                     <?php $from_member = $message->getMemberRelatedByFromMemberId(); ?>
                     <?php echo __('From:') . '&nbsp;' . $from_member->getUsername() ?>
                     <?php if( $from_member->isActive() ): ?>
-                    &nbsp;&nbsp;&nbsp;<?php echo link_to(__('See Profile'), '@profile?bc=messages&username=' . $from_member->getUsername(), 'class=sec_link') ?>
+                    &nbsp;&nbsp;&nbsp;<?php echo link_to_ref(__('See Profile'), '@profile?bc=messages&username=' . $from_member->getUsername(), array('class' => 'sec_link')) ?>
                     &nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $from_member->getUsername(), array('class' => 'sec_link')) ?>
                     &nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $message->getFromMemberId(), 'class=sec_link') ?>                  
                     <?php endif; ?>
