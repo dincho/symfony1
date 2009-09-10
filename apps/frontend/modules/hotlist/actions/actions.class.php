@@ -98,9 +98,12 @@ class hotlistActions extends prActions
 
     public function executeDelete()
     {
+        $this->forward404Unless($this->getRequestParameter('id') || $this->getRequestParameter('profile_id'));
+        
         $c = new Criteria();
         $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
-        $c->add(HotlistPeer::ID, $this->getRequestParameter('id'));
+        if( $this->getRequestParameter('id') ) $c->add(HotlistPeer::ID, $this->getRequestParameter('id'));
+        if( $this->getRequestParameter('profile_id')) $c->add(HotlistPeer::PROFILE_ID, $this->getRequestParameter('profile_id'));
         $hotlist = HotlistPeer::doSelectOne($c);
         $this->forward404Unless($hotlist);
         $hotlist->delete();
