@@ -15,7 +15,11 @@
                       <p></p>
                       <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                       <p>
-                          <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                          <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
+                            <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                          <?php else: ?>
+                            <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                          <?php endif; ?>
                       </p>
                       <p><?php include_partial('search/last_action', array('match' => $match)); ?></p>
                       <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
