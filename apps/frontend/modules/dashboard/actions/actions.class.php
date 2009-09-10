@@ -250,37 +250,20 @@ class dashboardActions extends prActions
             
             if( $modified )
             {
-	            $member->save();
-	            $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
-	            $this->redirect('dashboard/index');
+              if( $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
+              {
+                $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.');
+              } else {
+                $member->save();
+                $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
+                $this->redirect('dashboard/index');                
+              }
+            } else {
+              $this->setFlash('msg_error', 'You have not made any changes.', false);
             }
-            
-            $this->setFlash('msg_error', 'You have not made any changes.', false);
         }
         
         $this->member = $member;
-    }
-    
-    public function validatePrivacy()
-    {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            if( $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
-            {
-                $this->getRequest()->setError('privacy', 'This feature is available by to Full Members. Please upgrade your membership.');
-                return false;            
-            }            
-        }
-        
-        return true;
-    }
-    
-    public function handleErrorPrivacy()
-    {
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member);
-                
-        return sfView::SUCCESS;
     }
     
     public function executeContactYourAssistant()
