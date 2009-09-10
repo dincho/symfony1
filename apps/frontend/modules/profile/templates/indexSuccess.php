@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox') ?>
+<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
 <div id="profile_right">
     <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
@@ -8,9 +8,9 @@
         <?php echo link_to(__('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
         <?php if( $hotlist ): ?>
-           <?php echo link_to(__('Remove from Hotlist'), 'hotlist/delete?id=' . $hotlist->getId(), array('class' => 'sec_link', 'query_string' => 'return_url=' . urlencode(sfRouting::getInstance()->getCurrentInternalUri()))) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+           <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?id=' . $hotlist->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php else: ?>
-          <?php echo link_to(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link', 'query_string' => 'return_url=' . urlencode(sfRouting::getInstance()->getCurrentInternalUri()))) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+          <?php echo link_to_ref(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php endif; ?>
         
         <?php echo link_to_unless($sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId()), __('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
