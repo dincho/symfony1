@@ -48,14 +48,14 @@
  
     </fieldset>
     <br class="clear" />
-        <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />
-        <?php echo __('Prices and avialable features subject to changes without notice. Please read <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> for details.') ?>
-        <br /><br /><br />
+    <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />
+    <?php echo __('Prices and avialable features subject to changes without notice. Please read <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> for details.') ?>
+    <br /><br /><br />
         
-        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-        <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+    <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
-<br class="clear" />
+<br /><br /><br class="clear" />
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

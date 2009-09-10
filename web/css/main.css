@@ -1148,7 +1148,6 @@ span {
     margin: 0px;
     padding: 0px;
     border: 0px;
-    float: left;
 }
 
 #essay label {
@@ -1193,6 +1192,12 @@ label.char_remaining {
     padding: 0px;
     width: 330px;
     height: 230px;
+}
+
+form#edit_photos fieldset {
+  margin: 8px 0 45px 0;
+  border: 0;
+  padding: 0;
 }
 
 #secondary_container .photos {
@@ -1260,6 +1265,12 @@ div.title_first, #secondary_container label.title_first {
     background-color: #363639;
     color: #aca49c;
     font-size: 11px;
+}
+
+#self_desc_form fieldset {
+  border: 0;
+  margin: 8px 0 45px 0;
+  padding: 0;
 }
 
 #self_desc_form select, #self_desc_form input {
@@ -1768,7 +1779,7 @@ div.best_video div.right img {
     float: right;
 }
 #secondary_container #public_reg_form input, #secondary_container #public_reg_form select, 
-#self_desc_form input, #self_desc_form select, #essay select, #essay input,
+#self_desc_form input, #self_desc_form select, essay select, #essay input,
 #photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #secondary_container #public_reg_form label
 {
     font-family: Arial, Helvetica, sans-serif;

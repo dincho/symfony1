@@ -4,7 +4,8 @@
 <?php echo __('Use these formats only: jpg, png and gif.') ?><br /><br />
                 
 <?php echo form_tag('editProfile/photos', 
-                  array('multipart' => true, 
+                  array('id' => 'edit_photos',
+                        'multipart' => true, 
                         'onsubmit' => 'return check_upload_field("'. __('You have not uploaded the file you have selected! Do you want to continue?') .'");'
                         )) ?>
     <?php $cnt_photos = count($photos); ?>
@@ -37,6 +38,8 @@
         
     <?php echo __('YouTube URL ') ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
     <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
+    
+    <fieldset>
     <?php if(!$sf_request->getParameter('confirm_delete')):  ?>
         <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button', 'name' => 'save', 'onclick' => 'save_button = true')) ?>
@@ -44,6 +47,7 @@
         <br /><br /><span><?php echo __('Please select Yes or No at the top of the page') ?></span><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button_disabled', 'name' => 'save', 'disabled' => 'disabled')) ?>
     <?php endif; ?>
+    </fieldset>
 </form>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

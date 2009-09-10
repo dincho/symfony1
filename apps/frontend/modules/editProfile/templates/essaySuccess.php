@@ -2,8 +2,18 @@
 
 <?php echo __('You may change your essay here.') ?><br />
 <span><?php echo __("Make changes and click Save.") ?></span>
+
                 
 <?php echo form_tag('editProfile/essay', array('id' => 'essay')) ?>
+
+    <?php if( $sf_user->getCulture() == 'pl'): ?>
+      <div id="tips" style="margin-top: 87px;">
+    <?php else: ?>
+      <div id="tips">
+    <?php endif; ?>
+      <?php echo __('Essay Helpful Tips - edit'); ?>
+    </div>
+    
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
         <?php echo input_tag('essay_headline', strip_tags($member->getEssayHeadline(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 60))?><br /><br />
@@ -31,19 +41,15 @@
                                                         'onfocus' => 'active_field = this',
                                                         'maxlength' => 2500
                                                  )) ?><br />
-        
+    
+    </fieldset>
+    <fieldset>
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
     </fieldset>
-    <?php if( $sf_user->getCulture() == 'pl'): ?>
-    <div id="tips" style="margin-top: 87px;">
-    <?php else: ?>
-    <div id="tips">
-    <?php endif; ?>
-				<?php echo __('Essay Helpful Tips - edit'); ?>
-    </div>
 </form>
-<br class="clear" />
+<br /><br /><br class="clear" />
+
 <?php echo javascript_tag('parseCharCounts();') ?>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
