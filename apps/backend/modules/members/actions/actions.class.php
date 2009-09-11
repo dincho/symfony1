@@ -110,7 +110,6 @@ class membersActions extends sfActions
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
             
-            $zip = $this->getRequestParameter('zip');
             $nationality = $this->getRequestParameter('nationality');
             $first_name = $this->getRequestParameter('first_name');
             $username = $this->getRequestParameter('username');
@@ -122,12 +121,6 @@ class membersActions extends sfActions
                 $return = false;
             }
             
-            if( !$zip )
-            {
-                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                $return = false;
-            }
-        
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
@@ -263,7 +256,6 @@ class membersActions extends sfActions
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
             
-            $zip = $this->getRequestParameter('zip');
             $nationality = $this->getRequestParameter('nationality');
 
             $value = $error = null;
@@ -273,12 +265,6 @@ class membersActions extends sfActions
                 $return = false;
             } 
             
-            if( !$zip )
-            {
-                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                $return = false;
-            }
-        
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');

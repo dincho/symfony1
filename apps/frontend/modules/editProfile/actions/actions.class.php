@@ -104,15 +104,7 @@ class editProfileActions extends prActions
                 $return = false;
             }            
             
-            $zip = $this->getRequestParameter('zip');
-            $nationality = $this->getRequestParameter('nationality');
-            
-            if( !$zip )
-            {
-                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                $return = false;
-            }
-        
+            $nationality = $this->getRequestParameter('nationality');      
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');

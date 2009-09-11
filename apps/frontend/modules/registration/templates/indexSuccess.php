@@ -47,7 +47,7 @@
             'with'  => " value+'&country='+$('country').value+'&adm1_id='+$('adm1_id').value+'&adm2_id='+$('adm2_id').value"
         ));?><br />
         
-        <?php echo pr_label_for('zip', __('Zip Code') . '<span style="color:red;">*</span>') ?>
+        <?php echo pr_label_for('zip', __('Zip Code')) ?>
         <?php echo object_input_tag($member, 'getZip') ?><br />
         
         <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>

@@ -171,12 +171,6 @@ class registrationActions extends prActions
                 $return = false;
             }
             
-            if( !$zip )
-            {
-                $this->getRequest()->setError('zip', 'Please provide your zip/ postal code.'); 
-                $return = false;
-            }
-        
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
