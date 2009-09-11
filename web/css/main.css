@@ -233,11 +233,11 @@ body .sign_in {
 }
 
 #header_text #header_title {
-    margin: 0;
+    margin: 3px 0 0 0;
 }
 
 #header_text #header_title h2 {
-    margin: 3px;
+    margin: 0;
     font-size: 18px;
     color: #d3d3d3;
     line-height: 22px;
@@ -1109,8 +1109,8 @@ span {
     clear: left;
 }
 
-#secondary_container span.check_available input {
-    margin-left: 163px;
+#secondary_container .check_available {
+    padding-left: 160px;
 }
 
 #essay {
@@ -1908,22 +1908,30 @@ div.best_video div.right img {
     margin-top: 2px;
 }
 
-#registration_box_complete_page label.tos {
-    width: 100%;
-    width: 730px;
-    height: 30px;
-    line-height: 30px;
-    padding-left: 4px;
+#registration_box_complete_page #tos_container {
+    width: 690px;
+    height: 15px;
+    line-height: 15px;
     font-size: 10px;
-    color: #92897e;
+    padding: 4px 0 8px 4px;
+    background-color: #363639;
 }
 
-#registration_box_complete_page .tos_input {
-    float: right;
+#registration_box_complete_page #tos_container label {
+    color: #92897e;
+    float: none;
+    display: inline;
+    width: auto;
+    padding: 0;
+}
+
+#tos_container input.tos_input {
     width: 15px;
     height: 15px;
     border: 0;
-    margin-top: -23px;
+    margin: 0;
+    float: none;
+    display: inline;
 }
 
 #registration_box_complete_page a:link,#registration_box_complete_page a:visited,#registration_box_complete_page a:active

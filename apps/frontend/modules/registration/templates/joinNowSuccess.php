@@ -22,23 +22,27 @@
 
         <?php echo pr_label_for('username', __('Username') . '<span style="color:red;">*</span>'); ?>
         <?php echo input_tag('username') ?>
-        <span class="check_available">
+        <div class="check_available">
         <?php echo button_to_remote(__('Check Availability'), array(
             'update' => 'ajax_response',
             'url'    => 'ajax/usernameExists',
             'with'     => "'username=' + $('username').value",
             'script'    => true
         ), array('class' => 'button_mini butt_availability')) ?>        
-        </span><br class="clear" />
-        </fieldset>
-        <div id="ajax_response"></div>
-                
-        <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
-        <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos'), false) ?>
-        <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input', 'style' => 'float: left; margin-left: 333px;')) ?>
-        
-        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>
-<!--    </fieldset>-->
+        </div><br class="clear" />
+    </fieldset>
+    <div id="ajax_response"></div>
+    
+    <br class="clear" />
+    
+    <div id="tos_container">
+    <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
+      <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos'), false) ?>
+      <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input')) ?>
+    </div>
+
+    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>
+
 </form>
 
 <?php slot('change_language') ?>
