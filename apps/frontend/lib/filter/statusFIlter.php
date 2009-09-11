@@ -9,7 +9,8 @@
 class statusFilter extends sfFilter
 {
 
-    static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 'profile/signout', 'memberStories/index', 'memberStories/read');
+    static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 
+                                         'profile/signout', 'memberStories/index', 'memberStories/read', 'dashboard/deactivate');
     
     public function execute($filterChain)
     {
@@ -30,16 +31,16 @@ class statusFilter extends sfFilter
                 $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
                 switch ($user->getAttribute('status_id')) {
                     case MemberStatusPeer::ABANDONED:
-                    	
-                    	if( $user->getAttribute('must_confirm_email') && 
-                    	    $module_action != 'registration/requestNewActivationEmail' &&
-                    	    $module_action != 'registration/activate')
-                    	{
-                    	    $AI->redirect('registration/requestNewActivationEmail');
-                    	}
+                      
+                      if( $user->getAttribute('must_confirm_email') && 
+                          $module_action != 'registration/requestNewActivationEmail' &&
+                          $module_action != 'registration/activate')
+                      {
+                          $AI->redirect('registration/requestNewActivationEmail');
+                      }
                         if ( $module != 'registration' && $module != 'IMBRA' )
                         {
-                        	
+                          
                             /*if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
                                 && $member->countMemberPhotos() > 0 ) $user->completeRegistration();*/
                             $AI->message('complete_registration');
@@ -63,6 +64,9 @@ class statusFilter extends sfFilter
                     case MemberStatusPeer::DENIED:
                         $AI->message('status_denied');
                         break;
+                    case MemberStatusPeer::DEACTIVATED:
+                        $AI->message('status_deactivated');
+                        break;                        
                     default:
                         break;
                 }

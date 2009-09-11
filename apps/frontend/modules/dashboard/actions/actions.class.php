@@ -156,15 +156,17 @@ class dashboardActions extends prActions
                 $this->setFlash('msg_ok', 'Your account has been deactivated');
                 Events::triggerAccountDeactivation($member);
                 $member->save();
-            
-                $this->redirect('dashboard/index');
+                
+                $this->getUser()->setAttribute('status_id', MemberStatusPeer::DEACTIVATED);
+                $this->message('status_deactivated');
                 
             } elseif( $this->getRequestParameter('deactivate_profile') == 0 && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
             {
                 $member->changeStatus(MemberStatusPeer::ACTIVE);
                 $this->setFlash('msg_ok', 'Your account has been reactivated');
                 $member->save();
-            
+                
+                $this->getUser()->setAttribute('status_id', MemberStatusPeer::ACTIVE);
                 $this->redirect('dashboard/index');
             } else {
                 $this->setFlash('msg_error', 'You have not made any changes.', false);
