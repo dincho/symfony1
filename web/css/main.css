@@ -12,7 +12,7 @@ body {
 
 
 a.highlighted_link {
-    border: 1px solid transparent;
+    border: 1px solid #202020;
     background-color: transparent;
     width: 97px;
     height: 94px;
@@ -1337,6 +1337,7 @@ select.language_level {
 #index_image img {
     float: left;
     padding: 2px;
+    border: 0;
 }
 
 #index_image {
