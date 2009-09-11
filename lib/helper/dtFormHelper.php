@@ -125,7 +125,7 @@ function pr_select_country_tag($name, $selected = null, $options = array())
     $countries = $c->getCountries();
     
     //remove continents out of the array ( first 30 elements )
-    $countries = array_slice($countries, 30, null, true);
+    $countries = array_slice($countries, 30);
         
     if ($country_option = _get_option($options, 'countries'))
     {

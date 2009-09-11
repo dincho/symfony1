@@ -247,7 +247,7 @@ class searchActions extends prActions
         $c = new sfCultureInfo($user->getCulture());
         $countries = $c->getCountries();
         //remove continents out of the array ( first 30 elements )
-        $countries = array_slice($countries, 30, null, true);
+        $countries = array_slice($countries, 30);
         asort($countries);
         $this->countries = $countries;
 
@@ -263,7 +263,7 @@ class searchActions extends prActions
         $c = new sfCultureInfo($user->getCulture());
         $countries = $c->getCountries();
         //remove continents out of the array ( first 30 elements )
-        $countries = array_slice($countries, 30, null, true);
+        $countries = array_slice($countries, 30);
         asort($countries);
         $this->countries = $countries;
 
