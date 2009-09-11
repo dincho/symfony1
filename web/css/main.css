@@ -2007,6 +2007,7 @@ div.best_video div.right img {
 #member_story_right {
     float: right;
     margin-top: 10px;
+    width: 220px;
 }
 
 #member_story_right ul {
@@ -2014,7 +2015,6 @@ div.best_video div.right img {
     margin: 0 0 10px 0;
     list-style-type: disc;
     list-style-position: inside;
-    width: 220px;
 }
 
 #member_story_right ul a {
