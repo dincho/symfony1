@@ -14,7 +14,9 @@
         <li><?php echo link_to(__('Match criteria (preferences)'), 'dashboard/searchCriteria') ?></li>
         <li><?php echo link_to(__('Posting/Essay'), 'editProfile/essay') ?></li>
         <li><?php echo link_to(__('Photos'), 'editProfile/photos') ?></li>
-        <li><?php echo link_to(__('IMBRA information'), 'IMBRA/index') ?></li>
+        <?php if( !sfConfig::get('app_settings_imbra_disable') ): ?>
+          <li><?php echo link_to(__('IMBRA information'), 'IMBRA/index') ?></li>
+        <?php endif; ?>
         <?php if( $sf_user->getProfile()->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
             <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate') ?></li>
         <?php elseif( $sf_user->getProfile()->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
