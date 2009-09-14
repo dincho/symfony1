@@ -148,11 +148,17 @@
 </div>
 <div id="profile_left">
     <div style="min-height: 350px">
-        <?php $image_options = array('id' => 'member_image'); 
+        <?php 
+              $image_options = array('id' => 'member_image');
               $link_options = array('id' => 'member_image_link');
+              
+              if( !is_null($member->getMainPhotoId()) ): //has main photo
               echo light_image($member->getMainPhoto()->getImg('350x350', 'file'), 
                                $member->getMainPhoto()->getImageUrlPath('file'), $link_options, $image_options );
-        ?>     
+              else: //has no main photo, so lightbox and link should not be applied
+                echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), $image_options);
+              endif; 
+        ?>
     </div>
     <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
