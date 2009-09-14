@@ -7,3 +7,4 @@
 .settings
 /data/fixtures/images/*
 /web/uploads/*
+/web/cache/*
