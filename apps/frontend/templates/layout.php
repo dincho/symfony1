@@ -40,8 +40,15 @@
                 <?php include_partial('content/messages'); ?>
             <?php endif; ?>
             
-            <?php include_partial('content/formErrors'); ?>          
-            <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated())); ?>
+            <?php include_partial('content/formErrors'); ?>
+            
+            <?php if( stripos(sfRouting::getInstance()->getCurrentInternalUri(), 'myProfile') !== false ): //looking my profile ?>
+              <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated(), 'username' => $sf_user->getUsername()); ?>
+            <?php else: //other's profiles ?>
+              <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated()); ?>
+            <?php endif; ?>
+              
+            <?php include_component('content', 'breadcrumb', $breadcrumb_params); ?>
             <div id="secondary_container">
                 <?php echo $sf_data->getRaw('sf_content') ?>
             </div>
