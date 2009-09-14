@@ -3,10 +3,19 @@
 
 <?php echo __('Essay instructions') ?>
 <?php echo form_tag('registration/essay', array('id' => 'essay')) ?>
+
+    <?php if( $sf_user->getCulture() == 'pl'): ?>
+      <div id="tips" style="margin-top: 87px;">
+    <?php else: ?>
+      <div id="tips">
+    <?php endif; ?>
+        <?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))) ?>
+    </div>
+    
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
-				<?php echo input_tag('essay_headline', strip_tags($member->getEssayHeadline(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 60))?><br /><br />
-				
+        <?php echo input_tag('essay_headline', strip_tags($member->getEssayHeadline(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 60))?><br /><br />
+        
         <?php if( $sf_user->getCulture() == 'pl'): ?>
         <div id="essay_polish_letters">
             <?php echo link_to_function('ą', 'pl_letter_press("ą")') ?>
@@ -29,15 +38,8 @@
                                        )) ?><br />
         <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
     </fieldset>
-    <?php if( $sf_user->getCulture() == 'pl'): ?>
-    <div id="tips" style="margin-top: 87px;">
-    <?php else: ?>
-    <div id="tips">
-    <?php endif; ?>
-        <?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))) ?>
-    </div>
 </form>
-<br class="clear" />
-<br />
+<br class="clear" /><br />
+
 <span><?php echo __('Essay note') ?></span>
 <?php echo javascript_tag('parseCharCounts();') ?>
