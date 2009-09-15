@@ -32,7 +32,7 @@
     <br class="clear" /><hr />
     
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
-    <?php echo input_file_tag('new_photo', array('class' => 'file_input')) ?>
+    <?php echo input_file_tag('new_photo', array('class' => '')) ?>
     <?php echo submit_tag(__('Upload'), array('id' => 'upload', 'class' => 'button', 'onclick' => 'save_button = false')) ?>
     <hr /><br />
         
