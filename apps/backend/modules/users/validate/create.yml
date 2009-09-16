@@ -10,7 +10,7 @@ fields:
   email:
     required:
       msg:       This field cannot be left blank  
-    sfEmailValidator:
+    prEmailValidator:
       strict:       true
       email_error:  This email address is invalid      
   username:

@@ -91,7 +91,7 @@ class memberStoriesActions extends prActions
                   $this->getRequest()->setError('email', 'You must provide your email address.');
                   $return = false;
               } else {
-                $emailValidator = new sfEmailValidator();
+                $emailValidator = new prEmailValidator();
                 $emailValidator->initialize($this->getContext(), array(
                   'strict'      => true,
                   'email_error' => 'Please provide email address in correct format.',
