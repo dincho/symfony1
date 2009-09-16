@@ -135,7 +135,7 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        if (isset($this->filters['keyword']) && strlen($this->filters['keyword']) > 3)
+        if ( isset($this->filters['keyword']) && strlen($this->filters['keyword']) > 0 )
         {
             $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->filters['keyword'] . '%', Criteria::LIKE);
             $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
