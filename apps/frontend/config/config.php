@@ -9,3 +9,6 @@ sfCore::bootstrap($sf_symfony_lib_dir, $sf_symfony_data_dir);
 
 //page execution time marker
 sfConfig::set('pr_timer_start', microtime(true));
+
+//we need this for more accurate "currently online" statuses.
+ini_set('session.gc_probability', 50);
