@@ -432,6 +432,7 @@ class dashboardActions extends prActions
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
