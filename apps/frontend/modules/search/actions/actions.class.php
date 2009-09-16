@@ -139,6 +139,7 @@ class searchActions extends prActions
         {
             $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $this->filters['keyword'] . '%', Criteria::LIKE);
             $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
+            $crit->addOr($c->getNewCriterion(MemberPeer::USERNAME, '%' . $this->filters['keyword'] . '%', Criteria::LIKE));
             $c->add($crit);
             $rows = sfConfig::get('app_settings_search_rows_keyword', 4);
             $per_page = $rows * 3; //3 boxes/profiles per row        
