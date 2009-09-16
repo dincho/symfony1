@@ -13,7 +13,6 @@ class ajaxActions extends geoActions
     public function executeUsernameExists()
     {
         $username = $this->getRequestParameter('username');
-        if( !$username ) return sfView::NONE;
         
         $i18n = sfContext::getInstance()->getI18n();
         if( !preg_match('/^[a-zA-Z0-9_]{4,20}$/', $username) )
