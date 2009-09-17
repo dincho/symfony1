@@ -243,7 +243,7 @@ class dashboardActions extends prActions
             if( $member->getDontUsePhotos() != $this->getRequestParameter('dont_use_photos') ||
                 $member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members'))
                 {
-                	$modified = true;
+                  $modified = true;
                 }
             
             $member->setDontUsePhotos($this->getRequestParameter('dont_use_photos', 0));
@@ -388,44 +388,38 @@ class dashboardActions extends prActions
     
     public function validateSearchCriteria()
     {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        $request = $this->getRequest();
+        if( $request->getMethod() == sfRequest::POST )
         {
             $questions = DescQuestionPeer::doSelect(new Criteria());
             $answers = $this->getRequestParameter('answers', array());
-            //print_r($answers);exit();
-            $has_error = false;
-            $add_error = false;
+            
             foreach ($questions as $question)
             {
                 if( $question->getType() == 'age' )
                 {
-                	$ages = $answers[$question->getId()];
-                	if( !is_array($ages) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] )
-                	{
-                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please enter correct ages range');
-                        return false;            		
-                	}
+                  $ages = $answers[$question->getId()];
+                  if( !is_array($ages) || !is_numeric($ages[0]) || !is_numeric($ages[1]) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] )
+                  {
+                        $request->setError('answers[' . $question->getId() . ']', 'Please enter correct ages range');
+                  }
                 } elseif( $question->getType() == 'select' && (!is_array($answers[$question->getId()]) || $answers[$question->getId()]['from'] > $answers[$question->getId()]['to']) )
                 {
-                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select correct range for questions below indicated in red');
-                        return false;
+                        $request->setError('answers[' . $question->getId() . ']', 'Please select correct range for questions below indicated in red');
                 } elseif( $question->getIsRequired() && !isset($answers[$question->getId()]) )
                 {
-                        $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Search Criteria: You must fill out the missing information below indicated in red.');
-                        $has_error = true;
-                        
+                        $request->setError('answers[' . $question->getId() . ']', 'Search Criteria: You must fill out the missing information below indicated in red.');
                 }
             }
             
-            if ($has_error)
+            if ($request->hasErrors())
             {
-                $this->setFlash('only_last_error', true);
+                $this->setFlash('only_unique_errors', true);
                 return false;
             }
         }
         
         return true;
-      
     }
     
     public function handleErrorSearchCriteria()
