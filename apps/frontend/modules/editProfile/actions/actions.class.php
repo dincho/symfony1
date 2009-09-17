@@ -202,7 +202,12 @@ class editProfileActions extends prActions
                     if( !$value['month'] || !$value['day'] || !$value['year'])
                     {
                         $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select you date of birthday.');
-                        $has_error = true;                        
+                        $has_error = true;
+                    } 
+                    elseif( !checkdate($value['month'], $value['day'], $value['year']) )
+                    {
+                      $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select a valid date of birthday.');
+                      $has_error = true;                    
                     } else {
                         $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
                         $age = Tools::getAgeFromDateString($birthday);
