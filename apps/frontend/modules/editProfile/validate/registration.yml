@@ -12,6 +12,10 @@ fields:
   password:
     required:
     group:      password_group
+    sfRegexValidator:
+        match:        Yes
+        match_error:  Please make sure your password is a combination of at least 6 letters and digits.
+        pattern:      /^.*(?=(.*\d){1})(?=(.*[a-z]){1})(?=(.*[\da-z]){6,}).*$/i
     sfCompareValidator:
       check:  repeat_password
       compare_error:  null

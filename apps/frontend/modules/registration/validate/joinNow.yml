@@ -17,6 +17,10 @@ fields:
   password:
     required:
       msg:  Please create password.
+    sfRegexValidator:
+        match:        Yes
+        match_error:  Please make sure your password is a combination of at least 6 letters and digits.
+        pattern:      /^.*(?=(.*\d){1})(?=(.*[a-z]){1})(?=(.*[\da-z]){6,}).*$/i
     sfCompareValidator:
       check:  repeat_password
       compare_error:  null
@@ -32,7 +36,7 @@ fields:
     sfRegexValidator:
         match:        Yes
         match_error:  Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.
-        pattern:      /^[a-zA-Z0-9_]{4,20}$/      
+        pattern:      /^[a-zA-Z0-9_]{4,20}$/
     sfPropelUniqueValidator:
       class:        Member
       column:       username
