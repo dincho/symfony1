@@ -149,7 +149,7 @@ class searchActions extends prActions
 
     public function executeProfileID()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if ( $this->getRequestParameter('profile_id') )
         {
           $c = new Criteria();
           $this->addGlobalCriteria($c);

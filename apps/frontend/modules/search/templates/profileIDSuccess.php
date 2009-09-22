@@ -4,13 +4,14 @@
 
 <form action="<?php echo url_for('search/profileID')?>" method="post">
     <label for="profile_id"><?php echo __('Enter profile ID') ?></label>
-    <input type="text" name="profile_id" class="input_text_width" id="profile_id" /><br />
+    <?php echo input_tag('profile_id', null, array('id' => 'profile_id', 'class' => 'input_text_width')); ?><br />
     <?php echo submit_tag(__('Search'), array('class' => 'button')) ?>
 </form>
 
 <br /><br />
 
-<?php if( isset($member) ): ?>
+<?php if( isset($match) ): ?>
+<?php $member = $match->getMemberRelatedByMember2Id(); ?>
 <div class="member">
         <div class="member_box">
         	<?php if( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
@@ -21,7 +22,13 @@
                 <p></p>
                 <?php if( $member->isActive() ): ?>
                     <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                    <p><?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?></p>
+                    <p>
+                      <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
+                        <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                      <?php else: ?>
+                        <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                      <?php endif; ?>                    
+                    </p>
                 <?php else: ?>
                     <p></p><p></p>
                 <?php endif; ?>
