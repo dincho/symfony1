@@ -61,13 +61,13 @@ class GeoPeer extends BaseGeoPeer
         
         return $ret;
     }
-
-    public static function getPopulatedPlaceByName($name)
+    
+    public static function retrieveAdm2ByPK($pk)
     {
-        $c = new Criteria();
-        $c->add(GeoPeer::DSG, 'PPL');
-        $c->add(GeoPeer::NAME, $name);
-        
-        return GeoPeer::doSelectOne($c);
+      $c = new Criteria();
+      $c->add(self::DSG, 'ADM2');
+      $c->add(self::ID, $pk);
+      
+      return self::doSelectOne($c);
     }
 }
