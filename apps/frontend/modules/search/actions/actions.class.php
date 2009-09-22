@@ -151,7 +151,12 @@ class searchActions extends prActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('profile_id'));
+          $c = new Criteria();
+          $this->addGlobalCriteria($c);
+          $this->addFiltersCriteria($c);
+          
+          $c->add(MemberMatchPeer::MEMBER2_ID, $this->getRequestParameter('profile_id'));
+          $this->match = MemberMatchPeer::doSelectOne($c);
         }
     }
 
