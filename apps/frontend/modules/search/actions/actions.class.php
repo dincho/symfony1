@@ -390,38 +390,24 @@ class searchActions extends prActions
             //within given radius from where I live
             case 2:
                 $this->validateRadius();
-                $user = $this->getUser();
-                $member = MemberPeer::retrieveByPK($user->getId());
-                $cityid = $member->getCityId();
+                $member_city = $this->getUser()->getProfile()->getCity();
                 $radius = $this->filters['radius'];
                 
                 if ($this->filters['kmmils'] == 'km') // must convert kilometers in miles 
                 {
                     $radius = $radius / 1.61; // One mile is 1.61 kilometers 
-                }                
-
-                $conf = Propel::getConfiguration();
-                $conf = $conf['datasources']['propel']['connection'];
-                unset($conf['port']);
-                $conf['phptype'] = 'mysqli';
-                $connection = Creole::getConnection($conf);
-                
-                $sql="call radiussearch(%d,%d)";
-                $sql = sprintf($sql, $cityid, $radius);
-
-                $stmt = $connection->createStatement();
-                $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
-
-                if($rs)
-                {
-                    $area_aray = array();
-                    foreach ($rs as $result)
-                    {
-                        array_push($area_aray, $result['id']);
-                    }
-                    $crit = $c->getNewCriterion(MemberPeer::CITY_ID, $area_aray, Criteria::IN);
                 }
                 
+                $distance_column = '(3956 * (2 * ASIN(SQRT(
+                                    POWER(SIN(((%f-geo.Latitude)*0.017453293)/2),2) +
+                                    COS(%f*0.017453293) *
+                                    COS(geo.Latitude*0.017453293) *
+                                    POWER(SIN(((%f-geo.Longitude)*0.017453293)/2),2)
+                                    ))))';
+                $distance_column = sprintf($distance_column, $member_city->getLatitude(), $member_city->getLatitude(), $member_city->getLongitude());
+                
+                $c->addJoin(GeoPeer::ID, MemberPeer::CITY_ID);
+                $c->add(GeoPeer::ID, $distance_column.' <= '.$radius, Criteria::CUSTOM);
                 break;
             default:
                 break;
