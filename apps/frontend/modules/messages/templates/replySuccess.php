@@ -10,18 +10,18 @@
         <span class="msg_to"><?php echo $profile->getUsername() ?></span><br /><br />
         
         <?php echo pr_label_for('subject', 'Subject:') ?>
-        <?php echo input_tag('subject', $draft->getSubject(), 'id=title') ?><br />		    
+        <?php echo input_tag('subject', $draft->getSubject(), 'id=title') ?><br />        
     </fieldset>
     <fieldset class="background_f4">
         <?php echo pr_label_for('content', 'Message:') ?>
-	    <?php echo textarea_tag('content',  $draft->getContent(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
+      <?php echo textarea_tag('content',  $draft->getContent(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
    
-	     <?php echo periodically_call_remote(array(
-	    'frequency' => 60,
-	    'url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
-	    'with'      => "'content=' + \$F('your_story') + '&subject=' + \$F('title')"
-	    )) ?>
-		
+       <?php echo periodically_call_remote(array(
+      'frequency' => 60,
+      'url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
+      'with'      => "'content=' + escape(\$F('your_story')) + '&subject=' + escape(\$F('title'))"
+      )) ?>
+    
         <?php if( !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
           <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>
           <label class="imbra_tos">
