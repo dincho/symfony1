@@ -9,10 +9,10 @@ default:
     mail:
         host:           imap.emailsrvr.com
         port:           143 #should be 993 on production/test server
-        username:       autocheck@polishromance.com
+        username:       polishromance_incoming@bonex.us
         password:       dincho
-        from:           admin@PolishRomance.com
+        from:           polishromance@bonex.us
         mailer:         smtp
         smtp_host:      smtp.emailsrvr.com
-        smtp_username:  admin@polishromance.com
+        smtp_username:  polishromance@bonex.us
         smtp_password:  polish_romance
