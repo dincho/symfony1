@@ -15,6 +15,8 @@ class MemberCounterPeer extends BaseMemberCounterPeer
         $c->addJoin(WinkPeer::PROFILE_ID, MemberPeer::ID);
         $c->add(WinkPeer::CREATED_AT, WinkPeer::CREATED_AT . ' > ' . MemberPeer::LAST_WINKS_VIEW, Criteria::CUSTOM);
         $c->add(WinkPeer::PROFILE_ID, $member_id);
+        $c->add(WinkPeer::SENT_BOX, false); //we need only received winks
+        $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNOTNULL);
         
         return WinkPeer::doCount($c);
     }
