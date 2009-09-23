@@ -142,10 +142,21 @@ class messagesActions extends prActions
         $c->add(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
         $c->add(MessagePeer::SENT_BOX, false);
         $c->add(MessagePeer::ID, $this->getRequestParameter('id'));
-        $c->add(MessagePeer::IS_REPLIED, false);
         $c->add(MessagePeer::IS_SYSTEM, false);
         $message = MessagePeer::doSelectOne($c);
         $this->forward404Unless($message);
+        
+        $draft_id = $this->getRequestParameter('draft_id');
+        if ( $message->getIsReplied() ) //message is already replied
+        {
+           //but this is draft
+          if( $draft_id && $draft = MessageDraftPeer::retrieveByPK($draft_id) )
+          {
+            $this->redirect('messages/send?draft_id=' . $draft->getId() . '&profile_id=' . $draft->getToMemberId());
+          }
+          
+          $this->forward404(); //if replied but not draft
+        }
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
@@ -155,7 +166,7 @@ class messagesActions extends prActions
             $this->sendConfirmation($send_msg->getId());
         }
         
-        $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
+        $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id, 
                                                           $message->getToMemberId(), 
                                                           $message->getFromMemberId(),
                                                           $message->getId());
