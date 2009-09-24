@@ -84,14 +84,9 @@ class membersActions extends sfActions
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
-
-            $adm2 = GeoPeer::retrieveAdm2ByPK($this->getRequestParameter('adm2_id'));
-            $this->forward404Unless($adm2);
-            $member->setAdm2Id($adm2->getId());
-            
-            $city = $adm2->getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
             $member->setCityId($city->getId());
-            
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             $member->setFirstName($this->getRequestParameter('first_name'));
@@ -237,14 +232,9 @@ class membersActions extends sfActions
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setAdm1Id(($this->getRequestParameter('adm1_id')) ? $this->getRequestParameter('adm1_id') : null);
-
-            $adm2 = GeoPeer::retrieveAdm2ByPK($this->getRequestParameter('adm2_id'));
-            $this->forward404Unless($adm2);
-            $this->member->setAdm2Id($adm2->getId());
-            
-            $city = $adm2->getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $this->member->setAdm2Id(($this->getRequestParameter('adm2_id')) ? $this->getRequestParameter('adm2_id') : null);
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getAdm1Id(), $member->getAdm2Id());  //this will avoid AJAX "sync" issues
             $this->member->setCityId($city->getId());
-            
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
             if ($this->getRequestParameter('password')) //password changed

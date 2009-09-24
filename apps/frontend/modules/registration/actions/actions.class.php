@@ -111,14 +111,9 @@ class registrationActions extends prActions
         {
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
-            
-            $adm2 = GeoPeer::retrieveAdm2ByPK($this->getRequestParameter('adm2_id'));
-            $this->forward404Unless($adm2);
-            $member->setAdm2Id($adm2->getId());
-            
-            $city = $adm2->getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getAdm1Id(), $member->getAdm2Id());  //this will avoid AJAX "sync" issues
             $member->setCityId($city->getId());
-            
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             
