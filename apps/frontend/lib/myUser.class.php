@@ -55,6 +55,9 @@ class myUser extends sfBasicSecurityUser
         $member->setLastIp(ip2long($_SERVER ['REMOTE_ADDR']));
         $member->setLastLogin(time());
         $member->save();
+        
+        //clear old session zombies
+        $member->clearDroppedSessions(session_id());
     }
 
     public function SignOut()

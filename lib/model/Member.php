@@ -324,10 +324,10 @@ class Member extends BaseMember
     {
         $c = new Criteria();
         $c->add(SessionStoragePeer::USER_ID, $this->getId());
-        $c->add(SessionStoragePeer::USER_ID, 0, Criteria::NOT_EQUAL);
-        $nb_sessions = SessionStoragePeer::doCount($c);
+        $c->add(SessionStoragePeer::SESS_TIME, time()-sfConfig::get('sf_timeout'), Criteria::GREATER_THAN); //not timedout
+        $logged_in = SessionStoragePeer::doCount($c);
 
-        return ( $nb_sessions > 0 ) ? true : false;
+        return ($logged_in > 0) ? true : false;
     }
     
     public function killSession()
@@ -338,6 +338,15 @@ class Member extends BaseMember
         $c->add($crit);
         $c->setLimit(1);
         SessionStoragePeer::doDelete($c);
+    }
+    
+    public function clearDroppedSessions($current_session_id)
+    {
+      $c = new Criteria();
+      $crit = $c->getNewCriterion(SessionStoragePeer::USER_ID, $this->getId());
+      $crit->addAnd($c->getNewCriterion(SessionStoragePeer::SESS_ID, $current_session_id, Criteria::NOT_EQUAL));
+      $c->add($crit);
+      SessionStoragePeer::doDelete($c);
     }
     
     public function getSearchCritDescsArray()
