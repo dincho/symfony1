@@ -1087,10 +1087,6 @@ span {
     clear: left;
 }
 
-#secondary_container .check_available {
-    padding-left: 160px;
-}
-
 #essay {
     margin: 0px;
     margin-top: 15px;
@@ -1908,6 +1904,10 @@ div.best_video div.right img {
     margin-top: 2px;
 }
 
+#registration_box_complete_page fieldset br {
+  clear: left;
+}
+
 #registration_box_complete_page #tos_container {
     width: 690px;
     height: 15px;
@@ -1948,10 +1948,11 @@ div.best_video div.right img {
     color: #aca49c;
     float: left;
     display: block;
-    margin: 3px 2px;
+    margin: 2px 2px;
 }
 
-#registration_box_complete_page input {
+/* this does not apply to IE6 */
+#registration_box_complete_page > input {
   height: 12px;
 }
 
@@ -1960,6 +1961,10 @@ div.best_video div.right img {
   height: 18px;
   margin-bottom: 1px;
   margin-top: 2px;
+}
+
+#registration_box_complete_page .check_available {
+  padding-left: 168px;
 }
 
 #secondary_container .please_read {

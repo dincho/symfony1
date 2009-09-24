@@ -2,12 +2,7 @@
 
 <?php echo __('JoinNow instructions') ?>
 <?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
-    <fieldset>
-        <!-- 
-        <label for="another_language"></label>
-        <input type="text" name="another_language" id="another_language" /> <span class="another_language_span">(Please specify)</span><br />
-         -->
-         
+    <fieldset>       
         <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
         
@@ -29,7 +24,7 @@
             'with'     => "'username=' + $('username').value",
             'script'    => true
         ), array('class' => 'button_mini butt_availability')) ?>        
-        </div><br class="clear" />
+        </div><br  />
     </fieldset>
     <div id="ajax_response"></div>
     
