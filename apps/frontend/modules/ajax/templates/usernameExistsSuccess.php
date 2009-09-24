@@ -5,7 +5,7 @@
     <script type="text/javascript">
         $("label_username").className = "";
         var msgs = $("msgs");
-        if( msgs.childNodes.length == 3 ) 
+        if( msgs && msgs.childNodes.length == 3 ) 
         {
             msgs.hide();
         } else {
