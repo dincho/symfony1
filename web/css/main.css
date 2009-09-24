@@ -282,18 +282,17 @@ p {
     margin: 0px;
     padding: 0px;
     text-align: left;
-    float: left;
     min-height:500px;
     height:auto !important;
     height:500px;
-
+    width: 240px;
 }
 
-#areas a.slf,#areas a.slf:visited,#areas a.slf:active {
+#areas .slf {
     color: #92897e;
 }
 
-#areas a.slf:hover {
+#areas .slf:hover {
     color: #92897e;
     text-decoration: underline;
 }
@@ -303,14 +302,15 @@ p {
 }
 
 #areas_map_container {
+  margin: 75px 0 0 250px;
+  width: 450px;
   position: fixed;
-  margin: 75px 0 0 260px;
 }
 
 #areas_map {
-    float: right;
     width: 450px;
     overflow: hidden;
+    position: absolute;
 }
 
 #countries {
