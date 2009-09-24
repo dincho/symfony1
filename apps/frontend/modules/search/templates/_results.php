@@ -22,7 +22,7 @@
                           <?php endif; ?>
                       </p>
                       <p><?php include_partial('search/last_action', array('match' => $match)); ?></p>
-                      <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
+                      <p><?php echo __('last log in: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
                       <?php if( $sf_user->getProfile()->hasSearchCriteria()): ?>
                           <p><?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
                       <?php else: ?>
