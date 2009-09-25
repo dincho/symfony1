@@ -1,0 +1,4 @@
+unavailable:
+  is_secure: off
+disabled:
+  is_secure: off

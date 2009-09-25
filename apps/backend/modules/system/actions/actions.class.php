@@ -147,4 +147,12 @@ class systemActions extends sfActions
 	$this->redirect($this->getUser()->getRefererUrl());
 	
   }
+  
+  public function executeDisabled()
+  {
+  }
+  
+  public function executeUnavailable()
+  {
+  }  
 }

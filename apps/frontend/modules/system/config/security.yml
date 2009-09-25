@@ -1,2 +1,2 @@
-pageNotFound:
+default:
     is_secure:  off
