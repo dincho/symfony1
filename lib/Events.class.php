@@ -125,7 +125,9 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)));
+        $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)),
+                             '{EOT_DATE}' => date('M d, Y', $member->getEotDate()),
+                            );
         
         self::executeNotifications(self::AUTO_RENEW, $global_vars, null, $member);     
     }

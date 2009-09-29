@@ -10,7 +10,7 @@
                       )); ?>
         <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true, 'class' => 'button')) ?>    
     <?php else: ?>
-         <?php echo __('Manage subscription - subscription canceled'); ?>
+         <?php echo __('Manage subscription - subscription canceled', array('%EOT_DATE%' => date('M d, Y', $member->getEotDate()))); ?>
     <?php endif; ?>
 <?php elseif( $member->getLastPaypalItem() == 'gift_membership' ): //gift membership ?>
     <?php echo __('Manage subscription - gift membership', array('%EOT_DATE%' => date('M d, Y', $member->getEotDate())) ); ?>

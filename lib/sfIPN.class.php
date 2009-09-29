@@ -130,6 +130,7 @@ class sfIPN
                        {
                             if( $member->getLastPaypalSubscrId() == $this->params['subscr_id'] )
                             {
+                                Events::triggerAutoRenew($member);
                                 $member->setPaypalUnsubscribedAt(time());
                                 $member->save();
                                 return true;
