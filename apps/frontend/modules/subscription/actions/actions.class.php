@@ -30,9 +30,7 @@ class subscriptionActions extends prActions
                 $this->redirect('subscription/payment?subscription_id=' . $subscription->getId());
             } else
             {
-                //$this->member->changeSubscription($subscription->getId());
-                //$this->member->save();
-                $this->redirect('dashboard/index');
+                $this->setFlash('msg_error', 'You have not made any changes.', false);
             }
         }
     }
