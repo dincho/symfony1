@@ -43,7 +43,7 @@
             <?php include_partial('content/formErrors'); ?>
             
             <?php if( stripos(sfRouting::getInstance()->getCurrentInternalUri(), 'myProfile') !== false ): //looking my profile ?>
-              <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated(), 'username' => $sf_user->getUsername()); ?>
+              <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated(), 'sf_cache_key' => $sf_user->getId()); ?>
             <?php else: //other's profiles ?>
               <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated()); ?>
             <?php endif; ?>

@@ -168,6 +168,7 @@ class editProfileActions extends prActions
                 $m_answer->save();
             }
             $this->member->save();
+            $this->member->clearCache();
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
         }
@@ -273,6 +274,7 @@ class editProfileActions extends prActions
             if($this->member->isModified())
             {
                 $this->member->save();
+                $this->member->clearCache();
                 $this->setFlash('msg_ok', 'Your Posting have been updated');
                 $this->redirect('dashboard/index');
             }

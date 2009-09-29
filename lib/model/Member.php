@@ -562,4 +562,13 @@ class Member extends BaseMember
         $city = GeoPeer::retrieveByPK($this->getCityId());
         return $city;
     }
+    
+    public function clearCache()
+    {
+      // Clear the cache for actions related to this user
+      $sf_root_cache_dir = sfConfig::get('sf_root_cache_dir');
+      $cache_dir = $sf_root_cache_dir.'/frontend/*/template/*/all';
+      sfToolkit::clearGlob($cache_dir.'/*/dashboard/profile/'.$this->getUsername()); //others views this 
+      sfToolkit::clearGlob($cache_dir.'/*/myProfile*/content/_breadcrumb/'.$this->getId().'.cache'); //myProfile view
+    }
 }
