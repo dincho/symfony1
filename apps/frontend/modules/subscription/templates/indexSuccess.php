@@ -31,7 +31,7 @@
                     &nbsp;
                   <?php endif; ?>
                 </div>
-                <span class="top"><?php echo $subscription->getTitle() ?></span>
+                <span class="top"><?php echo __($subscription->getTitle()) ?></span>
                 <span class="check"><?php echo image_tag('check_mark.gif') ?></span>
                 <span class="check"><?php echo ($subscription->getCanPostPhoto()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanWink()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
