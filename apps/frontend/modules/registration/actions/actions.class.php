@@ -10,11 +10,11 @@
  */
 class registrationActions extends prActions
 {
-	public function preExecute()
-	{
-		$this->header_steps = 4;
-	}
-	
+    public function preExecute()
+    {
+      $this->header_steps = 4;
+    }
+  
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
@@ -124,16 +124,16 @@ class registrationActions extends prActions
                 $this->redirect('registration/selfDescription');
             } else { //not confirmed yet
                 if( $this->hasRequestParameter('confirmed') ) //form confirmation ?
-	            {
-	                $member->setOriginalFirstName($this->getRequestParameter('first_name'));
-	                $member->save();
-	                $this->redirect('registration/selfDescription');
-	            } else { //ask for confirmation
+              {
+                  $member->setOriginalFirstName($this->getRequestParameter('first_name'));
+                  $member->save();
+                  $this->redirect('registration/selfDescription');
+              } else { //ask for confirmation
                     $member->setFirstName($this->getRequestParameter('first_name'));  
-                    $member->parseLookingFor($this->getRequestParameter('orientation'));	                
-	                $member->save();
-	                $this->redirect('registration/index?confirm=1' );
-	            }
+                    $member->parseLookingFor($this->getRequestParameter('orientation'));                  
+                  $member->save();
+                  $this->redirect('registration/index?confirm=1' );
+              }
             }
         }
         
@@ -143,8 +143,8 @@ class registrationActions extends prActions
             $i18n_options = array('%URL_FOR_CANCEL%' => $this->getController()->genUrl('registration/index'), 
                                   '%URL_FOR_CONFIRM%' => 'javascript:document.public_reg_form.submit();');
             $conf_msg = $i18n->__('Please confirm that Name and Orientation are filled correctly? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
-        	$this->setFlash('msg_error', $conf_msg, false);
-					$this->setFlash('msg_no_i18n', true, false);
+          $this->setFlash('msg_error', $conf_msg, false);
+          $this->setFlash('msg_no_i18n', true, false);
         }
         
         $this->member = $member;
@@ -192,6 +192,7 @@ class registrationActions extends prActions
     {
         $this->setLayout('simple');
         $this->header_current_step = 1;
+        $this->header_steps = 4;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
@@ -338,19 +339,19 @@ class registrationActions extends prActions
 
     public function handleErrorSelfDescription()
     {
-    	$this->setLayout('simple');
-    	
-        $this->header_current_step = 2;
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
-        ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
-        ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
-                
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->questions = DescQuestionPeer::doSelect(new Criteria());
-        $this->answers = DescAnswerPeer::getAnswersAssoc();
-        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
-        
-        return sfView::SUCCESS;
+      $this->setLayout('simple');
+      $this->header_steps = 4;
+      $this->header_current_step = 2;
+      $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
+      ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
+      ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
+              
+      $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+      $this->questions = DescQuestionPeer::doSelect(new Criteria());
+      $this->answers = DescAnswerPeer::getAnswersAssoc();
+      $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
+      
+      return sfView::SUCCESS;
     }
 
     public function executeEssay()
@@ -381,6 +382,7 @@ class registrationActions extends prActions
     public function handleErrorEssay()
     {
         $this->setLayout('simple');
+        $this->header_steps = 4;
         $this->header_current_step = 3;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
@@ -505,6 +507,7 @@ class registrationActions extends prActions
     public function handleErrorPhotos()
     {
         $this->setLayout('simple');
+        $this->header_steps = 4;
         $this->header_current_step = 4;
         $BC = $this->getUser()->getBC();
         $BC->clear()->add(array('name' => 'Home'))
