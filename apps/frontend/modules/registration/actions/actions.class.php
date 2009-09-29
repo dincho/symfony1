@@ -458,28 +458,45 @@ class registrationActions extends prActions
             $this->setFlash('msg_error', $del_msg, false);
         }         
     }
-
+    
     public function validatePhotos()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('commit'))
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+          if( $this->getRequestParameter('commit') ) //uploading photo
+          {
             $member = MemberPeer::retrieveByPK($this->getUser()->getId());
             $subscription = $member->getSubscription();
             $cnt_photos = $member->countMemberPhotos();
-            
+          
             if (! $subscription->getCanPostPhoto())
             {
                 $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
                 return false;
             }
-            
-            
+          
             if ($cnt_photos >= $subscription->getPostPhotos())
             {
                 $this->getRequest()->setError('subscription', 
                         'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
                 return false;
             }
+          } elseif ($this->getRequestParameter('youtube_url') ) //save and continue clicked
+          {
+            $youValidator = new sfRegexValidator();
+            $youValidator->initialize($this->getContext(), array(
+              'match_error' => 'Youtube error',
+              'pattern'       => '/http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9_]+/i',
+            ));
+            
+            $value = $this->getRequestParameter('youtube_url');
+            $error = '';
+            if (!$youValidator->execute($value, $error))
+            {
+              $this->getRequest()->setError('youtube_url', $error);
+              return false;
+            }
+          }
         }
         
         return true;

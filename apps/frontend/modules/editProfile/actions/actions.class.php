@@ -350,9 +350,10 @@ class editProfileActions extends prActions
 
     public function validatePhotos()
     {
-        //validate only if uploading photos
-        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('commit'))
+        if ($this->getRequest()->getMethod() == sfRequest::POST )
         {
+          if( $this->getRequestParameter('commit') ) //uploading photo
+          {
             $member = MemberPeer::retrieveByPK($this->getUser()->getId());
             $subscription = $member->getSubscription();
             $cnt_photos = $member->countMemberPhotos();
@@ -378,6 +379,22 @@ class editProfileActions extends prActions
                 }
                 return false;
             }
+          } elseif( $this->getRequestParameter('youtube_url') ) //save and continue clicked
+          { 
+            $youValidator = new sfRegexValidator();
+            $youValidator->initialize($this->getContext(), array(
+              'match_error' => 'Youtube error',
+              'pattern'       => '/http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9_]+/i',
+            ));
+            
+            $value = $this->getRequestParameter('youtube_url');
+            $error = '';
+            if (!$youValidator->execute($value, $error))
+            {
+              $this->getRequest()->setError('youtube_url', $error);
+              return false;
+            }
+          }
         }
         
         return true;

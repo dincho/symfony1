@@ -3,11 +3,6 @@ fillin:
   param:
     content_type:   xml  
 fields:
-    youtube_url:
-        sfRegexValidator:
-          match:        Yes
-          match_error:  Youtube error
-          pattern:      /http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9_]+/si
     new_photo:
         file: true 
         sfFileValidator:
