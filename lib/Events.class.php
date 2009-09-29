@@ -158,7 +158,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{PROFILE_URL}' => 'http://' . sfConfig::get('app_base_domain') . '/en/profiles/' . $member->getUsername() . '.html' );
+        $global_vars = array('{PROFILE_URL}' => 'http://' . sfConfig::get('app_base_domain') . '/en/dashboard/profile/' . $member->getUsername() . '.html' );
         
         self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);     
     }
