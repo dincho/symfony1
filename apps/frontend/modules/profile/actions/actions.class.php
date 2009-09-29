@@ -409,6 +409,7 @@ class profileActions extends prActions
         $member->setTmpEmail($tmp_email);
         $member->save();
         
+        $this->getUser()->SignIn($member);
         $this->message('undo_new_email');
     }
     
