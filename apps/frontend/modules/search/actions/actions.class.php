@@ -444,7 +444,7 @@ class searchActions extends prActions
             $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
         }
         
-        if( $radius < 0 || $radius >1000 )
+        if( !is_numeric($radius) || $radius < 0 || $radius >1000 )
         {
             $this->setFlash('msg_error', "Radius must be betwen 0 and 1000");
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
