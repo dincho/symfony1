@@ -1839,37 +1839,29 @@ div.best_video div.right img {
     padding: 0 2px;
 }
 
-#register #reg_submit {
-    border: 0px;
+#register .reg_submit_container input {
     cursor: pointer;
-    background: url(/images/go.gif) no-repeat;
+    border: 0px;
     width: 58px;
     height: 33px;
     padding: 0;
-    margin: 0;
-    margin-top: 50px;
+    margin: 50px 0 0 0;
 }
 
-#register #reg_submit:hover {
+#register #reg_submit_en {
+    background: url(/images/go.gif) no-repeat;
+}
+
+#register #reg_submit_en:hover {
     background: url(/images/go_over.gif) no-repeat;
 }
 
 #register #reg_submit_pl {
-    border: 0px;
-    cursor: pointer;
-    margin-top: 50px;
     background: url(/images/go_pl.gif) no-repeat;
-    width: 58px;
-    height: 33px;
 }
 
 #register #reg_submit_pl:hover {
-    border: 0px;
-    cursor: pointer;
-    margin-top: 50px;
     background: url(/images/go_pl_over.gif) no-repeat;
-    width: 58px;
-    height: 33px;
 }
 
 /* END register */

@@ -60,12 +60,7 @@
                         
                     </fieldset>
                     <div class="reg_submit_container">
-                        <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>
-                        <?php if( $current_culture == "en" ): ?>
-                            <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit')) ?>
-                        <?php else: ?>
-                            <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit_pl')) ?>
-                        <?php endif; ?>
+                      <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit_' .$sf_user->getCulture())) ?>
                     </div>
                 </form>
             </div>
