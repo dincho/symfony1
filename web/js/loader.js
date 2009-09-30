@@ -23,5 +23,10 @@ function show_loader(hide_id)
     container = document.getElementById('secondary_container');
     container.appendChild(loader_span);
     
-    if( typeof(hide_id) != undefined) document.getElementById(hide_id).style.display = 'none';
+
+    if( typeof(hide_id) != undefined) 
+    {
+      hide = document.getElementById(hide_id);
+      if( hide ) hide.style.display = 'none';
+    }
 }
