@@ -85,7 +85,7 @@ function displayCharCounts(element)
         if (enforceLength == true) {
             value = value.substring(0, maxlength);
             element.value = value;
-            element.setSelectionRange(maxlength, maxlength);
+            //element.setSelectionRange(maxlength, maxlength);
             limitLabel.style.color = '#92897E';
             limitLabel.innerHTML = '(0 Characters remaining)';
         }
