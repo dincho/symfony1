@@ -144,37 +144,30 @@ class dashboardActions extends prActions
     
     public function executeDeactivate()
     {
-        $member = MemberPeer::retrieveByPK($this->getUser()->getid());
-        $this->forward404Unless($member); //just in case
+      $member = MemberPeer::retrieveByPK($this->getUser()->getid());
+      $this->forward404Unless($member); //just in case
         
-        $this->getUser()->getBC()->replaceLast(array('name' => ($member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED) ? 'Activate Profile' : 'Deactivate Profile' ));
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            if( $this->getRequestParameter('deactivate_profile') == 1 && $member->getMemberStatusId() == MemberStatusPeer::ACTIVE )
-            {
-                $member->changeStatus(MemberStatusPeer::DEACTIVATED);
-                $this->setFlash('msg_ok', 'Your account has been deactivated');
-                Events::triggerAccountDeactivation($member);
-                $member->save();
-                
-                $this->getUser()->setAttribute('status_id', MemberStatusPeer::DEACTIVATED);
-                $this->message('status_deactivated');
-                
-            } elseif( $this->getRequestParameter('deactivate_profile') == 0 && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
-            {
-                $member->changeStatus(MemberStatusPeer::ACTIVE);
-                $this->setFlash('msg_ok', 'Your account has been reactivated');
-                $member->save();
-                
-                $this->getUser()->setAttribute('status_id', MemberStatusPeer::ACTIVE);
-                $this->redirect('dashboard/index');
-            } else {
-                $this->setFlash('msg_error', 'You have not made any changes.', false);
-            }
-            
-
-        }
-        $this->member = $member;
+      if( !$this->getRequestParameter('re') && $member->getMemberStatusId() == MemberStatusPeer::ACTIVE )
+      {
+          $member->changeStatus(MemberStatusPeer::DEACTIVATED);
+          $this->setFlash('msg_ok', 'Your account has been deactivated');
+          Events::triggerAccountDeactivation($member);
+          $member->save();
+        
+          $this->getUser()->setAttribute('status_id', MemberStatusPeer::DEACTIVATED);
+          $this->message('status_deactivated');
+        
+      } elseif( $this->getRequestParameter('re') && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
+      {
+          $member->changeStatus(MemberStatusPeer::ACTIVE);
+          $this->setFlash('msg_ok', 'Your account has been reactivated');
+          $member->save();
+        
+          $this->getUser()->setAttribute('status_id', MemberStatusPeer::ACTIVE);
+          $this->redirect('dashboard/index');
+      }
+    
+      $this->redirect('dashboard/index'); //we do not have template
     } 
     
     public function executeDeleteYourAccount()
