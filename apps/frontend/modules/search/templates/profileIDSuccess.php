@@ -14,35 +14,23 @@
 <?php $member = $match->getMemberRelatedByMember2Id(); ?>
 <div class="member">
         <div class="member_box">
-        	<?php if( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
             <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
             <?php echo profile_photo($member, 'float-left') ?>            
             <div class="profile_info">
                 <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
                 <p></p>
-                <?php if( $member->isActive() ): ?>
-                    <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
-                    <p>
-                      <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-                        <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                      <?php else: ?>
-                        <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                      <?php endif; ?>                    
-                    </p>
-                <?php else: ?>
-                    <p></p><p></p>
-                <?php endif; ?>
+                <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                <p>
+                  <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
+                    <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                  <?php else: ?>
+                    <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
+                  <?php endif; ?>                    
+                </p>
                 <p></p>
                 <?php $when =  ($member->isLoggedIn()) ? __('Online') : distance_of_time_in_words($member->getLastLogin(null)); ?>
                 <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
-            <?php else: ?>
-            <h2>&nbsp;</h2>
-            <?php echo profile_photo($member, 'float-left') ?>
-                <div class="profile_info">                	
-                	<p class="profile_location"><span class="profile_not_available_dash_matsh"><?php echo  __('Sorry, this profile is no longer available') ?></span></p>
-                </div>        
-           <?php endif; ?>
         </div>
 </div>
 <?php elseif($sf_request->getParameter('profile_id')): ?>

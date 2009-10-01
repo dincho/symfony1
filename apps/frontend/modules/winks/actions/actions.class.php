@@ -22,12 +22,14 @@ class winksActions extends prActions
         $c->add(WinkPeer::MEMBER_ID, $this->getUser()->getId());
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $c->add(WinkPeer::SENT_BOX, true);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $this->sent_winks = WinkPeer::doSelectJoinMemberRelatedByProfileId($c);
         
         $c = new Criteria();
         $c->add(WinkPeer::PROFILE_ID, $this->getUser()->getId());
         $c->add(WinkPeer::SENT_BOX, false);
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
         
         $member = $this->getUser()->getProfile();

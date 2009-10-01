@@ -13,8 +13,9 @@ class blockActions extends prActions
     public function executeIndex()
     {
         $c = new Criteria();
-        $c->addDescendingOrderByColumn(BlockPeer::CREATED_AT);
         $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        $c->addDescendingOrderByColumn(BlockPeer::CREATED_AT);
         $this->blocks = BlockPeer::doSelectJoinMemberRelatedByProfileId($c);
     }
 

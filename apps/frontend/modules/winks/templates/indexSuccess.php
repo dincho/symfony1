@@ -8,7 +8,7 @@
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
             <div class="member_profile">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
-                <?php echo link_to_unless(!$member->isActive(), profile_photo($member, 'float-left'), '@profile?bc=winks&username=' . $member->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($member, 'float-left'), '@profile?bc=winks&username=' . $member->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% winked at you %date%', 
@@ -16,7 +16,7 @@
                                          '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
                                )); ?>
                     </span>
-                    <?php echo link_to_unless_ref(!$member->isActive(), __('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $received_wink->getId()) ?>
                 </div>                
                 <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $received_wink->getId()) ?>
@@ -29,7 +29,7 @@
             <?php $profile = $sent_wink->getMemberRelatedByProfileId(); ?>        
             <div class="member_profile">
                 <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
-                <?php echo link_to_unless_ref(!$profile->isActive(), profile_photo($profile, 'float-left'), '@profile?bc=winks&username=' . $profile->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($profile, 'float-left'), '@profile?bc=winks&username=' . $profile->getUsername()) ?>
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('You winked at %her_his% %date%', 
@@ -37,7 +37,7 @@
                                          '%her_his%' => ( $profile->getSex() == 'M' ) ? 'him' : 'her',
                                )); ?>
                     </span>
-                    <?php echo link_to_unless_ref(!$profile->isActive(), __('View Profile'), '@profile?bc=winks&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $sent_wink->getId()) ?>
                 </div>
                 <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $sent_wink->getId()) ?>

@@ -152,6 +152,8 @@ class searchActions extends prActions
         if ( $this->getRequestParameter('profile_id') )
         {
           $c = new Criteria();
+          $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+          
           $this->addGlobalCriteria($c);
           $this->addFiltersCriteria($c);
           
@@ -329,6 +331,7 @@ class searchActions extends prActions
     protected function addGlobalCriteria(Criteria $c)
     {
         $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
     }
 
     protected function processPublicFilters(Criteria $c)

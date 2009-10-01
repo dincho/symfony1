@@ -19,11 +19,13 @@ class hotlistActions extends prActions
     {
         $c = new Criteria();
         $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->hotlists = HotlistPeer::doSelectJoinMemberRelatedByProfileId($c);
         
         $c = new Criteria();
         $c->add(HotlistPeer::PROFILE_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
         

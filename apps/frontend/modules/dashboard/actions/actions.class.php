@@ -26,6 +26,7 @@ class dashboardActions extends prActions
         $c->add(MemberMatchPeer::MEMBER1_ID, $member->getId());        
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->setLimit(5);
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
         
@@ -47,6 +48,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(WinkPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, WinkPeer::MEMBER_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(WinkPeer::SENT_BOX, false);
         $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
         if($member->getLastWinksView()) $c->add(WinkPeer::CREATED_AT, $member->getLastWinksView(), Criteria::GREATER_THAN);
@@ -62,6 +64,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(HotlistPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         if($member->getLastHotlistView()) $c->add(HotlistPeer::CREATED_AT, $member->getLastHotlistView(), Criteria::GREATER_THAN);
         $cc = clone $c; //count criteria
         
@@ -75,6 +78,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(ProfileViewPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, ProfileViewPeer::MEMBER_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         if($member->getLastProfileView()) $c->add(ProfileViewPeer::CREATED_AT, $member->getLastProfileView(), Criteria::GREATER_THAN);
         $cc = clone $c; //count criteria
@@ -92,6 +96,7 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(ProfileViewPeer::MEMBER_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, ProfileViewPeer::PROFILE_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::PROFILE_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::UPDATED_AT);
         $c->setLimit(7);
@@ -108,11 +113,10 @@ class dashboardActions extends prActions
     }
     
     public function executeVisitors()
-    {
-        //$this->getUser()->getBC()->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        
+    {      
         $c = new Criteria();
         $c->add(ProfileViewPeer::PROFILE_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
