@@ -233,7 +233,7 @@ class membersActions extends sfActions
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setAdm1Id(($this->getRequestParameter('adm1_id')) ? $this->getRequestParameter('adm1_id') : null);
             $this->member->setAdm2Id(($this->getRequestParameter('adm2_id')) ? $this->getRequestParameter('adm2_id') : null);
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getAdm1Id(), $member->getAdm2Id());  //this will avoid AJAX "sync" issues
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $this->member->getAdm1Id(), $this->member->getAdm2Id());  //this will avoid AJAX "sync" issues
             $this->member->setCityId($city->getId());
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
