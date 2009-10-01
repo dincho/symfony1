@@ -7,6 +7,6 @@ function show_hide_other()
 
 function init()
 {
-  Event.observe('others_check_16', 'change', show_hide_other );
+  Event.observe('others_check_16', 'click', show_hide_other );
   show_hide_other();
 }
