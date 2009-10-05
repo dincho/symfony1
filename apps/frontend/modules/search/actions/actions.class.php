@@ -368,7 +368,9 @@ class searchActions extends prActions
     {
         if (isset($this->filters['only_with_video']))
         {
-            $c->add(MemberPeer::YOUTUBE_VID, NULL, Criteria::ISNOTNULL);
+            $crit = $c->getNewCriterion(MemberPeer::YOUTUBE_VID, NULL, Criteria::ISNOTNULL);
+            $crit->addAnd($c->getNewCriterion(MemberPeer::YOUTUBE_VID, '', Criteria::NOT_EQUAL));
+            $c->add($crit);
         }
         
         switch ($this->filters['location']) {
