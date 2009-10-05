@@ -23,15 +23,22 @@ class blockActions extends prActions
     {
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
+        
         $block = new Block();
         $block->setMemberId($this->getUser()->getId());
         $block->setProfileId($profile->getId());
         $block->save();
+        
         $msg_ok = sfI18N::getInstance()->__('You just blocked %USERNAME% from seeing and contacting you. To undo, <a href="%UNDO_URL%" class="sec_link">click here</a>.', 
                 array('%USERNAME%' => $profile->getUsername(), '%UNDO_URL%' => $this->getController()->genUrl('block/remove?id=' . $block->getId())));
         $this->setFlash('msg_ok', $msg_ok);
         
-        $this->redirect('@profile?username=' . $profile->getUsername());
+        if( $profile->hasBlockFor($this->getUser()->getId()))
+        {
+          $this->redirect('@blocked_members');
+        } else {
+          $this->redirect('@profile?username=' . $profile->getUsername());
+        }
     }
 
     public function validateAdd()
@@ -83,7 +90,8 @@ class blockActions extends prActions
         $block = BlockPeer::doSelectOne($c);
         $this->forward404Unless($block);
         $block->delete();
-        $username = $block->getMemberRelatedByProfileId()->getUsername();
+        $profile = $block->getMemberRelatedByProfileId();
+        $username = $profile->getUsername();
         
         $msg = 'You have just unblocked %USERNAME%.';
         $ref = $this->getUser()->getRefererUrl();
@@ -91,7 +99,11 @@ class blockActions extends prActions
         $msg_ok = sfI18N::getInstance()->__($msg, array('%USERNAME%' => $username, '%PROFILE_URL%' => $this->getController()->genUrl('@profile?username=' . $username)));
         $this->setFlash('msg_ok', $msg_ok);
         
-        $this->redirectToReferer();
-        //$this->redirect('@blocked_members');
+        if( $profile->hasBlockFor($this->getUser()->getId()))
+        {
+          $this->redirect('@blocked_members');
+        } else {
+          $this->redirectToReferer();
+        }
     }
 }
