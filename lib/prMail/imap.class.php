@@ -12,7 +12,7 @@ class IMAP
     public function __construct()
     {
         $this->port = sfConfig::get('app_mail_port');
-        $this->host = '{'. sfConfig::get('app_mail_host') .':'. $this->port .'/imap/notls}INBOX';
+        $this->host = '{'. sfConfig::get('app_mail_host') .':'. $this->port .'/imap/ssl}INBOX';
         $this->user = sfConfig::get('app_mail_username');
         $this->pass = sfConfig::get('app_mail_password');
         

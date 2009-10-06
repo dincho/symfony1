@@ -8,23 +8,23 @@ class prMail extends sfMail
 
     public function __construct()
     {
-        parent::__construct();
+        $this->mailer = new PHPMailer();
         
         //print_r($this->getMailer());exit();
         //$this->mailer->SMTPDebug = true;
-        $this->mailer->port = 25;
-        //$this->mailer->SMTPSecurity = 'ssl';
+        $this->mailer->Host = sfConfig::get('app_mail_smtp_host', 'localhost');
+        $this->mailer->Port = sfConfig::get('app_mail_smtp_port', 25);
+        $this->mailer->SMTPSecurity = 'ssl';
         
 
         $this->setMailer(sfConfig::get('app_mail_mailer', 'mail'));
-        $this->setHostname(sfConfig::get('app_mail_smtp_host', 'localhost'));
         $this->setUsername(sfConfig::get('app_mail_smtp_username'));
         $this->setPassword(sfConfig::get('app_mail_smtp_password'));
         
         $this->setCharset('utf-8');
         $this->setContentType('text/html');
-        $this->setFrom(sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com'));
-        $this->setSender(sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com'));
+        $this->setFrom(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
+        $this->setSender(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
     }
 
     public function initialize()

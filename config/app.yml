@@ -7,12 +7,13 @@ default:
         pl:             pl.pd.dincho.bonex.us
     version:            "v1.2.4/HEAD"
     mail:
-        host:           imap.emailsrvr.com
-        port:           143 #should be 993 on production/test server
-        username:       polishromance_incoming@bonex.us
-        password:       dincho
-        from:           polishromance@bonex.us
+        host:           imap.gmail.com
+        port:           993 #should be 993 on production/test server
+        username:       incoming@polishdate.com
+        password:       PD11837
+        from:           admin@polishdate.com
         mailer:         smtp
-        smtp_host:      smtp.emailsrvr.com
-        smtp_username:  polishromance@bonex.us
-        smtp_password:  polish_romance
+        smtp_host:      "ssl://smtp.gmail.com"
+        smtp_port:      465
+        smtp_username:  admin2@polishdate.com
+        smtp_password:  PD11837
