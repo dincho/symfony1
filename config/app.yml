@@ -15,5 +15,5 @@ default:
         mailer:         smtp
         smtp_host:      "ssl://smtp.gmail.com"
         smtp_port:      465
-        smtp_username:  admin2@polishdate.com
+        smtp_username:  admin@polishdate.com
         smtp_password:  PD11837
