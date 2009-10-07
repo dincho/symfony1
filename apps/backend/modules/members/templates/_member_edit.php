@@ -5,7 +5,11 @@
             <?php echo object_input_tag($member, 'getLastName', error_class('last_name')) ?><br />
         
             <label for="email">Email</label>
-            <?php echo object_input_tag($member, 'getEmail', error_class('email')) ?><br />
+            <?php echo object_input_tag($member, 'getEmail', error_class('email')) ?>
+            <?php if( !$member->getHasEmailConfirmation() ): ?>
+              <?php echo link_to('Confirm', 'members/confirmEmail?id=' . $member->getId()); ?>
+            <?php endif; ?>
+            <br />
              
             <label for="subscription_id">Subscription</label>
             <?php echo object_select_tag($member, 'getSubscriptionId') ?><br />

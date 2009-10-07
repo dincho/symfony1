@@ -573,6 +573,18 @@ class membersActions extends sfActions
         }
     }
 
+    public function executeConfirmEmail()
+    {
+        $this->getUser()->checkPerm(array('members_edit'));
+        $this->forward404Unless($this->member);
+        
+        $this->member->setHasEmailConfirmation(true);
+        $this->member->save();
+        
+        $this->setFlash('msg_ok', sprintf("%s's email address has been confirmed", $this->member->getUsername()));
+        $this->redirect('members/edit?id=' . $this->member->getId());
+    }
+    
     protected function processSort()
     {
         $this->sort_namespace = 'backend/members/sort';
