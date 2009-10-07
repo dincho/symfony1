@@ -30,7 +30,8 @@ class subscriptionActions extends prActions
                 $this->redirect('subscription/payment?subscription_id=' . $subscription->getId());
             } else
             {
-                $this->setFlash('msg_error', 'You have not made any changes.', false);
+                $this->setFlash('msg_ok', 'Your Subscription has been updated');
+                $this->redirect('@dashboard');
             }
         }
     }

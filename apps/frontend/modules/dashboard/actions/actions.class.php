@@ -217,14 +217,9 @@ class dashboardActions extends prActions
                 $member->setEmailNotifications($this->getRequestParameter('email_notifications', 0));
             }
             
-            if( $member->isModified() )
-            {
-                $member->save();
-                $this->setFlash('msg_ok', 'Your Email Notifications Settings have been updated');
-                $this->redirect('dashboard/index');
-            }
-            
-            $this->setFlash('msg_error', 'You have not made any changes.', false);
+            $member->save();
+            $this->setFlash('msg_ok', 'Your Email Notifications Settings have been updated');
+            $this->redirect('dashboard/index');
         }
         $this->member = $member;
     }
@@ -247,19 +242,14 @@ class dashboardActions extends prActions
             if( $this->getRequestParameter('dont_use_photos', 0) == 1) $member->setPublicSearch(false);
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
             
-            if( $modified )
+            if( $modified && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
             {
-              if( $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
-              {
-                $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.');
-              } else {
-                $member->save();
-                $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
-                $this->redirect('dashboard/index');                
-              }
+              $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
             } else {
-              $this->setFlash('msg_error', 'You have not made any changes.', false);
-            }
+              $member->save();
+              $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
+              $this->redirect('dashboard/index');                
+            }            
         }
         
         $this->member = $member;

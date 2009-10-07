@@ -24,8 +24,6 @@ class editProfileActions extends prActions
             $member->setCityId($city->getId());
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
-            $update_confirmation = $member->isModified(); //using this to determine if some field is changed, before changing the passwords.
-            $update_msg = 'Your Registration Information has been updated';
             
             $flash_error = '';
             if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
@@ -42,7 +40,6 @@ class editProfileActions extends prActions
                     $member->setPassword($this->getRequestParameter('password'));
                     $member->setMustChangePwd(false);
                     $this->getUser()->setAttribute('must_change_pwd', false);
-                    $update_confirmation = true;
                 } else
                 {
                     $flash_error .= 'IMPORTANT! Your password change is complete!';
@@ -51,17 +48,10 @@ class editProfileActions extends prActions
                 }
             }
             
-            if( $flash_error || $update_confirmation )
-            {
-                if ($flash_error) $this->setFlash('msg_error', $flash_error);
-                if ($update_confirmation) $this->setFlash('msg_ok', $update_msg);
-                
-	            $member->save();
-	            $this->redirect('dashboard/index'); //the dashboard
-                            
-            } else {
-            	$this->setFlash('msg_error', 'You have not made any changes.', false);
-            }
+            $member->save();
+            if ($flash_error) $this->setFlash('msg_error', $flash_error); //password and email changes
+            $this->setFlash('msg_ok', 'Your Registration Information has been updated');
+            $this->redirect('dashboard/index'); //the dashboard
         }
         $this->member = $member;
     }
@@ -234,19 +224,19 @@ class editProfileActions extends prActions
     
     protected function hasValidAnswerForOtherLang($question_id)
     {
-    	$answers = $this->getRequestParameter('answers');
-    	$question_answers = $answers[$question_id];
+      $answers = $this->getRequestParameter('answers');
+      $question_answers = $answers[$question_id];
         
-    	$has_one_answer = false;
+      $has_one_answer = false;
         for($i=1; $i<5; $i++)
         {
-        	if( $question_answers[$i] )
-        	{
-        		$has_one_answer = true;
-        		if( !$question_answers['lang_levels'][$i] ) return false;
-        	}
+          if( $question_answers[$i] )
+          {
+            $has_one_answer = true;
+            if( !$question_answers['lang_levels'][$i] ) return false;
+          }
         }
-    	
+      
         return $has_one_answer;
     }
 
@@ -275,11 +265,10 @@ class editProfileActions extends prActions
             {
                 $this->member->save();
                 $this->member->clearCache();
-                $this->setFlash('msg_ok', 'Your Posting have been updated');
-                $this->redirect('dashboard/index');
             }
             
-            $this->setFlash('msg_error', 'You have not made any changes.', false);
+            $this->setFlash('msg_ok', 'Your Posting have been updated');
+            $this->redirect('dashboard/index');
         }
     }
 
