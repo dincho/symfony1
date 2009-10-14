@@ -1,11 +1,11 @@
 default:
-    beta_period:        off
+    beta_period:        on
     brand_text:         LoveStreet.pl
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
-    version:            "v1.2.4/HEAD"
+    version:            "v1.2.5/HEAD"
     mail:
         host:           imap.gmail.com
         port:           993 #should be 993 on production/test server
