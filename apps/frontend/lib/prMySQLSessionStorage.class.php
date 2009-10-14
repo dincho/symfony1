@@ -58,7 +58,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
   public function sessionGC($lifetime)
   {
     // determine deletable session time
-    $time = time() - $lifetime;
+    $time = time() - $lifetime + 10; //10 more seconds, because of bad session drops when garbage collector runs when creating new session and times are equal ( why ? )
 
     // get table/column
     $db_table    = $this->getParameterHolder()->get('db_table');
