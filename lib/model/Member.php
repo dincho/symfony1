@@ -100,6 +100,7 @@ class Member extends BaseMember
             if( ($this->getMemberStatusId() == MemberStatusPeer::PENDING ) && $StatusId == MemberStatusPeer::ACTIVE )
             {
                 Events::triggerWelcomeApproved($this);
+                $this->updateMatches();
             }
             
             $old_status_id = $this->getMemberStatusId();
