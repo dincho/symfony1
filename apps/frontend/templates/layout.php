@@ -6,12 +6,10 @@
 <?php include_metas() ?>
 
 <?php include_title() ?>
-<?php if (file_exists(sfConfig::get('sf_web_dir').'/favicons/'.$_SERVER['HTTP_HOST'].'.ico')): ?>
-<?php echo '<link rel="shortcut icon" href="/favicons/'.$_SERVER['HTTP_HOST'].'.ico" />' ?>
-<?php else: ?>
-<link rel="shortcut icon" href="/favicon.ico" />
-<?php endif; ?>
+<?php require_once(dirname(__FILE__).'/_favicon.inc.php'); ?>
+
 </head>
+
 <body>
     <?php if( $sf_user->isAuthenticated() && 
               $sf_user->getAttribute('status_id') == MemberStatusPeer::ABANDONED && 

@@ -6,8 +6,7 @@
 <?php include_metas() ?>
 
 <?php include_title() ?>
-
-<link rel="shortcut icon" href="/favicon.ico" />
+<?php require_once(dirname(__FILE__).'/_favicon.inc.php'); ?>
 
 </head>
 <body>
