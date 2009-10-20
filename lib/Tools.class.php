@@ -29,7 +29,7 @@ class Tools
 
     public static function truncate($text, $numb, $etc = '...', $plain = true)
     {
-        $text = html_entity_decode($text, ENT_QUOTES);
+        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         if($plain) $text = strip_tags($text);
         if(strlen($text) > $numb)
         {
