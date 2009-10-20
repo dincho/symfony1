@@ -62,11 +62,12 @@ class GeoPeer extends BaseGeoPeer
         return $ret;
     }
 
-    public static function getPopulatedPlaceByName($name, $adm1_id = null, $adm2_id = null)
+    public static function getPopulatedPlaceByName($name, $country, $adm1_id = null, $adm2_id = null)
     {   
         $c = new Criteria();
         $c->add(GeoPeer::DSG, 'PPL');
         $c->add(GeoPeer::NAME, $name);
+        $c->add(GeoPeer::COUNTRY, $country);
 
         if( $adm1_id && $adm1 = self::retrieveByPK($adm1_id) )
         {

@@ -34,7 +34,10 @@ $descAnswers = DescAnswerPeer::getAnswersAssoc();
 $weights = array(21 => 'Very Important', 8 => 'Important', 3 => 'Somehow Important', 1 => 'Not Important');
 $generate_number = isset($argv[1]) ? min((int) $argv[1], 500) : 10; //default 10, max 500 cause of memory overload
 $num_photos = isset($argv[2]) ? (int) $argv[2] : 0;
+$max_memory_usage = 248 * 1024 * 1024; //248MB
 
+echo 'Initial Memory: ' . number_format(memory_get_usage(), 0, '.', ',') . " bytes\n";
+echo "--------------------------------------------\n";
 
 for( $i=1; $i<=$generate_number; $i++):
 
@@ -44,13 +47,13 @@ $looking_for = $sex_arr[rand(0,1)];
 
 $first_name = RandomGenerator::getFirstname($sex);
 $surname = RandomGenerator::getSurname();
-$username = $first_name . '_' . $surname;
+$username = $first_name . '_' . $surname . rand(1, 99999);
 
 echo "Generating member - $i: " . $username . "\n";
 
 $member = new Member();
 $member->setUsername( $username  );
-$member->setPassword($username);
+$member->setPassword('123qwe');
 $member->setFirstName($first_name);
 $member->setLastName($surname);
 $member->setEmail($username .  '@polishromance.com');
@@ -101,18 +104,24 @@ if( $adm1 )
     {
         echo "\tADM2: " . $adm2->getName() . "\n";
         $member->setAdm2Id($adm2->getId());
-        $c->add(GeoPeer::ADM2, $adm2->getName());   
+        $c->add(GeoPeer::ADM2, $adm2->getName());
+        unset($adm2);
     }
+    
+    unset($adm1);
 }
 
 $c->add(GeoPeer::DSG, "PPL");
 $city = GeoPeer::doSelectOne($c);
+$c->clear();
+unset($c);
 
 if( $city )
 {
     $member->setCityId($city->getId());
     echo "\tCity: " .$city->getName() . "\n";
 }
+unset($city);
 
 /** END GEO **/
 $member->setLanguage($languages[$country_rand]);
@@ -126,6 +135,7 @@ $sub_history->setSubscriptionId($sub_id);
 $sub_history->setFromDate(null);
 $sub_history->setMemberStatusId($member->getMemberStatusId());
 $member->addSubscriptionHistory($sub_history);
+unset($sub_history);
 
 $member->setCreatedAt(Tools::randomTimestamp());
 $member->setLastActivity(Tools::randomTimestamp());
@@ -136,14 +146,15 @@ $status_history->setMemberStatusId($member->getMemberStatusId());
 $status_history->setFromStatusId(null);
 //$status_history->setCreatedAt(Tools::randomTimestamp());
 $status_history->setFromDate(null);
-
 $member->addMemberStatusHistory($status_history);
+unset($status_history);
 
 
 $counter = new MemberCounter();
 $counter->setCurrentFlags(0); //set 1 field, so save to work
 $counter->save();
 $member->setMemberCounter($counter);
+unset($counter);
 
 if( $num_photos > 0)
 {
@@ -155,6 +166,7 @@ if( $num_photos > 0)
         $photo->updateImageFromFile('file', $photos[$sex][$rand_photo]);
         if( $p==1 ) $member->setMemberPhoto($photo);
         $member->addMemberPhoto($photo);
+        unset($photo);
     }
 }
 
@@ -167,7 +179,8 @@ foreach ($descQuestions as $descQuestion)
         $member_answer = new MemberDescAnswer();
         $member_answer->setDescQuestionId($descQuestion->getId());
         $member_answer->setDescAnswerId($descAnswers[$descQuestion->getId()][$rand_answer_n]->getId());
-        $member->addMemberDescAnswer($member_answer);           
+        $member->addMemberDescAnswer($member_answer);
+        unset($member_answer);
     }
 }
 
@@ -185,19 +198,19 @@ foreach ($descQuestions as $descQuestion)
         $search_crit_desc->setDescAnswers($descAnswers[$descQuestion->getId()][$rand_answer_n1]->getId() . ',' . $descAnswers[$descQuestion->getId()][$rand_answer_n2]->getId());
         $search_crit_desc->setMatchWeight(array_rand($weights));
         $member->addSearchCritDesc($search_crit_desc);
+        unset($search_crit_desc);
     }    
 }
 
 //saving
 $member->save();
-
-
-//free some memory
 unset($member);
-unset($counter);
-unset($status_history);
-unset($photo);
-unset($member_answer);
-unset($search);
+
+if( memory_get_usage() > $max_memory_usage ) 
+{
+  echo "Breaking the loop because of hight memory usage: " . number_format(memory_get_usage(), 0, '.', ',') . " bytes\n";
+  break;
+}
 
 endfor;
+

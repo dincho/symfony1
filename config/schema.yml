@@ -4,6 +4,12 @@ propel:
     sess_data:            { type: longvarchar, required: true }
     sess_time:            { type: bigint, size: 20, required: true }
     user_id:              { type: integer, required: false, default: null }
+    _uniques:
+      sess_id:            [sess_id]
+      user_sess:          [user_id, sess_id]
+    _indexes:
+      sess_time:          [sess_time]
+      
   user: #admin users
     id:
     username:             { type: varchar, size: 20, required: true }
@@ -45,6 +51,10 @@ propel:
     item_type:              { type: integer, size: 1, default: 0 }
     netmask:                { type: integer, size: 2, default: 24 }
     created_at:
+    _uniques:
+      uniq_item_type:       [item, item_type]
+    _indexes:
+      item_type:            [item_type]
   state:
     id:
     country:                { type: char, size: 2, required: true, index: true }
@@ -111,6 +121,9 @@ propel:
     original_first_name:      { type: varchar, size: 80, required: true }  
     original_last_name:       { type: varchar, size: 80, required: true }
     last_subscription_change: { type: timestamp }
+    _uniques:
+      username:               [username]
+      email:                  [email]
   member_status:
     id:
     title:                    { type: varchar, size: 255 }
@@ -311,6 +324,9 @@ propel:
     is_replied:               { type: boolean, default: false, required: true }
     is_system:                { type: boolean, default: false, required: true }
     created_at:
+    _indexes:
+      msg_from:               [from_member_id, sent_box]
+      msg_to:                 [to_member_id, sent_box]
   hotlist:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -370,6 +386,8 @@ propel:
     date_created:   { type: integer, size: 11, required: true,  default: 0 }
     date_modified:  { type: integer, size: 11, required: true,  default: 0 }
     author:         { type: varchar, size: 255, required: true,  default: '' }
+    _uniques:
+      name:         [name]
   trans_unit:
     id:
     cat_id:                 { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
@@ -420,10 +438,16 @@ propel:
     description:        { type: longvarchar, required: true }
     content:            { type: longvarchar, required: true }
     stock_photo_id:     { type: integer, required: false, foreignTable: stock_photo, foreignReference: id, onDelete: setnull }
+    _uniques:
+      slug:             [slug]
+    _indexes:           
+      culture:          [culture]
   homepage_member_story:
     id:
     member_stories:     { type: varchar, size: 255 }
     homepage_culture:   { type: varchar, size: 7 }
+    _indexes:
+      homepage_culture: [homepage_culture]
   notification:
     id:
     name:           { type: varchar, size: 255 }
@@ -443,6 +467,10 @@ propel:
     id:
     notification_id:
     event:           { type: tinyint }
+    _uniques:
+      event_notify:  [notification_id, event]
+    _indexes:
+      event:         [event]
   web_email:
     id:
     subject:        { type: varchar, size: 255 }
@@ -454,6 +482,8 @@ propel:
     member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     pct:            { type: tinyint, required: true, default: 0 }
+    _uniques:
+      member_match: [member1_id, member2_id]
   ipn_history:
     id:
     parameters:         { type: longvarchar }

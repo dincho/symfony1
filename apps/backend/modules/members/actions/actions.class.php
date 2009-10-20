@@ -85,7 +85,7 @@ class membersActions extends sfActions
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
             $member->setAdm2Id($this->getRequestParameter('adm2_id'));
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'));  //this will avoid AJAX "sync" issues
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getCountry());  //this will avoid AJAX "sync" issues
             $member->setCityId($city->getId());
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
@@ -233,7 +233,7 @@ class membersActions extends sfActions
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setAdm1Id(($this->getRequestParameter('adm1_id')) ? $this->getRequestParameter('adm1_id') : null);
             $this->member->setAdm2Id(($this->getRequestParameter('adm2_id')) ? $this->getRequestParameter('adm2_id') : null);
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $this->member->getAdm1Id(), $this->member->getAdm2Id());  //this will avoid AJAX "sync" issues
+            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $this->member->getCountry(), $this->member->getAdm1Id(), $this->member->getAdm2Id());  //this will avoid AJAX "sync" issues
             $this->member->setCityId($city->getId());
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
