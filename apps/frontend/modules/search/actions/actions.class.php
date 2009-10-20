@@ -257,7 +257,10 @@ class searchActions extends prActions
         //remove continents out of the array ( first 30 elements )
         $countries = array_slice($countries, 30);
         asort($countries);
-        $this->countries = $countries;
+        $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
+        $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
+        $countries_columns['right'] = array_slice($countries, 82+86); //right
+        $this->countries_columns = $countries_columns;
 
         $this->adm1s = GeoPeer::getCountriesWithStates();
     }
@@ -273,7 +276,10 @@ class searchActions extends prActions
         //remove continents out of the array ( first 30 elements )
         $countries = array_slice($countries, 30);
         asort($countries);
-        $this->countries = $countries;
+        $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
+        $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
+        $countries_columns['right'] = array_slice($countries, 82+86); //right
+        $this->countries_columns = $countries_columns;
 
         $this->adm1s = GeoPeer::getCountriesWithStates(); 
 
