@@ -30,7 +30,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     $sql = 'UPDATE '.$db_table.' ' .
            'SET '.$db_data_col.' = \''.$data.'\', ' .
            $db_user_id_col.' = \''.$user_id.'\', ' .
-           $db_time_col.' = '.time().' ' .
+           $db_time_col.' = NOW() ' .
            'WHERE '.$db_id_col.' = \''.$id.'\'';
 
     //sfLogger::getInstance()->info('Session write SQL: ' . $sql);
@@ -45,37 +45,4 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
 
     throw new sfDatabaseException($error);
   }
-  
-  /**
-   * Cleans up old sessions.
-   *
-   * @param int The lifetime of a session in seconds
-   *
-   * @return boolean true, if old sessions have been cleaned, otherwise an exception is thrown
-   *
-   * @throws <b>sfDatabaseException</b> If any old sessions cannot be cleaned
-   */
-  public function sessionGC($lifetime)
-  {
-    // determine deletable session time
-    $time = time() - $lifetime + 10; //10 more seconds, because of bad session drops when garbage collector runs when creating new session and times are equal ( why ? )
-
-    // get table/column
-    $db_table    = $this->getParameterHolder()->get('db_table');
-    $db_time_col = $this->getParameterHolder()->get('db_time_col', 'sess_time');
-
-    // delete the record associated with this id
-    $sql = 'DELETE FROM '.$db_table.' '.
-           'WHERE '.$db_time_col.' < '.$time;
-
-    if (@mysql_query($sql, $this->resource))
-    {
-      return true;
-    }
-
-    // failed to cleanup old sessions
-    $error = 'MySQLSessionStorage cannot delete old sessions';
-
-    throw new sfDatabaseException($error);
-  }  
 }

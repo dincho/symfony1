@@ -2,7 +2,7 @@ propel:
   session_storage:
     sess_id:              { type: varchar, size: 255, required: true }
     sess_data:            { type: longvarchar, required: true }
-    sess_time:            { type: bigint, size: 20, required: true }
+    sess_time:            { type: timestamp, required: true }
     user_id:              { type: integer, required: false, default: null }
     _uniques:
       sess_id:            [sess_id]
