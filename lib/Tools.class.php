@@ -142,5 +142,19 @@ class Tools
         return $age;
     }
 
+    public static function getSFCountries()
+    {
+      $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+      $countries = $c->getCountries();
+    
+      //remove continents out of the array ( first 30 elements )
+      $countries = array_slice($countries, 30);
+      //remove some non-countries
+      unset($countries['QU'], $countries['ZZ'], $countries['QO']);
+      
+      asort($countries);
+      
+      return $countries;
+    }
 }
 ?>

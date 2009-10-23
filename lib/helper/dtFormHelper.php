@@ -121,12 +121,8 @@ function looking_for_options_admin($sex, $lookingfor, $html_options = array())
 
 function pr_select_country_tag($name, $selected = null, $options = array())
 {
-    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
-    $countries = $c->getCountries();
+    $countries = Tools::getSfCountries();
     
-    //remove continents out of the array ( first 30 elements )
-    $countries = array_slice($countries, 30);
-        
     if ($country_option = _get_option($options, 'countries'))
     {
         foreach ($countries as $key => $value)

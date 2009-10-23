@@ -252,11 +252,7 @@ class searchActions extends prActions
         
         $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
         
-        $c = new sfCultureInfo($user->getCulture());
-        $countries = $c->getCountries();
-        //remove continents out of the array ( first 30 elements )
-        $countries = array_slice($countries, 30);
-        asort($countries);
+        $countries = Tools::getSfCountries();
         $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
         $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
         $countries_columns['right'] = array_slice($countries, 82+86); //right
@@ -271,11 +267,7 @@ class searchActions extends prActions
         $user->getBC()->add(array('name' => 'Select Countries', 'search/selectCountries'));
             	
         $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
-        $c = new sfCultureInfo($user->getCulture());
-        $countries = $c->getCountries();
-        //remove continents out of the array ( first 30 elements )
-        $countries = array_slice($countries, 30);
-        asort($countries);
+        $countries = Tools::getSfCountries();
         $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
         $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
         $countries_columns['right'] = array_slice($countries, 82+86); //right
