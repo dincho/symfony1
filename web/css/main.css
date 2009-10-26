@@ -21,6 +21,8 @@ img {
 
 .clear {
     clear: both;
+    height: 1px;
+    font-size: 1px;
 }
 
 .float-left {
@@ -1711,7 +1713,7 @@ div.best_video div.right img {
 
 #under_index_image h2 {
     color: #787880;
-    margin: 40px auto 0 auto;
+    margin: 33px auto 0 auto;
     font-size: 20px;
     font-family: Myriad, Myriad Pro, sans-serif;
     font-weight: bold;
