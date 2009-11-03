@@ -1714,8 +1714,8 @@ div.best_video div.right img {
 #under_index_image h2 {
     color: #787880;
     margin: 33px auto 0 auto;
+    font-family: Myriad, Myriad Pro, Arial, sans-serif;
     font-size: 20px;
-    font-family: Myriad, Myriad Pro, sans-serif;
     font-weight: bold;
     letter-spacing: 3px;
     text-align: center;
@@ -1723,6 +1723,10 @@ div.best_video div.right img {
     height: 22px;
     width: 307px;
     padding-bottom: 2px;
+}
+
+#under_index_image:first-child h2 {
+  font-size: 19px;
 }
 
 #register a:hover {
