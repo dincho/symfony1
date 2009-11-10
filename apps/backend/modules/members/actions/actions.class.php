@@ -562,7 +562,7 @@ class membersActions extends sfActions
         $this->member->setIsStarred(! $this->member->IsStarred());
         $this->member->save();
         
-        $this->redirect('members/list');
+        $this->redirect($this->getUser()->getRefererUrl());
     }
 
     public function executeAddNote()
