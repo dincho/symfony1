@@ -49,7 +49,7 @@ class transUnitsActions extends sfActions
     
     public function executeTagList()
     {
-    	$this->tags = TransUnitPeer::getTagsList();
+      $this->tags = TransUnitPeer::getTagsList();
     }
     
     
@@ -67,7 +67,7 @@ class transUnitsActions extends sfActions
     
     public function handleErrorCreate()
     {
-    	return sfView::SUCCESS;
+      return sfView::SUCCESS;
     }
 
     public function executeEdit()
@@ -78,12 +78,12 @@ class transUnitsActions extends sfActions
         
         if( $trans_unit->getCatId() != 1)
         {
-	        $c = new Criteria();
-	        $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
-	        $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
-	        $en_trans_unit = TransUnitPeer::doSelectOne($c);
-	        $this->forward404Unless($en_trans_unit);
-	        $this->en_trans_unit = $en_trans_unit;
+          $c = new Criteria();
+          $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+          $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
+          $en_trans_unit = TransUnitPeer::doSelectOne($c);
+          $this->forward404Unless($en_trans_unit);
+          $this->en_trans_unit = $en_trans_unit;
         }
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
@@ -130,8 +130,8 @@ class transUnitsActions extends sfActions
             $this->forward404Unless($en_trans_unit);
             $this->en_trans_unit = $en_trans_unit;
         }
-            	
-    	return sfView::SUCCESS;
+              
+      return sfView::SUCCESS;
     }
     
     public function executeDelete()
@@ -172,6 +172,11 @@ class transUnitsActions extends sfActions
         if (isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             $c->add(TransUnitPeer::SOURCE, '%' . $this->filters['search_query'] . '%', Criteria::LIKE);
+        }
+        
+        if (isset($this->filters['target']) && strlen($this->filters['target']) > 0)
+        {
+            $c->add(TransUnitPeer::TARGET, '%' . $this->filters['target'] . '%', Criteria::LIKE);
         }        
               
         if (isset($this->filters['tags']) && strlen($this->filters['tags']) > 0)

@@ -11,6 +11,10 @@
         <?php echo input_tag('filters[search_query]', ( isset($filters['search_query']) ) ? $filters['search_query'] : null) ?>    
     </fieldset>
     <fieldset class="search_fields">
+        <label for="target">Target:</label><br />
+        <?php echo input_tag('filters[target]', ( isset($filters['target']) ) ? $filters['target'] : null) ?>    
+    </fieldset>    
+    <fieldset class="search_fields">
         <label for="tags">Tags:</label><br />
         <?php echo input_tag('filters[tags]', ( isset($filters['tags']) ) ? $filters['tags'] : null) ?>    
     </fieldset>
