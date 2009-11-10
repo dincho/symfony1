@@ -231,10 +231,9 @@ class membersActions extends sfActions
         {
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setCountry($this->getRequestParameter('country'));
-            $this->member->setAdm1Id(($this->getRequestParameter('adm1_id')) ? $this->getRequestParameter('adm1_id') : null);
-            $this->member->setAdm2Id(($this->getRequestParameter('adm2_id')) ? $this->getRequestParameter('adm2_id') : null);
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $this->member->getCountry(), $this->member->getAdm1Id(), $this->member->getAdm2Id());  //this will avoid AJAX "sync" issues
-            $this->member->setCityId($city->getId());
+            $this->member->setAdm1Id($this->getRequestParameter('adm1_id'));
+            $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $this->member->setCityId($this->getRequestParameter('city_id'));
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
             if ($this->getRequestParameter('password')) //password changed
@@ -244,6 +243,9 @@ class membersActions extends sfActions
             $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editRegistration?id=' . $this->member->getId());
+        } else {
+          $this->has_adm1 = ( !is_null($this->member->getAdm1Id()) ) ? true : false;
+          $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;          
         }
     }
     
@@ -279,6 +281,18 @@ class membersActions extends sfActions
     {
         $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($this->member); //just in case
+        
+        $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
+        
+        if( $this->getRequestParameter('adm1_id') && 
+            $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
+          )
+        {
+          $this->has_adm2 = $adm1->hasAdm2Areas();
+        } else {
+          $this->has_adm2 = false;
+        } 
+                
         return sfView::SUCCESS;
     }
 

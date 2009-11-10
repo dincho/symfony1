@@ -9,6 +9,14 @@
  */ 
 class GeoPeer extends BaseGeoPeer
 {
+    public static function hasAdm1AreasIn($country)
+    {
+      $c = new Criteria();
+      $c->add(GeoPeer::COUNTRY, $country);
+      $c->add(GeoPeer::DSG, "ADM1", Criteria::EQUAL);
+      return self::doCount($c);
+    }
+  
     public static function getAllByCountry($country)
     {
         $c = new Criteria();
@@ -31,6 +39,25 @@ class GeoPeer extends BaseGeoPeer
         
         return GeoPeer::doSelect($c);
     }
+    
+    public static function getAdm1ByCountryAndPK($country, $pk)
+    {
+      $c = new Criteria();
+      $c->add(GeoPeer::DSG, 'ADM1');
+      $c->add(GeoPeer::COUNTRY, $country);
+      $c->add(GeoPeer::ID, $pk);
+      return self::doSelectOne($c);
+    }
+    
+    public static function getAdm2ByCountryAdm1AndPK($country, $adm1, $pk)
+    {
+      $c = new Criteria();
+      $c->add(GeoPeer::DSG, 'ADM2');
+      $c->add(GeoPeer::COUNTRY, $country);
+      $c->add(GeoPeer::ADM1, $adm1);
+      $c->add(GeoPeer::ID, $pk);
+      return self::doSelectOne($c);
+    }  
     
     public static function getCountriesWithStates()
     {
@@ -80,5 +107,24 @@ class GeoPeer extends BaseGeoPeer
         }        
         
         return GeoPeer::doSelectOne($c);
-    } 
+    }
+    
+    public static function getPopulatedPlaces($country, $adm1_id = null, $adm2_id = null)
+    {   
+        $c = new Criteria();
+        $c->add(GeoPeer::DSG, 'PPL');
+        $c->add(GeoPeer::COUNTRY, $country);
+
+        if( $adm1_id && $adm1 = self::retrieveByPK($adm1_id) )
+        {
+          $c->add(GeoPeer::ADM1, $adm1->getName());
+        }
+        
+        if( $adm2_id && $adm2 = self::retrieveByPK($adm2_id) )
+        {
+          $c->add(GeoPeer::ADM2, $adm2->getName());
+        }        
+        
+        return GeoPeer::doSelect($c);
+    }  
 }

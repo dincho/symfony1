@@ -73,4 +73,25 @@ class geoActions extends sfActions
         
         $this->list = $list;
     }
+    
+    public function executeGetCities()
+    {
+      $cities = GeoPeer::getPopulatedPlaces($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'), $this->getRequestParameter('adm2_id'));
+      
+      if ( $cities )
+      {
+          $cities_tmp = array();
+          foreach ($cities as $city)
+          {
+              $tmp['id'] = $city->getId();
+              $tmp['title'] = $city->getName();
+              $cities_tmp[] = $tmp;
+          }
+          
+          $output = json_encode($cities_tmp);
+          $this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
+      }
+      
+      return sfView::HEADER_ONLY;
+    }
 }

@@ -7,9 +7,9 @@ class prGeoValidator extends sfValidator
         $country_iso = $request->getParameter('country');
         $adm1_id = $request->getParameter('adm1_id');
         $adm2_id = $request->getParameter('adm2_id');
-        $city_name = $request->getParameter('city');
+        $city_id = $request->getParameter('city_id');
         
-        if ( !$country_iso )
+        if ( !$country_iso || !ctype_alpha($country_iso) )
         {
             $error['field_name'] = 'country';
             $error['msg'] = 'Please select your country of residence';
@@ -74,21 +74,20 @@ class prGeoValidator extends sfValidator
         }
         
         
-        if ( !$city_name )
+        if ( !$city_id )
         {
-            $error['field_name'] = 'city';
+            $error['field_name'] = 'city_id';
             $error['msg'] = 'Please provide city where live.';
             return false;
         }
         
         $c->add(GeoPeer::DSG, 'PPL');
-        $c->add(GeoPeer::NAME, $city_name);
-        $c->remove(GeoPeer::ID);
+        $c->add(GeoPeer::ID, $city_id);
         $city = GeoPeer::doSelectOne($c);
         
         if( !$city )
         {
-            $error['field_name'] = 'city';
+            $error['field_name'] = 'city_id';
             $error['msg'] = 'No such city in selected country/areas';
             return false;            
         }

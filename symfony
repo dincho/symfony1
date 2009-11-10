@@ -1,4 +1,4 @@
-#!/usr/bin/env php -c /etc/php.cli.ini
+#!/usr/bin/env php
 <?php
 
 /*

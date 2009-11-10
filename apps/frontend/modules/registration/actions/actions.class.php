@@ -112,8 +112,7 @@ class registrationActions extends prActions
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
             $member->setAdm2Id($this->getRequestParameter('adm2_id'));
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getCountry(), $member->getAdm1Id(), $member->getAdm2Id());  //this will avoid AJAX "sync" issues
-            $member->setCityId($city->getId());
+            $member->setCityId($this->getRequestParameter('city_id'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             
@@ -135,6 +134,9 @@ class registrationActions extends prActions
                   $this->redirect('registration/index?confirm=1' );
               }
             }
+        } else {
+          $this->has_adm1 = ( !is_null($member->getAdm1Id()) ) ? true : false;
+          $this->has_adm2 = ( !is_null($member->getAdm2Id()) ) ? true : false;
         }
         
         if( $this->hasRequestParameter('confirm') ) 
@@ -197,6 +199,17 @@ class registrationActions extends prActions
         
         $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
         $this->forward404Unless($this->member); //just in case
+        
+        $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
+        
+        if( $this->getRequestParameter('adm1_id') && 
+            $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
+          )
+        {
+          $this->has_adm2 = $adm1->hasAdm2Areas();
+        } else {
+          $this->has_adm2 = false;
+        }        
         
        return sfView::SUCCESS;
     }

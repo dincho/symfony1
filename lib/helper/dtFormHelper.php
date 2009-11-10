@@ -325,6 +325,97 @@ function pr_object_select_adm2_tag($object, $method, $options = array(), $defaul
     return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
 }
 
+function pr_object_select_city_tag($object, $method, $options = array(), $default_value = null)
+{
+    use_helper('Object');
+    
+    $options = _parse_attributes($options);
+    
+    $related_class = _get_option($options, 'related_class', false);
+    if (false === $related_class && preg_match('/^get(.+?)Id$/', $method, $match))
+    {
+        $related_class = $match[1];
+    }
+    
+    $text_method = _get_option($options, 'text_method');
+    
+    $request = sfContext::getInstance()->getRequest();
+    $country = $request->getParameter('country', $object->getCountry());
+    $c = new Criteria();
+    $c->add(GeoPeer::COUNTRY, $country);
+    $c->add(GeoPeer::DSG, 'PPL');
+    
+    $has_adm1 = GeoPeer::hasAdm1AreasIn($country);
+    
+    if( $has_adm1 )
+    {
+      if( $request->getParameter('adm1_id') )
+      {
+        $adm1 = GeoPeer::getAdm1ByCountryAndPK($country, $request->getParameter('adm1_id'));
+      } else {
+        $adm1 = $object->getAdm1();
+      }
+    }
+    
+    if( $has_adm1 && $adm1 ) //adm1 selected
+    {
+      $has_adm2 = $adm1->hasAdm2Areas();
+      
+      $c->add(GeoPeer::ADM1, $adm1->getName());
+      
+      if( $has_adm2 )
+      {
+        if( $request->getParameter('adm2_id') )
+        {
+          $adm2 = GeoPeer::getAdm2ByCountryAdm1AndPK($country, $adm1->getName(), $request->getParameter('adm2_id'));
+        } else {
+          $adm2 = $object->getAdm2();
+        }
+        
+        //adm2 selected
+        if( $adm2 ) $c->add(GeoPeer::ADM2, $adm2->getName());
+      }
+    }
+    
+    if( ($has_adm1 && !$adm1) || ( $has_adm1 && $adm1 && $has_adm2 && !$adm2 ) )
+    {
+      //what ?
+    } else {
+      $cities = GeoPeer::doSelect($c);
+      $select_options = _get_options_from_objects($cities, $text_method);
+    }
+    
+    
+    if(!isset($select_options) || empty($select_options))
+    {
+        $select_options = Array();
+        //we do not need custom options if the tag is empty
+        unset($options['include_custom'], $options['include_blank'], $options['include_title']);        
+    }
+    if ($value = _get_option($options, 'include_custom'))
+    {
+        $select_options = array('' => $value) + $select_options;
+    } else if (_get_option($options, 'include_title'))
+    {
+        $select_options = array('' => '-- ' . _convert_method_to_name($method, $options) . ' --') + $select_options;
+    } else if (_get_option($options, 'include_blank'))
+    {
+        $select_options = array('' => '') + $select_options;
+    }
+    
+    if (is_object($object))
+    {
+        $value = _get_object_value($object, $method, $default_value);
+    } else
+    {
+        $value = $object;
+    }
+    
+    $option_tags = options_for_select($select_options, $value, $options);
+    
+    return select_tag(_convert_method_to_name($method, $options), $option_tags, $options);
+}
+
 function pr_select_language_level($name, $selected = null, $options = array())
 {
     
