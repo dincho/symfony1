@@ -87,7 +87,7 @@ propel:
     city_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
     zip:                      { type: varchar, size: 20, required: true }
     nationality:              { type: varchar, size: 255, required: true }
-    language:                 { type: varchar, size: 3, required: true } #this filed is currently used only for match engine
+    language:                 { type: varchar, size: 3, required: true } #this filed is currently used for match engine and notifications
     birthday:                 { type: bu_date }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
     us_citizen:               { type: boolean, required: false }
@@ -451,18 +451,20 @@ propel:
   notification:
     id:
     name:           { type: varchar, size: 255 }
-    send_from:      { type: varchar, size: 255 }
-    send_to:        { type: varchar, size: 255 }
-    reply_to:       { type: varchar, size: 255 }
-    bcc:            { type: varchar, size: 255 }
     trigger_name:   { type: varchar, size: 255 }
-    subject:        { type: varchar, size: 255 }
-    body:           { type: longvarchar }
-    footer:         { type: longvarchar }
     is_active:      { type: boolean, required: true, default: false }
     to_admins:      { type: boolean, required: true, default: false }
     days:           { type: integer }
     whn:            { type: char, size: 1 } # when ... before after X days
+  notification_i18n:
+    send_from:      { type: varchar, size: 255 }
+    send_to:        { type: varchar, size: 255 }
+    reply_to:       { type: varchar, size: 255 }
+    bcc:            { type: varchar, size: 255 }    
+    subject:        { type: varchar, size: 255 }
+    body:           { type: longvarchar }
+    footer:         { type: longvarchar }
+      
   notification_event:
     id:
     notification_id:

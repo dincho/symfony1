@@ -206,7 +206,7 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)), 
-														 '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
+                             '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
         self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
@@ -242,12 +242,19 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
+        $culture = ( !is_null($object) && $object instanceof Member  && 
+                     ($object->getLanguage() == 'en' || $object->getLanguage() == 'pl') ) ? $object->getLanguage() : null;
+        
         $c = new Criteria();
         $c->add(NotificationEventPeer::EVENT, $event);
         $c->addJoin(NotificationPeer::ID, NotificationEventPeer::NOTIFICATION_ID);
         $c->add(NotificationPeer::IS_ACTIVE, true);
-        $notifications = NotificationPeer::doSelect($c);
+        $notifications = NotificationPeer::doSelectWithI18N($c, $culture);
         
-        foreach ($notifications as $notification) $notification->execute($global_vars, $addresses, $object, $mail_from);
+        foreach ($notifications as $notification) 
+        {
+          if( $notification->getToAdmins() ) $notification->setCulture('en'); //force admin notifications to English
+          $notification->execute($global_vars, $addresses, $object, $mail_from);
+        }
     }
 }

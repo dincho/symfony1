@@ -8,13 +8,13 @@ class prMail extends sfMail
 
     public function __construct()
     {
-        $this->mailer = new PHPMailer();
+        $this->mailer = new PHPMailer(true);
         
         //print_r($this->getMailer());exit();
-        //$this->mailer->SMTPDebug = true;
+        $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', false);
         $this->mailer->Host = sfConfig::get('app_mail_smtp_host', 'localhost');
         $this->mailer->Port = sfConfig::get('app_mail_smtp_port', 25);
-        $this->mailer->SMTPSecurity = 'ssl';
+        $this->mailer->SMTPSecure = sfConfig::get('app_mail_smtp_security', '');
         
 
         $this->setMailer(sfConfig::get('app_mail_mailer', 'mail'));

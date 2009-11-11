@@ -27,6 +27,7 @@ class notificationsActions extends sfActions
     {
         $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($notification);
+        $notification->setCulture($this->getRequestParameter('culture', 'en'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {

@@ -8,12 +8,14 @@ default:
     version:            "v1.2.5/HEAD"
     mail:
         host:           imap.gmail.com
-        port:           993 #should be 993 on production/test server
+        port:           993
         username:       incoming@polishdate.com
         password:       PD11837
         from:           admin@polishdate.com
         mailer:         smtp
-        smtp_host:      "ssl://smtp.gmail.com"
+        smtp_host:      "sslv2://smtp.gmail.com"
         smtp_port:      465
+        smtp_security:  off #security is set via host address socket transport
+        smtp_debug:     off
         smtp_username:  admin@polishdate.com
         smtp_password:  PD11837
