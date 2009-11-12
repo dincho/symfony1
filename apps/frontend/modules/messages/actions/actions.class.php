@@ -46,6 +46,28 @@ class messagesActions extends prActions
         }        
     }
     
+    public function validateIndex()
+    {
+      if( $this->getRequest()->getMethod() == sfRequest::POST && 
+          ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) )
+      {
+        $selected = $this->getRequestParameter('selected', array());
+        
+        if( empty($selected) )
+        {
+          $this->setFlash('msg_error', 'You must select at least one message to delete', false);
+          $this->redirect('messages/index');
+        }
+      }
+      
+      return true;
+    }
+    
+    public function handleErrorIndex()
+    {
+      return sfView::SUCCESS;
+    }
+    
     public function executeView()
     {
         $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
