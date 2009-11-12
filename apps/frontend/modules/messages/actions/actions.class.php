@@ -75,10 +75,10 @@ class messagesActions extends prActions
         
 
       $member = ( $message->getSentBox() ) ? $message->getMemberRelatedByToMemberId() : $from_member = $message->getMemberRelatedByFromMemberId();
-			if( !$member->isActive() ) 
-				$this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $member->getUsername())), false);
-				
-    	$this->message = $message;
+      if( !$member->isActive() ) 
+        $this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $member->getUsername())), false);
+        
+      $this->message = $message;
     }
     
     public function validateView()
@@ -307,19 +307,19 @@ class messagesActions extends prActions
             //2. Privacy
             $prPrivavyValidator = new prPrivacyValidator();
             $prPrivavyValidator->setProfiles($member, $profile);
-			$prPrivavyValidator->initialize($this->getContext(), array(
-			  'block_error' => 'You can not send message to this member!',
-			  'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
-			  'onlyfull_error' => 'This member accept messages only from paid members!',
-			));
-			
-			$error = '';
-			if( !$prPrivavyValidator->execute(&$value, &$error) )
-			{
-				$this->getRequest()->setError('privacy', $error);
-				return false;
-			}
-			
+      $prPrivavyValidator->initialize($this->getContext(), array(
+        'block_error' => 'You can not send message to this member!',
+        'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
+        'onlyfull_error' => 'This member accept messages only from paid members!',
+      ));
+      
+      $error = '';
+      if( !$prPrivavyValidator->execute(&$value, &$error) )
+      {
+        $this->getRequest()->setError('privacy', $error);
+        return false;
+      }
+      
             //3. subscription limits/restrictions ?
             $subscription = $member->getSubscription();
             if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )

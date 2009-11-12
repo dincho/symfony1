@@ -104,14 +104,14 @@ class myUser extends sfBasicSecurityUser
                 $member->updateMatches();
                 $this->setAttribute('status_id', $member->getMemberStatusId());
 
-								//show congratulation message only if pre approve is OFF
+                //show congratulation message only if pre approve is OFF
                 if( $member->getSubscription()->getPreApprove() ) 
-								{
-									$action->message('status_pending');
-								} else {
-									$action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
-									$action->redirect('@my_profile');
-								}
+                {
+                  $action->message('status_pending');
+                } else {
+                  $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
+                  $action->redirect('@my_profile');
+                }
                 
             }
         }
@@ -139,7 +139,7 @@ class myUser extends sfBasicSecurityUser
                     $visit->setMemberRelatedByProfileId($profile);
                     $visit->save();
                     
-                    if($profile->getEmailNotifications() === 0) Events::triggerAccountActivity($profile);
+                    if($profile->getEmailNotifications() === 0) Events::triggerAccountActivityVisitor($profile, $this->getProfile());
                 }
                 
             } else

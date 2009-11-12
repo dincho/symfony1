@@ -495,7 +495,7 @@ propel:
     subscr_id:          { type: varchar, size: 255 }
     payment_status:     { type: varchar, size: 255 }
     paypal_response:    { type: varchar, size: 8 }
-    is_renewal:        { type: boolean, required: true, default: 0 }
+    is_renewal:         { type: boolean, required: true, default: 0 }
     member_subscr_id:   { type: integer, required: false }
     created_at:
   message_draft:
@@ -526,3 +526,17 @@ propel:
     id:
     geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
     file:                     { type: varchar, size: 255 }
+    
+  link:
+    id:
+    hash:              { type: char, size: 40, required: true } #sha1
+    login_as:          { type: integer }
+    uri:               { type: varchar, size: 255, required: true }
+    expires_at:        { type: timestamp }
+    lifetime:          { type: integer, required: false }
+    hit_count:         { type: integer, required: true }
+    created_at:
+    updated_at:
+    _uniques:
+      hash:         [hash]
+      

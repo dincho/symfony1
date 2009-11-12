@@ -14,3 +14,5 @@ emails:
   is_secure: off
 blockedUser:
   is_secure: off
+link:
+  is_secure: off

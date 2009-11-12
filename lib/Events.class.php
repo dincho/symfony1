@@ -35,6 +35,10 @@ class Events
     const REGISTRATION_REMINDER = 9;
     const LOGIN_REMINDER = 10;
     const ACCOUNT_ACTIVITY = 11;
+    const ACCOUNT_ACTIVITY_MESSAGE = 19;
+    const ACCOUNT_ACTIVITY_WINK = 20;
+    const ACCOUNT_ACTIVITY_HOTLIST = 21;
+    const ACCOUNT_ACTIVITY_VISITOR = 22;
     
     /* REGISTRATION EVENTS */
     public static function triggerJoin($member)
@@ -231,6 +235,47 @@ class Events
         $member->save();        
     }
     
+    public static function triggerAccountActivityMessage($member, $from_member)
+    {
+        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
+                             '{SENDER_USERNAME}' => $from_member->getUsername(),
+                            );
+        
+        
+        self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $member->getEmail(), $member);
+    }
+    
+    public static function triggerAccountActivityWink(BaseMember $member, BaseMember $from_member)
+    {
+        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
+                             '{SENDER_USERNAME}' => $from_member->getUsername(),
+                            );
+                            
+        self::executeNotifications(self::ACCOUNT_ACTIVITY_WINK, $global_vars, $member->getEmail(), $member);
+    }
+    
+    public static function triggerAccountActivityHotlist(BaseMember $member, BaseMember $from_member)
+    {
+        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
+                             '{SENDER_USERNAME}' => $from_member->getUsername(),
+                            );
+                            
+        self::executeNotifications(self::ACCOUNT_ACTIVITY_HOTLIST, $global_vars, $member->getEmail(), $member);
+    }
+    
+    public static function triggerAccountActivityVisitor(BaseMember $member, BaseMember $visitor)
+    {
+        $profile_url = LinkPeer::create('@profile?username=' . $visitor->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $global_vars = array('{VISITOR_PROFILE_URL}' => $profile_url,
+                             '{VISITOR_USERNAME}' => $visitor->getUsername(),
+                            );
+                            
+        self::executeNotifications(self::ACCOUNT_ACTIVITY_VISITOR, $global_vars, $member->getEmail(), $member);
+    }
+    
     /**
      * Sends emails to attached notifications for selected event
      *
@@ -242,8 +287,7 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
-        $culture = ( !is_null($object) && $object instanceof Member  && 
-                     ($object->getLanguage() == 'en' || $object->getLanguage() == 'pl') ) ? $object->getLanguage() : null;
+        $culture = ( !is_null($object) && $object instanceof Member ) ? $object->getCulture(null) : null;
         
         $c = new Criteria();
         $c->add(NotificationEventPeer::EVENT, $event);

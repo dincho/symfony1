@@ -49,7 +49,7 @@ class MessagePeer extends BaseMessagePeer
         }
                 
         Events::triggerFirstContact($message);
-        if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivity($to_member);
+        if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($to_member, $from_member);
 
         //update last activity
         $from_member->setLastActivity(time());

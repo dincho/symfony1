@@ -227,4 +227,27 @@ class contentActions extends prActions
         
         $this->adm1 = $adm1;
     }
+    
+    public function executeLink()
+    {
+      $hash = $this->getRequestParameter('hash');
+      $this->forward404Unless($hash);
+      
+      $link = LinkPeer::getByHash($hash);
+      $this->forward404Unless($hash);
+      
+      if( $link->isExpired() ) $this->message('expired_link');
+      
+      //login the member if needs to
+      //edge case: what if member is logged in, but not with the account that link should login ?
+      if( $link->getLoginAs() && !$this->getUser()->isAuthenticated() )
+      {
+        $member = MemberPeer::retrieveByPK($link->getLoginAs());
+        $this->forward404Unless($member);
+        
+        $this->getUser()->SignIn($member);
+      }
+      
+      $this->redirect($link->getUri());
+    }
 }

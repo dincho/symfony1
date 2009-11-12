@@ -572,4 +572,9 @@ class Member extends BaseMember
       sfToolkit::clearGlob($cache_dir.'/*/dashboard/profile/'.$this->getUsername()); //others views this 
       sfToolkit::clearGlob($cache_dir.'/*/myProfile*/content/_breadcrumb/'.$this->getId().'.cache'); //myProfile view
     }
+    
+    public function getCulture($default = 'en')
+    {
+      return in_array($this->getLanguage(), array('en', 'pl')) ? $this->getLanguage() : $default;
+    }
 }

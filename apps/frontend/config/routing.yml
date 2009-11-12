@@ -82,7 +82,11 @@ member_story_by_slug:
 ipn:
     url: /IPN/*
     param: { module: subscription, action: IPN, sf_culture: en }
-                      
+
+link:
+    url: /link/:hash
+    param: { module: content, action: link, sf_culture: en }
+    
 default_symfony:
   url:   /symfony/:action/*
   param: { module: default, sf_culture: en  }

@@ -134,7 +134,7 @@ class WinkPeer extends BaseWinkPeer
         $wink->save();
         $sent_wink->save();
         
-        if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivity($to_member);
+        if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivityWink($to_member, $from_member);
 
         return $sent_wink;
     }    

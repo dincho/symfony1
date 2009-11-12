@@ -44,12 +44,14 @@ class hotlistActions extends prActions
         $hotlist->setProfileId($profile->getId());
         $hotlist->save();
         
-        if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivity($profile);
-        if (!isset($n)) {
-        //confirm msg
-        $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
-        array('%USERNAME%' => $profile->getUsername()));
-        $this->setFlash('msg_ok', $msg_ok);
+        //@TODO what's this, probably if not undo ? ?!
+        if (!isset($n))
+        {
+          if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivityHotlist($profile, $this->getUser()->getProfile());
+          //confirm msg
+          $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
+          array('%USERNAME%' => $profile->getUsername()));
+          $this->setFlash('msg_ok', $msg_ok);
         }
         //$this->redirect('@profile?username=' . $profile->getUsername());
         $this->redirectToReferer();
