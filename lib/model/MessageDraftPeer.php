@@ -9,16 +9,16 @@
  */ 
 class MessageDraftPeer extends BaseMessageDraftPeer
 {
-	/**
-	 * Looks for existing draft or create new one
-	 *
-	 * @param int $id
-	 * @param int $from_member_id
-	 * @param int $to_member_id
-	 * @return MessageDraft
-	 */
-	public static function retrieveOrCreate($id, $from_member_id, $to_member_id, $reply_to = null)
-	{
+  /**
+   * Looks for existing draft or create new one
+   *
+   * @param int $id
+   * @param int $from_member_id
+   * @param int $to_member_id
+   * @return MessageDraft
+   */
+  public static function retrieveOrCreate($id, $from_member_id, $to_member_id, $reply_to = null, $default_subject = '')
+  {
         $c = new Criteria();
         $c->add(self::ID, $id);
         $c->add(self::FROM_MEMBER_ID, $from_member_id);
@@ -29,21 +29,22 @@ class MessageDraftPeer extends BaseMessageDraftPeer
         
         if( !$draft )
         {
-        	$draft = new MessageDraft();
-        	$draft->setFromMemberId($from_member_id);
-        	$draft->setToMemberId($to_member_id);
-        	$draft->setReplyTo($reply_to);
-        	$draft->save();
+          $draft = new MessageDraft();
+          $draft->setFromMemberId($from_member_id);
+          $draft->setToMemberId($to_member_id);
+          $draft->setReplyTo($reply_to);
+          $draft->setSubject($default_subject);
+          $draft->save();
         }
         
         return $draft;
-	}
-	
-	public static function clear($id, $from_member_id)
-	{
-		$c = new Criteria();
-		$c->add(self::ID, $id);
+  }
+  
+  public static function clear($id, $from_member_id)
+  {
+    $c = new Criteria();
+    $c->add(self::ID, $id);
         $c->add(self::FROM_MEMBER_ID, $from_member_id);
-		MessageDraftPeer::doDelete($c);		
-	}
+    MessageDraftPeer::doDelete($c);    
+  }
 }

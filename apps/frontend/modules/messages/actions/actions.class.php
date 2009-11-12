@@ -187,10 +187,11 @@ class messagesActions extends prActions
             $this->sendConfirmation($send_msg->getId());
         }
         
-        $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id, 
-                                                          $message->getToMemberId(), 
+        $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
+                                                          $message->getToMemberId(),
                                                           $message->getFromMemberId(),
-                                                          $message->getId());
+                                                          $message->getId(),
+                                                          'Re: ' . $message->getSubject());
         $this->message = $message;
     }
     
