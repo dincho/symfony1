@@ -141,12 +141,23 @@ class membersActions extends sfActions
           
             $myRegexValidator = new sfRegexValidator();
             $myRegexValidator->initialize($this->getContext(), array(
-                'match'       => 'Yes',
+                'match'       => true,
                 'pattern'     => '/^[a-zA-Z0-9_]{4,20}$/',
             ));
             if (!$myRegexValidator->execute($username, $error))
             {
                 $this->getRequest()->setError('username', 'Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.');
+                $return = false;
+            }
+            
+            $myRegexValidator2 = new sfRegexValidator();
+            $myRegexValidator2->initialize($this->getContext(), array(
+                'match'       => false,
+                'pattern'     => '/^_.*$/',
+            ));
+            if (!$myRegexValidator2->execute($username, $error))
+            {
+                $this->getRequest()->setError('username', 'Username cannot start with underscore');
                 $return = false;
             }
             
