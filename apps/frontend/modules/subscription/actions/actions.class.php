@@ -18,22 +18,6 @@ class subscriptionActions extends prActions
         
         $this->member = $this->getUser()->getProfile();
         $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            $subscription = SubscriptionPeer::retrieveByPK($this->getRequestParameter('subscription_id'));
-            $this->forward404Unless($subscription);
-            if( !in_array($subscription->getId(), array(SubscriptionPeer::FREE, SubscriptionPeer::PAID))) $this->forward404();
-            
-            if ($subscription->getId() == SubscriptionPeer::PAID)
-            {
-                $this->redirect('subscription/payment?subscription_id=' . $subscription->getId());
-            } else
-            {
-                $this->setFlash('msg_ok', 'Your Subscription has been updated');
-                $this->redirect('@dashboard');
-            }
-        }
     }
 
     public function executeManage()

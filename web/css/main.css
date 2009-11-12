@@ -648,6 +648,7 @@ p {
 
 #subscription div.upgrade_to {
     border: 1px solid #35773b;
+    border-top: none;
 }
 
 #subscription div.upgrade_to .upgrade_header {
@@ -671,19 +672,17 @@ p {
 }
 
 #subscription span.select {
-    height: 11px;
     display: block;
-    font-size: 11px;
+    font-size: 23px;
     background-color: #3d3d3d;
     margin-top: 8px;
-    padding: 8px;
-    width: 123px;
+    width: 138px;
+    text-align: center;
 }
 
 #subscription span.select input {
-    margin: 0px;
+    margin: 0 auto !important;
     padding: 0px;
-    height: 14px;
 }
 
 #subscription span.check {

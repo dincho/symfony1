@@ -42,7 +42,14 @@
                 <span class="check"><?php echo ($subscription->getTrial1Amount() > 0 ) ? format_currency($subscription->getTrial1Amount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial1PeriodType()), array('%PERIOD%' => $sub1->getTrial1Period())): __('Free')?></span>                              
                 <span class="check"><?php echo ($subscription->getTrial2Amount() > 0 ) ? format_currency($subscription->getTrial2Amount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial2PeriodType()), array('%PERIOD%' => $sub1->getTrial2Period())) : __('Free')?></span>                
                 <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), 'GBP') . __(' / %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) : __('Free')?></span>
-                <span class="select"><?php echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?></span>
+                <span class="select">
+                  <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
+                    <?php echo button_to(__('Upgrade to Premium'), 'subscription/payment', array('class' => 'button')); ?>
+                  <?php else: ?>
+                    &nbsp;
+                  <?php endif; ?>
+                  <?php //echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?>
+                </span>
             </div>        
         <?php endforeach; ?>
  
@@ -53,7 +60,6 @@
     <br /><br /><br />
         
     <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
 </form>
 <br /><br /><br class="clear" />
 
