@@ -533,6 +533,7 @@ propel:
     login_as:          { type: integer }
     uri:               { type: varchar, size: 255, required: true }
     expires_at:        { type: timestamp }
+    login_expires_at:  { type: timestamp }
     lifetime:          { type: integer, required: false }
     hit_count:         { type: integer, required: true }
     created_at:

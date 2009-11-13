@@ -239,13 +239,18 @@ class contentActions extends prActions
       if( $link->isExpired() ) $this->message('expired_link');
       
       //login the member if needs to
-      //edge case: what if member is logged in, but not with the account that link should login ?
-      if( $link->getLoginAs() && !$this->getUser()->isAuthenticated() )
+      if( $link->getLoginAs() )
       {
-        $member = MemberPeer::retrieveByPK($link->getLoginAs());
-        $this->forward404Unless($member);
+        if( $link->isExpiredLogin() || $this->getUser()->isAuthenticated() )
+        {
+          if( $this->getUser()->isAuthenticated() ) $this->getUser()->signOut();
+          $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
+        } else {
+          $member = MemberPeer::retrieveByPK($link->getLoginAs());
+          if( !$member ) $this->message('expired_link');
         
-        $this->getUser()->SignIn($member);
+          $this->getUser()->SignIn($member);
+        }
       }
       
       $this->redirect($link->getUri());

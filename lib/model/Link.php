@@ -17,6 +17,7 @@ class Link extends BaseLink
     $rand = Tools::generateString(8) . time();
     $this->setHash(sha1(SALT . $rand . SALT));
     
+    $this->setLoginExpiresAt(time() + sfConfig::get('app_links_default_login_expire_period'));
     $this->setExpiresAt(time() + sfConfig::get('app_links_default_expire_period'));
     $this->setLifetime(sfConfig::get('app_links_default_lifetime'));
   }
@@ -34,5 +35,10 @@ class Link extends BaseLink
   public function isExpired()
   {
     return ( time() > $this->getExpiresAt(null));
+  }
+  
+  public function isExpiredLogin()
+  {
+    return ( time() > $this->getLoginExpiresAt(null));
   }
 }

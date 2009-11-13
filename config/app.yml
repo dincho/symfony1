@@ -20,5 +20,6 @@ default:
         smtp_username:  admin@polishdate.com
         smtp_password:  PD11837
     links:
-      default_expire_period:    60*60*24 #in seconds
-      default_lifetime:         60*60*24*3 #in seconds - 3 days
+      default_login_expire_period:  172800 #in seconds - 2 days
+      default_expire_period:        604800 #in seconds - 7 days
+      default_lifetime:             1814400 #in seconds - 21 days
