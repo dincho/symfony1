@@ -69,15 +69,15 @@ body .sign_in {
 /* main */ /* header */
 #polish_romance_logo {
     float: left;
-    width: 465px;
+    width: 462px;
     text-align: center;
 }
 
 #header #left.index {
     float: left;
-    margin-left: 2px;
+    margin-left: 0;
     height: 61px;
-    width: 150px;
+    width: 170px;
 }
 
 #header #right.index {
