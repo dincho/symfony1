@@ -117,6 +117,8 @@ class hotlistActions extends prActions
         array('%USERNAME%' => $hotlist->getMemberRelatedByProfileId()->getUsername(), '%ADD_URL%' => $this->getController()->genUrl('hotlist/add?profile_id=' . $hotlist->getProfileId() . '&n=1')));
         $this->setFlash('msg_ok', $msg_ok);
         
+        if( $hotlist->getProfile()->hasBlockFor($this->getUser()->getId()) ) $this->redirect('@hotlist');
+        
         $this->redirectToReferer();
     }
 }
