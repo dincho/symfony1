@@ -4,17 +4,21 @@
     <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
    
    <div id="profile_top">
-        <?php echo link_to_unless($sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()), __('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to(__('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php echo link_to_unless($looking_myself || ($sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId())), __('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php echo link_to_unless($looking_myself, __('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
-        <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-           <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php if($looking_myself): ?>
+          <span class="sec_link"><?php echo __('Add to Hotlist');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php else: ?>
-          <?php echo link_to_ref(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+          <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
+             <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+          <?php else: ?>
+            <?php echo link_to_ref(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+          <?php endif; ?>
         <?php endif; ?>
         
-        <?php echo link_to_unless($sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId()), __('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername(), 'class=sec_link') ?>
+        <?php echo link_to_unless($looking_myself || ($sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId())), __('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php echo link_to_unless($looking_myself, __('Flag'), 'content/flag?username=' . $member->getUsername(), 'class=sec_link') ?>
    </div>
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
@@ -25,12 +29,11 @@
             <?php endif; ?> 
         <?php else:?>
             <?php if( $current_culture == "en" ): ?>
-                <?php echo link_to(image_tag('buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
+                <?php echo link_to_unless($looking_myself, image_tag('buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
             <?php else:?>
-                <?php echo link_to(image_tag('buy_gift_pl.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
-            <?php endif; ?>    
+                <?php echo link_to_unless($looking_myself, image_tag('buy_gift_pl.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
+            <?php endif; ?>
         <?php endif; ?>
-        
     </span>
     <div id="profile_double_box">
         <div class="left">

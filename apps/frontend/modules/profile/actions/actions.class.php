@@ -99,11 +99,6 @@ class profileActions extends prActions
         //add a visit
         $this->getUser()->viewProfile($member);
 
-        if( $this->getUser()->getId() == $member->getId() && !$this->hasFlash('msg_ok') ) 
-        {
-          $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false); 
-        }
-        
         //@TODO recent conversatoions - this need refactoring and move to the model
         $c = new Criteria();
         $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
@@ -171,9 +166,12 @@ class profileActions extends prActions
         
         if( $member->getUsername() == $this->getUser()->getUsername() ) //looking myself
         {
+          if( !$this->hasFlash('msg_ok') ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
           $bc->setCustomLastItem(__('Profile'));
+          $this->looking_myself = true;
         } else {
           $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername())));
+          $this->looking_myself = false;
         }
         
         $bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
