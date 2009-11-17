@@ -443,7 +443,6 @@ p {
 }
 
 #secondary_container #sign_in label {
-    display: table-row;
     float: left;
     width: 60px;
     text-align: right;
@@ -451,7 +450,6 @@ p {
 }
 
 #secondary_container #sign_in input.input_text_width {
-    display: table-row;
     margin-top: 3px;
 }
 
