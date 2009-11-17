@@ -332,21 +332,19 @@ class profileActions extends prActions
         $pass_hash = sha1(SALT . $member->getNewPassword() . SALT);
         $this->forward404Unless($hash == $pass_hash);
 
-        /* 
-          don't force pending and abandoned members to change passwords 
-          to prevent redirect loop since forcing so will jail them to the 
-          editProfile/registration witch is not accesable for these statuses
-        */
-        if( !in_array($member->getMemberStatusId(), array(MemberStatusPeer::PENDING, MemberStatusPeer::ABANDONED)) )
-        {
-          $member->setPassword($member->getNewPassword(), false);
-          $member->setNewPassword(NULL, false);
-          $member->setMustChangePwd(true);
-          $member->save();
-        }
+        $member->setPassword($member->getNewPassword(), false);
+        $member->setNewPassword(NULL, false);
+        $member->setMustChangePwd(true);
+        $member->save();
         
         $this->getUser()->SignIn($member);
-        $this->redirect('dashboard/index');
+        
+        if( $member->isActive() ) //one redirect less if it's active ( do not apply the filter )
+        {
+          $this->redirect('editProfile/registration');
+        } else {
+          $this->redirect('dashboard/index'); //apply the status filter
+        }
     }
     
     public function executeConfirmNewPassword()

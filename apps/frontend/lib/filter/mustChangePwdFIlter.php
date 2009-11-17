@@ -18,7 +18,7 @@ class mustChangePwdFilter extends sfFilter
             $user = $context->getUser();
             $password_action = $this->getParameter('password_action');
             
-            if ( $user->getAttribute('status_id') != MemberStatusPeer::ABANDONED && $user->isAuthenticated() && $user->getAttribute('must_change_pwd') && ($module . '/' . $action != $password_action) )
+            if ( $user->getAttribute('status_id') == MemberStatusPeer::ACTIVE && $user->isAuthenticated() && $user->getAttribute('must_change_pwd') && ($module . '/' . $action != $password_action) )
             {
                 $AI = $context->getActionStack()->getLastEntry()->getActionInstance();
                 
