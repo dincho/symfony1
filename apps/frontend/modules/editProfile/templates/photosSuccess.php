@@ -6,18 +6,18 @@
 <?php echo form_tag('editProfile/photos', 
                   array('id' => 'edit_photos',
                         'multipart' => true, 
-                        'onsubmit' => 'return check_upload_field("'. __('You have not uploaded the file you have selected! Do you want to continue?') .'");'
+                        'onsubmit' => 'return check_upload_field(\''. __('You have not uploaded the file you have selected! Do you want to continue?') .'\');'
                         )) ?>
     <?php $cnt_photos = count($photos); ?>
     <?php if($cnt_photos > 0): ?>
         <div class="photos">
             <?php $i=1;foreach ($photos as $photo): ?>
               <div class="photo">
-                <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain()) ?>
+                <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain(), array('id' => 'main_photo')) ?>
                 <?php if( $photo->isMain()): ?>
                     <label for="main_photo"><?php echo __('Main Photo') ?></label>
                 <?php endif; ?><br />
-                  <span <?php if($sf_request->getParameter('confirm_delete') == $photo->getId()) echo 'class=delete'; ?>>
+                  <span <?php if($sf_request->getParameter('confirm_delete') == $photo->getId()) echo 'class="delete"'; ?>>
                     <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
                   </span>
                   <?php echo button_to(__('Delete'), 'editProfile/photos?confirm_delete=' . $photo->getId(), array('class' => 'button_mini')) ?>
