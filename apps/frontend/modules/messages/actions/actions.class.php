@@ -184,7 +184,7 @@ class messagesActions extends prActions
             $send_msg = $message->reply($this->getRequestParameter('subject'), 
                                         $this->getRequestParameter('content'), 
                                         $this->getRequestParameter('draft_id'));
-            $this->sendConfirmation($send_msg->getId());
+            $this->sendConfirmation($send_msg->getId(), $message->getToMember());
         }
         
         $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
@@ -300,7 +300,7 @@ class messagesActions extends prActions
                                           null,
                                           $this->getRequestParameter('draft_id'));
 
-            $this->sendConfirmation($send_msg->getId());
+            $this->sendConfirmation($send_msg->getId(), $this->member->getUsername());
         }
         
         $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
@@ -392,11 +392,12 @@ class messagesActions extends prActions
         return sfView::SUCCESS;
     }
     
-    protected function sendConfirmation($send_msg_id)
+    protected function sendConfirmation($send_msg_id, $to_username)
     {
         sfLoader::loadHelpers(array('Tag', 'Url'));
         $view_msg_url = link_to(sfI18N::getInstance()->__('View sent message.'), 'messages/view?id=' . $send_msg_id, array('class' => 'sec_link'));
-        $this->setFlash('msg_ok', sfI18N::getInstance()->__('Your message has been sent. ') . $view_msg_url);
+        $msg_ok = sfI18N::getInstance()->__('Your message has been sent. ', array('%MEMBER_PROFILE_URL%' => url_for('@profile?username=' . $to_username), '%MEMBER_USERNAME%' => $to_username));
+        $this->setFlash('msg_ok', $msg_ok . $view_msg_url);
         $this->redirect('messages/index');
     }
         
