@@ -144,11 +144,15 @@ class Tools
 
     public static function getSFCountries()
     {
-      $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+      $culture = sfContext::getInstance()->getUser()->getCulture();
+      $c = new sfCultureInfo($culture);
       $countries = $c->getCountries();
-    
-      //remove continents out of the array ( first 30 elements )
-      $countries = array_slice($countries, 30);
+      
+      
+      //remove continents out of the array
+      $culture_continets_elements = ($culture == 'en') ? 30 : 29;
+      $countries = array_slice($countries, $culture_continets_elements);
+
       //remove some non-countries
       unset($countries['QU'], $countries['ZZ'], $countries['QO']);
       
