@@ -14,7 +14,7 @@ function profile_photo($profile, $class="")
     {
         return link_to_ref(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
     } else {
-        return image_tag('static/member_photo/' . $profile->getSex() . '/no_photo_80x100.jpg');
+        return image_tag('no_photo/' . $profile->getSex() . '/80x100.jpg');
     }
 }
 

@@ -1850,19 +1850,19 @@ div.best_video div.right img {
 }
 
 #register #reg_submit_en {
-    background: url(/images/go.gif) no-repeat;
+    background: url(/images/en/go.gif) no-repeat;
 }
 
 #register #reg_submit_en:hover {
-    background: url(/images/go_over.gif) no-repeat;
+    background: url(/images/en/go_over.gif) no-repeat;
 }
 
 #register #reg_submit_pl {
-    background: url(/images/go_pl.gif) no-repeat;
+    background: url(/images/pl/go.gif) no-repeat;
 }
 
 #register #reg_submit_pl:hover {
-    background: url(/images/go_pl_over.gif) no-repeat;
+    background: url(/images/pl/go_over.gif) no-repeat;
 }
 
 /* END register */

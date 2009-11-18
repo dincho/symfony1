@@ -5,9 +5,9 @@
 <?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />
 <?php endif; ?>
-	<?php if( !sfConfig::get('app_settings_imbra_disable') && is_null($member->getUsCitizen()) ): ?>
-    	<?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
-	<?php endif; ?>
+  <?php if( !sfConfig::get('app_settings_imbra_disable') && is_null($member->getUsCitizen()) ): ?>
+      <?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
+  <?php endif; ?>
 <br class="clear" />
 <div id="dashboard-container">
     <div class="left">
@@ -45,7 +45,7 @@
             <?php else: ?>
                 <?php $max_no_photos = min($visits_cnt, 5); ?>
                 <?php for($i=0; $i<$max_no_photos; $i++): ?>
-                    <?php echo link_to(image_tag('static/member_photo/' . $member->getLookingFor() .'/no_photo_30x30.jpg'), '@visitors') ?>
+                    <?php echo link_to(image_tag('no_photo/' . $member->getLookingFor() .'/30x30.jpg'), '@visitors') ?>
                 <?php endfor; ?>
             <?php endif; ?>
         </div>
@@ -62,9 +62,9 @@
             <li><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Posing/Essay'), 'editProfile/essay', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Photos'), 'editProfile/photos', array('class' => 'sec_link')) ?></li>
-            	<?php if( !sfConfig::get('app_settings_imbra_disable') && $member->getUsCitizen() == 1 ): ?>
-                	<li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
-            	<?php endif; ?>
+              <?php if( !sfConfig::get('app_settings_imbra_disable') && $member->getUsCitizen() == 1 ): ?>
+                  <li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
+              <?php endif; ?>
             <?php if( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
                 <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate', array('class' => 'sec_link')) ?></li>
             <?php elseif( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
@@ -84,14 +84,14 @@
             <li><?php echo link_to(__('Privacy'), 'dashboard/privacy', array('class' => 'sec_link')) ?></li>
             <li><?php echo link_to(__('Delete your account'), 'dashboard/deleteYourAccount', array('class' => 'sec_link_brown')) ?></li>
         </ul>
-	        <ul class="right">
-	            <?php $links_map = StaticPagePeer::getLinskMap(); ?>
-	            <li><strong><?php echo __('Resources') ?></strong></li>
-	            <li><?php if(array_key_exists('safety_tips', $links_map)) echo link_to($links_map['safety_tips'], '@page?slug=safety_tips', array('class' => 'sec_link')) ?></li>
-	            <li><?php if(array_key_exists('legal_resources', $links_map)) echo link_to($links_map['legal_resources'], '@page?slug=legal_resources', array('class' => 'sec_link')) ?></li>
-	            <li><?php if(array_key_exists('immigrant_rights', $links_map)) echo link_to($links_map['immigrant_rights'], '@page?slug=immigrant_rights', array('class' => 'sec_link')) ?></li>
-	            <li><?php if(array_key_exists('best_videos', $links_map)) echo link_to($links_map['best_videos'], '@page?slug=best_videos', array('class' => 'sec_link')) ?></li>
-	        </ul>
+          <ul class="right">
+              <?php $links_map = StaticPagePeer::getLinskMap(); ?>
+              <li><strong><?php echo __('Resources') ?></strong></li>
+              <li><?php if(array_key_exists('safety_tips', $links_map)) echo link_to($links_map['safety_tips'], '@page?slug=safety_tips', array('class' => 'sec_link')) ?></li>
+              <li><?php if(array_key_exists('legal_resources', $links_map)) echo link_to($links_map['legal_resources'], '@page?slug=legal_resources', array('class' => 'sec_link')) ?></li>
+              <li><?php if(array_key_exists('immigrant_rights', $links_map)) echo link_to($links_map['immigrant_rights'], '@page?slug=immigrant_rights', array('class' => 'sec_link')) ?></li>
+              <li><?php if(array_key_exists('best_videos', $links_map)) echo link_to($links_map['best_videos'], '@page?slug=best_videos', array('class' => 'sec_link')) ?></li>
+          </ul>
         
     </div>
     <?php if( count($recent_visits) > 0 ): ?>

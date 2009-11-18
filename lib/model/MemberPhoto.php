@@ -11,46 +11,46 @@ class MemberPhoto extends BaseMemberPhoto
 {
     public $no_photo = false;
     
-	public function updateCroppedImage($sizes)
-	{
-		//delete old image
-		$this->deleteImage('cropped');
-		
-	  $originalPath = $this->getImagePath('file'); // location of image to be cropped
-	  $newName = 'crop_' . $this->getFile();
-	  $newPath = $this->getImagesPath() . $newName; // where to put cropped image
-	  
-	  $cropped = new sfThumbnail();
-	  $cropped->loadFile($originalPath);
-	  $cropped->crop($sizes);
-	  $cropped->save($newPath);
-	  
-	  $this->setCropped($newName);
-	  $this->save();
-	  $this->createThumbnails('cropped');
-	}
-	
-	public function setAsMainPhoto($save_member = true)
-	{
+  public function updateCroppedImage($sizes)
+  {
+    //delete old image
+    $this->deleteImage('cropped');
+    
+    $originalPath = $this->getImagePath('file'); // location of image to be cropped
+    $newName = 'crop_' . $this->getFile();
+    $newPath = $this->getImagesPath() . $newName; // where to put cropped image
+    
+    $cropped = new sfThumbnail();
+    $cropped->loadFile($originalPath);
+    $cropped->crop($sizes);
+    $cropped->save($newPath);
+    
+    $this->setCropped($newName);
+    $this->save();
+    $this->createThumbnails('cropped');
+  }
+  
+  public function setAsMainPhoto($save_member = true)
+  {
         $member = $this->getMember();
         if ( $this->getId() != $member->getMainPhotoId() )
         {
             $member->setMemberPhoto($this);
             if($save_member) $member->save();
         }
-	}
-	
-	/* proxy so old code to work, remove it some day */
-	public function getIsMainPhoto()
-	{
-	    return $this->getIsMain();
-	}
-	
-	public function isMain()
-	{
-	    return ( $this->getMember()->getMainPhotoId() == $this->getId() );
-	}
-	
+  }
+  
+  /* proxy so old code to work, remove it some day */
+  public function getIsMainPhoto()
+  {
+      return $this->getIsMain();
+  }
+  
+  public function isMain()
+  {
+      return ( $this->getMember()->getMainPhotoId() == $this->getId() );
+  }
+  
     /**
      * Short alias of the behavior method
      *
@@ -58,19 +58,19 @@ class MemberPhoto extends BaseMemberPhoto
      * @param string $column
      * @return string
      */
-	public function getImg($size = null, $column = 'cropped')
-	{
-	    if( $this->no_photo )
-	    {
-	        return 'static/member_photo/' . $this->getMember()->getSex() . '/no_photo_' . $size . '.jpg';
-	    } else {
-	        return $this->getImageUrlPath($column, $size);
-	    }
-	    
-	}
-	
-	public function delete($con = null)
-	{
+  public function getImg($size = null, $column = 'cropped')
+  {
+      if( $this->no_photo )
+      {
+          return 'no_photo/' . $this->getMember()->getSex() . '/'. $size . '.jpg';
+      } else {
+          return $this->getImageUrlPath($column, $size);
+      }
+      
+  }
+  
+  public function delete($con = null)
+  {
         //if deleting main photo, set the first photo as new main photo
         $member = $this->getMember();
         if( $member->getMainPhoto()->getId() == $this->getId() )
@@ -86,15 +86,15 @@ class MemberPhoto extends BaseMemberPhoto
             }
         }
         parent::delete($con);
-	}
-	
-	public function save($con = null)
-	{
-	    parent::save($con);
-	    
-	    $member = $this->getMember();
-	    if ($member->countMemberPhotos() == 1) $member->setMemberPhoto($this);
-	}
+  }
+  
+  public function save($con = null)
+  {
+      parent::save($con);
+      
+      $member = $this->getMember();
+      if ($member->countMemberPhotos() == 1) $member->setMemberPhoto($this);
+  }
 }
 
 $sizes = array(array('width' => 30, 'height' => 30), 

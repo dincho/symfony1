@@ -7,13 +7,7 @@
         <?php echo domain_image_tag('logo_index.gif', 'alt=logo') ?>
     </div>
     <div id="right" class="index">
-        <?php $current_culture = ($sf_user->getCulture() == 'pl') ? 'pl' : 'en'; ?>
-        <?php if( $current_culture == "en" ): ?>
-            <?php $signupbutton = link_to(image_tag('sign_in.gif', 'alt=logo'), 'profile/signIn') ?>
-        <?php else: ?>
-            <?php $signupbutton = link_to(image_tag('sign_in_pl.gif', 'alt=logo'), 'profile/signIn') ?>
-        <?php endif; ?>
-        <?php echo __('Already a Member?').$signupbutton ?>
+        <?php echo __('Already a Member?') . link_to(image_tag($sf_user->getCulture().'/sign_in.gif', array('alt' => __('Sign In'))), 'profile/signIn'); ?>
     </div>
 </div>
 <div id="header_text" class="index">
