@@ -89,6 +89,7 @@ class subscriptionActions extends prActions
 
     public function executeGiftMembership()
     {
+        $this->forward404Unless( sfConfig::get('app_settings_enable_gifts') );
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
         $this->forward404Unless($member);
         $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);

@@ -23,7 +23,7 @@
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
           <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
-        <?php else:?>
+        <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
           <?php echo link_to_unless($looking_myself, image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
         <?php endif; ?>
     </span>
