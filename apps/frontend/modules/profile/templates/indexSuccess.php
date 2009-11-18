@@ -22,17 +22,9 @@
    </div>
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
-            <?php if( $current_culture == "en" ): ?>
-                <?php echo link_to(image_tag('full_member.gif'), 'subscription/index') ?>
-            <?php else:?>
-                <?php echo link_to(image_tag('full_member_pl.gif'), 'subscription/index') ?>
-            <?php endif; ?> 
+          <?php echo link_to(image_tag($current_culture.'/full_member.gif'), 'subscription/index') ?>
         <?php else:?>
-            <?php if( $current_culture == "en" ): ?>
-                <?php echo link_to_unless($looking_myself, image_tag('buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
-            <?php else:?>
-                <?php echo link_to_unless($looking_myself, image_tag('buy_gift_pl.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
-            <?php endif; ?>
+          <?php echo link_to_unless($looking_myself, image_tag($current_culture.'/buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
         <?php endif; ?>
     </span>
     <div id="profile_double_box">
