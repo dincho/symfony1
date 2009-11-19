@@ -9,16 +9,16 @@ default:
     mail:
         host:           imap.gmail.com
         port:           993
-        username:       incoming@polishdate.com
-        password:       PD11837
-        from:           admin@polishdate.com
+        username:       incoming@lovestreet.pl
+        password:       LS11837
+        from:           admin@lovestreet.pl
         mailer:         smtp
         smtp_host:      "sslv2://smtp.gmail.com"
         smtp_port:      465
         smtp_security:  off #security is set via host address socket transport
         smtp_debug:     off
-        smtp_username:  admin@polishdate.com
-        smtp_password:  PD11837
+        smtp_username:  admin@lovestreet.pl
+        smtp_password:  LS11837
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
