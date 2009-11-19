@@ -577,4 +577,30 @@ class Member extends BaseMember
     {
       return in_array($this->getLanguage(), array('en', 'pl')) ? $this->getLanguage() : $default;
     }
+    
+    public function getRecentConversationWith(BaseMember $member)
+    {
+      $c = new Criteria();
+      $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $this->getId());
+      $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $member->getId()));
+      $crit->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, true));
+    
+      $crit2 = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
+      $crit2->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $this->getId()));
+      $crit2->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, false));
+    
+      $c->add($crit);
+      $c->addOr($crit2);
+      $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
+      $c->setLimit(sfConfig::get('app_settings_profile_num_recent_messages'));
+      return MessagePeer::doSelect($c);
+    }
+    
+    public function getMatchWith(BaseMember $member)
+    {
+      $c = new Criteria();
+      $c->add(MemberMatchPeer::MEMBER1_ID, $member->getId());
+      $c->add(MemberMatchPeer::MEMBER2_ID, $this->getId());
+      return MemberMatchPeer::doSelectOne($c);
+    }
 }

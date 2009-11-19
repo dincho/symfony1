@@ -97,28 +97,10 @@ class profileActions extends prActions
         
         //add a visit
         $this->getUser()->viewProfile($member);
-
-        //@TODO recent conversatoions - this need refactoring and move to the model
-        $c = new Criteria();
-        $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $member->getId());
-        $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $this->getUser()->getId()));
-        $crit->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, true));
         
-        $crit2 = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $member->getId()));
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENT_BOX, false));
+        $this->recent_conversations = $member->getRecentConversationWith($this->getUser()->getProfile());
         
-        $c->add($crit);
-        $c->addOr($crit2);
-        $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
-        $c->setLimit(sfConfig::get('app_settings_profile_num_recent_messages'));
-        $this->recent_conversations = MessagePeer::doSelect($c);
-
-        $c = new Criteria();
-        $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
-        $c->add(MemberMatchPeer::MEMBER2_ID, $member->getId());
-        $c->setLimit(1);
-        $this->match = MemberMatchPeer::doSelectOne($c);
+        $this->match = $member->getMatchWith($this->getUser()->getProfile());
         
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();
@@ -126,17 +108,21 @@ class profileActions extends prActions
         $this->member = $member;
         
         //IMBRA
-        $this->imbra = $member->getLastImbra($approved = true);
-        if ($this->imbra)
+        if( !sfConfig::get('app_settings_imbra_disable') )
         {
-            $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en';
-            $this->imbra->setCulture($imbra_culture);
-            $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
-            $this->imbra_answers = $this->imbra->getImbraAnswersArray();
+          $this->imbra = $member->getLastImbra($approved = true);
+          if ($this->imbra)
+          {
+              $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en'; //we have only pl/en imbras
+              $this->imbra->setCulture($imbra_culture);
+              $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
+              $this->imbra_answers = $this->imbra->getImbraAnswersArray();
+          }
         }
-                    
-        $this->profile_pager = new ProfilePager($member->getUsername());
 
+        $this->profile_pager = new ProfilePager($member->getUsername());
+        
+        //BC Setup below
         $bc = $this->getUser()->getBC();
         $bc->replaceFirst(array('name' => 'Dashboard', 'uri' => '@dashboard'));
         
