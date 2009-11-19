@@ -235,11 +235,18 @@ class Events
         $member->save();        
     }
     
-    public static function triggerAccountActivityMessage($member, $from_member)
+    public static function triggerAccountActivityMessage($member, $from_member, $message)
     {
-        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $profile_url  = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $messages_url = LinkPeer::create('messages/index', $member->getId())->getUrl($member->getCulture());
+        $message_url  = LinkPeer::create('messages/view?id=' . $message->getId(), $member->getId())->getUrl($member->getCulture());
+        $message_snippet = Tools::truncate($message->getContent(), 50);
+        
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
                              '{SENDER_USERNAME}' => $from_member->getUsername(),
+                             '{URL_TO_MESSAGES}' => $messages_url,
+                             '{URL_TO_MESSAGE}' => $message_url,
+                             '{MESSAGE_SNIPPET}' => $message_snippet,
                             );
         
         

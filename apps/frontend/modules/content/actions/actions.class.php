@@ -241,15 +241,20 @@ class contentActions extends prActions
       //login the member if needs to
       if( $link->getLoginAs() )
       {
-        if( $link->isExpiredLogin() || $this->getUser()->isAuthenticated() )
+        if( $this->getUser()->isAuthenticated() && $this->getUser()->getId() != $link->getLoginAs() )
         {
-          if( $this->getUser()->isAuthenticated() ) $this->getUser()->signOut();
-          $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
-        } else {
+            $this->getUser()->signOut();
+            $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
+            
+        } elseif(!$this->getUser()->isAuthenticated() && !$link->isExpiredLogin() )
+        {
           $member = MemberPeer::retrieveByPK($link->getLoginAs());
           if( !$member ) $this->message('expired_link');
-        
+  
           $this->getUser()->SignIn($member);
+        } elseif( !$this->getUser()->isAuthenticated() )
+        {
+          $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
         }
       }
       

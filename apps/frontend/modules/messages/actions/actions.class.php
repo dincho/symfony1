@@ -184,7 +184,7 @@ class messagesActions extends prActions
             $send_msg = $message->reply($this->getRequestParameter('subject'), 
                                         $this->getRequestParameter('content'), 
                                         $this->getRequestParameter('draft_id'));
-            $this->sendConfirmation($send_msg->getId(), $message->getToMember());
+            $this->sendConfirmation($send_msg->getId(), $message->getMemberRelatedByFromMemberId()->getUsername());
         }
         
         $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
@@ -300,7 +300,7 @@ class messagesActions extends prActions
                                           null,
                                           $this->getRequestParameter('draft_id'));
 
-            $this->sendConfirmation($send_msg->getId(), $this->member->getUsername());
+            $this->sendConfirmation($send_msg->getId(), $this->profile->getUsername());
         }
         
         $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
