@@ -46,13 +46,8 @@
 <div id="bottom_menu">
   <span class="bottom_menu_title">View:</span>
   <ul>
-      <?php if( $sf_request->getParameter('received_only') ): ?>
-        <li><?php echo link_to('Sent', 'messages/member?id=' . $member->getId()) ?></li>
-        <li>Received</li>      
-      <?php else: ?>
-        <li>Sent</li>
-        <li><?php echo link_to('Received', 'messages/member?received_only=1&id=' . $member->getId()) ?></li>      
-      <?php endif; ?>
+    <li><?php echo link_to_unless(!$sf_request->getParameter('received_only'), 'Sent', 'messages/member?received_only=0&id=' . $member->getId()) ?></li>
+    <li><?php echo link_to_unless($sf_request->getParameter('received_only'), 'Received', 'messages/member?received_only=1&id=' . $member->getId()) ?></li>
   </ul>
 </div>
 
