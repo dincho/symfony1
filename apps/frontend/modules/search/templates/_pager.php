@@ -2,9 +2,19 @@
     <div class="pager">
         <?php if($pager->getPage() != $pager->getFirstPage()) echo link_to(image_tag('prev.gif'), $route . '?page='.$pager->getPreviousPage() . @$query_string) ?>
         <span>Page</span>
+        
+        <?php if( $pager->getPage() > 3 ): ?>
+            <?php echo link_to('1...', $route . '?page=1' . @$query_string) ?>
+        <?php endif; ?>
+        
         <?php foreach ($pager->getLinks(5) as $page): ?>
             <?php echo link_to_unless($page == $pager->getPage(), $page, $route . '?page='.$page . @$query_string) ?>
         <?php endforeach; ?>
+        
+        <?php if( $pager->getPage() < $pager->getLastPage()-2 ): ?>
+            <?php echo link_to('...'.$pager->getLastPage(), $route . '?page='.$pager->getLastPage() . @$query_string) ?>
+        <?php endif; ?>
+        
         <?php if($pager->getPage() != $pager->getLastPage()) echo link_to(image_tag('next.gif'), $route . '?page='.$pager->getNextPage() . @$query_string) ?>
     </div>
 <?php endif; ?>
