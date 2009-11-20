@@ -51,7 +51,7 @@ class dashboardActions extends prActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(WinkPeer::SENT_BOX, false);
         $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
-        if($member->getLastWinksView()) $c->add(WinkPeer::CREATED_AT, $member->getLastWinksView(), Criteria::GREATER_THAN);
+        $c->add(WinkPeer::IS_NEW, true);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
@@ -65,7 +65,7 @@ class dashboardActions extends prActions
         $c->add(HotlistPeer::PROFILE_ID, $member->getId());
         $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
-        if($member->getLastHotlistView()) $c->add(HotlistPeer::CREATED_AT, $member->getLastHotlistView(), Criteria::GREATER_THAN);
+        $c->add(HotlistPeer::IS_NEW, true);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
@@ -80,7 +80,7 @@ class dashboardActions extends prActions
         $c->addJoin(MemberPeer::ID, ProfileViewPeer::MEMBER_ID);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
-        if($member->getLastProfileView()) $c->add(ProfileViewPeer::CREATED_AT, $member->getLastProfileView(), Criteria::GREATER_THAN);
+        $c->add(ProfileViewPeer::IS_NEW, true);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);

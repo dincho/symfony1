@@ -603,4 +603,41 @@ class Member extends BaseMember
       $c->add(MemberMatchPeer::MEMBER2_ID, $this->getId());
       return MemberMatchPeer::doSelectOne($c);
     }
+    
+    public function markOldWinksFrom(BaseMember $member)
+    {
+      $c1 = new Criteria();
+      $c1->add(WinkPeer::PROFILE_ID, $this->getId());
+      $c1->add(WinkPeer::MEMBER_ID, $member->getId());
+      $c1->add(WinkPeer::SENT_BOX, false);
+      $c1->add(WinkPeer::IS_NEW, true);
+      
+      $c2 = new Criteria();
+      $c2->add(WinkPeer::IS_NEW, false);
+      BasePeer::doUpdate($c1, $c2, Propel::getConnection(WinkPeer::DATABASE_NAME));
+    }
+    
+    public function markOldHotlistFrom(BaseMember $member)
+    {
+      $c1 = new Criteria();
+      $c1->add(HotlistPeer::PROFILE_ID, $this->getId());
+      $c1->add(HotlistPeer::MEMBER_ID, $member->getId());
+      $c1->add(HotlistPeer::IS_NEW, true);
+      
+      $c2 = new Criteria();
+      $c2->add(HotlistPeer::IS_NEW, false);
+      BasePeer::doUpdate($c1, $c2, Propel::getConnection(HotlistPeer::DATABASE_NAME));
+    }
+    
+    public function markOldViewsFrom(BaseMember $member)
+    {
+      $c1 = new Criteria();
+      $c1->add(ProfileViewPeer::PROFILE_ID, $this->getId());
+      $c1->add(ProfileViewPeer::MEMBER_ID, $member->getId());
+      $c1->add(ProfileViewPeer::IS_NEW, true);
+      
+      $c2 = new Criteria();
+      $c2->add(ProfileViewPeer::IS_NEW, false);
+      BasePeer::doUpdate($c1, $c2, Propel::getConnection(ProfileViewPeer::DATABASE_NAME));
+    }
 }

@@ -257,6 +257,7 @@ propel:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade } #viewed member/profile id
+    is_new:                   { type: boolean, default: true, required: true }
     created_at:
     updated_at:
   block:
@@ -331,14 +332,16 @@ propel:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    created_at:    
+    is_new:                   { type: boolean, default: true, required: true }
+    created_at:
   wink:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     profile_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     sent_box:                 { type: boolean, default: false, required: true }
+    is_new:                   { type: boolean, default: true, required: true }
     created_at:
-    deleted_at:               { type: timestamp }    
+    deleted_at:               { type: timestamp }
   feedback:
     id:
     mailbox:                  { type: tinyint, required: true, default: 1 } #default to INBOX

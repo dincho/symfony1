@@ -42,6 +42,7 @@ class hotlistActions extends prActions
         $hotlist = new Hotlist();
         $hotlist->setMemberId($this->getUser()->getId());
         $hotlist->setProfileId($profile->getId());
+        if( $n ) $hotlist->setIsNew(false);
         $hotlist->save();
         
         //@TODO what's this, probably if not undo ? ?!

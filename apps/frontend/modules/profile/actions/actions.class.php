@@ -135,12 +135,15 @@ class profileActions extends prActions
             break;
           case 'winks':
             $bc->add(array('name' => 'Winks', 'uri' => '@winks'));
+            $this->getUser()->getProfile()->markOldWinksFrom($member);
             break;
           case 'hotlist':
             $bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
+            $this->getUser()->getProfile()->markOldHotlistFrom($member);
             break;
           case 'visitors':
             $bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
+            $this->getUser()->getProfile()->markOldViewsFrom($member);
             break;          
           case 'blocked':
             $bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
