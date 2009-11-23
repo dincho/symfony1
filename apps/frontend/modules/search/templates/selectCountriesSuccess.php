@@ -56,13 +56,14 @@
         </td></tr>
         
       <?php endif;?>
-      
+
       <?php $p_char = '';$i=1;?>
       <?php foreach ($countries_column as $key => $value): ?>
-          <?php if( $value{0} != $p_char ): ?>
+          <?php $char = mb_substr($value, 0, 1, 'UTF-8'); ?>
+          <?php if( $char != $p_char ): ?>
           <tr>
             <th>
-              <span><?php echo $value{0}; $p_char = $value{0} ?></span>
+              <span><?php echo $char; $p_char = $char ?></span>
             </th>
           </tr>
           <?php endif; ?>
