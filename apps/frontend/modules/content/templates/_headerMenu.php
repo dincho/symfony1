@@ -5,7 +5,10 @@
     <?php if( !$sf_user->isAuthenticated()): ?>
         <p>
             <?php echo pr_link_to(__('Join Now'), 'registration/joinNow') ?>&bull;<?php echo pr_link_to(__('Members Stories'), 'memberStories/index') ?>&bull;<?php echo pr_link_to(__('Home'), '@homepage', 'class=last') ?>
-            <?php echo link_to(image_tag($sf_user->getCulture().'/sign_in.gif'), 'profile/signIn') ?>
+            <?php if(  $sf_context->getModuleName() != sfConfig::get('sf_login_module') 
+                      && $sf_context->getActionName() != sfConfig::get('sf_login_action') ): ?>
+                      <?php echo link_to(image_tag($sf_user->getCulture().'/sign_in.gif'), 'profile/signIn') ?>
+            <?php endif; ?>
         </p>
     <?php else: ?>
         <p style="margin-bottom: 2px;">
