@@ -4,7 +4,7 @@ all:
     default_per_page: 15
     default_pages:    15
   trac:
-    url:            trac.bonex.us:8080/cgi-bin/polishromance.fcgi/
+    url:            trac.nj.bonex.us/cgi-bin/polishromance.fcgi/
     username:       pr_client_reports
     password:       100kalpaka+1004ereshi
     ticket_type:    "Client Report"
