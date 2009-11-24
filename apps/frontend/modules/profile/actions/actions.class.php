@@ -77,30 +77,31 @@ class profileActions extends prActions
               }
               
               $this->redirect('@dashboard');
+          } else { //is not admin and not viewing itself
+              //privacy
+              $prPrivavyValidator = new prPrivacyValidator();
+              $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
+              $prPrivavyValidator->initialize($this->getContext(), array(
+                'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+                'check_onlyfull' => false,
+              ));
+          
+              $error = '';
+              if( !$prPrivavyValidator->execute(&$value, &$error) )
+              {
+                  $this->setFlash('msg_error', $error);
+                  $this->redirectToReferer();
+              }
+            }
+        
+            //add a visit
+            $this->getUser()->viewProfile($member);
+        
+            $this->recent_conversations = $member->getRecentConversationWith($this->getUser()->getProfile());
+        
+            $this->match = $member->getMatchWith($this->getUser()->getProfile());              
           }
           
-          //privacy
-          $prPrivavyValidator = new prPrivacyValidator();
-          $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
-          $prPrivavyValidator->initialize($this->getContext(), array(
-            'sex_error' => 'Due to privacy restrictions you cannot see this profile',
-            'check_onlyfull' => false,
-          ));
-          
-          $error = '';
-          if( !$prPrivavyValidator->execute(&$value, &$error) )
-          {
-              $this->setFlash('msg_error', $error);
-              $this->redirectToReferer();
-          }
-        }
-        
-        //add a visit
-        $this->getUser()->viewProfile($member);
-        
-        $this->recent_conversations = $member->getRecentConversationWith($this->getUser()->getProfile());
-        
-        $this->match = $member->getMatchWith($this->getUser()->getProfile());
         
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();

@@ -125,7 +125,7 @@
             <th colspan="2"><?php echo __('Recent Conversations')?></th>
             <th class="right_column"><?php echo link_to(__('See all messages'), 'messages/index', 'class=sec_link') ?></th>
         </tr>
-        <?php if( count($recent_conversations) > 0 ): ?>
+        <?php if( isset($recent_conversations) && count($recent_conversations) > 0 ): ?>
             <?php foreach ($recent_conversations as $message): ?>
                 <?php $user = ($message->getFromMemberId() == $member->getId() ) ? $member->getUsername() : __('You'); ?>
                 <tr>
