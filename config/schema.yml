@@ -299,6 +299,7 @@ propel:
     trial2_amount:            { type: decimal, size: 7, scale: 2, required: true }
     trial2_period:            { type: integer, required: true }
     trial2_period_type:       { type: char, size: 1, required: true, required: true }
+    imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }
   subscription_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

@@ -65,6 +65,7 @@ class subscriptionsActions extends sfActions
                 $subscription->setPeriod($this->getRequestParameter('period'));
                 $subscription->setPeriodType($this->getRequestParameter('period_type'));                
                 $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
+                $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
                 $subscription->save();                
             }
         }

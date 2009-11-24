@@ -142,7 +142,7 @@ class IMBRAActions extends prActions
         $member = $this->getUser()->getProfile();
         //$this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
         $this->getUser()->getBC()->clear()->add(array('name' => 'IMBRA Information', 'uri' => 'IMBRA/index'))->add(array('name' => 'IMBRA Payment'));
-        $this->amount = 39;
+        $this->amount = $member->getSubscription()->getImbraAmount();
         
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick",
@@ -163,7 +163,7 @@ class IMBRAActions extends prActions
         );
         
         $this->member = $member;
-        $this->encrypted = $EWP->encryptFields($parameters);    	
+        $this->encrypted = $EWP->encryptFields($parameters);
     }
     
     public function executePaymentConfirmation()
