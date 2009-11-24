@@ -346,6 +346,7 @@ class dashboardActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $hasSearchCriteria = $member->hasSearchCriteria();
             $member_answers = $this->getRequestParameter('answers', array());
             $member_match_weights = $this->getRequestParameter('weights');
             $member->clearSearchCriteria();
@@ -365,8 +366,9 @@ class dashboardActions extends prActions
             }
             
             $member->updateMatches();
-            $this->setFlash('msg_ok', 'Your Match Criteria have been updated');
-            $this->redirect('dashboard/index');            
+            $msg = ($hasSearchCriteria) ? 'Your Match Criteria have been updated' : 'You have just set up your search criteria';
+            $this->setFlash('msg_ok', $msg);
+            $this->redirect('dashboard/index');
         }
         
         $this->answers = DescAnswerPeer::getAnswersAssoc();
