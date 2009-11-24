@@ -1,6 +1,10 @@
 <?php use_helper('prDate', 'Javascript') ?>
 <?php //print_r($sf_data->getRaw('sf_request')->getParameter('selected'));exit(); ?>
 
+<?php if( !count($received_messages) > 0 && !count($draft_messages) > 0 && !count($sent_messages) > 0 ): ?>
+    <p><?php echo __('You currently have no messages'); ?></p>
+<?php endif; ?>
+
 <?php if( count($received_messages) > 0): ?>
 <div class="text_1 messages_show_hide">
     <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Received Messages <strong>(%cnt_unread%)</strong>', array('%cnt_unread%' => $cnt_unread))?></span>
