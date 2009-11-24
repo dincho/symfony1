@@ -42,6 +42,8 @@ class subscriptionActions extends prActions
             $this->setFlash('msg_ok', 'Auto-Renewal Status have been updated.');
             $this->redirect('dashboard/index');
         }
+        
+        $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
     }
 
     public function executePayment()
