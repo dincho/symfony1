@@ -215,6 +215,14 @@ body .sign_in {
     text-decoration: underline;
 }
 
+#header_text #header_title  .left {
+    float: left;
+}
+
+#header_text #header_title  .right {
+    float: right;
+}
+
 #header_text #header_title {
     margin: 3px 0 0 0;
 }

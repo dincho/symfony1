@@ -8,6 +8,10 @@
 <?php include_title() ?>
 <?php require_once(dirname(__FILE__).'/_favicon.inc.php'); ?>
 
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" media="screen" href="/css/ie6.css" />
+<![endif]-->
+
 </head>
 <body>
     <div id="box">              
