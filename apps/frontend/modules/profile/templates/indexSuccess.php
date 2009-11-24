@@ -51,10 +51,10 @@
             </div>
         </div>
         <div class="right">
-            <?php echo __('Last log in: ') ?>
             <?php if( $member->isLoggedIn() ): ?>
                 <?php echo __('Currently Online') ?>
             <?php else: ?>
+                <?php echo __('Last log in: ') ?>
                 <?php echo time_ago_in_words($member->getLastLogin(null)) ?>
             <?php endif; ?>
             <br />
