@@ -8,13 +8,16 @@ class titleFilter extends sfFilter
         {
             $context = $this->getContext();
             $bc = $context->getUser()->getBC();
-            //$request = $this->getContext()->getRequest();
+            $request = $this->getContext()->getRequest();
             $response = $this->getContext()->getResponse();
 
             $last_bc = ($bc->getLastName() == 'index') ? $context->getModuleName() : $bc->getLastName();
             sfLoader::loadHelpers(array('Partial'));
             $title = (!has_slot('header_title')) ? ucfirst($last_bc) : get_slot('header_title');
-            $response->setTitle('PolishRomance - ' . $title);
+            
+            $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $request->getHost()));
+            
+            $response->setTitle($prefix . $title);
         }
         $filterChain->execute();
     }

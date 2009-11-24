@@ -10,5 +10,8 @@ all:
     test:     1
     cert_id:  9CKZZ95GS2NCL
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
-    notify_url: http://pd.dincho.bonex.us:8003/IPN.html #this URL should be always absolute!!!
-    #notify_url: http://pd.dincho.bonex.us/IPN.html
+    #notify_url: http://pd.dincho.bonex.us:8003/IPN.html #this URL should be always absolute!!!
+    notify_url: http://pd.dincho.bonex.us/IPN.html
+  title_prefix:
+    pd_dincho_bonex_us:  "PolishDate - "
+    pl_pd_dincho_bonex_us:  "LoveStreet.pl - "
