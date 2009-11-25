@@ -294,7 +294,7 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
-        $culture = ( !is_null($object) && $object instanceof Member ) ? $object->getCulture(null) : null;
+        $culture = ( !is_null($object) && $object instanceof Member ) ? $object->getCulture() : null;
         
         $c = new Criteria();
         $c->add(NotificationEventPeer::EVENT, $event);
