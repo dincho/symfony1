@@ -168,7 +168,19 @@ class imbraActions extends sfActions
             $this->redirect('imbra/list');
         }
     }
+
+    public function executePayment()
+    {
+        $this->forward404Unless($this->member);
         
+        $this->member->setImbraPayment(($this->member->getImbraPayment() == 'completed') ? null : 'completed');
+        $this->member->save();
+        
+        $new_status = ($this->member->getImbraPayment() == 'completed') ? 'unpaid' : 'paid';
+        $this->setFlash('msg_ok', sprintf('%s\'s IMBRA payment was marked as: %s', $this->member->getUsername(), $new_status));
+        $this->redirect('imbra/list');
+    }
+            
     public function executeView ()
     {
     }
@@ -237,7 +249,6 @@ class imbraActions extends sfActions
         if (isset($this->filters['imbra_status_id']))
         {
             $c->add(MemberImbraPeer::IMBRA_STATUS_ID, $this->filters['imbra_status_id']);
-            $c->add(MemberPeer::IMBRA_PAYMENT, 'completed');
         }
         
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)

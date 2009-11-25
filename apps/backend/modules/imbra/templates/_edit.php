@@ -70,6 +70,10 @@
         <?php echo button_to('Deny', 'imbra/deny?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
         <?php echo button_to('Approve', 'imbra/approve?member_id=' . $member->getId() . '&id=' . $imbra->getId()) ?>
       <?php endif; ?>
+      
+      <?php $payment_title = ( $member->getImbraPayment() == 'completed' ) ? 'Mark as Unpaid' : 'Mark as Paid'; ?>
+      <?php echo button_to($payment_title, 'imbra/payment?member_id=' . $member->getId()) ?>
+      
     </div>
 <?php else: ?>
     <p>This member have no IMBRA application yet.</p>

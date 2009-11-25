@@ -6,6 +6,7 @@
     <tr>
         <th><?php echo sortable_title('Registered', 'Member::created_at', $sort_namespace) ?></th>
         <th><?php echo sortable_title('Days In', 'MemberImbra::created_at', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Payment', 'Member::imbra_payment', $sort_namespace) ?></th>
         <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
         <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
         <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
@@ -22,6 +23,7 @@
     <tr rel="<?php echo url_for('imbra/edit?filter=filter&filters[imbra_status_id]='.$filters['imbra_status_id'].'&member_id=' . $member->getId() . '&id=' . $imbra->getId()); ?>">
         <td><?php echo $member->getCreatedAt('m/d/Y') ?></td>
         <td><?php echo $imbra->getDaysIn(); ?></td>
+        <td><?php echo ($member->getImbraPayment()) ? $member->getImbraPayment() : 'no'; ?></td>
         <td><?php echo $member->getUsername() ?></td>
         <td><?php echo $member->getId(); ?></td>
         <td><?php echo $member->getLastName() ?></td>
