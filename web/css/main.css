@@ -994,24 +994,25 @@ span {
     font-size: 10px;
 }
 
-#public_reg_form select {
+#public_reg_form select, #public_reg_form input {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
-    width: 150px;
-    font-size: 10px;
     margin-top: 2px;
+    width: 150px;
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+#public_reg_form select {
+    font-size: 10px;
     margin-bottom: 1px;
+    width: 152px;
 }
 
 #public_reg_form input {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
     padding: 0;
-    width: 150px;
     height: 15px;
-    margin-top: 2px;
     margin-bottom:2px;
 }
 
@@ -1778,6 +1779,7 @@ div.best_video div.right img {
     margin: 0 2px 0 0;
     float: right;
 }
+
 #secondary_container #public_reg_form input, #secondary_container #public_reg_form select, 
 #self_desc_form input, #self_desc_form select, essay select, #essay input,
 #photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #secondary_container #public_reg_form label
@@ -1942,6 +1944,8 @@ div.best_video div.right img {
     float: left;
     display: block;
     margin: 2px 2px;
+    padding-right: 1px;
+    padding-left: 1px;
 }
 
 /* this does not apply to IE6 */
