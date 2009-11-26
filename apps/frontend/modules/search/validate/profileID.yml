@@ -1,4 +1,4 @@
 fillin:
   enabled: true
   param:
-    content_type:   xml
+    content_type:   xhtml

@@ -1,7 +1,7 @@
 fillin:
   enabled: true
   param:
-    content_type:   xml
+    content_type:   xhtml
     name: self_desc_form
 fields:
   answers:
