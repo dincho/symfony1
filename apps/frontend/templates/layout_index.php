@@ -8,10 +8,6 @@
 <?php include_title() ?>
 <?php require_once(dirname(__FILE__).'/_favicon.inc.php'); ?>
 
-<!--[if IE 6]>
-<link rel="stylesheet" type="text/css" media="screen" href="/css/ie6.css" />
-<![endif]-->
-
 </head>
 <body>
     <?php if( $sf_user->isAuthenticated() && $sf_user->getAttribute('status_id') == MemberStatusPeer::ABANDONED ): ?>

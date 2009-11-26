@@ -1,9 +1,0 @@
-#header_text #header_title  .left {
-    float: left;
-    margin-right: -3px;
-}
-
-#header_text #header_title  .right {
-    float: right;
-    margin-left: -3px;
-}
