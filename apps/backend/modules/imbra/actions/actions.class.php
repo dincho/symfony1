@@ -152,7 +152,9 @@ class imbraActions extends sfActions
             }
             
             $mail = new prMail();
-            $mail->setFrom($this->getRequestParameter('send_from'));
+            $mail->setFrom($this->getRequestParameter('mail_from'));
+            $mail->setSender($this->getRequestParameter('mail_from'));
+                        
             $mail->addReplyTo($this->getRequestParameter('reply_to'));
             if( $this->getRequestParameter('bcc')) $mail->addBcc($this->getRequestParameter('bcc'));
             $mail->addAddress($this->member->getEmail(), $this->member->getFullName());
