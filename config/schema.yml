@@ -418,6 +418,7 @@ propel:
     id:
     slug:                   { type: varchar, size: 255, required: true }
     has_mini_menu:          { type: boolean, required: true, default: false }
+    has_content:            { type: boolean, required: true, default: true }
   static_page_i18n:
     link_name:      { type: varchar, size: 100, required: false }
     title:          { type: varchar, size: 255, required: true }

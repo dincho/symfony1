@@ -4,7 +4,7 @@
 <?php echo form_tag('content/regJoinNow', 'class=form') ?>
     <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
     <div class="legend">Edit Join Now</div>
-    <fieldset class="form_fields">
+    <fieldset class="form_fields float-left">
         <label for="culture">Language</label>
         <var><?php echo  format_language($culture) ?></var><br />
         
@@ -19,7 +19,17 @@
         
     </fieldset>
     
-    <fieldset class="form_fields error_msgs_fields">
+      <fieldset class="form_fields float-left">
+        
+        <label for="keywords">Keywords:</label>
+        <?php echo input_tag('trans[146]', (isset($trans[146])) ? $trans[146]->getTarget() : null) ?><br />
+        
+        <label for="description">Description:</label>
+        <?php echo textarea_tag('trans[147]', (isset($trans[147])) ? $trans[147]->getTarget() : null, array('cols' => 40, 'rows' => 3)) ?><br />
+       
+      </fieldset>
+          
+    <fieldset class="form_fields error_msgs_fields" style="margin-top: 350px;">
         <label>Error Messages</label>
         <?php echo input_tag('trans[21]', (isset($trans[21])) ? $trans[21]->getTarget() : null) ?><br />
         <label></label><?php echo input_tag('trans[22]', (isset($trans[22])) ? $trans[22]->getTarget() : null) ?><br />

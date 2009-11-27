@@ -27,6 +27,12 @@ class profileActions extends prActions
         $this->answers = DescAnswerPeer::getAnswersAssocById();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
         $this->member = $member;
+
+        if( $page = StaticPagePeer::getBySlug('search_engines') )
+        {
+            $this->getResponse()->addMeta('description', $page->getDescription());
+            $this->getResponse()->addMeta('keywords', $page->getKeywords());
+        }
     }
 
     public function executeIndex()

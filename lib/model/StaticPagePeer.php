@@ -27,4 +27,14 @@ class StaticPagePeer extends BaseStaticPagePeer
         
         return self::$link_map_cache;
     }
+    
+    public static function getBySlug($slug)
+    {
+        $c = new Criteria();
+        $c->add(StaticPagePeer::SLUG, $slug);
+        $c->setLimit(1);
+        $pages = StaticPagePeer::doSelectWithI18n($c);
+
+        return isset($pages[0]) ? $pages[0] : null;
+    }
 }

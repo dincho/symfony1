@@ -41,12 +41,18 @@ class registrationActions extends prActions
             Events::triggerJoin($member);
             $this->message('verify_your_email');
         }
+        
+        $this->getResponse()->addMeta('description', 'JoinNow description');
+        $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
     }
 
     public function handleErrorJoinNow()
     {
         $this->setLayout('simple');
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Join headline', 'uri' => 'registration/joinNow'));
+        $this->getResponse()->addMeta('description', 'JoinNow description');
+        $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
+                
         return sfView::SUCCESS;
     }
 

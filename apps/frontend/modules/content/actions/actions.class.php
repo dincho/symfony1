@@ -11,15 +11,22 @@ class contentActions extends prActions
 {
     public function executeSearchEngine()
     {
-    	$c = new Criteria;
-    	$c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
-    	$c->addAscendingOrderByColumn(MemberPeer::ID);
+        $c = new Criteria;
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c->addAscendingOrderByColumn(MemberPeer::ID);
     
-    	$this->pager = new sfPropelPager('Member', 15);
+        $this->pager = new sfPropelPager('Member', 15);
     
-    	$this->pager->setCriteria($c);
-    	$this->pager->setPage($this->getRequestParameter('page', 1));
-    	$this->pager->init();
+        $this->pager->setCriteria($c);
+        $this->pager->setPage($this->getRequestParameter('page', 1));
+        $this->pager->init();
+        
+        if( $page = StaticPagePeer::getBySlug('search_engines') )
+        {
+            $this->getResponse()->setTitle($page->getTitle());
+            $this->getResponse()->addMeta('description', $page->getDescription());
+            $this->getResponse()->addMeta('keywords', $page->getKeywords());
+        }
     }
 
     public function executeIndex()
@@ -79,10 +86,10 @@ class contentActions extends prActions
             $this->redirect('@profile?username=' . $profile->getUsername());
         }
         
-				$this->getUser()->getBC()->replaceFirst(array(
-					'name' => sfI18N::getInstance()->__('%USERNAME%\'s profile', array('%USERNAME%' => $profile->getUsername())),
-					'uri' => '@profile?username=' . $profile->getUsername()
-					));
+                $this->getUser()->getBC()->replaceFirst(array(
+                    'name' => sfI18N::getInstance()->__('%USERNAME%\'s profile', array('%USERNAME%' => $profile->getUsername())),
+                    'uri' => '@profile?username=' . $profile->getUsername()
+                    ));
         $this->profile = $profile;
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
     }
@@ -111,11 +118,8 @@ class contentActions extends prActions
 
     public function executePage()
     {
-        $c = new Criteria();
-        $c->add(StaticPagePeer::SLUG, $this->getRequestParameter('slug'));
-        $pages = StaticPagePeer::doSelectWithI18n($c);
-        $this->forward404Unless($pages);
-        $page = $pages[0];
+        $page = StaticPagePeer::getBySlug($this->getRequestParameter('slug'));
+        $this->forward404Unless($page);
 
         $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
         $this->page = $page;
@@ -181,11 +185,26 @@ class contentActions extends prActions
             
             $this->redirect('content/tellFriendConfirm');
         }
+        
+        if( $page = StaticPagePeer::getBySlug('tell_friend') )
+        {
+            $this->getResponse()->setTitle($page->getTitle());
+            $this->getResponse()->addMeta('description', $page->getDescription());
+            $this->getResponse()->addMeta('keywords', $page->getKeywords());
+        }
     }
 
     public function handleErrorTellFriend()
     {
         $this->getUser()->getBC()->removeFirst()->replaceFirst(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'));
+        
+        if( $page = StaticPagePeer::getBySlug('tell_friend') )
+        {
+            $this->getResponse()->setTitle($page->getTitle());
+            $this->getResponse()->addMeta('description', $page->getDescription());
+            $this->getResponse()->addMeta('keywords', $page->getKeywords());
+        }
+                
         return sfView::SUCCESS;
     }
 
@@ -205,9 +224,9 @@ class contentActions extends prActions
     
     public function executeBlockedUser()
     {
-    	$this->setLayout('simple_small');
-    	$this->setTemplate('page');
-    	
+        $this->setLayout('simple_small');
+        $this->setTemplate('page');
+        
         $c = new Criteria();
         $c->add(StaticPagePeer::SLUG, 'blocked_user');
         $pages = StaticPagePeer::doSelectWithI18n($c);
