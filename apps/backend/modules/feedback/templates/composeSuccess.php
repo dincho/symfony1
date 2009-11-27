@@ -1,5 +1,7 @@
 <?php use_helper('Object', 'Javascript') ?>
 
+<?php include_component('system', 'formErrors') ?>
+
 <?php echo form_tag('feedback/compose', 'class=form') ?>
 
 <div class="legend">Compose Email</div>

@@ -79,6 +79,16 @@ class feedbackActions extends sfActions
         }
     }
 
+    public function handleErrorCompose()
+    {
+        $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
+        $this->selectTemplate();
+        
+        $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
+        
+        return sfView::SUCCESS;
+    }
+    
     protected function selectTemplate()
     {
         if ($this->getRequestParameter('template_id'))
