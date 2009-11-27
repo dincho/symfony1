@@ -187,11 +187,17 @@ class messagesActions extends prActions
             $this->sendConfirmation($send_msg->getId(), $message->getMemberRelatedByFromMemberId()->getUsername());
         }
         
+        $i18n = sfI18N::getInstance();
+        $i18n->setCulture('en');
+        $reply_body_template = $i18n->__('Reply Message Body Template');
+        
         $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
                                                           $message->getToMemberId(),
                                                           $message->getFromMemberId(),
                                                           $message->getId(),
-                                                          'Re: ' . $message->getSubject());
+                                                          'Re: ' . $message->getSubject(),
+                                                          $message->getBodyForReply($reply_body_template)
+                                                          );
         $this->message = $message;
     }
     

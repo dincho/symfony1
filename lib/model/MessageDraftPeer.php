@@ -17,7 +17,7 @@ class MessageDraftPeer extends BaseMessageDraftPeer
    * @param int $to_member_id
    * @return MessageDraft
    */
-  public static function retrieveOrCreate($id, $from_member_id, $to_member_id, $reply_to = null, $default_subject = '')
+  public static function retrieveOrCreate($id, $from_member_id, $to_member_id, $reply_to = null, $default_subject = '', $default_body = '')
   {
         $c = new Criteria();
         $c->add(self::ID, $id);
@@ -34,6 +34,7 @@ class MessageDraftPeer extends BaseMessageDraftPeer
           $draft->setToMemberId($to_member_id);
           $draft->setReplyTo($reply_to);
           $draft->setSubject($default_subject);
+          $draft->setContent($default_body);
           $draft->save();
         }
         

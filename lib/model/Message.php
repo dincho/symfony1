@@ -58,4 +58,25 @@ class Message extends BaseMessage
         
         return $send_message;
     }
+    
+    public function getBodyForReply($template)
+    {
+        $_body = explode('<br />', $this->getContent());
+        $_body = array_map('trim', $_body);
+        $from = $this->getMemberRelatedByFromMemberId()->getUsername();
+        $message_body = '';
+
+        foreach ($_body as $line)
+        {
+            $message_body .= '> ' . $line . "\r\n";
+        }
+                
+        $ret = strtr($template, array('%DATETIME%' => $this->getCreatedAt('M d, Y H:i A'), 
+                                      '%SENDER_USERNAME%' => $from,
+                                      '%MESSAGE%' => $message_body,
+                                      ));
+                                      
+        //$ret .= 'On ' . $this->getCreatedAt('M d, Y H:i A, ') .  $from . ' wrote: ' . "\r\n";
+        return $ret;
+    }     
 }
