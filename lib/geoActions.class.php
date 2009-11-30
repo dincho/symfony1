@@ -89,9 +89,9 @@ class geoActions extends sfActions
           }
           
           $output = json_encode($cities_tmp);
-          $this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
+          //$this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
       }
       
-      return sfView::HEADER_ONLY;
+      return $this->renderText($output);
     }
 }

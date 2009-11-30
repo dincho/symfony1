@@ -13,7 +13,7 @@
 )) ?>
 
 <?php echo observe_field('adm2_id', array(
-    'success'  => 'updateCities(request, json)',
+    'success'  => 'updateCities(request)',
     'url'      => 'ajax/getCities',
     'with'     => "'country=' + $('country').value + '&adm1_id=' + $('adm1_id').value + '&adm2_id=' + value",
 )) ?>
@@ -89,8 +89,9 @@ function updateAdm2(request, json)
 ") ?>
 
 <?php echo javascript_tag("
-function updateCities(request, json)
+function updateCities(request)
 {
+  var json = eval('(' + request.responseText + ')');
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('city_id');
   S.options.length = 0;  
