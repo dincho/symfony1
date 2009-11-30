@@ -1,11 +1,11 @@
 <?php use_helper('prDate', 'Javascript') ?>
-<?php //print_r($sf_data->getRaw('sf_request')->getParameter('selected'));exit(); ?>
 
 <?php if( !count($received_messages) > 0 && !count($draft_messages) > 0 && !count($sent_messages) > 0 ): ?>
     <p><?php echo __('You currently have no messages'); ?></p>
 <?php endif; ?>
 
 <?php if( count($received_messages) > 0): ?>
+<?php $tick = ($sf_request->hasParameter('expand')) ? '+' : '-'; ?>
 <div class="text_1 messages_show_hide">
     <?php echo link_to_function('[<span id="messages_form_tick">-</span>]', 'show_hide_tick("messages_form")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Received Messages <strong>(%cnt_unread%)</strong>', array('%cnt_unread%' => $cnt_unread))?></span>
 </div>
@@ -15,7 +15,8 @@
     <?php $action = 'messages/index?confirm_delete=1&form_id=messages_form'; ?>
 <?php endif; ?>
 
-<?php echo form_tag($action, array('id' => 'messages_form', 'name' => 'messages_form')) ?>
+<?php $style = ($sf_request->hasParameter('expand')) ? 'display: none;' : ''; ?>
+<?php echo form_tag($action, array('id' => 'messages_form', 'name' => 'messages_form', 'style' => $style)) ?>
     <?php include_partial('actions', array('form_name' => 'messages_form', 'cnt_unread' => $cnt_unread)); ?>
     <table cellspacing="0" cellpadding="0" class="messages"> 
     <?php foreach ($received_messages as $message): ?>
@@ -43,18 +44,20 @@
 
 
 <?php if( count($draft_messages) > 0): ?>
+<?php $tick = ($sf_request->getParameter('expand') == 'drafts') ? '-' : '+'; ?>
 <div class="text_1 messages_show_hide">
-    <?php echo link_to_function('[<span id="messages_form_draft_tick">+</span>]', 'show_hide_tick("messages_form_draft")', 'class=sec_link') ?> 
+    <?php echo link_to_function('[<span id="messages_form_draft_tick">'.$tick.'</span>]', 'show_hide_tick("messages_form_draft")', 'class=sec_link') ?> 
     <span class="public_reg_notice"><?php echo __('Draft Messages (%NUM_DRAFTS%)', array('%NUM_DRAFTS%' => count($draft_messages))) ?></span>
 </div>
 
 <?php if($sf_request->hasParameter('confirm_delete_draft')): ?>
     <?php $action = 'messages/DeleteDraft' ?>
 <?php else: ?>
-    <?php $action = 'messages/index?confirm_delete_draft=1&form_id=messages_form_draft'; ?>
+    <?php $action = 'messages/index?expand=drafts&confirm_delete_draft=1&form_id=messages_form_draft'; ?>
 <?php endif; ?>
 
-<?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft', 'style' => 'display: none;')) ?>    
+<?php $style = ($sf_request->getParameter('expand') == 'drafts') ? '' : 'display: none;'; ?>
+<?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft', 'style' => $style)) ?>    
     <?php include_partial('actionsdraft', array('form_name' => 'messages_form_draft', 'no_read_unread' => true)); ?>
     <table cellspacing="0" cellpadding="0" class="messages" id="draft_messages"> 
     <?php foreach ($draft_messages as $message): ?>
@@ -84,17 +87,20 @@
 <?php endif; ?>
 
 <?php if( count($sent_messages) > 0): ?>
+<?php $tick = ($sf_request->getParameter('expand') == 'sent') ? '-' : '+'; ?>
 <div class="text_1 messages_show_hide">
-    <?php echo link_to_function('[<span id="messages_form_sent_tick">+</span>]', 'show_hide_tick("messages_form_sent")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Sent Messages')?></span>
+    <?php echo link_to_function('[<span id="messages_form_sent_tick">'.$tick.'</span>]', 'show_hide_tick("messages_form_sent")', 'class=sec_link') ?> <span class="public_reg_notice"><?php echo __('Sent Messages')?></span>
 </div>
 
 <?php if($sf_request->hasParameter('confirm_delete')): ?>
     <?php $action = 'messages/delete' ?>
 <?php else: ?>
-    <?php $action = 'messages/index?confirm_delete=1&form_id=messages_form_sent'; ?>
+    <?php $action = 'messages/index?expand=sent&confirm_delete=1&form_id=messages_form_sent'; ?>
 <?php endif; ?>
 
-<?php echo form_tag($action, array('id' => 'messages_form_sent', 'name' => 'messages_form_sent', 'style' => 'display: none;')) ?>    
+
+<?php $style = ($sf_request->getParameter('expand') == 'sent') ? '' : 'display: none;'; ?>
+<?php echo form_tag($action, array('id' => 'messages_form_sent', 'name' => 'messages_form_sent', 'style' => $style)) ?>    
     <?php include_partial('actions', array('form_name' => 'messages_form_sent', 'no_read_unread' => true)); ?>
     <table cellspacing="0" cellpadding="0" class="messages" id="sent_messages"> 
     <?php foreach ($sent_messages as $message): ?>
