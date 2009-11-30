@@ -190,12 +190,13 @@ class messagesActions extends prActions
         $i18n = sfI18N::getInstance();
         $i18n->setCulture('en');
         $reply_body_template = $i18n->__('Reply Message Body Template');
+        $subject = (preg_match('/^Re:.*$/', $message->getSubject())) ? $message->getSubject() : 'Re: ' . $message->getSubject();
         
         $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
                                                           $message->getToMemberId(),
                                                           $message->getFromMemberId(),
                                                           $message->getId(),
-                                                          'Re: ' . $message->getSubject(),
+                                                          $subject,
                                                           $message->getBodyForReply($reply_body_template)
                                                           );
         $this->message = $message;
@@ -267,7 +268,8 @@ class messagesActions extends prActions
                 return false;
             }
             
-            if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
+            
+            if( $this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
             {
                 $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
                 return false;                
