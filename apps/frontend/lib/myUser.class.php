@@ -148,4 +148,9 @@ class myUser extends sfBasicSecurityUser
             }
         }
     }
+    
+    public function getLocale()
+    {
+       return ($this->getCulture() == 'en') ? 'en_US.utf8' : $this->getCulture().'_'.strtoupper($this->getCulture()).'.utf8';
+    }
 }

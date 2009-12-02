@@ -144,21 +144,25 @@ class Tools
 
     public static function getSFCountries()
     {
-      $culture = sfContext::getInstance()->getUser()->getCulture();
-      $c = new sfCultureInfo($culture);
-      $countries = $c->getCountries();
-      
-      
-      //remove continents out of the array
-      $culture_continets_elements = ($culture == 'en') ? 30 : 29;
-      $countries = array_slice($countries, $culture_continets_elements);
+        $user = sfContext::getInstance()->getUser();
+        $culture = $user->getCulture();
+        $c = new sfCultureInfo($culture);
+        $countries = $c->getCountries();
 
-      //remove some non-countries
-      unset($countries['QU'], $countries['ZZ'], $countries['QO']);
-      
-      asort($countries);
-      
-      return $countries;
+
+        //remove continents out of the array
+        $culture_continets_elements = ($culture == 'en') ? 30 : 29;
+        $countries = array_slice($countries, $culture_continets_elements);
+
+        //remove some non-countries
+        unset($countries['QU'], $countries['ZZ'], $countries['QO']);
+
+        $oldLocale = setlocale(LC_COLLATE, "0");
+        setlocale(LC_COLLATE, $user->getLocale());
+        asort($countries, SORT_LOCALE_STRING);
+        setlocale(LC_COLLATE, $oldLocale);
+
+        return $countries;
     }
 }
 ?>
