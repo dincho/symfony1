@@ -513,17 +513,17 @@ propel:
     updated_at:
   geo:
     id:
-    name:                     { type: varchar, size: 89 }
-    dsg:                      { type: varchar, size: 4 }
-    country:                  { type: varchar, size: 2 }
-    adm1:                     { type: varchar, size: 37 }
-    adm2:                     { type: varchar, size: 35 }
+    name:                     { type: varchar, size: 100 }
+    dsg:                      { type: varchar, size: 4, required: true }
+    country:                  { type: varchar, size: 4, required: true }
+    adm1:                     { type: varchar, size: 100 }
+    adm2:                     { type: varchar, size: 100 }
     latitude:                 { type: float }
     longitude:                { type: float }
     alt_names:                { type: varchar, size: 400 }
     orig_name:                { type: varchar, size: 197 }
     orig_dsg:                 { type: varchar, size: 255 }
-    population:               { type: integer, size: 10 }
+    population:               { type: integer, size: 10, required: true, default: 0 }
     info:                     { type: longvarchar }
     _indexes:
       complex:                [country, dsg, adm1, adm2, name]

@@ -26,9 +26,9 @@
 }
 
 .form_fields input:focus, .form_fields select:focus, .form_fields textarea:focus {
-	background-color: white;
+    background-color: white;
 }
-	
+    
 .form_fields select {
   width: 204px;
 }
@@ -60,12 +60,12 @@
 }
 
 #html_content {
-    	
-		
+        
+        
 }
-	
+    
 .email_fields input, .email_fields textarea {
-	width: 650px;
+    width: 650px;
 }
 
 .email_fields textarea {
@@ -146,37 +146,37 @@ div.legend {
 }
 
 label.full_row {
-	float: none;
-	text-align: left;
-	background-color: #F4F4F4;
-	color: black;
-	padding: 3px;
-	width: auto;
-	font-weight: normal;
+    float: none;
+    text-align: left;
+    background-color: #F4F4F4;
+    color: black;
+    padding: 3px;
+    width: auto;
+    font-weight: normal;
 }
 
 #self_description_form fieldset.actions {
-	padding-left: 20px;
+    padding-left: 20px;
 }
 
 .date_tag_wrap {
-	text-align: left;
+    text-align: left;
 }
 
 .date_tag_wrap select {
-	float: none;
-	display: inline;
-	width: auto;
+    float: none;
+    display: inline;
+    width: auto;
 }
 
 .photo_slot {
   text-align: left;
   float: left;
-  padding: 0 10px;	
+  padding: 0 10px;    
 }
 
 #member_registration_form label {
-	width: 180px;
+    width: 180px;
 }
 
 
@@ -186,8 +186,8 @@ label.full_row {
 .form_fields .period_input_left { width: 30px; float: left;}
 
 #limit_label {
-	text-align: left;
-	padding-left: 65px;
+    text-align: left;
+    padding-left: 65px;
 }
 
 .subscription_container label {
@@ -196,8 +196,8 @@ label.full_row {
 }
 
 label.period_label {
-	width: auto;
-	padding: 0 2px;
+    width: auto;
+    padding: 0 2px;
 }
 
 .subscription_container {
@@ -214,11 +214,11 @@ label.period_label {
 /* DEPRECATED */
 /*
 .upload_slot {
-	float: left;
-	margin: 15px 0 0 10px;
-	background-color: #EFEFEF;
-	padding: 41px 0 40px 20px;
-	width: 120px;
+    float: left;
+    margin: 15px 0 0 10px;
+    background-color: #EFEFEF;
+    padding: 41px 0 40px 20px;
+    width: 120px;
 }
 
 .upload_slot .upload_file {
@@ -259,15 +259,15 @@ input.file {
 */
 
 #photo_edit {
-  text-align: left;	
+  text-align: left;    
 }
 
 .selected_photo { border: 2px solid #DAB321; }
 
 .note {
-	text-align: left;
-	font-style: italic;
-	font-size: 0.9em;
+    text-align: left;
+    font-style: italic;
+    font-size: 0.9em;
 }
 
 /* Form Errors */
@@ -320,54 +320,62 @@ input.field_error, select.field_error, textarea.field_error {
 
 
 #search_filter {
-	display: block;
-	margin-bottom: 20px;
+    display: block;
+    margin-bottom: 20px;
 }
 
 #search_filter fieldset {
-	display:  inline;
+    display:  inline;
 }
 
 #search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select {
   border: 1px solid #9DB2C7;
   margin-right: 2px;
-  background-color: #EFEFEF;	
+  background-color: #EFEFEF;    
 }
 
 #search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select, #search_filter fieldset.search_fields label {
-	width: 150px;
-	text-align: left;
-	color: black;
-	
+    width: 150px;
+    text-align: left;
+    color: black;
+    
 }
 
 #search_filter label {
-	margin: 0;
+    margin: 0;
 }
 
 .filter_right {
-	float: right;
-	padding: 20px 0 0 0;
+    float: right;
+    padding: 20px 0 0 0;
 }
 
 #per_page_form {
-	float: left;
-	text-align: left;
+    float: left;
+    text-align: left;
 }
 
 #per_page_form input {
-	width: 30px;
+    width: 30px;
 }
 
 #per_page_form label {
-	text-align: left;
-	width: auto;
-	font-weight: normal;
-	padding: 0 5px;
+    text-align: left;
+    width: auto;
+    font-weight: normal;
+    padding: 0 5px;
 }
 
 .marked { width: 20px; }
 
 .error_msgs_fields input {
     width: 70%;
+}
+.filter_multiple label {
+    width: 205px;
+}
+
+.filter_multiple select {
+    height: 200px;
+    width: 200px;
 }

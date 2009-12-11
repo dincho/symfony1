@@ -99,6 +99,9 @@ class membersActions extends sfActions
             $this->setFlash('msg_ok', 'You have added a member, please finish registration');
             $this->redirect('members/editSelfDescription?id=' . $member->getId());
         }
+        
+        $this->has_adm1 = false;
+        $this->has_adm2 = false;
     }
     
     public function validateCreate()
@@ -179,6 +182,8 @@ class membersActions extends sfActions
     
     public function handleErrorCreate()
     {
+        $this->has_adm1 = false;
+        $this->has_adm2 = false;
         return sfView::SUCCESS;
     }
 

@@ -89,4 +89,9 @@ class myUser extends sfBasicSecurityUser
         $stack = $this->getAttributeHolder()->getAll('backend/user/referer_stack');
         return isset($stack[1]) ? str_replace(array('cancel=1','cancel=1'), "", $stack[1]) : null;
     }
+    
+    public function getLocale()
+    {
+        return 'en_US.utf8';
+    }
 }

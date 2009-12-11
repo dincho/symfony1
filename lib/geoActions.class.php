@@ -3,26 +3,28 @@ class geoActions extends sfActions
 {
     public function executeGetAdm1ByCountry()
     {
-        if ( $country = $this->getRequestParameter('country') )
+        $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
+        
+        if( !$this->getRequestParameter('allow_blank') && !$countries ) return sfView::NONE;
+        
+        $adm1s = GeoPeer::getAllByCountry($countries);
+        
+        $adm1s_tmp = array();
+        foreach ($adm1s as $adm1)
         {
-            $adm1s = GeoPeer::getAllByCountry($country);
-            
-            $adm1s_tmp = array();
-            foreach ($adm1s as $adm1)
-            {
-                $tmp['id'] = $adm1->getId();
-                $tmp['title'] = $adm1->getName();
-                $adm1s_tmp[] = $tmp;
-            }
-            
-            $output = json_encode($adm1s_tmp);
-            $this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
+            $tmp['id'] = $adm1->getId();
+            $tmp['title'] = $adm1->getName();
+            $adm1s_tmp[] = $tmp;
         }
-        return sfView::HEADER_ONLY;
+        
+        $output = json_encode($adm1s_tmp);
+        
+        return $this->renderText($output);
     }
     
     public function executeGetAdm2ByAdm1()
     {
+        $output = '';
         if ( $adm1 = $this->getRequestParameter('adm1') )
         {
             $adm2s = GeoPeer::getAllByAdm1($adm1);
@@ -38,8 +40,29 @@ class geoActions extends sfActions
             $output = json_encode($adm2s_tmp);
             $this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
         }
-        return sfView::HEADER_ONLY;
+        return $this->renderText($output);
     }
+    
+    public function executeGetAdm2ByAdm1Name()
+    {
+        $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
+        $adm1s = ($this->getRequestParameter('adm1')) ? explode(',', $this->getRequestParameter('adm1')) : array();
+        
+        if( !$this->getRequestParameter('allow_blank') && (!$countries || !$adm1s) ) return sfView::NONE;
+        
+        $adm2s = GeoPeer::getAllByAdm1Name($countries, $adm1s);
+    
+        $adm2s_tmp = array();
+        foreach ($adm2s as $adm2)
+        {
+            $tmp['id'] = $adm2->getId();
+            $tmp['title'] = $adm2->getName();
+            $adm2s_tmp[] = $tmp;
+        }
+    
+        $output = json_encode($adm2s_tmp);
+        return $this->renderText($output);
+    }    
     
     public function executeAutocompleteCity()
     {
@@ -77,6 +100,7 @@ class geoActions extends sfActions
     public function executeGetCities()
     {
       $cities = GeoPeer::getPopulatedPlaces($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'), $this->getRequestParameter('adm2_id'));
+      $output = '';
       
       if ( $cities )
       {
@@ -89,7 +113,6 @@ class geoActions extends sfActions
           }
           
           $output = json_encode($cities_tmp);
-          //$this->getResponse()->setHttpHeader("X-JSON", '(' . $output . ')');
       }
       
       return $this->renderText($output);

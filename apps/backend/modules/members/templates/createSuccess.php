@@ -26,23 +26,18 @@
         <label for="country">Country of Residence</label>
         <?php echo pr_select_country_tag('country', $member->getCountry(), array('class' => error_class('country', true), 'include_custom' => 'Please Select')) ?><br />
         
-        <label for="state_id">State / Province</label>
-        <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('class' => error_class('adm1_id', true), 'include_custom' => 'Please Select')) ?><br />
+        <div id="adm1_container" style="display: <?php echo ( $has_adm1 ) ? 'block' : 'none';?>">
+          <label for="state_id">State / Province</label>
+            <?php echo pr_object_select_adm1_tag($member, 'getAdm1Id', array('class' => error_class('adm1_id', true), 'include_custom' => 'Please Select')) ?><br />
+        </div>
+    
+        <div id="adm2_container" style="display: <?php echo ( $has_adm2 ) ? 'block' : 'none';?>">
+          <label for="district">District / Borough / County</label>
+            <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', array('class' => error_class('adm2_id', true), 'include_custom' => 'Please Select')) ?><br />
+        </div>
         
-        <label for="district">District / Borough / County</label>
-        <?php echo pr_object_select_adm2_tag($member, 'getAdm2Id', 
-                                            array('class' => error_class('adm2_id', true), 
-                                                  'include_custom' => 'Please Select',
-                                                  'onchange' => 'clearCity()')) ?><br />
-        
-        <label for="city">City</label>
-        <?php echo input_auto_complete_tag('city', null,
-            'ajax/autocompleteCity',
-            array('autocomplete' => 'off', 'class' => error_class('city', true)),
-            array('use_style'    => true, 
-            'frequency' => 0.2,
-            'with'  => " value+'&country='+$('country').value+'&adm1_id='+$('adm1_id').value+'&adm2_id='+$('adm2_id').value"
-        ));?><br />
+        <label for="city_id">City</label>
+        <?php echo pr_object_select_city_tag($member, 'getCityId', array('class' => error_class('city_id', true),  'include_custom' => 'Please Select')); ?><br /> 
                         
         <label for="zip">Zip Code</label>
         <?php echo input_tag('zip', null, error_class('zip')) ?><br />

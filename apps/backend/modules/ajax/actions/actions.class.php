@@ -81,4 +81,16 @@ class ajaxActions extends geoActions
       
       return sfView::NONE;  
   }
+  
+    public function executeGetDSG()
+    {
+        $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
+        $adm1s = ($this->getRequestParameter('adm1')) ? explode(',', $this->getRequestParameter('adm1')) : array();
+        $adm2s = ($this->getRequestParameter('adm2')) ? explode(',', $this->getRequestParameter('adm2')) : array();
+        
+        $dsgs = GeoPeer::getDSG($countries, $adm1s, $adm2s);
+        
+        $output = json_encode(array_values($dsgs));
+        return $this->renderText($output);
+    }  
 }

@@ -1,12 +1,12 @@
 <?php echo observe_field('country', array(
-    'success'  => 'updateAdm1(request, json)',
+    'success'  => 'updateAdm1(request)',
     'url'      => 'ajax/getAdm1ByCountry',
     'with'     => "'country=' + value",
     'loading'  => "$('adm2_id').options.length = 0; $('city_id').options.length = 0;"
 )) ?>
 
 <?php echo observe_field('adm1_id', array(
-    'success'  => 'updateAdm2(request, json)',
+    'success'  => 'updateAdm2(request)',
     'url'      => 'ajax/getAdm2ByAdm1',
     'with'     => "'adm1=' + value",
     'loading'  => "$('city_id').options.length = 0;"
@@ -19,8 +19,9 @@
 )) ?>
 
 <?php echo javascript_tag("
-function updateAdm1(request, json)
+function updateAdm1(request)
 {
+  var json = eval('(' + request.responseText + ')');
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('adm1_id');
   S.options.length = 0;  
@@ -54,8 +55,9 @@ function updateAdm1(request, json)
 ") ?>
 
 <?php echo javascript_tag("
-function updateAdm2(request, json)
+function updateAdm2(request)
 {
+  var json = eval('(' + request.responseText + ')');    
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('adm2_id');
   S.options.length = 0;

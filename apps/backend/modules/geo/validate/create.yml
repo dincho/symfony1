@@ -1,0 +1,19 @@
+fillin:
+  enabled: true
+fields:
+  name:
+    required:
+        msg:    Please enter name
+  latitude:
+   sfNumberValidator:
+      nan_error:    Please enter a number
+  longitude:
+   sfNumberValidator:
+      nan_error:    Please enter a number
+  population:
+   sfNumberValidator:
+      nan_error:    Please enter a number
+      min:          0
+      min_error:    Population must be at least zero
+      
+            
