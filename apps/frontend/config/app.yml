@@ -12,6 +12,14 @@ all:
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
     #notify_url: http://pd.dincho.bonex.us:8003/IPN.html #this URL should be always absolute!!!
     notify_url: http://pd.dincho.bonex.us/IPN.html
+  sf_google_analytics_plugin:
+    enabled:      off
+    profile_id:   UA-11123315-1
+    tracker:      google
+    insertion:    top
+    params:
+      domain_name:   none
+      linker_policy: true    
   title_prefix:
     pd_dincho_bonex_us:  "PolishDate - "
     pl_pd_dincho_bonex_us:  "LoveStreet.pl - "
