@@ -79,9 +79,12 @@
                 <?php if( !$member->getDontDisplayZodiac() ): ?>
                     <dt><?php echo __('Zodiac') ?></dt><dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
                 <?php endif; ?>
+
                 <?php foreach ($questions as $question): ?>
                     <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
-                        <?php if( isset($member_answers[$question->getId()]) ): ?>
+                    
+                        <?php if( isset($member_answers[$question->getId()]) && 
+                                  ($member_answers[$question->getId()]->getDescAnswerId() || $member_answers[$question->getId()]->getOther()) ): ?>
                             <dt><?php echo __($question->getDescTitle(ESC_RAW)) ?></dt>
                             <dd>
                                 <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>

@@ -351,7 +351,7 @@ class membersActions extends sfActions
                     $this->member->setBirthDay($birthday);
                 } else
                 {
-                    $m_answer->setDescAnswerId($value);
+                    $m_answer->setDescAnswerId( ($value) ? $value : null);
                 }
                 $m_answer->save();
             }
