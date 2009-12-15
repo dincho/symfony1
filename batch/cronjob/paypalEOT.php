@@ -3,7 +3,7 @@
 /**
  * handle paypal EOT batch script
  *
- * Script that runs each day at 00:00 and switch all paid member that needs to to free subscription
+ * Script that runs each end of the day at 23:50 and switch all paid member that needs to to free subscription
  *
  * @package    PolishRomance
  * @subpackage batch

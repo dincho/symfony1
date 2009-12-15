@@ -479,8 +479,7 @@ class Member extends BaseMember
     
     public function getNextPaymentDate()
     {
-      $eot = $this->getEotDate(true);
-      return $eot->tomorrow()->get();
+      return $eot = $this->getEotDate(true)->get();
     }
     
     public function getNextPaymentAmount()
