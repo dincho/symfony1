@@ -127,7 +127,6 @@ class systemComponents extends sfComponents
                                             array('title' => 'Empty Countries', 'uri' => 'geo/emptyCountries'),
                                             array('title' => 'Empty Admin1\'s', 'uri' => 'geo/emptyAdm1'),
                                             array('title' => 'Empty Admin2\'s', 'uri' => 'geo/emptyAdm2'),
-                                            array('title' => 'Unassigned Cities', 'uri' => 'geo/unassignedCities'),
                                            ),
                         'users'    => array(array('title' => 'Users', 'uri' => 'users/list'),
                                            ),
