@@ -1,5 +1,5 @@
 default:
-    beta_period:        on
+    beta_period:        off
     brand_text:         LoveStreet.pl
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes

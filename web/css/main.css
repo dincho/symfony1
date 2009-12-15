@@ -1498,7 +1498,8 @@ span.sec_link {
     margin: 0;
     color: #d3d3d3;
     width: 126px;
-    height: 12px;
+    height: 23px;
+    line-height: 12px;
 }
 
 .member .member_box .profile_info u {

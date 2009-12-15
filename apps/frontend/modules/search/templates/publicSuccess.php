@@ -53,8 +53,7 @@
                 <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
                 <?php echo image_tag($member->getMainPhoto()->getImg('80x100')) ?>
                 <div class="profile_info">
-                    <p class="profile_location"><?php echo format_country($member->getCountry()) . ', ' . $member->getCity() ?></p>
-                    <p></p>
+                    <p class="profile_location"><?php echo Tools::truncate(format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                     <p></p>
                     <p><?php echo link_to('View Profile', 'registration/joinNow', array('class' => 'sec_link')) ?></p>
                     <p></p>
