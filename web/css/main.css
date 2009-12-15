@@ -998,49 +998,27 @@ span {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
-    margin-top: 2px;
-    width: 150px;
-    padding-right: 1px;
-    padding-left: 1px;
 }
 
 #public_reg_form select {
-    font-size: 10px;
-    margin-bottom: 1px;
+    margin: 3px 2px 1px 3px;
+    padding: 0px;
     width: 152px;
+    height: 18px;
+    font-family: Arial;
+    font-size: 10px;       
 }
 
 #public_reg_form input {
-    padding: 0;
+    margin: 3px 2px 1px 3px;
+    padding: 1px 0 0 1px;
+    width: 149px;
     height: 15px;
-    margin-bottom:2px;
+    font-family: Arial;
+    font-size: 11px;
 }
 
 #public_reg_form label {
-    float: left;
-    margin-top: 2px;
-    margin-right:4px;
-    padding: 0px;
-    padding-left: 7px;
-    /*display: table-cell;*/
-    width: 150px;
-    color: #92897e;
-    /*margin-top: 2px;*/
-    background-color: #363639;
-    height: 18px;
-    line-height: 18px;
-    color: #d3d3d3;
-}
-
-#public_reg_form.member_reg fieldset {
-    margin: 0px;
-    margin-top: 8px;
-    margin-bottom: 20px;
-    padding: 0px;
-    border: 0;    
-}
-
-#public_reg_form.member_reg label {
     float: left;
     margin: 0px;
     padding: 0px;
@@ -1049,33 +1027,13 @@ span {
     color: #92897e;
     margin-top: 2px;
     background-color: #363639;
-    height: 18px;
+    height: 20px;
     line-height: 19px;
     color: #d3d3d3;
 }
 
-#public_reg_form.member_reg select {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin: 1px 2px 1px 2px;
-    padding: 0px;
-    width: 152px;
-    height: 18px;
-    font-family: Arial;
-    font-size: 10px;   
-}
-
-#public_reg_form.member_reg input {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin: 1px 2px 1px 2px;
-    padding: 0px;
-    width: 150px;
-    height: 16px;
-    font-family: Arial;
-    font-size: 11px;    
+#public_reg_form.member_reg fieldset {
+    margin-top: 8px;
 }
 
 #public_reg_form br {
