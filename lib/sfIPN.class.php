@@ -80,51 +80,51 @@ class sfIPN
     
     public function processNotification()
     {
-        if( isset($this->params['txn_type']) 
-            && $this->params['receiver_email'] == sfConfig::get('app_paypal_business')
-            && $this->params['mc_currency'] == 'GBP')
+        if( $this->params['receiver_email'] != sfConfig::get('app_paypal_business') ) return false;
+        
+        if( isset($this->params['txn_type']) )
         {
             switch ($this->params['txn_type']) {
-            	case 'subscr_payment':
-            	   if( $this->params['payment_status'] == 'Completed')
-            	   {
-            	       $member = MemberPeer::retrieveByUsername($this->params['custom']);
-            	       if( $member )
-            	       {
-            	           $member->clearCounters();
-            	           $member->changeSubscription(SubscriptionPeer::PAID);
-            	           $member->setLastPaypalPaymentAt($this->params['payment_date']);
-            	           $member->setLastPaypalItem($this->params['item_number']);
-            	           $member->save();
-            	           
-            	           //renewal or not
-            	           $c = new Criteria();
-            	           $c->add(IpnHistoryPeer::SUBSCR_ID, $this->params['subscr_id']);
-            	           $c->add(IpnHistoryPeer::TXN_TYPE, 'subscr_payment');
-            	           $c->add(IpnHistoryPeer::PAYMENT_STATUS, 'Completed');
-            	           $this->params['renewal'] = (IpnHistoryPeer::doCount($c) > 0) ? true : false;
-            	           
-            	           
-            	           $this->params['member_subscr_id'] = $member->getSubscriptionId();
-            	           
-            	           return true;
-            	       }
-            	   }
-            	break;
-            	
-            	case 'subscr_signup':
-            	       $member = MemberPeer::retrieveByUsername($this->params['custom']);
-            	       if( $member )
-            	       {
-            	           $member->setLastPaypalSubscrId($this->params['subscr_id']);
-            	           $member->setLastPaypalItem($this->params['item_number']);
-            	           $member->setPaypalUnsubscribedAt(null);
-            	           $member->save();
-            	           return true;
-            	       }
-            	break;
-            	
-            	case 'subscr_cancel':
+                case 'subscr_payment':
+                   if( $this->params['payment_status'] == 'Completed')
+                   {
+                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       if( $member )
+                       {
+                           $member->clearCounters();
+                           $member->changeSubscription(SubscriptionPeer::PAID);
+                           $member->setLastPaypalPaymentAt($this->params['payment_date']);
+                           $member->setLastPaypalItem($this->params['item_number']);
+                           $member->save();
+                           
+                           //renewal or not
+                           $c = new Criteria();
+                           $c->add(IpnHistoryPeer::SUBSCR_ID, $this->params['subscr_id']);
+                           $c->add(IpnHistoryPeer::TXN_TYPE, 'subscr_payment');
+                           $c->add(IpnHistoryPeer::PAYMENT_STATUS, 'Completed');
+                           $this->params['renewal'] = (IpnHistoryPeer::doCount($c) > 0) ? true : false;
+                           
+                           
+                           $this->params['member_subscr_id'] = $member->getSubscriptionId();
+                           
+                           return true;
+                       }
+                   }
+                break;
+                
+                case 'subscr_signup':
+                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       if( $member )
+                       {
+                           $member->setLastPaypalSubscrId($this->params['subscr_id']);
+                           $member->setLastPaypalItem($this->params['item_number']);
+                           $member->setPaypalUnsubscribedAt(null);
+                           $member->save();
+                           return true;
+                       }
+                break;
+                
+                case 'subscr_cancel':
                        $member = MemberPeer::retrieveByUsername($this->params['custom']);
                        if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
@@ -135,10 +135,10 @@ class sfIPN
                                 $member->save();
                                 return true;
                             }
-                       }            	    
-            	break;
-            	
-            	case 'subscr_eot':
+                       }                    
+                break;
+                
+                case 'subscr_eot':
                        $member = MemberPeer::retrieveByUsername($this->params['custom']);
                        if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
@@ -149,35 +149,47 @@ class sfIPN
                            $member->setLastPaypalItem(null);
                            $member->save();
                            return true;
-                       }             	    
-            	break;
-            	
-            	//IMBRA payments
-                case 'web_accept':
-	                $member = MemberPeer::retrieveByUsername($this->params['custom']);
-	                if( $member )
-	                {
-	                     if( $this->params['payment_status'] == 'Pending')
-	                     {
-	                     	$member->setImbraPayment('pending');
-	                     } elseif( $this->params['payment_status'] == 'Completed' )
-	                     {
-	                     	$member->setImbraPayment('completed');
-	                     } elseif( $this->params['payment_status'] == 'Failed' )
-	                     {
-	                     	$member->setImbraPayment(null);
-	                     }
-	                    
-	                     $member->save();
-	                    return true;
-	                }
+                       }                     
                 break;
-                            	
-            	default:
-            	    sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->params['txn_type']);
-            	break;
+                
+                //IMBRA payments
+                case 'web_accept':
+                    $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                    if( $member )
+                    {
+                         if( $this->params['payment_status'] == 'Pending')
+                         {
+                             $member->setImbraPayment('pending');
+                         } elseif( $this->params['payment_status'] == 'Completed' )
+                         {
+                             $member->setImbraPayment('completed');
+                         } elseif( $this->params['payment_status'] == 'Failed' )
+                         {
+                             $member->setImbraPayment(null);
+                         }
+                        
+                         $member->save();
+                        return true;
+                    }
+                break;
+                                
+                default:
+                    sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->params['txn_type']);
+                break;
             }
             
+        } else {
+            if( $this->params['payment_status'] == 'Reversed' || $this->params['payment_status'] == 'Refunded' )
+            {
+                $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                if( $member && !$member->isSubscriptionFree() && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
+                {
+                   $member->changeSubscription(SubscriptionPeer::FREE);
+                   $member->save();
+                }
+            } else {
+                sfLogger::getInstance()->notice('Unhandled payment_status: ' . $this->params['payment_status']);
+            }            
         }
         
         return false;
