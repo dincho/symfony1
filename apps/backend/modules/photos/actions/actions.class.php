@@ -14,7 +14,7 @@ class photosActions extends sfActions
     public function preExecute()
     {
         $this->top_menu_selected = 'content';
-        $this->left_menu_selected = 11;
+        $this->left_menu_selected = 12;
         $this->getUser()->getBC()->clear()->add(array('name' => 'content', 'uri' => 'content/list'))
         ->add(array('name' => 'Stock Photos', 'uri' => 'photos/stockPhotos'));
     }
@@ -325,7 +325,7 @@ class photosActions extends sfActions
             $bc = $this->getUser()->getBc();
             switch ($sort_column) {
             	case 'Member::created_at':
-            	   $bc->add(array('name' => 'Most Recent'));
+            	   $bc->add(array('name' => 'Most Recent', 'uri' => 'photos/list'));
             	break;
             	
             	case 'MemberCounter::profile_views':

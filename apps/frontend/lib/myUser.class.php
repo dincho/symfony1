@@ -57,7 +57,7 @@ class myUser extends sfBasicSecurityUser
         $member->save();
         
         //clear old session zombies
-        $member->clearDroppedSessions(session_id());
+        if(SF_ENVIRONMENT != 'dev')  $member->clearDroppedSessions(session_id());
     }
 
     public function SignOut()
@@ -139,7 +139,12 @@ class myUser extends sfBasicSecurityUser
                     $visit->setMemberRelatedByProfileId($profile);
                     $visit->save();
                     
-                    if($profile->getEmailNotifications() === 0) Events::triggerAccountActivityVisitor($profile, $this->getProfile());
+                    if( $profile->getEmailNotifications() === 0 &&
+                        (!$this->getProfile()->getPrivateDating() || $this->getProfile()->hasOpenPrivacyFor($profile->getId()))
+                      ) 
+                    {
+                        Events::triggerAccountActivityVisitor($profile, $this->getProfile());
+                    }
                 }
                 
             } else

@@ -1,18 +1,25 @@
 <?php
 class prPrivacyValidator extends sfValidator
 {
-	protected $sender;
-	protected $receiver;
-	
-	public function setProfiles(BaseMember $sender, BaseMember $receiver)
-	{
+    protected $sender;
+    protected $receiver;
+    
+    public function setProfiles(BaseMember $sender, BaseMember $receiver)
+    {
         $this->sender = $sender;
         $this->receiver = $receiver;
-	}
-	
-	public function execute(&$value, &$error) 
-	{
-        
+    }
+    
+    public function execute(&$value, &$error) 
+    {
+       if ( $this->getParameter('check_open_privacy') && 
+           $this->receiver->getPrivateDating() && 
+           !$this->receiver->hasOpenPrivacyFor($this->sender->getId()) )
+       {
+           $error = $this->getParameter('open_privacy_error');
+           return false;
+       }
+               
        if ( $this->getParameter('check_block') && $this->receiver->hasBlockFor($this->sender->getId()) )
        {
            $error = $this->getParameter('block_error');
@@ -31,26 +38,28 @@ class prPrivacyValidator extends sfValidator
            $error = $this->getParameter('onlyfull_error');
            return false;
        }       
-            		
-		return true;
-	}
-	
-	public function initialize($context, $parameters = null)
-	{
-		// Initialize parent
-		parent::initialize ( $context );
-		
-		$this->setParameter('check_block', true);
-		$this->setParameter('check_sex', true);
-		$this->setParameter('check_onlyfull', true);
-		
-		$this->setParameter('block_error', 'This member has blocked you');
-		$this->setParameter('sex_error', 'Due to privacy restrictions you cannot interact with this profile');
-		$this->setParameter('onlyfull_error', 'Due to privacy restrictions you cannot interact with this profile');
-		
-		// Set parameters
-		$this->getParameterHolder ()->add($parameters);
-		
-		return true;
-	}
+                    
+        return true;
+    }
+    
+    public function initialize($context, $parameters = null)
+    {
+        // Initialize parent
+        parent::initialize ( $context );
+        
+        $this->setParameter('check_block', true);
+        $this->setParameter('check_sex', true);
+        $this->setParameter('check_onlyfull', true);
+        $this->setParameter('check_open_privacy', true);
+        
+        $this->setParameter('block_error', 'This member has blocked you');
+        $this->setParameter('sex_error', 'Due to privacy restrictions you cannot interact with this profile');
+        $this->setParameter('onlyfull_error', 'Due to privacy restrictions you cannot interact with this profile');
+        $this->setParameter('open_privacy_error', 'Due to privacy restrictions you cannot interact with this profile');
+        
+        // Set parameters
+        $this->getParameterHolder ()->add($parameters);
+        
+        return true;
+    }
 }

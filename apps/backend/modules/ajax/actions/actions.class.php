@@ -49,7 +49,7 @@ class ajaxActions extends geoActions
   public function executeUpdatePublicSearch()
   {
       $member = MemberPeer::retrieveByPK($this->getRequestParameter('member_id'));
-      if( $member && !$member->getDontUsePhotos())
+      if( $member && !$member->getPrivateDating())
       {
           $member->setPublicSearch(!$member->getPublicSearch());
           $member->save();

@@ -609,6 +609,14 @@ p {
     margin-top: 23px;
 }
 
+#privacy p {
+    padding-left: 20px;
+    width: 400px;
+    font-size: 10px;
+    color: #92897E;
+    margin: 0;
+}
+
 .center_text {
     text-align: center;
     display: block;

@@ -114,7 +114,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Best Videos Templates', 'uri' => 'content/bestVideo'),
                                            array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
                                            array('title' => 'Assistant', 'uri' => 'content/assistant'),
-                                           array('title' => 'Photos', 'uri' => 'photos/list?sort=Member::created_at&type=desc'),
+                                           array('title' => 'Photos', 'uri' => 'photos/list?filter=filter&sort=Member::created_at&type=desc'),
                                            array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
                                            array('title' => 'Areas', 'uri' => 'areas/view'),

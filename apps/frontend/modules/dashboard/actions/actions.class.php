@@ -27,6 +27,11 @@ class dashboardActions extends prActions
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+
+        $c->addJoin(MemberMatchPeer::MEMBER1_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. MemberMatchPeer::MEMBER2_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+                
         $c->setLimit(5);
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
         
@@ -66,6 +71,12 @@ class dashboardActions extends prActions
         $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(HotlistPeer::IS_NEW, true);
+        
+        //privacy check
+        $c->addJoin(HotlistPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. HotlistPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+        
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
@@ -81,6 +92,12 @@ class dashboardActions extends prActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         $c->add(ProfileViewPeer::IS_NEW, true);
+        
+        //privacy check
+        $c->addJoin(ProfileViewPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. ProfileViewPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+                
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
@@ -117,6 +134,12 @@ class dashboardActions extends prActions
         $c = new Criteria();
         $c->add(ProfileViewPeer::PROFILE_ID, $this->getUser()->getId());
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        
+        //privacy check
+        $c->addJoin(ProfileViewPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. ProfileViewPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+                
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
         $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
@@ -232,14 +255,14 @@ class dashboardActions extends prActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $modified = false;
-            if( $member->getDontUsePhotos() != $this->getRequestParameter('dont_use_photos') ||
+            if( $member->getPrivateDating() != $this->getRequestParameter('private_dating') ||
                 $member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members'))
                 {
                   $modified = true;
                 }
             
-            $member->setDontUsePhotos($this->getRequestParameter('dont_use_photos', 0));
-            if( $this->getRequestParameter('dont_use_photos', 0) == 1) $member->setPublicSearch(false);
+            $member->setPrivateDating($this->getRequestParameter('private_dating', 0));
+            if( $this->getRequestParameter('private_dating', 0) == 1) $member->setPublicSearch(false);
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
             
             if( $modified && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )

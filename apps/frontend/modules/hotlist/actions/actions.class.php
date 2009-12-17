@@ -26,6 +26,12 @@ class hotlistActions extends prActions
         $c = new Criteria();
         $c->add(HotlistPeer::PROFILE_ID, $this->getUser()->getId());
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        
+        //privacy check
+        $c->addJoin(HotlistPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. HotlistPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+        
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
         
@@ -48,7 +54,13 @@ class hotlistActions extends prActions
         //@TODO what's this, probably if not undo ? ?!
         if (!isset($n))
         {
-          if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivityHotlist($profile, $this->getUser()->getProfile());
+          if( $profile->getEmailNotifications() === 0 && 
+              (!$this->getUser()->getProfile()->getPrivateDating() || $this->getUser()->getProfile()->hasOpenPrivacyFor($profile->getId()))
+             )
+          {
+              Events::triggerAccountActivityHotlist($profile, $this->getUser()->getProfile());
+          }
+          
           //confirm msg
           $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
           array('%USERNAME%' => $profile->getUsername()));

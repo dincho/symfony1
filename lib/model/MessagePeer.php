@@ -27,6 +27,9 @@ class MessagePeer extends BaseMessagePeer
         $message->save();
         $sent_message->save();
         
+        //open the privacy
+        $from_member->addOpenPrivacyForIfNeeded($to_member->getId());
+        
         //add auto reply message if nessecary
         if( $from_member->isSubscriptionFree() && 
             !$from_member->getSubscription()->getCanSendMessages() && 

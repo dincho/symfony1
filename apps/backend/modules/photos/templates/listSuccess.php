@@ -9,7 +9,7 @@
                 <?php echo link_to('View', $member->getFrontendProfileUrl(), array('popup' => true)) ?>
             </span>
             <b>Public Search:</b><?php echo checkbox_tag('public_search[]', $member->getId(), $member->getPublicSearch(), 
-                                                        array('class' => 'checkbox', 'disabled' => $member->getDontUsePhotos(), 
+                                                        array('class' => 'checkbox', 'disabled' => $member->getPrivateDating(), 
                                                         'onchange' => "new Ajax.Request('". url_for('ajax/UpdatePublicSearch?member_id=' . $member->getId()) ."', {method: 'get'});")) ?>
         </div>
         <fieldset class="form_fields">

@@ -63,7 +63,7 @@ class searchActions extends prActions
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
-        
+                
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row
@@ -330,6 +330,11 @@ class searchActions extends prActions
     {
         $c->add(MemberMatchPeer::MEMBER1_ID, $this->getUser()->getId());
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        
+        //privacy check
+        $c->addJoin(MemberMatchPeer::MEMBER1_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. MemberMatchPeer::MEMBER2_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);        
     }
 
     protected function processPublicFilters(Criteria $c)

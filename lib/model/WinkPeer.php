@@ -134,6 +134,9 @@ class WinkPeer extends BaseWinkPeer
         $wink->save();
         $sent_wink->save();
         
+        //open the privacy
+        $from_member->addOpenPrivacyForIfNeeded($to_member->getId());
+        
         if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivityWink($to_member, $from_member);
 
         return $sent_wink;

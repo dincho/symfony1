@@ -26,6 +26,12 @@ class MemberCounterPeer extends BaseMemberCounterPeer
         $c->add(HotlistPeer::IS_NEW, true);
         $c->add(HotlistPeer::PROFILE_ID, $member_id);
         
+        //privacy check
+        $c->addJoin(HotlistPeer::MEMBER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
+        $c->addJoin(HotlistPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. HotlistPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM); 
+                
         return HotlistPeer::doCount($c);
     }
     
@@ -35,6 +41,12 @@ class MemberCounterPeer extends BaseMemberCounterPeer
         $c->add(ProfileViewPeer::IS_NEW, true);
         $c->add(ProfileViewPeer::PROFILE_ID, $member_id);
         
+        //privacy check
+        $c->addJoin(ProfileViewPeer::MEMBER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
+        $c->addJoin(ProfileViewPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. ProfileViewPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM); 
+                
         return ProfileViewPeer::doCount($c);
     }    
 }

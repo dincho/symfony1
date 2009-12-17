@@ -280,6 +280,17 @@ class Member extends BaseMember
         return ( $cnt > 0) ? true : false;
     }
     
+    public function hasOpenPrivacyFor($profile_id)
+    {
+        $c = new Criteria();
+        $c->add(OpenPrivacyPeer::MEMBER_ID, $this->getId());
+        $c->add(OpenPrivacyPeer::PROFILE_ID, $profile_id);
+        
+        $cnt = OpenPrivacyPeer::doCount($c);
+        
+        return ( $cnt > 0) ? true : false;
+    }
+        
     public function mustFillIMBRA()
     {
         return ( !sfConfig::get('app_settings_imbra_disable') && is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
@@ -638,5 +649,30 @@ class Member extends BaseMember
       $c2 = new Criteria();
       $c2->add(ProfileViewPeer::IS_NEW, false);
       BasePeer::doUpdate($c1, $c2, Propel::getConnection(ProfileViewPeer::DATABASE_NAME));
+    }
+    
+    public function addOpenPrivacyFor($profile_id)
+    {
+        if( !$this->hasOpenPrivacyFor($profile_id) )
+        {
+            $open = new OpenPrivacy();
+            $open->setMemberId($this->getId());
+            $open->setProfileId($profile_id);
+            $open->save();
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function addOpenPrivacyForIfNeeded($profile_id)
+    {
+        if( $this->getPrivateDating() )
+        {
+            return $this->addOpenPrivacyFor($profile_id);
+        }
+        
+        return false;
     }
 }

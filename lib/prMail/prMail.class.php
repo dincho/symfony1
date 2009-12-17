@@ -8,7 +8,7 @@ class prMail extends sfMail
 
     public function __construct()
     {
-        $this->mailer = new PHPMailer(true);
+        $this->mailer = new PHPMailer();
         
         //print_r($this->getMailer());exit();
         $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', false);
