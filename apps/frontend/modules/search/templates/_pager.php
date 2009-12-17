@@ -3,15 +3,15 @@
         <?php if($pager->getPage() != $pager->getFirstPage()) echo link_to(image_tag('prev.gif'), $route . '?page='.$pager->getPreviousPage() . @$query_string) ?>
         <span>Page</span>
         
-        <?php if( $pager->getPage() > 3 ): ?>
+        <?php if( $pager->getPage() > 3 && ($pager->getNbResults()/$pager->getMaxPerPage()) > 5 ): ?>
             <?php echo link_to('1...', $route . '?page=1' . @$query_string) ?>
         <?php endif; ?>
         
         <?php foreach ($pager->getLinks(5) as $page): ?>
             <?php echo link_to_unless($page == $pager->getPage(), $page, $route . '?page='.$page . @$query_string) ?>
         <?php endforeach; ?>
-        
-        <?php if( $pager->getPage() < $pager->getLastPage()-2 ): ?>
+        <?php //echo 'pages: ' . ($pager->getNbResults()/$pager->getMaxPerPage()); ?>
+        <?php if( $pager->getPage() < $pager->getLastPage()-2 && ($pager->getNbResults()/$pager->getMaxPerPage()) > 5 ): ?>
             <?php echo link_to('...'.$pager->getLastPage(), $route . '?page='.$pager->getLastPage() . @$query_string) ?>
         <?php endif; ?>
         
