@@ -8,7 +8,7 @@ class prMail extends sfMail
 
     public function __construct()
     {
-        $this->mailer = new PHPMailer();
+        $this->mailer = new PHPMailer(true);
         
         //print_r($this->getMailer());exit();
         $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', false);
@@ -63,11 +63,13 @@ class prMail extends sfMail
         
         try
         {
-            parent::send();
-        } catch ( sfException $e )
+            $this->mailer->Send();
+        } catch ( Exception $e )
         {
             if(SF_ENVIRONMENT == 'dev') throw new sfException($e->getMessage(), $e->getCode());
+            return false;
         }
-    
+        
+        return true;
     }
 }

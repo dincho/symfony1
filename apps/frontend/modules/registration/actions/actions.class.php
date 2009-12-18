@@ -38,7 +38,12 @@ class registrationActions extends prActions
             $this->getUser()->getAttributeHolder()->clear();
             $this->getUser()->clearCredentials();
                     
-            Events::triggerJoin($member);
+            if( Events::triggerJoin($member) )
+            {
+                $member->setActivationEmailSent(true);
+                $member->save();
+            }
+            
             $this->message('verify_your_email');
         }
         

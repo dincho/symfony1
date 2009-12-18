@@ -58,6 +58,6 @@ class Notification extends BaseNotification
         }
         
         if( $this->getBcc() ) $mail->addBcc($this->getBcc());
-        $mail->send();
+        return $mail->send();
     }
 }

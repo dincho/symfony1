@@ -76,6 +76,7 @@ propel:
     email:                    { type: varchar, size: 255, required: true }
     tmp_email:                { type: varchar, size: 255, required: true } #temp field used for changging emails
     has_email_confirmation:   { type: boolean, required: true, default: 0 }
+    activation_email_sent:    { type: boolean, required: true, default: 0 }
     sex:                      { type: char, size: 1, required: true }
     looking_for:              { type: char, size: 1, required: true }
     reviewed_by_id:           { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
@@ -110,7 +111,7 @@ propel:
     last_paypal_payment_at:   { type: timestamp }
     last_activity:            { type: timestamp } #timestamp of last sent message
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
-    last_flagged:			  { type: timestamp } #timestamp of the last flag
+    last_flagged:             { type: timestamp } #timestamp of the last flag
     last_login:               { type: timestamp }
     last_winks_view:          { type: timestamp }
     last_hotlist_view:        { type: timestamp }

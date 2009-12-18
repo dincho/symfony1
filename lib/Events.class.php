@@ -43,11 +43,14 @@ class Events
     /* REGISTRATION EVENTS */
     public static function triggerJoin($member)
     {
-        sfLoader::loadHelpers(array('Tag', 'Url'));
+        //sfLoader::loadHelpers(array('Tag', 'Url'));
         $hash = sha1(SALT . $member->getUsername() . SALT);
-        $global_vars = array('{ACTIVATION_URL}' => url_for('registration/activate?username=' . $member->getUsername() . '&hash=' . $hash, array('absolute' => true)));
         
-        self::executeNotifications(self::JOIN, $global_vars, $member->getEmail(), $member);
+        $activation_url = LinkPeer::create('registration/activate?username=' . $member->getUsername() . '&hash=' . $hash)->getUrl($member->getCulture());
+        
+        $global_vars = array('{ACTIVATION_URL}' => $activation_url);
+        
+        return self::executeNotifications(self::JOIN, $global_vars, $member->getEmail(), $member);
     }
 
     public static function triggerWelcome($member)
@@ -58,7 +61,7 @@ class Events
                              '{IP}' => $_SERVER['REMOTE_ADDR'],
                             );
         
-        self::executeNotifications(self::WELCOME, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::WELCOME, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerWelcomeApproved($member)
@@ -66,7 +69,7 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
-        self::executeNotifications(self::WELCOME_APPROVED, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::WELCOME_APPROVED, $global_vars, $member->getEmail(), $member);
     }
 
     /* EMAIL & PASSOWRD EVENTS */
@@ -74,7 +77,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         $global_vars = array('{CONFIRMATION_URL}' => url_for('profile/forgotPasswordConfirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), array('absolute' => true)));
-        self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerNewPasswordConfirm($member)
@@ -82,7 +85,7 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         $confirmation_url = url_for('profile/confirmNewPassword?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), array('absolute' => true));
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
-        self::executeNotifications(self::NEW_PASSWORD_CONFIRM, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::NEW_PASSWORD_CONFIRM, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerNewEmailConfirm($member)
@@ -92,7 +95,7 @@ class Events
         $confirmation_url = url_for('profile/confirmNewEmail?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
-        self::executeNotifications(self::NEW_EMAIL_CONFIRM, $global_vars, $member->getTmpEmail(), $member);
+        return self::executeNotifications(self::NEW_EMAIL_CONFIRM, $global_vars, $member->getTmpEmail(), $member);
     }
     
     public static function triggerNewEmailConfirmed($member)
@@ -103,7 +106,7 @@ class Events
         $global_vars = array('{UNDO_URL}' => $undo_url);
         
         //send to the old email, which is in the temp field
-        self::executeNotifications(self::NEW_EMAIL_CONFIRMED, $global_vars, $member->getTmpEmail(), $member);
+        return self::executeNotifications(self::NEW_EMAIL_CONFIRMED, $global_vars, $member->getTmpEmail(), $member);
     }
     
     /* MEMBER EVENTS */
@@ -113,7 +116,7 @@ class Events
         
         $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)), '{REASON}' => $reason);
         
-        self::executeNotifications(self::ACCOUNT_DELETE_BY_MEMBER, $global_vars, null, $member);     
+        return self::executeNotifications(self::ACCOUNT_DELETE_BY_MEMBER, $global_vars, null, $member);     
     }
     
     public static function triggerAccountDeactivation($member)
@@ -122,7 +125,7 @@ class Events
         
         $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)));
         
-        self::executeNotifications(self::ACCOUNT_DEACTIVATION, $global_vars, null, $member);     
+        return self::executeNotifications(self::ACCOUNT_DEACTIVATION, $global_vars, null, $member);     
     }
     
     public static function triggerAutoRenew($member)
@@ -133,7 +136,7 @@ class Events
                              '{EOT_DATE}' => date('M d, Y', $member->getEotDate()),
                             );
         
-        self::executeNotifications(self::AUTO_RENEW, $global_vars, null, $member);     
+        return self::executeNotifications(self::AUTO_RENEW, $global_vars, null, $member);     
     }
     
     public static function triggerScamActivity($member, $nb_flags)
@@ -144,7 +147,7 @@ class Events
                              '{NB_FLAGS}' =>  $nb_flags,
                             );
         
-        self::executeNotifications(self::SCAM_ACTIVITY, $global_vars, null, $member);     
+        return self::executeNotifications(self::SCAM_ACTIVITY, $global_vars, null, $member);     
     }
     
     public static function triggerSpamActivity($member, $nb_messages)
@@ -155,7 +158,7 @@ class Events
                              '{NB_MESSAGES}' => $nb_messages,
                             );
         
-        self::executeNotifications(self::SPAM_ACTIVITY, $global_vars, null, $member);     
+        return self::executeNotifications(self::SPAM_ACTIVITY, $global_vars, null, $member);     
     }
     
     public static function triggerAbandonedRegistration($member)
@@ -164,7 +167,7 @@ class Events
         
         $global_vars = array('{PROFILE_URL}' => 'http://' . sfConfig::get('app_base_domain') . '/en/dashboard/profile/' . $member->getUsername() . '.html' );
         
-        self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);     
+        return self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);     
     }
     
     public static function triggerFirstContact($message)
@@ -184,7 +187,7 @@ class Events
                                  '{MESSAGE}' => $message->getContent(),
                                 );
             
-            self::executeNotifications(self::FIRST_CONTACT, $global_vars, null, $from_member);
+            return self::executeNotifications(self::FIRST_CONTACT, $global_vars, null, $from_member);
         }
     }
     
@@ -193,7 +196,7 @@ class Events
     {
         
         $global_vars = array('{FRIEND_NAME}' => $friend_name, '{NAME}' => $name, '{EMAIL}' => $email, '{COMMENTS}' => $comments);
-        self::executeNotifications(self::TELL_FRIEND, $global_vars, $friend_email, null, $email);
+        return self::executeNotifications(self::TELL_FRIEND, $global_vars, $friend_email, null, $email);
     }
     
     /* REMINDERS */
@@ -202,7 +205,7 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
-        self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerLoginReminder($member)
@@ -211,7 +214,7 @@ class Events
         
         $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)), 
                              '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
-        self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerAccountActivity($member)
@@ -250,7 +253,7 @@ class Events
                             );
         
         
-        self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerAccountActivityWink(BaseMember $member, BaseMember $from_member)
@@ -260,7 +263,7 @@ class Events
                              '{SENDER_USERNAME}' => $from_member->getUsername(),
                             );
                             
-        self::executeNotifications(self::ACCOUNT_ACTIVITY_WINK, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_WINK, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerAccountActivityHotlist(BaseMember $member, BaseMember $from_member)
@@ -270,7 +273,7 @@ class Events
                              '{SENDER_USERNAME}' => $from_member->getUsername(),
                             );
                             
-        self::executeNotifications(self::ACCOUNT_ACTIVITY_HOTLIST, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_HOTLIST, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerAccountActivityVisitor(BaseMember $member, BaseMember $visitor)
@@ -280,7 +283,7 @@ class Events
                              '{VISITOR_USERNAME}' => $visitor->getUsername(),
                             );
                             
-        self::executeNotifications(self::ACCOUNT_ACTIVITY_VISITOR, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_VISITOR, $global_vars, $member->getEmail(), $member);
     }
     
     /**
@@ -302,10 +305,15 @@ class Events
         $c->add(NotificationPeer::IS_ACTIVE, true);
         $notifications = NotificationPeer::doSelectWithI18N($c, $culture);
         
+        $ret = true;
         foreach ($notifications as $notification) 
         {
           if( $notification->getToAdmins() ) $notification->setCulture('en'); //force admin notifications to English
-          $notification->execute($global_vars, $addresses, $object, $mail_from);
+          $notification_ret = $notification->execute($global_vars, $addresses, $object, $mail_from);
+          
+          if( !$notification_ret ) $ret = false;
         }
+        
+        return $ret;
     }
 }

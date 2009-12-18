@@ -615,6 +615,23 @@ class membersActions extends sfActions
         $this->redirect('members/edit?id=' . $this->member->getId());
     }
     
+    public function executeResendActivationEmail()
+    {
+        $this->getUser()->checkPerm(array('members_edit'));
+        $this->forward404Unless($this->member);
+        
+        if( Events::triggerJoin($this->member) )
+        {
+            $this->member->setActivationEmailSent(true);
+            $this->member->save();
+            $this->setFlash('msg_ok', sprintf("%s's activation email has been re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));
+        } else {
+            $this->setFlash('msg_error', sprintf("%s's activation email can not be re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));            
+        }
+        
+        $this->redirect('members/edit?id=' . $this->member->getId());
+    }    
+    
     protected function processSort()
     {
         $this->sort_namespace = 'backend/members/sort';
