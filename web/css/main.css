@@ -2241,11 +2241,25 @@ div.best_video div.right img {
     cursor: default;
 }
 
+#profile_left #sign_in {
+    width: 350px;
+    height: 200px;
+    margin-top: 50px;
+}
+
+#profile_left #sign_in fieldset {
+
+}
+
+#profile_left #sign_in label {
+
+}
+
 /* END left */ /* right */
 #profile_right {
     float: right;
     font-size: 11px;
-    width:340px;
+    width: 340px;
     height: 100%;
     color: #d3d3d3;
     text-align: left;

@@ -1,61 +1,29 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<div id="profile_right">
-    <div id="profile_pager">
-        <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
-    </div>
+<div id="profile_right"> 
+   <div id="profile_pager"></div>
    
    <div id="profile_top">
-        <?php echo link_to_unless($sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()), __('Wink'), 'winks/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to(__('Send Mail'), 'messages/send?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        
-
-        <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-         <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php else: ?>
-            <?php echo link_to_ref(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php endif; ?>
-
-        
-        <?php echo link_to_unless($sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId()), __('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername(), 'class=sec_link') ?>
+        <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Add to Hotlist');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Block');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Flag');?></span>
    </div>
     <span class="profile_gift">
         <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
           <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
         <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
-          <?php echo link_to(image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'), 'subscription/giftMembership?profile=' . $member->getUsername()) ?>
+          <?php echo image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'); ?>
         <?php endif; ?>
     </span>
     <div id="profile_double_box">
         <div class="left">
             <div class="middle">
-                <?php if( $match): ?>
-                    <?php if( $sf_user->getProfile()->hasSearchCriteria() ): ?>
-                        <?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
-                    <?php else: ?>
-                        <?php echo __('%she_he% matches you: (no result)', array('%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?><br />
-                    <?php endif; ?>
-                    
-                    <?php if( $member->hasSearchCriteria() ): ?>
-                        <?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />
-                    <?php else: ?>
-                        <?php echo __('You match %her_him%: (no result)', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?><br />
-                    <?php endif; ?>
-                    
-                    <?php if( $match->getCombinedMatch() > 0 ): ?>
-                        <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedMatch()) ) ?><br />
-                    <?php endif; ?> 
-                <?php endif; ?>
             </div>
         </div>
         <div class="right">
-            <?php if( $member->isLoggedIn() ): ?>
-                <?php echo __('Currently Online') ?>
-            <?php else: ?>
-                <?php echo __('Last log in: ') ?>
-                <?php echo time_ago_in_words($member->getLastLogin(null)) ?>
-            <?php endif; ?>
+            <?php echo __('Currently Online') ?>
             <br />
             <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
         </div>
@@ -176,6 +144,7 @@
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
     <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
+
 <?php if(!sfConfig::get('app_settings_imbra_disable') && $imbra ): ?>
     <a name="profile_imbra_info" class="sec_link"><?php echo link_to_function('[<span id="profile_imbra_details_tick">-</span>] ' . __('IMBRA Information'), 'show_hide_tick("profile_imbra_details")', 'class=sec_link') ?></a>
     <div id="profile_imbra_details">

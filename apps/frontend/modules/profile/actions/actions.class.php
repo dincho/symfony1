@@ -35,89 +35,165 @@ class profileActions extends prActions
         }
     }
 
-    public function executeIndex()
+    
+    protected function profilePreExecute()
     {
         $key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
         
-        $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
-        $this->forward404Unless($member);
+        $this->member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
+        $this->forward404Unless($this->member);
         
-        //secure action for non-admins
-        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $member->getUsername() . sfConfig::get('app_admin_user_hash'));                                  
-        $this->forwardIf(!$this->getUser()->isAuthenticated() && $this->getRequestParameter('admin_hash') != $admin_hash, sfConfig::get('sf_login_module'), sfConfig::get('sf_login_action'));
-                    
+        $this->getUser()->getBC()->clear();
+    }
+    
+    
+    public function executeMyProfile()
+    {
+        $this->getRequest()->setParameter('username', $this->getUser()->getUsername());
         
-        if( $this->getRequestParameter('admin_hash') != $admin_hash && $this->getUser()->getId() != $member->getId() )
+        $this->profilePreExecute();
+        
+        $this->getUser()->getBC()->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
+        
+        $this->profilePostExecute();
+        
+        if( !$this->hasFlash('msg_ok') ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
+        $this->getUser()->getBC()->setCustomLastItem(__('My Profile'));
+        
+        $this->setTemplate('simpleProfile');
+    }
+    
+    public function executeIndex()
+    {
+        $this->profilePreExecute();
+        
+        $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $this->member->getUsername() . sfConfig::get('app_admin_user_hash'));
+        $this->is_admin = ($this->getRequestParameter('admin_hash') == $admin_hash);
+        $bc = $this->getUser()->getBC();
+        
+        if( !$this->is_admin )
         {
-          $member_status_id = $member->getMemberStatusId();
-          if( $member_status_id != MemberStatusPeer::ACTIVE )
-          {
-              $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
-                                  $member_status_id == MemberStatusPeer::PENDING ||
-                                  $member_status_id == MemberStatusPeer::DENIED
-                                  );
-                                 
-              switch ($member_status_id) {
-                case MemberStatusPeer::SUSPENDED:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
-                break;
-                case MemberStatusPeer::SUSPENDED_FLAGS:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
-                break;
-                case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
-                break;
-                case MemberStatusPeer::CANCELED:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
-                break;
-                case MemberStatusPeer::CANCELED_BY_MEMBER:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
-                break;
-                case MemberStatusPeer::DEACTIVATED:
-                    $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
-                break;
+            if( $this->getUser()->isAuthenticated() && $this->getUser()->getId() == $this->member->getId() ) $this->redirect('profile/myProfile');
+            
+            //set correct error message if member is not active
+            if( !$this->member->isActive() )
+            {
+                $member_status_id = $this->member->getMemberStatusId();
                 
-                default:
-                break;
-              }
-              
-              $this->redirect('@dashboard');
-          } else { //is not admin and not viewing itself
-              //privacy
-              $prPrivavyValidator = new prPrivacyValidator();
-              $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $member);
-              $prPrivavyValidator->initialize($this->getContext(), array(
+                $this->forward404If($member_status_id == MemberStatusPeer::ABANDONED ||
+                      $member_status_id == MemberStatusPeer::PENDING ||
+                      $member_status_id == MemberStatusPeer::DENIED
+                      );
+
+                switch ($member_status_id) {
+                    case MemberStatusPeer::SUSPENDED:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                    break;
+                    case MemberStatusPeer::SUSPENDED_FLAGS:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                    break;
+                    case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                    break;
+                    case MemberStatusPeer::CANCELED:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                    break;
+                    case MemberStatusPeer::CANCELED_BY_MEMBER:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
+                    break;
+                    case MemberStatusPeer::DEACTIVATED:
+                        $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
+                    break;
+
+                    default:
+                    break;
+                }
+            }
+            
+            if( $this->getUser()->isAuthenticated() )
+            {
+                if( !$this->member->isActive() ) $this->redirect('@dashboard');
+                
+                //privacy
+                $prPrivavyValidator = new prPrivacyValidator();
+                $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $this->member);
+                $prPrivavyValidator->initialize($this->getContext(), array(
                 'sex_error' => 'Due to privacy restrictions you cannot see this profile',
                 'check_onlyfull' => false,
-              ));
-          
-              $error = '';
-              if( !$prPrivavyValidator->execute(&$value, &$error) )
-              {
-                  $this->setFlash('msg_error', $error);
-                  $this->redirectToReferer();
-              }
+                ));
+
+                $error = '';
+                if( !$prPrivavyValidator->execute(&$value, &$error) )
+                {
+                    $this->setFlash('msg_error', $error);
+                    $this->redirectToReferer();
+                }
+                
+                $this->getUser()->viewProfile($this->member);
+                $this->recent_conversations = $this->member->getRecentConversationWith($this->getUser()->getProfile());
+                $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
+                $this->profile_pager = new ProfilePager($this->member->getUsername());
+        
+                //BC Setup below
+                $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
+        
+                switch ($this->getRequestParameter('bc')) {
+                  case 'search':
+                    $bc->add(array('name' => 'Search', 'uri' => '@matches'));
+                    break;
+                  case 'messages':
+                    $bc->add(array('name' => 'Messages', 'uri' => 'messages/index'));
+                    break;
+                  case 'winks':
+                    $bc->add(array('name' => 'Winks', 'uri' => '@winks'));
+                    $this->getUser()->getProfile()->markOldWinksFrom($member);
+                    break;
+                  case 'hotlist':
+                    $bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
+                    $this->getUser()->getProfile()->markOldHotlistFrom($member);
+                    break;
+                  case 'visitors':
+                    $bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
+                    $this->getUser()->getProfile()->markOldViewsFrom($member);
+                    break;          
+                  case 'blocked':
+                    $bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
+                    break;
+                  default:
+                    break;
+                }
+                
+            } else { //public visit
+                if( !$this->member->isActive() ) $this->forward404();
+                if( $this->member->getPrivateDating() )
+                {
+                    //$this->setFlash('msg_error', 'This profile is private.');
+                    //$this->redirect('@homepage');
+                    $this->forward404();
+                }
+                
+                $this->setTemplate('publicProfile');
             }
+        } else {
+            $this->setTemplate('simpleProfile');
+        }
         
-            //add a visit
-            $this->getUser()->viewProfile($member);
         
-            $this->recent_conversations = $member->getRecentConversationWith($this->getUser()->getProfile());
-        
-            $this->match = $member->getMatchWith($this->getUser()->getProfile());              
-          }
-          
-        
+        $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $this->member->getUsername())));
+        $this->profilePostExecute();
+    }
+    
+    public function profilePostExecute()
+    {
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssocById();
-        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
-        $this->member = $member;
+        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
         
         //IMBRA
         if( !sfConfig::get('app_settings_imbra_disable') )
         {
-          $this->imbra = $member->getLastImbra($approved = true);
+          $this->imbra = $this->member->getLastImbra($approved = true);
           if ($this->imbra)
           {
               $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en'; //we have only pl/en imbras
@@ -126,50 +202,8 @@ class profileActions extends prActions
               $this->imbra_answers = $this->imbra->getImbraAnswersArray();
           }
         }
-
-        $this->profile_pager = new ProfilePager($member->getUsername());
         
-        //BC Setup below
-        $bc = $this->getUser()->getBC();
-        $bc->replaceFirst(array('name' => 'Dashboard', 'uri' => '@dashboard'));
-        
-        switch ($this->getRequestParameter('bc')) {
-          case 'search':
-            $bc->add(array('name' => 'Search', 'uri' => '@matches'));
-            break;
-          case 'messages':
-            $bc->add(array('name' => 'Messages', 'uri' => 'messages/index'));
-            break;
-          case 'winks':
-            $bc->add(array('name' => 'Winks', 'uri' => '@winks'));
-            $this->getUser()->getProfile()->markOldWinksFrom($member);
-            break;
-          case 'hotlist':
-            $bc->add(array('name' => 'Hotlist', 'uri' => '@hotlist'));
-            $this->getUser()->getProfile()->markOldHotlistFrom($member);
-            break;
-          case 'visitors':
-            $bc->add(array('name' => 'Visitors', 'uri' => '@visitors'));
-            $this->getUser()->getProfile()->markOldViewsFrom($member);
-            break;          
-          case 'blocked':
-            $bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
-            break;
-          default:
-            break;
-        }
-        
-        if( $member->getUsername() == $this->getUser()->getUsername() ) //looking myself
-        {
-          if( !$this->hasFlash('msg_ok') ) $this->setFlash('msg_ok', 'To edit your profile, go to self-description, posting/essay or photos on your dashboard.', false);
-          $bc->setCustomLastItem(__('Profile'));
-          $this->looking_myself = true;
-        } else {
-          $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername())));
-          $this->looking_myself = false;
-        }
-        
-        $bc->add(array('name' =>  $member->getUsername() . ',  ' . $member->getAge() . ': ' . $member->getEssayHeadline()));
+        $this->getUser()->getBC()->add(array('name' =>  $this->member->getUsername() . ',  ' . $this->member->getAge() . ': ' . $this->member->getEssayHeadline()));
     }
 
     public function executeSignIn()
@@ -191,7 +225,7 @@ class profileActions extends prActions
         } else {
           $referer_rel = $_SERVER["REQUEST_URI"];
           $referer_abs = "http://" . $_SERVER["HTTP_HOST"] . $referer_rel;
-          $this->getRequest()->setAttribute('referer', $referer_abs);            
+          $this->getRequest()->setAttribute('referer', $referer_abs);
         }
     }
     
@@ -403,11 +437,5 @@ class profileActions extends prActions
         $this->getUser()->SignIn($member);
         $this->message('undo_new_email');
     }
-    
-    public function executeMyProfile()
-    {
-        $this->getRequest()->setParameter('username', $this->getUser()->getUsername());
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
-        $this->forward('profile', 'index');
-    }
+
 }
