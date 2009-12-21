@@ -6,7 +6,7 @@
 </p>
 
 <?php foreach ($pager->getResults() as $member):?>
-    <?php echo link_to($member->getEssayHeadline(), '@profilese?username=' . $member->getUsername() . '&headline=' . Tools::slugify($member->getEssayHeadline(ESC_RAW))) ?><br />
+    <?php echo link_to($member->getEssayHeadline(), '@public_profile?username=' . $member->getUsername()) ?><br />
 <?php endforeach;?>
 
 <?php if( $pager->haveToPaginate() ): ?>

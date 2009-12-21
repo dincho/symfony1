@@ -12,27 +12,7 @@ class profileActions extends prActions
 
     public function executeIndexse()
     {
-        $member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
-        $this->forward404Unless($member || $member->getStatusId() != MemberStatusPeer::ACTIVE);
-        
-        $title = $this->getContext()->getI18N()->__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername()));
-        $this->getResponse()->setTitle($title);
-        
-        $c = new Criteria;
-        $c->add(MemberPeer::ID, $member->getId(), Criteria::GREATER_THAN);
-        $c->adD(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
-        $this->next_member = MemberPeer::doSelectOne($c);
-        
-        $this->questions = DescQuestionPeer::doSelect(new Criteria());
-        $this->answers = DescAnswerPeer::getAnswersAssocById();
-        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($member->getId());
-        $this->member = $member;
-
-        if( $page = StaticPagePeer::getBySlug('search_engines') )
-        {
-            $this->getResponse()->addMeta('description', $page->getDescription());
-            $this->getResponse()->addMeta('keywords', $page->getKeywords());
-        }
+        $this->redirect('@public_profile?username=' . $this->getRequestParameter('username'));
     }
 
     
