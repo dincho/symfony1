@@ -238,6 +238,30 @@ class membersActions extends sfActions
         }
     }
 
+    public function handleErrorEdit()
+    {
+        $this->preExecute();
+                
+        $this->getUser()->getBC()->add(array('name' => 'Overview', 'uri' => 'members/edit?id=' . $this->member->getId()));
+        
+        $c = new Criteria();
+        $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
+        $c->add(FlagPeer::IS_HISTORY, false);
+        $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
+        $this->flags = FlagPeer::doSelectJoinAll($c);
+        
+        $c = new Criteria();
+        $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
+        $this->notes = MemberNotePeer::doSelectJoinAll($c);
+        
+        $member = clone $this->member;
+        $member->setReviewedById($this->getUser()->getId());
+        $member->setReviewedAt(time());
+        $member->save();
+                    
+        return sfView::SUCCESS;
+    }
+    
     public function executeEditRegistration()
     {
         $this->forward404Unless($this->member);
