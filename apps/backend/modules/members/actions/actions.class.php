@@ -809,8 +809,8 @@ class membersActions extends sfActions
                 
                 default:
                     $bc->add(
-                            array('name' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED));
-                    $this->left_menu_selected = 'Not Activated Members';
+                            array('name' => 'Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED));
+                    $this->left_menu_selected = 'Deactivated Members';
                     ;
                     break;
             }
@@ -840,6 +840,13 @@ class membersActions extends sfActions
             $this->left_menu_selected = 'Deleted Members';
         }
         
+        if (isset($this->filters['no_email_confirmation']))
+        {
+            $c->add(MemberPeer::HAS_EMAIL_CONFIRMATION, false);
+            $bc->add(array('name' => 'Not activated yet', 'uri' => 'members/list?filter=filter&filters[no_email_confirmation]=1'));
+            $this->left_menu_selected = 'Not activated yet';
+        }
+                
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {

@@ -85,24 +85,7 @@ class systemComponents extends sfComponents
     }
     
     $this->menu = array();
-    $full_menu = array( 'members'  => array(array('title' => 'All Members', 'uri' => 'members/index'),
-                                           array('title' => 'Male Members', 'uri' => 'members/index'),
-                                           array('title' => 'Female Members', 'uri' => 'members/index'),
-                                           array('title' => 'Free Members', 'uri' => 'members/index'),
-                                           array('title' => 'Paid Members', 'uri' => 'members/index'),
-                                           array('title' => 'VIP Members', 'uri' => 'members/index'),
-                                           array('title' => 'Comp Members', 'uri' => 'members/index'),
-                                           array('title' => 'Polish Members', 'uri' => 'members/index'),
-                                           array('title' => 'Foreign (US) Members', 'uri' => 'members/index'),
-                                           array('title' => 'Foreign (Non-US) Members', 'uri' => 'members/index'),
-                                           array('title' => 'Suspended Members', 'uri' => 'members/index'),
-                                           array('title' => 'Flagged Members', 'uri' => 'members/index'),
-                                           array('title' => 'Deleted Members', 'uri' => 'members/index'),
-                                           array('title' => 'Statred Members', 'uri' => 'members/index'),
-                                           array('title' => 'Non Activated Members', 'uri' => 'members/index'),
-                                           array('title' => 'Abardoned Registration', 'uri' => 'members/index'),
-                                           ),
-                        'content'  => array(//array('title' => 'Translation Catalogue', 'uri' => 'catalogue/list'),
+    $full_menu = array('content'  => array(//array('title' => 'Translation Catalogue', 'uri' => 'catalogue/list'),
                                            array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
                                            array('title' => 'Home Pages', 'uri' => 'content/homepages'),
                                            array('title' => 'Profile Pages', 'uri' => 'content/profilepages'),
@@ -174,12 +157,12 @@ class systemComponents extends sfComponents
                                            array('title' => 'Flagged Members', 'uri' => 'members/list?filter=filter&filters[flagged]=1'),
                                            array('title' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[canceled]=1'),
                                            array('title' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'),
-                                           array('title' => 'Not Activated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
+                                           array('title' => 'Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
                                            array('title' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED),
                                            array('title' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING),
                                            array('title' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED),
+                                           array('title' => 'Not activated yet', 'uri' => 'members/list?filter=filter&filters[no_email_confirmation]=1'),
                                            ),
-                        
                       );
     //duplicates                  
     $full_menu['imbraReplyTemplates'] = $full_menu['imbra'];
