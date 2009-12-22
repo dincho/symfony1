@@ -450,3 +450,11 @@ div.member_flags table {
 .subscription_container .form_fields select {
  height: 18px;
 }
+
+.float-left {
+    float: left;
+}
+
+.flaot-right {
+    float: right;
+}

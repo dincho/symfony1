@@ -1,4 +1,4 @@
-<?php use_helper('Number', 'xSortableTitle', 'Object', 'I18N') ?>
+<?php use_helper('Number', 'xSortableTitle', 'Object', 'I18N', 'Javascript') ?>
 
 <div id="loading" style="display: none;" class="float-right">Loading please wait ...</div>
 <?php $ret_uri = base64_encode(url_for('geo/list?page=' . $pager->getPage() . '&per_page=' . $pager->getMaxPerPage(), array('abosulute' => true))); ?>
@@ -41,13 +41,25 @@
 
 </form>
 
+<br /><br />
 
-<div class="filter_right">
-    Total Results: <?php echo format_number($pager->getNbResults()) ?>
-    <?php echo button_to('Add Feature', 'geo/create?ret_uri=' . $ret_uri) ?>
-</div><br /><br />
+<div>
+    <div class="flaot-right">
+        Total Results: <?php echo format_number($pager->getNbResults()) ?>
+        <?php echo button_to('Add Feature', 'geo/create?ret_uri=' . $ret_uri) ?>
+    </div>
+    
+    <div style="padding-right: 5px;">
+            <span>select:</span>
+            <?php echo link_to_function('all', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = true });'); ?>
+            <?php echo link_to_function('none', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = false });'); ?>
+            <?php echo link_to_function('reverse', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = !e.checked });'); ?>
+    </div>
+    <br />
+</div>
 
-<?php echo form_tag('geo/batchEdit', array('method' => 'get', )) ?>
+
+<?php echo form_tag('geo/batchEdit', array('method' => 'get', 'id' => 'geo_list_form', )) ?>
     <?php echo input_hidden_tag('ret_uri', $ret_uri); ?>
     <table class="zebra">
       <thead>
