@@ -4,6 +4,12 @@
 <?php echo form_tag('content/homepage', 'class=form') ?>
   <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
   <div class="legend">Edit Home Page</div>
+  
+      <fieldset class="form_fields float-right">
+        <label for="footer_articles">Footer Articles:</label><br />
+        <?php echo textarea_tag('trans[148]', (isset($trans[148])) ? $trans[148]->getTarget() : null, 'cols=120 rows=28 ' . error_class('footer_articles')) ?><br />
+      </fieldset>  
+        
       <fieldset class="form_fields">
       
         <label for="culture">Language</label>
@@ -32,6 +38,8 @@
         <label>Member Stories</label>
         <?php echo select_tag('member_stories', objects_for_select($member_stories, 'getId', 'getTitle', $homepage_stories), array('multiple' => true, 'style' => 'width: 350px; height: 200px')) ?>
       </fieldset>
+      
+
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'content/homepages?cancel=1')  . submit_tag('Save', 'class=button') ?>

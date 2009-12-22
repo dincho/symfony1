@@ -32,5 +32,8 @@
         <?php include_partial('content/footer_links', array('auth' => $sf_user->isAuthenticated())); ?>
         <?php include_partial('content/footer_copyright');?>
     </div>
+    <div id="footer_articles">
+        <?php echo __('Homepage footer articles'); ?>
+    </div>
 </body>
 </html>

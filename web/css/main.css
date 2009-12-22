@@ -1655,6 +1655,16 @@ div.best_video div.right img {
 }
 /* End Footer Menu */
 
+/* footer articles */
+#footer_articles {
+    margin: 40px auto 0 auto;
+    font-size: 11px;
+    text-align: left;
+    width: 830px;
+}
+
+/* End footer articles */
+
 /* footer */ /* register */
 
 #index_image {
