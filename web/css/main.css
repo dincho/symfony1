@@ -2244,13 +2244,15 @@ div.best_video div.right img {
 #profile_left #sign_in {
     width: 350px;
     height: 240px;
-    padding-top: 50px;
+    padding: 40px 0 0 10px;
     margin: 0 auto;
     background-repeat: no-repeat;
+    text-align: left;
 }
 
 #profile_left #sign_in fieldset {
-
+    margin: 38px 0 0 0;
+    text-align: center;
 }
 
 #profile_left #sign_in label {

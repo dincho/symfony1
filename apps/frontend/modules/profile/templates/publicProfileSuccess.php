@@ -102,7 +102,7 @@
         </tr>
         <tr>
             <td colspan="3" class="color-gray">&nbsp;</th>
-        </tr>        
+        </tr>
     </table>
 </div>
 <div id="profile_left">
@@ -110,7 +110,7 @@
     <?php echo form_tag('profile/signIn', array('id' => 'sign_in', 'style' => $form_style)) ?>
         <?php echo input_hidden_tag('referer', url_for('@public_profile?username=' . $member->getUsername(), array('absolute' => true, ))) ?>
         <fieldset>
-            <div style="background-color: #000000; padding: 1px; padding-left: 8px; text-align: left;">
+            <div style="background-color: #000000; padding: 2px 1px 2px 8px; text-align: left;">
                 <?php echo __('Sign in') ?>
             </div>
             <label for="email"><?php echo __('Email') ?></label>
