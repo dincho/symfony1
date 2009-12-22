@@ -2243,8 +2243,10 @@ div.best_video div.right img {
 
 #profile_left #sign_in {
     width: 350px;
-    height: 200px;
-    margin-top: 50px;
+    height: 240px;
+    padding-top: 50px;
+    margin: 0 auto;
+    background-repeat: no-repeat;
 }
 
 #profile_left #sign_in fieldset {

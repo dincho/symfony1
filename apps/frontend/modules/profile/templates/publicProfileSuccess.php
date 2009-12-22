@@ -11,18 +11,26 @@
         <span class="sec_link"><?php echo __('Flag');?></span>
    </div>
     <span class="profile_gift">
-        <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
-          <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), '@joinnow') ?>
-        <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
-          <?php echo link_to(image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'), '@joinnow'); ?>
-        <?php endif; ?>
     </span>
     <div id="profile_double_box">
         <div class="left">
             <div class="middle">
+                <?php echo __('%she_he% matches you:', array('%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
+                
+                <?php echo __('You match %her_him%:', array('%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
+                
+                <?php echo __('Your combined match is:') ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
             </div>
         </div>
         <div class="right">
+            <?php echo __('Last log in: ') ?>
+            <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
+            
+            <?php echo __('Profile ID:'); ?>
+            <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?>
         </div>
     </div>
     <div id="desc_map_container">
@@ -86,17 +94,24 @@
             <div id="gmap"></div>
         </div>
         <br class="clear" />
-    </div>         
+    </div>
+    <table class="conversations_messages" cellspacing="0" cellpadding="0">
+        <tr>
+            <th colspan="2"><?php echo __('Recent Conversations')?></th>
+            <th class="right_column"><?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?></th>
+        </tr>
+        <tr>
+            <td colspan="3" class="color-gray">&nbsp;</th>
+        </tr>        
+    </table>
 </div>
 <div id="profile_left">
-    <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
-    <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
-    
-    <?php echo form_tag('profile/signIn', array('id' => 'sign_in')) ?>
+    <?php $form_style = 'background-image: url(/images/no_photo/'.$member->getSex().'/350x350.jpg);'; ?>
+    <?php echo form_tag('profile/signIn', array('id' => 'sign_in', 'style' => $form_style)) ?>
         <?php echo input_hidden_tag('referer', url_for('@public_profile?username=' . $member->getUsername(), array('absolute' => true, ))) ?>
         <fieldset>
-            <div style="background-color: #000000; padding: 1px; padding-left: 8px; text-align: center;">
-                <?php echo __('Sign in to see photo and more of this profile information') ?>
+            <div style="background-color: #000000; padding: 1px; padding-left: 8px; text-align: left;">
+                <?php echo __('Sign in') ?>
             </div>
             <label for="email"><?php echo __('Email') ?></label>
             <?php echo input_tag('email', null, array('class' => 'input_text_width')); ?><br />
@@ -109,6 +124,9 @@
 
         <?php echo submit_tag(__('Sign In'), array('class' => 'button sign_in')) ?><br /><br />
         <?php echo __('New to PolishRomance.com? <a href="%URL_FOR_JOIN_NOW%" class="sec_link">Join for free</a>') ?>
-    </form>    
+    </form> 
+    
+    <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
+    <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
 

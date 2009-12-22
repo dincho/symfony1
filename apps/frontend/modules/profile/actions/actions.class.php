@@ -153,6 +153,7 @@ class profileActions extends prActions
                     $this->forward404();
                 }
                 
+                $this->setFlash('msg_ok', 'Sign in to see photo and more profile informmation', false);
                 $this->setTemplate('publicProfile');
             }
         } else {

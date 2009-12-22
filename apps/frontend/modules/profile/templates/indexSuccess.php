@@ -141,7 +141,7 @@
             <td colspan="3" class="color-gray"><?php echo __('You don\'t have any messages with %username% yet.', array('%username%' => $member->getUsername())) ?></th>
         </tr>
         <?php endif; ?>
-    </table>            
+    </table>
 </div>
 <div id="profile_left">
     <div style="min-height: 350px">
