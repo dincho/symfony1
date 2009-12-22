@@ -36,7 +36,7 @@
       <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
       <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Last Activity', 'Member::last_activity', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sent', 'Message::created_at', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
       <th></th>
     </tr>
@@ -52,7 +52,7 @@
     <td><?php echo $member->getSex() ?></td>
     <td><?php echo $member->getLookingFor() ?></td>
     <td><?php echo $member->getEmail() ?></td>
-    <td><?php echo $member->getLastActivity('m/d/Y') ?></td>
+    <td><?php echo $message->getCreatedAt('m/d/Y H:i') ?></td>
     <td><?php echo $message->getMemberRelatedByToMemberId()->getUsername() ?></td>
     <td class="profile_link"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
     <td class="preview_button">

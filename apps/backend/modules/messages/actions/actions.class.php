@@ -147,7 +147,7 @@ class messagesActions extends sfActions
         
         if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $this->getUser()->setAttribute('sort', 'Member::last_activity', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('sort', 'Message::created_at', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
     }
