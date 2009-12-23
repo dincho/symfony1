@@ -10,7 +10,7 @@
               <?php echo link_to('Confirm', 'members/confirmEmail?id=' . $member->getId()); ?>
             <?php endif; ?>
             <br />
-            <?php if( !$member->getActivationEmailSent() ): ?>
+            <?php if( !$member->getHasEmailConfirmation() ): ?>
                 <label></label>
                 <?php echo link_to('Re-send activation email', 'members/resendActivationEmail?id=' . $member->getId()); ?><br />
             <?php endif; ?>

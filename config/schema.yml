@@ -76,7 +76,6 @@ propel:
     email:                    { type: varchar, size: 255, required: true }
     tmp_email:                { type: varchar, size: 255, required: true } #temp field used for changging emails
     has_email_confirmation:   { type: boolean, required: true, default: 0 }
-    activation_email_sent:    { type: boolean, required: true, default: 0 }
     sex:                      { type: char, size: 1, required: true }
     looking_for:              { type: char, size: 1, required: true }
     reviewed_by_id:           { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
