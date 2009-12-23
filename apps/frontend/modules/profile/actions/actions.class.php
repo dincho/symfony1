@@ -25,6 +25,14 @@ class profileActions extends prActions
         $this->forward404Unless($this->member);
         
         $this->getUser()->getBC()->clear();
+        
+        $title = sprintf('%s %s - %s, %d: %s', 
+                        $this->member->getNationality(), __($this->member->getOrientationString()), 
+                        $this->member->getUsername(), $this->member->getAge(), $this->member->getEssayHeadline());
+                        
+        $this->getResponse()->setTitle($title);
+        $this->getResponse()->addMeta('description', Tools::truncate($this->member->getEssayIntroduction(), 150, ''));
+
     }
     
     
