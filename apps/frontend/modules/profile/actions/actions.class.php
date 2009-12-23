@@ -167,10 +167,6 @@ class profileActions extends prActions
     
     public function profilePostExecute()
     {
-        $this->questions = DescQuestionPeer::doSelect(new Criteria());
-        $this->answers = DescAnswerPeer::getAnswersAssocById();
-        $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
-        
         //IMBRA
         if( !sfConfig::get('app_settings_imbra_disable') )
         {
