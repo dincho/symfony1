@@ -18,6 +18,12 @@ class registrationActions extends prActions
     /* Step 1 - the sign up .. */
     public function executeJoinNow()
     {
+        if( $this->getUser()->isAuthenticated() )
+        {
+            $this->setFlash('msg_ok', 'You are already member');
+            $this->redirect('@dashboard');
+        }
+        
         $this->setLayout('simple');
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Join headline', 'uri' => 'registration/joinNow'));
         
@@ -35,8 +41,8 @@ class registrationActions extends prActions
             $member->setLanguage($this->getUser()->getCulture()); //used by notifications
             $member->save();
             
-            $this->getUser()->getAttributeHolder()->clear();
-            $this->getUser()->clearCredentials();
+            //just cleanup
+            $this->getUser()->SignOut();
                     
             Events::triggerJoin($member);
             
