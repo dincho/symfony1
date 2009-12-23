@@ -20,14 +20,16 @@
             <?php foreach ($questions as $question): ?>
                 <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                 
-                    <?php if( isset($member_answers[$question->getId()]) && 
-                              ($member_answers[$question->getId()]->getDescAnswerId() || $member_answers[$question->getId()]->getOther()) ): ?>
+                    <?php if( isset($member_answers[$question->getId()]) ): ?>
                         <dt><?php echo __($question->getDescTitle(ESC_RAW)) ?></dt>
                         <dd>
-                            <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
+                            <?php $other = $member_answers[$question->getId()]->getOther(); ?>
+                            <?php if( is_null($other) && $member_answers[$question->getId()]->getDescAnswerId() ): ?>
                                 <?php echo __($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle(ESC_RAW)) ?>
+                            <?php elseif( !is_null($other) ): ?>
+                                <?php echo $other; ?>
                             <?php else: ?>
-                                <?php echo $member_answers[$question->getId()]->getOther(); ?>
+                                <?php echo __('not provided'); ?>
                             <?php endif; ?>
                         </dd>
                     <?php endif; ?>
