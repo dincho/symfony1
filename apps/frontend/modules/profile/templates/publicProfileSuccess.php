@@ -15,10 +15,10 @@
     <div id="profile_double_box">
         <div class="left">
             <div class="middle">
-                <?php echo __('%she_he% matches you:', array('%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?>
+                <?php echo __('%she_he% matches you:', array('%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'))) ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
                 
-                <?php echo __('You match %her_him%:', array('%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?>
+                <?php echo __('You match %her_him%:', array('%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
                 
                 <?php echo __('Your combined match is:') ?>
