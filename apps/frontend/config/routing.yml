@@ -23,6 +23,30 @@ signout:
     url:   /:sf_culture/signout
     param: { module: profile, action: signout, sf_culture: en  }
     
+forgotten_password:
+    url:   /:sf_culture/forgotten_password
+    param: { module: profile, action: forgotYourPassword, sf_culture: en  }
+    
+forgotten_password_info:
+    url:   /:sf_culture/forgotten_password_info
+    param: { module: profile, action: forgotPasswordInfo, sf_culture: en  }
+    
+forgotten_password_confirm:
+    url:   /:sf_culture/forgotten_password_confirm/*
+    param: { module: profile, action: forgotPasswordConfirm, sf_culture: en  }
+    
+confirm_new_password:
+    url:   /:sf_culture/confirm_new_password/*
+    param: { module: profile, action: confirmNewPassword, sf_culture: en  }
+    
+confirm_new_email:
+    url:   /:sf_culture/confirm_new_email/*
+    param: { module: profile, action: confirmNewEmail, sf_culture: en  }
+    
+undo_new_email:
+    url:   /:sf_culture/undo_new_email/*
+    param: { module: profile, action: undoNewEmail, sf_culture: en  }
+    
 profilese:
     url:   /:sf_culture/profiles_search_engine/:username/:headline/*
     param: { module: profile, action: indexse, sf_culture: en }

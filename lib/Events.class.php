@@ -76,14 +76,14 @@ class Events
     public static function triggerForgotPassword($member)
     {
         sfLoader::loadHelpers(array('Url'));
-        $global_vars = array('{CONFIRMATION_URL}' => url_for('profile/forgotPasswordConfirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), array('absolute' => true)));
+        $global_vars = array('{CONFIRMATION_URL}' => url_for('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), array('absolute' => true)));
         return self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerNewPasswordConfirm($member)
     {
         sfLoader::loadHelpers(array('Url'));
-        $confirmation_url = url_for('profile/confirmNewPassword?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), array('absolute' => true));
+        $confirmation_url = url_for('@confirm_new_password?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), array('absolute' => true));
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         return self::executeNotifications(self::NEW_PASSWORD_CONFIRM, $global_vars, $member->getEmail(), $member);
     }
@@ -92,7 +92,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $confirmation_url = url_for('profile/confirmNewEmail?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
+        $confirmation_url = url_for('@confirm_new_email?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
         return self::executeNotifications(self::NEW_EMAIL_CONFIRM, $global_vars, $member->getTmpEmail(), $member);
@@ -102,7 +102,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $undo_url = url_for('profile/undoNewEmail?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getEmail() . SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
+        $undo_url = url_for('@undo_new_email?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getEmail() . SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
         $global_vars = array('{UNDO_URL}' => $undo_url);
         
         //send to the old email, which is in the temp field

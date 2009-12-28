@@ -232,7 +232,7 @@ class profileActions extends prActions
   
     public function validateSignIn()
     {
-        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => '@signin'));
         
         if ( $this->getRequest()->getMethod() == sfRequest::POST 
              && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
@@ -298,7 +298,7 @@ class profileActions extends prActions
 
     public function executeForgotYourPassword()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => '@signin'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
@@ -317,21 +317,21 @@ class profileActions extends prActions
                 $member->save();
             }
             
-            $this->redirect('profile/forgotPasswordInfo');
+            $this->redirect('@forgotten_password_info');
         }
     }
 
     public function handleErrorForgotYourPassword()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'));
+        $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => '@signin'));
         return sfView::SUCCESS;
     }
 
     public function executeForgotPasswordInfo()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->
-        replaceLast(array('name' => 'Sign In', 'uri' => 'profile/signIn'))->
-        add(array('name' => 'Forgot password info headline', 'profile/forgotPasswordConfirm'));
+        replaceLast(array('name' => 'Sign In', 'uri' => '@signin'))->
+        add(array('name' => 'Forgot password info headline', '@forgotten_password_confirm'));
     }
 
     public function executeForgotPasswordConfirm()
