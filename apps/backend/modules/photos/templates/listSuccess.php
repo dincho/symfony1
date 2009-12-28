@@ -11,6 +11,7 @@
             <b>Public Search:</b><?php echo checkbox_tag('public_search[]', $member->getId(), $member->getPublicSearch(), 
                                                         array('class' => 'checkbox', 'disabled' => $member->getPrivateDating(), 
                                                         'onchange' => "new Ajax.Request('". url_for('ajax/UpdatePublicSearch?member_id=' . $member->getId()) ."', {method: 'get'});")) ?>
+            <span>Status: <?php echo $member->getMemberStatus(); ?></span>
         </div>
         <fieldset class="form_fields">
         <?php $photos = $member->getMemberPhotos(); $cnt_photos = count($photos); ?>

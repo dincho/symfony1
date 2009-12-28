@@ -1,4 +1,4 @@
-<?php echo link_to_unless($sf_user->getAttribute('sort', null, $sort_namespace) == 'Member::created_at' && $sf_context->getActionName() != 'stockPhotos', 'Most Recent', 'photos/list?sort=Member::created_at&type=desc&filter=filter') ?>&nbsp;|&nbsp;
+<?php echo link_to_unless($sf_user->getAttribute('sort', null, $sort_namespace) == 'Member::last_photo_upload_at' && $sf_context->getActionName() != 'stockPhotos', 'Most Recent', 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless(isset($filters['sex']) &&  $filters['sex'] == 'M', 'Male', 'photos/list?filter=filter&filters[sex]=M&sort=no') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless(isset($filters['sex']) &&  $filters['sex'] == 'F', 'Female', 'photos/list?filter=filter&filters[sex]=F&sort=no') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless(isset($filters['by_country']) && $filters['by_country'] == 1, 'Country', 'photos/list?filter=filter&filters[by_country]=1&sort=no') ?>

@@ -274,17 +274,17 @@ class photosActions extends sfActions
             if( $this->getRequestParameter('continue') )
             {
                 switch ($this->getRequestParameter('continue')) {
-                	case 1:
-                	    $this->redirect('photos/addToHomepage?photo_id=' . $this->getRequestParameter('photo_id'));
-                	break;
-                	
-                	case 2:
-                	    $this->redirect('photos/addToMemberStories?photo_id=' . $this->getRequestParameter('photo_id'));
-                	break;
-                	
-                	default:
-                	    $this->redirect('photos/stockPhotos');
-                	break;
+                    case 1:
+                        $this->redirect('photos/addToHomepage?photo_id=' . $this->getRequestParameter('photo_id'));
+                    break;
+                    
+                    case 2:
+                        $this->redirect('photos/addToMemberStories?photo_id=' . $this->getRequestParameter('photo_id'));
+                    break;
+                    
+                    default:
+                        $this->redirect('photos/stockPhotos');
+                    break;
                 }
                 
             } elseif($this->getRequest()->getFileSize('new_photo'))
@@ -324,16 +324,16 @@ class photosActions extends sfActions
         {
             $bc = $this->getUser()->getBc();
             switch ($sort_column) {
-            	case 'Member::created_at':
-            	   $bc->add(array('name' => 'Most Recent', 'uri' => 'photos/list'));
-            	break;
-            	
-            	case 'MemberCounter::profile_views':
-            	   $bc->add(array('name' => 'Popularity'));
-            	break;
-            	
-            	default:
-            	break;
+                case 'Member::last_photo_upload_at':
+                   $bc->add(array('name' => 'Most Recent', 'uri' => 'photos/list'));
+                break;
+                
+                case 'MemberCounter::profile_views':
+                   $bc->add(array('name' => 'Popularity'));
+                break;
+                
+                default:
+                break;
             }
             
             $sort_arr = explode('::', $sort_column);

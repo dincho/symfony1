@@ -439,6 +439,8 @@ class membersActions extends sfActions
                 $new_photo->setMember($this->member);
                 $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
                 $new_photo->save();
+                
+                $this->member->setLastPhotoUploadAt(time());
             }
             
             //set main photo

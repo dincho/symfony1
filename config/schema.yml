@@ -122,6 +122,7 @@ propel:
     original_first_name:      { type: varchar, size: 80, required: true }  
     original_last_name:       { type: varchar, size: 80, required: true }
     last_subscription_change: { type: timestamp }
+    last_photo_upload_at:     { type: timestamp }
     _uniques:
       username:               [username]
       email:                  [email]
