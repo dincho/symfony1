@@ -50,14 +50,16 @@
             </div>
         </div>
         <div class="right">
-            <?php if( $member->isLoggedIn() ): ?>
-                <?php echo __('Currently Online') ?>
-            <?php else: ?>
-                <?php echo __('Last log in: ') ?>
-                <?php echo time_ago_in_words($member->getLastLogin(null)) ?>
-            <?php endif; ?>
-            <br />
-            <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
+            <div class="middle">
+                <?php if( $member->isLoggedIn() ): ?>
+                    <?php echo __('Currently Online') ?>
+                <?php else: ?>
+                    <?php echo __('Last log in: ') ?>
+                    <?php echo time_ago_in_words($member->getLastLogin(null)) ?>
+                <?php endif; ?>
+                <br />
+                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
+            </div>
         </div>
     </div>
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>

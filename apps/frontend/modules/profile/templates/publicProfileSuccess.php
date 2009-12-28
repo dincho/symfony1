@@ -26,11 +26,13 @@
             </div>
         </div>
         <div class="right">
-            <?php echo __('Last log in: ') ?>
-            <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
+            <div class="middle">
+                <?php echo __('Last log in: ') ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
             
-            <?php echo __('Profile ID:'); ?>
-            <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?>
+                <?php echo __('Profile ID:'); ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?>
+            </div>
         </div>
     </div>
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>

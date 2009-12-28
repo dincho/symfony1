@@ -2347,7 +2347,7 @@ div.best_video div.right img {
     margin-bottom: 5px;
 }
 
-#profile_double_box .left,#secondary_container #profile_double_box .right {
+#profile_double_box .left, #profile_double_box .right {
     float: left;
     height: 50px;
     width: 162px;
@@ -2358,7 +2358,7 @@ div.best_video div.right img {
     line-height: 12px;
 }
 
-#profile_double_box .left .middle {
+#profile_double_box .middle {
     padding-top: 6px;
 }
 

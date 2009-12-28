@@ -23,9 +23,11 @@
             </div>
         </div>
         <div class="right">
-            <?php echo __('Currently Online') ?>
-            <br />
-            <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
+            <div class="middle">
+                <?php echo __('Currently Online') ?>
+                <br />
+                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
+            </div>
         </div>
     </div>
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
