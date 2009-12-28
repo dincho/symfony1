@@ -369,11 +369,9 @@ class searchActions extends prActions
 
     protected function addFiltersCriteria(Criteria $c)
     {
-        if (isset($this->filters['only_with_video']))
+        if (isset($this->filters['only_with_photo']))
         {
-            $crit = $c->getNewCriterion(MemberPeer::YOUTUBE_VID, NULL, Criteria::ISNOTNULL);
-            $crit->addAnd($c->getNewCriterion(MemberPeer::YOUTUBE_VID, '', Criteria::NOT_EQUAL));
-            $c->add($crit);
+            $c->add(MemberPeer::MAIN_PHOTO_ID, NULL, Criteria::ISNOTNULL);
         }
         
         switch ($this->filters['location']) {

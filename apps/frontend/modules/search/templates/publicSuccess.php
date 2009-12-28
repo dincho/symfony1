@@ -16,7 +16,7 @@
             <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age')) ?>
             </td>
             <td style="width: 200px;">
-            <?php echo checkbox_tag('filters[only_with_video]', 1, isset($filters['only_with_video']), array('class' => 'margin_right_zero')) ?>&nbsp;<?php echo __('Show only profiles with video') ?>
+            <?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo']), array('class' => 'margin_right_zero')) ?>&nbsp;<?php echo __('Show only profiles with photo') ?>
             </td>
         </tr>
         <tr class="separator">
