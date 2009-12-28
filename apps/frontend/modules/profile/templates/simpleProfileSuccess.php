@@ -26,7 +26,8 @@
             <div class="middle">
                 <?php echo __('Currently Online') ?>
                 <br />
-                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?> 
+                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?><br />
+                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
             </div>
         </div>
     </div>
@@ -83,7 +84,6 @@
         <br /><br /><object width="350" height="355"><param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed></object>
     <?php endif; ?>
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
-    <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
 
 <?php if(!sfConfig::get('app_settings_imbra_disable') && $imbra ): ?>

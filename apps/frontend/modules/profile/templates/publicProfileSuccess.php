@@ -31,7 +31,8 @@
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
             
                 <?php echo __('Profile ID:'); ?>
-                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?>
+                <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
+                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
             </div>
         </div>
     </div>
@@ -68,6 +69,5 @@
     </form> 
     
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
-    <span><?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?></span>
 </div>
 
