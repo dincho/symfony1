@@ -108,6 +108,7 @@ class profileActions extends prActions
                 $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $this->member);
                 $prPrivavyValidator->initialize($this->getContext(), array(
                 'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+                'open_privacy_error' => 'Due to privacy restrictions you cannot see this profile',
                 'check_onlyfull' => false,
                 ));
 
