@@ -36,9 +36,6 @@
     <?php echo submit_tag(__('Upload'), array('id' => 'upload', 'class' => 'button', 'onclick' => 'save_button = false')) ?>
     <hr /><br />
         
-    <?php echo __('YouTube URL ') ?><span><?php echo __('(enter the URL of a YouTube video - optional)') ?></span><br />
-    <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('class' => 'input_text_width', 'size' => 60)) ?><br />
-    
     <fieldset>
     <?php if(!$sf_request->getParameter('confirm_delete')):  ?>
         <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
