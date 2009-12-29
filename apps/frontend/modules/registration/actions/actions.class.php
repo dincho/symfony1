@@ -130,18 +130,17 @@ class registrationActions extends prActions
             $member->setNationality($this->getRequestParameter('nationality'));
             
             
-            if( $member->getOriginalFirstName() ) //already confirmed
+            if( !is_null($member->getOriginalFirstName()) ) //already confirmed
             {
                 $member->save();
                 $this->redirect('registration/selfDescription');
             } else { //not confirmed yet
                 if( $this->hasRequestParameter('confirmed') ) //form confirmation ?
               {
-                  $member->setOriginalFirstName($this->getRequestParameter('first_name'));
+                  $member->setOriginalFirstName('');
                   $member->save();
                   $this->redirect('registration/selfDescription');
               } else { //ask for confirmation
-                    $member->setFirstName($this->getRequestParameter('first_name'));  
                     $member->parseLookingFor($this->getRequestParameter('orientation'));                  
                   $member->save();
                   $this->redirect('registration/index?confirm=1' );
@@ -189,12 +188,6 @@ class registrationActions extends prActions
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
-                $return = false;
-            }
-            
-            if( !$first_name )
-            {
-                $this->getRequest()->setError('first_name', 'Please provide your First Name.');
                 $return = false;
             }
         }

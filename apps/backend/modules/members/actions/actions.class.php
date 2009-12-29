@@ -85,8 +85,7 @@ class membersActions extends sfActions
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
             $member->setAdm2Id($this->getRequestParameter('adm2_id'));
-            $city = GeoPeer::getPopulatedPlaceByName($this->getRequestParameter('city'), $member->getCountry());  //this will avoid AJAX "sync" issues
-            $member->setCityId($city->getId());
+            $member->setCityId($this->getRequestParameter('city_id'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
             $member->setFirstName($this->getRequestParameter('first_name'));
@@ -114,7 +113,6 @@ class membersActions extends sfActions
             $geoValidator->initialize($this->getContext());
             
             $nationality = $this->getRequestParameter('nationality');
-            $first_name = $this->getRequestParameter('first_name');
             $username = $this->getRequestParameter('username');
 
             $value = $error = null;
@@ -127,12 +125,6 @@ class membersActions extends sfActions
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
-                $return = false;
-            }
-            
-            if( !$first_name )
-            {
-                $this->getRequest()->setError('first_name', 'Please provide your First Name.');
                 $return = false;
             }
             

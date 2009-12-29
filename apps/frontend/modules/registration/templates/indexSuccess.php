@@ -3,19 +3,16 @@
 <?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
 
 <?php 
-	$first_name_options = array();
-	$submit_button_options = array("class" => "button");
-	$orientation_options = array();
+    $submit_button_options = array("class" => "button");
+    $orientation_options = array();
 
     if( $sf_request->hasParameter('confirm') )
     {
-         $first_name_options = array("style" => "border-color:#F00;", "readonly" => "true");
          $submit_button_options = array("class" => "button_disabled", "disabled" => "true");
          $orientation_options = array("style" => "border-color:#F00;", "disabled" => "true");
     }    
-    elseif( $member->getOriginalFirstName() )
+    elseif( !is_null($member->getOriginalFirstName()) )
     {
-         $first_name_options = array("readonly" => "true");
          $orientation_options = array("disabled" => "true");
     }
 ?>
@@ -48,11 +45,7 @@
         
         <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>
         <?php echo object_input_tag($member, 'getNationality') ?><br />
-        
 
-        <?php echo pr_label_for('first_name', __('First Name') . '<span style="color:red;">*</span>') ?>
-        <?php echo object_input_tag($member, 'getFirstName', $first_name_options) ?><br />
-        
         <?php echo pr_label_for('orientation', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
     </fieldset>
