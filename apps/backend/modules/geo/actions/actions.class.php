@@ -433,6 +433,53 @@ class geoActions extends sfActions
         $this->redirect($redir);
     }
 
+    public function executeEditInfo()
+    {
+        $geo = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($geo);
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            $geo->setInfo($this->getRequestParameter('info'));
+            $geo->save();
+            
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect('geo/list');
+        }
+        
+        $this->geo = $geo;
+    }
+
+    public function executeUploadPhoto()
+    {
+        $geo = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($geo);
+        $this->forward404Unless($this->getRequest()->getMethod() == sfRequest::POST);
+        
+        if ($this->getRequest()->getFileSize('new_photo'))
+        {
+            $photo = new GeoPhoto();
+            $photo->setGeoId($geo->getId());
+            $photo->updateImageFromRequest('file', 'new_photo');
+            $photo->save();
+            
+            $this->setFlash('msg_ok', 'New photo has been uploaded');
+        }
+        
+        $this->redirect('geo/editInfo?id=' . $geo->getId());
+    }
+    
+    public function executeDeletePhoto()
+    {
+        $photo = GeoPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($photo);
+        
+        $photo->delete();
+        
+        $this->setFlash('msg_ok', 'Selected photo has been deleted');
+        $this->redirect('geo/editInfo?id=' . $photo->getGeoId());
+    }
+    
     protected function processSort()
     {
         $this->sort_namespace = 'backend/geo/sort';

@@ -680,4 +680,16 @@ class Member extends BaseMember
         
         return false;
     }
+    
+    public function getMostAccurateAreaInfoId()
+    {
+        if( $this->getCity()->getInfo() ) return $this->getCityId();
+        if( $this->getAdm2Id() && $this->getAdm2()->getInfo() ) return $this->getAdm2Id();
+        if( $this->getAdm1Id() && $this->getAdm1()->getInfo() ) return $this->getAdm1Id();
+        
+        $geo_country = GeoPeer::retrieveCountryByISO($this->getCountry());
+        if( $geo_country && $geo_country->getInfo() ) return $geo_country->getId();
+        
+        return null;
+    }
 }

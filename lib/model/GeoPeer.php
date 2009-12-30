@@ -295,4 +295,14 @@ class GeoPeer extends BaseGeoPeer
                 
         return $countries;
     }
+    
+    public static function retrieveCountryByISO($iso)
+    {
+        $c = new Criteria();
+        $c->add(self::DSG, 'PCL');
+        $c->add(self::COUNTRY, $iso);
+        $c->setLimit(1);
+        
+        return self::doSelectOne($c);
+    }
 }
