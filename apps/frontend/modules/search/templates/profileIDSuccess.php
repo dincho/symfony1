@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto', 'prLink') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -17,7 +17,7 @@
             <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
             <?php echo profile_photo($member, 'float-left') ?>            
             <div class="profile_info">
-                <p class="profile_location"><?php echo Tools::truncate(format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
+                <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                 <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                 <p>
                   <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>

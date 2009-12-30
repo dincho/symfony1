@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto', 'prLink') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm') ?>
 
 <?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">
@@ -10,7 +10,7 @@
               <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
               <?php echo profile_photo($member, 'float-left') ?>                      
               <div class="profile_info">
-                  <p class="profile_location"><?php echo Tools::truncate(format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
+                  <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                   <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                   <p>
                       <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>

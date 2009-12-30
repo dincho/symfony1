@@ -1,3 +1,5 @@
+<?php use_helper('prDate'); ?>
+
 <div id="desc_map_container">
     <div id="profile_desc">
         <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch') ?>
@@ -9,7 +11,7 @@
         <br class="clear" />
         <dl>
             <dt><?php echo __('Orientation') ?></dt><dd><?php echo __($member->getOrientationString()) ?></dd>
-            <dt><?php echo __('Country') ?></dt><dd><?php echo format_country($member->getCountry()) ?></dd>
+            <dt><?php echo __('Country') ?></dt><dd><?php echo pr_format_country($member->getCountry()) ?></dd>
             <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getAdm1Id()) ? $member->getAdm1() : __('None') ?>&nbsp;<?php if($member->getAdm1Id()) echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getAdm1Id(), 'class=sec_link') ?></dd>
             <dt><?php echo __('District') ?></dt><dd><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : __('None') ?></dd>
             <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?></dd>

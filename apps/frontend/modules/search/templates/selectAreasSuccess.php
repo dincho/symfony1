@@ -1,8 +1,8 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'dtForm') ?>
 <?php echo __('Select the areas you want to find members in. To view a detailed map, roll-over the ares names..') ?><br /><br />
 
 <?php slot('header_title') ?>
-    <?php echo __('%COUNTRY% areas', array('%COUNTRY%' => format_country($sf_request->getParameter('country'))))?>
+    <?php echo __('%COUNTRY% areas', array('%COUNTRY%' => pr_format_country($sf_request->getParameter('country'))))?>
 <?php end_slot(); ?>
 
 <div id="areas_map_container">

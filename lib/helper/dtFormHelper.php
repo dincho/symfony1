@@ -121,7 +121,8 @@ function looking_for_options_admin($sex, $lookingfor, $html_options = array())
 
 function pr_select_country_tag($name, $selected = null, $options = array())
 {
-    $countries = Tools::getSfCountries();
+    //$countries = Tools::getSfCountries();
+    $countries = GeoPeer::getCountriesArray();
     
     if ($country_option = _get_option($options, 'countries'))
     {
@@ -467,5 +468,23 @@ function pr_format_payment_period_type($type)
 {
     $types = array('D' => 'Day(s)', 'W' => 'Week(s)', 'M' => 'Month(s)', 'Y' => 'Year(s)');
     return (array_key_exists($type, $types)) ? $types[$type] : null;
+}
+
+function pr_format_country($country_iso, $culture = null)
+{
+  $c = new sfCultureInfo($culture === null ? sfContext::getInstance()->getUser()->getCulture() : $culture);
+  $countries = $c->getCountries();
+  
+  if( isset($countries[$country_iso]) )
+  {
+      return $countries[$country_iso];
+  } else {
+      $c = new Criteria();
+      $c->add(GeoPeer::DSG, 'PCL');
+      $c->add(GeoPeer::COUNTRY, $country_iso);
+      $geo = GeoPeer::doSelectOne($c);
+      
+      return ( $geo ) ? $geo->getName() : '';
+  }
 }
 ?>

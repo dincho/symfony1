@@ -1,0 +1,13 @@
+fillin:
+  enabled: true
+fields:
+  name:
+    required:
+        msg:    Please enter name
+  iso_code:
+    required:
+        msg:    Please enter ISO code
+    sfPropelUniqueValidator:
+      class:        Geo
+      column:       country
+      unique_error: That country code is already in use

@@ -12,7 +12,7 @@
         <?php echo input_tag('name', null, array('size' => 50, 'maxlength' => 100, 'class' => error_class('name', true))) ?><br />
         
         <label for="country">Country:</label>
-        <?php echo pr_select_country_tag('country', null, array('include_custom' => 'Please select')) ?><br />
+        <?php echo select_tag('country', options_for_select($countries, null, array('include_blank' => true)), array('class' => error_class('country', true))) ?><br />
         
         <label for="adm1">ADM1</label>
         <?php echo select_tag('adm1', objects_for_select($adm1s, 'getName', 'getName', null, array('include_blank' => true)), 

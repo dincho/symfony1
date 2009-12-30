@@ -266,4 +266,33 @@ class GeoPeer extends BaseGeoPeer
         
         return $dsgs_tmp;
     }
+    
+    public static function getCountriesArray()
+    {
+        $c = new Criteria();
+        $c->add(GeoPeer::DSG, 'PCL');
+        $geos = self::doSelect($c);
+        
+        $countries = array();
+        $user = sfContext::getInstance()->getUser();
+        $c = new sfCultureInfo($user->getCulture());
+        $countries_i18n = $c->getCountries();
+                
+        foreach($geos as $geo)
+        {
+            if( $user->getCulture() == 'en' )
+            {
+                $countries[$geo->getCountry()] = $geo->getName();
+            } elseif(isset($countries_i18n[$geo->getCountry()])) {
+                $countries[$geo->getCountry()] = $countries_i18n[$geo->getCountry()];
+            }
+        }
+        
+        $oldLocale = setlocale(LC_COLLATE, "0");
+        setlocale(LC_COLLATE, $user->getLocale());
+        asort($countries, SORT_LOCALE_STRING);
+        setlocale(LC_COLLATE, $oldLocale);
+                
+        return $countries;
+    }
 }

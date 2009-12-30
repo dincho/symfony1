@@ -32,7 +32,7 @@ class geoActions extends sfActions
         $this->pager = $pager;
 
         //var_dump($this->filters);
-        $this->countries = Tools::getSFCountries();
+        $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->filters['country']);
         $this->adm2s = GeoPeer::getAllByAdm1Name($this->filters['country'], $this->filters['adm1']);
         $this->DSGs = GeoPeer::getDSG($this->filters['country'], $this->filters['adm1'], $this->filters['adm2']);
@@ -91,19 +91,19 @@ class geoActions extends sfActions
   
     public function executeEmptyCountries()
     {
-        $c = new Criteria();
-        $c->clearSelectColumns()->addSelectColumn(GeoPeer::COUNTRY);
-        $c->addAsColumn('cnt', 'COUNT(*)');
-        $c->addGroupByColumn(GeoPeer::COUNTRY);
-        $rs = GeoPeer::doSelectRS($c);
+        $con = Propel::getConnection();
+
+        $this->limit = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        $this->page = $this->getRequestParameter('page', 1);
+        $offset = ($this->page - 1) * $this->limit;
         
-        $geo_countries = array();
-        while($rs->next()) $geo_countries[] = $rs->get(1);
-        
-        $countries = array_keys(Tools::getSfCountries());
-        $diff = array_diff($countries, $geo_countries);
-        
-        $this->countries_diff = $diff;
+        $sql = sprintf('SELECT t1.*
+                FROM geo AS t1 LEFT JOIN geo AS t2 ON (t1.country = t2.country AND t2.dsg != "PCL")
+                WHERE  t1.DSG = "PCL" AND t2.id IS NULL LIMIT %d, %d', $offset, $this->limit);
+        $stmt = $con->createStatement();
+        $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
+
+        $this->geos = GeoPeer::populateObjects($rs);
     }
     
     public function executeEmptyAdm1()
@@ -164,9 +164,10 @@ class geoActions extends sfActions
 
         $this->adm1s = array();
         $this->adm2s = array();
+        $this->countries = GeoPeer::getCountriesArray();
 
     }
-
+    
 
     public function validateCreate()
     {
@@ -175,11 +176,66 @@ class geoActions extends sfActions
 
     public function handleErrorCreate()
     {
+        $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->getRequestParameter('country'));
         $this->adm2s = ($this->getRequestParameter('adm1')) ? GeoPeer::getAllByAdm1Name($this->getRequestParameter('country'), $this->getRequestParameter('adm1')) : array();
     
         return sfView::SUCCESS;
     }
+        
+    public function executeCreateCountry()
+    {
+        $this->getUser()->checkPerm(array('content_edit'));
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $geo = new Geo();
+            $geo->setName($this->getRequestParameter('name'));
+            $geo->setCountry($this->getRequestParameter('iso_code'));
+            $geo->setDsg('PCL');
+            $geo->save();
+
+            $this->setFlash('msg_ok', 'New country has been added.');
+            $redir = ( $this->getRequest()->hasParameter('ret_uri') ) ? base64_decode($this->getRequestParameter('ret_uri')) : 'geo/list';
+            $this->redirect($redir);
+        }
+    }    
+    
+    public function handleErrorCreateCountry()
+    {
+        return sfView::SUCCESS;
+    }
+    
+    public function executeEditCountry()
+    {
+        $this->getUser()->checkPerm(array('content_edit'));
+        
+        $c = new Criteria();
+        $c->add(GeoPeer::DSG, 'PCL');
+        $c->add(GeoPeer::ID, $this->getRequestParameter('id'));
+        $geo = GeoPeer::doSelectOne($c);
+        
+        $this->forward404Unless($geo);
+                
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $geo->setName($this->getRequestParameter('name'));
+            $geo->setCountry($this->getRequestParameter('iso_code'));
+            $geo->save();
+
+            $this->setFlash('msg_ok', 'You changes has been saved.');
+            $redir = ( $this->getRequest()->hasParameter('ret_uri') ) ? base64_decode($this->getRequestParameter('ret_uri')) : 'geo/list';
+            $this->redirect($redir);
+        }
+        
+        $this->geo = $geo;
+    }    
+    
+    public function handleErrorEditCountry()
+    {
+        return sfView::SUCCESS;
+    }    
+
 
     private function validateGeo()
     {

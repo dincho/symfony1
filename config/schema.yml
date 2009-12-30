@@ -81,7 +81,7 @@ propel:
     reviewed_by_id:           { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
     reviewed_at:              { type: timestamp, required: false }
     is_starred:               { type: boolean, default: false, required: true }
-    country:                  { type: char, size: 2, required: true }
+    country:                  { type: varchar, size: 4, required: true }
     adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
     adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
     city_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }

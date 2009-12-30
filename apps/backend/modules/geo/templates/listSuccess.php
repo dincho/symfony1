@@ -47,13 +47,14 @@
     <div class="flaot-right">
         Total Results: <?php echo format_number($pager->getNbResults()) ?>
         <?php echo button_to('Add Feature', 'geo/create?ret_uri=' . $ret_uri) ?>
+        <?php echo button_to('Add Country', 'geo/createCountry?ret_uri=' . $ret_uri) ?>
     </div>
     
     <div style="padding-right: 5px;">
             <span>select:</span>
-            <?php echo link_to_function('all', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = true });'); ?>
-            <?php echo link_to_function('none', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = false });'); ?>
-            <?php echo link_to_function('reverse', '$("geo_list_form").getInputs("checkbox").each(function(e){ e.checked = !e.checked });'); ?>
+            <?php echo link_to_function('all', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = true });'); ?>
+            <?php echo link_to_function('none', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = false });'); ?>
+            <?php echo link_to_function('reverse', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = !e.checked });'); ?>
     </div>
     <br />
 </div>
@@ -78,17 +79,18 @@
       <tbody>
       
       <?php foreach ($pager->getResults() as $geo): ?>
-      <tr rel="<?php echo url_for('geo/edit?id=' . $geo->getId() . '&ret_uri=' .$ret_uri); ?>">
-        <td class="marked"><?php echo checkbox_tag('marked[]', $geo->getId(), null) ?></td>
-        <td><?php echo $geo->getId() ?></td>
-        <td><?php echo $geo->getName() ?></td>
-        <td><?php echo format_country($geo->getCountry()) ?></td>
-        <td><?php echo $geo->getAdm1() ?></td>
-        <td><?php echo $geo->getAdm2() ?></td>
-        <td><?php echo $geo->getDsg() ?></td>
-        <td><?php echo $geo->getLatitude() ?></td>
-        <td><?php echo $geo->getLongitude() ?></td>
-      </tr>
+          <?php $edit_uri = ($geo->getDsg() == 'PCL') ? 'geo/editCountry' : 'geo/edit'; ?>
+          <tr rel="<?php echo url_for($edit_uri . '?id=' . $geo->getId() . '&ret_uri=' .$ret_uri); ?>">
+            <td class="marked"><?php echo checkbox_tag('marked[]', $geo->getId(), null, array('disabled' => ($geo->getDsg() == 'PCL'), )) ?></td>
+            <td><?php echo $geo->getId() ?></td>
+            <td><?php echo $geo->getName() ?></td>
+            <td><?php echo format_country($geo->getCountry()) ?></td>
+            <td><?php echo $geo->getAdm1() ?></td>
+            <td><?php echo $geo->getAdm2() ?></td>
+            <td><?php echo $geo->getDsg() ?></td>
+            <td><?php echo $geo->getLatitude() ?></td>
+            <td><?php echo $geo->getLongitude() ?></td>
+          </tr>
       <?php endforeach; ?>
       </tbody>
     </table>
