@@ -19,7 +19,7 @@
         <var>Main Photo</var>
         <?php endif; ?><br />
           <div id="thePhotoPrev_<?php echo $photo->getId() ?>" <?php if( isset($selected_photo) && $selected_photo->getId() == $photo->getId() ) echo 'class=selected_photo'; ?>>
-            <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
+            <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100').'?'.time() : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
           </div>
         <?php echo link_to('Delete', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?>
         </div>
