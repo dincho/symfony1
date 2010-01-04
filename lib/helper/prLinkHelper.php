@@ -29,4 +29,3 @@ function remove_return_url($url)
   $url = preg_replace('/(return_url=\w+=&)/i', '', $url);
   return $url;
 }
-?>

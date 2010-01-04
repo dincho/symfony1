@@ -37,7 +37,7 @@ class blockActions extends prActions
         {
           $this->redirect('@blocked_members');
         } else {
-          $this->redirect('@profile?username=' . $profile->getUsername());
+          $this->redirectToReferer();
         }
     }
 
