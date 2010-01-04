@@ -411,7 +411,7 @@ class membersActions extends sfActions
         {
             $this->getUser()->checkPerm(array('members_edit'));
             //crop the photo if selected
-            if ($this->getRequestParameter('photo_id'))
+            if ($this->getRequestParameter('photo_id') && $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id')))
             {
                 $crop_area['x1'] = $this->getRequestParameter('crop_x1');
                 $crop_area['y1'] = $this->getRequestParameter('crop_y1');
@@ -419,8 +419,6 @@ class membersActions extends sfActions
                 $crop_area['y2'] = $this->getRequestParameter('crop_y2');
                 $crop_area['width'] = $this->getRequestParameter('crop_width');
                 $crop_area['height'] = $this->getRequestParameter('crop_height');
-                $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
-                $this->forward404Unless($photo);
                 $photo->updateCroppedImage($crop_area);
             }
             
