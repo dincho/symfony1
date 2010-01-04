@@ -2368,7 +2368,7 @@ div.best_video div.right img {
 
 /* Profile description and map */
 #desc_map_container {
-    width: 338px;
+    width: 340px;
     border-top: 1px solid #4f4f4f;
     background-color: #4f4f4f;
 }
@@ -2377,7 +2377,7 @@ div.best_video div.right img {
     float: left;
     display: block;
     height: 27px;
-    width: 164px;
+    width: 165px;
     color: #73a7ff;
     padding-left: 5px;
     line-height: 27px;
