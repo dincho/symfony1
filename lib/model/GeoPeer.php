@@ -280,11 +280,11 @@ class GeoPeer extends BaseGeoPeer
                 
         foreach($geos as $geo)
         {
-            if( $user->getCulture() == 'en' )
+            if( $user->getCulture() != 'en' && isset($countries_i18n[$geo->getCountry()]) )
             {
-                $countries[$geo->getCountry()] = $geo->getName();
-            } elseif(isset($countries_i18n[$geo->getCountry()])) {
                 $countries[$geo->getCountry()] = $countries_i18n[$geo->getCountry()];
+            } else {
+                $countries[$geo->getCountry()] = $geo->getName();
             }
         }
         

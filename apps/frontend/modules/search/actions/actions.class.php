@@ -252,7 +252,7 @@ class searchActions extends prActions
         
         $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
         
-        $countries = Tools::getSfCountries();
+        $countries = GeoPeer::getCountriesArray();
         $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
         $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
         $countries_columns['right'] = array_slice($countries, 82+86); //right
@@ -267,7 +267,7 @@ class searchActions extends prActions
         $user->getBC()->add(array('name' => 'Select Countries', 'search/selectCountries'));
             	
         $this->selected_countries = $user->getAttributeHolder()->getAll('frontend/search/countries');
-        $countries = Tools::getSfCountries();
+        $countries = GeoPeer::getCountriesArray();
         $countries_columns['left'] = array_slice($countries, 0, 82, true); //left 
         $countries_columns['middle'] = array_slice($countries, 82, 86, true); //middle
         $countries_columns['right'] = array_slice($countries, 82+86); //right
