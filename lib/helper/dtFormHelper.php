@@ -345,6 +345,7 @@ function pr_object_select_city_tag($object, $method, $options = array(), $defaul
     $c = new Criteria();
     $c->add(GeoPeer::COUNTRY, $country);
     $c->add(GeoPeer::DSG, 'PPL');
+    $c->addAscendingOrderByColumn(GeoPeer::NAME);
     
     $has_adm1 = GeoPeer::hasAdm1AreasIn($country);
     

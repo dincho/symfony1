@@ -179,6 +179,7 @@ class GeoPeer extends BaseGeoPeer
         $c = new Criteria();
         $c->add(GeoPeer::DSG, 'PPL');
         $c->add(GeoPeer::COUNTRY, $country);
+        $c->addAscendingOrderByColumn(GeoPeer::NAME);
 
         if( $adm1_id && $adm1 = self::retrieveByPK($adm1_id) )
         {
