@@ -13,7 +13,7 @@
 <body>
     <div id="left">
       
-      <?php include_component('system', 'leftMenu', array('top_menu_selected' => @$top_menu_selected, 'left_menu_selected' => @$left_menu_selected )); ?>
+      <?php include_component_slot('sidebar', array('top_menu_selected' => @$top_menu_selected, 'left_menu_selected' => @$left_menu_selected )); ?>
 
       <?php if($sf_user->isAuthenticated()): ?>
       <div id="login_info">

@@ -706,114 +706,39 @@ class membersActions extends sfActions
         
         if (isset($this->filters['sex']))
         {
-            $c->add(MemberPeer::SEX, $this->filters['sex']);
-            if ($this->filters['sex'] == 'f')
+            foreach($this->filters['sex'] as $orientation)
             {
-                $bc->add(array('name' => 'Female Members', 'uri' => 'members/list?filter=filter&filters[sex]=f'));
-                $this->left_menu_selected = 'Female Members';
-            } else
-            {
-                $bc->add(array('name' => 'Male Members', 'uri' => 'members/list?filter=filter&filters[sex]=m'));
-                $this->left_menu_selected = 'Male Members';
+                $sex_looking = explode('_', $orientation);
+                $crit = $c->getNewCriterion(MemberPeer::SEX, $sex_looking[0]);
+                $crit->addAnd($c->getNewCriterion(MemberPeer::LOOKING_FOR, $sex_looking[1]));
+                $c->addOr($crit);
             }
         }
         
         if (isset($this->filters['subscription_id']))
         {
-            $c->add(MemberPeer::SUBSCRIPTION_ID, $this->filters['subscription_id']);
-            switch ($this->filters['subscription_id']) {
-                case SubscriptionPeer::COMP:
-                    $bc->add(
-                            array('name' => 'Comp Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::COMP));
-                    $this->left_menu_selected = 'Comp Members';
-                    ;
-                    break;
-                case SubscriptionPeer::PAID:
-                    $bc->add(
-                            array('name' => 'Paid Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::PAID));
-                    $this->left_menu_selected = 'Paid Members';
-                    ;
-                    break;
-                case SubscriptionPeer::VIP:
-                    $bc->add(
-                            array('name' => 'VIP Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::VIP));
-                    $this->left_menu_selected = 'VIP Members';
-                    ;
-                    break;
-                
-                default:
-                    $bc->add(
-                            array('name' => 'Free Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE));
-                    $this->left_menu_selected = 'Free Members';
-                    ;
-                    break;
-            }
-        
+            $c->add(MemberPeer::SUBSCRIPTION_ID, $this->filters['subscription_id'], Criteria::IN);
         }
-        if (isset($this->filters['country']))
+        
+        if ( isset($this->filters['countries']) )
         {
-            switch ($this->filters['country']) {
-                case 'NON-US':
-                    $crit = $c->getNewCriterion(MemberPeer::COUNTRY, 'US', Criteria::NOT_EQUAL);
-                    $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'PL', Criteria::NOT_EQUAL));
-                    $c->add($crit);
-                    $bc->add(array('name' => 'Foreign (Non-US) Members', 'uri' => 'members/list?filter=filter&filters[country]=NON-US'));
-                    $this->left_menu_selected = 'Foreign (Non-US) Members';
-                    ;
-                    break;
-                case 'US':
-                    $c->add(MemberPeer::COUNTRY, 'US');
-                    $bc->add(array('name' => 'Foreign (US) Members', 'uri' => 'members/list?filter=filter&filters[country]=US'));
-                    $this->left_menu_selected = 'Foreign (US) Members';
-                    ;
-                    break;
-                
-                default:
-                    $c->add(MemberPeer::COUNTRY, $this->filters['country']);
-                    $bc->add(array('name' => 'Polish Members', 'uri' => 'members/list?filter=filter&filters[country]=PL'));
-                    $this->left_menu_selected = 'Polish Members';
-                    ;
-                    break;
+            if( in_array('THE_REST', $this->filters['countries']) )
+            {
+                $c->add(MemberPeer::COUNTRY, array('PL', 'US', 'CA', 'GB', 'IE'), Criteria::NOT_IN);
+            } else {
+                $c->add(MemberPeer::COUNTRY, $this->filters['countries'], Criteria::IN);
             }
-        
         }
+        
         if (isset($this->filters['status_id']))
         {
-            $c->add(MemberPeer::MEMBER_STATUS_ID, $this->filters['status_id']);
-            switch ($this->filters['status_id']) {
-                case MemberStatusPeer::SUSPENDED:
-                    $bc->add(
-                            array('name' => 'Suspended Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::SUSPENDED));
-                    $this->left_menu_selected = 'Suspended Members';
-                    ;
-                    break;
-                case MemberStatusPeer::ABANDONED:
-                    $bc->add(
-                            array('name' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED));
-                    $this->left_menu_selected = 'Abandoned Registration';
-                    ;
-                    break;
-                case MemberStatusPeer::PENDING:
-                    $bc->add(
-                            array('name' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING));
-                    $this->left_menu_selected = 'Pending Registration';
-                    ;
-                    break;
-                case MemberStatusPeer::DENIED:
-                    $bc->add(
-                            array('name' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED));
-                    $this->left_menu_selected = 'Denied Registration';
-                    ;
-                    break;
-                
-                default:
-                    $bc->add(
-                            array('name' => 'Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED));
-                    $this->left_menu_selected = 'Deactivated Members';
-                    ;
-                    break;
-            }
+            $c->add(MemberPeer::MEMBER_STATUS_ID, $this->filters['status_id'], Criteria::IN);
         }
+        
+        if (isset($this->filters['languages']))
+        {
+            $c->add(MemberPeer::LANGUAGE, $this->filters['languages'], Criteria::IN);
+        }        
         
         if (isset($this->filters['is_starred']))
         {

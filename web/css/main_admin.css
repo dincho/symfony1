@@ -39,7 +39,6 @@
 
 #left_menu {
   background-color: #3D3D3D;
-  color: #73A7FF;
   margin: 0 0 0 10px;
   padding: 100px 0 0 0;
   font-size: 1em;
@@ -66,6 +65,18 @@
 
 #left_menu li.selected {
   background-color: black;
+  color: #73A7FF;
+}
+
+form #left_menu li {
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+#left_menu label {
+    float: none;
+    display: inline;
+    font-weight: normal;
 }
 
 #content {

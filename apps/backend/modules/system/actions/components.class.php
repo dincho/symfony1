@@ -203,5 +203,19 @@ class systemComponents extends sfComponents
   {
 
   }
+  
+  public function executeMembersSidebar()
+  {
+    $this->sex_array = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man',
+                            'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
+    
+    $this->subscriptions = SubscriptionPeer::doSelect(new Criteria());
+    $this->countries = array('PL', 'US', 'CA', 'GB', 'IE');
+    $this->statuses = MemberStatusPeer::doSelect(new Criteria());
+    $this->languages = array('en', 'pl', 'ar', 'zh', 'fr', 'de', 'he', 'it', 'pt', 'ru', 'es', 'sv', 'tr');
+    
+    
+    $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
+  }
 }
 ?>

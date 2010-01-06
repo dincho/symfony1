@@ -1,0 +1,3 @@
+default:
+  components:
+    sidebar:  [system, membersSidebar]  
