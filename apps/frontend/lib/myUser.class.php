@@ -36,6 +36,8 @@ class myUser extends sfBasicSecurityUser
     {
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
+     
+        //var_dump($user->getAttributeHolder()->getAll('frontend/member/referer_stack'));exit();
         
         $this->setAuthenticated(true);
         $this->addCredential('member');
@@ -73,7 +75,7 @@ class myUser extends sfBasicSecurityUser
         if ($request->getParameter('return_url')) return base64_decode($request->getParameter('return_url'));
         
         $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
-        return isset($stack [1]) ? $stack [1] : null;
+        return isset($stack [1]) ? $stack [1] : '@homepage';
     }
 
     public function completeRegistration()
