@@ -9,7 +9,7 @@
 
 <?php echo observe_field('adm1', array(
     'success'  => 'updateAdm2(request)',
-    'url'      => 'ajax/getAdm2ByAdm1Name',
+    'url'      => 'ajax/getAdm2ByAdm1Id',
     'with'     => "'country='+$('country').getValue()+'&adm1=' + this.getValue() ",
     'loading'  => "$('create_feature_form').disable(); $('adm2').options.length = 0;",
     'complete' => "$('create_feature_form').enable();"
@@ -27,7 +27,7 @@ function updateAdm1(request)
   S.options[0].selected = true;
   for (var i = 1; i <= nbElementsInResponse; i++)
   {
-     S.options[i] = new Option(json[i-1].title, json[i-1].title);
+     S.options[i] = new Option(json[i-1].title, json[i-1].id);
   }
 }
 ") ?>
@@ -44,7 +44,7 @@ function updateAdm2(request)
   S.options[0].selected = true;
   for (var i = 1; i <= nbElementsInResponse; i++)
   {
-     S.options[i] = new Option(json[i-1].title, json[i-1].title);
+     S.options[i] = new Option(json[i-1].title, json[i-1].id);
   }
 }
 ") ?>

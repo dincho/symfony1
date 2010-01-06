@@ -18,13 +18,13 @@
 
     <?php echo select_tag('filters[adm1]', 
                             options_for_select(array('GEO_ALL' => 'All('. count($adm1s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm1']) . 
-                            objects_for_select($adm1s, 'getName', 'getName', $filters['adm1']), 
+                            objects_for_select($adm1s, 'getId', 'getName', $filters['adm1']), 
                             array('multiple' => true)
                         ); ?> 
                                         
     <?php echo select_tag('filters[adm2]', 
                             options_for_select(array('GEO_ALL' => 'All('. count($adm2s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm2']) . 
-                            objects_for_select($adm2s, 'getName', 'getName', $filters['adm2']), 
+                            objects_for_select($adm2s, 'getId', 'getName', $filters['adm2']), 
                             array('multiple' => true)
                         ); ?>
                     
@@ -112,7 +112,7 @@
 
 <?php echo observe_field('filters_adm1', array(
     'success'  => 'updateAdm2(request)',
-    'url'      => 'ajax/getAdm2ByAdm1Name?allow_blank=1',
+    'url'      => 'ajax/getAdm2ByAdm1Id?allow_blank=1',
     'with'     => "'country='+$('filters_country').getValue()+'&adm1=' + this.getValue() ",
     'loading'  => "loading(true); $('filters_adm2').options.length = 0; $('filters_dsg').options.length = 0;",
 )) ?>
@@ -154,11 +154,11 @@ function updateAdm1(request)
       
       for (var i = 1; i <= nbElementsInResponse; i++)
       {
-         S.options[i+1] = new Option(json[i-1].title, json[i-1].title);
+         S.options[i+1] = new Option(json[i-1].title, json[i-1].id);
       }
       
       " . remote_function(array('success' => 'updateAdm2(request)', 
-                                'url' => 'ajax/getAdm2ByAdm1Name?allow_blank=1',
+                                'url' => 'ajax/getAdm2ByAdm1Id?allow_blank=1',
                                 'with'     => "'country='+$('filters_country').getValue()+'&adm1=' + $('filters_adm1').getValue()",
                                 )
                           )
@@ -180,7 +180,7 @@ function updateAdm2(request)
   
   for (var i = 1; i <= nbElementsInResponse; i++)
   {
-     S.options[i+1] = new Option(json[i-1].title, json[i-1].title);
+     S.options[i+1] = new Option(json[i-1].title, json[i-1].id);
   }
   
   " . remote_function(array('success' => 'updateDSG(request)', 

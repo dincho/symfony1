@@ -17,12 +17,12 @@
         
         <label for="adm1">ADM1</label>
         <?php echo select_tag('adm1', 
-                            objects_for_select($adm1s, 'getName', 'getName', $geo->getAdm1(), array('include_custom' => str_repeat('-', 30))), 
+                            objects_for_select($adm1s, 'getId', 'getName', $geo->getAdm1Id(), array('include_custom' => str_repeat('-', 30))), 
                             array('class' => error_class('adm1', true))) ?><br />
                             
         <label for="adm2">ADM2</label>
         <?php echo select_tag('adm2', 
-                            objects_for_select($adm2s, 'getName', 'getName', $geo->getAdm2(), array('include_custom' => str_repeat('-', 30))), 
+                            objects_for_select($adm2s, 'getId', 'getName', $geo->getAdm2Id(), array('include_custom' => str_repeat('-', 30))), 
                             array('class' => error_class('adm2', true))) ?><br />
                             
         <label for="dsg">DSG</label>

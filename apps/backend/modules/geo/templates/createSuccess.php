@@ -15,11 +15,11 @@
         <?php echo select_tag('country', options_for_select($countries, null, array('include_blank' => true)), array('class' => error_class('country', true))) ?><br />
         
         <label for="adm1">ADM1</label>
-        <?php echo select_tag('adm1', objects_for_select($adm1s, 'getName', 'getName', null, array('include_blank' => true)), 
+        <?php echo select_tag('adm1', objects_for_select($adm1s, 'getId', 'getName', null, array('include_blank' => true)), 
                             array('class' => error_class('adm1', true))) ?><br />
                             
         <label for="adm2">ADM2</label>
-        <?php echo select_tag('adm2', objects_for_select($adm2s, 'getName', 'getName', null, array('include_blank' => true)), 
+        <?php echo select_tag('adm2', objects_for_select($adm2s, 'getId', 'getName', null, array('include_blank' => true)), 
                             array('class' => error_class('adm2', true))) ?><br />
                             
         <label for="dsg">DSG</label>

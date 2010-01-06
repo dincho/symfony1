@@ -42,7 +42,7 @@ class prGeoValidator extends sfValidator
             }
             
             //has adm1 but no error so add the adm1 area to the criteria
-            $c->add(GeoPeer::ADM1, $adm1->getName());
+            $c->add(GeoPeer::ADM1_ID, $adm1->getId());
         }
                 
         $c->add(GeoPeer::DSG, 'ADM2');
@@ -70,7 +70,7 @@ class prGeoValidator extends sfValidator
             }
             
             //has adm2 but no error so add the adm2 area to the criteria
-            $c->add(GeoPeer::ADM2, $adm2->getName());
+            $c->add(GeoPeer::ADM2_ID, $adm2->getId());
         }
         
         

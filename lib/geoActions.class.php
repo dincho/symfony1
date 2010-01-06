@@ -43,14 +43,14 @@ class geoActions extends sfActions
         return $this->renderText($output);
     }
     
-    public function executeGetAdm2ByAdm1Name()
+    public function executeGetAdm2ByAdm1Id()
     {
         $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
         $adm1s = ($this->getRequestParameter('adm1')) ? explode(',', $this->getRequestParameter('adm1')) : array();
         
         if( !$this->getRequestParameter('allow_blank') && (!$countries || !$adm1s) ) return sfView::NONE;
         
-        $adm2s = GeoPeer::getAllByAdm1Name($countries, $adm1s);
+        $adm2s = GeoPeer::getAllByAdm1Id($countries, $adm1s);
     
         $adm2s_tmp = array();
         foreach ($adm2s as $adm2)

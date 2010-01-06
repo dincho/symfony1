@@ -45,20 +45,20 @@ class GeoPeer extends BaseGeoPeer
         return GeoPeer::doSelect($c);
     }
     
-    public static function getAllByAdm1($adm1)
-    {
-        $adm1_obj = GeoPeer::retrieveByPK($adm1);
-        
-        $c = new Criteria();
-        $c->add(GeoPeer::COUNTRY, $adm1_obj->getCountry());
-        $c->add(GeoPeer::ADM1, $adm1_obj->getName(), Criteria::EQUAL);
-        $c->add(GeoPeer::DSG, "ADM2", Criteria::EQUAL);
-        $c->addAscendingOrderByColumn(GeoPeer::NAME);
-        
-        return GeoPeer::doSelect($c);
-    }
+    // public static function getAllByAdm1($adm1)
+    // {
+    //     $adm1_obj = GeoPeer::retrieveByPK($adm1);
+    //     
+    //     $c = new Criteria();
+    //     $c->add(GeoPeer::COUNTRY, $adm1_obj->getCountry());
+    //     $c->add(GeoPeer::ADM1_ID, $adm1_obj->getName(), Criteria::EQUAL);
+    //     $c->add(GeoPeer::DSG, "ADM2", Criteria::EQUAL);
+    //     $c->addAscendingOrderByColumn(GeoPeer::NAME);
+    //     
+    //     return GeoPeer::doSelect($c);
+    // }
     
-    public static function getAllByAdm1Name($countries = array(), $adm1s = array())
+    public static function getAllByAdm1Id($countries = array(), $adm1s = array())
     {
         $c = new Criteria();
         if( is_array($countries)  ) 
@@ -90,13 +90,13 @@ class GeoPeer extends BaseGeoPeer
                     $crit->addOr($c->getNewCriterion(GeoPeer::ADM1, ''));
                     $c->add($crit);
                 } else {
-                    $c->add(GeoPeer::ADM1, $adm1s, Criteria::IN);
+                    $c->add(GeoPeer::ADM1_ID, $adm1s, Criteria::IN);
                 }
             }
             
         } elseif( $adm1s )
         {
-            $c->add(GeoPeer::ADM1, $adm1s);
+            $c->add(GeoPeer::ADM1_ID, $adm1s);
         }
                 
         $c->add(GeoPeer::DSG, "ADM2", Criteria::EQUAL);
@@ -119,7 +119,7 @@ class GeoPeer extends BaseGeoPeer
       $c = new Criteria();
       $c->add(GeoPeer::DSG, 'ADM2');
       $c->add(GeoPeer::COUNTRY, $country);
-      $c->add(GeoPeer::ADM1, $adm1);
+      $c->add(GeoPeer::ADM1_ID, $adm1);
       $c->add(GeoPeer::ID, $pk);
       return self::doSelectOne($c);
     }  
@@ -127,6 +127,7 @@ class GeoPeer extends BaseGeoPeer
     public static function getCountriesWithStates()
     {
         $c = new Criteria();
+        $c->add(GeoPeer::DSG, 'ADM1');
         $c->addGroupByColumn(GeoPeer::COUNTRY);
         $c->clearSelectColumns()->addSelectColumn(GeoPeer::COUNTRY)->addSelectColumn(GeoPeer::COUNT);
         $rs = self::doSelectRs($c);
@@ -181,14 +182,14 @@ class GeoPeer extends BaseGeoPeer
         $c->add(GeoPeer::COUNTRY, $country);
         $c->addAscendingOrderByColumn(GeoPeer::NAME);
 
-        if( $adm1_id && $adm1 = self::retrieveByPK($adm1_id) )
+        if( $adm1_id )
         {
-          $c->add(GeoPeer::ADM1, $adm1->getName());
+          $c->add(GeoPeer::ADM1_ID, $adm1_id);
         }
         
-        if( $adm2_id && $adm2 = self::retrieveByPK($adm2_id) )
+        if( $adm2_id )
         {
-          $c->add(GeoPeer::ADM2, $adm2->getName());
+          $c->add(GeoPeer::ADM2_ID, $adm2_id);
         }        
         
         return GeoPeer::doSelect($c);
@@ -222,17 +223,17 @@ class GeoPeer extends BaseGeoPeer
             {
                 if( in_array('GEO_UNASSIGNED', $adm1s) )
                 {
-                    $crit = $c->getNewCriterion(GeoPeer::ADM1, null, Criteria::ISNULL);
-                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM1, ''));
+                    $crit = $c->getNewCriterion(GeoPeer::ADM1_ID, null, Criteria::ISNULL);
+                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM1_ID, ''));
                     $c->add($crit);
                 } else {
-                    $c->add(GeoPeer::ADM1, $adm1s, Criteria::IN);
+                    $c->add(GeoPeer::ADM1_ID, $adm1s, Criteria::IN);
                 }
             }
             
         } elseif( $adm1s )
         {
-            $c->add(GeoPeer::ADM1, $adm1s);
+            $c->add(GeoPeer::ADM1_ID, $adm1s);
         }
                 
         if( is_array($adm2s)  ) 
@@ -241,17 +242,17 @@ class GeoPeer extends BaseGeoPeer
             {
                 if( in_array('GEO_UNASSIGNED', $adm2s) )
                 {
-                    $crit = $c->getNewCriterion(GeoPeer::ADM2, null, Criteria::ISNULL);
-                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM2, ''));
+                    $crit = $c->getNewCriterion(GeoPeer::ADM2_ID, null, Criteria::ISNULL);
+                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM2_ID, ''));
                     $c->add($crit);
                 } else {
-                    $c->add(GeoPeer::ADM2, $adm2s, Criteria::IN);
+                    $c->add(GeoPeer::ADM2_ID, $adm2s, Criteria::IN);
                 }
             }
             
         } elseif( $adm2s )
         {
-            $c->add(GeoPeer::ADM2, $adm2s);
+            $c->add(GeoPeer::ADM2_ID, $adm2s);
         }
                         
         $c->addGroupByColumn(GeoPeer::DSG);

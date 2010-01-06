@@ -34,7 +34,7 @@ class geoActions extends sfActions
         //var_dump($this->filters);
         $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->filters['country']);
-        $this->adm2s = GeoPeer::getAllByAdm1Name($this->filters['country'], $this->filters['adm1']);
+        $this->adm2s = GeoPeer::getAllByAdm1Id($this->filters['country'], $this->filters['adm1']);
         $this->DSGs = GeoPeer::getDSG($this->filters['country'], $this->filters['adm1'], $this->filters['adm2']);
 
     }
@@ -115,7 +115,7 @@ class geoActions extends sfActions
         $offset = ($this->page - 1) * $this->limit;
         
         $sql = sprintf('SELECT t1.*
-                FROM geo AS t1 LEFT JOIN geo AS t2 ON (t1.country = t2.country AND t2.dsg != "ADM1" AND t1.name = t2.adm1)
+                FROM geo AS t1 LEFT JOIN geo AS t2 ON (t1.country = t2.country AND t2.dsg != "ADM1" AND t1.id = t2.adm1_id)
                 WHERE  t1.DSG = "ADM1" AND t2.id IS NULL LIMIT %d, %d', $offset, $this->limit);
         $stmt = $con->createStatement();
         $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
@@ -132,7 +132,7 @@ class geoActions extends sfActions
         $offset = ($this->page - 1) * $this->limit;
         
         $sql = sprintf('SELECT t1.*
-                FROM geo AS t1 LEFT JOIN geo AS t2 ON (t1.country = t2.country AND t1.adm1 = t2.adm1 AND t2.dsg != "ADM2" AND t1.name = t2.adm2)
+                FROM geo AS t1 LEFT JOIN geo AS t2 ON (t1.country = t2.country AND t1.adm1_id = t2.adm1_id AND t2.dsg != "ADM2" AND t1.id = t2.adm2_id)
                 WHERE  t1.DSG = "ADM2" AND t2.id IS NULL LIMIT %d, %d', $offset, $this->limit);
         $stmt = $con->createStatement();
         $rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
@@ -150,8 +150,8 @@ class geoActions extends sfActions
             $geo->setName($this->getRequestParameter('name'));
             $geo->setCountry($this->getRequestParameter('country'));
             $geo->setDsg($this->getRequestParameter('dsg'));
-            $geo->setAdm1(($this->getRequestParameter('adm1')) ? $this->getRequestParameter('adm1') : null);
-            $geo->setAdm2(($this->getRequestParameter('adm2')) ? $this->getRequestParameter('adm2') : null);
+            $geo->setAdm1Id(($this->getRequestParameter('adm1')) ? $this->getRequestParameter('adm1') : null);
+            $geo->setAdm2Id(($this->getRequestParameter('adm2')) ? $this->getRequestParameter('adm2') : null);
             $geo->setLatitude(($this->getRequestParameter('latitude')) ? $this->getRequestParameter('latitude') : null);
             $geo->setLongitude(($this->getRequestParameter('longitude')) ? $this->getRequestParameter('longitude') : null);
             $geo->setPopulation($this->getRequestParameter('population'));
@@ -178,7 +178,7 @@ class geoActions extends sfActions
     {
         $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->getRequestParameter('country'));
-        $this->adm2s = ($this->getRequestParameter('adm1')) ? GeoPeer::getAllByAdm1Name($this->getRequestParameter('country'), $this->getRequestParameter('adm1')) : array();
+        $this->adm2s = ($this->getRequestParameter('adm1')) ? GeoPeer::getAllByAdm1Id($this->getRequestParameter('country'), $this->getRequestParameter('adm1')) : array();
     
         return sfView::SUCCESS;
     }
@@ -266,7 +266,7 @@ class geoActions extends sfActions
             }
 
             //adm1 obj
-            $c->add(GeoPeer::NAME, $adm1);
+            $c->add(GeoPeer::ID, $adm1);
             $adm1_obj = GeoPeer::doSelectOne($c);
 
             if( $dsg != 'ADM1' && !$adm1_obj )
@@ -276,11 +276,11 @@ class geoActions extends sfActions
             }
 
             //has adm1 but no error so add the adm1 area to the criteria
-            $c->add(GeoPeer::ADM1, $adm1);
+            $c->add(GeoPeer::ADM1_ID, $adm1);
         }
 
         $c->add(GeoPeer::DSG, 'ADM2');
-        $c->remove(GeoPeer::NAME);
+        $c->remove(GeoPeer::ID);
         $has_adm2 = GeoPeer::doCount($c);
 
         if ( $has_adm2 )
@@ -292,7 +292,7 @@ class geoActions extends sfActions
             }
 
             //adm2 obj
-            $c->add(GeoPeer::NAME, $adm2);
+            $c->add(GeoPeer::ID, $adm2);
             $adm2_obj = GeoPeer::doSelectOne($c);
 
             if( $dsg == 'PPL' &&  !$adm2_obj )
@@ -302,7 +302,7 @@ class geoActions extends sfActions
             }
 
             //has adm2 but no error so add the adm2 area to the criteria
-            $c->add(GeoPeer::ADM2, $adm2);
+            $c->add(GeoPeer::ADM2_ID, $adm2);
         }
 
         return true;  
@@ -320,8 +320,8 @@ class geoActions extends sfActions
             $geo->setName($this->getRequestParameter('name'));
             $geo->setCountry($this->getRequestParameter('country'));
             $geo->setDsg($this->getRequestParameter('dsg'));
-            $geo->setAdm1(($this->getRequestParameter('adm1')) ? $this->getRequestParameter('adm1') : null);
-            $geo->setAdm2(($this->getRequestParameter('adm2')) ? $this->getRequestParameter('adm2') : null);
+            $geo->setAdm1Id(($this->getRequestParameter('adm1')) ? $this->getRequestParameter('adm1') : null);
+            $geo->setAdm2Id(($this->getRequestParameter('adm2')) ? $this->getRequestParameter('adm2') : null);
             $geo->setLatitude(($this->getRequestParameter('latitude')) ? $this->getRequestParameter('latitude') : null);
             $geo->setLongitude(($this->getRequestParameter('longitude')) ? $this->getRequestParameter('longitude') : null);
             $geo->setPopulation($this->getRequestParameter('population'));
@@ -333,7 +333,7 @@ class geoActions extends sfActions
         }
 
         $this->adm1s = GeoPeer::getAllByCountry($geo->getCountry());
-        $this->adm2s = GeoPeer::getAllByAdm1Name($geo->getCountry(), $geo->getAdm1());
+        $this->adm2s = GeoPeer::getAllByAdm1Id($geo->getCountry(), $geo->getAdm1Id());
         $this->geo = $geo;
 
     }
@@ -349,7 +349,7 @@ class geoActions extends sfActions
         $this->forward404Unless($geo);
   
         $this->adm1s = GeoPeer::getAllByCountry($this->getRequestParameter('country'));
-        $this->adm2s = ( $this->getRequestParameter('adm1') ) ? GeoPeer::getAllByAdm1Name($this->getRequestParameter('country'), $this->getRequestParameter('amd1')) : array();
+        $this->adm2s = ( $this->getRequestParameter('adm1') ) ? GeoPeer::getAllByAdm1Id($this->getRequestParameter('country'), $this->getRequestParameter('amd1')) : array();
         $this->geo = $geo;
       
         return sfView::SUCCESS;
@@ -374,8 +374,8 @@ class geoActions extends sfActions
             
             $c2 = new Criteria();
             if( $this->getRequestParameter('set_country') ) $c2->add(GeoPeer::COUNTRY, $this->getRequestParameter('country'));
-            if( $this->getRequestParameter('set_adm1') ) $c2->add(GeoPeer::ADM1, $this->getRequestParameter('adm1'));
-            if( $this->getRequestParameter('set_adm2') ) $c2->add(GeoPeer::ADM2, $this->getRequestParameter('adm2'));
+            if( $this->getRequestParameter('set_adm1') ) $c2->add(GeoPeer::ADM1_ID, $this->getRequestParameter('adm1'));
+            if( $this->getRequestParameter('set_adm2') ) $c2->add(GeoPeer::ADM2_ID, $this->getRequestParameter('adm2'));
             if( $this->getRequestParameter('set_dsg') ) $c2->add(GeoPeer::DSG, $this->getRequestParameter('dsg'));
             BasePeer::doUpdate($c1, $c2, Propel::getConnection());
             
@@ -409,7 +409,7 @@ class geoActions extends sfActions
     public function handleErrorBatchEdit()
     {
         $this->adm1s = ( $this->getRequestParameter('country') ) ? GeoPeer::getAllByCountry($this->getRequestParameter('country')) : array();
-        $this->adm2s = ( $this->getRequestParameter('adm1') ) ? GeoPeer::getAllByAdm1Name($this->getRequestParameter('country'), $this->getRequestParameter('amd1')) : array();        
+        $this->adm2s = ( $this->getRequestParameter('adm1') ) ? GeoPeer::getAllByAdm1Id($this->getRequestParameter('country'), $this->getRequestParameter('amd1')) : array();        
         
         return sfView::SUCCESS;
     }
@@ -466,7 +466,7 @@ class geoActions extends sfActions
             $this->setFlash('msg_ok', 'New photo has been uploaded');
         }
         
-        $this->redirect('geo/editInfo?id=' . $geo->getId());
+        $this->redirect('geogetAllByAdm1Id/editInfo?id=' . $geo->getId());
     }
     
     public function executeDeletePhoto()
@@ -559,11 +559,11 @@ class geoActions extends sfActions
         {
             if( in_array('GEO_UNASSIGNED', $this->filters['adm1']) )
             {
-                $crit = $c->getNewCriterion(GeoPeer::ADM1, null, Criteria::ISNULL);
-                $crit->addOr($c->getNewCriterion(GeoPeer::ADM1, ''));
+                $crit = $c->getNewCriterion(GeoPeer::ADM1_ID, null, Criteria::ISNULL);
+                $crit->addOr($c->getNewCriterion(GeoPeer::ADM1_ID, ''));
                 $c->add($crit);
             } else {
-                $c->add(GeoPeer::ADM1, $this->filters['adm1'], Criteria::IN);
+                $c->add(GeoPeer::ADM1_ID, $this->filters['adm1'], Criteria::IN);
             }
             
         }        
@@ -572,11 +572,11 @@ class geoActions extends sfActions
         {
             if( in_array('GEO_UNASSIGNED', $this->filters['adm2']) )
             {
-                $crit = $c->getNewCriterion(GeoPeer::ADM2, null, Criteria::ISNULL);
-                $crit->addOr($c->getNewCriterion(GeoPeer::ADM2, ''));
+                $crit = $c->getNewCriterion(GeoPeer::ADM2_ID, null, Criteria::ISNULL);
+                $crit->addOr($c->getNewCriterion(GeoPeer::ADM2_ID, ''));
                 $c->add($crit);
             } else {
-                $c->add(GeoPeer::ADM2, $this->filters['adm2'], Criteria::IN);
+                $c->add(GeoPeer::ADM2_ID, $this->filters['adm2'], Criteria::IN);
             }
             
         }   

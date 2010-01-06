@@ -19,13 +19,13 @@
         <label for="adm1">ADM1</label>
         <?php echo checkbox_tag('set_adm1'); ?>
         <?php echo select_tag('adm1', 
-                            objects_for_select($adm1s, 'getName', 'getName', null, array('include_custom' => str_repeat('-', 30))), 
+                            objects_for_select($adm1s, 'getName', 'getId', null, array('include_custom' => str_repeat('-', 30))), 
                             array('class' => error_class('adm1', true))) ?><br />
                             
         <label for="adm2">ADM2</label>
         <?php echo checkbox_tag('set_adm2'); ?>
         <?php echo select_tag('adm2', 
-                            objects_for_select($adm2s, 'getName', 'getName', null, array('include_custom' => str_repeat('-', 30))), 
+                            objects_for_select($adm2s, 'getName', 'getId', null, array('include_custom' => str_repeat('-', 30))), 
                             array('class' => error_class('adm2', true))) ?><br />
                             
         <label for="dsg">DSG</label>

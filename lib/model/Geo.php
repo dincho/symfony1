@@ -19,8 +19,18 @@ class Geo extends BaseGeo
       $c = new Criteria();
       $c->add(GeoPeer::COUNTRY, $this->getCountry());
       $c->add(GeoPeer::DSG, "ADM2", Criteria::EQUAL);
-      $c->add(GeoPeer::ADM1, $this->getname());
+      $c->add(GeoPeer::ADM1_ID, $this->getId());
       
       return GeoPeer::doCount($c);
     }
+    
+    public function getAdm1()
+    {
+        return GeoPeer::retrieveByPK($this->getAdm1Id());
+    }
+    
+    public function getAdm2()
+    {
+        return GeoPeer::retrieveByPK($this->getAdm2Id());
+    }    
 }

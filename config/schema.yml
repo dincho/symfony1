@@ -518,8 +518,8 @@ propel:
     name:                     { type: varchar, size: 100 }
     dsg:                      { type: varchar, size: 4, required: true }
     country:                  { type: varchar, size: 4, required: true }
-    adm1:                     { type: varchar, size: 100 }
-    adm2:                     { type: varchar, size: 100 }
+    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
+    adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
     latitude:                 { type: float }
     longitude:                { type: float }
     alt_names:                { type: varchar, size: 400 }

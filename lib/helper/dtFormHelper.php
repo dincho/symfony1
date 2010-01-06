@@ -289,10 +289,11 @@ function pr_object_select_adm2_tag($object, $method, $options = array(), $defaul
     
     $text_method = _get_option($options, 'text_method');
     
+    $country = sfContext::getInstance()->getRequest()->getParameter('country', $object->getCountry());
     $adm1 = sfContext::getInstance()->getRequest()->getParameter('adm1_id', $object->getAdm1Id());
     if($adm1) //adm1 selected
     {
-        $adm2 = GeoPeer::getAllByAdm1($adm1);
+        $adm2 = GeoPeer::getAllByAdm1Id($country, $adm1);
         $select_options = _get_options_from_objects($adm2, $text_method);
     }
     
@@ -363,19 +364,19 @@ function pr_object_select_city_tag($object, $method, $options = array(), $defaul
     {
       $has_adm2 = $adm1->hasAdm2Areas();
       
-      $c->add(GeoPeer::ADM1, $adm1->getName());
+      $c->add(GeoPeer::ADM1_ID, $adm1->getId());
       
       if( $has_adm2 )
       {
         if( $request->getParameter('adm2_id') )
         {
-          $adm2 = GeoPeer::getAdm2ByCountryAdm1AndPK($country, $adm1->getName(), $request->getParameter('adm2_id'));
+          $adm2 = GeoPeer::getAdm2ByCountryAdm1AndPK($country, $adm1->getId(), $request->getParameter('adm2_id'));
         } else {
           $adm2 = $object->getAdm2();
         }
         
         //adm2 selected
-        if( $adm2 ) $c->add(GeoPeer::ADM2, $adm2->getName());
+        if( $adm2 ) $c->add(GeoPeer::ADM2_ID, $adm2->getId());
       }
     }
     

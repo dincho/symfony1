@@ -174,8 +174,17 @@ class membersActions extends sfActions
     
     public function handleErrorCreate()
     {
-        $this->has_adm1 = false;
-        $this->has_adm2 = false;
+        $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
+        
+        if( $this->getRequestParameter('adm1_id') && 
+            $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
+          )
+        {
+          $this->has_adm2 = $adm1->hasAdm2Areas();
+        } else {
+          $this->has_adm2 = false;
+        }
+                
         return sfView::SUCCESS;
     }
 

@@ -7,8 +7,8 @@
 
 <?php echo observe_field('adm1_id', array(
     'success'  => 'updateAdm2(request)',
-    'url'      => 'ajax/getAdm2ByAdm1',
-    'with'     => "'adm1=' + value",
+    'url'      => 'ajax/getAdm2ByAdm1Id',
+    'with'     => "'country='+$('country').getValue()+'&adm1=' + this.getValue() ",    
     'loading'  => "$('city_id').options.length = 0;"
 )) ?>
 
