@@ -100,7 +100,6 @@ class systemComponents extends sfComponents
                                            array('title' => 'Photos', 'uri' => 'photos/list?filter=filter&sort=Member::last_photo_upload_at&type=desc'),
                                            array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
                                            array('title' => 'System Notifications', 'uri' => 'notifications/list'),
-                                           array('title' => 'Areas', 'uri' => 'areas/view'),
                                            array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
                                            array('title' => 'Settings', 'uri' => 'settings/list'),
                                            array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
