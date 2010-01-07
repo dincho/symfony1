@@ -41,9 +41,11 @@ class ajaxActions extends geoActions
         
         if ( $draft )
         {
-	        $draft->setSubject($this->getRequestParameter('subject'));
-	        $draft->setContent($this->getRequestParameter('content'));
-	        $draft->save();
+            $draft->setSubject($this->getRequestParameter('subject'));
+            $draft->setContent($this->getRequestParameter('content'));
+            $draft->save();
+            
+            return $this->renderText(__('Draft saved at %TIME%', array('%TIME%' => date('h:i a'))));
         }
         
         return sfView::NONE;

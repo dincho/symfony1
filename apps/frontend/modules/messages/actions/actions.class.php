@@ -445,4 +445,17 @@ class messagesActions extends prActions
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
         $this->redirect('messages/index');        
     }
+    
+    public function executeDiscard()
+    {
+        $c = new Criteria();
+        $c->add(MessageDraftPeer::ID, $this->getRequestParameter('draft_id'));
+        $c->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
+        $draft = MessageDraftPeer::doSelectOne($c);
+        
+        if($draft) $draft->delete();
+        
+        $this->setFlash('msg_ok', 'Your message has been discarded.');
+        $this->redirect('messages/index');
+    }
 }
