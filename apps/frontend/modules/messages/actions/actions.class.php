@@ -402,10 +402,14 @@ class messagesActions extends prActions
     
     protected function sendConfirmation($send_msg_id, $to_username)
     {
-        sfLoader::loadHelpers(array('Tag', 'Url'));
-        $view_msg_url = link_to(sfI18N::getInstance()->__('View sent message.'), 'messages/view?id=' . $send_msg_id, array('class' => 'sec_link'));
-        $msg_ok = sfI18N::getInstance()->__('Your message has been sent. ', array('%MEMBER_PROFILE_URL%' => url_for('@profile?username=' . $to_username), '%MEMBER_USERNAME%' => $to_username));
-        $this->setFlash('msg_ok', $msg_ok . $view_msg_url);
+        $msg_ok = __('Your message has been sent.',
+                    array('%URL_TO_SENT_MESSAGE%' => $this->getController()->genUrl('messages/view?id=' . $send_msg_id),
+                          '%MEMBER_PROFILE_URL%' => $this->getController()->genUrl('@profile?username=' . $to_username),
+                          '%MEMBER_USERNAME%' => $to_username
+                          )
+                    );
+                    
+        $this->setFlash('msg_ok', $msg_ok);
         $this->redirect('messages/index');
     }
         
