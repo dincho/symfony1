@@ -9,5 +9,5 @@
 -----END PKCS7-----
 ">
     <?php echo link_to(__('Cancel and return to subscription'), 'subscription/index', array('class' => 'sec_link_small')) ?><br />  
-    <?php echo submit_tag(__('Subscribe'), array('class' => 'button')) ?>
+    <?php echo submit_tag(__('Subscribe Button'), array('class' => 'button')) ?>
 </form>
