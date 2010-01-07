@@ -237,15 +237,37 @@ class contentActions extends prActions
     
     public function executeAreaInfo()
     {
-        $adm1 = GeoPeer::retrieveByPK($this->getRequestParameter('area_id'));
-        $this->forward404Unless($adm1);
+        $geo = GeoPeer::retrieveByPK($this->getRequestParameter('area_id'));
+        $this->forward404Unless($geo);
         
-        $this->getUser()->getBC()->clear()
-        ->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
-        ->add(array('name' => 'profile', 'uri' => '@profile?username=' . $this->getRequestParameter('username')));
-        //->add(array('name' => 'area information'));
+        $geo_tree = array();
+        $geo_tree[] = format_country($geo->getCountry());
         
-        $this->adm1 = $adm1;
+        if( $geo->getDsg() == 'PPL' && $geo->getAdm1Id() )
+        {
+            $geo_tree[] = $geo->getAdm1();
+            if( $geo->getAdm2Id() ) $geo_tree[] = $geo->getAdm2();
+        } 
+        elseif( $geo->getDsg() == 'ADM2' )
+        {
+            $geo_tree[] = $geo->getAdm1();
+        }
+        
+        if( $geo->getDSG() != 'PCL' ) $geo_tree[] = $geo->getName();
+        
+        $bc = $this->getUser()->getBC();
+        $username = $this->getRequestParameter('username');
+        
+        $bc->clear()->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
+        ->add(array('name' => __("%USERNAME%'s profile", array('%USERNAME%' => $username)), 'uri' => '@profile?username=' . $username))
+        ->add(array('name' => implode(', ', $geo_tree)));
+        
+        $bc->setCustomLastItem('Area Information');
+        
+        $title_prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        $this->getResponse()->setTitle($title_prefix.implode(', ', $geo_tree));
+        
+        $this->geo = $geo;
     }
     
     public function executeLink()
