@@ -12,3 +12,5 @@ index:
     is_secure: off #check moved to the action because of admin access
 undoNewEmail:
     is_secure: off
+feed:
+    is_secure: off    

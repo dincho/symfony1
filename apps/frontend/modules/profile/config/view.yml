@@ -11,3 +11,8 @@ indexseSuccess:
     layout:      se
     stylesheets: [-*]
     javascripts: [-*]
+feedSuccess:
+  has_layout: off
+  http_metas:
+    content-type: text/xml
+  

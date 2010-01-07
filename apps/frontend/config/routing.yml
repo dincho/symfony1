@@ -55,6 +55,10 @@ profile:
     url:   /:sf_culture/:bc/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }
 
+profiles_feed:
+    url:  /profiles/feed
+    param: { module: profile, action: feed, sf_culture: en }
+    
 public_profile:
     url:   /:sf_culture/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }

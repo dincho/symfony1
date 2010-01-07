@@ -423,5 +423,40 @@ class profileActions extends prActions
         $this->getUser()->SignIn($member);
         $this->message('undo_new_email');
     }
+    
+    public function executeFeed()
+    {
+        $request = $this->getRequest();
+        $title_prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $request->getHost()));
+        
+        $feed = sfFeed::newInstance('atom1');
+        
+        $feed->setTitle($title_prefix.'Profiles');
+        $feed->setLink('http://'.$request->getHost().'/');
+        $feed->setFeedUrl('@profiles_feed');
+
+        $c = new Criteria;
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        $c->add(MemberPeer::PRIVATE_DATING, false);
+        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
+        $c->setLimit(10);
+        
+        $members = MemberPeer::doSelect($c);
+
+        foreach ($members as $member)
+        {
+            $item = new sfFeedItem();
+            $item->setTitle($member->getEssayHeadline());
+            $item->setLink('@public_profile?username=' . $member->getUsername());
+            $item->setAuthorName($member->getUsername());
+            $item->setPubdate($member->getCreatedAt('U'));
+            $item->setUniqueId($this->getController()->genUrl('@public_profile?username=' . $member->getUsername(), true));
+            $item->setDescription($member->getEssayIntroduction());
+
+            $feed->addItem($item);
+        }
+
+        $this->feed = $feed;
+    }
 
 }
