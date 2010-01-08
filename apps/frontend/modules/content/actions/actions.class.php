@@ -276,7 +276,7 @@ class contentActions extends prActions
       $this->forward404Unless($hash);
       
       $link = LinkPeer::getByHash($hash);
-      $this->forward404Unless($hash);
+      $this->forward404Unless($link);
       
       if( $link->isExpired() ) $this->message('expired_link');
       
