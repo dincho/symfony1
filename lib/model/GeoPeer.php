@@ -86,8 +86,8 @@ class GeoPeer extends BaseGeoPeer
             {
                 if( in_array('GEO_UNASSIGNED', $adm1s) )
                 {
-                    $crit = $c->getNewCriterion(GeoPeer::ADM1, null, Criteria::ISNULL);
-                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM1, ''));
+                    $crit = $c->getNewCriterion(GeoPeer::ADM1_ID, null, Criteria::ISNULL);
+                    $crit->addOr($c->getNewCriterion(GeoPeer::ADM1_ID, ''));
                     $c->add($crit);
                 } else {
                     $c->add(GeoPeer::ADM1_ID, $adm1s, Criteria::IN);
