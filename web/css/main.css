@@ -2602,12 +2602,18 @@ div.best_video div.right img {
 /*Form field on focus */
 input:focus, select:focus, textarea:focus {
     border: 1px solid #85854A !important;
-    background-color: #2B2B1A !important;
+    background-color: white !important;
+    color: black !important;
 }
 
 input.focused { /* used by js */
     border: 1px solid #85854A !important;
-    background-color: #2B2B1A !important;
+    background-color: white !important;
+    color: black !important;
+}
+
+input[type="submit"]:focus {
+    color: white !important;
 }
 
 /* ---=== border code follows ===--- */ /*
