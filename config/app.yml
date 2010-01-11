@@ -5,7 +5,7 @@ default:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
-    version:            "v1.3.3/HEAD"
+    version:            "v1.3.3/r1214"
     mail:
         host:           imap.gmail.com
         port:           993
@@ -17,7 +17,7 @@ default:
         smtp_port:      465
         smtp_security:  off #security is set via host address socket transport
         smtp_debug:     off
-        smtp_username:  admin@lovestreet.pl
+        smtp_username:  mail-noreply@lovestreet.pl
         smtp_password:  LS11837
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
