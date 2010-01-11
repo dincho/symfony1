@@ -442,6 +442,8 @@ class registrationActions extends prActions
                     $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
                     $new_photo->save();
                     
+                    $this->member->setLastPhotoUploadAt(time()); 
+                    
                     $this->member->save(); //because of main photo
                 }
             } else { //the form is submited by "Save and continue" button

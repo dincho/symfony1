@@ -519,7 +519,7 @@ propel:
     population:               { type: integer, size: 10, required: true, default: 0 }
     info:                     { type: longvarchar }
     _indexes:
-      complex:                [country, dsg, adm1, adm2, name]
+      complex:                [country, dsg, adm1_id, adm2_id, name]
   geo_photo:
     id:
     geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
