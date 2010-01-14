@@ -20,6 +20,12 @@ class geoActions extends sfActions
         $this->processFilters();
     
         $c = new Criteria();
+        
+        $c->addAlias("adm1",GeoPeer::TABLE_NAME);
+        $c->addAlias("adm2",GeoPeer::TABLE_NAME);
+        $c->addJoin(GeoPeer::ADM1_ID, GeoPeer::alias("adm1",GeoPeer::ID), Criteria::LEFT_JOIN);
+        $c->addJoin(GeoPeer::ADM2_ID, GeoPeer::alias("adm2",GeoPeer::ID), Criteria::LEFT_JOIN);
+
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
     
@@ -501,10 +507,22 @@ class geoActions extends sfActions
     {
         if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $sort_arr = explode('::', $sort_column);
-            $peer = $sort_arr[0] . 'Peer';
+            if( stripos($sort_column, '|') !== false )
+            {
+                list($alias, $sort_column) = explode('|', $sort_column);
+                list($peerName, $column) = explode('::', $sort_column);
+                $peer = $peerName. 'Peer';
+                
+                $peer_column = call_user_func(array($peer,'translateFieldName'), $column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+                $sort_column = call_user_func(array($peer,'alias'), $alias, $peer_column);
+                
+            } else {
+                list($peerName, $column) = explode('::', $sort_column);
+                $peer = $peerName. 'Peer';
     
-            $sort_column = call_user_func(array($peer,'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+                $sort_column = call_user_func(array($peer,'translateFieldName'), $column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
+            }
+            
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
                 $c->addAscendingOrderByColumn($sort_column);

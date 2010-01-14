@@ -69,8 +69,8 @@
           <th><?php echo sortable_title('ID', 'Geo::id', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Name', 'Geo::name', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Country', 'Geo::country', $sort_namespace) ?></th>
-          <th><?php echo sortable_title('ADM1', 'Geo::adm1', $sort_namespace) ?></th>
-          <th><?php echo sortable_title('ADM2', 'Geo::adm2', $sort_namespace) ?></th>
+          <th><?php echo sortable_title('ADM1', 'adm1|Geo::name', $sort_namespace) ?></th>
+          <th><?php echo sortable_title('ADM2', 'adm2|Geo::name', $sort_namespace) ?></th>
           <th><?php echo sortable_title('DSG', 'Geo::dsg', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Lat', 'Geo::latitude', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Long', 'Geo::longitude', $sort_namespace) ?></th>
