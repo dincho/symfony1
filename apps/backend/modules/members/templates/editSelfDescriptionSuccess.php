@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'fillIn') ?>
+<?php use_helper('Object', 'dtForm', 'fillIn', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>

@@ -1,3 +1,5 @@
 default:
   components:
-    sidebar:  [system, membersSidebar]  
+    sidebar:  [system, membersSidebar]
+editSelfDescriptionSuccess:
+    javascripts: [/sf/prototype/js/prototype]    

@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'fillIn') ?>
+<?php use_helper('Object', 'dtForm', 'fillIn', 'Javascript') ?>
 
 <?php echo __('Self Description introduction') ?>
 <?php echo __('Self Description reminder') ?>

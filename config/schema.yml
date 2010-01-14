@@ -181,7 +181,7 @@ propel:
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
     desc_answer_id:           { type: integer, required: false, default: null }
     other:                    { type: varchar, size: 255 }
-    custom:                   { type: varchar, size: 255 } #some custom answers depending from type, e.g. serialized array
+    custom:                   { type: longvarchar } #some custom answers depending from type, e.g. serialized array
   search_crit_desc:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

@@ -6,5 +6,8 @@
     <?php else: ?>
         <?php echo ($question->getIsRequired()) ? '(select one)' : '(optional, select one)'?>
     <?php endif; ?>
+    <?php if( $question->getType() == 'other_langs' ): ?>
+        <?php echo link_to_function('add', 'if(hidden_lang_ids.length > 0 ) { hidden_lang_ids.sort(); $("lang_container_" + hidden_lang_ids.shift()).show(); }', array('class' => 'sec_link'));?>
+    <?php endif; ?>
     </span>
 </label>

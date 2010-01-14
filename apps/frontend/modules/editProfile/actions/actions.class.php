@@ -153,6 +153,7 @@ class editProfileActions extends prActions
                     $m_answer->setOther($others[$question_id]);
                 } elseif ($q->getType() == 'other_langs')
                 {
+                    //print_r($value);exit();
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
                 } elseif ($q->getType() == 'native_lang')
@@ -190,6 +191,8 @@ class editProfileActions extends prActions
             $answers = $this->getRequestParameter('answers');
             $others = $this->getRequestParameter('others');
             $has_error = false; $you_must_fill = false;
+            
+            //print_r($answers); print_r($others);exit();
             
             foreach ($questions as $question)
             {
@@ -241,9 +244,11 @@ class editProfileActions extends prActions
     {
       $answers = $this->getRequestParameter('answers');
       $question_answers = $answers[$question_id];
-        
+      
+
       $has_one_answer = false;
-        for($i=1; $i<5; $i++)
+
+        for($i=0; $i<5; $i++)
         {
           if( $question_answers[$i] )
           {

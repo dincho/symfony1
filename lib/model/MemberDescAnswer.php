@@ -11,11 +11,16 @@ class MemberDescAnswer extends BaseMemberDescAnswer
 {
     public function setOtherLangs($values)
     {
+        $values = array_filter($values);
+        
         $val_arr = array();
-        for($i=1; $i<5; $i++)
+        for($i=0; $i<5; $i++)
         {
-            $level = ($values[$i]) ? $values['lang_levels'][$i] : null;
-            $val_arr[$i] = array( 'lang' => $values[$i], 'level' => $level);
+            if( isset($values[$i]) && $values[$i] )
+            {
+                $level = ($values[$i]) ? $values['lang_levels'][$i] : null;
+                $val_arr[] = array( 'lang' => $values[$i], 'level' => $level);
+            }
         }
         
         $this->setCustom(serialize($val_arr));
