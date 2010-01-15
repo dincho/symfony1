@@ -19,7 +19,7 @@ class Member extends BaseMember
     
     public function setNewPassword($v, $hash_it = true)
     {
-    	$new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
+        $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
         parent::setNewPassword($new_val);
     }
     
@@ -36,6 +36,16 @@ class Member extends BaseMember
         }
     }
 
+    public function setEssayHeadline($v)
+    {
+        $e = 'utf-8';
+        $v = mb_strtolower($v, $e);
+        $fc = mb_strtoupper(mb_substr($v, 0, 1, $e), $e);
+        $v = $fc.mb_substr($v, 1, mb_strlen($v, $e), $e);
+
+        parent::setEssayHeadline($v);
+    }
+        
     public function clearDescAnswers()
     {
         $select = new Criteria();
@@ -69,7 +79,7 @@ class Member extends BaseMember
     
     public function getOrientation()
     {
-    	return $this->getSex() . '_' . $this->getLookingFor();
+        return $this->getSex() . '_' . $this->getLookingFor();
     }
     
     /*
