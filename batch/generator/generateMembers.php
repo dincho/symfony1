@@ -97,14 +97,14 @@ if( $adm1 )
     echo "\tADM1: " . $adm1->getName() . "\n";
     $member->setAdm1Id($adm1->getId());
     $c->add(GeoPeer::DSG, "ADM2");
-    $c->add(GeoPeer::ADM1, $adm1->getName());
+    $c->add(GeoPeer::ADM1_ID, $adm1->getId());
     $adm2 = GeoPeer::doSelectOne($c);
     
     if( $adm2 )
     {
         echo "\tADM2: " . $adm2->getName() . "\n";
         $member->setAdm2Id($adm2->getId());
-        $c->add(GeoPeer::ADM2, $adm2->getName());
+        $c->add(GeoPeer::ADM2_ID, $adm2->getId());
         unset($adm2);
     }
     
@@ -140,7 +140,8 @@ unset($sub_history);
 $member->setCreatedAt(Tools::randomTimestamp());
 $member->setLastActivity(Tools::randomTimestamp());
 
-$member->setMemberStatusId(rand(1,10));
+$member->setMemberStatusId(1);
+//$member->setMemberStatusId(rand(1,10));
 $status_history = new MemberStatusHistory();
 $status_history->setMemberStatusId($member->getMemberStatusId());
 $status_history->setFromStatusId(null);
