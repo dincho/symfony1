@@ -13,7 +13,7 @@ function init_area_map()
                     map.setCenter(point, 3);
                     var prIcon = new GIcon(G_DEFAULT_ICON);
                     prIcon.shadow = false;
-                    prIcon.image = "/images/gmaps_heart.gif";
+                    prIcon.image = "/images/heart.gif";
                     prIcon.iconSize = new GSize(23,21);
                     prIcon.iconAnchor = new GPoint(11, 10); //center the icon over the city
                     g_marker = new GMarker(point, prIcon);

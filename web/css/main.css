@@ -2231,6 +2231,7 @@ div.best_video div.right img {
     font-size: 11px;
     color: #d3d3d3;
     padding-top: 31px;
+    float: left;
 }
 
 #profile_left img.thumb {

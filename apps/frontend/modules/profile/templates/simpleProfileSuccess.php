@@ -1,58 +1,5 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<div id="profile_right"> 
-   <div id="profile_pager"></div>
-   
-   <div id="profile_top">
-        <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <span class="sec_link"><?php echo __('Add to Hotlist');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <span class="sec_link"><?php echo __('Block');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <span class="sec_link"><?php echo __('Flag');?></span>
-   </div>
-    <span class="profile_gift">
-        <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
-          <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
-        <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
-          <?php echo image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'); ?>
-        <?php endif; ?>
-    </span>
-    <div id="profile_double_box">
-        <div class="left">
-            <div class="middle">
-            </div>
-        </div>
-        <div class="right">
-            <div class="middle">
-                <?php echo __('Currently Online') ?>
-                <br />
-                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?><br />
-                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
-            </div>
-        </div>
-    </div>
-    <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
-    <table class="conversations_messages" cellspacing="0" cellpadding="0">
-        <tr>
-            <th colspan="2"><?php echo __('Recent Conversations')?></th>
-            <th class="right_column"><?php echo link_to(__('See all messages'), 'messages/index', 'class=sec_link') ?></th>
-        </tr>
-        <?php if( isset($recent_conversations) && count($recent_conversations) > 0 ): ?>
-            <?php foreach ($recent_conversations as $message): ?>
-                <?php $user = ($message->getFromMemberId() == $member->getId() ) ? $member->getUsername() : __('You'); ?>
-                <tr>
-                    <td><?php echo link_to($user, 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
-                    <td><?php echo link_to(Tools::truncate($message->getSubject(), 30), 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
-                    <td><?php echo link_to(format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'), 'messages/view?id=' . $message->getId(), 'class=sec_link') ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-        <tr>
-            <td colspan="3" class="color-gray"><?php echo __('You don\'t have any messages with %username% yet.', array('%username%' => $member->getUsername())) ?></th>
-        </tr>
-        <?php endif; ?>
-    </table>            
-</div>
 <div id="profile_left">
     <div style="min-height: 350px">
         <?php 
@@ -85,6 +32,43 @@
     <?php endif; ?>
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
+
+<div id="profile_right"> 
+   <div id="profile_pager"></div>
+   
+   <div id="profile_top">
+        <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Add to Hotlist');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Block');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <span class="sec_link"><?php echo __('Flag');?></span>
+   </div>
+    <span class="profile_gift">
+        <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
+          <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
+        <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
+          <?php echo image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'); ?>
+        <?php endif; ?>
+    </span>
+    <div id="profile_double_box">
+        <div class="left">
+            <div class="middle">
+            </div>
+        </div>
+        <div class="right">
+            <div class="middle">
+                <?php echo __('Currently Online') ?>
+                <br />
+                <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?><br />
+                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
+            </div>
+        </div>
+    </div>
+    <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
+    <?php include_partial('profile/recent_activities', array('member' => $member)); ?>
+</div>
+
+<br class="clear" />
 
 <?php if(!sfConfig::get('app_settings_imbra_disable') && $imbra ): ?>
     <a name="profile_imbra_info" class="sec_link"><?php echo link_to_function('[<span id="profile_imbra_details_tick">-</span>] ' . __('IMBRA Information'), 'show_hide_tick("profile_imbra_details")', 'class=sec_link') ?></a>

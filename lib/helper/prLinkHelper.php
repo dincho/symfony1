@@ -29,3 +29,70 @@ function remove_return_url($url)
   $url = preg_replace('/(return_url=\w+=&)/i', '', $url);
   return $url;
 }
+
+
+function url_for_activity($activity)
+{
+    switch ($activity->getActivity()) {
+        case 'mailed':
+                return 'messages/view?id=' . $activity->getActionId();
+            break;        
+            
+            case 'winked':
+                return '@winks';
+            break;
+            
+            case 'hotlisted':
+                return '@hotlist';
+            break;
+            
+            case 'visited':
+                return '@visitors';
+            break;                        
+        
+        default:
+                return '@dashboard';
+            break;
+    }
+}
+
+function link_for_extra_activity_field($activity, $member)
+{
+    $viewer = sfContext::getInstance()->getUser()->getProfile();
+    
+    static $has_matual_wink = null;
+    static $has_matual_hotlist = null;
+    
+    switch ($activity->getActivity()) {
+        case 'mailed':
+                return link_to(__('see all'), 'messages/index', array('class' => 'sec_link') );
+            break;        
+            
+            case 'winked':
+                if( is_null($has_matual_wink) )
+                {
+                    $has_matual_wink = (bool) (
+                                                ( $activity->getMemberId() == $viewer->getId() && $member->hasWinkTo($viewer->getId()) ) ||  
+                                                ( $activity->getMemberId() == $member->getId() && $viewer->hasWinkTo($member->getId()) )
+                                               );
+                }            
+                return ($has_matual_wink) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11)) : null;
+            break;
+            
+            case 'hotlisted':
+                if( is_null($has_matual_hotlist) )
+                {
+                    $has_matual_hotlist = (bool) (
+                                                ( $activity->getMemberId() == $viewer->getId() && $member->hasInHotlist($viewer->getId()) ) ||  
+                                                ( $activity->getMemberId() == $member->getId() && $viewer->hasInHotlist($member->getId()) )
+                                               );
+                }            
+                return ($has_matual_hotlist) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11)) : null;
+            break;
+                                   
+        
+        default:
+                return null;
+            break;
+    }    
+}

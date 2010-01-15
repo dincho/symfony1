@@ -120,7 +120,6 @@ class profileActions extends prActions
                 }
                 
                 $this->getUser()->viewProfile($this->member);
-                $this->recent_conversations = $this->member->getRecentConversationWith($this->getUser()->getProfile());
                 $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
                 $this->profile_pager = new ProfilePager($this->member->getUsername());
         
