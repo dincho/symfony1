@@ -58,8 +58,6 @@ class searchActions extends prActions
 
     public function executeMostRecent()
     {
-        $this->getUser()->setAttribute('last_search_url', 'search/mostRecent');
-        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -68,12 +66,12 @@ class searchActions extends prActions
         $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row
         $this->initPager($c, $per_page);
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/mostRecent?page=' . $this->pager->getPage());
     }
 
     public function executeCriteria()
     {
-        $this->getUser()->setAttribute('last_search_url', 'search/criteria');
-        
         $this->has_criteria = true;
         if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
@@ -89,12 +87,12 @@ class searchActions extends prActions
         $rows = sfConfig::get('app_settings_search_rows_custom', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row
         $this->initPager($c, $per_page);
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/criteria?page=' . $this->pager->getPage());
     }
 
     public function executeReverse()
     {
-        $this->getUser()->setAttribute('last_search_url', 'search/reverse');
-        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -104,12 +102,12 @@ class searchActions extends prActions
         $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row        
         $this->initPager($c, $per_page, 'doSelectJoinMemberRelatedByMember2Id', 'doCountJoinMemberRelatedByMember2IdReverse');
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/reverse?page=' . $this->pager->getPage());
     }
 
     public function executeMatches()
     {
-        $this->getUser()->setAttribute('last_search_url', 'search/matches');
-        
         $this->has_criteria = true;
         if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
@@ -125,6 +123,8 @@ class searchActions extends prActions
         $rows = sfConfig::get('app_settings_search_rows_matches', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row        
         $this->initPager($c, $per_page);
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/matches?page=' . $this->pager->getPage());
     }
 
     public function executeByKeyword()
@@ -144,6 +144,8 @@ class searchActions extends prActions
             $rows = sfConfig::get('app_settings_search_rows_keyword', 4);
             $per_page = $rows * 3; //3 boxes/profiles per row        
             $this->initPager($c, $per_page);
+            
+            $this->getUser()->setAttribute('last_search_url', 'search/byKeyword?page=' . $this->pager->getPage());
         }
     }
 
