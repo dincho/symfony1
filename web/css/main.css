@@ -855,18 +855,34 @@ span.online-assistant {
 
 .messages tr td {
     border-bottom: 1px solid #2B2B2B;
+    padding: 5px 0 5px 5px;
 }
 
 .messages tr.delete td {
     background-color: #8A171A;
 }
 
-.messages .checkboxes {
-    width: 70px;
+
+.messages .unread_circle, .messages .checkboxes  {
+  width: 17px;
+  text-align: center;
+}
+
+.messages .message_from {
+    width: 140px;
+}
+
+.messages .profile_image {
+    width: 55px;
+    text-align: center;
+}
+
+#messages_form .unread_circle img {
+    margin-top: 2px;
 }
 
 .messages tr td input {
-    margin-right: 45px;
+    margin: 0 auto;
 }
 
 #messages_form {
@@ -887,9 +903,7 @@ span.online-assistant {
     color: #d3d3d3;
 }
 
-#messages_form .unread_circle  {
-  padding: 0 2px;
-}
+
 
 .text_1 {
     background-color: #3d3d3d;

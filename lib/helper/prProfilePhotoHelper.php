@@ -37,3 +37,13 @@ function profile_photo_dash_visitors($profile, $class="")
         return content_tag('div', __('Sorry, this profile is no longer available'), array('class' => 'profile_not_available ' . $class));
     }
 }
+
+function profile_thumbnail_photo_tag($profile, $size = '50x50')
+{
+    if( $profile->isActive() )
+    {
+        return image_tag($profile->getMainPhoto()->getImg($size));
+    } else {
+        return image_tag('not_available_'.$size.'.jpg');
+    }    
+}
