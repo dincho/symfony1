@@ -153,7 +153,6 @@ class editProfileActions extends prActions
                     $m_answer->setOther($others[$question_id]);
                 } elseif ($q->getType() == 'other_langs')
                 {
-                    //print_r($value);exit();
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
                 } elseif ($q->getType() == 'native_lang')
