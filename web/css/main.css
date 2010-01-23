@@ -885,6 +885,11 @@ span.online-assistant {
     margin: 0 auto;
 }
 
+table.threaded_message {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
 #messages_form {
     padding: 0px;
     margin: 0px;

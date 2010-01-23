@@ -185,7 +185,7 @@ class Member extends BaseMember
         
     }
     
-    public function incCounter($key = null)
+    public function incCounter($key = null, $n = 1)
     {
         if( !is_null($key) )
         {
@@ -193,7 +193,7 @@ class Member extends BaseMember
             $setmethod = 'set' . $key;
             
             $counter = $this->getMemberCounter();
-            $new_val = $counter->$getmethod() + 1;
+            $new_val = $counter->$getmethod() + $n;
             
             call_user_func(array($counter, $setmethod), $new_val);
             call_user_func(array($counter, 'save'));
@@ -324,11 +324,10 @@ class Member extends BaseMember
     public function getNbSendMessagesToday()
     {
         $c = new Criteria();
-        $c->add(MessagePeer::FROM_MEMBER_ID, $this->getId());
-        $c->add(MessagePeer::SENT_BOX, true);
-        $c->add(MessagePeer::CREATED_AT, 'DATE(' . MessagePeer::CREATED_AT .') = CURRENT_DATE()', Criteria::CUSTOM);
+        $c->add(ThreadPeer::SENDER_ID, $this->getId());
+        $c->add(ThreadPeer::CREATED_AT, 'DATE(' . ThreadPeer::CREATED_AT .') = CURRENT_DATE()', Criteria::CUSTOM);
         
-        return MessagePeer::doCount($c);        
+        return ThreadPeer::doCount($c);
     }
     
     public function updateMatches()
@@ -707,9 +706,9 @@ class Member extends BaseMember
     {
         $customObject = new CustomQueryObject();
         
-        $sql = '(SELECT ms.from_member_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, ms.id AS action_id FROM message AS ms WHERE ms.from_member_id = %MEMBER_ID% AND ms.to_member_id = %PROFILE_ID% AND ms.sent_box = 1 )
+        $sql = '(SELECT ms.sender_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id FROM message AS ms WHERE ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
                 UNION
-                (SELECT ms.from_member_id, "mailed", UNIX_TIMESTAMP(ms.created_at), ms.id FROM message AS ms WHERE ms.from_member_id = %PROFILE_ID% AND ms.to_member_id = %MEMBER_ID% AND ms.sent_box = 0)                
+                (SELECT ms.sender_id, "mailed", UNIX_TIMESTAMP(ms.created_at), IF(ms.recipient_deleted_at, NULL, ms.thread_id) FROM message AS ms WHERE ms.sender_id = %PROFILE_ID% AND ms.recipient_id = %MEMBER_ID% )
                 UNION
                 (SELECT w.member_id, "winked", UNIX_TIMESTAMP(w.created_at), NULL FROM wink AS w WHERE ((w.member_id = %MEMBER_ID% AND w.profile_id = %PROFILE_ID%) OR (w.member_id = %PROFILE_ID% AND w.profile_id = %MEMBER_ID% )) AND w.sent_box = 1 )
                 UNION
@@ -722,5 +721,26 @@ class Member extends BaseMember
                                 
         $objects = $customObject->query($sql);
         return $objects;
+    }
+    
+    public function retrieveThreadById($id)
+    {
+        $c  =  new Criteria();
+        $c->add(ThreadPeer::ID, $id);
+        
+        $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
+        $c->addGroupByColumn(ThreadPeer::ID);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+                
+        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->getId());
+        $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
+
+        $crit2 = $c->getNewCriterion(MessagePeer::SENDER_ID, $this->getId());
+        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL));
+    
+        $crit->addOr($crit2);
+        $c->addAnd($crit);
+        
+        return ThreadPeer::doSelectOne($c);
     }
 }

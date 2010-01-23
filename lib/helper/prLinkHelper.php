@@ -35,7 +35,7 @@ function url_for_activity($activity)
 {
     switch ($activity->getActivity()) {
         case 'mailed':
-                return 'messages/view?id=' . $activity->getActionId();
+                return ($activity->getActionId()) ? 'messages/thread?id=' . $activity->getActionId() : '#';
             break;        
             
             case 'winked':

@@ -17,7 +17,7 @@ class dashboardActions extends prActions
 
     public function executeIndex()
     {
-        $member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $member = $this->getUser()->getProfile();
         $this->forward404Unless($member);
         $this->member = $member;
         
@@ -36,19 +36,23 @@ class dashboardActions extends prActions
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
         
         //messages
+        
         $c = new Criteria();
-        $c->add(MessagePeer::TO_MEMBER_ID, $member->getId());
-        $c->add(MessagePeer::SENT_BOX, false);
-        $c->add(MessagePeer::IS_READ, false);
-        $c->addJoin(MemberPeer::ID, MessagePeer::FROM_MEMBER_ID);
+        $c->add(MessagePeer::RECIPIENT_ID, $this->getUser()->getId());
+        $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->add(MessagePeer::UNREAD, true);
+        $c->addGroupByColumn(MessagePeer::THREAD_ID);
+        $c->addJoin(MemberPeer::ID, MessagePeer::SENDER_ID);
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->setLimit(5);
         
         $this->messages = MemberPeer::doSelectJoinMemberPhoto($c);
-        $this->messages_cnt = MemberPeer::doCount($cc);
-
+        $rs = MessagePeer::doSelectRS($cc);
+        $this->messages_cnt = $rs->getRecordCount();
+        
         //winks
         $c = new Criteria();
         $c->add(WinkPeer::PROFILE_ID, $member->getId());

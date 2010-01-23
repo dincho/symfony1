@@ -35,14 +35,16 @@ class ajaxActions extends geoActions
     public function executeSaveToDraft()
     {
         $c = new Criteria();
-        $c->add(MessageDraftPeer::ID, $this->getRequestParameter('draft_id'));
-        $c->add(MessageDraftPeer::FROM_MEMBER_ID, $this->getUser()->getId());
-        $draft = MessageDraftPeer::doSelectOne($c);
+        $c->add(MessagePeer::ID, $this->getRequestParameter('draft_id'));
+        $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
+        $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
+        $draft = MessagePeer::doSelectOne($c);
         
         if ( $draft )
         {
             $draft->setSubject($this->getRequestParameter('subject'));
-            $draft->setContent($this->getRequestParameter('content'));
+            $draft->setBody($this->getRequestParameter('content'));
             $draft->save();
             
             return $this->renderText(__('Draft saved at %TIME%', array('%TIME%' => date('h:i a'))));

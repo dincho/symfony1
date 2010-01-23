@@ -307,21 +307,31 @@ propel:
     created_at:
     from_status_id:           { type: integer } #need for reports
     from_date:                { type: timestamp } #need for reports
+
+  thread:
+    id:
+    subject:                  { type: varchar, size: 255 }
+    snippet:                  { type: longvarchar }
+    snippet_member_id:        { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: setnull }
+    created_at:
+    updated_at:
+
   message:
     id:
-    from_member_id:           { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    to_member_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    subject:                  { type: varchar, size: 255 }
-    content:                  { type: longvarchar }
-    sent_box:                 { type: boolean, default: false, required: true }
-    is_read:                  { type: boolean, default: false, required: true }
+    sender_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    recipient_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    thread_id:                { type: integer, required: false, foreignTable: thread, foreignReference: id, onDelete: setnull }
+    subject:                  { type: longvarchar }
+    body:                     { type: longvarchar }
+    type:                     { type: integer, required: true, default: 1 } #1 - normal, 2 - draft, 3 - system
+    unread:                   { type: boolean, default: true, required: true }
     is_reviewed:              { type: boolean, default: false, required: true }
-    is_replied:               { type: boolean, default: false, required: true }
-    is_system:                { type: boolean, default: false, required: true }
+    sender_deleted_at:        { type: timestamp }
+    recipient_deleted_at:     { type: timestamp }
     created_at:
-    _indexes:
-      msg_from:               [from_member_id, sent_box]
-      msg_to:                 [to_member_id, sent_box]
+    updated_at:               #currently used only for drafts
+
+
   hotlist:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -496,14 +506,6 @@ propel:
     is_renewal:         { type: boolean, required: true, default: 0 }
     member_subscr_id:   { type: integer, required: false }
     created_at:
-  message_draft:
-    id:
-    from_member_id:           { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    to_member_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    subject:                  { type: varchar, size: 255 }
-    content:                  { type: longvarchar }
-    reply_to:                 { type: integer, required: false }
-    updated_at:
   geo:
     id:
     name:                     { type: varchar, size: 100 }

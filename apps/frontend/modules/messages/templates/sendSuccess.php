@@ -3,13 +3,12 @@
 <span id="feedback">&nbsp;</span>
 
 <?php echo form_tag('messages/send', array('class'  => 'msg_form')) ?>
-    <?php echo input_hidden_tag('profile_id', $profile->getId(), 'class=hidden') ?>
-    <?php echo input_hidden_tag('reply', $sf_request->getParameter('reply'), 'class=hidden') ?>
+    <?php echo input_hidden_tag('recipient_id', $recipient->getId(), 'class=hidden') ?>
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
     <fieldset class="background_000">
         <?php echo pr_label_for('to', 'To:') ?>
-        <span class="msg_to"><?php echo $profile->getUsername() ?></span><br /><br />
+        <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br /><br />
 
         <?php echo pr_label_for('subject', 'Subject:') ?>
         <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />        
@@ -17,14 +16,14 @@
 
     <fieldset class="background_f4">
         <?php echo pr_label_for('content', 'Message:') ?>
-        <?php echo textarea_tag('content',  $draft->getContent(), array('id' => 'your_story', 
+        <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 
                                                                         'rows' => 10, 'cols' => 30)) ?>
         <br />
-        <?php if( !sfConfig::get('app_settings_imbra_disable') && !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
+        <?php if( !sfConfig::get('app_settings_imbra_disable') && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) ): ?>
             <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>
             <label class="imbra_tos">
                 <?php echo __('I am familiar with <a href="%URL_FOR_PROFILE_IMBRA%" class="sec_link">background check information provided by this member</a> and I have read the <a href="%URL_FOR_IMMIGRANT_RIGHTS%" class="sec_link">Information About Legal Rights and Resources for Immigrant Victims of Domestic Violence</a>. I also understand that Polish-Romance never reveals my personal information (email, address etc.) to other members.', 
-                            array('%URL_FOR_PROFILE_IMBRA%' => url_for('@profile?username=' . $profile->getUsername() . '#profile_imbra_info'), '%URL_FOR_IMMIGRANT_RIGHTS%' => url_for('@page?slug=immigrant_rights'))) ?>
+                            array('%URL_FOR_PROFILE_IMBRA%' => url_for('@profile?username=' . $recipient->getUsername() . '#profile_imbra_info'), '%URL_FOR_IMMIGRANT_RIGHTS%' => url_for('@page?slug=immigrant_rights'))) ?>
           </label>
         <?php endif; ?>
     

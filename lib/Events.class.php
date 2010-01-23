@@ -172,22 +172,22 @@ class Events
     
     public static function triggerFirstContact($message)
     {
-        $from_member = $message->getMemberRelatedByFromMemberId();
-        if( $from_member->getCounter('SentMessages') == 0 )
+        $sender = $message->getMemberRelatedBySenderId();
+        if( $sender->getCounter('SentMessages') == 0 )
         {
             sfLoader::loadHelpers(array('Url'));
-            $to_member = $message->getMemberRelatedByToMemberId();
+            $recipient = $message->getMemberRelatedByRecipientId();
             
-            $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $from_member->getUsername(), array('absolute' => true)),
-                                 '{TO_PROFILE_URL}' => url_for('profile/index?username=' . $to_member->getUsername(), array('absolute' => true)),
-                                 '{TO_FIRST_NAME}' => $to_member->getFirstName(),
-                                 '{TO_LAST_NAME}' => $to_member->getLastName(),
-                                 '{TO_USERNAME}' => $to_member->getUsername(),
-                                 '{SUBJECT}' => $message->getSubject(),
-                                 '{MESSAGE}' => $message->getContent(),
+            $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $sender->getUsername(), array('absolute' => true)),
+                                 '{TO_PROFILE_URL}' => url_for('profile/index?username=' . $recipient->getUsername(), array('absolute' => true)),
+                                 '{TO_FIRST_NAME}' => $recipient->getFirstName(),
+                                 '{TO_LAST_NAME}' => $recipient->getLastName(),
+                                 '{TO_USERNAME}' => $recipient->getUsername(),
+                                 '{SUBJECT}' => $message->getThread()->getSubject(),
+                                 '{MESSAGE}' => $message->getBody(),
                                 );
             
-            return self::executeNotifications(self::FIRST_CONTACT, $global_vars, null, $from_member);
+            return self::executeNotifications(self::FIRST_CONTACT, $global_vars, null, $sender);
         }
     }
     
@@ -238,22 +238,22 @@ class Events
         $member->save();        
     }
     
-    public static function triggerAccountActivityMessage($member, $from_member, $message)
+    public static function triggerAccountActivityMessage($recipient, $sender, $message)
     {
-        $profile_url  = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
-        $messages_url = LinkPeer::create('messages/index', $member->getId())->getUrl($member->getCulture());
-        $message_url  = LinkPeer::create('messages/view?id=' . $message->getId(), $member->getId())->getUrl($member->getCulture());
-        $message_snippet = Tools::truncate($message->getContent(), 12);
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
+        $messages_url = LinkPeer::create('messages/index', $recipient->getId())->getUrl($recipient->getCulture());
+        $message_url  = LinkPeer::create('messages/thread?id=' . $message->getThreadId(), $recipient->getId())->getUrl($recipient->getCulture());
+        $message_snippet = Tools::truncate($message->getBody(), 12);
         
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
-                             '{SENDER_USERNAME}' => $from_member->getUsername(),
+                             '{SENDER_USERNAME}' => $sender->getUsername(),
                              '{URL_TO_MESSAGES}' => $messages_url,
                              '{URL_TO_MESSAGE}' => $message_url,
                              '{MESSAGE_SNIPPET}' => $message_snippet,
                             );
         
         
-        return self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $recipient->getEmail(), $recipient);
     }
     
     public static function triggerAccountActivityWink(BaseMember $member, BaseMember $from_member)
