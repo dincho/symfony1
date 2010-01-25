@@ -25,7 +25,7 @@ class messagesActions extends sfActions
         $this->processSort();
         
         $c = new Criteria();
-        $c->add(MessagePeer::SENT_BOX, true);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
         
@@ -33,7 +33,7 @@ class messagesActions extends sfActions
         $pager = new sfPropelPager('Message', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod('doSelectJoinMemberRelatedByFromMemberId');
+        $pager->setPeerMethod('doSelectJoinMemberRelatedBySenderId');
         $pager->setPeerCountMethod('doCount');
         $pager->init();
         $this->pager = $pager;
@@ -49,26 +49,19 @@ class messagesActions extends sfActions
         $this->getUser()->getBC()->replaceLast(array('name' => $this->member->getUsername(), 'uri' => 'messages/member?id=' . $this->member->getId()));
         
         $c = new Criteria();
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         
-        //$bc = $this->getUser()->getBC();
-        
-
         //sent or received messages ( defaults to sent )
         if ($this->getRequestParameter('received_only'))
         {
-            $c->add(MessagePeer::TO_MEMBER_ID, $this->member->getId());
-            $c->add(MessagePeer::SENT_BOX, false);
-            //$c->add(Messa)
-        //$bc->add(array('name' => 'Received', 'uri' => 'messages/member?received_only=1&id=' . $this->member->getId()));
+            $c->add(MessagePeer::RECIPIENT_ID, $this->member->getId());
         } else
         {
-            $c->add(MessagePeer::FROM_MEMBER_ID, $this->member->getId());
-            $c->add(MessagePeer::SENT_BOX, false);
-            //$bc->add(array('name' => 'Sent', 'uri' => 'messages/member?id=' . $this->member->getId()));
+            $c->add(MessagePeer::SENDER_ID, $this->member->getId());
         }
         
-        $this->messages = MessagePeer::doSelectJoinMemberRelatedByFromMemberId($c);
+        $this->messages = MessagePeer::doSelectJoinMemberRelatedBySenderId($c);
     }
 
     public function executeDelete()
@@ -90,49 +83,40 @@ class messagesActions extends sfActions
     public function executeConversation()
     {
         $this->getResponse()->addJavascript('show_hide.js');
-        $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
-        $this->forward404Unless($message);
+        $member = MemberPeer::retrieveByPK($this->getRequestParameter('member_id'));
+        $this->forward404Unless($member);
         
         $c = new Criteria();
+        $c->add(MessagePeer::THREAD_ID, $this->getRequestParameter('id'));
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+
+        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $member->getId());
+        $crit->addOr($c->getNewCriterion(MessagePeer::SENDER_ID, $member->getId()));
         
-        if ($this->getRequestParameter('received_only'))
-        {
-            $sender = $message->getMemberRelatedByToMemberId();
-            $recipient = $message->getMemberRelatedByFromMemberId();
-        } else
-        {
-            $sender = $message->getMemberRelatedByFromMemberId();
-            $recipient = $message->getMemberRelatedByToMemberId();
-        }
-        
-        $crit = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $recipient->getId());
-        $crit->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $sender->getId()));
-        
-        $crit2 = $c->getNewCriterion(MessagePeer::TO_MEMBER_ID, $sender->getId());
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::FROM_MEMBER_ID, $recipient->getId()));
-        
-        $c->add($crit);
-        $c->addOr($crit2);
-        
+        $c->addAnd($crit);
         $c->addAscendingOrderByColumn(MessagePeer::CREATED_AT);
-        $c->add(MessagePeer::SENT_BOX, false);
-        
-        $this->messages = MessagePeer::doSelect($c);
+        $messages = MessagePeer::doSelect($c);  
+
+        $message_sample = $messages[0];
+        $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
         
         //mark messages as reviewed if not
         $select = clone $c;
+        $select->add(MessagePeer::THREAD_ID, $this->getRequestParameter('id'));
         $select->add(MessagePeer::IS_REVIEWED, false);
         
         $update = new Criteria();
         $update->add(MessagePeer::IS_REVIEWED, true);
         BasePeer::doUpdate($select, $update, Propel::getConnection());
         
-        $this->member = $sender;
-        $this->recipient = $recipient;
+        $this->member = $member;
+        $this->profile = $profile;
+        $this->messages = $messages;
+        $this->thread = $message_sample->getThread();
         
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => $sender->getUsername(), 'uri' => 'messages/member?id=' . $sender->getId()));
-        $bc->add(array('name' => 'Conversation with ' . $recipient->getUsername(), 'uri' => '#'));
+        $bc->replaceLast(array('name' => $member->getUsername(), 'uri' => 'messages/member?id=' . $member->getId()));
+        $bc->add(array('name' => 'Conversation with ' . $profile->getUsername(), 'uri' => '#'));
     }
 
     protected function processSort()

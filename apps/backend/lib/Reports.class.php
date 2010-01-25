@@ -185,13 +185,9 @@ class Reports
         $sql = 'SELECT title, created_at,
                 %PERIODS_SQL%
                 FROM
-                    (SELECT t1.created_at,
-                        CASE
-                            WHEN t1.sent_box THEN "Messages Sent"
-                            WHEN t1.is_replied THEN "Messages Replied"
-                        END AS title
+                    (SELECT t1.created_at, "Messages Sent" AS title
                     FROM message AS t1
-                    WHERE t1.sent_box = 1 OR t1.is_replied = 1
+                    WHERE t1.type = 1
                     
                     UNION ALL
                     

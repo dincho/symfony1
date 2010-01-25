@@ -29,13 +29,13 @@
                 
                 <td>
                     <?php if( $received_only ): ?>
-                        <?php echo $message->getMemberRelatedByFromMemberId()->getUsername() ?>
+                        <?php echo $message->getMemberRelatedBySenderId()->getUsername() ?>
                     <?php else: ?>
-                        <?php echo $message->getMemberRelatedByToMemberId()->getUsername() ?>
+                        <?php echo $message->getMemberRelatedByRecipientId()->getUsername() ?>
                     <?php endif; ?>
                 </td>
                 
-                <td><?php echo Tools::truncate($message->getSubject(), 100); ?></td>
+                <td><?php echo Tools::truncate($message->getThread()->getSubject(), 100); ?></td>
                 <td><?php echo $message->getCreatedAt('m/d/Y'); ?></td>
                 <td class="preview_button">
                     <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?no_links=1&id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>

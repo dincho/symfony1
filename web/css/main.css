@@ -888,6 +888,21 @@ span.online-assistant {
 table.threaded_message {
     margin-bottom: 20px;
     width: 100%;
+    border: 1px solid #3D3D3D; 
+    border-width: 1px 0;
+}
+
+table.threaded_message .profile_photo {
+    width: 55px;
+}
+
+table.threaded_message .message_info {
+    width: 140px;
+}
+
+table.threaded_message .message_body {
+    background-color: #4f4f4f;
+    padding: 5px;
 }
 
 #messages_form {
@@ -907,6 +922,24 @@ table.threaded_message {
     margin-right: 30px;
     color: #d3d3d3;
 }
+
+.thread_headline {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.thread_actions {
+    border: 1px solid #000; 
+    border-width: 1px 0 0 0;
+    padding: 2px 0;
+    background-color: #4F4F4F;
+}
+
+.thread_actions .button {
+    margin-top: 0 !important;
+    margin: 0 5px;
+}
+
 
 
 
@@ -2051,7 +2084,6 @@ div.best_video div.right img {
 
 /* END member stories */ /* post story + send message */
 .msg_form {
-    height: 410px;
     color: #92897e;
     font-size: 10px;
     margin-top: 10px;
@@ -2620,7 +2652,7 @@ div.best_video div.right img {
 /*end help page */
 
 /*Form field on focus */
-input:focus, select:focus, textarea:focus {
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
     border: 1px solid #85854A !important;
     background-color: white !important;
     color: black !important;
@@ -2630,10 +2662,6 @@ input.focused { /* used by js */
     border: 1px solid #85854A !important;
     background-color: white !important;
     color: black !important;
-}
-
-input[type="submit"]:focus {
-    color: white !important;
 }
 
 /* ---=== border code follows ===--- */ /*

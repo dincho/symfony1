@@ -1,7 +1,7 @@
 Event.observe(window, 'load', function() {
   var fields = $$("input");
   for (var i = 0; i < fields.length; i++) {
-    if( fields[i].type != 'submit' )
+    if( fields[i].type != 'submit' && fields[i].type != 'button')
     {
         fields[i].onfocus = function()
         {

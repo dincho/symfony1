@@ -1,20 +1,31 @@
 <?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm') ?>
 
-<p>Conversation between You and <?php echo $profile->getUsername(); ?></p>
+<div class="thread_actions">
+    <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
+        <?php echo button_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'button')); ?> 
+    <?php else: ?>
+        <?php echo button_to(__('Back to Inbox'), 'messages/index', array('class' => 'button')); ?> 
+    <?php endif; ?>
+
+    <?php echo button_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'button float-right')) ?>
+    <?php echo button_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'button float-right')) ?>
+    
+    <br class="clear" />
+</div>
+<br />
+<p class="thread_headline"><?php echo __('Conversation between You and %USERNAME%', array('%USERNAME%' => $profile->getUsername())); ?></p>
 
 <?php foreach($messages as $message): ?>
 <?php $sender = ( $message->getSenderId() == $member->getId()) ?  $member : $profile; ?>
     <a name="message_<?php echo $message->getId();?>"></a>
-    <table class="threaded_message" style="border: 1px solid #3D3D3D; border-width: 0 0 1px 0;">
+    <table class="threaded_message">  
             <tr>
-                <td colspan="3" style="background-color: #3D3D3D;"><b><a name="message_<?php echo $message->getId();?>">&nbsp;</a></b></td>
-            </tr>    
-            <tr>
-                <td width="55px"><?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?></td>
-                <td width="140px"><?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
+                <td class="profile_photo"><?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?></td>
+                <td class="message_info">
+                    <?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
                     <?php echo format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?>
                 </td>
-                <td  style="background-color: #4f4f4f;">
+                <td  class="message_body">
                     <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>
                 </td>
             </tr>
@@ -54,6 +65,15 @@
 
     <?php include_partial('draft_save', array('draft' => $draft)); ?>
 <?php endif; ?>
+
+<br /><br />
+<div class="thread_actions">
+    <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
+        <?php echo button_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'button')); ?> 
+    <?php else: ?>
+        <?php echo button_to(__('Back to Inbox'), 'messages/index', array('class' => 'button')); ?> 
+    <?php endif; ?>
+</div>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

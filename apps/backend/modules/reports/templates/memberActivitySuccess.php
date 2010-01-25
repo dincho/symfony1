@@ -14,9 +14,9 @@
             <th style="width: auto;"><?php include_partial('period_filter', array('filters' => $filters)); ?></th>
         </tr>
     </thead>
-        <?php $i=1;foreach ($memberContacts as $object): ?>
-            <tr<?php if($i == 4) echo ' class="bold"'?>>
-            <td><?php echo ($i!=4) ? $object->getTitle() : 'TOTAL' ?></td>
+        <?php $i=1; $cnt = count($memberContacts); foreach ($memberContacts as $object): ?>
+            <tr<?php if($i == $cnt) echo ' class="bold"'?>>
+            <td><?php echo ($i!=$cnt) ? $object->getTitle() : 'TOTAL' ?></td>
             <td><?php echo number_format($object->getToday(), 0, '.', ',') ?></td>
             <td><?php echo number_format($object->getTodayLy(), 0, '.', ',') ?></td>
             <td><?php echo number_format($object->getMtd(), 0, '.', ',') ?></td>

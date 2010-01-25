@@ -41,10 +41,10 @@
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' . $thread->object->getUsername()); ?></td>
             <td class="message_from">
                 <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
-                <a href="<?php echo url_for('messages/thread?id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?></a>
+                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?></a>
             </td>
             <td>
-                <a href="<?php echo url_for('messages/thread?id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
+                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
                 <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
             </td>
         </tr>
@@ -144,10 +144,10 @@
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' .$thread->object->getUsername()); ?></td>
             <td class="message_from">
                 <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
-                <a href="<?php echo url_for('messages/thread?id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?></a>
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?></a>
             </td>
             <td>
-                <a href="<?php echo url_for('messages/thread?id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
                 <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
             </td>
         </tr>
