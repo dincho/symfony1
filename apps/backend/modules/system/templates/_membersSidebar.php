@@ -41,7 +41,11 @@
         <?php echo checkbox_tag('filters[status_id][]', $status->getId(), @in_array($status->getId(), $filters['status_id']) );?>
         <label><?php echo $status->getTitle(); ?></label>
     </li>
-    <?php endforeach; ?>    
+    <?php endforeach; ?>
+    <li>
+        <?php echo checkbox_tag('filters[no_email_confirmation]', 1, isset($filters['no_email_confirmation']) );?>
+        <label>Not Activated Yet</label>
+    </li>
     
     <li>&nbsp;</li>
     <li>Language:</li>
