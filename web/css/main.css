@@ -924,8 +924,7 @@ table.threaded_message .message_body {
 }
 
 .thread_headline {
-    font-weight: bold;
-    font-size: 14px;
+    color: #E0B400;
 }
 
 .thread_actions {

@@ -500,9 +500,9 @@ class messagesActions extends prActions
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
         
-        $this->getUser()->getBC()->removeLast()->add(array('name' => $thread->getSubject()));
         
         $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
+        $this->getUser()->getBC()->removeLast()->add(array('name' => __('Conversation between You and %USERNAME%', array('%USERNAME%' => $profile->getUsername())) ));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {   

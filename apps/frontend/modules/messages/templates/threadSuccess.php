@@ -13,7 +13,7 @@
     <br class="clear" />
 </div>
 <br />
-<p class="thread_headline"><?php echo __('Conversation between You and %USERNAME%', array('%USERNAME%' => $profile->getUsername())); ?></p>
+<p class="thread_headline"><?php echo $thread->getSubject(); ?></p>
 
 <?php foreach($messages as $message): ?>
 <?php $sender = ( $message->getSenderId() == $member->getId()) ?  $member : $profile; ?>
