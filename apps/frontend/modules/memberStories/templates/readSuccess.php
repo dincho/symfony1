@@ -12,15 +12,29 @@
       <?php if( $sf_user->isAuthenticated()): ?>
         <?php echo link_to($img_tag,  '@matches') ?>
       <?php else: ?>
-  	    <?php if( sfConfig::get('app_beta_period') ): ?>
-  	        <?php echo link_to($img_tag, 'registration/joinNow') ?>
-  	    <?php else: ?>
-  	        <?php $looking_for = ( $stockPhoto->getGender() == 'M') ? 'F_M' : 'M_F'; ?>
-  	        <?php echo link_to($img_tag,  'search/public?filter=filter&filters[looking_for]=' . $looking_for) ?>
-  	    <?php endif; ?>
-	    <?php endif; ?>
+          <?php if( sfConfig::get('app_beta_period') ): ?>
+              <?php echo link_to($img_tag, 'registration/joinNow') ?>
+          <?php else: ?>
+              <?php $looking_for = ( $stockPhoto->getGender() == 'M') ? 'F_M' : 'M_F'; ?>
+              <?php echo link_to($img_tag,  'search/public?filter=filter&filters[looking_for]=' . $looking_for) ?>
+          <?php endif; ?>
+        <?php endif; ?>
 
     <?php endif; ?>
+    
+    <br /><br />
+    <div class="g_ad">
+        <script type="text/javascript">
+        <!--
+            google_ad_client = "pub-3753475194105958";
+            /* 160x600 PD/ LS Member Stories */
+            google_ad_slot = "3396883494";
+            google_ad_width = 160;
+            google_ad_height = 600;
+        //-->
+        </script>
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
 </div>
 <div id="member_story_content">
     <?php echo $sf_data->getRaw('story')->getContent(); ?>

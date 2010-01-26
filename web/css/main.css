@@ -2063,6 +2063,11 @@ div.best_video div.right img {
 
 #member_story_img { display: block; margin: 0 auto; }
 
+#member_story_right .g_ad {
+    width: 160px;
+    margin: auto;
+}
+
 #member_story_list {
     color: #92897e;
     background-color: #221f20;

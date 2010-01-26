@@ -258,9 +258,10 @@ class contentActions extends prActions
         $bc = $this->getUser()->getBC();
         $username = $this->getRequestParameter('username');
         
-        $bc->clear()->add(array('name' => 'dashboard', 'uri' => '@dashboard'))
-        ->add(array('name' => __("%USERNAME%'s profile", array('%USERNAME%' => $username)), 'uri' => '@profile?username=' . $username))
-        ->add(array('name' => implode(', ', $geo_tree)));
+        $bc->clear();
+        if( $this->getUser()->isAuthenticated() ) $bc->add(array('name' => 'dashboard', 'uri' => '@dashboard'));
+        if( $username ) $bc->add(array('name' => __("%USERNAME%'s profile", array('%USERNAME%' => $username)), 'uri' => '@profile?username=' . $username));
+        $bc->add(array('name' => implode(', ', $geo_tree)));
         
         $bc->setCustomLastItem('Area Information');
         
