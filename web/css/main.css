@@ -47,7 +47,7 @@ img {
 
 textarea {
     font-family: Arial;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 body .sign_in {
@@ -2125,11 +2125,10 @@ div.best_video div.right img {
     padding: 4px;
 }
 
-.msg_form fieldset input,.msg_form fieldset textarea {
+.msg_form fieldset input, .msg_form fieldset textarea {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
-    font-size: 11px;
     margin: 2px;
     width: 320px;
 }
