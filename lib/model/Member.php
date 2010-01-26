@@ -707,6 +707,8 @@ class Member extends BaseMember
     
     public function getLastActivityWith($member_id)
     {
+        if( !$member_id ) return array();
+        
         $customObject = new CustomQueryObject();
         
         $sql = '(SELECT ms.sender_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id FROM message AS ms WHERE ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
