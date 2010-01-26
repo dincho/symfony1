@@ -40,6 +40,12 @@
 
 </form>
 
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("registration_box_complete_page").findFirstElement().focus();
+});
+');?>
+
 <?php slot('change_language') ?>
     <?php include_partial('content/lang'); ?>
 <?php end_slot(); ?>

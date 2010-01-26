@@ -51,6 +51,13 @@
 <br /><br /><br class="clear" />
 
 <?php echo javascript_tag('parseCharCounts();') ?>
+
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("essay").findFirstElement().focus();
+});
+');?>
+
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

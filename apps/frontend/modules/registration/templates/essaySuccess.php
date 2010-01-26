@@ -43,3 +43,9 @@
 
 <span><?php echo __('Essay note') ?></span>
 <?php echo javascript_tag('parseCharCounts();') ?>
+
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("essay").findFirstElement().focus();
+});
+');?>

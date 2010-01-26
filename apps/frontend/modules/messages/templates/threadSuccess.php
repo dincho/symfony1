@@ -36,7 +36,7 @@
 <?php if( $profile->isActive() ): ?>
     <span id="feedback">&nbsp;</span>
 
-    <?php echo form_tag('messages/thread', array('class'  => 'msg_form')) ?>
+    <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('title', $thread->getSubject(), array('class' => 'hidden'));?>
@@ -74,6 +74,12 @@
         <?php echo button_to(__('Back to Inbox'), 'messages/index', array('class' => 'button')); ?> 
     <?php endif; ?>
 </div>
+
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("reply_message_form").findFirstElement().focus();
+});
+');?>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

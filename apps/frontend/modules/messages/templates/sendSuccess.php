@@ -2,7 +2,7 @@
 
 <span id="feedback">&nbsp;</span>
 
-<?php echo form_tag('messages/send', array('class'  => 'msg_form')) ?>
+<?php echo form_tag('messages/send', array('class'  => 'msg_form', 'id' => 'send_message_form')) ?>
     <?php echo input_hidden_tag('recipient_id', $recipient->getId(), 'class=hidden') ?>
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
@@ -40,6 +40,12 @@
 </form>
 
 <?php include_partial('draft_save', array('draft' => $draft)); ?>
+
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("send_message_form").findFirstElement().focus();
+});
+');?>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

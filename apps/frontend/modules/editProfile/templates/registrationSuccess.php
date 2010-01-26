@@ -60,3 +60,10 @@ if (document.getElementsByTagName)
     } 
 }
 ") ?>
+
+
+<?php echo javascript_tag('
+Event.observe(window, "load", function() {
+    $("public_reg_form").findFirstElement().focus();
+});
+');?>
