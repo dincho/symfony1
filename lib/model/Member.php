@@ -324,8 +324,11 @@ class Member extends BaseMember
     public function getNbSendMessagesToday()
     {
         $c = new Criteria();
-        $c->add(ThreadPeer::SENDER_ID, $this->getId());
-        $c->add(ThreadPeer::CREATED_AT, 'DATE(' . ThreadPeer::CREATED_AT .') = CURRENT_DATE()', Criteria::CUSTOM);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->add(MessagePeer::SENDER_ID, $this->getId());
+        $c->add(MessagePeer::CREATED_AT, 'DATE(' . MessagePeer::CREATED_AT .') = CURRENT_DATE()', Criteria::CUSTOM);
+        $c->addJoin(MessagePeer::THREAD_ID, ThreadPeer::ID);
+        $c->addGroupByColumn(ThreadPeer::ID);
         
         return ThreadPeer::doCount($c);
     }

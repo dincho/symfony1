@@ -21,8 +21,11 @@ class MessagePeer extends BaseMessagePeer
         $message->setSubject($subject);
         $message->setBody(nl2br($body));
         
+        $reply = true;
+        
         if( !$thread)
         {
+            $reply = false;
             $thread = new Thread();
             $thread->setSubject($subject);
         }
@@ -71,7 +74,7 @@ class MessagePeer extends BaseMessagePeer
         if( !is_null($draft_id) ) MessagePeer::clearDraft($draft_id, $sender->getId());
         
         //increment counters
-        if( $thread ) //replying ...
+        if( $reply ) //replying ...
         {
             $sender->incCounter('ReplyMessages');
             $sender->incCounter('ReplyMessagesDay');

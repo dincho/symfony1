@@ -318,7 +318,8 @@ class messagesActions extends prActions
                                           $this->getRequestParameter('content'),
                                           $this->getRequestParameter('draft_id'));
 
-            $this->sendConfirmation($send_msg);
+            $this->setFlashConfirmation($send_msg);
+            $this->redirectToReferer();
         }
         
         $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $this->sender->getId(), $this->recipient->getId() );
@@ -409,7 +410,7 @@ class messagesActions extends prActions
         return sfView::SUCCESS;
     }
     
-    protected function sendConfirmation(BaseMessage $sent_msg)
+    protected function setFLashConfirmation(BaseMessage $sent_msg)
     {
         $to_username = $sent_msg->getMemberRelatedByRecipientId()->getUsername();
         
@@ -421,8 +422,6 @@ class messagesActions extends prActions
                     );
                     
         $this->setFlash('msg_ok', $msg_ok);
-        $this->redirect('messages/thread?id=' . $sent_msg->getThreadId() .'#message_'.$sent_msg->getId());
-
     }
         
     public function executeDelete()
@@ -513,7 +512,8 @@ class messagesActions extends prActions
                                           $this->getRequestParameter('draft_id'),
                                           $thread);
 
-            $this->sendConfirmation($send_msg);
+            $this->setFlashConfirmation($send_msg);
+            $this->redirect('messages/thread?id=' . $thread->getId());
         }
                 
         MessagePeer::markAsReadInThread($thread->getId(), $member);
