@@ -10,13 +10,28 @@
          ?>
         <br class="clear" />
         <dl>
-            <dt><?php echo __('Orientation') ?></dt><dd><?php echo __($member->getOrientationString()) ?></dd>
-            <dt><?php echo __('Country') ?></dt><dd><?php echo pr_format_country($member->getCountry()) ?></dd>
-            <dt><?php echo __('Area') ?></dt><dd><?php echo ($member->getAdm1Id()) ? $member->getAdm1() : __('None') ?>&nbsp;<?php if($member->getAdm1Id()) echo link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getAdm1Id(), 'class=sec_link') ?></dd>
-            <dt><?php echo __('District') ?></dt><dd><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : __('None') ?></dd>
-            <dt><?php echo __('City') ?></dt><dd><?php echo $member->getCity() ?></dd>
+            <dt><?php echo __('Orientation') ?></dt>
+                <dd><?php echo __($member->getOrientationString()) ?></dd>
+                
+            <dt><?php echo __('Country') ?></dt>
+                <dd><?php echo pr_format_country($member->getCountry()) ?></dd>
+            
+            <?php if( $member->getAdm1Id() ): ?>
+                <dt><?php echo __('Area') ?></dt>
+                    <dd><?php echo $member->getAdm1() . '&nbsp;' . link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getAdm1Id(), 'class=sec_link') ?></dd>
+            <?php endif; ?>
+            
+            <?php if( $member->getAdm2Id() ): ?>
+                <dt><?php echo __('District') ?></dt>
+                    <dd><?php echo $member->getAdm2(); ?></dd>
+            <?php endif; ?>
+            
+            <dt><?php echo __('City') ?></dt>
+                <dd><?php echo $member->getCity() ?></dd>
+                
             <?php if( !$member->getDontDisplayZodiac() ): ?>
-                <dt><?php echo __('Zodiac') ?></dt><dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
+                <dt><?php echo __('Zodiac') ?></dt>
+                    <dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
             <?php endif; ?>
 
             <?php foreach ($questions as $question): ?>
