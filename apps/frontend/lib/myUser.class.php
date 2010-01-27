@@ -72,7 +72,7 @@ class myUser extends sfBasicSecurityUser
     public function getRefererUrl()
     {
         $request = sfContext::getInstance()->getRequest();
-        if ($request->getParameter('return_url')) return base64_decode($request->getParameter('return_url'));
+        if ($request->getParameter('return_url')) return base64_decode(strtr($request->getParameter('return_url'), '-_,', '+/='));
         
         $stack = $this->getAttributeHolder()->getAll('frontend/member/referer_stack');
         return isset($stack [1]) ? $stack [1] : '@homepage';

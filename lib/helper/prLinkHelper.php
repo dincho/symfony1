@@ -7,27 +7,33 @@ function pr_link_to($name = '', $internal_uri = '', $options = array())
 
 function link_to_ref($name = '', $internal_uri = '', $options = array())
 {
-  $ref = array('query_string' => 'return_url=' . base64_encode(remove_return_url(sfRouting::getInstance()->getCurrentInternalUri())));
-  $options = array_merge($options, $ref);
-  return link_to($name, $internal_uri, $options);
+    $ret_uri = remove_return_url(sfRouting::getInstance()->getCurrentInternalUri());
+    $ret_uri = strtr(base64_encode($ret_uri), '+/=', '-_,');
+    
+    $ref = array('query_string' => 'return_url=' . $ret_uri);
+    $options = array_merge($options, $ref);
+    
+    return link_to($name, $internal_uri, $options);
 }
 
 function link_to_if_ref($condition, $name = '', $internal_uri = '', $options = array())
 {
-  $ref = array('query_string' => 'return_url=' . base64_encode(remove_return_url(sfRouting::getInstance()->getCurrentInternalUri())));
-  $options = array_merge($options, $ref);
-  return link_to_if($condition, $name, $internal_uri, $options);
+    $ret_uri = remove_return_url(sfRouting::getInstance()->getCurrentInternalUri());
+    $ret_uri = strtr(base64_encode($ret_uri), '+/=', '-_,');
+    
+    $ref = array('query_string' => 'return_url=' . $ret_uri);
+    return link_to_if($condition, $name, $internal_uri, $options);
 }
 
 function link_to_unless_ref($condition, $name = '', $url = '', $options = array())
 {
-  return link_to_if_ref(!$condition, $name, $url, $options);
+    return link_to_if_ref(!$condition, $name, $url, $options);
 }
 
 function remove_return_url($url)
 {
-  $url = preg_replace('/(return_url=\w+=&)/i', '', $url);
-  return $url;
+    $url = preg_replace('/(return_url=.+&)/i', '', $url);
+    return $url;
 }
 
 
