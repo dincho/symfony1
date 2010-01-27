@@ -14,8 +14,8 @@ class FeedbackPeer extends BaseFeedbackPeer
     const DRAFT = 3;
     const TRASH = 4;
     
-    const BUGS_SUGGESIONS_ADDRESS = 'bugs_suggestions@polishromance.com';
-    const SUPPORT_ADDRESS = 'support@polishromance.com';
+    const BUGS_SUGGESIONS_ADDRESS = 'bugs_suggestions@polishdate.com';
+    const SUPPORT_ADDRESS = 'support@polishdate.com';
     
     public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
     {
