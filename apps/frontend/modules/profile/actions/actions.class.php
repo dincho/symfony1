@@ -65,11 +65,14 @@ class profileActions extends prActions
         
         $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $this->member->getUsername() . sfConfig::get('app_admin_user_hash'));
         $this->is_admin = ($this->getRequestParameter('admin_hash') == $admin_hash);
-        $bc = $this->getUser()->getBC();
+        $user = $this->getUser();
+        $bc = $user->getBC();
+        
+        $error = null;
         
         if( !$this->is_admin )
         {
-            if( $this->getUser()->isAuthenticated() && $this->getUser()->getId() == $this->member->getId() ) $this->redirect('profile/myProfile');
+            if( $user->isAuthenticated() && $user->getId() == $this->member->getId() ) $this->redirect('profile/myProfile');
             
             //set correct error message if member is not active
             if( !$this->member->isActive() )
@@ -83,22 +86,22 @@ class profileActions extends prActions
 
                 switch ($member_status_id) {
                     case MemberStatusPeer::SUSPENDED:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                        $error = 'Sorry, this profile has been suspended';
                     break;
                     case MemberStatusPeer::SUSPENDED_FLAGS:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been suspended');
+                        $error = 'Sorry, this profile has been suspended';
                     break;
                     case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                        $error = 'Sorry, this profile has been canceled';
                     break;
                     case MemberStatusPeer::CANCELED:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled');
+                        $error = 'Sorry, this profile has been canceled';
                     break;
                     case MemberStatusPeer::CANCELED_BY_MEMBER:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been canceled by its owner');
+                        $error = 'Sorry, this profile has been canceled by its owner';
                     break;
                     case MemberStatusPeer::DEACTIVATED:
-                        $this->setFlash('msg_error', 'Sorry, this profile has been deactivated by its owner');
+                        $error = 'Sorry, this profile has been deactivated by its owner';
                     break;
 
                     default:
@@ -106,33 +109,41 @@ class profileActions extends prActions
                 }
             }
             
-            if( $this->getUser()->isAuthenticated() )
+            if( $user->isAuthenticated() )
             {
-                if( !$this->member->isActive() ) $this->redirect('@dashboard');
-                
-                //privacy
-                $prPrivavyValidator = new prPrivacyValidator();
-                $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $this->member);
-                $prPrivavyValidator->initialize($this->getContext(), array(
-                'sex_error' => 'Due to privacy restrictions you cannot see this profile',
-                'open_privacy_error' => 'Due to privacy restrictions you cannot see this profile',
-                'check_onlyfull' => false,
-                ));
-
-                $error = '';
-                if( !$prPrivavyValidator->execute(&$value, &$error) )
+                 //if viewer is logged in and member is active ( no status error already )
+                 //we need to check the privacy too
+                if( $this->member->isActive() )
                 {
-                    $this->setFlash('msg_error', $error);
-                    $this->redirectToReferer();
+                    //privacy
+                    $prPrivavyValidator = new prPrivacyValidator();
+                    $prPrivavyValidator->setProfiles($this->getUser()->getProfile(), $this->member);
+                    $prPrivavyValidator->initialize($this->getContext(), array(
+                    'sex_error' => 'Due to privacy restrictions you cannot see this profile',
+                    'open_privacy_error' => 'Due to privacy restrictions you cannot see this profile',
+                    'check_onlyfull' => false,
+                    ));
+
+                    $prPrivavyValidator->execute(&$value, &$error);
                 }
                 
-                $this->getUser()->viewProfile($this->member);
-                $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
+                if( !$error )
+                {
+                    $this->getUser()->viewProfile($this->member);
+                    $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
+                } else {
+                    $this->setTemplate('unavailableProfile');
+                    $this->setFlash('msg_error', $error, false);
+                }
+                
+                
+                //we need profile pager and correct BC regardless of the error, 
+                //since we just show an unavailable profile template
                 $this->profile_pager = new ProfilePager($this->member->getUsername());
-        
+    
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
-        
+    
                 switch ($this->getRequestParameter('bc')) {
                   case 'search':
                     $bc->add(array('name' => 'Search', 'uri' => '@matches'));
@@ -158,15 +169,9 @@ class profileActions extends prActions
                   default:
                     break;
                 }
-                
+                                    
             } else { //public visit
-                if( !$this->member->isActive() ) $this->forward404();
-                if( $this->member->getPrivateDating() )
-                {
-                    //$this->setFlash('msg_error', 'This profile is private.');
-                    //$this->redirect('@homepage');
-                    $this->forward404();
-                }
+                if( !$this->member->isActive() || $this->member->getPrivateDating()) $this->forward404();
                 
                 $this->setFlash('msg_ok', 'Sign in to see photo and more profile informmation', false);
                 $this->setTemplate('publicProfile');
