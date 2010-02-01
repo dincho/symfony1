@@ -300,14 +300,19 @@ class searchActions extends prActions
         $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
         $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
         
-        $this->redirect('search/index');
+        $this->redirect('search/mostRecent');
     }
 
     protected function initPager(Criteria $c, $per_page = 12, $peerMethod = 'doSelectJoinMemberRelatedByMember2Id', $peerCountMethod = 'doCountJoinMemberRelatedByMember2Id')
     {
-        $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
-        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/profile_pager');
-        $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'frontend/search/profile_pager');
+        //update profile pager only on first page 
+        //this is some kind of optimization and also allows to not pass the pp_no_update parameter all over the pager
+        if( $this->getRequestParameter('page', 1)  == 1 && !$this->getRequestParameter('pp_no_update') )
+        {
+            $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
+            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/profile_pager');
+            $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'frontend/search/profile_pager');
+        }
         
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);

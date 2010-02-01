@@ -28,7 +28,12 @@
         <?php endif; ?>
     <?php endforeach; ?>
     <?php if( $member->getYoutubeVid() && sfConfig::get('app_settings_profile_display_video') ): ?>
-        <br /><br /><object width="350" height="355"><param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed></object>
+        <br /><br />
+        <object width="350" height="355">
+            <param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param>
+            <param name="wmode" value="transparent"></param>
+            <embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed>
+        </object>
     <?php endif; ?>
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
