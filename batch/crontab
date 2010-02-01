@@ -1,7 +1,6 @@
 MAILTO=dincho.todorov@bonex.us
 */5     *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/mailbox_import.php
 01      *      *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationAbandoned.php
-01      04     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/updateMatches.php
 01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationAccountActivity.php
 01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationLoginReminder.php
 01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationRegistrationReminder.php
@@ -12,3 +11,4 @@ MAILTO=dincho.todorov@bonex.us
 20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDeletedWinks.php
 30      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/deactivateUnusedProfiles.php
 40      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearLinks.php
+01      01     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/updateMatches.php
