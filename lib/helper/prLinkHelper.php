@@ -82,7 +82,7 @@ function link_for_extra_activity_field($activity, $member)
                                                 ( $activity->getMemberId() == $member->getId() && $viewer->hasWinkTo($member->getId()) )
                                                );
                 }            
-                return ($has_matual_wink) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11)) : null;
+                return ($has_matual_wink) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both winked at each other') .'")')) : null;
             break;
             
             case 'hotlisted':
@@ -93,7 +93,7 @@ function link_for_extra_activity_field($activity, $member)
                                                 ( $activity->getMemberId() == $member->getId() && $viewer->hasInHotlist($member->getId()) )
                                                );
                 }            
-                return ($has_matual_hotlist) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11)) : null;
+                return ($has_matual_hotlist) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both added themselves to the hotlist') .'")')) : null;
             break;
                                    
         

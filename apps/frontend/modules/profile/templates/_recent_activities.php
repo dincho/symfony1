@@ -5,6 +5,13 @@
         <th colspan="4"><?php echo __('Your Recent Activities with %username%', array('%username%' => $member->getUsername()))?></th>
     </tr>
     <?php if( isset($recent_activities) && count($recent_activities) > 0 ): ?>
+    
+        <script type="text/javascript">
+            var RA_balloon = new Balloon;
+            BalloonConfig(RA_balloon,'GBubble');
+            RA_balloon.fontSize      = '12px';
+         </script>
+
         <?php foreach ($recent_activities as $activity): ?>
             <?php $user = ($activity->getMemberId() == $member->getId() ) ? $member->getUsername() : __('You'); ?>
             <tr>
