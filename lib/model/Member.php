@@ -511,6 +511,9 @@ class Member extends BaseMember
       return $info['NEXT_PAYMENT_AMOUNT'];
     }
     
+    /*
+        @deprecated will be removed in 1.3.7
+    */
     public function getIP()
     {
         return $this->getLastIP();

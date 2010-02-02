@@ -1,10 +1,10 @@
-<?php use_helper('Object', 'dtForm') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
 <br /><br />
 
-<?php echo form_tag('members/editEssay', 'class=form') ?>
+<?php echo form_tag('members/editEssay', array('class' => 'form', 'onsubmit' => 'return check_essay_fields("Some of the essay fields are empty, are you sure you want to save it anyway?");')) ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <div class="legend">Essay</div>
   <fieldset class="form_fields">
@@ -20,4 +20,17 @@
   </fieldset>
 </form>
 
+<?php echo javascript_tag('
+
+    function check_essay_fields(confirm_msg)
+    {
+      if( document.getElementById("essay_headline").value.length < 1 || document.getElementById("essay_introduction").value.length < 1 ) 
+      {
+        return confirm(confirm_msg);
+      }
+
+  
+      return true;
+    }
+'); ?>
 <?php include_partial('members/bottomMenu', array('member_id' => $member->getId())); ?>
