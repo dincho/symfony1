@@ -513,7 +513,19 @@ class Member extends BaseMember
     
     public function getIP()
     {
-        return ($this->getLastIp()) ? long2ip($this->getLastIp()) : null;
+        return $this->getLastIP();
+    }
+    
+    public function getLastIP($long = false)
+    {
+        if( $long ) return parent::getLastIp();
+        return (parent::getLastIp()) ? long2ip(parent::getLastIp()) : null;
+    }
+    
+    public function getRegistrationIP($long = false)
+    {
+        if( $long ) return parent::getRegistrationIP();
+        return (parent::getRegistrationIP()) ? long2ip(parent::getRegistrationIP()) : null;
     }
     
     public function getContinueRegistrationUrl()

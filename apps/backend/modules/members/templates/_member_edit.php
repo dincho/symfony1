@@ -42,8 +42,11 @@
             <label for="reviewed">Reviewed</label>
             <var id="reviewed"><?php if($member->getReviewedById() ) echo $member->getReviewedBy() . '&nbsp;' . $member->getReviewedAt('m/d/Y')?></var><br />
             
-            <label for="ip">IP</label>
-            <var id="ip"><?php echo $member->getIP() ?></var><br />
+            <label for="registration_ip">Registration IP</label>
+            <var id="registration_ip"><?php echo $member->getRegistrationIP() ?></var><br />
+            
+            <label for="last_ip">Last IP</label>
+            <var id="last_ip"><?php echo $member->getLastIP() ?></var><br />
             
             <label for="member_original_first_name">Original First Name</label>
             <var id="member_original_first_name"><?php echo $member->getOriginalFirstName() ?></var><br />

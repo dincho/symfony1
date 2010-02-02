@@ -38,6 +38,7 @@ class registrationActions extends prActions
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->initNewMember();
             $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
+            $member->setRegistrationIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->setLanguage($this->getUser()->getCulture()); //used by notifications
             $member->save();
             
