@@ -2,13 +2,21 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<?php include_partial('members/profile_pager', array('member' => $member)); ?>
 <br /><br />
+
+<div class="legend">Photos</div>
 
 <?php echo form_tag('members/editPhotos', array('class' => 'form', 'multipart' => true)) ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   <?php echo input_hidden_tag('photo_id', $sf_request->getParameter('photo_id'), 'class=hidden') ?>
   
-  <div class="legend">Photos</div>
+  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+  
+  <fieldset class="actions">
+    <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
+  </fieldset>
+    
   <fieldset class="form_fields">
     <?php object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
     <?php $cnt_photos = count($photos); ?>
@@ -88,4 +96,4 @@
   </fieldset>
 </form>
 
-<?php include_partial('members/bottomMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>

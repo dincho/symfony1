@@ -139,7 +139,7 @@ class profileActions extends prActions
                 
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
-                $this->profile_pager = new ProfilePager($this->member->getUsername());
+                $this->profile_pager = new ProfilePager($this->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager'), $this->member->getUsername());
     
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));

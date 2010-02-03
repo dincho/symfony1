@@ -2,12 +2,19 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<?php include_partial('members/profile_pager', array('member' => $member)); ?>
 <br /><br />
+
+<div class="legend">Search Criteria</div>
 
 <?php echo form_tag('members/editSearchCriteria', 'class=form id=self_description_form name=self_description_form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
+  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
   
-  <div class="legend">Search Criteria</div>
+  <fieldset class="actions">
+    <?php echo button_to('Cancel', 'members/editSearchCriteria?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>
+  </fieldset>
+    
   <fieldset class="form_fields">
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
@@ -75,4 +82,4 @@
   </fieldset>
 </form>
 
-<?php include_partial('members/bottomMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>

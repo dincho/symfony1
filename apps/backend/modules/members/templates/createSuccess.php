@@ -4,10 +4,11 @@
     <?php $member = new Member(); ?>
 <?php endif; ?>
 
+<div class="legend">Create member</div>
+
 <?php echo form_tag('members/create', array('class' => 'form', "id" => "member_registration_form")) ?>
-    <div class="legend">Create member</div>
+    
     <fieldset class="form_fields">
-         
         <label for="language">Native Language</label>
         <?php echo pr_select_language_tag('language', null, array('class' => error_class('language', true))) ?><br />
             

@@ -12,9 +12,10 @@ class ProfilePager
     private $members = array();
     private $cursor = 0;
     
-    public function __construct($current_member)
+    public function __construct(array $members, $current_member)
     {
-        $this->members = sfContext::getInstance()->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager');
+        //$this->members = sfContext::getInstance()->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager');
+        $this->members = $members;
         $this->setCursor($current_member);
     }
 

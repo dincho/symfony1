@@ -59,14 +59,26 @@ class membersActions extends sfActions
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
-        
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinAll');
         $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
         $this->pager = $pager;
     
+        if( $this->getRequestParameter('page', 1)  == 1 )
+        {   
+            $pc = clone $c;
+            $pc->setLimit(null);
+            $rs = MemberPeer::doSelectRS($pc);
+            $profile_pager_members = array();
+
+            while($rs->next()) {
+                $profile_pager_members[] = $rs->getInt(1);
+            }
         
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/members/profile_pager');
+            $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'backend/members/profile_pager');
+        }
     }
 
     public function executeCreate()

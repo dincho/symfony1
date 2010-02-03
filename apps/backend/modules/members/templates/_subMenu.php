@@ -1,5 +1,9 @@
-<div id="bottom_menu">
-  <span class="bottom_menu_title">Edit:</span>
+<?php if( isset($class) ): ?>
+<div id="sub_menu" class="<?php echo $class; ?>">
+<?php else: ?>
+<div id="sub_menu">
+<?php endif; ?>
+  <span class="sub_menu_title">Edit:</span>
   <ul>
     <li><?php echo link_to('Overview', 'members/edit?id=' . $member_id) ?>&nbsp;|</li>
     <li><?php echo link_to('Registration', 'members/editRegistration?id=' . $member_id) ?>&nbsp;|</li>
