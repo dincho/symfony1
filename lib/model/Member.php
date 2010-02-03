@@ -726,9 +726,9 @@ class Member extends BaseMember
         
         $customObject = new CustomQueryObject();
         
-        $sql = '(SELECT ms.sender_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id FROM message AS ms WHERE ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
+        $sql = '(SELECT ms.sender_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
                 UNION
-                (SELECT ms.sender_id, "mailed", UNIX_TIMESTAMP(ms.created_at), IF(ms.recipient_deleted_at, NULL, ms.thread_id) FROM message AS ms WHERE ms.sender_id = %PROFILE_ID% AND ms.recipient_id = %MEMBER_ID% )
+                (SELECT ms.sender_id, "mailed", UNIX_TIMESTAMP(ms.created_at), IF(ms.recipient_deleted_at, NULL, ms.thread_id) FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %PROFILE_ID% AND ms.recipient_id = %MEMBER_ID% )
                 UNION
                 (SELECT w.member_id, "winked", UNIX_TIMESTAMP(w.created_at), NULL FROM wink AS w WHERE ((w.member_id = %MEMBER_ID% AND w.profile_id = %PROFILE_ID%) OR (w.member_id = %PROFILE_ID% AND w.profile_id = %MEMBER_ID% )) AND w.sent_box = 1 )
                 UNION
