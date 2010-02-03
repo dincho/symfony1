@@ -5,6 +5,7 @@
 </div>
 
 <div class="city_right">
+    <?php echo __('Area Info Headline', array('%GEO_TREE_STRING%' => $geo_tree_string)); ?><br />
     <?php echo $geo->getInfo(ESC_RAW) ?><br /><br />
     
     <br /><br />

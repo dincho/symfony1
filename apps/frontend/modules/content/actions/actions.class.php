@@ -269,6 +269,7 @@ class contentActions extends prActions
         $this->getResponse()->setTitle($title_prefix.implode(', ', $geo_tree));
         
         $this->geo = $geo;
+        $this->geo_tree_string = implode(', ', array_reverse($geo_tree));
     }
     
     public function executeLink()

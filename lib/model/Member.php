@@ -717,7 +717,7 @@ class Member extends BaseMember
         $geo_country = GeoPeer::retrieveCountryByISO($this->getCountry());
         if( $geo_country && $geo_country->getInfo() ) return $geo_country->getId();
         
-        return null;
+        return $this->getCityId();
     }
     
     public function getLastActivityWith($member_id)
