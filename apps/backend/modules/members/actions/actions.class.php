@@ -458,7 +458,7 @@ class membersActions extends sfActions
             
             //set confirm msg and redirect
             $this->setFlash('msg_ok', 'Your changes have been saved');
-            $this->redirect('members/editPhotos?id=' . $this->member->getId());
+            $this->redirect($this->getUser()->getRefererUrl());
         }
         $this->photos = $this->member->getMemberPhotos();
         $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));

@@ -84,7 +84,7 @@
   <?php endif; ?>
   
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'members/editPhotos?cancel=1&id='.$member->getId())  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>
 
