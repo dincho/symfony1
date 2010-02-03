@@ -37,9 +37,13 @@
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
     </div>
 </div>
+
+
 <div id="member_story_content">
     <?php echo $sf_data->getRaw('story')->getContent(); ?>
 </div>
+
+<br class="clear" />
 
 <?php slot('header_title') ?>
     <?php echo $story->getTitle(ESC_RAW) ?>
