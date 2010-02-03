@@ -7,7 +7,7 @@
         <?php $i=1;foreach($pager->getResults() as $match): ?>
             <?php $member = $match->getMemberRelatedByMember2Id(); ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">                
-              <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
+              <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 39) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
               <?php echo profile_photo($member, 'float-left') ?>                      
               <div class="profile_info">
                   <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
