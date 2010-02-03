@@ -77,7 +77,7 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    $("reply_message_form").findFirstElement().focus();
+    setTimeout("$(\"reply_message_form\").findFirstElement().focus();",1);
 });
 ');?>
 

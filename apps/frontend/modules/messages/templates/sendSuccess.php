@@ -43,7 +43,7 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    $("send_message_form").findFirstElement().focus();
+    setTimeout("$(\"send_message_form\").findFirstElement().focus();",1);
 });
 ');?>
 

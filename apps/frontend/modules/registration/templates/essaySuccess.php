@@ -46,6 +46,6 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    $("essay").findFirstElement().focus();
+    setTimeout("$(\"essay\").findFirstElement().focus();",1);
 });
 ');?>

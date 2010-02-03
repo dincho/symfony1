@@ -42,7 +42,7 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    $("registration_box_complete_page").findFirstElement().focus();
+    setTimeout("$(\"registration_box_complete_page\").findFirstElement().focus();",1);
 });
 ');?>
 
