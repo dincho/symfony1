@@ -2192,67 +2192,54 @@ div.best_video div.right img {
 }
 
 /* END post story + send message */
-#tell_a_friend_container {
+#tell_a_friend {
     background-color: #4f4f4f;
     width: 700px;
     padding-top: 3px;
     margin-top: 30px;
 }
 
-#tell_a_friend_container span.tell_friend_footer {
+#tell_a_friend .form_actions {
     background-color: #000;
     display: block;
     padding: 5px;
 }
 
-#tell_a_friend_container span {
+#tell_a_friend span {
     color: #92897e;
     font-size: 10px;
     margin-top: 0px;
 }
 
-#tell_a_friend_container label {
+#tell_a_friend label {
+    display: block;
     float: left;
-    margin: 0px;
-    padding: 0px;
-    display: table-cell;
-    width: 60px;
+    margin: 0;
+    padding: 0;
+    width: 100px;
     color: #e0b400;
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
-#tell_a_friend_container input,#tell_a_friend_container textarea {
+#tell_a_friend input {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
     font-size: 11px;
     font-family: Arial;
-    margin: 2px;
+    margin: 0 0 4px 0;
     width: 140px;
 }
 
-#tell_a_friend_container textarea {
-  height: 45px;
+#tell_a_friend fieldset {
+    margin: 0;
+    padding: 5px;
+    border: none;
 }
 
-#tell_a_friend_container fieldset {
-    margin: 0px;
-    padding: 3px;
-    border: 0px;
-    margin-bottom: 0px;
-}
-
-#tell_a_friend_container legend {
-    margin-left: 50px;
-    color: #d3d3d3;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-#tell_a_friend_div {
+#tell_a_friend .form_info {
     float: right;
-    width: 460px;
-    margin-top: 55px;
+    width: 420px;
 }
 
 /* Flagging */

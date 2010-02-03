@@ -9,15 +9,9 @@ fields:
     prEmailValidator:
       strict:       true
       email_error:  Please provide your friend's email address in correct format.
-  friend_full_name:
-    required:
-        msg:    Please enter your friend's full name
   email:
     required:
         msg:    Please enter your email address.
     prEmailValidator:
       strict:       true
       email_error:  Please provide your email address in correct format.
-  full_name:
-    required:
-        msg:    Please enter your full name
