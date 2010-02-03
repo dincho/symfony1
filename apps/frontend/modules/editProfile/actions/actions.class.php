@@ -229,10 +229,27 @@ class editProfileActions extends prActions
                 }
             }
             
+
+            
             if ($has_error)
             {
                 if( $you_must_fill ) $this->getRequest()->setError(null, 'You must fill out the missing information below indicated in red.');
                 return false;
+            } else {
+                foreach($others as $question_id => $value)
+                {
+                    if( $answers[$question_id] == 'other' && mb_strlen($value) > 35 )
+                    {
+                        $this->getRequest()->setError('answers[' . $question_id . ']', null);
+                        $has_error = true;
+                    }
+                }
+                
+                if( $has_error ) 
+                {   
+                    $this->getRequest()->setError(null, 'Other field values of the questions indicated in red below, can cantain maximum of 35 characters');
+                    return false;
+                }
             }
         }
         
