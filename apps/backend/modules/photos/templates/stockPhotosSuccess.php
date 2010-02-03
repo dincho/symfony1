@@ -1,6 +1,5 @@
 <div id="photos">
-    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/stockPhotos')); ?>
-    <?php include_partial('filter_sort', array('filters' => array(), 'sort_namespace' => $sort_namespace)); ?><br /><br />
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/stockPhotos')); ?><br />
     
     <fieldset class="form_fields">
     <?php $i=1; foreach($pager->getResults() as $photo): ?>

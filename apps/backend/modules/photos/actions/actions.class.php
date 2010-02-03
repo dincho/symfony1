@@ -13,10 +13,8 @@ class photosActions extends sfActions
 
     public function preExecute()
     {
-        $this->top_menu_selected = 'content';
-        $this->left_menu_selected = 12;
-        $this->getUser()->getBC()->clear()->add(array('name' => 'content', 'uri' => 'content/list'))
-        ->add(array('name' => 'Stock Photos', 'uri' => 'photos/stockPhotos'));
+        $this->top_menu_selected = 'photos';
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Stock Photos', 'uri' => 'photos/stockPhotos'));
     }
 
     public function executeIndex()
@@ -30,6 +28,7 @@ class photosActions extends sfActions
         $this->processFilters();
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
         $this->processSort();
+        $this->left_menu_selected = "All";
         
         $c = new Criteria();
         $c->addGroupByColumn(MemberPeer::ID);
@@ -53,12 +52,15 @@ class photosActions extends sfActions
     {
         $this->processFilters();
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
+        $this->getUser()->getBc()->clear()->add(array('name' => 'Photos', 'uri' => 'photos/list'))->add(array('name' => 'Country'));
+        $this->left_menu_selected = 'Country';
     }
     
     public function executeStockPhotos()
     {
         $this->sort_namespace = 'backend/photos/sort';
         $c = new Criteria();
+        $this->left_menu_selected = "Stock Photos";
         
         if( $this->getRequestParameter('only') == 1 ) //member stories
         {
@@ -66,11 +68,13 @@ class photosActions extends sfActions
             $c->addGroupByColumn(StockPhotoPeer::ID);
             $c->addHaving($c->getNewCriterion(MemberStoryPeer::COUNT, 'COUNT( '.MemberStoryPeer::ID.') > 0 ',Criteria::CUSTOM));
             $this->getUser()->getBC()->add(array('name' => 'Member Stories'));
+            $this->left_menu_selected = 'Member Stories';
             
         } elseif( $this->getRequestParameter('only') == 2 ) //homepage
         {
             $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
             $this->getUser()->getBC()->add(array('name' => 'Home Page'));
+            $this->left_menu_selected = 'Home Page';
         }
         
         $per_page = $this->getRequestParameter('per_page', 24);
@@ -78,9 +82,49 @@ class photosActions extends sfActions
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->init();
-        $this->pager = $pager;        
+        $this->pager = $pager;
     }
     
+    public function executeHomepage()
+    {
+        $this->sort_namespace = 'backend/photos/sort';
+        $this->getUser()->getBC()->add(array('name' => 'Home Page'));
+        $this->left_menu_selected = 'Home Page';
+                    
+        $c = new Criteria();
+        $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
+    
+        $per_page = $this->getRequestParameter('per_page', 24);
+        $pager = new sfPropelPager('StockPhoto', $per_page);
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->init();
+        $this->pager = $pager;
+        
+        $this->setTemplate('StockPhotos');
+    }
+    
+    public function executeMemberStories()
+    {
+        $this->sort_namespace = 'backend/photos/sort';
+        $this->getUser()->getBC()->add(array('name' => 'Member Stories'));
+        $this->left_menu_selected = 'Member Stories';
+                    
+        $c = new Criteria();
+        $c->addJoin(StockPhotoPeer::ID, MemberStoryPeer::STOCK_PHOTO_ID);
+        $c->addGroupByColumn(StockPhotoPeer::ID);
+        $c->addHaving($c->getNewCriterion(MemberStoryPeer::COUNT, 'COUNT( '.MemberStoryPeer::ID.') > 0 ',Criteria::CUSTOM));
+    
+        $per_page = $this->getRequestParameter('per_page', 24);
+        $pager = new sfPropelPager('StockPhoto', $per_page);
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->init();
+        $this->pager = $pager;
+        
+        $this->setTemplate('StockPhotos');
+    }
+        
     public function executeDeleteStockPhoto()
     {
         $this->getUser()->checkPerm(array('content_edit'));
@@ -326,10 +370,12 @@ class photosActions extends sfActions
             switch ($sort_column) {
                 case 'Member::last_photo_upload_at':
                    $bc->add(array('name' => 'Most Recent', 'uri' => 'photos/list'));
+                   $this->left_menu_selected = 'Most Recent';
                 break;
                 
                 case 'MemberCounter::profile_views':
                    $bc->add(array('name' => 'Popularity'));
+                   $this->left_menu_selected = 'Popularity';
                 break;
                 
                 default:
@@ -367,20 +413,25 @@ class photosActions extends sfActions
         if (isset($this->filters['sex']))
         {
             $c->add(MemberPeer::SEX, $this->filters['sex']);
-            $bc->add(array('name' => ($this->filters['sex'] == 'M') ? 'Male' : 'Female'));
+            $name = ($this->filters['sex'] == 'M') ? 'Male' : 'Female';
+            $bc->add(array('name' => $name));
+            $this->left_menu_selected = $name;
         }
                     
         if (isset($this->filters['public_search']) && $this->filters['public_search'] == 1)
         {
             $c->add(MemberPeer::PUBLIC_SEARCH, true);
             $bc->add(array('name' => 'Public Search'));
+            $this->left_menu_selected = 'Public Search';
         }
         
         if (isset($this->filters['by_country']) && $this->filters['by_country'] == 1)
         {
             if( !isset($this->filters['country']) ) $this->forward('photos', 'selectCountryFilter');
             $c->add(MemberPeer::COUNTRY, $this->filters['country']);
-            $bc->add(array('name' => 'Country - ' . $this->filters['country']));
+            $bc->add(array('name' => 'Country', 'uri' => 'photos/selectCountryFilter'));
+            $bc->add(array('name' =>  $this->filters['country']));
+            $this->left_menu_selected = 'Country';
         }            
     }
 }

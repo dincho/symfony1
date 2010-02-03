@@ -1,6 +1,5 @@
 <div id="photos">
-    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/list')); ?>
-    <?php include_partial('filter_sort', array('filters' => $filters, 'sort_namespace' => $sort_namespace)); ?><br /><br />
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/list')); ?><br />
     
     <?php foreach($pager->getResults() as $member): ?>
         <div class="photos_headline"><b><?php echo $member->getUsername() ?></b>

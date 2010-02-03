@@ -7,8 +7,8 @@
 <?php endif; ?>
 &nbsp;|&nbsp;
 <?php echo link_to_unless($sf_user->getAttribute('sort', null, $sort_namespace) == 'MemberCounter::profile_views', 'Popularity', 'photos/list?sort=MemberCounter::profile_views&type=desc&filter=filter') ?>&nbsp;|&nbsp;
-<?php echo link_to_unless($sf_context->getActionName() == 'stockPhotos' && $sf_request->getParameter('only') == 2, 'Home Page', 'photos/stockPhotos?sort=no&filter=filter&only=2') ?>&nbsp;|&nbsp;
-<?php echo link_to_unless($sf_context->getActionName() == 'stockPhotos' && $sf_request->getParameter('only') == 1, 'Member Stories', 'photos/stockPhotos?sort=no&filter=filter&only=1') ?>&nbsp;|&nbsp;
+<?php echo link_to_unless($sf_context->getActionName() == 'stockPhotos' && $sf_request->getParameter('only') == 2, 'Home Page', 'photos/homepage?sort=no&filter=filter') ?>&nbsp;|&nbsp;
+<?php echo link_to_unless($sf_context->getActionName() == 'stockPhotos' && $sf_request->getParameter('only') == 1, 'Member Stories', 'photos/memberStories?sort=no&filter=filter') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless(isset($filters['public_search']) &&  $filters['public_search'] == 1, 'Public Search', 'photos/list?filter=filter&filters[public_search]=1&sort=no') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless($sf_context->getActionName() =='stockPhotos' && !$sf_request->getParameter('only'), 'Stock Photos', 'photos/stockPhotos') ?>&nbsp;|&nbsp;
 <?php echo link_to_unless(count($filters) < 1 && is_null($sf_user->getAttribute('sort', null, $sort_namespace)) && $sf_context->getActionName() != 'stockPhotos', 'All', 'photos/list?filter=filter&sort=no') ?>
