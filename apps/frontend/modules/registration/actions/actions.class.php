@@ -509,7 +509,34 @@ class registrationActions extends prActions
             $member = MemberPeer::retrieveByPK($this->getUser()->getId());
             $subscription = $member->getSubscription();
             $cnt_photos = $member->countMemberPhotos();
-          
+            
+            $file_arr = $this->getRequest()->getFile('new_photo');
+            if( !$file_arr['name'] )
+            {
+                $this->getRequest()->setError('new_photo', 'Please select photo');
+                return false;
+            }
+            
+            if( $file_arr['tmp_name'] )
+            {
+                $image_info = getimagesize($file_arr['tmp_name']);
+                
+                if( empty($image_info) )
+                {
+                    $this->getRequest()->setError('new_photo', 'Please select correct file type');
+                    return false;
+                }
+                
+                if( $image_info[0] < 200 )
+                {
+                    $this->getRequest()->setError('new_photo', 'The photo should be at least 200px wide');
+                    return false;
+                }
+            } else {
+                    $this->getRequest()->setError('new_photo', 'Unable to upload your file to our server, please contact us!');
+                    return false;                
+            }
+                      
             if (! $subscription->getCanPostPhoto())
             {
                 $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
