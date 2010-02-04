@@ -77,6 +77,7 @@ class searchActions extends prActions
         if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
             $this->has_criteria = false;
+            $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
             return sfView::SUCCESS;
         }
         
@@ -94,6 +95,16 @@ class searchActions extends prActions
 
     public function executeReverse()
     {
+        $c = new Criteria();
+        $c->add(MemberMatchPeer::MEMBER2_ID, $this->getUser()->getId());
+        $this->reverse_cnt = MemberMatchPeer::doCount($c);
+        
+        if( $this->reverse_cnt == 0 )
+        {
+            $this->setFlash('msg_ok', 'The results are calculated during the night, you will see them tomorrow', false);
+            return sfView::SUCCESS;
+        }
+        
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -113,6 +124,7 @@ class searchActions extends prActions
         if (! $this->getUser()->getProfile()->hasSearchCriteria())
         {
             $this->has_criteria = false;
+            $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
             return sfView::SUCCESS;
         }
         
