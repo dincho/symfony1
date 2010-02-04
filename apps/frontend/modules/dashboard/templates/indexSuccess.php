@@ -50,7 +50,7 @@
             <?php endif; ?>
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Blocked Members'), '@blocked_members', 'class=sec_link_brown') ?>
+            <?php echo link_to(__('Blocked Members ( %count% )', array('%count%' => $blocked_cnt)), '@blocked_members', 'class=sec_link_brown') ?>
         </div>
     </div>
     <div class="right">

@@ -30,7 +30,7 @@ class blockActions extends prActions
         $block->save();
         
         $msg_ok = sfI18N::getInstance()->__('You just blocked %USERNAME% from seeing and contacting you. To undo, <a href="%UNDO_URL%" class="sec_link">click here</a>.', 
-                array('%USERNAME%' => $profile->getUsername(), '%UNDO_URL%' => $this->getController()->genUrl('block/remove?id=' . $block->getId())));
+                array('%USERNAME%' => $profile->getUsername(), '%UNDO_URL%' => $this->getController()->genUrl('block/remove?profile_id=' . $profile->getId())));
         $this->setFlash('msg_ok', $msg_ok);
         
         if( $profile->hasBlockFor($this->getUser()->getId()))
@@ -85,7 +85,7 @@ class blockActions extends prActions
     public function executeRemove()
     {
         $c = new Criteria();
-        $c->add(BlockPeer::ID, $this->getRequestParameter('id'));
+        $c->add(BlockPeer::PROFILE_ID, $this->getRequestParameter('profile_id'));
         $c->add(BlockPeer::MEMBER_ID, $this->getUser()->getId());
         $block = BlockPeer::doSelectOne($c);
         $this->forward404Unless($block);
@@ -95,7 +95,7 @@ class blockActions extends prActions
         
         $msg = 'You have just unblocked %USERNAME%.';
         $ref = $this->getUser()->getRefererUrl();
-        if( stripos($ref, 'profile/index') ) $msg .= ' Click here to see <a href="%PROFILE_URL%" class="sec_link">full profile</a>';
+        if( stripos($ref, 'profile/index') === false ) $msg .= ' Click here to see <a href="%PROFILE_URL%" class="sec_link">full profile</a>';
         $msg_ok = sfI18N::getInstance()->__($msg, array('%USERNAME%' => $username, '%PROFILE_URL%' => $this->getController()->genUrl('@profile?username=' . $username)));
         $this->setFlash('msg_ok', $msg_ok);
         

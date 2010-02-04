@@ -113,6 +113,11 @@ class dashboardActions extends prActions
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
         
+        //blocked member count
+        $c = new Criteria();
+        $c->add(BlockPeer::MEMBER_ID, $member->getId());
+        $this->blocked_cnt = BlockPeer::doCount($c);
+        
         //recent visits
         $c = new Criteria();
         $c->add(ProfileViewPeer::MEMBER_ID, $member->getId());
