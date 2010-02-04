@@ -122,6 +122,10 @@ ipn:
 link:
     url: /link/:hash
     param: { module: content, action: link, sf_culture: en }
+
+sitemap:
+  url: /sitemap.xml
+  param: { module: sfSimpleGoogleSitemap, action: index, sf_culture: en }
     
 default_symfony:
   url:   /symfony/:action/*

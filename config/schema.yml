@@ -429,6 +429,7 @@ propel:
     keywords:       { type: varchar, size: 255, required: false }
     description:    { type: longvarchar, required: false }
     content:        { type: longvarchar, required: true }
+    updated_at:     
   bestv_tmpl:
     id:
     updated_at:
@@ -447,6 +448,7 @@ propel:
     description:        { type: longvarchar, required: true }
     content:            { type: longvarchar, required: true }
     stock_photo_id:     { type: integer, required: false, foreignTable: stock_photo, foreignReference: id, onDelete: setnull }
+    updated_at:
     _uniques:
       slug:             [slug]
     _indexes:           

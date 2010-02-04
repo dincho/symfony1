@@ -23,3 +23,57 @@ all:
   title_prefix:
     pd_dincho_bonex_us:  "PolishDate - "
     pl_pd_dincho_bonex_us:  "LoveStreet.pl - "
+  sfSimpleGoogleSitemap:
+    orm:                  Propel                 # possible values: auto, Propel, DbFinder. 'auto' is auto detection. Note: case sensitive!
+    urls:                                        # define multiple static urls here
+      homepage:                                  # just a name
+        url:              @homepage              # route
+        freq:             daily                  # must be either: always, hourly, daily, weekly, monthly, yearly, never
+        priority:         1.0                    # 1.0 is top priority (100%) compared to 0.2 which is less priority (20%)
+      join_now:
+        url:              @joinnow
+        freq:             monthly
+        priority:         0.5
+      sign_in:
+        url:              @signin
+        freq:             monthly
+        priority:         0.5
+      tell_friend:
+        url:              content/tellFriend
+        freq:             monthly
+        priority:         0.5
+    models:                                      # define multiple models to generate sitemap from
+      model_pages:                               # just a name
+        model:            StaticPage       # model class name
+        propel_method:    doSelectWithI18n
+        route:            content/page
+        params:                                  # parameters for the url
+          slug:           getSlug       # name : method to get the parameter value
+        date:             getUpdatedAt           # method to get date last updated for the url
+        criteria:                                # criterias to filter the records to include in the sitemap
+          - { column: has_content, method: getHasContent, operator: = , value: 1 }
+        order_by:         { peer: StaticPageI18nPeer, column: TITLE, method: Title, sort: asc }
+        freq:             weekly                  # must be either: always, hourly, daily, weekly, monthly, yearly, never
+        priority:         0.5                    # 1.0 is top priority (100%) compared to 0.5 which is less priority (50%)
+      model_pages:
+        model:            MemberStory
+        propel_method:    doSelectJoinStockPhotoWithCurrentCulture
+        route:            memberStories/read
+        params:
+          slug:           getSlug
+        date:             getUpdatedAt
+        order_by:         { peer: MemberStoryPeer, column: SORT_ORDER, method: SortOrder, sort: asc }
+        freq:             weekly
+        priority:         0.5  
+      model_profiles:
+        model:            Member
+        route:            @public_profile
+        params:
+          username:       getUsername
+        date:             getLastLogin
+        criteria:
+          - { column: member_status_id, method: getMemberStatusId, operator: = , value: 1 }
+          - { column: private_dating, method: getPrivateDating, operator: = , value: 0 }
+        order_by:         { peer: MemberPeer, column: CREATED_AT, method: CreatedAt, sort: desc }
+        freq:             daily
+        priority:         0.5 

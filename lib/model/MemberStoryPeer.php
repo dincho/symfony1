@@ -53,4 +53,12 @@ class MemberStoryPeer extends BaseMemberStoryPeer
         }
         return $results;
     }
+    
+    public static function doSelectJoinStockPhotoWithCurrentCulture(Criteria $c, $con = null)
+    {
+        $c = clone $c;
+        $c->add(self::CULTURE, sfContext::getInstance()->getUser()->getCulture());
+        
+        return self::doSelectJoinStockPhoto2($c, $con);
+    }
 }
