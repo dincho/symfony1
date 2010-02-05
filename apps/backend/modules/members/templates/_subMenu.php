@@ -12,6 +12,7 @@
     <li><?php echo link_to('Photos', 'members/editPhotos?id=' . $member_id) ?>&nbsp;|</li>
     <li><?php echo link_to('IMBRA', 'members/editIMBRA?id=' . $member_id) ?>&nbsp;|</li>
     <li><?php echo link_to('Search Criteria', 'members/editSearchCriteria?id=' . $member_id) ?>&nbsp;|</li>
-    <li><?php echo link_to('Status History', 'members/editStatusHistory?id=' . $member_id) ?></li>
+    <li><?php echo link_to('Status History', 'members/editStatusHistory?id=' . $member_id) ?>&nbsp;|</li>
+    <li><?php echo link_to('Messages', 'messages/member?id=' . $member_id);?></li>
   </ul>
 </div>

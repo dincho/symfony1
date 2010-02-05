@@ -14,7 +14,7 @@
                     <?php if( $received_only ): ?>
                         <th>Received From</th>
                         <th>Subject</th>
-                        <th>Date Received</th>                        
+                        <th>Date Received</th>
                     <?php else: ?>
                         <th>Sent To</th>
                         <th>Subject</th>
@@ -26,7 +26,6 @@
         <?php foreach ($messages as $message): ?>
             <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getId() . '&received_only=' . $received_only) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
-                
                 <td>
                     <?php if( $received_only ): ?>
                         <?php echo $message->getMemberRelatedBySenderId()->getUsername() ?>

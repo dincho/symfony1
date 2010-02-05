@@ -8,13 +8,15 @@
             <td><?php echo $member->getUsername(); ?></td>
             <th>Sent Messages</th>
             <td><?php echo $member->getCounter('SentMessages') ?></td>
-            <td vertical-align="top"><?php echo link_to('view profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
+            <td><?php echo link_to('view frontend profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
+            <td rowspan="6" style="vertical-align: top;"><?php include_partial('members/photos', array('member' => $member)); ?></td>
           </tr>
           <tr>
             <th>First Name</th>
             <td><?php echo $member->getFirstName(); ?></td>
             <th>Received Messages</th>
-            <td colspan="2"><?php echo $member->getCounter('ReceivedMessages') ?></td>
+            <td><?php echo $member->getCounter('ReceivedMessages') ?></td>
+            <td vertical-align="top"><?php echo link_to('view backend profile', 'members/edit?id=' . $member->getId()); ?></td>
           </tr>
           <tr>
             <th>Last Name</th>
@@ -38,13 +40,14 @@
             <th>Member Since</th>
             <td><?php echo $member->getCreatedAt('M d, Y') ?></td>
             <th>Members on Hotlist</th>
-            <td colspan="2"><?php echo $member->getCounter('Hotlist') ?></td>  
+            <td colspan="2"><?php echo $member->getCounter('Hotlist') ?></td>
           </tr>
-        <tbody>
+        </tbody>
     </table>
 </div>
-<div id="bottom_menu">
-  <span class="bottom_menu_title">View:</span>
+
+<div id="sub_menu">
+  <span class="sub_menu_title">View:</span>
   <ul>
     <li><?php echo link_to_unless(!$sf_request->getParameter('received_only'), 'Sent', 'messages/member?received_only=0&id=' . $member->getId()) ?></li>
     <li><?php echo link_to_unless($sf_request->getParameter('received_only'), 'Received', 'messages/member?received_only=1&id=' . $member->getId()) ?></li>

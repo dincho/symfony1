@@ -4,7 +4,14 @@
 <?php echo form_tag('messages/delete') ?>
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
     <br />
-    <div class="legend">Conversation with <?php echo $profile->getUsername() ?>: <?php echo $thread->getSubject(); ?></div>
+    <?php $username = $profile->getUsername(); ?>
+    <div class="legend">Conversation with <?php echo  $username; ?>: <?php echo $thread->getSubject(); ?></div>
+    <div>
+        <?php echo link_to($username ."'s messages", 'messages/member?id=' . $profile->getId()); ?> | 
+        <?php echo link_to("see " . $username ."'s BE profile", 'members/edit?id=' . $profile->getId()); ?> | 
+        <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
+
+    </div>
     <div class="scrollable normal_scrollable" style="margin-top: 20px;">
             
         <?php foreach ($messages as $message): ?>

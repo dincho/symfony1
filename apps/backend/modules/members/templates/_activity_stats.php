@@ -1,0 +1,33 @@
+<table class="details">
+    <tbody>
+        <tr>
+            <th>Send Messages</th>
+            <td><?php echo $member->getCounter('SentMessages') ?></td>
+        </tr>
+    
+        <tr>
+            <th>Received Messages</th>
+            <td><?php echo $member->getCounter('ReceivedMessages') ?></td>
+        </tr>
+    
+        <tr>
+            <th>Sent Winks</th>
+            <td colspan="2"><?php echo $member->getCounter('SentWinks') ?></td>
+        </tr>
+    
+        <tr>
+            <th>Received Winks</th>
+            <td colspan="2"><?php echo $member->getCounter('ReceivedWinks') ?></td>
+        </tr>
+    
+        <tr>
+            <th>On Others Hotlist</th>
+            <td colspan="2"><?php echo $member->getCounter('OnOthersHotlist') ?></td>
+        </tr>
+    
+        <tr>
+            <th>Members on Hotlist</th>
+            <td colspan="2"><?php echo $member->getCounter('Hotlist') ?></td> 
+        </tr>
+    </tbody>
+</table>

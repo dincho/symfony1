@@ -57,6 +57,7 @@
   font-weight: normal;
   width: 100px;
 }
+
 #labels_120 label {
   width: 120px;
 }
@@ -216,54 +217,6 @@ label.period_label {
     color: #ccc;
     background-color: #ccc;
 }
-
-/* customer file uploads */
-/* DEPRECATED */
-/*
-.upload_slot {
-    float: left;
-    margin: 15px 0 0 10px;
-    background-color: #EFEFEF;
-    padding: 41px 0 40px 20px;
-    width: 120px;
-}
-
-.upload_slot .upload_file {
-  height: 20px;
-  font-size: 11px;
-  border: 1px solid #999;
-  float: none;
-  margin: 0 15px;
-}
-
-div.fileinputs {
-  position: relative;
-}
-
-div.fakefile {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 1;
-}
-
-.fakefile input { width: 50px; margin: 0 0 0 0; height: 15px; font-size: 10px; padding: 0;}
-.fakefile img { text-align: left; }
-
-input.file {
-  position: relative;
-  text-align: left;
-  float: none;
-  height: 17px;
-  font-size: 10px;
-  -moz-opacity:0 ;
-  filter:alpha(opacity: 0);
-  opacity: 0;
-  z-index: 2;
-}
-
-.upload_slot p { margin: 0; padding: 0; text-align: left; padding-left: 15px;}
-*/
 
 #photo_edit {
   text-align: left;    
