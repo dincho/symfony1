@@ -175,7 +175,7 @@ tbody tr:hover {
 	color: #C00;
 }
 
-#sub_menu {
+#sub_menu, #bottom_menu {
 	border: 2px solid #C3C3C3;
 	border-width: 2px 0 0 0;
 }
@@ -184,18 +184,18 @@ tbody tr:hover {
     border-width: 0 0 2px 0;
 }
 
-#sub_menu span.sub_menu_title {
+#sub_menu span.sub_menu_title, #bottom_menu span.bottom_menu_title {
   float: left;
   background-color: #C3C3C3;
   margin-right: 5px;
   padding: 3px;
 }
 
-#sub_menu ul {
+#sub_menu ul, #bottom_menu ul {
   padding: 3px;
 }
 
-#sub_menu ul li {
+#sub_menu ul li, #bottom_menu ul li {
   display: inline;
   padding: 0 2px;
 }
