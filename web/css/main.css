@@ -1034,15 +1034,49 @@ span {
     font-size: 10px;
 }
 
+/* FORMS DEFAULT */
+form {
+    padding: 2px;
+    margin: 0px;    
+}
+
+form fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+form fieldset label {
+    float: left;
+    margin: 2px 0 0 0;
+    padding: 0 0 0 7px;
+    width: 117px;
+    height: 20px;
+    line-height: 19px;
+    color: #d3d3d3;
+    background-color: #363639;    
+}
+
+form fieldset select, form fieldset input {
+    background-color: #363639;
+    border: 1px solid #7995ae;
+    color: #aca49c;
+    margin: 3px 2px 1px 3px;
+}
+
+form fieldset br {
+    clear: left;
+}
+
+/* END FORMS DEFAULT */
+
 #public_reg_form {
     padding: 2px;
     margin: 0px;
 }
 
 #public_reg_form fieldset {
-    margin: 0px;
-    margin-top: 35px;
-    margin-bottom: 20px;
+    margin: 35px 0 20px 0;
     padding: 0px;
     border: 0;
 }
@@ -1055,19 +1089,18 @@ span {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
+    margin: 3px 2px 1px 3px;
 }
 
 #public_reg_form select {
-    margin: 3px 2px 1px 3px;
     padding: 0px;
     width: 152px;
     height: 18px;
     font-family: Arial;
-    font-size: 10px;       
+    font-size: 10px;
 }
 
 #public_reg_form input {
-    margin: 3px 2px 1px 3px;
     padding: 1px 0 0 1px;
     width: 149px;
     height: 15px;

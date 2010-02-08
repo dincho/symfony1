@@ -10,7 +10,7 @@ all:
     test:     1
     cert_id:  BCHR68QGVXYPL
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
-    notify_url: http://pd.dincho.bonex.us:8003/IPN.html #this URL should be always absolute!!!
+    notify_url: http://pd.dincho.bonex.us:8007/IPN.html #this URL should be always absolute!!!
     #notify_url: http://pd.dincho.bonex.us/IPN.html
   sf_google_analytics_plugin:
     enabled:      off

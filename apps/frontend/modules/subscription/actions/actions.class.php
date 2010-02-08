@@ -12,14 +12,56 @@ class subscriptionActions extends prActions
 
     public function executeIndex()
     {
+
         $c = new Criteria();
         $c->add(SubscriptionPeer::ID, array(SubscriptionPeer::FREE, SubscriptionPeer::PAID), Criteria::IN);
         $this->subscriptions = SubscriptionPeer::doSelect($c);
-        
+    
         $this->member = $this->getUser()->getProfile();
         $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
     }
 
+    public function executeSetPrice()
+    {
+        $this->redirectIf($this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->redirect('subscription/payment?a1=' . $this->getRequestParameter('a1') . '&a2=' . $this->getRequestParameter('a2') . '&a3=' . $this->getRequestParameter('a3'));
+        } else {
+            $this->subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
+            
+            $this->getUser()->getBC()->replaceLast(array('name' => 'Set your own price headline'));
+        }
+    }
+    
+    public function validateSetPrice()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
+        
+            if( $this->getRequestParameter('a1') < $subscription->getTrial1Amount() ||
+                $this->getRequestParameter('a2') < $subscription->getTrial2Amount() ||
+                $this->getRequestParameter('a3') < $subscription->getAmount()
+            )
+            {
+                $this->getRequest()->setError(null, 'Please select correct subscription prices');
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public function handleErrorSetPrice()
+    {
+        $this->subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Set your own price headline'));
+        
+        return sfView::SUCCESS;
+    }
+    
     public function executeManage()
     {
         $this->getUser()->getBC()->clear()
@@ -45,16 +87,19 @@ class subscriptionActions extends prActions
         
         $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
     }
-
+    
+    
     public function executePayment()
     {
         $member = $this->getUser()->getProfile();
         $this->redirectIf($member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
+        
         if( !is_null($member->getLastPaypalSubscrId()) )
         {
             $this->setFlash('msg_error', 'Your subscription is pending');
             $this->redirect('@dashboard');
         }
+        
         $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
         
         $EWP = new sfEWP();
@@ -72,13 +117,13 @@ class subscriptionActions extends prActions
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
                             'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $subscription->getId(), true),
-                            'a1' => $subscription->getTrial1Amount(),
+                            'a1' => $this->getRequestParameter('a1'),
                             'p1' => $subscription->getTrial1Period(),
                             't1' => $subscription->getTrial1PeriodType(),
-                            'a2' => $subscription->getTrial2Amount(),
+                            'a2' => $this->getRequestParameter('a2'),
                             'p2' => $subscription->getTrial2Period(),
                             't2' => $subscription->getTrial2PeriodType(),
-                            'a3' => $subscription->getAmount(),
+                            'a3' => $this->getRequestParameter('a3'),
                             'p3' => $subscription->getPeriod(),
                             't3' => $subscription->getPeriodType(),
                             'custom' => $member->getUsername(),
@@ -86,9 +131,25 @@ class subscriptionActions extends prActions
         );
         
         $this->encrypted = $EWP->encryptFields($parameters);
-        $this->amount = $subscription->getTrial1Amount();
+        $this->amount = $this->getRequestParameter('a1');
     }
 
+    public function validatePayment()
+    {
+        $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
+        
+        if( $this->getRequestParameter('a1') < $subscription->getTrial1Amount() ||
+            $this->getRequestParameter('a2') < $subscription->getTrial2Amount() ||
+            $this->getRequestParameter('a3') < $subscription->getAmount()
+        )
+        {
+            $this->setFlash('msg_error', 'Please select correct subscription prices');
+            $this->redirect('subscription/setPrice');            
+        }
+        
+        return true;
+    }
+    
     public function executeGiftMembership()
     {
         $this->forward404Unless( sfConfig::get('app_settings_enable_gifts') );
