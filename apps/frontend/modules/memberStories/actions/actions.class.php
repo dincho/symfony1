@@ -39,6 +39,10 @@ class memberStoriesActions extends prActions
         $bc = $this->getUser()->getBC()->clear();
         $bc->add(array('name' => 'Home', 'uri' => '@homepage'));
     
+        //next story
+        $c = new Criteria();
+        $c->add(MemberStoryPeer::SORT_ORDER, $this->story->getSortOrder(), Criteria::GREATER_THAN);
+        $this->next_story = MemberStoryPeer::doSelectOne($c);
     }
 
     public function executePostYourStory()

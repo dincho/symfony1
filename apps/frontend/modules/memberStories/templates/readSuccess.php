@@ -45,6 +45,13 @@
 
 <br class="clear" />
 
+<label style="text-align: center; font-weight: bold; width: 395px; display: block;"><?php echo __('Link To This Story'); ?></label>
+<textarea rows="4" cols="60" readonly="readonly"><?php echo link_to($story->getLinkName(), '@member_story_by_slug?slug=' . $story->getSlug(), array('absolute' => true));?></textarea><br /><br />
+
+<?php if( $next_story ): ?>
+    <?php echo __('Next Member Story: %STORY_LINK%', array('%STORY_LINK%' => link_to($next_story->getLinkName(), '@member_story_by_slug?slug=' . $next_story->getSlug(), array('class' => 'sec_link'))));  ?>
+<?php endif; ?>
+
 <?php slot('header_title') ?>
     <?php echo $story->getTitle(ESC_RAW) ?>
 <?php end_slot(); ?>
