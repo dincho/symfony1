@@ -710,7 +710,7 @@ class Member extends BaseMember
         if( $geo_country && $geo_country->getInfo() ) return $geo_country->getId();
         
         //default no geo feature with info field
-        return ( $this->getAdm2Id() ) ? $this->getAdm2Id() : $this->getAdm1Id();
+        return $this->getCityId();
     }
     
     public function getLastActivityWith($member_id)

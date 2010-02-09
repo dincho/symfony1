@@ -267,8 +267,8 @@ class contentActions extends prActions
         
         $title_prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->setTitle($title_prefix.implode(', ', $geo_tree));
-        
-        $this->geo = $geo;
+
+        $this->geo = GeoPeer::retrieveByPK($this->getUser()->getProfile()->getMostAccurateAreaInfoId());
         $this->geo_tree_string = implode(', ', array_reverse($geo_tree));
     }
     

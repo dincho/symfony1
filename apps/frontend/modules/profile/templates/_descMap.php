@@ -3,7 +3,7 @@
 <div id="desc_map_container">
     <div id="profile_desc">
         <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch') ?>
-        <?php $area_info = ($member->getMostAccurateAreaInfoId() ) ? addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getMostAccurateAreaInfoId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))) : null; ?>
+        <?php $area_info = addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getCityId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))); ?>
         <?php echo link_to_function(__('Map'), 
                     'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")', 
                     'class=switch inactive');
