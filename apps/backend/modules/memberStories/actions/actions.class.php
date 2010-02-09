@@ -47,6 +47,7 @@ class memberStoriesActions extends sfActions
             $story->setCulture($this->getRequestParameter('culture'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setTitle($this->getRequestParameter('title'));
+            $story->setSummary($this->getRequestParameter('summary'));
             $story->setKeywords($this->getRequestParameter('keywords'));
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));
@@ -70,6 +71,7 @@ class memberStoriesActions extends sfActions
             $story->setCulture($this->getRequestParameter('culture'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setTitle($this->getRequestParameter('title'));
+            $story->setSummary($this->getRequestParameter('summary'));
             $story->setKeywords($this->getRequestParameter('keywords'));
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));

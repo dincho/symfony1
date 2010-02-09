@@ -2,7 +2,12 @@
 
 <ul id="member_stories_ul">
 <?php foreach ($stories as $story): ?>
-    <li><?php echo link_to($story->getLinkName(), '@member_story_by_slug?slug=' . $story->getSlug()) ?></li>
+    <li>
+        <?php echo link_to($story->getLinkName(), '@member_story_by_slug?slug=' . $story->getSlug()) ?>
+        <?php if ($story->getSummary()): ?>
+            <br /><?php echo $story->getSummary() ?>
+        <?php endif; ?>
+    </li>
 <?php endforeach; ?>
 </ul>
 

@@ -444,6 +444,7 @@ propel:
     sort_order:         { type: integer, size: 11, required: true, default: 0 }
     link_name:          { type: varchar, size: 100, required: true }
     title:              { type: varchar, size: 255, required: true }
+    summary:            { type: varchar, size: 255, required: true }
     keywords:           { type: varchar, size: 255, required: true }
     description:        { type: longvarchar, required: true }
     content:            { type: longvarchar, required: true }

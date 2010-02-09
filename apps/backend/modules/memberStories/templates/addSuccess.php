@@ -22,6 +22,9 @@
         <label for="description">Description:</label>
         <?php echo input_tag('description', null, error_class('description')) ?><br />
        
+        <label for="summary">Summary:</label>
+        <?php echo input_tag('summary', null, error_class('summary')) ?><br />  
+               
       </fieldset>
   
   <fieldset class="form_fields email_fields">

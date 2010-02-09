@@ -22,6 +22,9 @@
         
         <label for="description">Description:</label>
         <?php echo object_input_tag($story, 'getDescription', error_class('description')) ?><br />
+        
+        <label for="summary">Summary:</label>
+        <?php echo object_input_tag($story, 'getSummary', error_class('summary')) ?><br />        
        
       </fieldset>
   
