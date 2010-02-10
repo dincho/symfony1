@@ -6,12 +6,12 @@
     <?php echo input_hidden_tag('recipient_id', $recipient->getId(), 'class=hidden') ?>
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
-    <fieldset class="background_000">
+    <fieldset class="actions">
         <?php echo pr_label_for('to', 'To:') ?>
-        <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br /><br />
+        <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br />
 
         <?php echo pr_label_for('subject', 'Subject:') ?>
-        <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />        
+        <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />
     </fieldset>
 
     <fieldset class="background_f4">
@@ -29,7 +29,7 @@
     
     </fieldset>
 
-    <fieldset class="background_000">
+    <fieldset class="actions">
         <label></label>
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
         <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn', 'disabled' => 'disabled')) ?>

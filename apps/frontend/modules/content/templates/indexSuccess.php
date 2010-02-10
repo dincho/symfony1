@@ -47,9 +47,9 @@
                         
                         <?php $tos_text = __('Homepage - I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
                         
-                        <div class="tos_contaner">
-                            <?php echo checkbox_tag('tos', 1, false, array('id' => 'terms')) ?>
-                            <?php echo content_tag('label', $tos_text, array('class' => 'terms'), false) ?>
+                        <div class="tos">
+                            <?php echo checkbox_tag('tos', 1, false); ?>
+                            <?php echo content_tag('label', $tos_text); ?>
                         </div>
                         
                     </fieldset>

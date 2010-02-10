@@ -20,7 +20,7 @@
         <?php echo input_tag('email') ?><br />
     </fieldset>
 
-    <fieldset class="form_actions">
+    <fieldset class="actions">
         <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
     </fieldset>

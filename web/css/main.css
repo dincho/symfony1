@@ -101,23 +101,12 @@ body .sign_in {
 
 #header #right a, #header #right span {
     padding: 0 6px;
-}
-
-#header #right a.last,#header #right span.last {
-
-}
-
-#header #right img {
-
+    font-size: 12px;
 }
 
 #header #right p.second_row {
     text-align: right;
     padding-right: 80px;
-}
-
-#header #right a, #header #right span {
-    font-size: 12px;
 }
 
 #header #right p.second_row a, #header #right p.second_row span {
@@ -175,7 +164,7 @@ body .sign_in {
     font-weight: bold;
 }
 
-#msgs p,#ajax_response p {
+#msgs p, #ajax_response p {
     margin: 0;
 }
 
@@ -279,6 +268,56 @@ p {
     color: #d3d3d3;
 }
 
+/* FORMS DEFAULT */
+form {
+    padding: 2px;
+    margin: 0px;    
+}
+
+form fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+form fieldset label {
+    float: left;
+    margin: 2px 0 0 0;
+    padding: 0 0 0 7px;
+    width: 117px;
+    height: 20px;
+    line-height: 19px;
+    color: #989188;
+    background-color: #363639;    
+}
+
+form fieldset select, form fieldset input, form fieldset textarea {
+    background-color: #363639;
+    border: 1px solid #7995ae;
+    color: #aca49c;
+    margin: 3px 2px 1px 3px;
+    padding: 0;
+}
+
+form fieldset input {
+    height: 14px;
+    padding: 1px 0;
+}
+
+form fieldset select {
+    height: 14px;
+}
+
+form fieldset textarea {
+    
+}
+
+form fieldset br {
+    clear: left;
+}
+
+/* END FORMS DEFAULT */
+
 /* Select countries and areas */
 #areas {
     margin: 0px;
@@ -344,37 +383,47 @@ p {
 /* END Select countries and areas */
 
 /**** FORMS ****/
-#report_bug {
+form#report_bug, form#assistant {
     margin-top: 10px;
-    margin-bottom: -15px;
-    width: 700px;
 }
 
-#report_bug fieldset {
+form#report_bug fieldset, form#assistant fieldset {
     background-color: #4f4f4f;
-    border: 0;
-    display: table-cell;
-    margin: 0;
-    padding: 3px 0 0 0;
 }
 
-#report_bug label {
-    float: left;
-    display: block;
+form#report_bug label, form#assistant label {
     width: 58px;
-    display: table-row;
     color: #e0b400;
-    padding: 1px 4px;
+    background-color: transparent;
 }
 
-#secondary_container #report_bug fieldset input {
-    margin-left: 0px;
-    margin-bottom: 2px;
+form#report_bug label.error, form#assistant label.error {
+    color: white;
+    background-color: #A51D1F;
 }
 
-#report_bug #assistant_right {
+form#report_bug fieldset.actions, form#assistant fieldset.actions {
+    background: #000;
+    padding: 5px;
+    margin: 0;
+}
+
+form#report_bug input, form#assistant input {
+    width: 185px;
+}
+
+form#report_bug textarea, form#assistant textarea {
+    width: 315px;
+    height: 215px;
+}
+
+form#report_bug .actions input, form#assistant .actions input {
+  margin-top: 10px !important;
+}
+
+#assistant_right {
     float: right;
-    width: 293px;
+    width: 289px;
     padding: 10px 10px 0 10px;
 }
 
@@ -383,22 +432,13 @@ p {
 }
 
 #assistant_profile img {
-    floaT: left;
+    float: left;
 }
 
 #assistant_profile p {
     float: right;
-    width: 218px;
+    width: 210px;
     padding-left: 5px;
-}
-
-#report_bug .actions {
-    background: #000;
-    padding: 5px;
-}
-
-#report_bug .actions input {
-  margin-top: 10px !important;
 }
 
 #assistant_profile_confirm {
@@ -415,56 +455,52 @@ p {
 }
 
 #assistant_profile_confirm p {
-	padding: 0;
-	margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
-#secondary_container #sign_in {
+form#sign_in {
     width: 444px;
     margin: 100px auto 0 auto;
     text-align: center;
 }
 
-#secondary_container #sign_in fieldset {
+form#sign_in fieldset {
     border: 1px solid #4f4f4f;
     margin: 0 auto 0 auto;
     width: 218px;
     padding: 2px;
 }
 
-#secondary_container #sign_in legend {
+/* SIGN IN FORM */
+form#sign_in legend {
     color: #d3d3d3;
 }
 
-#secondary_container #sign_in fieldset span {
-    font-size: 11px;
-    color: #d3d3d3;
-    margin-left: 23px;
-}
-
-#secondary_container #sign_in label {
-    float: left;
-    width: 60px;
+form#sign_in fieldset label {
+    width: 50px;
     text-align: right;
-    margin-top: 3px;
+    margin-right: 2px;
+    padding-right: 3px;
+    color: #D3D3D3;
 }
 
-#secondary_container #sign_in input.input_text_width {
-    margin-top: 3px;
-}
 
-#secondary_container #sign_in fieldset input {
+form#sign_in fieldset input {
   width: 148px;
+  margin-left: 0;
 }
 
-#secondary_container #forgot_password {
+form#sign_in fieldset a {
+    text-align: center;
+}
+
+/* END SIGN IN FORM */
+
+#forgot_password {
     margin-top: 20px;
 }
 
-
-#secondary_container #form_2 fieldset {
-    border: 0;
-}
 
 /*** END FORMS ***/
 
@@ -937,9 +973,6 @@ table.threaded_message .message_body {
     margin: 0 5px;
 }
 
-
-
-
 .text_1 {
     background-color: #3d3d3d;
     padding: 2px;
@@ -1034,41 +1067,7 @@ span {
     font-size: 10px;
 }
 
-/* FORMS DEFAULT */
-form {
-    padding: 2px;
-    margin: 0px;    
-}
 
-form fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
-}
-
-form fieldset label {
-    float: left;
-    margin: 2px 0 0 0;
-    padding: 0 0 0 7px;
-    width: 117px;
-    height: 20px;
-    line-height: 19px;
-    color: #d3d3d3;
-    background-color: #363639;    
-}
-
-form fieldset select, form fieldset input {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin: 3px 2px 1px 3px;
-}
-
-form fieldset br {
-    clear: left;
-}
-
-/* END FORMS DEFAULT */
 
 #public_reg_form {
     padding: 2px;
@@ -1131,7 +1130,6 @@ form fieldset br {
 }
 
 #essay {
-    margin: 0px;
     padding: 15px 0 0 0;
 }
 
@@ -1164,21 +1162,31 @@ form fieldset br {
 }
 
 #essay fieldset {
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
+
 }
 
 #essay label {
-    margin: 0px;
-    padding: 0px;
+    background-color: transparent;
+    color: #D3D3D3;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    line-height: normal;
+}
+
+#essay input, #essay textarea {
+    width: 328px;
+    margin: 1px 0 0 0;
+}
+
+#essay textarea {
+    height: 230px;
 }
 
 label.char_remaining {
     font-size: 10px;
-}
-
-#essay_polish_letters {
 }
 
 #essay_polish_letters a,  #essay_polish_letters a:visited {
@@ -1188,30 +1196,9 @@ label.char_remaining {
 }
 
 #essay_polish_letters a:hover {
-	color: #a8c8ff;
-}
-	
-#secondary_container #essay input.essay {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    padding: 0px;
-    width: 330px;
-    height: 15px;
+    color: #a8c8ff;
 }
 
-#secondary_container #essay textarea.essay {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    padding: 0px;
-    width: 330px;
-    height: 230px;
-}
 
 form#edit_photos fieldset {
   margin: 8px 0 45px 0;
@@ -1826,7 +1813,7 @@ div.best_video div.right img {
     padding: 0 3px 0 3px;
     background-color: #363639;
     line-height: 16px;
-    margin-bottom: 3px;
+    margin: 0 0 3px 0;
 }
 
 #register .check_available {
@@ -1847,14 +1834,14 @@ div.best_video div.right img {
     font-size: 11px;
 }
 
-#register input,#register select {
+#register input, #register select {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
     float: left;
-    margin-left:3px;
+    margin: 0 0 0 3px;
     display: block;
     height: 12px;
 }
@@ -1870,24 +1857,25 @@ div.best_video div.right img {
 }
 
 
-#register .tos_contaner {
+#register .tos {
     width: 233px;
     height: 27px;
     background-color: #363639;
-    padding: 3px 3px ;
+    padding: 3px 3px;
 }
 
-#register #terms {
-    width: 23px;
+#register .tos input {
+    width: 12px;
+    height: 12px;
     display: block;
     float: left;
-    margin: 7px 10px 0 5px;
+    margin: 7px 15px 0 10px;
     border: none;
 }
 
-#register label.terms {
+#register .tos label {
     width: auto;
-    float: none;
+    float: left;
     padding: 0;
     margin: 0;
     height: auto;
@@ -2127,21 +2115,14 @@ div.best_video div.right img {
 
 .msg_form label {
     float: left;
-    margin: 0px;
-    padding: 0px;
-    display: table-cell;
     width: 60px;
     color: #e0b400;
-    margin-top: 3px;
-    height: 16px;
-    line-height: 17px;
+    background-color: transparent;
     font-size: 11px;
 }
 
 .msg_form fieldset {
-    margin: 0px;
-    padding: 3px;
-    border: 0px;
+    background-color: #4f4f4f;
 }
 
 .msg_form span.msg_to {
@@ -2153,15 +2134,13 @@ div.best_video div.right img {
     float: left;
 }
 
-.msg_form fieldset.background_000 {
+.msg_form fieldset.actions {
     background-color: #000;
-    padding: 4px;
+    padding: 4px 0;
+    margin: 0;
 }
 
 .msg_form fieldset input, .msg_form fieldset textarea {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
     margin: 2px;
     width: 320px;
 }
@@ -2209,6 +2188,7 @@ div.best_video div.right img {
 #post_story label {
     color: #92897E;
     font-size: 10px;
+    background-color: transparent;
 }
 
 #post_story label.char_remaining {
@@ -2226,53 +2206,36 @@ div.best_video div.right img {
 
 /* END post story + send message */
 #tell_a_friend {
-    background-color: #4f4f4f;
     width: 700px;
     padding-top: 3px;
     margin-top: 30px;
 }
 
-#tell_a_friend .form_actions {
-    background-color: #000;
-    display: block;
-    padding: 5px;
+#tell_a_friend fieldset {
+    margin: 0;
+    padding: 5px 0;
+    background-color: #4f4f4f;
 }
 
-#tell_a_friend span {
-    color: #92897e;
-    font-size: 10px;
-    margin-top: 0px;
+#tell_a_friend .actions {
+    background-color: #000;
+    padding: 5px;
 }
 
 #tell_a_friend label {
-    display: block;
-    float: left;
-    margin: 0;
-    padding: 0;
     width: 100px;
     color: #e0b400;
-    margin-top: 2px;
+    background-color: transparent;
 }
 
 #tell_a_friend input {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    font-size: 11px;
-    font-family: Arial;
-    margin: 0 0 4px 0;
     width: 140px;
-}
-
-#tell_a_friend fieldset {
-    margin: 0;
-    padding: 5px;
-    border: none;
 }
 
 #tell_a_friend .form_info {
     float: right;
     width: 420px;
+    padding-top: 5px;
 }
 
 /* Flagging */
@@ -2280,8 +2243,9 @@ div.best_video div.right img {
     height: 240px;
 }
 
-#flag fieldset {
-    border: 0px;
+#flag .left {
+    float: left;
+    margin-left: 20px;
 }
 
 #flag .photo {
@@ -2289,9 +2253,10 @@ div.best_video div.right img {
     text-align: center;
 }
 
-#flag .left {
-    float: left;
-    margin-left: 20px;
+#flag label {
+    background-color: transparent;
+    float: none;
+    padding-left: 0;
 }
 
 /* END flaggind */ /* profile */ /* left */
@@ -2799,10 +2764,6 @@ label.error, #secondary_container div.error,
     border: 3px solid #ff0000;
 }
 
-#report_bug label.error {
-    color: #fff;
-    padding: 1px;
-}
 
 /* End form errors */
 

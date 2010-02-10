@@ -4,14 +4,15 @@
 <?php echo form_tag('content/reportBug', array('id' => 'report_bug')) ?>
     <fieldset>
         <?php echo pr_label_for('subject', __('Subject:')) ?>
-        <?php echo input_tag('subject', null, array('class' => 'input_text_width', 'size' => 25)) ?><br />
+        <?php echo input_tag('subject') ?><br />
+        
         <?php echo pr_label_for('description', __('Description:')) ?>
-        <?php echo textarea_tag('description', null, array('id' =>'description', 'class' => 'text_area', 'rows' => 15, 'cols' => 52)) ?>
+        <?php echo textarea_tag('description') ?>
     </fieldset>
-    <div class="actions">
-    <?php echo link_to_function(__('Cancel and go back to previous page'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
-    </div>
+    <fieldset class="actions">
+        <?php echo link_to_function(__('Cancel and go back to previous page'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
+        <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
+    </fieldset>
 </form>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu', array('auth' => $sf_user->isAuthenticated())) ?>

@@ -6,22 +6,23 @@
 <?php endif; ?>  
 
 <?php echo __('Assistant request headline') ?>
-<?php echo form_tag('dashboard/contactYourAssistant', array('id' => 'report_bug')) ?>
+<?php echo form_tag('dashboard/contactYourAssistant', array('id' => 'assistant')) ?>
     <fieldset>
         <div id="assistant_right">
             <?php echo strtr(__('Assistant request content'), array('%ASSISTANT_IMAGE%' => $photo_tag)) ?>
         </div>  
             
         <?php echo pr_label_for('subject', 'Subject:') ?>
-        <?php echo input_tag('subject', null, array('class' => 'input_text_width', 'size' => 25)) ?><br />
+        <?php echo input_tag('subject') ?><br />
+        
         <?php echo pr_label_for('description', 'Description:') ?>
-        <?php echo textarea_tag('description', null, array('id' =>'description', 'class' => 'text_area', 'rows' => 16, 'cols' => 52)) ?>
+        <?php echo textarea_tag('description') ?>
     </fieldset>
     
-    <div class="actions">
+    <fieldset class="actions">
         <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Send'), array('class' => 'button_mini')) ?>
-    </div>
+    </fieldset>
 </form>
 
 <?php slot('footer_menu') ?>
