@@ -126,7 +126,7 @@ class subscriptionActions extends prActions
                             'a3' => $this->getRequestParameter('a3'),
                             'p3' => $subscription->getPeriod(),
                             't3' => $subscription->getPeriodType(),
-                            'custom' => $member->getUsername(),
+                            'custom' => $member->getId(),
                             
         );
         
@@ -179,7 +179,7 @@ class subscriptionActions extends prActions
                             "business" => sfConfig::get('app_paypal_business'),
                             "item_name" => 'Buy ' . $_SERVER['HTTP_HOST'] . ' Gift to ' . $member->getUsername(),
                             'item_number' => 'gift_membership',
-                            'lc' => $member->getCountry(),
+                            'lc' => $this->getUser()->getProfile()->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
                             'currency_code' => 'GBP',
@@ -191,8 +191,8 @@ class subscriptionActions extends prActions
                             'cancel_return' => $this->getController()->genUrl('@profile?cancel_gift=1&username=' . $member->getUsername(), true),
                             'a3' => $this->amount,
                             'p3' => 3,
-                            't3' => 'D',
-                            'custom' => $member->getUsername(),
+                            't3' => 'M',
+                            'custom' => $member->getId().'|'.$this->getUser()->getId(),
                             
         );
         
@@ -213,7 +213,7 @@ class subscriptionActions extends prActions
         $this->forward404Unless($member);
 
         $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
-        ->add(array('name' => 'Buy' . $member->getUsername() . ' a gift'))
+        ->add(array('name' => 'Buy ' . $member->getUsername() . ' a gift'))
         ->add(array('name' => 'Thank you!')); 
                 
         $this->member = $member;        

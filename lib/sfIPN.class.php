@@ -88,7 +88,17 @@ class sfIPN
                 case 'subscr_payment':
                    if( $this->params['payment_status'] == 'Completed')
                    {
-                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       if( $this->params['item_number'] == 'gift_membership' )
+                       {
+                           list($member_id, $sender_id) = explode('|', $this->params['custom']);
+                           $member = MemberPeer::retrieveByPK($member_id);
+                           $sender = MemberPeer::retrieveByPK($sender_id);
+                           if( $member && $sender) Events::triggerGiftReceived($member, $sender);
+                           
+                       } else {
+                           $member = MemberPeer::retrieveByPK($this->params['custom']);
+                       }
+                       
                        if( $member )
                        {
                            $member->clearCounters();
@@ -113,7 +123,7 @@ class sfIPN
                 break;
                 
                 case 'subscr_signup':
-                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       $member = MemberPeer::retrieveByPK($this->params['custom']);
                        if( $member )
                        {
                            $member->setLastPaypalSubscrId($this->params['subscr_id']);
@@ -125,7 +135,7 @@ class sfIPN
                 break;
                 
                 case 'subscr_cancel':
-                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       $member = MemberPeer::retrieveByPK($this->params['custom']);
                        if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
                             if( $member->getLastPaypalSubscrId() == $this->params['subscr_id'] )
@@ -139,7 +149,7 @@ class sfIPN
                 break;
                 
                 case 'subscr_eot':
-                       $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                       $member = MemberPeer::retrieveByPK($this->params['custom']);
                        if( $member && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                        {
                            $member->clearCounters();
@@ -154,7 +164,7 @@ class sfIPN
                 
                 //IMBRA payments
                 case 'web_accept':
-                    $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                    $member = MemberPeer::retrieveByPK($this->params['custom']);
                     if( $member )
                     {
                          if( $this->params['payment_status'] == 'Pending')
@@ -181,7 +191,7 @@ class sfIPN
         } else {
             if( $this->params['payment_status'] == 'Reversed' || $this->params['payment_status'] == 'Refunded' )
             {
-                $member = MemberPeer::retrieveByUsername($this->params['custom']);
+                $member = MemberPeer::retrieveByPK($this->params['custom']);
                 if( $member && !$member->isSubscriptionFree() && ($member->getLastPaypalSubscrId() == $this->params['subscr_id']) )
                 {
                    $member->changeSubscription(SubscriptionPeer::FREE);

@@ -158,7 +158,7 @@ class IMBRAActions extends prActions
                             'return' => $this->getController()->genUrl('IMBRA/paymentConfirmation', true),
                             'cancel_return' => $this->getController()->genUrl('IMBRA/paymentCanceled', true),
                             'amount' => $this->amount,
-                            'custom' => $member->getUsername(),
+                            'custom' => $member->getId(),
                             
         );
         

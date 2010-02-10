@@ -30,6 +30,7 @@ class Events
     
     //others
     const TELL_FRIEND = 7;
+    const GIFT_RECEIVED = 23;
     
     //reminders - crons
     const REGISTRATION_REMINDER = 9;
@@ -197,6 +198,17 @@ class Events
         
         $global_vars = array('{FRIEND_NAME}' => $friend_name, '{NAME}' => $name, '{EMAIL}' => $email, '{COMMENTS}' => $comments);
         return self::executeNotifications(self::TELL_FRIEND, $global_vars, $friend_email, null, $email);
+    }
+    
+    public static function triggerGiftReceived(BaseMember $recipient, BaseMember $sender)
+    {
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
+        
+        $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
+                             '{SENDER_USERNAME}' => $sender->getUsername(),
+                            );
+                                    
+        return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $recipient->getEmail(), $recipient);
     }
     
     /* REMINDERS */
