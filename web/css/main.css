@@ -342,6 +342,11 @@ form fieldset br {
     border: 0;
 }
 
+#areas label {
+    float: none;
+    background-color: transparent;
+}
+
 #areas_map_container {
   margin: 75px 0 0 250px;
   width: 450px;

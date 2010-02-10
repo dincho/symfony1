@@ -23,7 +23,7 @@
           <label><?php echo __($answer->getSearchTitle(ESC_RAW)) ?></label><br />
         <?php endforeach; ?>
         </div>
-        <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> <?php echo __('- any option is fine'); ?><br />
+        <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], true)'); ?> <?php echo __('- any option is fine'); ?><br />
         <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle(ESC_RAW)) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
         

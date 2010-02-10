@@ -69,3 +69,5 @@
     </div>
     <?php if(count($members) == 12) include_partial('public_pager'); ?>
 </div>
+
+<br class="clear" />

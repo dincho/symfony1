@@ -1,7 +1,7 @@
-function SC_select_all(chk)
+function SC_select_all(chk, checked)
 {
     for (i = 0; i < chk.length; i++)
-    chk[i].checked = true;
+    chk[i].checked = checked;
 }
 
 function SC_select_greather(chk, changed_chk)
