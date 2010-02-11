@@ -29,7 +29,10 @@
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <br class="clear" /><hr />
+    
+    <p class="photo_authenticity float-right"><?php echo ($member->getVerifiedPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
+    <br class="clear" />
+    <hr />
     
     <p class="note"><?php echo __('Note: You can upload up to %MAX_PHOTOS% photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
     <?php echo input_file_tag('new_photo', array('class' => '')) ?>

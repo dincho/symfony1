@@ -666,7 +666,18 @@ class membersActions extends sfActions
         
         $this->redirect('members/edit?id=' . $this->member->getId());
     }    
-    
+
+    public function executeVerifyPhoto()
+    {
+        $this->getUser()->checkPerm(array('members_edit'));
+        $this->forward404Unless($this->member);
+        
+        $this->member->setVerifiedPhoto(! $this->member->getVerifiedPhoto());
+        $this->member->save();
+        
+        $this->redirect($this->getUser()->getRefererUrl());
+    }
+        
     protected function processSort()
     {
         $this->sort_namespace = 'backend/members/sort';

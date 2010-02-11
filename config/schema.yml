@@ -115,6 +115,7 @@ propel:
     original_last_name:       { type: varchar, size: 80, required: true }
     last_subscription_change: { type: timestamp }
     last_photo_upload_at:     { type: timestamp }
+    verified_photo:           { type: boolean, default: false }
     _uniques:
       username:               [username]
       email:                  [email]

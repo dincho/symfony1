@@ -15,6 +15,7 @@
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to(($member->getVerifiedPhoto()) ? 'Un-Verify' : 'Verify', 'members/verifyPhoto?id=' . $member->getId()); ?>
   </fieldset>
     
   <fieldset class="form_fields">
@@ -93,6 +94,7 @@
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to(($member->getVerifiedPhoto()) ? 'Un-Verify' : 'Verify', 'members/verifyPhoto?id=' . $member->getId()); ?>
   </fieldset>
 </form>
 

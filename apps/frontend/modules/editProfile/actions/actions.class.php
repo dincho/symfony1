@@ -333,6 +333,7 @@ class editProfileActions extends prActions
                 $new_photo->save();
                 
                 $this->member->setLastPhotoUploadAt(time());
+                $this->member->setVerifiedPhoto(false);
             }
             
             //set main photo
@@ -475,6 +476,10 @@ class editProfileActions extends prActions
         $this->forward404Unless($photo);
         
         $photo->delete();
+        
+        $member = $this->getUser()->getProfile();
+        $member->setVerifiedPhoto(false);
+        $member->save();
         
         $this->setFlash('msg_ok', 'Your photo has been deleted.');
         $this->redirect('editProfile/photos');

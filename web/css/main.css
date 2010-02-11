@@ -1242,6 +1242,15 @@ form#edit_photos fieldset {
 	padding: 4px;
 }
 
+.photo_authenticity {
+    color: #e0b400;
+    margin: 0;
+    font-style: italic;
+    font-size: 12px;
+    padding: 1px 0;
+}
+
+
 .public_reg_notice {
     color: #e0b400;
     font-size: 11px;
@@ -2275,6 +2284,7 @@ div.best_video div.right img {
     padding-top: 31px;
     float: left;
 }
+
 
 #profile_left img.thumb {
     margin-top: 8px;

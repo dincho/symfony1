@@ -1,6 +1,7 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<div id="profile_left">
+<div id="profile_left" style="padding-top: 14px">
+    <p class="photo_authenticity"><?php echo ($member->getVerifiedPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
     <div style="min-height: 350px">
         <?php 
               $image_options = array('id' => 'member_image');
