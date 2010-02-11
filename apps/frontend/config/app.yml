@@ -76,4 +76,7 @@ all:
           - { column: private_dating, method: getPrivateDating, operator: = , value: 0 }
         order_by:         { peer: MemberPeer, column: CREATED_AT, method: CreatedAt, sort: desc }
         freq:             daily
-        priority:         0.5 
+        priority:         0.5
+  cse_id:
+      en:   "014252771680410157097:dm1temprble"
+      pl:   "014252771680410157097:cjbkxr0dyga"
