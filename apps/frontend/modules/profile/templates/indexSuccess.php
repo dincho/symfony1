@@ -1,5 +1,6 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
+
 <div id="profile_left" style="padding-top: 14px">
     <p class="photo_authenticity"><?php echo ($member->getVerifiedPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
     <div style="min-height: 350px">
@@ -46,8 +47,9 @@
     </div>
    
    <div id="profile_top">
+        <?php $cancel_url =  strtr(base64_encode(sfRouting::getInstance()->getCurrentInternalUri()), '+/=', '-_,'); ?>
         <?php echo link_to_unless_ref($sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()), __('Wink'), 'winks/send?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php echo link_to(__('Send Mail'), 'messages/send?recipient_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php echo link_to(__('Send Mail'), 'messages/send?recipient_id=' . $member->getId() . '&cancel_url=' . $cancel_url, 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
 
         <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>

@@ -2,6 +2,12 @@
 
 <span id="feedback">&nbsp;</span>
 
+<?php if( $sf_request->getParameter('cancel_url') ): ?>
+    <div class="thread_actions">
+        <?php echo button_to(__('back to previous page'), base64_decode(strtr($sf_request->getParameter('cancel_url'), '-_,', '+/=')), array('class' => 'button')); ?> 
+    </div>
+<?php endif; ?>
+
 <?php echo form_tag('messages/send', array('class'  => 'msg_form', 'id' => 'send_message_form')) ?>
     <?php echo input_hidden_tag('recipient_id', $recipient->getId(), 'class=hidden') ?>
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
