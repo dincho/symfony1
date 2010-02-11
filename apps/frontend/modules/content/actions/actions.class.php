@@ -150,7 +150,9 @@ class contentActions extends prActions
 
     public function executeReportBug()
     {
-        $this->getUser()->getBC()->removeFirst();
+        $bc_item = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
+        $this->getUser()->getBC()->replaceFirst($bc_item);
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = $this->getUser()->getProfile();
