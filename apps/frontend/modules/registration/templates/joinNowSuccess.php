@@ -36,7 +36,7 @@
       <?php echo checkbox_tag('tos', 1, false, array('class' => 'tos_input')) ?>
     </div>
 
-    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button_save_and_cont')) ?>
+    <?php echo submit_tag(__('GO!'), array('class' => 'button_save_and_cont')) ?>
 
 </form>
 

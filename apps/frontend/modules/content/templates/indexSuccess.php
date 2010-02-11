@@ -29,12 +29,9 @@
                 <?php use_helper('dtForm'); ?>
                 <?php echo form_tag('registration/joinNow', array('autocomplete' => 'off')) ?>
                     <fieldset>
-                        <?php echo pr_label_for('username', __('Username')); ?>
-                        <?php echo input_tag('username') ?><br class="clear" />
-                        
                         <?php echo pr_label_for('email', __('Your email')) ?>
                         <?php echo input_tag('email') ?><br class="clear" />
-                        
+                                            
                         <?php echo pr_label_for('password', __('Create Password')) ?>
                         <?php echo input_password_tag('password') ?><br class="clear" />
                         
@@ -44,10 +41,11 @@
                         <?php echo pr_label_for('looking_for', __('You are')) ?>
                         <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
+                        <?php echo pr_label_for('username', __('Username')); ?>
+                        <?php echo input_tag('username') ?><br class="clear" />
+                        
                         
                         <?php $tos_text = __('Homepage - I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
-                        <?php $popup_options = 'left=100,top=100,width=700,height=600,location=no,scrollbars=yes,resizable=no,directories=no,status=no,toolbar=no,menubar=no' ?>
-                        <?php echo link_to(__('ARPing'), '@homepage', array('popup' => array('ARPing', $popup_options))); ?>
                         <div class="tos">
                             <?php echo checkbox_tag('tos', 1, false); ?>
                             <?php echo content_tag('label', $tos_text); ?>
