@@ -75,17 +75,18 @@ class Events
 
     /* EMAIL & PASSOWRD EVENTS */
     public static function triggerForgotPassword($member)
-    {
-        sfLoader::loadHelpers(array('Url'));
-        $global_vars = array('{CONFIRMATION_URL}' => url_for('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), array('absolute' => true)));
+    {   
+        $confirmation_url  = LinkPeer::create('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), $member->getId())->getUrl($member->getCulture());
+        $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
+        
         return self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
     }
     
     public static function triggerNewPasswordConfirm($member)
     {
-        sfLoader::loadHelpers(array('Url'));
-        $confirmation_url = url_for('@confirm_new_password?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), array('absolute' => true));
+        $confirmation_url  = LinkPeer::create('@confirm_new_password?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), $member->getId())->getUrl($member->getCulture());
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
+        
         return self::executeNotifications(self::NEW_PASSWORD_CONFIRM, $global_vars, $member->getEmail(), $member);
     }
     
