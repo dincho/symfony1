@@ -28,4 +28,5 @@
         <?php endforeach; ?>
         </fieldset><br />
     <?php endforeach; ?>
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/list')); ?>
 </div>
