@@ -75,7 +75,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_messages', 'profile_display_video'));
+            sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'));
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/profilepages?culture=' . $this->culture);
