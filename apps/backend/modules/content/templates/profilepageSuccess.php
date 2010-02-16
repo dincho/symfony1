@@ -9,8 +9,8 @@
             <label for="profile_max_photos">Display Photos</label>
             <?php echo input_tag('profile_max_photos', sfConfig::get('app_settings_profile_max_photos'), array('class' => 'mini')) ?><br />
             
-            <label for="profile_num_recent_messages">Display Recent Messages</label>
-            <?php echo input_tag('profile_num_recent_messages', sfConfig::get('app_settings_profile_num_recent_messages'), array('class' => 'mini')) ?><br /> 
+            <label for="profile_num_recent_messages">Display Recent Activities</label>
+            <?php echo input_tag('profile_num_recent_activities', sfConfig::get('app_settings_profile_num_recent_activities'), array('class' => 'mini')) ?><br /> 
               
             <label for="profile_display_video">Display Video</label>
             <?php echo bool_select_tag('profile_display_video', array(), sfConfig::get('app_settings_profile_display_video')) ?><br />   
