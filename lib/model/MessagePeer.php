@@ -62,6 +62,8 @@ class MessagePeer extends BaseMessagePeer
             $auto_msg->setBody($msg);
             $auto_msg->setIsReviewed(true);
             $auto_msg->save();
+            
+            if( $sender->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($sender, $recipient, $auto_msg);
         }
                 
         Events::triggerFirstContact($message);
