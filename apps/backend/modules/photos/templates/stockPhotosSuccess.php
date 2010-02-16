@@ -17,4 +17,7 @@
         <?php endif; ?>             
     <?php endforeach; ?>
     </fieldset><br />
+    
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/stockPhotos')); ?><br />
+    
 </div>
