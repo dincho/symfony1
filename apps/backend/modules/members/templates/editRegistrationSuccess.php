@@ -44,6 +44,10 @@
     
     <label for="nationality">Nationality</label>
     <?php echo object_input_tag($member, 'getNationality', error_class('nationality')) ?><br />
+    
+    <label for="timezone">Timezone</label>
+    <var><?php echo $member->getTimezone(); ?></var><br />
+        
   </fieldset> 
   
   <fieldset class="actions">

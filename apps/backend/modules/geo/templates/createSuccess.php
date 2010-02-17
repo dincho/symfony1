@@ -27,6 +27,9 @@
                             options_for_select(array('ADM1' => 'ADM1', 'ADM2' => 'ADM2', 'PPL' => 'PPL', ), 'PPL'), 
                             array('class' => error_class('dsg', true))) ?><br />                             
 
+        <label for="timezone">Timezone</label>
+        <?php echo select_timezone_tag('timezone', 'UTC'); ?><br />
+        
         <label for="latitude">Latitude:</label>
         <?php echo input_tag('latitude', null, array('class' => error_class('latitude', true))) ?><br />
         

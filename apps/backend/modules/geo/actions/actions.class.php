@@ -161,6 +161,7 @@ class geoActions extends sfActions
             $geo->setLatitude(($this->getRequestParameter('latitude')) ? $this->getRequestParameter('latitude') : null);
             $geo->setLongitude(($this->getRequestParameter('longitude')) ? $this->getRequestParameter('longitude') : null);
             $geo->setPopulation($this->getRequestParameter('population'));
+            $geo->setTimezone($this->getRequestParameter('timezone'));
             $geo->save();
 
             $this->setFlash('msg_ok', 'New geo feature has been added.');
@@ -198,6 +199,7 @@ class geoActions extends sfActions
             $geo = new Geo();
             $geo->setName($this->getRequestParameter('name'));
             $geo->setCountry($this->getRequestParameter('iso_code'));
+            $geo->setTimezone($this->getRequestParameter('timezone'));
             $geo->setDsg('PCL');
             $geo->save();
 
@@ -227,8 +229,20 @@ class geoActions extends sfActions
         {
             $geo->setName($this->getRequestParameter('name'));
             $geo->setCountry($this->getRequestParameter('iso_code'));
+            $geo->setTimezone($this->getRequestParameter('timezone'));
             $geo->save();
-
+            
+            if( $this->getRequestParameter('set_subs_timezone') )
+            {
+                $c = new Criteria();
+                $c->add(GeoPeer::COUNTRY, $geo->getCountry());
+                
+                $c2 = new Criteria();
+                $c2->add(GeoPeer::TIMEZONE, $this->getRequestParameter('timezone'));
+                
+                BasePeer::doUpdate($c, $c2, Propel::getConnection());
+            }
+            
             $this->setFlash('msg_ok', 'You changes has been saved.');
             $redir = ( $this->getRequest()->hasParameter('ret_uri') ) ? base64_decode($this->getRequestParameter('ret_uri')) : 'geo/list';
             $this->redirect($redir);
@@ -237,8 +251,33 @@ class geoActions extends sfActions
         $this->geo = $geo;
     }    
     
+    public function validateEditCountry()
+    {
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $c = new Criteria();
+            $c->add(GeoPeer::DSG, 'PCL');
+            $c->add(GeoPeer::ID, $this->getRequestParameter('id'), Criteria::NOT_EQUAL);
+            $c->add(GeoPeer::COUNTRY, $this->getRequestParameter('iso_code'));
+            $geo = GeoPeer::doSelectOne($c);
+            
+            if( $geo )
+            {
+                $this->getRequest()->setError('iso_code', 'That country code is already in use');
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     public function handleErrorEditCountry()
     {
+        $c = new Criteria();
+        $c->add(GeoPeer::DSG, 'PCL');
+        $c->add(GeoPeer::ID, $this->getRequestParameter('id'));
+        $this->geo = GeoPeer::doSelectOne($c);
+        
         return sfView::SUCCESS;
     }    
 
@@ -330,9 +369,31 @@ class geoActions extends sfActions
             $geo->setAdm2Id(($this->getRequestParameter('adm2')) ? $this->getRequestParameter('adm2') : null);
             $geo->setLatitude(($this->getRequestParameter('latitude')) ? $this->getRequestParameter('latitude') : null);
             $geo->setLongitude(($this->getRequestParameter('longitude')) ? $this->getRequestParameter('longitude') : null);
+            $geo->setTimezone($this->getRequestParameter('timezone'));
             $geo->setPopulation($this->getRequestParameter('population'));
             $geo->save();
         
+            if( $this->getRequestParameter('set_subs_timezone') )
+            {
+                $c = new Criteria();
+                $c->add(GeoPeer::COUNTRY, $geo->getCountry());
+                
+                if( $geo->getDSG() == 'ADM2' ) 
+                {   
+                    $c->add(GeoPeer::ADM1_ID, $geo->getAdm1Id());
+                    $c->add(GeoPeer::ADM2_ID, $geo->getId());
+                    $c->add(GeoPeer::DSG, 'PPL');
+                } elseif( $geo->getDSG() == 'ADM1' ) 
+                {
+                    $c->add(GeoPeer::ADM1_ID, $geo->getId());
+                }
+                
+                $c2 = new Criteria();
+                $c2->add(GeoPeer::TIMEZONE, $this->getRequestParameter('timezone'));
+                
+                BasePeer::doUpdate($c, $c2, Propel::getConnection());
+            }
+            
             $this->setFlash('msg_ok', 'Your changed has been saved.');
             $redir = ( $this->getRequest()->hasParameter('ret_uri') ) ? base64_decode($this->getRequestParameter('ret_uri')) : 'geo/list';
             $this->redirect($redir);
@@ -383,6 +444,8 @@ class geoActions extends sfActions
             if( $this->getRequestParameter('set_adm1') ) $c2->add(GeoPeer::ADM1_ID, $this->getRequestParameter('adm1'));
             if( $this->getRequestParameter('set_adm2') ) $c2->add(GeoPeer::ADM2_ID, $this->getRequestParameter('adm2'));
             if( $this->getRequestParameter('set_dsg') ) $c2->add(GeoPeer::DSG, $this->getRequestParameter('dsg'));
+            if( $this->getRequestParameter('set_timezone')) $c2->add(GeoPeer::TIMEZONE, $this->getRequestParameter('timezone'));
+            
             BasePeer::doUpdate($c1, $c2, Propel::getConnection());
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -401,7 +464,7 @@ class geoActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST ) 
         {
             if( !$this->getRequestParameter('set_country') && !$this->getRequestParameter('set_adm1') 
-                && !$this->getRequestParameter('set_adm2') && !$this->getRequestParameter('set_dsg'))
+                && !$this->getRequestParameter('set_adm2') && !$this->getRequestParameter('set_dsg') && !$this->getRequestParameter('set_timezone'))
                 {
                     $this->getRequest()->setError('general', 'No fields selected for update!');
                     return false;

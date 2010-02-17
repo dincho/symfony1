@@ -524,6 +524,7 @@ propel:
     orig_name:                { type: varchar, size: 197 }
     orig_dsg:                 { type: varchar, size: 255 }
     population:               { type: integer, size: 10, required: true, default: 0 }
+    timezone:                 { type: varchar, size: 255, default: "UTC" }
     info:                     { type: longvarchar }
     _indexes:
       complex:                [country, dsg, adm1_id, adm2_id, name]

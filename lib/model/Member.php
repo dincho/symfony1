@@ -756,4 +756,9 @@ class Member extends BaseMember
         
         return ThreadPeer::doSelectOne($c);
     }
+    
+    public function getTimezone()
+    {
+        return ( $this->getCityId() ) ? $this->getCity()->getTimezone() : 'UTC';
+    }
 }

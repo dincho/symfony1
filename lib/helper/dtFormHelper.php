@@ -489,4 +489,15 @@ function pr_format_country($country_iso, $culture = null)
       return ( $geo ) ? $geo->getName() : '';
   }
 }
+
+function select_timezone_tag($name, $selected = null, $html_options = array())
+{
+    $options = array();
+    foreach(timezone_identifiers_list() as $tz)
+    {
+        $options[$tz] = $tz;
+    }
+    
+    return select_tag($name, options_for_select($options, $selected), $html_options);
+}
 ?>

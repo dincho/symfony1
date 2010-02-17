@@ -13,7 +13,13 @@
         <?php echo object_input_tag($geo, 'getName', array('size' => 50, 'maxlength' => 100, 'class' => error_class('name', true))) ?><br />
         
         <label for="iso_code">ISO code:</label>
-        <?php echo object_input_tag($geo, 'getCountry', array('name' => 'iso_code', 'id' => 'iso_code', 'size' => 4, 'maxlength' => 4, 'class' => error_class('iso_code', true))) ?><br />                
+        <?php echo object_input_tag($geo, 'getCountry', array('name' => 'iso_code', 'id' => 'iso_code', 'size' => 4, 'maxlength' => 4, 'class' => error_class('iso_code', true))) ?><br />
+        
+        <label for="timezone">Timezone</label>
+        <?php echo select_timezone_tag('timezone', $geo->getTimezone()); ?><br />
+        <label>&nbsp;</label><?php echo checkbox_tag('set_subs_timezone', 1, null); ?>
+        <var>Also set this timezone to all sub-features</var><br />
+                        
     </fieldset>
     
     <fieldset class="actions">

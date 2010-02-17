@@ -34,7 +34,10 @@
                             options_for_select(array('ADM1' => 'ADM1', 'ADM2' => 'ADM2', 'PPL' => 'PPL', ), null), 
                             array('class' => error_class('dsg', true))) ?><br />                             
 
-                
+        <label for="timezone">Timezone</label>
+        <?php echo checkbox_tag('set_timezone'); ?>
+        <?php echo select_timezone_tag('timezone', 'UTC'); ?><br />
+                                            
     </fieldset>
     
     <fieldset class="actions">

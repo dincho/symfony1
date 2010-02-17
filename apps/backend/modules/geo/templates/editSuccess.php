@@ -30,6 +30,11 @@
                             options_for_select(array('ADM1' => 'ADM1', 'ADM2' => 'ADM2', 'PPL' => 'PPL', ), $geo->getDSG()), 
                             array('class' => error_class('dsg', true))) ?><br />                             
 
+        <label for="timezone">Timezone</label>
+        <?php echo select_timezone_tag('timezone', $geo->getTimezone()); ?><br />
+        <label>&nbsp;</label><?php echo checkbox_tag('set_subs_timezone', 1, null, array('disabled' => ($geo->getDSG() == 'PPL') )); ?>
+        <var>Also set this timezone to all sub-features</var><br />
+        
         <label for="latitude">Laatitude:</label>
         <?php echo object_input_tag($geo, 'getLatitude', null, null, array('class' => error_class('latitude', true))) ?><br />
         
