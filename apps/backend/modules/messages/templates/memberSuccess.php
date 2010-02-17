@@ -1,6 +1,6 @@
 <?php use_helper('Javascript') ?>
 <?php include_partial('member_details', array('member' => $member)); ?>
-<?php $received_only = $sf_request->getParameter('received_only'); ?>
+<?php $received_only = $sf_request->getParameter('received_only', 0); ?>
 
 <?php echo form_tag('messages/delete') ?>
 <?php echo input_hidden_tag('received_only', $received_only, 'class=hidden') ?>
@@ -24,7 +24,7 @@
             </thead>
             
         <?php foreach ($messages as $message): ?>
-            <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getId() . '&received_only=' . $received_only) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
+            <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getThreadId() . '&received_only=' . $received_only . '&member_id=' . $member->getId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
                 <td>
                     <?php if( $received_only ): ?>
