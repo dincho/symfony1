@@ -36,7 +36,7 @@
 
         <label for="timezone">Timezone</label>
         <?php echo checkbox_tag('set_timezone'); ?>
-        <?php echo select_timezone_tag('timezone', 'UTC'); ?><br />
+        <?php echo pr_select_timezone_tag('timezone', 'UTC'); ?><br />
                                             
     </fieldset>
     

@@ -28,7 +28,7 @@
                             array('class' => error_class('dsg', true))) ?><br />                             
 
         <label for="timezone">Timezone</label>
-        <?php echo select_timezone_tag('timezone', 'UTC'); ?><br />
+        <?php echo pr_select_timezone_tag('timezone', 'UTC'); ?><br />
         
         <label for="latitude">Latitude:</label>
         <?php echo input_tag('latitude', null, array('class' => error_class('latitude', true))) ?><br />

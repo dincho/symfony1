@@ -31,7 +31,7 @@
                             array('class' => error_class('dsg', true))) ?><br />                             
 
         <label for="timezone">Timezone</label>
-        <?php echo select_timezone_tag('timezone', $geo->getTimezone()); ?><br />
+        <?php echo pr_select_timezone_tag('timezone', $geo->getTimezone()); ?><br />
         <label>&nbsp;</label><?php echo checkbox_tag('set_subs_timezone', 1, null, array('disabled' => ($geo->getDSG() == 'PPL') )); ?>
         <var>Also set this timezone to all sub-features</var><br />
         

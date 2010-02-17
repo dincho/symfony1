@@ -14,7 +14,10 @@
 <?php $member = $match->getMemberRelatedByMember2Id(); ?>
 <div class="member">
         <div class="member_box">
-            <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
+            <div class="header">
+                <div class="age"><?php echo $member->getAge() ?></div>
+                <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 39) ?></div>
+            </div>
             <?php echo profile_photo($member, 'float-left') ?>            
             <div class="profile_info">
                 <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>

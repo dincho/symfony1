@@ -1474,7 +1474,7 @@ span.sec_link {
     font-size: 11px;
 }
 
-.age {
+#search_box .age {
     font-size: 10px;
     color: #b5b59b;
     border: 1px solid #90a6bb;
@@ -1531,21 +1531,14 @@ span.sec_link {
     margin-right: 0;
 }
 
-.member .member_box span {
+.member .member_box .age {
     border-left: 1px solid #3d3d3d;
-    padding-left: 3px;
-    clear: both;
-    text-align: right;
+    padding: 1px 3px 0 3px;
     float: right;
-    font-size: 11px;
-    margin-top: -19px;
-    margin-right: 3px;
-    height: 20px;
-    line-height: 20px;
     color: #d3d3d3;
 }
 
-.member .member_box h2 {
+.member .member_box .header {
     margin: 0px;
     font-size: 11px;
     font-weight: normal;

@@ -490,7 +490,7 @@ function pr_format_country($country_iso, $culture = null)
   }
 }
 
-function select_timezone_tag($name, $selected = null, $html_options = array())
+function pr_select_timezone_tag($name, $selected = null, $html_options = array())
 {
     $options = array();
     foreach(timezone_identifiers_list() as $tz)

@@ -15,7 +15,7 @@
         <?php echo input_tag('iso_code', null, array('size' => 4, 'maxlength' => 4, 'class' => error_class('iso_code', true))) ?><br />
 
         <label for="timezone">Timezone</label>
-        <?php echo select_timezone_tag('timezone', 'UTC'); ?><br />
+        <?php echo pr_select_timezone_tag('timezone', 'UTC'); ?><br />
                         
     </fieldset>
     

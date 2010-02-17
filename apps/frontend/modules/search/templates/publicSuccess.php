@@ -1,22 +1,23 @@
 <?php use_helper('Date', 'dtForm') ?>
 
-<?php echo __('To see more profiles, set your preferences and to use our search engine, please join for free now.') ?>
+<p><?php echo __('To see more profiles, set your preferences and to use our search engine, please join for free now.') ?></p>
+
 <form action="<?php echo url_for('search/' . sfContext::getInstance()->getActionName()) ?>" id="search_box" class="public_matches">
     <table border="0" cellpadding="0" cellspacing="0" class="search_filter">
       <tbody>
         <tr class="search_filter_top_row">
             <td><?php echo __('You are') ?></td>
-            <td colspan="2" style="width: 280px;">
+            <td colspan="2">
               <?php echo select_tag('filters[looking_for]', looking_for_options(isset($filters['looking_for']) ? $filters['looking_for'] : null)) ?>
             </td>
-            <td style="width: 190px;" nowrap ><?php echo __('Age'); ?> 
-    
-            <?php echo input_tag('filters[age_from]', isset($filters['age_from']) ? $filters['age_from'] : 18, array('class' => 'age')) ?>
-            &nbsp;<?php echo __('to') ?>&nbsp;
-            <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age')) ?>
+            <td>
+                <?php echo __('Age'); ?> 
+                <?php echo input_tag('filters[age_from]', isset($filters['age_from']) ? $filters['age_from'] : 18, array('class' => 'age')) ?>
+                &nbsp;<?php echo __('to') ?>&nbsp;
+                <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age')) ?>
             </td>
-            <td style="width: 200px;">
-            <?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo']), array('class' => 'margin_right_zero')) ?>&nbsp;<?php echo __('Show only profiles with photo') ?>
+            <td>
+                <?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo']), array('class' => 'margin_right_zero')) ?>&nbsp;<?php echo __('Show only profiles with photo') ?>
             </td>
         </tr>
         <tr class="separator">
@@ -50,7 +51,10 @@
     <div class="member">
         <?php $i=1;foreach($members as $member): ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
-                <h2><div><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></div><div><span><?php echo $member->getAge() ?></span></div></h2>
+                <div class="header">
+                    <div class="age"><?php echo $member->getAge() ?></div>
+                    <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 39) ?></div>
+                </div>
                 <?php echo image_tag($member->getMainPhoto()->getImg('80x100')) ?>
                 <div class="profile_info">
                     <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
