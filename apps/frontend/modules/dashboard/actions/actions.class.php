@@ -218,12 +218,12 @@ class dashboardActions extends prActions
         $this->getUser()->getBC()->removeFirst()
         ->addFirst(array('name' => 'Delete Your Account', 'uri' => 'dashboard/deleteYourAccount'))
         ->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            $member = MemberPeer::retrieveByPK($this->getUser()->getid());
-            $this->forward404Unless($member); //just in case
+
+        $member = MemberPeer::retrieveByPK($this->getUser()->getid());
+        $this->forward404Unless($member); //just in case
             
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {   
             $member->changeStatus(MemberStatusPeer::CANCELED_BY_MEMBER, false);
             $member->save();
             
@@ -232,7 +232,8 @@ class dashboardActions extends prActions
             $this->getUser()->signOut();
             $this->message('delete_account_confirm');            
         }
-
+        
+        $this->member = $member;
     }
         
     public function executeEmailNotifications()

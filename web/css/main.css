@@ -1337,6 +1337,10 @@ select.language_level {
     padding: 0px;
 }
 
+form#subscription_set_prices select {
+    height: 18px
+}
+
 /*index*/ /*container*/
 #box {
     position: relative;
