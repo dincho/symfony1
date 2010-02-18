@@ -1081,6 +1081,10 @@ span {
     clear: none;
 }
 
+.purpose_fields var {
+    font-style: normal;
+}
+
 #public_reg_form fieldset {
     margin: 35px 0 20px 0;
 }
