@@ -3,7 +3,7 @@ default:
     content-type: text/html
 
   metas:
-    title:        LoveStreet.pl
+    title:        SzukamMilionera.com
     robots:       index, follow
     description:  Love Street
     keywords:     love, street

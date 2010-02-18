@@ -14,7 +14,6 @@ class profileActions extends prActions
     {
         $this->redirect('@public_profile?username=' . $this->getRequestParameter('username'));
     }
-
     
     protected function profilePreExecute()
     {
@@ -32,7 +31,7 @@ class profileActions extends prActions
                             format_language($this->member->getLanguage()), __($this->member->getOrientationString()), 
                             $this->member->getUsername(), $this->member->getAge(), $this->member->getEssayHeadline());
         } else {
-            $title = sprintf('LoveStreet.pl: %s - %s, %d: %s', 
+            $title = sprintf('SzukamMilionera.com: %s - %s, %d: %s', 
                 __($this->member->getOrientationString()), 
                 $this->member->getUsername(), $this->member->getAge(), $this->member->getEssayHeadline());
         }
