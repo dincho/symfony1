@@ -14,7 +14,7 @@ Options +FollowSymLinks +ExecCGI
   RewriteCond %{HTTP_HOST} ^polishdate\.com$
   RewriteRule ^(.*) http://www.polishdate.com/$1 [L,R=301]
   
-  ##satelites##
+                ##satellites##
   
   #PD
   RewriteCond %{HTTP_HOST} polishromance\.com$
