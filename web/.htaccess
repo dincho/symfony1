@@ -6,7 +6,36 @@ Options +FollowSymLinks +ExecCGI
   # uncomment the following line, if you are having trouble
   # getting no_script_name to work
   #RewriteBase /
+  
+  #non www to www redirects
+  RewriteCond %{HTTP_HOST} ^szukammilionera\.com$
+  RewriteRule ^(.*) http://www.szukammilionera.com/$1 [L,R=301]
+  
+  RewriteCond %{HTTP_HOST} ^polishdate\.com$
+  RewriteRule ^(.*) http://www.polishdate.com/$1 [L,R=301]
+  
+  ##satelites##
+  
+  #PD
+  RewriteCond %{HTTP_HOST} polishromance\.com$
+  RewriteRule ^(.*) http://www.polishdate.com/$1 [L,R=301]
+  
+  RewriteCond %{HTTP_HOST} polishdates\.com$
+  RewriteRule ^(.*) http://www.polishdate.com/$1 [L,R=301]
 
+  #SM
+  RewriteCond %{HTTP_HOST} lovestreet\.pl$
+  RewriteRule ^(.*) http://www.szukammilionera.com/$1 [L,R=301]
+  
+  RewriteCond %{HTTP_HOST} szukam-milionera\.com$
+  RewriteRule ^(.*) http://www.szukammilionera.com/$1 [L,R=301]
+  
+  RewriteCond %{HTTP_HOST} szukammilionera\.pl$
+  RewriteRule ^(.*) http://www.szukammilionera.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} szukam-milionera\.pl$
+  RewriteRule ^(.*) http://www.szukammilionera.com/$1 [L,R=301]
+    
   # we skip all files with .something
   RewriteCond %{REQUEST_URI} \..+$
   RewriteCond %{REQUEST_URI} !\.html$
