@@ -101,7 +101,7 @@ class photosActions extends sfActions
         $pager->init();
         $this->pager = $pager;
         
-        $this->setTemplate('StockPhotos');
+        $this->setTemplate('stockPhotos');
     }
     
     public function executeMemberStories()
@@ -122,7 +122,7 @@ class photosActions extends sfActions
         $pager->init();
         $this->pager = $pager;
         
-        $this->setTemplate('StockPhotos');
+        $this->setTemplate('stockPhotos');
     }
         
     public function executeDeleteStockPhoto()
