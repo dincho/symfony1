@@ -23,6 +23,7 @@ class editProfileActions extends prActions
             $member->setCityId($this->getRequestParameter('city_id'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
+            $member->setPurpose($this->getRequestParameter('purpose'));
             
             $flash_error = '';
             if ($member->getEmail() != $this->getRequestParameter('email')) //email changed

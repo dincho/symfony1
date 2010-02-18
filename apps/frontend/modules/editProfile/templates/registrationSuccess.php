@@ -1,4 +1,4 @@
-<?php use_helper('dtForm', 'Javascript', 'Object'); ?>
+<?php use_helper('dtForm', 'Javascript', 'Object', 'fillIn'); ?>
 <?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
 
 <?php echo __('Here you may change your registration information.') ?><br />
@@ -17,6 +17,16 @@
         
         <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor()), array("disabled" => "true")) ?><br />
+        
+        <div class="purpose_fields">
+            <?php echo pr_label_for('purpose', __('Purpose') . '<span style="color:red;">*</span>') ?>
+
+            <?php echo checkbox_tag('purpose[]', 'CR', fillIn('purpose[CR]', 'r', false, in_array('CR', $member->getPurpose())), array('class' => 'checkbox') ); ?>
+            <var><?php echo __('Casual relationship'); ?></var><br />
+    
+            <?php echo checkbox_tag('purpose[]', 'M', fillIn('purpose[M]', 'r', false, in_array('M', $member->getPurpose())), array('class' => 'checkbox') ); ?>
+            <var><?php echo __('Marriage'); ?></var>
+        </div><br class="clear" />
         
         <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">*</span>') ?>
         <?php echo pr_select_country_tag('country', $member->getCountry()) ?><br />
@@ -37,7 +47,7 @@
         <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>
         <?php echo object_input_tag($member, 'getNationality') ?><br />
     </fieldset>
-    <fieldset>
+    <fieldset class="actions">
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
     </fieldset>

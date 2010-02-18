@@ -500,4 +500,34 @@ function pr_select_timezone_tag($name, $selected = null, $html_options = array()
     
     return select_tag($name, options_for_select($options, $selected), $html_options);
 }
-?>
+
+
+function pr_purpose_checkboxes_tag($name, $selected = null, $html_options = array())
+{
+    $return = null;
+    
+    foreach( _purpose_array() as $key => $value )
+    {
+        $return .= checkbox_tag($name, $key, ($key == $selected), $html_options);
+        $return .= '<label>' . $value . '</label>';
+    }
+    
+    return $return;
+}
+
+function format_purpose($purpose_key)
+{
+    $array = _purpose_array();
+    return ( isset($array[$purpose_key]) ) ? $array[$purpose_key] : null;
+}
+
+
+function _purpose_array()
+{
+    if( sfConfig::get('sf_i18n') )
+    {
+        return array('CR' => __('Casual relationship'), 'M' => __('Marriage')); 
+    } else {
+        return array('CR' => 'Casual relationship', 'M' => 'Marriage');
+    } 
+}

@@ -214,6 +214,7 @@ class membersActions extends sfActions
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
+                $this->member->setPurpose($this->getRequestParameter('purpose'));
                 
                 //change the subscription and clear the last subscription item
                 $subscription_id = $this->getRequestParameter('subscription_id');

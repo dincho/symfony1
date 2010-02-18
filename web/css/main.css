@@ -1073,56 +1073,34 @@ span {
 }
 
 
+.purpose_fields label {
+    height: 40px;
+}
 
-#public_reg_form {
-    padding: 2px;
-    margin: 0px;
+.purpose_fields br {
+    clear: none;
 }
 
 #public_reg_form fieldset {
     margin: 35px 0 20px 0;
-    padding: 0px;
-    border: 0;
-}
-
-#public_reg_form a {
-    font-size: 10px;
 }
 
 #public_reg_form select, #public_reg_form input {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
     margin: 3px 2px 1px 3px;
 }
 
 #public_reg_form select {
-    padding: 0px;
     width: 152px;
     height: 18px;
-    font-family: Arial;
-    font-size: 10px;
 }
 
 #public_reg_form input {
     padding: 1px 0 0 1px;
     width: 149px;
     height: 15px;
-    font-family: Arial;
-    font-size: 11px;
 }
 
 #public_reg_form label {
-    float: left;
-    margin: 0px;
-    padding: 0px;
-    padding-left: 7px;
-    width: 117px;
-    color: #92897e;
-    margin-top: 2px;
-    background-color: #363639;
-    height: 20px;
-    line-height: 19px;
     color: #d3d3d3;
 }
 
@@ -1130,8 +1108,8 @@ span {
     margin-top: 8px;
 }
 
-#public_reg_form br {
-    clear: left;
+#public_reg_form .checkbox {
+    width: 20px;
 }
 
 #essay {

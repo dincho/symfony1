@@ -45,7 +45,18 @@ class Member extends BaseMember
 
         parent::setEssayHeadline($v);
     }
-        
+    
+
+    public function setPurpose($v)
+    {
+        parent::setPurpose(serialize($v));
+    }
+    
+    public function getPurpose()
+    {
+        return (parent::getPurpose()) ? unserialize(parent::getPurpose()) : array();
+    }
+    
     public function clearDescAnswers()
     {
         $select = new Criteria();

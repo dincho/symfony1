@@ -129,6 +129,7 @@ class registrationActions extends prActions
             $member->setCityId($this->getRequestParameter('city_id'));
             $member->setZip($this->getRequestParameter('zip'));
             $member->setNationality($this->getRequestParameter('nationality'));
+            $member->setPurpose($this->getRequestParameter('purpose'));
             
             
             if( !is_null($member->getOriginalFirstName()) ) //already confirmed
@@ -177,7 +178,8 @@ class registrationActions extends prActions
             $zip = $this->getRequestParameter('zip');
             $nationality = $this->getRequestParameter('nationality');
             $first_name = $this->getRequestParameter('first_name');
-
+            $purpose = $this->getRequestParameter('purpose');
+            
             $value = $error = null;
             
             if( !$validator->execute(&$value, &$error) )
@@ -190,6 +192,12 @@ class registrationActions extends prActions
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
                 $return = false;
+            }
+            
+            if( !$purpose )
+            {
+                $this->getRequest()->setError('purpose', 'Please select purpose.');
+                $return = false;                
             }
         }
         

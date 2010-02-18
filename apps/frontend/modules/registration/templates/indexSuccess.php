@@ -1,4 +1,4 @@
-<?php use_helper('dtForm', 'Javascript'); ?>
+<?php use_helper('dtForm', 'Javascript', 'fillIn'); ?>
 
 <?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
 
@@ -48,9 +48,19 @@
 
         <?php echo pr_label_for('orientation', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
+        
+        <div class="purpose_fields">
+            <?php echo pr_label_for('purpose', __('Purpose') . '<span style="color:red;">*</span>') ?>
+            <?php echo checkbox_tag('purpose[]', 'CR', fillIn('purpose[CR]', 'r', false, in_array('CR', $member->getPurpose())), array('class' => 'checkbox') ); ?>
+            <var><?php echo __('Casual relationship'); ?></var><br />
+            
+            <?php echo checkbox_tag('purpose[]', 'M', fillIn('purpose[M]', 'r', false, in_array('M', $member->getPurpose())), array('class' => 'checkbox') ); ?>
+            <var><?php echo __('Marriage'); ?></var>
+        </div><br class="clear" />
+                
     </fieldset>
     <?php echo __('Registration notice') ?> 
-    <fieldset>
+    <fieldset class="actions">
         <?php echo submit_tag(__('Save and Continue'), $submit_button_options) ?>
     </fieldset>
     <?php echo __('Registration note') ?>
