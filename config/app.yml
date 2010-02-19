@@ -11,14 +11,14 @@ default:
         port:           993
         username:       incoming@polishdate.com
         password:       PD11837
-        from:           main@lovestreet.pl
+        from:           admin@szukammilionera.pl
         mailer:         smtp
         smtp_host:      "sslv2://smtp.gmail.com"
         smtp_port:      465
         smtp_security:  off #security is set via host address socket transport
-        smtp_debug:     off
-        smtp_username:  main@lovestreet.pl 
-        smtp_password:  LS11837
+        smtp_debug:     0 #integer greather value more debug
+        smtp_username:  admin@szukammilionera.pl
+        smtp_password:  SM11837
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days

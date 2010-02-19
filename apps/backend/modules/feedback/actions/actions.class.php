@@ -163,8 +163,14 @@ class feedbackActions extends sfActions
             {
                 $mail->send();
             } catch (sfException $e)
-            {
-                $this->setFlash('msg_error', 'Error sending email!<br />' . $e->getMessage());
+            {   
+                if(SF_ENVIRONMENT == 'dev') 
+                {
+                    if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
+                    throw new sfException($e->getMessage(), $e->getCode());
+                }
+                
+                $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
                 $this->redirect('feedback/list');
             }
             
@@ -201,7 +207,13 @@ class feedbackActions extends sfActions
                     $mail->send();
                 } catch (sfException $e)
                 {
-                    $this->setFlash('msg_error', 'Error sending email!<br />' . $e->getMessage());
+                    if(SF_ENVIRONMENT == 'dev') 
+                    {
+                        if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
+                        throw new sfException($e->getMessage(), $e->getCode());
+                    }
+                    
+                    $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
                     $this->redirect('feedback/list');
                 }
                 

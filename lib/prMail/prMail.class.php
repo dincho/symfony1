@@ -10,8 +10,8 @@ class prMail extends sfMail
     {
         $this->mailer = new PHPMailer(true);
         
-        //print_r($this->getMailer());exit();
-        $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', false);
+        
+        $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', 0);
         $this->mailer->Host = sfConfig::get('app_mail_smtp_host', 'localhost');
         $this->mailer->Port = sfConfig::get('app_mail_smtp_port', 25);
         $this->mailer->SMTPSecure = sfConfig::get('app_mail_smtp_security', '');
@@ -25,6 +25,8 @@ class prMail extends sfMail
         $this->setContentType('text/html');
         $this->setFrom(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
         $this->setSender(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
+        
+        //print_r($this->mailer);exit();
     }
 
     public function initialize()
@@ -63,7 +65,7 @@ class prMail extends sfMail
         
         try
         {
-            //$this->mailer->Send();
+            $this->mailer->Send();
         } catch ( Exception $e )
         {
             if(SF_ENVIRONMENT == 'dev') throw new sfException($e->getMessage(), $e->getCode());
