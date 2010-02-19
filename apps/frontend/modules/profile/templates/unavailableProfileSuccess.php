@@ -19,11 +19,15 @@
         <span class="sec_link"><?php echo __('Flag');?></span>
    </div>
     <span class="profile_gift">
-        <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
-          <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
-        <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
-          <?php echo image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'); ?>
+        <?php if( $member->getMillionaire() ): ?>
+            <div class="millionaire_mark"><?php echo __('M'); ?></div>
         <?php endif; ?>
+        <div class="membership">
+            <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
+              <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
+            <?php endif; ?>
+        </div>
+        <br class="clear" />
     </span>
     <div id="profile_double_box">
         <div class="left">

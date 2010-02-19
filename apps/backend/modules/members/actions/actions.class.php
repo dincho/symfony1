@@ -392,6 +392,9 @@ class membersActions extends sfActions
                     $m_answer->setDescAnswerId( ($value) ? $value : null);
                 }
                 $m_answer->save();
+                
+                //millionaire check
+                if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) );                 
             }
             $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');

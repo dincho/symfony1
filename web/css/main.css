@@ -268,6 +268,10 @@ p {
     color: #d3d3d3;
 }
 
+.millionaire_mark {
+    color: #A51D1F;
+}
+
 /* FORMS DEFAULT */
 form {
     padding: 2px;
@@ -1551,10 +1555,16 @@ span.sec_link {
     padding: 0;
     margin: 0px 0px 0px 3px;
     height: 100px;
+    width: 140px;
 }
 
 .member .member_box img {
     float: left;
+}
+
+.member .member_box .profile_info .millionaire_mark {
+    float: right;
+    padding: 1px 3px 0 0;
 }
 
 .member .member_box .profile_info p {
@@ -1567,7 +1577,7 @@ span.sec_link {
 .member .member_box .profile_info p.profile_location {
     margin: 0;
     color: #d3d3d3;
-    width: 126px;
+    width: 124px;
     height: 23px;
     line-height: 12px;
 }
@@ -2369,6 +2379,19 @@ div.best_video div.right img {
     background-color: #3d3d3d;
     padding: 7px 0 0 4px;
     width: 336px;
+}
+
+#profile_right .profile_gift .membership {
+    width: 163px;
+}
+
+#profile_right .profile_gift .millionaire_mark {
+    float: right;
+    padding-right: 118px;
+    line-height: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 50px;
 }
 
 #profile_double_box {

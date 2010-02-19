@@ -35,6 +35,11 @@
         <span class="sec_link"><?php echo __('Flag');?></span>
    </div>
     <span class="profile_gift">
+        <?php if( $member->getMillionaire() ): ?>
+            <div class="millionaire_mark"><?php echo __('M'); ?></div>
+        <?php endif; ?>
+        <div class="membership">&nbsp;</div>
+        <br class="clear" />
     </span>
     <div id="profile_double_box">
         <div class="left">

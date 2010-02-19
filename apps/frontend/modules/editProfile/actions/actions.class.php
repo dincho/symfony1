@@ -172,6 +172,9 @@ class editProfileActions extends prActions
                     $m_answer->setDescAnswerId( ($value) ? $value : null);
                 }
                 $m_answer->save();
+                
+                //millionaire check
+                if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) ); 
             }
             $this->member->save();
             $this->member->clearCache();

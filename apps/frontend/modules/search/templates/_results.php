@@ -13,7 +13,13 @@
                 </div>
               <?php echo profile_photo($member, 'float-left') ?>                      
               <div class="profile_info">
+                    <?php if( $member->getMillionaire() ): ?>
+                        <div class="millionaire_mark"><?php echo __('M'); ?></div>
+                    <?php endif; ?>
+
                   <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
+                  
+                  
                   <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                   <p>
                       <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
