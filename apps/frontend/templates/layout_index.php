@@ -33,6 +33,9 @@
         <?php include_partial('content/footer_copyright');?>
     </div>
     <div id="footer_articles">
+        <ul>
+            <?php include_component('memberStories', 'homepageList'); ?>
+        </ul>        
         <?php echo __('Homepage footer articles'); ?>
     </div>
 </body>

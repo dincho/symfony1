@@ -60,8 +60,6 @@
         </div>
     </div>
     <div id="middle_right">
-        <ul>
-            <?php include_component('memberStories', 'homepageList'); ?>
-        </ul>
+        <?php echo __('Homepage introduction - right') ?>
     </div>
 </div>

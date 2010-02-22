@@ -1735,6 +1735,27 @@ div.best_video div.right img {
     width: 830px;
 }
 
+#footer_articles ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+#footer_articles ul li {
+    display: inline;
+}
+
+#footer_articles ul a {
+    color: #877f75;
+    text-decoration: none;
+    padding: 0 2px 0 5px;
+}
+
+#footer_articles ul a:hover {
+    text-decoration: underline;
+}
+
 /* End footer articles */
 
 /* footer */ /* register */
@@ -2563,49 +2584,35 @@ div.best_video div.right img {
 
 #middle {
     text-align: center;
-    margin-top: 15px;
+    margin: 15px auto 0 auto;
     height: 500px;
-    width: 100%;
+    width: 782;
     font-size: 11px;
+    padding: 0 10px;
 }
 
-#middle_left {
-    margin: 50px 13px 0 10px;
+#middle_left, #middle_right {
+    padding-top: 50px;
     vertical-align: bottom;
     text-align: left;
+    width: 217px;
+}
+
+#middle_left { 
     float: left;
-    width: 27%;
 }
 
 #middle #center {
     float: left;
     width: 320px;
+    margin-left: 12px;
 }
 
 #middle_right {
-    margin: 100px 0 0 0;
     float: right;
-    width: 210px;
-    padding-right: 10px;
+
 }
 
-#middle_right ul {
-    text-align: left;
-    line-height: 17px;
-    padding: 0;
-    margin: 0;
-    list-style-position: inside;
-}
-
-#middle_right ul a {
-    text-align: left;
-    color: #877f75;
-    text-decoration: none;
-}
-
-#middle_right ul a:hover {
-    text-decoration: underline;
-}
 
 /* Help page */
 #help_page_container li {
