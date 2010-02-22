@@ -26,13 +26,16 @@
         
         <label for="introduction">Introduction</label>
         <?php echo textarea_tag('trans[2]', (isset($trans[2])) ? $trans[2]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
+        
+        <label for="right_introduction">Right Introduction</label>
+        <?php echo textarea_tag('trans[149]', (isset($trans[149])) ? $trans[149]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />        
       </fieldset>
         
   
       <fieldset class="form_fields">
         <label>Member Stories</label>
         <?php echo select_tag('member_stories', objects_for_select($member_stories, 'getId', 'getTitle', $homepage_stories), array('multiple' => true, 'style' => 'width: 350px; height: 200px')) ?>
-      </fieldset>        
+      </fieldset><br style="clear: none;" /><br style="clear: none;" /><br style="clear: none;" /><br style="clear: none;" />
 
       
       <fieldset class="form_fields">
