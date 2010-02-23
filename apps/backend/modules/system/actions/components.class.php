@@ -168,6 +168,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[canceled]=1'),
                                            array('title' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'),
                                            array('title' => 'Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
+                                           array('title' => 'Auto Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED_AUTO),
                                            array('title' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED),
                                            array('title' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING),
                                            array('title' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED),

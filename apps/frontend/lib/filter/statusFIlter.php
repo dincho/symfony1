@@ -65,6 +65,7 @@ class statusFilter extends sfFilter
                         $AI->message('status_denied');
                         break;
                     case MemberStatusPeer::DEACTIVATED:
+                    case MemberStatusPeer::DEACTIVATED_AUTO:
                         $AI->message('status_deactivated');
                         break;                        
                     default:

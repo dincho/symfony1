@@ -65,7 +65,7 @@
               <?php if( !sfConfig::get('app_settings_imbra_disable') && $member->getUsCitizen() == 1 ): ?>
                   <li><?php echo link_to(__('IMBRA Information'), 'IMBRA/index', array('class' => 'sec_link')) ?></li>
               <?php endif; ?>
-            <?php if( $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
+            <?php if( in_array($sf_user->getProfile()->getMemberStatusId(), array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) ): ?>
                 <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate', array('class' => 'sec_link')) ?></li>
             <?php elseif( $member->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
                 <li><?php echo link_to(__('Deactivate profile (hide)'), 'dashboard/deactivate', array('class' => 'sec_link')) ?></li>

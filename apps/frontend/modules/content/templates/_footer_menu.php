@@ -17,7 +17,7 @@
         <?php if( !sfConfig::get('app_settings_imbra_disable') ): ?>
           <li><?php echo link_to(__('IMBRA information'), 'IMBRA/index') ?></li>
         <?php endif; ?>
-        <?php if( $sf_user->getProfile()->getMemberStatusId() == MemberStatusPeer::DEACTIVATED ): ?>
+        <?php if( in_array($sf_user->getProfile()->getMemberStatusId(), array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) ): ?>
             <li><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate') ?></li>
         <?php elseif( $sf_user->getProfile()->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>
             <li><?php echo link_to(__('Deactivate profile (hide)'), 'dashboard/deactivate') ?></li>

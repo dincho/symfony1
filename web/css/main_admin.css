@@ -73,6 +73,10 @@ form #left_menu li {
     font-weight: bold;
 }
 
+#left_menu li.sidebar_actions {
+    text-align: right;
+}
+
 #left_menu label {
     float: none;
     display: inline;

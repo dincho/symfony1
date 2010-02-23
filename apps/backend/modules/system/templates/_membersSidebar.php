@@ -4,6 +4,8 @@
 <?php echo input_hidden_tag('filter', 'filter'); ?>
 
 <ul id="left_menu">
+    <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
+        
     <li>Sex:</li>
     <?php foreach($sex_array as $key => $value): ?>
     <li>
@@ -13,6 +15,7 @@
     <?php endforeach; ?>
     
     <li>&nbsp;</li>
+    
     <li>Subscription Type:</li>
     <?php foreach($subscriptions as $subscription): ?>
     <li>
@@ -22,6 +25,7 @@
     <?php endforeach; ?>
     
     <li>&nbsp;</li>
+    
     <li>Country:</li>
     <?php foreach($countries as $country): ?>
     <li>
@@ -34,7 +38,9 @@
         <label>The Rest</label>
     </li>
     
+    <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
     <li>&nbsp;</li>
+    
     <li>Status:</li>
     <?php foreach($statuses as $status): ?>
     <li>
@@ -48,6 +54,7 @@
     </li>
     
     <li>&nbsp;</li>
+        
     <li>Language:</li>
     <?php foreach($languages as $language): ?>
     <li>
@@ -56,8 +63,7 @@
     </li>
     <?php endforeach; ?>
     
-    <li>&nbsp;</li>
-    <li><?php echo submit_tag('Apply'); ?></li>
+    <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
     <li>&nbsp;</li>
 </ul>
 </form>

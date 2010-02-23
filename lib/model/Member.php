@@ -148,7 +148,7 @@ class Member extends BaseMember
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
             
-            if( $StatusId != MemberStatusPeer::DEACTIVATED && $old_status_id != MemberStatusPeer::DEACTIVATED && $kill_session ) $this->killSession();
+            if( !in_array($StatusId, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) && !in_array($old_status_id, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) && $kill_session ) $this->killSession();
         }
     }
     

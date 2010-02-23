@@ -102,6 +102,9 @@ class profileActions extends prActions
                     case MemberStatusPeer::DEACTIVATED:
                         $error = 'Sorry, this profile has been deactivated by its owner';
                     break;
+                    case MemberStatusPeer::DEACTIVATED_AUTO:
+                        $error = 'Sorry, this profile has been deactivated';
+                    break;                    
 
                     default:
                     break;

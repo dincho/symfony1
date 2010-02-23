@@ -19,4 +19,5 @@ class MemberStatusPeer extends BaseMemberStatusPeer
     const PENDING                       = 8;
     const DENIED                        = 9;
     const SUSPENDED_FLAGS_CONFIRMED     = 10;
+    const DEACTIVATED_AUTO              = 11;
 }

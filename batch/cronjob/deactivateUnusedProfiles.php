@@ -31,13 +31,13 @@ $days = (int) $notification->getDays() + $ddays;
 
 if ( $ddays > 0 )
 {
-  $select = new Criteria();
-  $select->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
-  $select->add(MemberPeer::LAST_LOGIN, 'DATE('. MemberPeer::LAST_LOGIN .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
-  
-  $update = new Criteria();
-	$update->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::DEACTIVATED);
-	
-	BasePeer::doUpdate($select, $update, Propel::getConnection());
+    $select = new Criteria();
+    $select->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+    $select->add(MemberPeer::LAST_LOGIN, 'DATE('. MemberPeer::LAST_LOGIN .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
+
+    $update = new Criteria();
+    $update->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::DEACTIVATED_AUTO);
+
+    BasePeer::doUpdate($select, $update, Propel::getConnection());
 }
 
