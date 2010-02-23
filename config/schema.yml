@@ -556,4 +556,12 @@ propel:
     created_at:
     _uniques:
       member2profile:     [member_id, profile_id]
-      
+
+  homepage_member_photo:
+    id:
+    filepath:                 { type: varchar, size: 255 }
+    gender:                   { type: char, size: 1, required: true, default: "M" }
+    homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
+    homepages_set:            { type: tinyint } 
+    homepages_pos:            { type: tinyint }
+    updated_at:      

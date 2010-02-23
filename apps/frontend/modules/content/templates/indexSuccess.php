@@ -19,7 +19,7 @@
     </div>
     <div id="center">
         <div id="index_image">
-            <?php include_component('content', 'homepagePhotoSet', array('homepage_set' => $homepage_set)); ?>
+            <?php include_component('content', 'homepageMemberPhotoSet', array('homepage_set' => $homepage_set)); ?>
             
         </div>
         <br class="clear" />

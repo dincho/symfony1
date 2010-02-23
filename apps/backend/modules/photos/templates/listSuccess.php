@@ -19,7 +19,8 @@
                 <div <?php if( $photo->isMain() ) echo 'class="selected_photo"'; ?>>
                     <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
                 </div>
-                <?php echo link_to('Delete Photo', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?>            
+                <?php echo link_to('Delete Photo', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?><br />
+                <?php echo link_to_unless($member->getPrivateDating(), 'Add to homepage', 'photos/addMemberPhotoToHomepage?photo_id=' . $photo->getId()); ?>
             </div>
             <?php if( $i++ % 6 == 0 && $i <= $cnt_photos): ?>
                 </fieldset>

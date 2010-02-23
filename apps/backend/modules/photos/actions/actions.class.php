@@ -92,16 +92,10 @@ class photosActions extends sfActions
         $this->left_menu_selected = 'Home Page';
                     
         $c = new Criteria();
-        $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
-    
-        $per_page = $this->getRequestParameter('per_page', 24);
-        $pager = new sfPropelPager('StockPhoto', $per_page);
-        $pager->setCriteria($c);
-        $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->init();
-        $this->pager = $pager;
-        
-        $this->setTemplate('stockPhotos');
+        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES);
+        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_SET);
+        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        $this->photos = HomepageMemberPhotoPeer::doSelect($c);
     }
     
     public function executeMemberStories()
@@ -302,7 +296,7 @@ class photosActions extends sfActions
         $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
         $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js?load=builder,dragdrop');
         $this->getResponse()->addJavascript('/cropper/cropper.js');
-        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');        
+        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');
         $this->photo = $photo;
         $this->dims = $dims;
                 
@@ -341,6 +335,60 @@ class photosActions extends sfActions
                 $this->photo = $photo;
             }
         }
+    }
+
+    public function executeAddMemberPhotoToHomepage()
+    {
+        $this->getUser()->checkPerm(array('content_edit'));
+        $this->getUser()->getBC()->add(array('name' => 'Home Page'));
+        $namespace = 'backend/photos/addMemberPhotoToHomepage';
+        
+        $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+        $this->forward404Unless($photo);
+        $user = $this->getUser();
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $homepage_photo = new HomepageMemberPhoto();
+            
+            $crop_area['x1'] = $this->getRequestParameter('crop_x1');
+            $crop_area['y1'] = $this->getRequestParameter('crop_y1');
+            $crop_area['x2'] = $this->getRequestParameter('crop_x2');
+            $crop_area['y2'] = $this->getRequestParameter('crop_y2');
+            $crop_area['width'] = $this->getRequestParameter('crop_width');
+            $crop_area['height'] = $this->getRequestParameter('crop_height');
+            
+            $homepage_photo->updateCroppedImageFromPhoto($photo, $crop_area);
+            $homepage_photo->setGender($this->getRequestParameter('gender'));
+            $homepage_photo->setHomepagesArray(array_values($this->getRequestParameter('catalogs', array())));
+            $homepage_photo->setHomepagesSet($this->getRequestParameter('homepages_set', null));
+            $homepage_photo->setHomepagesPos($this->getRequestParameter('homepages_pos', null));
+            $homepage_photo->save();
+            
+            $this->setFlash('msg_ok', 'New homepage photo has been added.');
+            $this->redirect('photos/homepage');
+        }
+        
+        $this->dims  = array('w' => 100, 'h' => 95);
+        $this->photo = $photo;
+        $this->catalogs = CataloguePeer::doSelect(new Criteria());
+        
+        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
+        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js?load=builder,dragdrop');
+        $this->getResponse()->addJavascript('/cropper/cropper.js');
+        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');        
+    }
+ 
+ 
+    public function executeDeleteHomepagePhoto()
+    {
+        $photo = HomepageMemberPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($photo);
+        
+        $photo->delete();
+        
+        $this->setFlash('msg_error', 'Homepage photo has been deleted.');
+        $this->redirect($this->getUser()->getRefererUrl());
     }
     
     protected function processSort()

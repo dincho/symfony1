@@ -31,4 +31,25 @@ class contentComponents extends sfComponents
         
         $this->photos = ( count($photos) == 9) ? $photos : array();
     }
+    
+    public function executeHomepageMemberPhotoSet()
+    {
+        $culture = $this->getUser()->getCulture();
+        
+        $c = new Criteria();
+        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
+        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $culture .'", ' . HomepageMemberPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
+        $c->add(HomepageMemberPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
+        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        $c->setLimit(9);
+        $photos = HomepageMemberPhotoPeer::doSelect($c);
+        
+        if( count($photos) < 9 && $this->homepage_set != 1)
+        {
+            $c->add(HomepageMemberPhotoPeer::HOMEPAGES_SET, 1);
+            $photos = HomepageMemberPhotoPeer::doSelect($c);
+        }
+        
+        $this->photos = ( count($photos) == 9) ? $photos : array();
+    }    
 }

@@ -227,7 +227,35 @@ class sfThumbnail
       throw new Exception('Image MIME type '.$mime.' not supported');
     }
   }
+  
+  public function loadSource($source, $mime)
+  {
+    if (in_array($mime,$this->imgTypes))
+    {
+      $this->source = $source;
+      $this->sourceWidth=imagesx($this->source);
+      $this->sourceHeight=imagesy($this->source);
+      $this->sourceMime=$mime;
+      $this->initThumb();
 
+      return true;
+    }
+    else
+    {
+      throw new Exception('Image MIME type '.$mime.' not supported');
+    }
+  }  
+
+  public function getSource()
+  {
+    return $this->source;
+  }
+  
+  public function getThumb()
+  {
+    return $this->thumb;
+  }
+  
   /**
   * Returns the mime type for the thumbnail
   * @return string
@@ -351,7 +379,7 @@ class sfThumbnail
   */
   public function save($thumbDest, $creatorName = null)
   {
-    $creator = $creatorName !== null ? $this->imgCreators[$creatorName] : $this->imgCreators[$this->imgData['mime']];
+    $creator = $creatorName !== null ? $this->imgCreators[$creatorName] : $this->imgCreators[$this->sourceMime];
     if ($creator == 'imagejpeg')
     {
       imagejpeg($this->thumb, $thumbDest, $this->quality);

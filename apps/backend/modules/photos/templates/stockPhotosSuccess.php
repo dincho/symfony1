@@ -14,7 +14,7 @@
             </fieldset>
             <br />
             <fieldset class="form_fields">
-        <?php endif; ?>             
+        <?php endif; ?>
     <?php endforeach; ?>
     </fieldset><br />
     
