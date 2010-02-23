@@ -17,4 +17,13 @@ class StockPhotoPeer extends BaseStockPhotoPeer
         
         return self::doSelectOne($c);
     }
+    
+    public static function getJoinNowPhotoByCulture($culture = 'en')
+    {
+        $c = new Criteria();
+        $c->add(self::JOIN_NOW, $culture);
+        $c->setLimit(1);
+        
+        return self::doSelectOne($c);
+    }    
 }

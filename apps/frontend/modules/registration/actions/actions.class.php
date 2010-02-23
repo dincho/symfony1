@@ -50,6 +50,7 @@ class registrationActions extends prActions
             $this->message('verify_your_email');
         }
         
+        $this->photo = StockPhotoPeer::getJoinNowPhotoByCulture($this->getUser()->getCulture());
         $this->getResponse()->addMeta('description', 'JoinNow description');
         $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
     }

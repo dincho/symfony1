@@ -216,7 +216,28 @@ class photosActions extends sfActions
         $this->photo = $photo;
         $this->catalog = ( $user->hasAttribute('catalog', $namespace) ) ? $user->getAttribute('catalog', array(), $namespace) : $photo->getAssistants();
     }    
+
     
+    public function executeAddToJoinNow()
+    {
+        $this->getUser()->checkPerm(array('content_edit'));
+        $this->getUser()->getBC()->add(array('name' => 'Join Now'));
+        $namespace = 'backend/photos/addtojoinnow';
+        
+        $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+        $this->forward404Unless($photo);
+        $user = $this->getUser();
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $user->setAttribute('catalog', $this->getRequestParameter('catalog'), $namespace);
+            $this->redirect('photos/crop?type=4&photo_id=' . $photo->getId());
+        }
+        
+        $this->photo = $photo;
+        $this->catalog = ( $user->hasAttribute('catalog', $namespace) ) ? $user->getAttribute('catalog', array(), $namespace) : $photo->getJoinNow();
+    }
+        
     public function executeCrop()
     {
         $this->getUser()->checkPerm(array('content_edit'));
@@ -268,6 +289,20 @@ class photosActions extends sfActions
                                 
                 $photo->setAssistants($catalog);
                 $user->setAttribute('catalog', null, $namespace);
+                
+            } elseif( $this->getRequestParameter('type') == 4) //join now
+            {
+                $namespace = 'backend/photos/addtojoinnow';
+                $catalog = $user->getAttribute('catalog', null, $namespace);
+                
+                $select = new Criteria();
+                $select->add(StockPhotoPeer::JOIN_NOW, $catalog);
+                $update = new Criteria();
+                $update->add(StockPhotoPeer::JOIN_NOW, null);
+                BasePeer::doUpdate($select, $update, Propel::getConnection());
+                                
+                $photo->setJoinNow($catalog);
+                $user->setAttribute('catalog', null, $namespace);
             }
             
             $photo->save();
@@ -291,6 +326,11 @@ class photosActions extends sfActions
         {
             $dims['w'] = 70;
             $dims['h'] = 105;            
+        } elseif ($this->getRequestParameter('type') == 4) //join now
+        {    
+            $this->getUser()->getBC()->add(array('name' => 'Join Now', 'uri' => 'photos/addToJoinNow?photo_id=' . $photo->getId()))
+            ->add(array('name' => 'Crop'));
+            $dims = array('w' => 220, 'h' => 225);
         }
         
         $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
@@ -382,6 +422,8 @@ class photosActions extends sfActions
  
     public function executeDeleteHomepagePhoto()
     {
+        $this->getUser()->checkPerm(array('content_edit'));
+        
         $photo = HomepageMemberPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($photo);
         
@@ -390,6 +432,7 @@ class photosActions extends sfActions
         $this->setFlash('msg_error', 'Homepage photo has been deleted.');
         $this->redirect($this->getUser()->getRefererUrl());
     }
+
     
     protected function processSort()
     {

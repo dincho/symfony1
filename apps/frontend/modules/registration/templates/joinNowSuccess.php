@@ -1,8 +1,16 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
+
+<div>
+        <?php if ($photo) : ?>
+        <?php echo image_tag(($photo->getImageFilename('cropped') ? $photo->getImageUrlPath('cropped', '220x225') : $photo->getImageUrlPath('file', '220x225')), array('id' => 'join_now_photo')); ?>
+    <?php endif; ?>
+    
 <?php echo __('JoinNow instructions') ?>
 <?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
-    <fieldset>       
+
+
+    <fieldset>
         <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
         
@@ -37,8 +45,8 @@
     </div>
 
     <?php echo submit_tag(__('GO!'), array('class' => 'button_save_and_cont')) ?>
-
 </form>
+</div>
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {

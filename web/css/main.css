@@ -1951,12 +1951,12 @@ div.best_video div.right img {
     margin: 0px;
     margin-top: 30px;
     padding: 0px;
-    width: 410px;
 }
 
 #registration_box_complete_page fieldset {
     border: 0px;
     padding-left: 0px;
+    width: 410px;
 }
 
 #registration_box_complete_page label {
@@ -2033,6 +2033,11 @@ div.best_video div.right img {
 
 #registration_box_complete_page .check_available {
   padding-left: 168px;
+}
+
+#join_now_photo {
+    float: right;
+    margin: 0 6px 6px 0;
 }
 
 #secondary_container .please_read {
