@@ -781,4 +781,17 @@ class Member extends BaseMember
         
         foreach($photos as $photo) $photo->delete();
     }
+    
+    public function hasUnreadMessagesFromFreeFemales()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::RECIPIENT_ID, $this->getId());
+        $c->add(MessagePeer::UNREAD, true);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->addJoin(MessagePeer::SENDER_ID, MemberPeer::ID);
+        $c->add(MemberPeer::SEX, 'F');
+        $c->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE);
+        
+        return ( MessagePeer::doCount($c) > 0 );
+    }
 }

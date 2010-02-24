@@ -62,248 +62,30 @@ class messagesActions extends prActions
     
     public function validateIndex()
     {
-      if( $this->getRequest()->getMethod() == sfRequest::POST && 
-          ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) )
-      {
-        $selected = $this->getRequestParameter('selected', array());
-        
-        if( empty($selected) )
+        if( sfConfig::get('app_settings_man_should_pay') && 
+            $this->getUser()->getProfile()->getSex() == 'M' && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE &&
+            $this->getUser()->getProfile()->hasUnreadMessagesFromFreeFemales()
+          )
         {
-          $this->setFlash('msg_error', 'You must select at least one message to delete', false);
-          $this->redirect('messages/index');
+            $this->setFlash('msg_error', 'M4F: In order to read your messages you need to upgrade your membership.');
+            $this->redirectToReferer();
         }
-      }
-      
-      return true;
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST && 
+          ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) )
+        {
+            $selected = $this->getRequestParameter('selected', array());
+
+            if( empty($selected) )
+            {
+              $this->setFlash('msg_error', 'You must select at least one message to delete', false);
+              $this->redirect('messages/index');
+            }
+        }
+
+        return true;
     }
 
-    
-    // public function executeView()
-    // {
-    //     $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
-    //     $this->forward404Unless($message);
-    //     $this->forward404Unless( ($message->getSentBox() && $message->getFromMemberId() == $this->getUser()->getId()) || 
-    //                              (!$message->getSentBox() && $message->getToMemberId() == $this->getUser()->getId()));
-    //     
-    //     if( !$message->getSentBox() && !$message->getIsSystem() &&
-    //         $message->getMemberRelatedByFromMemberId()->isSubscriptionFree() &&
-    //         !$message->getMemberRelatedByFromMemberId()->getSubscription()->getCanSendMessages() &&
-    //         $this->getUser()->getProfile()->isSubscriptionFree() )
-    //         {
-    //             $this->message('upgrade_to_read_message');
-    //         }
-    //         
-    //     $this->getUser()->getBC()->removeLast()->add(array('name' => $message->getSubject(), 'uri' => 'messages/view?id=' . $message->getId()));
-    //     
-    //     if ( !$message->getIsRead() ) //mark as read
-    //     {
-    //         $msg = clone $message;
-    //         $msg->setIsRead(true);
-    //         $msg->save();
-    //         
-    //         $this->getUser()->getProfile()->incCounter('ReadMessages');
-    //         $this->getUser()->getProfile()->incCounter('ReadMessagesDay');
-    //     }
-    //     
-    // 
-    //   $member = ( $message->getSentBox() ) ? $message->getMemberRelatedByToMemberId() : $from_member = $message->getMemberRelatedByFromMemberId();
-    //   if( !$member->isActive() ) 
-    //     $this->setFlash('msg_error', sfI18N::getInstance()->__('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $member->getUsername())), false);
-    //     
-    //   $this->message = $message;
-    // }
-    
-    // public function validateView()
-    // {
-    //     $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
-    //     $this->forward404Unless($message);
-    //     
-    //     if( !$message->getIsRead() && !$message->getSentBox() && !$message->getIsSystem())
-    //     {
-    //         $subscription = $this->getUser()->getProfile()->getSubscription();
-    //         
-    //         if( !$subscription->getCanReadMessages() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->setFlash('msg_error', 'In order to read a message you need to upgrade your membership.');
-    //             } else {
-    //                 $this->setFlash('msg_error', 'Paid: In order to read a message you need to upgrade your membership.');
-    //             }
-    //             $this->redirect('messages/index');
-    //         } elseif ( $subscription->getId() == SubscriptionPeer::FREE && 
-    //                    $message->getMemberRelatedByFromMemberId()->isSubscriptionFree() &&
-    //                    !$message->getMemberRelatedByFromMemberId()->getSubscription()->getCanSendMessages())
-    //         {
-    //             //received by FREE member with send messages OFF
-    //             $this->setFlash('msg_error', 'Sender of the message is not a paid member. At least one of you must be a paid member for either send or receive messages.');
-    //             $this->redirect('messages/index');
-    //         }
-    //         
-    //         if( $this->getUser()->getProfile()->getCounter('ReadMessagesDay') >= $subscription->getReadMessagesDay() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-    //             } else {
-    //                 $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-    //             }
-    //             $this->redirect('messages/index');  
-    //         }
-    //         
-    //         if( $this->getUser()->getProfile()->getCounter('ReadMessages') >= $subscription->getReadMessages() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-    //             } else {
-    //                 $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-    //             }
-    //             $this->redirect('messages/index');  
-    //         }
-    //         
-    //     }
-    //     
-    //     return true;
-    // }
-    
-    // public function executeReply()
-    // {
-    //     $c = new Criteria();
-    //     $c->add(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
-    //     $c->add(MessagePeer::SENT_BOX, false);
-    //     $c->add(MessagePeer::ID, $this->getRequestParameter('id'));
-    //     $c->add(MessagePeer::IS_SYSTEM, false);
-    //     $message = MessagePeer::doSelectOne($c);
-    //     $this->forward404Unless($message);
-    //     
-    //     $draft_id = $this->getRequestParameter('draft_id');
-    //     if ( $message->getIsReplied() ) //message is already replied
-    //     {
-    //        //but this is draft
-    //       if( $draft_id && $draft = MessageDraftPeer::retrieveByPK($draft_id) )
-    //       {
-    //         $this->redirect('messages/send?draft_id=' . $draft->getId() . '&profile_id=' . $draft->getToMemberId());
-    //       }
-    //       
-    //       $this->forward404(); //if replied but not draft
-    //     }
-    //     
-    //     if( $this->getRequest()->getMethod() == sfRequest::POST )
-    //     {
-    //         $send_msg = $message->reply($this->getRequestParameter('subject'), 
-    //                                     $this->getRequestParameter('content'), 
-    //                                     $this->getRequestParameter('draft_id'));
-    //         $this->sendConfirmation($send_msg->getId(), $message->getMemberRelatedByFromMemberId()->getUsername());
-    //     }
-    //     
-    //     $i18n = sfI18N::getInstance();
-    //     $i18n->setCulture('en');
-    //     $reply_body_template = $i18n->__('Reply Message Body Template');
-    //     $subject = (preg_match('/^Re:.*$/', $message->getSubject())) ? $message->getSubject() : 'Re: ' . $message->getSubject();
-    //     
-    //     $this->draft = MessageDraftPeer::retrieveOrCreate($draft_id,
-    //                                                       $message->getToMemberId(),
-    //                                                       $message->getFromMemberId(),
-    //                                                       $message->getId(),
-    //                                                       $subject,
-    //                                                       $message->getBodyForReply($reply_body_template)
-    //                                                       );
-    //     $this->message = $message;
-    // }
-    // 
-    // public function validateReply()
-    // {
-    //         $message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
-    //         $this->forward404Unless($message);
-    //         
-    //         $profile = $message->getMemberRelatedByFromMemberId();
-    //         $member = $this->getUser()->getProfile();
-    //         
-    //         //1. is the other member active ?
-    //         if ( $profile->getmemberStatusId() != MemberStatusPeer::ACTIVE )
-    //         {
-    //             $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
-    //             return false;
-    //         }
-    //         
-    //         //2. Privacy
-    //         $prPrivavyValidator = new prPrivacyValidator();
-    //         $prPrivavyValidator->setProfiles($member, $profile);
-    //         $prPrivavyValidator->initialize($this->getContext(), array(
-    //           'block_error' => 'You can not send message to this member!',
-    //           'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
-    //           'check_onlyfull' => false,
-    //         ));
-    //         
-    //         $error = '';
-    //         if( !$prPrivavyValidator->execute(&$value, &$error) )
-    //         {
-    //             $this->getRequest()->setError('privacy', $error);
-    //             return false;
-    //         }
-    // 
-    //         //3. subscription limits/restrictions ?
-    //         $subscription = $member->getSubscription();
-    //         if( !$subscription->getCanReplyMessages() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->getRequest()->setError('subscription', 'In order to reply to message you need to upgrade your membership.');
-    //             } else {
-    //                 $this->getRequest()->setError('subscription', 'Paid: In order to reply to message you need to upgrade your membership.');
-    //             }
-    //             return false;
-    //         }
-    //         
-    //         if( $member->getCounter('ReplyMessagesDay') >= $subscription->getReplyMessagesDay() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-    //             } else {
-    //                 $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-    //             }
-    //             return false;
-    //         }
-    //         
-    //         if( $member->getCounter('ReplyMessages') >= $subscription->getReplyMessages() )
-    //         {
-    //             if( $subscription->getId() == SubscriptionPeer::FREE )
-    //             {
-    //                 $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-    //             } else {
-    //                 $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-    //             }
-    //             return false;
-    //         }
-    //         
-    //         
-    //         if( $this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
-    //         {
-    //             $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
-    //             return false;                
-    //         }            
-    //     return true;
-    // }
-    // 
-    // public function handleErrorReply()
-    // {
-    //     $c = new Criteria();
-    //     $c->add(MessagePeer::TO_MEMBER_ID, $this->getUser()->getId());
-    //     $c->add(MessagePeer::SENT_BOX, false);
-    //     $c->add(MessagePeer::ID, $this->getRequestParameter('id'));
-    //     $this->message = MessagePeer::doSelectOne($c);
-    //     $this->forward404Unless($this->message);
-    // 
-    //     $this->draft = MessageDraftPeer::retrieveOrCreate($this->getRequestParameter('draft_id'), 
-    //                                                       $this->message->getToMemberId(), 
-    //                                                       $this->message->getFromMemberId(), 
-    //                                                       $this->message->getId());
-    //     
-    //     return sfView::SUCCESS;
-    // }
-    
     public function executeSend()
     {
         $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
@@ -362,6 +144,17 @@ class messagesActions extends prActions
       
             //3. subscription limits/restrictions ?
             $subscription = $sender->getSubscription();
+
+            //we don't need to check the looking for field since privacy validator is already applied.
+            if( sfConfig::get('app_settings_man_should_pay') && 
+                $sender->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
+                $recipient->getSex() == 'F' && $recipient->getSubscriptionId() == SubscriptionPeer::FREE
+              )
+            {
+                $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
+                return false;
+            }
+            
             if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
             {
                 $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
@@ -569,7 +362,7 @@ class messagesActions extends prActions
             }
     
             //3. subscription limits/restrictions ?
-            $subscription = $member->getSubscription();
+            $subscription = $member->getSubscription();    
             if( !$subscription->getCanReplyMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
@@ -618,7 +411,17 @@ class messagesActions extends prActions
             //break/leave if there is no UNread messages
             $cnt_unread = MessagePeer::countUnreadInThread($thread->getId(), $member);
             if( $cnt_unread < 1 ) return true;
-                    
+
+            
+            if( sfConfig::get('app_settings_man_should_pay') && 
+                $member->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
+                $profile->getSex() == 'F' && $profile->getSubscriptionId() == SubscriptionPeer::FREE
+              )
+            {
+                $this->setFlash('msg_error', 'M4F: In order to read a message you need to upgrade your membership.');
+                $this->redirectToReferer();
+            }
+                                
             if( !$subscription->getCanReadMessages() )
             {
                 if( $subscription->getId() == SubscriptionPeer::FREE )
