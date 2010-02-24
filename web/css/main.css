@@ -77,7 +77,10 @@ body .sign_in {
     float: left;
     margin-left: 0;
     height: 61px;
-    width: 170px;
+    width: 160px;
+    text-align: left;
+    font-size: 11px;
+    padding: 4px 0 0 10px;
 }
 
 #header #right.index {

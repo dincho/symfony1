@@ -1,5 +1,5 @@
 <?php if( $sf_user->getCulture() != 'en' ): ?>
-    <?php echo link_to(image_tag('english_version.gif', 'alt=logo'), url_for_language('en')) ?>
+    <?php echo link_to(__('English version'), url_for_language('en'), array('class' => 'sec_link')) ?>
 <?php else: ?>
-    <?php echo link_to(image_tag('polska_versia.gif', 'alt=logo'), url_for_language('pl')) ?>
+    <?php echo link_to(__('Polish version'), url_for_language('pl'), array('class' => 'sec_link')) ?>
 <?php endif; ?>
