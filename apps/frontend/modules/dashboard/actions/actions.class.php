@@ -272,7 +272,12 @@ class dashboardActions extends prActions
                 }
             
             $member->setPrivateDating($this->getRequestParameter('private_dating', 0));
-            if( $this->getRequestParameter('private_dating', 0) == 1) $member->setPublicSearch(false);
+            if( $this->getRequestParameter('private_dating', 0) == 1) 
+            {
+                $member->setPublicSearch(false);
+                $member->deleteHomepagePhotos();
+            }
+            
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
             
             if( $modified && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )

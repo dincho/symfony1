@@ -772,4 +772,13 @@ class Member extends BaseMember
     {
         return ( $this->getCityId() ) ? $this->getCity()->getTimezone() : 'UTC';
     }
+    
+    public function deleteHomepagePhotos()
+    {
+        $c = new Criteria();
+        $c->add(HomepageMemberPhotoPeer::MEMBER_ID, $this->getId());
+        $photos = HomepageMemberPhotoPeer::doSelect($c);
+        
+        foreach($photos as $photo) $photo->delete();
+    }
 }

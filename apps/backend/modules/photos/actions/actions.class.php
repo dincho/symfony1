@@ -390,6 +390,7 @@ class photosActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $homepage_photo = new HomepageMemberPhoto();
+            $homepage_photo->setMemberId($photo->getMemberId());
             
             $crop_area['x1'] = $this->getRequestParameter('crop_x1');
             $crop_area['y1'] = $this->getRequestParameter('crop_y1');

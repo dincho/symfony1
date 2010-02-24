@@ -560,6 +560,7 @@ propel:
 
   homepage_member_photo:
     id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     filepath:                 { type: varchar, size: 255 }
     gender:                   { type: char, size: 1, required: true, default: "M" }
     homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
