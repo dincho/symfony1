@@ -28,10 +28,10 @@ domainsFilter:
     class: DomainsFilter
             
 cache:     ~
-common:    ~
+#common:    ~
 
-#common:    
-#  class: sfOptimizeStyleAndScript
+common:    
+  class: sfOptimizeStyleAndScript
   
 flash:     ~
 execution: ~

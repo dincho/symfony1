@@ -6,7 +6,7 @@
         <?php echo __('Manage subscription - auto-renewal', 
                       array('%EOT_DATE%' => format_date($member->getEotDate(null), $date_format),
                             '%NEXT_PAYMENT_DATE%' => format_date($member->getNextPaymentDate(null), $date_format),
-                            '%NEXT_PAYMENT_AMOUNT%' => format_currency($member->getNextPaymentAmount(), 'GBP'),
+                            '%NEXT_PAYMENT_AMOUNT%' => format_currency($member->getNextPaymentAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')),
                       )); ?>
         <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true, 'class' => 'button')) ?>    
     <?php else: ?>

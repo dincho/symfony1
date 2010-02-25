@@ -110,7 +110,7 @@ class subscriptionActions extends prActions
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
-                            'currency_code' => 'GBP',
+                            'currency_code' => sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'),
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'src' => 1, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture
@@ -182,7 +182,7 @@ class subscriptionActions extends prActions
                             'lc' => $this->getUser()->getProfile()->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
-                            'currency_code' => 'GBP',
+                            'currency_code' => sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'),
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'src' => 0, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture

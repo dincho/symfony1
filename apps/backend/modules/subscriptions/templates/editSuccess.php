@@ -50,12 +50,21 @@
         <hr style="width: auto;" />
         
         <!-- IMBRA -->
-        <label class="period_label" style="width:60px; float: right">IMBRA&nbsp;</label>
-        <br />        
-              
+        <label class="period_label" style="width:60px; float: right;">IMBRA&nbsp;</label>
+        <br /><br />
+        
+        <hr style="width: auto;" />
+
+
+        <label class="period_label" style="width: 120px; float: left;">English Currency&nbsp;</label>
+        <?php echo input_tag('currency_en', sfConfig::get('app_settings_currency_en'), array('class' => 'limit_input', 'style' => 'float: left', 'maxlength' => 3)) ?><br />
+        <label class="period_label" style="width: 120px; float: left;">Polish Currency&nbsp;</label>
+        <?php echo input_tag('currency_pl', sfConfig::get('app_settings_currency_pl'), array('class' => 'limit_input', 'style' => 'float: left', 'maxlength' => 3)) ?><br />
+        <br />
+                              
       </fieldset>
   </div>        
-  <?php foreach($subscriptions as $sub): ?>
+  <?php foreach($subscriptions as $i => $sub): ?>
   <div class="subscription_container">
       <fieldset class="form_fields">
         <var><b><?php echo $sub->getTitle() ?></b></var><br />
@@ -94,23 +103,23 @@
         <hr style="width: 140px;" />
 
         <?php echo input_tag('subs['. $sub->getId() .'][trial1_amount]', format_currency($sub->getTrial1Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label">&pound;</label><br />
+        <label class="period_label"></label><br />
     
         <?php echo input_tag('subs['. $sub->getId() .'][trial2_amount]', format_currency($sub->getTrial2Amount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label">&pound;</label><br />
+        <label class="period_label"></label><br />
     
         <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label">&pound;</label><br />
+        <label class="period_label"></label><br />
         
         <hr style="width: 140px;" />
         
         <?php echo input_tag('subs['. $sub->getId() .'][imbra_amount]', format_currency($sub->getImbraAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label">&pound;</label><br />
+        <label class="period_label"></label><br />
+        
     </fieldset>
   </div>
   <?php endforeach; ?>
   <br />
-  
   <div class="actions">
     <?php echo button_to('Cancel', 'subscriptions/list')  . submit_tag('Save', 'class=button') ?>
   </div>

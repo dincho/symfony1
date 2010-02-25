@@ -66,7 +66,9 @@ class subscriptionsActions extends sfActions
                 $subscription->setPeriodType($this->getRequestParameter('period_type'));                
                 $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
                 $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
-                $subscription->save();                
+                $subscription->save();   
+                
+                sfSettingPeer::updateFromRequest(array('currency_en', 'currency_pl'));
             }
         }
         

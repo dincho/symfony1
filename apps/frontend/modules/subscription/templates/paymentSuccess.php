@@ -1,5 +1,5 @@
 <?php use_helper('Number') ?>
-<?php echo __('You need to pay %AMOUNT%', array('%AMOUNT%' => format_currency($amount, 'GBP'))) ?><br /><br /><br />
+<?php echo __('You need to pay %AMOUNT%', array('%AMOUNT%' => format_currency($amount, sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')))) ?><br /><br /><br />
 
 <?php echo form_tag(sfConfig::get('app_paypal_url'), array('method' => 'post')) ?>
     <?php echo input_hidden_tag('cmd', '_s-xclick') , "\n" ?>
