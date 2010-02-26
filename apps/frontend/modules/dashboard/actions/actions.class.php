@@ -129,6 +129,12 @@ class dashboardActions extends prActions
                           array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
                           , false);
         }
+        
+        if( !$member->getMainPhotoId() && !$this->hasFlash('msg_warning') )
+        {
+            $this->setFlash('msg_warning', 'No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+        }
+        
     }
     
     public function executeVisitors()

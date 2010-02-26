@@ -171,7 +171,7 @@ body .sign_in {
     margin: 0;
 }
 
-.msg_error, #msgs .msg_error, #ajax_response .msg_error {
+.msg_error, #msgs .msg_error, #ajax_response .msg_error, .msg_warning {
     color: #ff0000;
     font-size: 12px;
     font-weight: bold;    
