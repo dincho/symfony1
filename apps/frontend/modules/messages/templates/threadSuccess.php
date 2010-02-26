@@ -23,7 +23,7 @@
                 <td class="profile_photo"><?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?></td>
                 <td class="message_info">
                     <?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
-                    <?php echo format_date_pr($message->getCreatedAt(null), $time_format = ', hh:mm', $date_format = 'dd MMMM'); ?>
+                    <?php echo format_date_pr($message->getCreatedAt(null)); ?>
                 </td>
                 <td  class="message_body">
                     <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>

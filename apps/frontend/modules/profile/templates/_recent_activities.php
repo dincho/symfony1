@@ -17,7 +17,7 @@
             <tr>
                 <td><?php echo link_to($user, url_for_activity($activity), array('class' => 'sec_link')); ?></td>
                 <td><?php echo link_to(__($activity->getActivity()), url_for_activity($activity), array('class' => 'sec_link')); ?></td>
-                <td><?php echo link_to(format_date_pr($activity->getDtime(), $time_format = ', hh:mm', $date_format = 'dd MMMM'), url_for_activity($activity), 'class=sec_link') ?></td>
+                <td><?php echo link_to(format_date_pr($activity->getDtime()), url_for_activity($activity), 'class=sec_link') ?></td>
                 <td><?php echo link_for_extra_activity_field($activity, $member); ?></td>
             </tr>
         <?php endforeach; ?>
