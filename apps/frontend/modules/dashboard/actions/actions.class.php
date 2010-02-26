@@ -36,13 +36,7 @@ class dashboardActions extends prActions
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
         
         //messages
-        
-        $c = new Criteria();
-        $c->add(MessagePeer::RECIPIENT_ID, $this->getUser()->getId());
-        $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
-        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
-        $c->add(MessagePeer::UNREAD, true);
-        $c->addGroupByColumn(MessagePeer::THREAD_ID);
+        $c = $member->getUnreadMessagesCriteria();
         $c->addJoin(MemberPeer::ID, MessagePeer::SENDER_ID);
         $cc = clone $c; //count criteria
         
@@ -50,8 +44,7 @@ class dashboardActions extends prActions
         $c->setLimit(5);
         
         $this->messages = MemberPeer::doSelectJoinMemberPhoto($c);
-        $rs = MessagePeer::doSelectRS($cc);
-        $this->messages_cnt = $rs->getRecordCount();
+        $this->messages_cnt = $member->getUnreadMessagesCount();
         
         //winks
         $c = new Criteria();

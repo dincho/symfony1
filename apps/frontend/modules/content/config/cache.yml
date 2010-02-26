@@ -9,7 +9,5 @@ _footer_links:
 _footer_menu:
     enabled: on
     contextual: true
-_headerMenu:
-    enabled: on
-    contextual: true
+
     

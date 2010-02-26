@@ -11,6 +11,9 @@ class Member extends BaseMember
   
     private $subscription_info = null;
     
+    //cache
+    private $_unread_messages_count = null;
+    
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
@@ -793,5 +796,28 @@ class Member extends BaseMember
         $c->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE);
         
         return ( MessagePeer::doCount($c) > 0 );
+    }
+    
+    public function getUnreadMessagesCriteria()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::RECIPIENT_ID, $this->getId());
+        $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->add(MessagePeer::UNREAD, true);
+        $c->addGroupByColumn(MessagePeer::THREAD_ID);
+        
+        return $c;
+    }
+    
+    public function getUnreadMessagesCount()
+    {
+        if( is_null($this->_unread_messages_count) )
+        {
+            $rs = MessagePeer::doSelectRS($this->getUnreadMessagesCriteria());
+            $this->_unread_messages_count = $rs->getRecordCount();
+        }
+        
+        return $this->_unread_messages_count;
     }
 }
