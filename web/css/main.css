@@ -2493,6 +2493,7 @@ div.best_video div.right img {
     padding: 0 0 3px 5px;
     margin: 0;
     color: #92897E;
+    clear: both;
 }
 
 #profile_desc dd {

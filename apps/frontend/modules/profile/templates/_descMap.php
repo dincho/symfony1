@@ -12,14 +12,16 @@
         <dl>
             <dt><?php echo __('Orientation') ?></dt>
                 <dd><?php echo __($member->getOrientationString()) ?></dd>
-                
+            
+            <?php if( count($member->getPurpose()) ): ?>
             <dt><?php echo __('Purpose') ?></dt>
                 <dd>
                     <?php foreach($member->getPurpose() as $purpose): ?>
                         <?php echo format_purpose($purpose); ?><br />
                     <?php endforeach; ?>
-                </dd>                
-                
+                </dd>
+            <?php endif; ?>
+            
             <dt><?php echo __('Country') ?></dt>
                 <dd><?php echo pr_format_country($member->getCountry()) ?></dd>
             
