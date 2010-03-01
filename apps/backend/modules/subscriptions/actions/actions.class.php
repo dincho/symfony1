@@ -56,12 +56,6 @@ class subscriptionsActions extends sfActions
                 $subscription->setContactAssistantDay($req_subs[$subscription->getId()]['contact_assistant_day']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
                 
-                $subscription->setTrial1Period($this->getRequestParameter('trial1_period'));
-                $subscription->setTrial1PeriodType($this->getRequestParameter('trial1_period_type'));
-                $subscription->setTrial1Amount($req_subs[$subscription->getId()]['trial1_amount']);
-                $subscription->setTrial2Period($this->getRequestParameter('trial2_period'));
-                $subscription->setTrial2PeriodType($this->getRequestParameter('trial2_period_type'));
-                $subscription->setTrial2Amount($req_subs[$subscription->getId()]['trial2_amount']);
                 $subscription->setPeriod($this->getRequestParameter('period'));
                 $subscription->setPeriodType($this->getRequestParameter('period_type'));                
                 $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
@@ -82,92 +76,12 @@ class subscriptionsActions extends sfActions
   public function validateEdit()
   {
     if( $this->getRequest()->getMethod() == sfRequest::POST )
-    {
-        if( !is_numeric($this->getRequestParameter('trial1_period')) || $this->getRequestParameter('trial1_period') < 0 )
-        {
-            $this->getRequest()->setError('trial1_period', 'Please enter a positive integer or 0');
-            return false;
-        } 
-               
-        if( !is_numeric($this->getRequestParameter('trial2_period')) || $this->getRequestParameter('trial2_period') < 0 )
-        {
-            $this->getRequest()->setError('trial2_period', 'Please enter a positive integer or 0');
-            return false;
-        }
-                       
+    {                  
         if( !is_numeric($this->getRequestParameter('period')) || $this->getRequestParameter('period') <= 0 )
         {
             $this->getRequest()->setError('period', 'Please enter a positive integer');
             return false;
             
-        }
-        
-        //trial period 1
-        switch ($this->getRequestParameter('trial1_period_type')) {
-            case 'D':
-                if( $this->getRequestParameter('trial1_period') > 90 )
-                {
-                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 90');
-                    return false;
-                }
-                break;
-            case 'W':
-                if( $this->getRequestParameter('trial1_period') > 52 )
-                {
-                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 52');
-                    return false;
-                }            
-                break;
-            case 'M':
-                if( $this->getRequestParameter('trial1_period') > 24 )
-                {
-                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 24');
-                    return false;
-                }            
-                break;
-            case 'Y':
-                if( $this->getRequestParameter('trial1_period') > 5 )
-                {
-                    $this->getRequest()->setError('trial1_period', 'Allowable range is 0 to 5');
-                    return false;
-                }            
-                break;
-            default:
-                break;
-        }
-        
-        //trial period 2
-        switch ($this->getRequestParameter('trial2_period_type')) {
-            case 'D':
-                if( $this->getRequestParameter('trial2_period') > 90 )
-                {
-                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 90');
-                    return false;
-                }
-                break;
-            case 'W':
-                if( $this->getRequestParameter('trial2_period') > 52 )
-                {
-                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 52');
-                    return false;
-                }            
-                break;
-            case 'M':
-                if( $this->getRequestParameter('trial2_period') > 24 )
-                {
-                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 24');
-                    return false;
-                }            
-                break;
-            case 'Y':
-                if( $this->getRequestParameter('trial2_period') > 5 )
-                {
-                    $this->getRequest()->setError('trial2_period', 'Allowable range is 0 to 5');
-                    return false;
-                }            
-                break;
-            default:
-                break;
         }
         
         //regular subscription

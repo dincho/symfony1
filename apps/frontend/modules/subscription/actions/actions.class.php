@@ -27,7 +27,7 @@ class subscriptionActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $this->redirect('subscription/payment?a1=' . $this->getRequestParameter('a1') . '&a2=' . $this->getRequestParameter('a2') . '&a3=' . $this->getRequestParameter('a3'));
+            $this->redirect('subscription/payment?a3=' . $this->getRequestParameter('a3'));
         } else {
             $this->subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
             
@@ -41,10 +41,7 @@ class subscriptionActions extends prActions
         {
             $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
         
-            if( $this->getRequestParameter('a1') < $subscription->getTrial1Amount() ||
-                $this->getRequestParameter('a2') < $subscription->getTrial2Amount() ||
-                $this->getRequestParameter('a3') < $subscription->getAmount()
-            )
+            if( $this->getRequestParameter('a3') < $subscription->getAmount() )
             {
                 $this->getRequest()->setError(null, 'Please select correct subscription prices');
                 return false;
@@ -117,12 +114,6 @@ class subscriptionActions extends prActions
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
                             'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $subscription->getId(), true),
-                            'a1' => $this->getRequestParameter('a1'),
-                            'p1' => $subscription->getTrial1Period(),
-                            't1' => $subscription->getTrial1PeriodType(),
-                            'a2' => $this->getRequestParameter('a2'),
-                            'p2' => $subscription->getTrial2Period(),
-                            't2' => $subscription->getTrial2PeriodType(),
                             'a3' => $this->getRequestParameter('a3'),
                             'p3' => $subscription->getPeriod(),
                             't3' => $subscription->getPeriodType(),
@@ -131,17 +122,14 @@ class subscriptionActions extends prActions
         );
         
         $this->encrypted = $EWP->encryptFields($parameters);
-        $this->amount = $this->getRequestParameter('a1');
+        $this->amount = $this->getRequestParameter('a3');
     }
 
     public function validatePayment()
     {
         $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
         
-        if( $this->getRequestParameter('a1') < $subscription->getTrial1Amount() ||
-            $this->getRequestParameter('a2') < $subscription->getTrial2Amount() ||
-            $this->getRequestParameter('a3') < $subscription->getAmount()
-        )
+        if( $this->getRequestParameter('a3') < $subscription->getAmount() )
         {
             $this->setFlash('msg_error', 'Please select correct subscription prices');
             $this->redirect('subscription/setPrice');            

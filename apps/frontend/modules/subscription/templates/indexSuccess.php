@@ -4,7 +4,7 @@
 <?php $sub1 = $subscriptions[0]; ?>
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
     <fieldset style="width: 65%;">
-        <div style='float: left; margin-top: 44px; width: 1px; height: 316px; border-right: 1px solid #3D3D3D;'></div>
+        <div style='float: left; margin-top: 44px; width: 1px; height: 266px; border-right: 1px solid #3D3D3D;'></div>
         <div class="column" >
             <div class="upgrade_header">&nbsp;</div>
             <span class="top_one">&nbsp;</span>
@@ -15,11 +15,9 @@
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />
             <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
-            <span class="type"><?php echo __('First %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial1PeriodType()), array('%PERIOD%' => $sub1->getTrial1Period()))?></span><br />
             <span class="type">
-                <?php echo __('Next %PERIOD% ' . pr_format_payment_period_type($sub1->getTrial2PeriodType()), array('%PERIOD%' => $sub1->getTrial2Period())) ?>
+                <?php echo __('Fee per %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) ?>
             </span><br />
-            <span class="type"><?php echo __('Then every %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) ?></span><br />
             <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
@@ -38,9 +36,7 @@
                 <span class="check"><?php echo ($subscription->getCanReplyMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>                
-                <span class="check"><?php echo ($subscription->getTrial1Amount() > 0 ) ? __('set your own price') : __('Free')?></span>                              
-                <span class="check"><?php echo ($subscription->getTrial2Amount() > 0 ) ? __('set your own price') : __('Free')?></span>                
+                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>                           
                 <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? __('set your own price') : __('Free')?></span>
                 <span class="select">
                   <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
@@ -48,7 +44,6 @@
                   <?php else: ?>
                     &nbsp;
                   <?php endif; ?>
-                  <?php //echo radiobutton_tag('subscription_id', $subscription->getId(), ($subscription->getId() == $member->getSubscriptionId())) ?>
                 </span>
             </div>        
         <?php endforeach; ?>
