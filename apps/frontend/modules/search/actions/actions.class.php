@@ -49,6 +49,10 @@ class searchActions extends prActions
         
         $this->processPublicFilters($c);
         $this->members = MemberPeer::doSelectJoinAll($c);
+        
+        $this->getResponse()->setTitle('Public search title');
+        $this->getResponse()->addMeta('description', 'Public search description');
+        $this->getResponse()->addMeta('keywords', 'Public search keywords');
     }
 
     public function executeIndex()
