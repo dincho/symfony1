@@ -47,7 +47,7 @@
 </form>
 
 <div id="match_results">
-    <?php if(count($members) == 12) include_partial('public_pager'); ?>
+    <?php include_partial('public_pager'); ?>
     <div class="member">
         <?php $i=1;foreach($members as $member): ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
@@ -71,7 +71,7 @@
             <?php endif; ?>  
         <?php $i++;endforeach; ?>
     </div>
-    <?php if(count($members) == 12) include_partial('public_pager'); ?>
+    <?php include_partial('public_pager'); ?>
 </div>
 
 <br class="clear" />
