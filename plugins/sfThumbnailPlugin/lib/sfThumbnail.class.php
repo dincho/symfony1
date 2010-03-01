@@ -361,14 +361,14 @@ class sfThumbnail
   
   public function prBrand($text = '', $font_size = 18)
   {
-    $watermark = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');  
+    $watermark = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');
     $watermark_width = imagesx($watermark); 
     $watermark_height = imagesy($watermark);
     $ptr_white = imageColorAllocate($watermark,255,255,255);
     imageColorTransparent($watermark,$ptr_white);
     
     $x = $this->getThumbWidth() - $watermark_width - 8;
-    $y = $this->getThumbHeight() - $watermark_height - 15;
+    $y = $this->getThumbHeight() - $watermark_height - 20;
     imagecopy($this->thumb, $watermark, $x, $y, 0,0, $watermark_width, $watermark_height);
   }
   
