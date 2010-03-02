@@ -15,7 +15,6 @@
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
-    <?php echo button_to(($member->getVerifiedPhoto()) ? 'Un-Verify' : 'Verify', 'members/verifyPhoto?id=' . $member->getId()); ?>
   </fieldset>
     
   <fieldset class="form_fields">
@@ -31,6 +30,20 @@
             <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100').'?'.time() : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
           </div>
         <?php echo link_to('Delete', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?>
+        <p>
+        <?php if( $photo->getAuth() == 'A'): ?>
+            Status: Approved<br />
+            (<?php echo link_to('Deny', 'members/verifyPhoto?auth=D&id=' . $member->getId() . '&photo_id='.$photo->getId()); ?>)
+        <?php elseif($photo->getAuth() == 'D'): ?>
+            Status: Denied<br />
+            (<?php echo link_to('Approve', 'members/verifyPhoto?auth=A&id=' . $member->getId() . '&photo_id='.$photo->getId()); ?>)       
+        <?php elseif($photo->getAuth() == 'S'): ?>
+            Status: Request<br />
+            (<?php echo link_to('Approve', 'members/verifyPhoto?auth=A&id=' . $member->getId() . '&photo_id='.$photo->getId()) . 
+                                '&nbsp|&nbsp;'. link_to('Deny', 'members/verifyPhoto?auth=D&id=' . $member->getId() . '&photo_id='.$photo->getId() ); ?>)
+        <?php endif; ?>
+        </p>
+        
         </div>
         <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
         </fieldset>
@@ -94,7 +107,6 @@
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
-    <?php echo button_to(($member->getVerifiedPhoto()) ? 'Un-Verify' : 'Verify', 'members/verifyPhoto?id=' . $member->getId()); ?>
   </fieldset>
 </form>
 

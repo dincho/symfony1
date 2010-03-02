@@ -30,7 +30,9 @@
         </div>
     <?php endif; ?>
     
-    <p class="photo_authenticity float-right"><?php echo ($member->getVerifiedPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
+    <p class="photo_authenticity float-right">
+        <?php echo link_to(($member->hasAuthPhoto()) ? __('Update Your Verification Photo') : __('Verify authenticity'), 'editProfile/photoAuthenticity', array('class' => 'sec_link')); ?>
+    </p>
     <br class="clear" />
     <hr />
     

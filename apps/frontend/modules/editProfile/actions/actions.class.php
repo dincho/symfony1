@@ -510,4 +510,65 @@ class editProfileActions extends prActions
         $this->photos = $this->member->getMemberPhotos();
         return sfView::SUCCESS;
     }
+    
+    public function executePhotoAuthenticity()
+    {
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
+        ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
+        ->add(array('name' => 'Photo Authenticity'));
+        
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($this->member); //just in case
+        
+         if ($this->getRequest()->getMethod() == sfRequest::POST)
+         {
+             $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('auth_photo_id'));
+             $this->forward404Unless($photo);
+             
+             $c1 = new Criteria();
+             $c1->add(MemberPhotoPeer::AUTH, 'S');
+             $c1->add(MemberPhotoPeer::MEMBER_ID, $this->member->getId());
+             $c2 = new Criteria();
+             $c2->add(MemberPhotoPeer::AUTH, null);
+             BasePeer::doUpdate($c1, $c2, Propel::getConnection());
+             
+             $photo->setAuth('S');
+             $photo->save();
+             
+             $this->setFlash('msg_ok', 'Your photo has been submitted for authenticity approval.');
+             $this->redirect('editProfile/photoAuthenticity');
+         }
+         
+        $this->photos = $this->member->getMemberPhotos();
+    }
+    
+    public function validatePhotoAuthenticity()
+    {
+       if ($this->getRequest()->getMethod() == sfRequest::POST)
+       {
+           if( !$this->getRequestParameter('auth_photo_id') )
+           {
+               $this->getRequest()->setError('auth_photo_id', 'Please select photo');
+               return false;
+           }
+       } 
+       
+       return true;
+    }
+    
+    public function handleErrorPhotoAuthenticity()
+    {
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
+        ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
+        ->add(array('name' => 'Photo Authenticity'));
+        
+        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
+        $this->forward404Unless($this->member); //just in case
+         
+        $this->photos = $this->member->getMemberPhotos();
+        
+        return sfView::SUCCESS;
+    }
 }

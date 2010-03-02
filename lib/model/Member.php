@@ -820,4 +820,13 @@ class Member extends BaseMember
         
         return $this->_unread_messages_count;
     }
+    
+    public function hasAuthPhoto()
+    {
+         $c = new Criteria();
+         $c->add(MemberPhotoPeer::AUTH, 'A');
+         $c->add(MemberPhotoPeer::MEMBER_ID, $this->getId());
+         
+         return (MemberPhotoPeer::doCount($c) > 0);
+    }
 }

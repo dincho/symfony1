@@ -676,9 +676,13 @@ class membersActions extends sfActions
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
         
-        $this->member->setVerifiedPhoto(! $this->member->getVerifiedPhoto());
-        $this->member->save();
+        $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+        $this->forward404Unless($photo);
         
+        $photo->setAuth($this->getRequestParameter('auth'));
+        $photo->save();
+        
+        $this->setFlash("Member's photo authenticity successfully changed");
         $this->redirect($this->getUser()->getRefererUrl());
     }
         

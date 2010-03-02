@@ -115,7 +115,6 @@ propel:
     original_last_name:       { type: varchar, size: 80, required: true }
     last_subscription_change: { type: timestamp }
     last_photo_upload_at:     { type: timestamp }
-    verified_photo:           { type: boolean, default: false }
     purpose:                  { type: varchar, size: 255 }
     millionaire:              { type: boolean, default: false }
     _uniques:
@@ -198,6 +197,7 @@ propel:
     file:                     { type: varchar, size: 255 }
     cropped:                  { type: varchar, size: 255 }
     is_main:                  { type: boolean, required: true, default: false }
+    auth:                     { type: char, size: 1, required: false } #S - submitted for approve, A - approved, D - Denied
   stock_photo:
     id:
     file:                     { type: varchar, size: 255 }
