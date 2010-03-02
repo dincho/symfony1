@@ -11,7 +11,7 @@
                     <div class="age"><?php echo $member->getAge() ?></div>
                     <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 39) ?></div>
                 </div>
-              <?php echo profile_photo($member, 'float-left') ?>                      
+              <?php echo profile_photo($member, 'float-left') ?>
               <div class="profile_info">
                     <?php if( $member->getMillionaire() ): ?>
                         <div class="millionaire_mark"><?php echo __('M'); ?></div>

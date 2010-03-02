@@ -62,7 +62,10 @@
                     <p><?php echo link_to('View Profile', 'registration/joinNow', array('class' => 'sec_link')) ?></p>
                     <p></p>
                     <p></p>
-                    <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => distance_of_time_in_words($member->getLastLogin(null)))) ?></p>
+                    <p>
+                       <?php echo __('Last log in: '); ?>
+                       <?php echo distance_of_time_in_words($member->getLastLogin(null)); ?>
+                    </p>
                 </div>
             </div>  
             <?php if( $i < 12 && $i%3 == 0): ?>
