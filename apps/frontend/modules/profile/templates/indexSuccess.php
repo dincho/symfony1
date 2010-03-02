@@ -1,22 +1,31 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
+<?php $member_photos = $member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')); ?>
 
 <div id="profile_left" style="padding-top: 14px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
     <div style="min-height: 350px">
         <?php 
-              $image_options = array('id' => 'member_image');
-              $link_options = array('id' => 'member_image_link');
+              _addLbRessources();
               
               if( !is_null($member->getMainPhotoId()) ): //has main photo
-              echo light_image($member->getMainPhoto()->getImg('350x350', 'file'), 
-                               $member->getMainPhoto()->getImageUrlPath('file'), $link_options, $image_options );
-              else: //has no main photo, so lightbox and link should not be applied
+                
+                echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
+                                    array('href' => $member->getMainPhoto()->getImageUrlPath('file'),
+                                          'rel' => 'lightbox[slide]',
+                                          'title' => $member->getUsername(),
+                                          'id' => 'member_image_link'
+                                ));
+                foreach ($member_photos as $photo):
+                    echo content_tag('a', null, array('href' => $photo->getImageUrlPath('file'), 'rel' => 'lightbox[slide]'));
+                endforeach;
+                
+              else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
                 echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), $image_options);
               endif; 
         ?>
     </div>
-    <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
+    <?php $i=1;foreach ($member_photos as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
             <?php $class = 'current_thumb';?>
             <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>
