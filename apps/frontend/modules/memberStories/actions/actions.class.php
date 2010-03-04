@@ -42,6 +42,8 @@ class memberStoriesActions extends prActions
         //next story
         $c = new Criteria();
         $c->add(MemberStoryPeer::SORT_ORDER, $this->story->getSortOrder(), Criteria::GREATER_THAN);
+        $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
+        $c->add(MemberStoryPeer::CULTURE, $this->story->getCulture());
         $this->next_story = MemberStoryPeer::doSelectOne($c);
     }
 
