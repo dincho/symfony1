@@ -68,6 +68,8 @@ function link_for_extra_activity_field($activity, $member)
     
     static $has_matual_wink = null;
     static $has_matual_hotlist = null;
+    static $first_matual_wink_mark = true;
+    static $first_matual_hotlist_mark = true;
     
     switch ($activity->getActivity()) {
         case 'mailed':
@@ -81,8 +83,16 @@ function link_for_extra_activity_field($activity, $member)
                                                 ( $activity->getMemberId() == $viewer->getId() && $member->hasWinkTo($viewer->getId()) ) ||  
                                                 ( $activity->getMemberId() == $member->getId() && $viewer->hasWinkTo($member->getId()) )
                                                );
-                }            
-                return ($has_matual_wink) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both winked at each other') .'")')) : null;
+                }
+                
+                if( $has_matual_wink && $first_matual_wink_mark === true  )
+                {
+                    $first_matual_wink_mark = false;
+                    return image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both winked at each other') .'")'));
+                }
+                
+                $first_matual_wink_mark = false;
+
             break;
             
             case 'hotlisted':
@@ -92,13 +102,21 @@ function link_for_extra_activity_field($activity, $member)
                                                 ( $activity->getMemberId() == $viewer->getId() && $member->hasInHotlist($viewer->getId()) ) ||  
                                                 ( $activity->getMemberId() == $member->getId() && $viewer->hasInHotlist($member->getId()) )
                                                );
-                }            
-                return ($has_matual_hotlist) ? image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both added themselves to the hotlist') .'")')) : null;
+                }
+                
+                if ( $has_matual_hotlist && $first_matual_hotlist_mark === true )
+                {
+                    $first_matual_hotlist_mark = false;
+                    return image_tag('/images/heart.gif', array('width' => 13, 'height' => 11, 'onmouseover' => 'RA_balloon.showTooltip(event,"'. __('You both added themselves to the hotlist') .'")'));
+                }
+                
+                $first_matual_hotlist_mark = false;
             break;
-                                   
         
         default:
                 return null;
             break;
-    }    
+    }
+    
+    return null;
 }
