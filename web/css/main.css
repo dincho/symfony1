@@ -323,6 +323,14 @@ form fieldset br {
     clear: left;
 }
 
+#public_reg_form input, #public_reg_form select, 
+#self_desc_form input, #self_desc_form select, essay select, #essay input,
+#photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #public_reg_form label
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
 /* END FORMS DEFAULT */
 
 /* Select countries and areas */
@@ -1175,6 +1183,10 @@ span {
     margin: 1px 0 0 0;
 }
 
+#essay input {
+    font-size: 12px;
+}
+
 #essay textarea {
     height: 230px;
 }
@@ -1860,14 +1872,6 @@ div.best_video div.right img {
 #register .button_mini {
     margin: 0 2px 0 0;
     float: right;
-}
-
-#secondary_container #public_reg_form input, #secondary_container #public_reg_form select, 
-#self_desc_form input, #self_desc_form select, essay select, #essay input,
-#photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #secondary_container #public_reg_form label
-{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
 }
 
 #register input, #register select {
