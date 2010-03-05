@@ -40,7 +40,8 @@ class contentComponents extends sfComponents
         $c->add(HomepageMemberPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
         $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $culture .'", ' . HomepageMemberPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
         $c->add(HomepageMemberPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
-        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        $c->addGroupByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        //$c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
         $c->setLimit(9);
         $photos = HomepageMemberPhotoPeer::doSelect($c);
         
