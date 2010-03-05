@@ -35,7 +35,7 @@
     <div id="footer_articles">
         <ul>
             <?php include_component('memberStories', 'homepageList'); ?>
-        </ul
+        </ul>
         <?php echo __('Homepage footer articles'); ?>
     </div>
 </body>
