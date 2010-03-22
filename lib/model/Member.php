@@ -619,6 +619,11 @@ class Member extends BaseMember
       sfToolkit::clearGlob($cache_dir.'/*/*/profile/'.$this->getUsername() .'*'); //others views this 
       sfToolkit::clearGlob($cache_dir.'/*/myProfile*/content/_breadcrumb/'.$this->getId().'.cache'); //myProfile view
       sfToolkit::clearGlob($cache_dir.'/*/myProfile*/profile/_descMap/'.$this->getId().'.cache');
+      
+      //non-culture containing urls
+      sfToolkit::clearGlob($cache_dir.'/*/profile/'.$this->getUsername() .'*'); //others views this 
+      sfToolkit::clearGlob($cache_dir.'/myProfile*/content/_breadcrumb/'.$this->getId().'.cache'); //myProfile view
+      sfToolkit::clearGlob($cache_dir.'/myProfile*/profile/_descMap/'.$this->getId().'.cache');
     }
     
     public function getCulture($default = 'en')
