@@ -70,7 +70,7 @@ class Zodiac
                 $this->sign = ($day <= 21) ? "Scorpio" : "Sagittarius";
                 break;
             case 12:
-                $this->sign = ($day <= 222) ? "Sagittarius" : "Capricorn";
+                $this->sign = ($day <= 22) ? "Sagittarius" : "Capricorn";
                 break;
         }
     }
