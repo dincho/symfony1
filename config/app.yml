@@ -5,7 +5,7 @@ default:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
-    version:            "v1.4/r1339"
+    version:            "v1.4.3/r1365"
     mail:
         host:           imap.gmail.com
         port:           993
@@ -13,7 +13,7 @@ default:
         password:       PD11837
         from:           admin@szukammilionera.pl
         mailer:         smtp
-        smtp_host:      "sslv2://smtp.gmail.com"
+        smtp_host:      "sslv3://smtp.gmail.com"
         smtp_port:      465
         smtp_security:  off #security is set via host address socket transport
         smtp_debug:     0 #integer greather value more debug

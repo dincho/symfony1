@@ -544,9 +544,6 @@ class registrationActions extends prActions
                     $this->getRequest()->setError('new_photo', 'The photo should be at least 200px wide');
                     return false;
                 }
-            } else {
-                    $this->getRequest()->setError('new_photo', 'Unable to upload your file to our server, please contact us!');
-                    return false;                
             }
                       
             if (! $subscription->getCanPostPhoto())

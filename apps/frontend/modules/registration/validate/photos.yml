@@ -1,17 +1,14 @@
 fillin:
   enabled: true
   param:
-    content_type:   xhtml  
+    content_type:   xhtml   
 fields:
     new_photo:
         file: true 
-        sfFileValidator:
-          mime_types:
-            - 'image/jpeg'
-            - 'image/png'
-            - 'image/x-png'
-            - 'image/pjpeg'
-            - 'image/gif'
+        prFileValidator:
+          mime_types: @web_images
           mime_types_error: Only PNG, JPEG and GIF images are allowed
           max_size:         3145728
           max_size_error:   Max image size is 3MB
+          ini_max_size_error: Max image size is 3MB
+          

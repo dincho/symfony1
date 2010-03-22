@@ -476,13 +476,23 @@ class membersActions extends sfActions
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect($this->getUser()->getRefererUrl());
         }
+        
         $this->photos = $this->member->getMemberPhotos();
         $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
-        //$this->getResponse()->addJavascript('fileUploads.js');
-        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
-        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js?load=builder,dragdrop');
-        $this->getResponse()->addJavascript('/cropper/cropper.js');
-        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');
+    }
+    
+    public function handleErrorEditPhotos()
+    {
+        $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
+        $this->forward404Unless($member);
+        $this->member = $member;
+        
+        $this->photos = $this->member->getMemberPhotos();
+        $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+              
+        $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
+
+        return sfView::SUCCESS; 
     }
 
     public function executeEditIMBRA()

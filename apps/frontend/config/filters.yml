@@ -30,8 +30,8 @@ domainsFilter:
 cache:     ~
 common:    ~
 
-#common:    
-#  class: sfOptimizeStyleAndScript
+common:    
+  class: sfOptimizeStyleAndScript
   
 flash:     ~
 execution: ~
