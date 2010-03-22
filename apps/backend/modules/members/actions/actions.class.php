@@ -69,6 +69,9 @@ class membersActions extends sfActions
         {   
             $pc = clone $c;
             $pc->setLimit(null);
+            $pc->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
+            $pc->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
+            $pc->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
             $rs = MemberPeer::doSelectRS($pc);
             $profile_pager_members = array();
 
