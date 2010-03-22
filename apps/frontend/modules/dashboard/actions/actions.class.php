@@ -192,7 +192,7 @@ class dashboardActions extends prActions
           $this->getUser()->setAttribute('status_id', MemberStatusPeer::DEACTIVATED);
           $this->message('status_deactivated');
         
-      } elseif( $this->getRequestParameter('re') && $member->getMemberStatusId() == MemberStatusPeer::DEACTIVATED )
+      } elseif( $this->getRequestParameter('re') && in_array($member->getMemberStatusId(), array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)))
       {
           $member->changeStatus(MemberStatusPeer::ACTIVE);
           $this->setFlash('msg_ok', 'Your account has been reactivated');
