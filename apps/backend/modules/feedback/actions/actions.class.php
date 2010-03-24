@@ -76,6 +76,14 @@ class feedbackActions extends sfActions
         } else
         {
             $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
+            
+            $mail_options = array();
+            foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
+            {
+                $mail_options[$mail] = $mail;
+            }
+        
+            $this->mail_options = $mail_options; 
         }
     }
 
@@ -86,6 +94,14 @@ class feedbackActions extends sfActions
         
         $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
         
+        $mail_options = array();
+        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
+        {
+            $mail_options[$mail] = $mail;
+        }
+    
+        $this->mail_options = $mail_options; 
+                    
         return sfView::SUCCESS;
     }
     
@@ -152,7 +168,7 @@ class feedbackActions extends sfActions
     {
         if ($this->getRequestParameter('mail_to'))
         {
-            $mail = new prMail();
+            $mail = new prMail($this->getRequestParameter('mail_config'));
             $mail->setSender($this->getRequestParameter('mail_from'));
             $mail->setFrom($this->getRequestParameter('mail_from'));
             $mail->setSubject($this->getRequestParameter('subject'));
@@ -195,7 +211,7 @@ class feedbackActions extends sfActions
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member)
             {
-                $mail = new prMail();
+                $mail = new prMail($this->getRequestParameter('mail_config'));
                 $mail->setFrom($this->getRequestParameter('mail_from'));
                 $mail->setSender($this->getRequestParameter('mail_from'));
                 $mail->setSubject($this->getRequestParameter('subject'));

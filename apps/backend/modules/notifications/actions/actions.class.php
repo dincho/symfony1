@@ -43,11 +43,21 @@ class notificationsActions extends sfActions
             $notification->setIsActive($this->getRequestParameter('is_active', 0));
             $notification->setDays($this->getRequestParameter('days', 0));
             $notification->setWhn(($this->getRequestParameter('days', 0) == 0) ? null : $this->getRequestParameter('whn'));
+            $notification->setMailConfig($this->getRequestParameter('mail_config'));
             $notification->save();
             
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('notifications/list?to_admins=' . $notification->getToAdmins());
         }
+        
         $this->notification = $notification;
+        
+        $mail_options = array();
+        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
+        {
+            $mail_options[$mail] = $mail;
+        }
+        
+        $this->mail_options = $mail_options;
     }
 }

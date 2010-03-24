@@ -35,7 +35,7 @@ class Notification extends BaseNotification
             }
         }
         
-        $mail = new prMail();
+        $mail = new prMail($this->getMailConfig());
         if( !is_null($mail_from) )
         {
             $mail->setFrom($mail_from);

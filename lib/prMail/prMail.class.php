@@ -6,25 +6,37 @@ class prMail extends sfMail
     private $to;
     private $copy_to_web = false;
 
-    public function __construct()
+    public function __construct($mail_config_key = null)
     {
+        $mail_configs = sfConfig::get('app_mail_outgoing');
+        
+        if( !is_array($mail_configs) )
+        {
+            throw new sfException('Outgoing mail configuration is not set or it\'s not array');
+        }
+        
+        $mail_config = ( isset($mail_configs[$mail_config_key]) ) ? $mail_configs[$mail_config_key] : array_shift($mail_configs);
+        
+        if( !is_array($mail_config) )
+        {
+            throw new sfException('Outgoing mail configuration cannot be obtained or it is not an array');
+        }
+        
         $this->mailer = new PHPMailer(true);
-        
-        
-        $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', 0);
-        $this->mailer->Host = sfConfig::get('app_mail_smtp_host', 'localhost');
-        $this->mailer->Port = sfConfig::get('app_mail_smtp_port', 25);
-        $this->mailer->SMTPSecure = sfConfig::get('app_mail_smtp_security', '');
+        $this->mailer->SMTPDebug = $mail_config['smtp_debug'];
+        $this->mailer->Host = $mail_config['smtp_host'];
+        $this->mailer->Port = $mail_config['smtp_port'];
+        $this->mailer->SMTPSecure = $mail_config['smtp_security'];
         
 
-        $this->setMailer(sfConfig::get('app_mail_mailer', 'mail'));
-        $this->setUsername(sfConfig::get('app_mail_smtp_username'));
-        $this->setPassword(sfConfig::get('app_mail_smtp_password'));
+        $this->setMailer($mail_config['mailer']);
+        $this->setUsername($mail_config['smtp_username']);
+        $this->setPassword($mail_config['smtp_password']);
         
         $this->setCharset('utf-8');
         $this->setContentType('text/html');
-        $this->setFrom(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
-        $this->setSender(sfConfig::get('app_mail_from', 'from_email_not_set@PolishDate.com'));
+        $this->setFrom($mail_config['from']);
+        $this->setSender($mail_config['from']);
         
         //print_r($this->mailer);exit();
     }

@@ -29,4 +29,10 @@ class systemActions extends prActions
   {
       $this->setLayout('system');
   }
+  
+  public function executeTest()
+  {
+      print_r(array_shift(sfConfig::get('app_mail_outgoing')));
+      exit();
+  }
 }

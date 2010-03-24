@@ -480,6 +480,7 @@ propel:
     subject:        { type: varchar, size: 255 }
     body:           { type: longvarchar }
     footer:         { type: longvarchar }
+    mail_config:    { type: varchar, size: 255 }
       
   notification_event:
     id:

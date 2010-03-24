@@ -39,6 +39,10 @@
         <th>From Email</th>
         <td><?php echo input_tag('mail_from', $sf_request->getParameter('mail_from', $template->getMailFrom())) ?></td>
       </tr>
+      <tr>
+        <th>Mail Config</th>
+        <td><?php echo select_tag('mail_config', options_for_select($mail_options, $sf_request->getParameter('mail_config'))); ?></td>
+      </tr>      
     <tbody>
   </table>
   <table class="details compose_options float-left">

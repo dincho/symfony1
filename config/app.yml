@@ -7,18 +7,31 @@ default:
         pl:             pl.pd.dincho.bonex.us
     version:            "v1.4.3/r1365"
     mail:
+     incoming:
         host:           imap.gmail.com
         port:           993
         username:       incoming@polishdate.com
         password:       PD11837
-        from:           admin@szukammilionera.pl
-        mailer:         smtp
-        smtp_host:      "sslv3://smtp.gmail.com"
-        smtp_port:      465
-        smtp_security:  off #security is set via host address socket transport
-        smtp_debug:     0 #integer greather value more debug
-        smtp_username:  admin@szukammilionera.pl
-        smtp_password:  SM11837
+        
+     outgoing:
+        - admin@szukammilionera.pl:
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  admin@szukammilionera.pl
+            smtp_password:  SM11837
+            from:           admin@szukammilionera.pl
+        - hello@szukammilionera.pl:
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  hello@szukammilionera.pl
+            smtp_password:  SM11837
+            from:           hello@szukammilionera.pl
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days

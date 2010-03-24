@@ -21,7 +21,11 @@
       <?php echo object_input_tag($notification, 'getName', error_class('name')) ?><br />
 
       <label for="send_from">Send from address:</label>
-      <?php echo object_input_tag($notification, 'getSendFrom', error_class('send_from')) ?><br />
+      <?php echo object_input_tag($notification, 'getSendFrom', error_class('send_from')) ?>
+      
+      <label for="mail_config">Mail Config:</label>
+      <?php echo select_tag('mail_config', options_for_select($mail_options, $notification->getMailConfig())); ?>
+      <br />
       
       <?php if( $notification->getToAdmins() ): ?>
           <label for="send_to">Send to address:</label>
