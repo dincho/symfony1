@@ -40,6 +40,7 @@ class Events
     const ACCOUNT_ACTIVITY_WINK = 20;
     const ACCOUNT_ACTIVITY_HOTLIST = 21;
     const ACCOUNT_ACTIVITY_VISITOR = 22;
+    const EOT = 24;
     
     /* REGISTRATION EVENTS */
     public static function triggerJoin($member)
@@ -298,6 +299,19 @@ class Events
                             
         return self::executeNotifications(self::ACCOUNT_ACTIVITY_VISITOR, $global_vars, $member->getEmail(), $member);
     }
+    
+    public static function triggerEOT(BaseMemberSubscription $subscription)
+    {
+        sfLoader::loadHelpers(array('Date'));
+        
+        $member = $subscription->getMember();
+        $date_format = ( $member->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
+        
+        $global_vars = array('{EOT_DATE}' => format_date($subscription->getExtendedEOT(), $date_format));
+        
+        return self::executeNotifications(self::EOT, $global_vars, $member->getEmail(), $member);
+    }
+    
     
     /**
      * Sends emails to attached notifications for selected event

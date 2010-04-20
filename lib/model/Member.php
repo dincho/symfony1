@@ -440,91 +440,6 @@ class Member extends BaseMember
         return parent::getMemberPhotos($c, $con);
     }
     
-    public function clearCounters()
-    {
-        $counter = $this->getMemberCounter();
-        $counter->setSentWinks(0);
-        $counter->setReadMessages(0);
-        $counter->setReplyMessages(0);
-        $counter->setSentMessages(0);
-        $counter->setAssistantContacts(0);
-        $counter->save();
-    }
-
-    public function getSubscriptionInfo()
-    {
-        if( !is_null($this->subscription_info) ) return $this->subscription_info; //cache
-        
-        $info = array('EOT' => null, 'NEXT_PAYMENT_DATE' => null, 'NEXT_PAYMENT_AMOUNT' => null);
-        $c = new Criteria();
-        $c->add(IpnHistoryPeer::SUBSCR_ID, $this->getLastPaypalSubscrId());
-        $c->add(IpnHistoryPeer::TXN_TYPE, 'subscr_signup');
-        $ipn_history = IpnHistoryPeer::doSelectOne($c);
-        
-        if( !$ipn_history ) 
-        {
-          $this->subscription_info = $info;
-          return $info;
-        }
-        
-        $subscribed_at = $ipn_history->getCreatedAt(null);
-        
-        $period_types_map = array('D' => 3, 'W' => 4, 'M' => 5, 'Y' => 7);
-        $eot = new sfDate($subscribed_at);
-        
-        if( !is_null($ipn_history->getParam('period1')) )
-        {
-          list($period, $period_type) = explode(' ', $ipn_history->getParam('period1'));
-          $period_type = $period_types_map[$period_type];
-          $info['EOT'] =  $eot->add($period, $period_type); //period 1
-          $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount1');
-        }
-        
-        if( $eot->get() < time() ) //passed period 1, add period 2
-        {
-            if( !is_null($ipn_history->getParam('period2')) )
-            {
-              list($period, $period_type) = explode(' ', $ipn_history->getParam('period2'));
-              $period_type = $period_types_map[$period_type];
-              $info['EOT'] = $eot->add($period, $period_type); //period 2
-              $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount2');
-            }
-            
-            if ( $eot->get() < time() ) //period 3/normal
-            {
-                if( !is_null($ipn_history->getParam('period3')) )
-                {
-                  $eot = new sfDate($this->getLastPaypalPaymentAt(null));
-                  list($period, $period_type) = explode(' ', $ipn_history->getParam('period3'));
-                  $period_type = $period_types_map[$period_type];
-                  $info['EOT'] = $eot->add($period, $period_type); //period 3
-                  $info['NEXT_PAYMENT_AMOUNT'] = (float) $ipn_history->getParam('mc_amount3');
-                }
-            }
-        }
-        
-        $this->subscription_info = $info;
-        return $info;
-    }
-    
-    public function getEotDate($object_return = false)
-    {
-      
-        $info = $this->getSubscriptionInfo();
-        return ($object_return) ? $info['EOT'] : $info['EOT']->get();
-    }
-    
-    public function getNextPaymentDate()
-    {
-      return $eot = $this->getEotDate(true)->get();
-    }
-    
-    public function getNextPaymentAmount()
-    {
-      $info = $this->getSubscriptionInfo();
-      return $info['NEXT_PAYMENT_AMOUNT'];
-    }
-    
     public function getLastIP($long = false)
     {
         if( $long ) return parent::getLastIp();
@@ -833,5 +748,14 @@ class Member extends BaseMember
          $c->add(MemberPhotoPeer::MEMBER_ID, $this->getId());
          
          return (MemberPhotoPeer::doCount($c) > 0);
+    }
+    
+    public function getCurrentMemberSubscription()
+    {
+        $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
+        $c->add(MemberSubscriptionPeer::IS_CURRENT, true);
+        
+        return MemberSubscriptionPeer::doSelectOne($c);
     }
 }

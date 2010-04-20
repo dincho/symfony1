@@ -40,7 +40,7 @@
                 <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? __('set your own price') : __('Free')?></span>
                 <span class="select">
                   <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
-                    <?php echo button_to(__('Upgrade to Premium'), 'subscription/setPrice', array('class' => 'button')); ?>
+                    <?php echo button_to(__('Upgrade to Premium'), 'subscription/payment', array('class' => 'button')); ?>
                   <?php else: ?>
                     &nbsp;
                   <?php endif; ?>

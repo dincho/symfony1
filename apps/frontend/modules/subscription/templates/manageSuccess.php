@@ -1,19 +1,42 @@
-<?php use_helper('Number', 'Date') ?>
+<?php use_helper('Number', 'Date', 'Javascript') ?>
 <?php echo __('Manage subscription - membership status'); ?>
 
-<?php if( $member->getLastPaypalItem() == 'membership'): //normal membership by member ?>
-    <?php if( is_null($member->getPaypalUnsubscribedAt()) ): //still not canceled subscription ?>
-        <?php echo __('Manage subscription - auto-renewal', 
-                      array('%EOT_DATE%' => format_date($member->getEotDate(null), $date_format),
-                            '%NEXT_PAYMENT_DATE%' => format_date($member->getNextPaymentDate(null), $date_format),
-                            '%NEXT_PAYMENT_AMOUNT%' => format_currency($member->getNextPaymentAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')),
-                      )); ?>
-        <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), array('popup' => true, 'class' => 'button')) ?>    
+<?php if( $member_subscription ): ?>
+    <?php if( $member_subscription->getStatus() == 'canceled' ): ?>
+        <?php echo __('Manage subscription - subscription canceled', array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(null), $date_format))); ?>
     <?php else: ?>
-         <?php echo __('Manage subscription - subscription canceled', array('%EOT_DATE%' => format_date($member->getEotDate(null), $date_format))); ?>
+        <?php if( $last_payment->getPaymentProcessor() == 'paypal' ): ?>
+            <?php echo __('Manage subscription - paypal', 
+                          array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(), $date_format),
+                                '%NEXT_PAYMENT_DATE%' => format_date($member_subscription->getEotAt(null), $date_format),
+                                '%NEXT_PAYMENT_AMOUNT%' => format_currency($last_payment->getAmount(), $last_payment->getCurrency()),
+                          )); ?>
+            <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), 
+                                    array('popup' => true, 'class' => 'button')) ?>
+                                    
+        <?php elseif( $last_payment->getPaymentProcessor() == 'zong' ): ?>
+            
+            <?php echo __('Manage subscription - zong', array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(), $date_format))); ?>
+            
+            <?php if( $zongAvailable ): ?>
+                <?php $zong_pay_button = button_to_function(__('Pay with Zong+'), 'show_zong_payment();', array('class' => 'button', 'id' => 'zong_pay_button')); ?>
+                <p id="zong_payment"><?php echo __('Manage subscription - zong pay button', array('%PAY_BUTTON%' => $zong_pay_button)); ?></p>
+                <div id="zongPayment_container" style="display: none;"><?php echo __('Loading please wait ...'); ?></div>
+                
+                <script type="text/javascript" charset="utf-8">
+                    function show_zong_payment()
+                    {
+                        $('zong_payment').hide();
+                        $('zongPayment_container').show();
+        
+                        <?php echo remote_function(array('update' => 'zongPayment_container', 'url' => 'ajax/zongPayment?msid=' . $member_subscription->getId())); ?>
+                    }
+                </script>
+            <?php endif; ?>
+        <?php endif; ?>
+
     <?php endif; ?>
-<?php elseif( $member->getLastPaypalItem() == 'gift_membership' ): //gift membership ?>
-    <?php echo __('Manage subscription - gift membership', array('%EOT_DATE%' => format_date($member->getEotDate(null), $date_format)) ); ?>
+    
 <?php else: ?>
     <?php echo __('Manage subscription - membership by admin'); ?>
 <?php endif; ?>

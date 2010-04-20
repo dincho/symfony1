@@ -1,9 +1,9 @@
 <?php
 
 /**
- * clearFreeMembersCounters batch script
+ * clearDailyMembersCounters batch script
  *
- * Script that runs each day at 00:00 and clear daily counters of all members
+ * Script that runs each day at 00:01 and clear daily counters of all members
  *
  * @package    PolishRomance
  * @subpackage batch

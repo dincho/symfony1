@@ -4,10 +4,10 @@ MAILTO=dincho.todorov@bonex.us
 01      08     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationAccountActivity.php
 01      09     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationLoginReminder.php
 01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationRegistrationReminder.php
-50      23     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/paypalEOT.php
-01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearFreeMembersCounters.php
-02      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDayMembersCounters.php
-10      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearGiftMembershipCounters.php
+01      11     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationEOT.php
+50      23     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/subscriptionsEOT.php
+01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDailyMembersCounters.php
+02      00     1     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearMonthlyMembersCounters.php
 20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDeletedWinks.php
 30      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/deactivateUnusedProfiles.php
 40      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearLinks.php

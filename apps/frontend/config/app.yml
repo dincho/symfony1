@@ -8,10 +8,16 @@ all:
   paypal:
     business: admin_1231849319_biz@polishromance.com
     test:     1
-    cert_id:  BCHR68QGVXYPL
+    cert_id:  KRHQZEWMCEYVL
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
-    #notify_url: http://pd.dincho.bonex.us:8007/IPN.html #this URL should be always absolute!!!
-    notify_url: http://pd.dincho.bonex.us/IPN.html
+    notify_url: http://pd.dincho.bonex.us:8007/callbacks/paypal.html #this URL should be always absolute!!! ( because of the different enviroments )
+    #notify_url: http://pd.dincho.bonex.us/callbacks/paypal.html
+  zong:
+      customer_key:         polishdev
+      items_currency:       PLN
+      amount:               100
+      supported_countries:  [PL]
+      accept_simulated:     true
   sf_google_analytics_plugin:
     enabled:      off
     profile_id:   UA-11123315-1

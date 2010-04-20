@@ -115,10 +115,19 @@ member_story_by_slug:
     url:  /:sf_culture/member_story/:slug
     param: { module: memberStories, action: read, sf_culture: en  }
 
+callback_paypal:
+    url: /callbacks/paypal
+    param: { module: callbacks, action: paypal, sf_culture: en }
+    
+callback_zong:
+    url: /callbacks/zong/*
+    param: { module: callbacks, action: zong, sf_culture: en }
+    
+#this is forwarded to the new callback_paypal route
 ipn:
     url: /IPN/*
     param: { module: subscription, action: IPN, sf_culture: en }
-
+        
 link:
     url: /link/:hash
     param: { module: content, action: link, sf_culture: en }

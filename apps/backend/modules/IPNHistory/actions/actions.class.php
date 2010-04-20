@@ -91,5 +91,10 @@ class IPNHistoryActions extends sfActions
         {
             $c->add(IpnHistoryPeer::SUBSCR_ID, $this->filters['subscr_id']);    
         }
+        
+        if (isset($this->filters['txn_type']) && strlen($this->filters['txn_type']) > 0)
+        {
+            $c->add(IpnHistoryPeer::TXN_TYPE, $this->filters['txn_type']);    
+        }        
     }
 }

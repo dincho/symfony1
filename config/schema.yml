@@ -117,6 +117,7 @@ propel:
     last_photo_upload_at:     { type: timestamp }
     purpose:                  { type: varchar, size: 255 }
     millionaire:              { type: boolean, default: false }
+    last_payment_state:       { type: varchar, size: 50, required: false }
     _uniques:
       username:               [username]
       email:                  [email]
@@ -503,18 +504,6 @@ propel:
     pct:            { type: tinyint, required: true, default: 0 }
     _uniques:
       member_match: [member1_id, member2_id]
-  ipn_history:
-    id:
-    parameters:         { type: longvarchar }
-    request_ip:         { type: integer }
-    txn_type:           { type: varchar, size: 255 }
-    txn_id:             { type: varchar, size: 255 }
-    subscr_id:          { type: varchar, size: 255 }
-    payment_status:     { type: varchar, size: 255 }
-    paypal_response:    { type: varchar, size: 8 }
-    is_renewal:         { type: boolean, required: true, default: 0 }
-    member_subscr_id:   { type: integer, required: false }
-    created_at:
   geo:
     id:
     name:                     { type: varchar, size: 100 }
@@ -567,4 +556,73 @@ propel:
     homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
     homepages_set:            { type: tinyint } 
     homepages_pos:            { type: tinyint }
-    updated_at:      
+    updated_at:
+        
+  member_subscription:
+    id:
+    member_id:              { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    subscription_id:
+    gift_by:                { type: integer, required: false }
+    status:                 { type: varchar, size: 100, default: "pending" }
+        #pending - on subscription creation, no payment and any confirmation yet
+        #active - the member has confirmed the subscription e.g. made payment related to it
+        #canceled - subscription has been canceled
+        #eot
+        #exprired - not cofirmed subscriptions should expire after 24 hours.
+    last_status_change_at:  { type: timestamp }
+    period:                 { type: tinyint, required: true }
+    period_type:            { type: char, size: 1, required: true } #D, W, M, Y
+    eot_at:                 { type: timestamp }
+    is_current:             { type: boolean, defualt: false }
+    pp_ref:                 { type: varchar, size: 255, requred: false } #payment processor reference ( PP subscription_id ID or similar )    
+    details:                { type: longvarchar, required: false } #full details of the transaction
+    created_at:
+    updated_at:
+
+  member_payment: #we use this as transaction ID
+      id:
+      member_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade }
+      payment_type:             { type: varchar, size: 20, required: true } #subscription, IMBRA
+      member_subscription_id:   { type: integer, required: false, foreignTable: member_subscription, foreignReference: id, onDelete: cascade }
+      payment_processor:        { type: varchar, size: 10 } #paypal, zong, bank ...
+      amount:                   { type: decimal, size: 7, scale: 2, required: true }
+      currency:                 { type: varchar, size: 5 } #ISO
+      status:                   { type: varchar, size: 100, default: "pending" } #completed, pending (used with zong), expired ( pending payments needs to expire )
+      extra_status:             { type: varchar, size: 100, required: false } #used for void payments ( reverses, refunds )
+      pp_ref:                   { type: varchar, size: 255, requred: false } #payment processor reference ( payment ID or similar )
+      details:                  { type: longvarchar, required: false } #full details of the transaction
+      created_at:
+      updated_at:
+
+#below two tables are just for references, someday it shouldn't be need anymore, because i beleive all PP maintain it's database with history.
+  ipn_history:
+    id:
+    parameters:         { type: longvarchar }
+    request_ip:         { type: integer }
+    txn_type:           { type: varchar, size: 255 }
+    txn_id:             { type: varchar, size: 255 }
+    subscr_id:          { type: varchar, size: 255 }
+    payment_status:     { type: varchar, size: 255 }
+    paypal_response:    { type: varchar, size: 8 }
+    is_renewal:         { type: boolean, required: true, default: 0 }
+    member_subscr_id:   { type: integer, required: false }
+    txn_created_at:     { type: timestamp }
+    created_at:
+
+  zong_history:
+    id:
+    transactionRef:     { type: varchar, size: 255, required: true }
+    itemRef:            { type: varchar, size: 255, required: true }
+    status:             { type: varchar, size: 10, required: true }
+    failure:            { type: varchar, size: 20, required: false }
+    method:             { type: varchar, size: 6, required: true }
+    msisdn:             { type: varchar, size: 20, required: true } #http://en.wikipedia.org/wiki/E.164
+    outPayment:         { type: varchar, size: 100, required: true }
+    simulated:          { type: boolean, default: false }
+    signature:          { type: longvarchar, required: true }
+    signatureVersion:   { type: varchar, size: 2, required: true }
+    request_ip:         { type: integer }
+    verified:           { type: boolean, default: false }
+    created_at:
+
+    

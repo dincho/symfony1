@@ -66,7 +66,6 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
                 
-        $c->addDescendingOrderByColumn(MemberPeer::MAIN_PHOTO_ID);
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row

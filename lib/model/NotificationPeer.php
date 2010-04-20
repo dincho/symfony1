@@ -13,4 +13,5 @@ class NotificationPeer extends BaseNotificationPeer
     const LOGIN_REMINDER = 11;
     const ACCOUNT_ACTIVITY = 9;
     const ABANDONED_REGISTRATION = 18;
+    const EOT = 27;
 }

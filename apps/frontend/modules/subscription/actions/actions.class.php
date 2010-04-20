@@ -21,44 +21,6 @@ class subscriptionActions extends prActions
         $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
     }
 
-    public function executeSetPrice()
-    {
-        $this->redirectIf($this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
-        
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            $this->redirect('subscription/payment?a3=' . $this->getRequestParameter('a3'));
-        } else {
-            $this->subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
-            
-            $this->getUser()->getBC()->replaceLast(array('name' => 'Set your own price headline'));
-        }
-    }
-    
-    public function validateSetPrice()
-    {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
-        
-            if( $this->getRequestParameter('a3') < $subscription->getAmount() )
-            {
-                $this->getRequest()->setError(null, 'Please select correct subscription prices');
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    
-    public function handleErrorSetPrice()
-    {
-        $this->subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
-        $this->getUser()->getBC()->replaceLast(array('name' => 'Set your own price headline'));
-        
-        return sfView::SUCCESS;
-    }
-    
     public function executeManage()
     {
         $this->getUser()->getBC()->clear()
@@ -68,21 +30,17 @@ class subscriptionActions extends prActions
         $this->member = $this->getUser()->getProfile();
         $this->redirectIf($this->member->getSubscriptionId() == SubscriptionPeer::FREE, 'subscription/payment');
         
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            if( $this->getRequestParameter('sub_auto_renew') == 0 && $this->member->getSubAutoRenew() == 1)
-            {
-                Events::triggerAutoRenew($this->member);
-            }
-            
-            $this->member->setSubAutoRenew($this->getRequestParameter('sub_auto_renew'));
-            $this->member->save();
-            
-            $this->setFlash('msg_ok', 'Auto-Renewal Status have been updated.');
-            $this->redirect('dashboard/index');
-        }
-        
+        $this->member_subscription = $this->member->getCurrentMemberSubscription();
+        $this->last_payment = ( $this->member_subscription ) ? $this->member_subscription->getLastCompletedPayment() : null;
         $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
+        
+        if( $this->last_payment && $this->last_payment->getPaymentProcessor() == 'zong' )
+        {
+            $zong = new prZong($this->member->getCountry());
+            $zongItem = $zong->getFirstItemWithPriceGreaterThan(sfConfig::get('app_zong_amount'));
+            
+            $this->zongAvailable = (bool) $zongItem;
+        }
     }
     
     
@@ -91,19 +49,40 @@ class subscriptionActions extends prActions
         $member = $this->getUser()->getProfile();
         $this->redirectIf($member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
         
-        if( !is_null($member->getLastPaypalSubscrId()) )
+        if( $member->getLastPaymentState() == 'pending' )
         {
-            $this->setFlash('msg_error', 'Your subscription is pending');
+            $this->setFlash('msg_error', 'You have pending payment, please allow us up to 24 hours to process it.');
             $this->redirect('@dashboard');
         }
         
+        $member->setLastPaymentState('init');
+        $member->save();
+        
         $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
         
+        //check if we already have some subscription
+        $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::MEMBER_ID, $member->getId());
+        $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getID());
+        $c->add(MemberSubscriptionPeer::STATUS, 'pending');
+        $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
+        
+        if( !$member_subscription ) //no subscription found, create new one.
+        {
+            $member_subscription = new MemberSubscription();
+            $member_subscription->setMemberId($member->getId());
+            $member_subscription->setSubscriptionId($subscription->getId());
+            $member_subscription->setPeriod($subscription->getPeriod());
+            $member_subscription->setPeriodType($subscription->getPeriodType());
+            $member_subscription->save();
+        }
+        
+        //paypal setup
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
                             "item_name" => $_SERVER['HTTP_HOST'] . ' Membership',
-                            'item_number' => 'membership',
+                            'item_number' => $member->getId(),
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
@@ -113,32 +92,27 @@ class subscriptionActions extends prActions
                             'sra' => 1, //Reattemt recurring payments on failture
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
-                            'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $subscription->getId(), true),
-                            'a3' => $this->getRequestParameter('a3'),
+                            'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $member_subscription->getId(), true),
+                            'a3' => $subscription->getAmount(),
                             'p3' => $subscription->getPeriod(),
                             't3' => $subscription->getPeriodType(),
-                            'custom' => $member->getId(),
-                            
+                            'custom' => $member_subscription->getId(),
         );
         
+        
         $this->encrypted = $EWP->encryptFields($parameters);
-        $this->amount = $this->getRequestParameter('a3');
+        $this->amount = $subscription->getAmount();
+        
+        //zong setup
+        $zong = new prZong($member->getCountry());
+        $zongItem = $zong->getFirstItemWithPriceGreaterThan(sfConfig::get('app_zong_amount'));
+                
+        $this->zongAvailable = (bool) $zongItem;
+        $this->member_subscription_id = $member_subscription->getId();
     }
 
-    public function validatePayment()
-    {
-        $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
-        
-        if( $this->getRequestParameter('a3') < $subscription->getAmount() )
-        {
-            $this->setFlash('msg_error', 'Please select correct subscription prices');
-            $this->redirect('subscription/setPrice');            
-        }
-        
-        return true;
-    }
     
-    public function executeGiftMembership()
+    protected function executeGiftMembership()
     {
         $this->forward404Unless( sfConfig::get('app_settings_enable_gifts') );
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
@@ -192,10 +166,23 @@ class subscriptionActions extends prActions
         $this->getUser()->getBC()->clear()
              ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
              ->add(array('name' => 'Subscription', 'uri' => 'subscription/manage'))
-             ->add(array('name' => 'Thank you for your payment'));        
+             ->add(array('name' => 'Thank you for your payment'));
+             
+        $member = $this->getUser()->getProfile();
+        if( $member->getLastPaymentState() == 'init' )
+        {
+            $member->setLastPaymentState('pending');
+            $member->save();
+        }
+        
+        if( $this->getRequestParameter('bonus') == 'true' && $member->getCurrentMemberSubscription() ) //zong sends true/false strings
+        {
+            $this->zongBonusEntryPointUrl = urlencode($this->getRequestParameter('bonusEntryPointUrl'));
+            $this->member_subscription_id = $member->getCurrentMemberSubscription()->getId();
+        }
     }
         
-    public function executeThankyouGift()
+    protected function executeThankyouGift()
     {
         $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
         $this->forward404Unless($member);
@@ -204,7 +191,7 @@ class subscriptionActions extends prActions
         ->add(array('name' => 'Buy ' . $member->getUsername() . ' a gift'))
         ->add(array('name' => 'Thank you!')); 
                 
-        $this->member = $member;        
+        $this->member = $member;
     }
     
     public function executeCancel()
@@ -214,8 +201,6 @@ class subscriptionActions extends prActions
     
     public function executeIPN()
     {
-        $ipn = new sfIPN();
-        $ipn->handle();
-        return sfView::NONE;
+        $this->forward('callbacks', 'paypal');
     }
 }

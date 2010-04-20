@@ -5,7 +5,7 @@
 <?php echo form_tag('subscription/setPrice', array('method' => 'post', 'id' => 'subscription_set_prices')); ?>
     <fieldset>
         <label><?php echo __('Fee per %PERIOD% ' . pr_format_payment_period_type($subscription->getPeriodType()), array('%PERIOD%' => $subscription->getPeriod())) ?></label>
-        <?php include_partial('prices_select', array('name' => 'a3', 'min_price' => $subscription->getAmount())); ?><br />
+        <?php include_partial('prices_select', array('name' => 'amount', 'min_price' => $subscription->getAmount())); ?><br />
 
     </fieldset>
 
