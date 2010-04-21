@@ -303,6 +303,8 @@ class editProfileActions extends prActions
             
             if($this->member->isModified())
             {
+                $this->member->setReviewedById(null);
+                $this->member->setReviewedAt(null);
                 $this->member->save();
                 $this->member->clearCache();
             }
@@ -337,6 +339,8 @@ class editProfileActions extends prActions
                 $new_photo->save();
                 
                 $this->member->setLastPhotoUploadAt(time());
+                $this->member->setReviewedById(null);
+                $this->member->setReviewedAt(null);                
             }
             
             //set main photo

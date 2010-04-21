@@ -5,7 +5,7 @@ default:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
-    version:            "v1.4.4/r1373"
+    version:            "v1.4.5/r1379"
     mail:
      incoming:
         host:           imap.gmail.com
