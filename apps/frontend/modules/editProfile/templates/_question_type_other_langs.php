@@ -14,7 +14,7 @@ $cnt = ( isset($req_answers[$question->getId()]) ) ? max(0, count( array_filter(
                 <?php echo pr_select_language_level('answers['. $question->getid() .'][lang_levels]['. $n.']', (isset($lang_answers[$n])) ?  $lang_answers[$n]['level'] : null, array('class' => 'language_level', 'include_custom' => __('Select Level'))) ?>
 
             <?php if( $n != 0 ): ?>
-                <?php echo link_to_function('remove', 'hide_lang_row('. $n .')', array('class' => 'sec_link')); ?>
+                <?php echo link_to_function(__('remove'), 'hide_lang_row('. $n .')', array('class' => 'sec_link')); ?>
             <?php endif; ?>
         </div>
         <?php endfor; ?>
