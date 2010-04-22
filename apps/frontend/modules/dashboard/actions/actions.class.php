@@ -64,8 +64,8 @@ class dashboardActions extends prActions
         
         //hotlist
         $c = new Criteria();
-        $c->add(HotlistPeer::PROFILE_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, HotlistPeer::MEMBER_ID);
+        $c->add(HotlistPeer::MEMBER_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, HotlistPeer::PROFILE_ID);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(HotlistPeer::IS_NEW, true);
         
