@@ -57,7 +57,9 @@ class messagesActions extends prActions
                                   '%URL_FOR_CONFIRM%' => 'javascript:document.getElementById(\''. $this->getRequestParameter('form_id').'\').submit()');
             $del_msg = $i18n->__('Are you sure you want to delete selected message(s)? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
             $this->setFlash('msg_error', $del_msg, false);            
-        }        
+        }
+        
+        $this->member = $this->getUser()->getProfile();
     }
     
     public function validateIndex()

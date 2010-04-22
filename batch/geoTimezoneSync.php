@@ -55,7 +55,7 @@ while( $offset < $cnt )
         $lat = $rs->getFloat(2);
         $lng = $rs->getFloat(3);
         
-        $ws_url = sprintf('http://ws.geonames.org/timezoneJSON?formatted=true&lat=%f&lng=%f&style=full', $lat, $lng);
+        $ws_url = sprintf('http://ws.geonames.org/timezoneJSON?username=test&formatted=true&lat=%f&lng=%f&style=full', $lat, $lng);
         $result = json_decode(file_get_contents($ws_url));
         
         print_r($result);
