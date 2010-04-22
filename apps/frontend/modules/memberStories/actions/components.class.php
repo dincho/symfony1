@@ -22,7 +22,6 @@ class memberStoriesComponents extends sfComponents
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
         $c->add(MemberStoryPeer::ID, $home_story_list, Criteria::IN);
-        $c->setLimit(7);
         $this->stories_list = MemberStoryPeer::doSelect($c);
     }
 }
