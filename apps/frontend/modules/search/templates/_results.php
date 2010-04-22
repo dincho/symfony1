@@ -9,7 +9,7 @@
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">  
                 <div class="header">
                     <div class="age"><?php echo $member->getAge() ?></div>
-                    <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 39) ?></div>
+                    <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 38) ?></div>
                 </div>
               <?php echo profile_photo($member, 'float-left') ?>
               <div class="profile_info">
