@@ -80,6 +80,7 @@ while( $offset < $cnt )
         }
         
         $cnt_updated++;
+        usleep(800000);
     }
     
     $offset += $limit;
