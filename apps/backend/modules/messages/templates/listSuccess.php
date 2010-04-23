@@ -17,7 +17,7 @@
     </fieldset>
     <fieldset class="search_fields">
         <label for="search_type">Search by:</label><br />
-        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'first_name' => 'First Name', 'last_name' => 'Last Name'), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>       
+        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'Email', ), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>       
     </fieldset>
     <fieldset>
         <label for="search">&nbsp;</label><br />

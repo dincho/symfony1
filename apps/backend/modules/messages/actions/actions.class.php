@@ -193,7 +193,10 @@ class messagesActions extends sfActions
                     $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
                     ;
                     break;
-                
+                case 'email':
+                    $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
+                    $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
+                    break;                
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);

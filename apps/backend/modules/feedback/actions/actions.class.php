@@ -542,17 +542,22 @@ class feedbackActions extends sfActions
                 case 'first_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
                     $c->add(MemberPeer::FIRST_NAME, $filters['search_query']);
-                    ;
+
                     break;
                 case 'last_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
                     $c->add(MemberPeer::LAST_NAME, $filters['search_query']);
-                    ;
+
                     break;
+                case 'email':
+                    $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
+                    $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
+
+                    break;                    
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'feedback/list?filter=filter'));
                     $c->add(MemberPeer::USERNAME, $filters['search_query']);
-                    ;
+
                     break;
             }
         }

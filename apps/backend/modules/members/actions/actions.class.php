@@ -821,18 +821,22 @@ class membersActions extends sfActions
                 case 'first_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
                     $c->add(MemberPeer::FIRST_NAME, $this->filters['search_query']);
-                    ;
+
                     break;
                 case 'last_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
                     $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
-                    ;
+
                     break;
-                
+                case 'email':
+                    $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
+                    $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
+
+                    break;                
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
-                    ;
+
                     break;
             }
         }

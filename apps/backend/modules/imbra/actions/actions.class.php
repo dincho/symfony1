@@ -262,7 +262,9 @@ class imbraActions extends sfActions
                 case 'last_name':
                     $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
                     break;
-                
+                case 'email':
+                    $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
+                    break;                
                 default:
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
                     break;
