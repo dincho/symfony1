@@ -677,6 +677,13 @@ class membersActions extends sfActions
         if( Events::triggerJoin($this->member) )
         {
             $this->setFlash('msg_ok', sprintf("%s's activation email has been re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));
+            
+            $note = new MemberNote();
+            $note->setMember($this->member);
+            $note->setUserId($this->getUser()->getId());
+            $note->setText('activation email sent');
+            $note->save();
+                    
         } else {
             $this->setFlash('msg_error', sprintf("%s's activation email can not be re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));            
         }
