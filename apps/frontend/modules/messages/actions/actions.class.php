@@ -94,7 +94,30 @@ class messagesActions extends prActions
         $this->forward404Unless($this->recipient);
         
         $this->sender = $this->getUser()->getProfile();
-            
+        
+        //force members to use only one thread
+        $c  =  new Criteria();
+        
+        $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
+        $c->addGroupByColumn(ThreadPeer::ID);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+                
+        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->sender->getId());
+        $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
+        $crit->addAnd($c->getNewCriterion(MessagePeer::SENDER_ID, $this->recipient->getId()));
+
+        $crit2 = $c->getNewCriterion(MessagePeer::SENDER_ID, $this->sender->getId());
+        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL));
+        $crit2->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->recipient->getId()));
+    
+        $crit->addOr($crit2);
+        $c->addAnd($crit);
+        $c->addDescendingOrderByColumn(ThreadPeer::CREATED_AT);
+        $old_thread = ThreadPeer::doSelectOne($c);
+        
+        if( $old_thread ) $this->redirect('messages/thread?id=' . $old_thread->getId());
+        //end enforcement 
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {   
             $send_msg = MessagePeer::send($this->sender, $this->recipient, 
