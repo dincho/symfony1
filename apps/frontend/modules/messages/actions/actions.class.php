@@ -49,6 +49,12 @@ class messagesActions extends prActions
         $c1->add($crit);
         $this->draft_messages = MessagePeer::doSelectJoinMemberRelatedByRecipientId($c1);
         
+        
+        $this->received_messages_truncate_limit = ( $this->getUser()->getProfile()->getSex() == 'M' && 
+            $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE &&
+            $this->getUser()->getProfile()->hasUnreadMessagesFromFreeFemales()
+          ) ? 12 : 80;
+                
         //message deletion confirmation
         if( ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) && count($this->getRequestParameter('selected', array())) > 0 )
         {
@@ -63,16 +69,7 @@ class messagesActions extends prActions
     }
     
     public function validateIndex()
-    {
-        if( sfConfig::get('app_settings_man_should_pay') && 
-            $this->getUser()->getProfile()->getSex() == 'M' && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE &&
-            $this->getUser()->getProfile()->hasUnreadMessagesFromFreeFemales()
-          )
-        {
-            $this->setFlash('msg_error', 'M4F: In order to read your messages you need to upgrade your membership.');
-            $this->redirectToReferer();
-        }
-        
+    {   
         if( $this->getRequest()->getMethod() == sfRequest::POST && 
           ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) )
         {

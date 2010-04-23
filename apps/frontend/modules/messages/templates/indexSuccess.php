@@ -45,7 +45,7 @@
             </td>
             <td>
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
-                <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
+                <?php echo Tools::truncate($thread->getSnippet(), $received_messages_truncate_limit) ?>
             </td>
         </tr>
     <?php endforeach; ?>
