@@ -324,7 +324,14 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
-        $culture = ( !is_null($object) && $object instanceof Member ) ? $object->getCulture() : null;
+        $culture = null;
+        
+        if ( !is_null($object) && $object instanceof Member )
+        {
+            $culture = $object->getCulture();
+            $notifications_url = LinkPeer::create('dashboard/emailNotifications', $object->getId())->getUrl($culture);
+            $global_vars['{NOTIFICATIONS_URL}'] = $notifications_url;
+        }
         
         $c = new Criteria();
         $c->add(NotificationEventPeer::EVENT, $event);
