@@ -30,10 +30,10 @@ function format_date_pr($time = null, $time_format = null, $date_format = null, 
       $string = format_date($time, $date_format);
     }
 
-    if( date('Y', $time) != date('Y') ) $time_format = ($culture == 'en') ?  ', yyyy hh:mm a' : ', yyyy HH:mm';
+    if( $time_format && date('Y', $time) != date('Y') ) $time_format = ($culture == 'en') ?  ', yyyy hh:mm a' : ', yyyy HH:mm';
 
     //add the time
-    $string .= format_date($time, $time_format);
+    if($time_format) $string .= format_date($time, $time_format);
 
     return $string;
 }

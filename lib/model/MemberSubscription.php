@@ -43,5 +43,10 @@ class MemberSubscription extends BaseMemberSubscription
     public function getDetails()
     {
         return (parent::getDetails()) ? unserialize(parent::getDetails()) : null;
-    }    
+    }
+    
+    public function getGiftSender()
+    {
+        return ($this->getGiftBy()) ? MemberPeer::retrieveByPK($this->getGiftBy()) : null;
+    }
 }

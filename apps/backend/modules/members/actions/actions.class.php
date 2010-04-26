@@ -613,6 +613,22 @@ class membersActions extends sfActions
         $this->history = $this->member->getMemberStatusHistorysJoinMemberStatus($c);
     }
 
+    public function executeSubscriptions()
+    {
+        $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->member->getId());
+        $c->addDescendingOrderByColumn(MemberSubscriptionPeer::UPDATED_AT);
+        $this->subscriptions = MemberSubscriptionPeer::doSelect($c);
+    }
+    
+    public function executePayments()
+    {
+        $c = new Criteria();
+        $c->add(MemberPaymentPeer::MEMBER_ID, $this->member->getId());
+        $c->addDescendingOrderByColumn(MemberPaymentPeer::UPDATED_AT);
+        $this->payments = MemberPaymentPeer::doSelect($c);
+    }
+    
     public function executeDeletePhoto()
     {
         $this->getUser()->checkPerm(array('members_edit'));

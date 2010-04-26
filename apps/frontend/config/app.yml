@@ -10,8 +10,8 @@ all:
     test:     1
     cert_id:  KRHQZEWMCEYVL
     url:      https://www.sandbox.paypal.com/cgi-bin/webscr
-    notify_url: http://pd.dincho.bonex.us:8007/callbacks/paypal.html #this URL should be always absolute!!! ( because of the different enviroments )
-    #notify_url: http://pd.dincho.bonex.us/callbacks/paypal.html
+    #notify_url: http://pd.dincho.bonex.us:8007/callbacks/paypal.html #this URL should be always absolute!!! ( because of the different enviroments )
+    notify_url: http://pd.dincho.bonex.us/callbacks/paypal.html
   zong:
       customer_key:         polishdev
       items_currency:       PLN
