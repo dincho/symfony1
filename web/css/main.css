@@ -331,6 +331,11 @@ form fieldset br {
     font-size: 11px;
 }
 
+
+#paypal_form {
+    padding: 0;
+}
+
 /* END FORMS DEFAULT */
 
 /* Select countries and areas */
