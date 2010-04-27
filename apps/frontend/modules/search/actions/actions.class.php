@@ -76,6 +76,20 @@ class searchActions extends prActions
         $this->getUser()->setAttribute('last_search_url', 'search/mostRecent?page=' . $this->pager->getPage());
     }
 
+    public function executeLastLogin()
+    {
+        $c = new Criteria();
+        $this->addGlobalCriteria($c);
+        $this->addFiltersCriteria($c);
+        
+        $c->addDescendingOrderByColumn(MemberPeer::LAST_LOGIN);
+        $rows = sfConfig::get('app_settings_search_rows_last_login', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row
+        $this->initPager($c, $per_page);
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/lastLogin?page=' . $this->pager->getPage());
+    }
+    
     public function executeCriteria()
     {
         $this->has_criteria = true;
