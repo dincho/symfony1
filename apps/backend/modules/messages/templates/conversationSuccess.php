@@ -1,7 +1,7 @@
 <?php use_helper('Javascript') ?>
 <?php include_partial('member_details', array('member' => $member)); ?>
 
-<?php echo form_tag('messages/delete') ?>
+<?php echo form_tag('messages/delete', array('name' => 'messages_conversation', )) ?>
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
     <br />
     <?php $username = $profile->getUsername(); ?>
@@ -11,6 +11,10 @@
         <?php echo link_to("see " . $username ."'s BE profile", 'members/edit?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
 
+    </div>
+    <div>
+        Select: <?php echo link_to_function('All', 'msg_select(document.forms.messages_conversation.elements["marked[]"], true)') ?>, 
+                <?php echo link_to_function('None', 'msg_select(document.forms.messages_conversation.elements["marked[]"], false)') ?>
     </div>
     <div class="scrollable normal_scrollable" style="margin-top: 20px;">
             

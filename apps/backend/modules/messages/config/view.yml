@@ -1,0 +1,4 @@
+memberSuccess:
+  javascripts:    [messages]
+conversationSuccess:
+  javascripts:    [messages]  
