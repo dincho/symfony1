@@ -75,7 +75,7 @@
           <th><?php echo sortable_title('Lat', 'Geo::latitude', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Long', 'Geo::longitude', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Timezone', 'Geo::timezone', $sort_namespace) ?></th>
-          <th><?php echo sortable_title('Info', 'Geo::info', $sort_namespace) ?></th>
+          <th><?php echo sortable_title('Details', 'Geo::geo_details_id', $sort_namespace) ?></th>
         </tr>
       </thead>
       <tbody>
@@ -93,7 +93,7 @@
             <td><?php echo $geo->getLatitude() ?></td>
             <td><?php echo $geo->getLongitude() ?></td>
             <td><?php echo $geo->getTimezone(); ?></td>
-            <td class="skip"><?php echo link_to(($geo->getInfo() ? 'edit' : 'add'), 'geo/editInfo?id=' . $geo->getId()); ?></td>
+            <td class="skip"><?php echo link_to(($geo->getGeoDetailsId() ? 'edit' : 'add'), 'geo/editDetails?id=' . $geo->getId()); ?></td>
           </tr>
       <?php endforeach; ?>
       </tbody>

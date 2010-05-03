@@ -1,15 +1,13 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-<div>
+<hr />
+
+<?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
     <?php if ($photo) : ?>
         <?php echo image_tag(($photo->getImageFilename('cropped') ? $photo->getImageUrlPath('cropped', '220x225') : $photo->getImageUrlPath('file', '220x225')), array('id' => 'join_now_photo')); ?>
     <?php endif; ?>
-    
-<?php echo __('JoinNow instructions') ?>
-<?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
-
-
     <fieldset>
         <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
@@ -46,33 +44,8 @@
 
     <?php echo submit_tag(__('GO!'), array('class' => 'button_save_and_cont')) ?>
 </form>
-</div>
+<br class="clear" />
 
-<?php echo javascript_tag('
-Event.observe(window, "load", function() {
-    setTimeout("$(\"registration_box_complete_page\").findFirstElement().focus();",1);
-});
-');?>
-
-<?php slot('change_language') ?>
-    <?php include_partial('content/lang'); ?>
-<?php end_slot(); ?>
-
-<!-- Google Code for LoveStreet Conversion Page -->
-<script type="text/javascript">
-<!--
-var google_conversion_id = 1064048011;
-var google_conversion_language = "pl";
-var google_conversion_format = "1";
-var google_conversion_color = "333333";
-var google_conversion_label = "nuahCKWStgEQi6uw-wM";
-var google_conversion_value = 0;
-//-->
-</script>
-<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1064048011/?label=nuahCKWStgEQi6uw-wM&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
+<hr />
+<?php include_component('geo2seo', 'profiles'); ?>
+<hr />

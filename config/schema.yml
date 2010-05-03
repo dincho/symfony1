@@ -504,6 +504,7 @@ propel:
     pct:            { type: tinyint, required: true, default: 0 }
     _uniques:
       member_match: [member1_id, member2_id]
+      
   geo:
     id:
     name:                     { type: varchar, size: 100 }
@@ -518,13 +519,19 @@ propel:
     orig_dsg:                 { type: varchar, size: 255 }
     population:               { type: integer, size: 10, required: true, default: 0 }
     timezone:                 { type: varchar, size: 255, default: "UTC" }
-    info:                     { type: longvarchar }
+    geo_details_id:           { type: integer, required: false, foreignTable: geo_details, foreignReference: id, onDelete: setnull }
     _indexes:
       complex:                [country, dsg, adm1_id, adm2_id, name]
   geo_photo:
     id:
     geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
     file:                     { type: varchar, size: 255 }
+  geo_details:
+    id:
+    geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
+  geo_details_i18n:
+    member_info:              { type: longvarchar }
+    seo_info:                 { type: longvarchar }
     
   link:
     id:

@@ -6,7 +6,7 @@
 
 <div class="city_right">
     <?php echo __('Area Info Headline', array('%GEO_TREE_STRING%' => $geo_tree_string)); ?><br />
-    <?php echo $geo->getInfo(ESC_RAW) ?><br /><br />
+    <?php echo $sf_data->getRaw('info') ?><br /><br />
     
     <br /><br />
     <script type="text/javascript">

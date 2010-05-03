@@ -271,6 +271,14 @@ class contentActions extends prActions
         $this->getResponse()->setTitle($title_prefix.implode(', ', $geo_tree));
 
         $this->geo = GeoPeer::retrieveByPK($this->getUser()->getProfile()->getMostAccurateAreaInfoId());
+        $this->info = null;
+        if ( $this->geo->getGeoDetailsId() )
+        {
+          $details = $this->geo->getGeoDetails();
+          $details->setCulture($this->getUser()->getCulture());
+          $this->info = $details->getMemberInfo();
+        }
+        
         $this->geo_tree_string = implode(', ', array_reverse($geo_tree));
     }
     

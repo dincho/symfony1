@@ -61,6 +61,8 @@ class registrationActions extends prActions
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Join headline', 'uri' => 'registration/joinNow'));
         $this->getResponse()->addMeta('description', 'JoinNow description');
         $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
+        
+        $this->photo = StockPhotoPeer::getJoinNowPhotoByCulture($this->getUser()->getCulture());
                 
         return sfView::SUCCESS;
     }

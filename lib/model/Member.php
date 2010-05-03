@@ -636,12 +636,12 @@ class Member extends BaseMember
     
     public function getMostAccurateAreaInfoId()
     {
-        if( $this->getCity()->getInfo() ) return $this->getCityId();
-        if( $this->getAdm2Id() && $this->getAdm2()->getInfo() ) return $this->getAdm2Id();
-        if( $this->getAdm1Id() && $this->getAdm1()->getInfo() ) return $this->getAdm1Id();
+        if( $this->getCity()->getGeoDetailsId() ) return $this->getCityId();
+        if( $this->getAdm2Id() && $this->getAdm2()->getGeoDetailsId() ) return $this->getAdm2Id();
+        if( $this->getAdm1Id() && $this->getAdm1()->getGeoDetailsId() ) return $this->getAdm1Id();
         
         $geo_country = GeoPeer::retrieveCountryByISO($this->getCountry());
-        if( $geo_country && $geo_country->getInfo() ) return $geo_country->getId();
+        if( $geo_country && $geo_country->getGeoDetailsId() ) return $geo_country->getId();
         
         //default no geo feature with info field
         return $this->getCityId();

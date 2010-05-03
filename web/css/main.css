@@ -2961,3 +2961,12 @@ table.search_filter tr.actions {
     background:#CCCCCC;
     color:#000000;
 }
+
+table.geo_columns
+{
+    margin: 10px auto;
+}
+
+table.geo_columns td {
+    padding: 0 20px 0 0;
+}

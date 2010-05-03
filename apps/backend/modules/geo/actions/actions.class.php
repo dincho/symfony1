@@ -519,6 +519,32 @@ class geoActions extends sfActions
         $this->geo = $geo;
     }
 
+    public function executeEditDetails()
+    {
+        $geo = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($geo);
+        
+        $details = ( $geo->getGeoDetailsId() ) ? $geo->getGeoDetails() : new GeoDetails();
+        $details->setCulture($this->getRequestParameter('culture', 'en'));
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            $details->setGeo($geo);
+            $details->setMemberInfo($this->getRequestParameter('member_info'));
+            $details->setSeoInfo($this->getRequestParameter('seo_info'));
+            $details->save();
+            
+            $geo->setGeoDetails($details);
+            $geo->save();
+            
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            //$this->redirect('geo/list');
+        }
+        
+        $this->geo = $geo;
+        $this->details = $details;
+    }
+    
     public function executeUploadPhoto()
     {
         $geo = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
