@@ -6,12 +6,16 @@ all:
     devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
-    business: admin_1231849319_biz@polishromance.com
-    test:     1
-    cert_id:  KRHQZEWMCEYVL
-    url:      https://www.sandbox.paypal.com/cgi-bin/webscr
+    business:             admin_1231849319_biz@polishromance.com
+    test:                 yes
+    url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
     #notify_url: http://pd.dincho.bonex.us:8007/callbacks/paypal.html #this URL should be always absolute!!! ( because of the different enviroments )
-    notify_url: http://pd.dincho.bonex.us/callbacks/paypal.html
+    cert_id:              KRHQZEWMCEYVL
+    notify_url:           http://pd.dincho.bonex.us/callbacks/paypal.html
+    cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
+    cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
+    cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
+    
   zong:
       customer_key:         polishdev
       items_currency:       PLN

@@ -68,11 +68,10 @@ class sfEWP
 
     public function __construct()
     {
-        $certs_dir = sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . 'paypal' . DIRECTORY_SEPARATOR;
         $this->setTempFileDirectory('/tmp');
-        $this->setCertificate($certs_dir .'sandbox_pr-pubcert.pem', $certs_dir. 'sandbox_pr-prvkey.pem');
+        $this->setCertificate(sfConfig::get('app_paypal_cert_public'), sfConfig::get('app_paypal_cert_private_key'));
         $this->setCertificateID(sfConfig::get('app_paypal_cert_id'));
-        $this->setPayPalCertificate($certs_dir . 'sandbox_paypal-pubcert.pem');        
+        $this->setPayPalCertificate(sfConfig::get('app_paypal_cert_public_paypal'));
     }
 
     /*
