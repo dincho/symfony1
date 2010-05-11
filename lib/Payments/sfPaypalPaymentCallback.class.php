@@ -85,7 +85,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         {
             switch ($this->getParam('txn_type')) {
                 case 'subscr_payment':
-                       $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getParam('custom'));
+                       $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                        
                        if( $member_subscription )
                        {
@@ -132,7 +132,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                 
                 case 'subscr_cancel':
                     //cancel member subscription - note that this not lead to EOF
-                    $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getParam('custom'));
+                    $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                     
                     if($member_subscription)
                     {

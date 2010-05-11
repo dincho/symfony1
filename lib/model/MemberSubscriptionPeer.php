@@ -9,4 +9,10 @@
  */ 
 class MemberSubscriptionPeer extends BaseMemberSubscriptionPeer
 {
+  public static function retrieveByPPRef($ref)
+  {
+    $c = new Criteria();
+    $c->add(self::PP_REF, $ref);
+    return self::doSelectOne($c);
+  }  
 }
