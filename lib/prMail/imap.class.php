@@ -11,11 +11,12 @@ class IMAP
 
     public function __construct()
     {
-        $this->port = sfConfig::get('app_mail_port');
-        $this->host = '{'. sfConfig::get('app_mail_host') .':'. $this->port .'/imap/ssl}INBOX';
-        $this->user = sfConfig::get('app_mail_username');
-        $this->pass = sfConfig::get('app_mail_password');
-        
+        $config = sfConfig::get('app_mail_incoming');
+        $this->port = $config['port'];
+        $this->host = '{'. $config['host'] .':'. $this->port .'/imap/ssl}INBOX';
+        $this->user = $config['username'];
+        $this->pass = $config['password'];
+
         $this->stream = imap_open($this->host,$this->user,$this->pass);
               
         if( $this->stream === false ) throw new sfException('Can not connect to mail server: ' . imap_last_error() );
@@ -207,8 +208,11 @@ class IMAP_Message
     { 
         $this->header = $header;
         $this->TS = strtotime($header->date);
-        $decode = imap_mime_header_decode($header->subject);
-        $this->subject = $this->convertToSystemEncoding($decode[0]->text, $decode[0]->charset);
+        if( isset($header->subject) )
+        {
+          $decode = imap_mime_header_decode($header->subject);
+          $this->subject = $this->convertToSystemEncoding($decode[0]->text, $decode[0]->charset);
+        }
         $this->setFrom($header->from[0]);
         $this->setTo($header->to[0]);
         
