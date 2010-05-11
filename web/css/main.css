@@ -2235,6 +2235,12 @@ div.best_video div.right img {
     margin-top: -4px;
 }
 
+.msg_form select {
+    height: 18px;
+    padding: 1px 0;
+    margin: 2px;
+}
+
 #post_story label {
     color: #92897E;
     font-size: 10px;

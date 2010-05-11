@@ -42,6 +42,9 @@
         <?php echo input_hidden_tag('title', $thread->getSubject(), array('class' => 'hidden'));?>
         
         <fieldset class="background_f4">
+            <?php echo pr_label_for('predefined_message', 'Template:'); ?>
+            <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => '', 'body_field_id' => 'your_story', )); ?><br />
+            
             <?php echo pr_label_for('your_story', 'Message:') ?>
             <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?><br />
    

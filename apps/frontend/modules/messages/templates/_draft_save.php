@@ -35,9 +35,9 @@
         save_condition = true;
     }
     
-    Event.observe("title", "keypress", function(event){ enable_saving(); $("title").focus(); });
-    Event.observe("title", "focus", function(event){ last_focused_field = $("title"); });
+    Event.observe("title", "keypress", function(event){ enable_saving(); this.focus(); });
+    Event.observe("title", "focus", function(event){ last_focused_field = this; });
     
-    Event.observe("your_story", "keypress", function(event){ enable_saving(); $("your_story").focus(); });
-    Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
+    Event.observe("your_story", "keypress", function(event){ enable_saving(); this.focus(); });
+    Event.observe("your_story", "focus", function(event){ last_focused_field = this; });
 ');?>

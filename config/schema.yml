@@ -332,11 +332,18 @@ propel:
     type:                     { type: integer, required: true, default: 1 } #1 - normal, 2 - draft, 3 - system
     unread:                   { type: boolean, default: true, required: true }
     is_reviewed:              { type: boolean, default: false, required: true }
+    predefined_id:            { type: integer, required: false }
     sender_deleted_at:        { type: timestamp }
     recipient_deleted_at:     { type: timestamp }
     created_at:
     updated_at:               #currently used only for drafts
 
+  predefined_message:
+    id:
+    subject:                  { type: longvarchar }
+    body:                     { type: longvarchar }
+    sex:                      { type: char, size: 1, required: true }
+    looking_for:              { type: char, size: 1, required: true }
 
   hotlist:
     id:

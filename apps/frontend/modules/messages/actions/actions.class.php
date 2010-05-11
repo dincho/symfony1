@@ -120,7 +120,10 @@ class messagesActions extends prActions
             $send_msg = MessagePeer::send($this->sender, $this->recipient, 
                                           $this->getRequestParameter('subject'), 
                                           $this->getRequestParameter('content'),
-                                          $this->getRequestParameter('draft_id'));
+                                          $this->getRequestParameter('draft_id'),
+                                          null, //thread
+                                          PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'))
+                                          );
 
             $this->setFlashConfirmation($send_msg);
             $this->redirectToReferer();
@@ -164,51 +167,58 @@ class messagesActions extends prActions
                 return false;
             }
       
-            //3. subscription limits/restrictions ?
-            $subscription = $sender->getSubscription();
+            if( $this->getRequest()->getMethod() == sfRequest::POST )
+            {
+             
+                if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) )
+                {
+                    $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
+                    return false;                
+                }
+                
+                $predefinedMessage = PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'));
+                if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
+                
+                //3. subscription limits/restrictions ?
+                $subscription = $sender->getSubscription();
 
-            //we don't need to check the looking for field since privacy validator is already applied.
-            if( sfConfig::get('app_settings_man_should_pay') && 
-                $sender->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
-                $recipient->getSex() == 'F' && $recipient->getSubscriptionId() == SubscriptionPeer::FREE
-              )
-            {
-                $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
-                return false;
-            }
-            
-            if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
-            {
-                $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
-                return false;
-            }
-            
-            if( $sender->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
-            {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
+                //we don't need to check the looking for field since privacy validator is already applied.
+                if( sfConfig::get('app_settings_man_should_pay') && 
+                    $sender->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
+                    $recipient->getSex() == 'F' && $recipient->getSubscriptionId() == SubscriptionPeer::FREE
+                  )
                 {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
+                    return false;
                 }
-                return false;
-            }
             
-            if( $sender->getCounter('SentMessages') >= $subscription->getSendMessages() )
-            {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
+                if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
                 {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
+                    return false;
                 }
-                return false;
-            }
             
-            if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) )
-            {
-                $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
-                return false;                
+                if( $sender->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
+                {
+                    if( $subscription->getId() == SubscriptionPeer::FREE )
+                    {
+                        $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    } else {
+                        $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    }
+                    return false;
+                }
+            
+                if( $sender->getCounter('SentMessages') >= $subscription->getSendMessages() )
+                {
+                    if( $subscription->getId() == SubscriptionPeer::FREE )
+                    {
+                        $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    } else {
+                        $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
+                    }
+                    return false;
+                }
             }
                         
         return true;        
@@ -325,7 +335,9 @@ class messagesActions extends prActions
                                           $this->getRequestParameter('subject'), 
                                           $this->getRequestParameter('content'),
                                           $this->getRequestParameter('draft_id'),
-                                          $thread);
+                                          $thread,
+                                          PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'))
+                                          );
 
             $this->setFlashConfirmation($send_msg);
             $this->redirect('messages/thread?id=' . $thread->getId());
@@ -383,6 +395,16 @@ class messagesActions extends prActions
                 return false;
             }
     
+            
+            if( $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
+            {
+                $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
+                return false;                
+            }
+            
+            $predefinedMessage = PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'));
+            if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
+                
             //3. subscription limits/restrictions ?
             $subscription = $member->getSubscription();    
             if( !$subscription->getCanReplyMessages() )
@@ -417,13 +439,7 @@ class messagesActions extends prActions
                 }
                 return false;
             }
-            
-            
-            if( $this->getRequest()->getMethod() == sfRequest::POST && $this->getRequestParameter('tos', 0) != 1 && !$member->getLastImbra(true) && $profile->getLastImbra(true) )
-            {
-                $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.');
-                return false;                
-            }    
+  
                         
         } else {
             /* THREAD VIEW */
@@ -431,7 +447,7 @@ class messagesActions extends prActions
             if( !$profile->isActive() ) $this->setFlash('msg_error', __('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $profile->getUsername())), false);
             
             //break/leave if there is no UNread messages
-            $cnt_unread = MessagePeer::countUnreadInThread($thread->getId(), $member);
+            $cnt_unread = MessagePeer::countUnreadInThreadExcludePredefined($thread->getId(), $member);
             if( $cnt_unread < 1 ) return true;
 
             

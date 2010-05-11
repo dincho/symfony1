@@ -13,16 +13,23 @@ class MessagePeer extends BaseMessagePeer
     const TYPE_DRAFT  = 2;
     const TYPE_SYSTEM = 3;
     
-    public static function send(BaseMember $sender, BaseMember $recipient, $subject = '', $body = '', $draft_id = null, BaseThread $thread = null)
+    public static function send(BaseMember $sender, BaseMember $recipient, $subject = '', $body = '', $draft_id = null, BaseThread $thread = null, PredefinedMessage $pMessage = null)
     {
         $message = new Message();
+        $reply = true; //default value
+        
+        if( !is_null($pMessage) ) //overwrite with predefined message to prevent abuse
+        {
+            $subject = $pMessage->getSubject();
+            $body = $pMessage->getBody();
+            $message->setPredefinedId($pMessage->getId());
+        }
+
         $message->setRecipientId($recipient->getId());
         $message->setSenderId($sender->getId());
         $message->setSubject($subject);
         $message->setBody(nl2br($body));
-        
-        $reply = true;
-        
+
         if( !$thread)
         {
             $reply = false;
@@ -41,7 +48,8 @@ class MessagePeer extends BaseMessagePeer
         $sender->addOpenPrivacyForIfNeeded($recipient->getId());
         
         //add auto reply message if nessecary
-        if( $sender->isSubscriptionFree() && 
+        if( is_null($pMessage) && 
+            $sender->isSubscriptionFree() && 
             !$sender->getSubscription()->getCanSendMessages() && 
             ( $recipient->isSubscriptionFree() || !$recipient->getSubscription()->getCanReadMessages() )
           )
@@ -119,15 +127,24 @@ class MessagePeer extends BaseMessagePeer
     }
     
 
-    public static function countUnreadInThread($thread_id, BaseMember $member)
+    public static function countUnreadInThread($thread_id, BaseMember $member, Criteria $crit = null)
     {
-        $c = new Criteria();
+        $c = ( !is_null($crit) ) ? clone $crit : new Criteria();
+
         $c->add(self::UNREAD, true);
         $c->add(self::THREAD_ID, $thread_id);
         $c->add(self::RECIPIENT_ID, $member->getId());
         $c->add(self::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
         $c->add(self::TYPE, self::TYPE_NORMAL);
         return self::doCount($c);
+    }
+    
+    public static function countUnreadInThreadExcludePredefined($thread_id, BaseMember $member, Criteria $crit = null)
+    {
+        $c = ( !is_null($crit) ) ? clone $crit : new Criteria();
+        $c->add(self::PREDEFINED_ID, null, Criteria::ISNULL);
+        
+        return self::countUnreadInThread($thread_id, $member, $c);
     }
     
     public static function countUnreadSystemInThread($thread_id, BaseMember $member)

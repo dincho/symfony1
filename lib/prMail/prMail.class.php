@@ -77,7 +77,7 @@ class prMail extends sfMail
         
         try
         {
-            $this->mailer->Send();
+            //$this->mailer->Send();
         } catch ( Exception $e )
         {
             if(SF_ENVIRONMENT == 'dev') throw new sfException($e->getMessage(), $e->getCode());

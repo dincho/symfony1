@@ -145,6 +145,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Templates', 'uri' => 'feedbackTemplates/'),
                                            ),
                         'messages' => array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
+                                            array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
                                            ),
                         'flags'    => array(array('title' => 'New Susp. by Flagging', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=0'),
                                            array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
@@ -188,6 +189,7 @@ class systemComponents extends sfComponents
     $full_menu['settings'] = $full_menu['content'];
     $full_menu['feedbackTemplates'] = $full_menu['feedback'];
     $full_menu['flagCategories'] = $full_menu['flags'];
+    $full_menu['predefinedMessages'] = $full_menu['messages'];
     
 
     $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();

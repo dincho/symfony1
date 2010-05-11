@@ -15,7 +15,11 @@
     <fieldset class="actions">
         <?php echo pr_label_for('to', 'To:') ?>
         <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br />
-
+        
+        <?php echo pr_label_for('predefined_message', 'Template:'); ?>
+        <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => 'title', 'body_field_id' => 'your_story', )); ?><br />
+            
+            
         <?php echo pr_label_for('subject', 'Subject:') ?>
         <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />
     </fieldset>
