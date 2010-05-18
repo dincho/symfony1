@@ -515,9 +515,7 @@ class feedbackActions extends sfActions
         
         if (isset($filters['paid']) && $filters['paid'] == 1)
         {
-            $crit = $c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
-            $crit->addOr($c->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
-            $c->add($crit);
+            $c->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
             $bc->add(array('name' => 'From Paid Members', 'uri' => 'feedback/list?filter=filter&filters[paid]=1'));
             $this->left_menu_selected = 2;
         }

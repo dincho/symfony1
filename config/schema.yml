@@ -527,6 +527,7 @@ propel:
     population:               { type: integer, size: 10, required: true, default: 0 }
     timezone:                 { type: varchar, size: 255, default: "UTC" }
     geo_details_id:           { type: integer, required: false, foreignTable: geo_details, foreignReference: id, onDelete: setnull }
+    #info:                     { type: longvarchar }
     _indexes:
       complex:                [country, dsg, adm1_id, adm2_id, name]
   geo_photo:
@@ -586,8 +587,8 @@ propel:
     last_status_change_at:  { type: timestamp }
     period:                 { type: tinyint, required: true }
     period_type:            { type: char, size: 1, required: true } #D, W, M, Y
+    effective_date:         { type: timestamp }
     eot_at:                 { type: timestamp }
-    is_current:             { type: boolean, defualt: false }
     pp_ref:                 { type: varchar, size: 255, requred: false } #payment processor reference ( PP subscription_id ID or similar )    
     details:                { type: longvarchar, required: false } #full details of the transaction
     created_at:

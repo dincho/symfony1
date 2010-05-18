@@ -2,8 +2,10 @@
 <?php echo __('Subscription page headline') ?>
 
 <?php $sub1 = $subscriptions[0]; ?>
+<?php $better_subscription_flag = false; ?>
+
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
-    <fieldset style="width: 65%;">
+    <fieldset style="width: 90%;">
         <div style='float: left; margin-top: 44px; width: 1px; height: 266px; border-right: 1px solid #3D3D3D;'></div>
         <div class="column" >
             <div class="upgrade_header">&nbsp;</div>
@@ -21,10 +23,11 @@
             <span class="select_one"><?php echo __('Select Membership') ?></span>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
-            <div class="column <?php if($subscription->getId() == $member->getSubscriptionId()+1) echo 'upgrade_to' ?>">
+            <?php $is_better = ( $subscription->getAmount() > $member->getSubscription()->getAmount()) ? true : false; ?>
+            <div class="column <?php if($is_better && !$better_subscription_flag ) echo 'upgrade_to' ?>">
                 <div class="upgrade_header">
-                  <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
-                    <?php echo __('Upgrade Your Subscription Now!'); ?>
+                  <?php if( $is_better && !$better_subscription_flag ): ?>
+                    <?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?>
                   <?php else: ?>
                     &nbsp;
                   <?php endif; ?>
@@ -37,17 +40,19 @@
                 <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>                           
-                <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? __('set your own price') : __('Free')?></span>
+                <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')) : __('Free')?></span>
                 <span class="select">
-                  <?php if($subscription->getId() == $member->getSubscriptionId()+1): ?>
-                    <?php echo button_to(__('Upgrade to Premium'), 'subscription/payment', array('class' => 'button')); ?>
+                  <?php if( $is_better): ?>
+                    <?php $better_subscription_flag = true; ?>
+                    <?php echo button_to(__('Upgrade to %SUBSCRIPTION_TITLE%',  array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())), 
+                                        'subscription/payment?sid=' . $subscription->getId(), array('class' => 'button')); ?>
                   <?php else: ?>
                     &nbsp;
                   <?php endif; ?>
                 </span>
             </div>        
         <?php endforeach; ?>
- 
+    <div style='float: left; margin-top: 44px; width: 1px; height: 266px; border-left: 1px solid #3D3D3D;'></div>
     </fieldset>
     <br class="clear" />
     <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />

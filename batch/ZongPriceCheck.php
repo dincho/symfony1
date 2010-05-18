@@ -26,9 +26,10 @@ $countries = array('AR', 'AU', 'AT', 'BE', 'CA', 'CZ', 'CL', 'CO', 'DK', 'FI', '
 $zong = new sfZong();
 $zong->setCustomerKey('polishdev');
 $zong->setItemsCurrency('PLN');
+$zong->setSupportedCountries(sfConfig::get('app_zong_supported_countries'));
 
 foreach ($countries as $country_code)
 {
     $zong->setCountryCode($country_code);
-    $item = $zong->getFirstItemWithPriceGreaterThan($argv[1]);
+    $item = $zong->getFirstItemWithApproxPrice($argv[1]);
 }

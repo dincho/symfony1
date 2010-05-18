@@ -421,24 +421,14 @@ class editProfileActions extends prActions
                         
             if (! $subscription->getCanPostPhoto())
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'In order to post photo you need to upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: In order to post photo you need to upgrade your membership.');
-                }
-                return false;
+              $this->getRequest()->setError('subscription', sprintf('%s: In order to post photo you need to upgrade your membership.', $subscription->getTitle()));
+              return false;
             }
             
             if ($cnt_photos >= $subscription->getPostPhotos())
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.');
-                }
-                return false;
+              $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.', $subscription->getTitle()));
+              return false;
             }
             
           } elseif( $this->getRequestParameter('youtube_url') ) //save and continue clicked

@@ -194,30 +194,20 @@ class messagesActions extends prActions
             
                 if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
                 {
-                    $this->getRequest()->setError('subscription', 'Paid: In order to send message you need to upgrade your membership.');
+                    $this->getRequest()->setError('subscription', sprintf('%s: In order to send message you need to upgrade your membership.', $subscription->getTitle()));
                     return false;
                 }
             
                 if( $sender->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
                 {
-                    if( $subscription->getId() == SubscriptionPeer::FREE )
-                    {
-                        $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                    } else {
-                        $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                    }
-                    return false;
+                  $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
+                  return false;
                 }
             
                 if( $sender->getCounter('SentMessages') >= $subscription->getSendMessages() )
                 {
-                    if( $subscription->getId() == SubscriptionPeer::FREE )
-                    {
-                        $this->getRequest()->setError('subscription', 'For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                    } else {
-                        $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.');
-                    }
-                    return false;
+                  $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
+                  return false;
                 }
             }
                         
@@ -409,35 +399,20 @@ class messagesActions extends prActions
             $subscription = $member->getSubscription();    
             if( !$subscription->getCanReplyMessages() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'In order to reply to message you need to upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: In order to reply to message you need to upgrade your membership.');
-                }
-                return false;
+              $this->getRequest()->setError('subscription', sprintf('%s: In order to reply to message you need to upgrade your membership.', $subscription->getTitle()));
+              return false;
             }
             
             if( $member->getCounter('ReplyMessagesDay') >= $subscription->getReplyMessagesDay() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-                }
-                return false;
+              $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.', $subscription->getTitle()));
+              return false;
             }
             
             if( $member->getCounter('ReplyMessages') >= $subscription->getReplyMessages() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->getRequest()->setError('subscription', 'For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-                } else {
-                    $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.');
-                }
-                return false;
+              $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - reply to message - you have reached the limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.', $subscription->getTitle()));
+              return false;
             }
   
                         
@@ -462,13 +437,8 @@ class messagesActions extends prActions
                                 
             if( !$subscription->getCanReadMessages() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->setFlash('msg_error', 'In order to read a message you need to upgrade your membership.');
-                } else {
-                    $this->setFlash('msg_error', 'Paid: In order to read a message you need to upgrade your membership.');
-                }
-                $this->redirect('messages/index');
+              $this->setFlash('msg_error', sprintf('%s: In order to read a message you need to upgrade your membership.', $subscription->getTitle()));
+              $this->redirect('messages/index');
             } elseif ( $subscription->getId() == SubscriptionPeer::FREE && $profile->isSubscriptionFree() && !$profile->getSubscription()->getCanSendMessages() )
             {
                 //received by FREE member with send messages OFF
@@ -478,24 +448,14 @@ class messagesActions extends prActions
         
             if( $member->getCounter('ReadMessagesDay') >= $subscription->getReadMessagesDay() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-                } else {
-                    $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-                }
-                $this->redirect('messages/index');  
+              $this->setFlash('msg_error', sprintf('%s: For the feature that you want to use - read a message - you have reached the daily limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.', $subscription->getTitle()));
+              $this->redirect('messages/index');
             }
         
             if( $member->getCounter('ReadMessages') >= $subscription->getReadMessages() )
             {
-                if( $subscription->getId() == SubscriptionPeer::FREE )
-                {
-                    $this->setFlash('msg_error', 'For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-                } else {
-                    $this->setFlash('msg_error', 'Paid: For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.');
-                }
-                $this->redirect('messages/index');  
+              $this->setFlash('msg_error', sprintf('%s: For the feature that you want to use - read a message - you have reached the limit up to which you can use it with your membership. In order to read a message, please upgrade your membership.', $subscription->getTitle()));
+              $this->redirect('messages/index');
             }
         }
     

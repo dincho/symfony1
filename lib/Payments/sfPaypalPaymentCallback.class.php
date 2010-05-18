@@ -60,32 +60,14 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         sfLogger::getInstance()->log('{sfPaypalPaymentCallback} ' . $message, $priority);
     }
     
-    public function processNotification()
-    {
-        if( $this->getParam('subscr_date') )
-        {
-            $note_time = strtotime($this->getParam('subscr_date'));
-        } elseif ( $this->getParam('payment_date') )
-        {
-            $note_time = strtotime($this->getParam('payment_date'));
-        }
-        
-        //04.15.2010 00:00:00 - this should be set to the time of the this release
-        if( $note_time < 1271289600 )
-        {
-            $this->processNotificationOld();
-        } else {
-            $this->processNotificationNew();
-        }
-    }
-    
-    protected function processNotificationNew()
+    protected function processNotification()
     {   
         if( $this->getParam('txn_type') )
         {
             switch ($this->getParam('txn_type')) {
                 case 'subscr_payment':
-                       $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
+                       $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id')); 
+                       if( !$member_subscription ) $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getParam('custom')); //on subscr_signup the payment comes first sometimes
                        
                        if( $member_subscription )
                        {
@@ -112,7 +94,6 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                     //confirm member subscription
                     $c = new Criteria();
                     $c->add(MemberSubscriptionPeer::ID, $this->getParam('custom'));
-                    $c->add(MemberSubscriptionPeer::STATUS, 'pending');
                     $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
                     
                     if( $member_subscription )
@@ -121,7 +102,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         
                         $member_subscription->setPeriod($period);
                         $member_subscription->setPeriodType($period_type);
-                        $member_subscription->setStatus('active');
+                        if($member_subscription->getStatus() == 'pending') $member_subscription->setStatus('confirmed');
                         $member_subscription->setDetails($this->getParams());
                         $member_subscription->setPPRef($this->getParam('subscr_id'));
                         $member_subscription->setCreatedAt(strtotime($this->getParam('subscr_date')));
@@ -184,88 +165,5 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         }
         
         return false;    
-    }
-    
-    public function processNotificationOld()
-    {        
-        if( $this->getParam('txn_type') )
-        {
-            switch ($this->getParam('txn_type')) {
-                case 'subscr_payment':
-                       $c = new Criteria();
-                       $c->add(MemberSubscriptionPeer::PP_REF, $this->getParam('subscr_id'));
-                       $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
-                       
-                       if( $member_subscription )
-                       {   
-                           $member_payment = new MemberPayment();
-                           $member_payment->setMemberSubscriptionId($member_subscription->getId());
-                           $member_payment->setMemberId($member_subscription->getMemberId());
-                           $member_payment->setPaymentType('subscription');
-                           $member_payment->setPaymentProcessor('paypal');
-                           $member_payment->setAmount($this->getParam('mc_gross'));
-                           $member_payment->setCurrency($this->getParam('mc_currency'));
-                           $member_payment->setStatus(strtolower($this->getParam('payment_status')));
-                           $member_payment->setPPRef($this->getParam('txn_id'));
-                           $member_payment->setDetails($this->getParams());
-                           $member_payment->setCreatedAt(strtotime($this->getParam('payment_date')));
-                           $member_payment->setUpdatedAt(strtotime($this->getParam('payment_date')));
-                           $member_payment->save();
-                       
-                           if( $this->getParam('payment_status') == 'Completed') $member_payment->applyToSubscription();
-                       } else {
-                           $this->log('Received payment but can not find a subscription: ' . $this->getParam('subscr_id'));
-                       }
-                break;
-                
-                case 'subscr_signup':
-                       $member = MemberPeer::retrieveByPK($this->getParam('custom'));
-                       if( !$member ) $member = MemberPeer::retrieveByUsername($this->getParam('custom'));
-                       
-                       if( $member )
-                       {
-                            list($period, $period_type) = explode(' ', $this->getParam('period3'));
-                            
-                            $member_subscription = new MemberSubscription();
-                            $member_subscription->setMemberId($member->getId());
-                            $member_subscription->setSubscriptionId(SubscriptionPeer::PAID);
-                            $member_subscription->setPeriod($period);
-                            $member_subscription->setPeriodType($period_type);
-                            $member_subscription->setStatus('active');
-                            $member_subscription->setDetails($this->getParams());
-                            $member_subscription->setPPRef($this->getParam('subscr_id'));
-                            $member_subscription->setCreatedAt(strtotime($this->getParam('subscr_date')));
-                            $member_subscription->setUpdatedAt(strtotime($this->getParam('subscr_date')));
-                            $member_subscription->save();
-                       }
-                break;
-                
-                case 'subscr_cancel':
-                       $c = new Criteria();
-                       $c->add(MemberSubscriptionPeer::PP_REF, $this->getParam('subscr_id'));
-                       $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
-                   
-                       if( $member_subscription )
-                       {
-                           $member_subscription->setStatus('canceled');
-                           $member_subscription->save();
-                       }
-                break;
-                                
-                default:
-                    $this->log('Unhandled txn_type: ' . $this->params['txn_type']);
-                break;
-            }
-            
-        } else {
-            if( $this->getParam('payment_status') == 'Reversed' || $this->getParam('payment_status') == 'Refunded' )
-            {
-
-            } else {
-                $this->log('Unhandled payment_status: ' . $this->getParam('payment_status'));
-            }            
-        }
-        
-        return false;
-    }    
+    }  
 }

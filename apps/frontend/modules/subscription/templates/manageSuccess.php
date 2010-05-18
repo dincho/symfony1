@@ -1,5 +1,5 @@
 <?php use_helper('Number', 'Date', 'Javascript') ?>
-<?php echo __('Manage subscription - membership status'); ?>
+<?php echo __('Manage subscription - membership status', array('%SUBSCRIPTION_TYPE%' => $member_subscription->getSubscription()->getTitle())); ?>
 
 <?php if( $member_subscription ): ?>
     <?php if( $member_subscription->getStatus() == 'canceled' ): ?>

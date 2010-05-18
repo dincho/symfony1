@@ -16,7 +16,9 @@ class subscriptionsActions extends sfActions
 {
   public function executeList()
   {
-    $this->subscriptions = SubscriptionPeer::doSelect(new Criteria());
+    $c = new Criteria();
+    $c->addAscendingOrderByColumn(SubscriptionPeer::AMOUNT);
+    $this->subscriptions = SubscriptionPeer::doSelect($c);
   }
 
   public function executeEdit()

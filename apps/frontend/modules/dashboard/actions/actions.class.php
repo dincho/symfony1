@@ -165,12 +165,7 @@ class dashboardActions extends prActions
         $subscription = $this->getUser()->getProfile()->getSubscription();
         if( !$subscription->getCanSeeViewed() )
         {
-            if( $subscription->getId() == SubscriptionPeer::FREE )
-            {
-                $this->setFlash('msg_error', 'In order to see who viewed your profile you need to upgrade your membership.');
-            } else {
-                $this->setFlash('msg_error', 'Paid: In order to see who viewed your profile you need to upgrade your membership.');
-            }
+            $this->setFlash('msg_error', sprintf('%s: In order to see who viewed your profile you need to upgrade your membership.', $subscription->getTitle()));
             $this->redirect('@dashboard');
         }
         
@@ -325,34 +320,19 @@ class dashboardActions extends prActions
         $subscription = $this->getUser()->getProfile()->getSubscription();
         if( !$subscription->getCanContactAssistant() )
         {
-            if( $subscription->getId() == SubscriptionPeer::FREE )
-            {
-                $this->getRequest()->setError('subscription', 'In order to contact assistant you need to upgrade your membership.');
-            } else {
-                $this->getRequest()->setError('subscription', 'Paid: In order to contact assistant you need to upgrade your membership.');
-            }
-            return false;
+          $this->getRequest()->setError('subscription', sprintf('%s: In order to contact assistant you need to upgrade your membership.', $subscription->getTitle()));
+          return false;
         }
         
         if( $this->getUser()->getProfile()->getCounter('AssistantContactsDay') >= $subscription->getContactAssistantDay() )
         {
-            if( $subscription->getId() == SubscriptionPeer::FREE )
-            {
-                $this->getRequest()->setError('subscription', 'For the feature that you want to use - contact assistant - you have reached the daily limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
-            } else {
-                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - contact assistant - you have reached the daily limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
-            }
+          $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - contact assistant - you have reached the daily limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.', $subscription->getTitle()));
             return false;            
         }
                 
         if( $this->getUser()->getProfile()->getCounter('AssistantContacts') >= $subscription->getContactAssistant() )
         {
-            if( $subscription->getId() == SubscriptionPeer::FREE )
-            {
-                $this->getRequest()->setError('subscription', 'For the feature that you want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
-            } else {
-                $this->getRequest()->setError('subscription', 'Paid: For the feature that you want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.');
-            }
+          $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - contact assistant - you have reached the limit up to which you can use it with your membership. In order to contact online assistant, please upgrade your membership.', $subscription->getTitle()));
             return false;            
         }
                 

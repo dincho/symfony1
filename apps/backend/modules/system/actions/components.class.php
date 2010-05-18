@@ -34,9 +34,7 @@ class systemComponents extends sfComponents
         $c1 = clone $c;
         $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
         $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
-        $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
-        $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
-        $c1->add($crit);
+        $c1->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
         $feedback_cnt_paid = FeedbackPeer::doCount($c1);
     
         $c2 = clone $c;
@@ -65,15 +63,13 @@ class systemComponents extends sfComponents
     if( $this->getContext()->getModuleName() == 'feedback' || $this->getContext()->getModuleName() == 'feedbackTemplates')
     {        
         $c = new Criteria();
-    	$c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
+        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
         $feedback_cnt_all = FeedbackPeer::doCount($c);
         
         $c1 = clone $c;
         $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
         $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
-        $crit = $c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::PAID);
-        $crit->addOr($c1->getNewCriterion(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::COMP));
-        $c1->add($crit);
+        $c1->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
         $feedback_cnt_paid = FeedbackPeer::doCount($c1);
     
         $c2 = clone $c;
@@ -157,10 +153,9 @@ class systemComponents extends sfComponents
                         'members'  => array(array('title' => 'All Members', 'uri' => 'members/list?filter=filter'),
                                            array('title' => 'Male Members', 'uri' => 'members/list?filter=filter&filters[sex]=m'),
                                            array('title' => 'Female Members', 'uri' => 'members/list?filter=filter&filters[sex]=f'),
-                                           array('title' => 'Free Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE),
-                                           array('title' => 'Paid Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::PAID),
+                                           array('title' => 'Standard Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE),
+                                           array('title' => 'Premium Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::PREMIUM),
                                            array('title' => 'VIP Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::VIP),
-                                           array('title' => 'Comp Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::COMP),
                                            array('title' => 'Polish Members', 'uri' => 'members/list?filter=filter&filters[country]=PL'),
                                            array('title' => 'Foreign (US) Members', 'uri' => 'members/list?filter=filter&filters[country]=US'),
                                            array('title' => 'Foreign (Non-US) Members', 'uri' => 'members/list?filter=filter&filters[country]=NON-US'),
@@ -222,7 +217,9 @@ class systemComponents extends sfComponents
     $this->sex_array = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man',
                             'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
     
-    $this->subscriptions = SubscriptionPeer::doSelect(new Criteria());
+    $c = new Criteria();
+    $c->addAscendingOrderByColumn(SubscriptionPeer::AMOUNT);
+    $this->subscriptions = SubscriptionPeer::doSelect($c);
     $this->countries = array('PL', 'US', 'CA', 'GB', 'IE');
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
     $this->languages = array('en', 'pl', 'ar', 'zh', 'fr', 'de', 'he', 'it', 'pt', 'ru', 'es', 'sv', 'tr');

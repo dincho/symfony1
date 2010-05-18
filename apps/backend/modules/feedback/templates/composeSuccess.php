@@ -50,13 +50,11 @@
       <tr>
         <th>Membership:</th>
         <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::FREE, null, array('class' => 'checkbox')) ?></td>
-        <th>Free Members</th>
-        <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::PAID, null, array('class' => 'checkbox')) ?></td>
-        <th>Paid Members</th>        
+        <th>Standard Members</th>
+        <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::PREMIUM, null, array('class' => 'checkbox')) ?></td>
+        <th>Premium Members</th>        
         <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::VIP, null, array('class' => 'checkbox')) ?></td>
-        <th>VIP Members</th>
-        <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::COMP, null, array('class' => 'checkbox')) ?></td>
-        <th>Comp Members</th>
+        <th>VIP Members</th>        
         <td><?php echo checkbox_tag('send_filter[status_id][]', MemberStatusPeer::ABANDONED, null, array('class' => 'checkbox')) ?></td>
         <th>Abandoned Registration</th>        
       </tr>

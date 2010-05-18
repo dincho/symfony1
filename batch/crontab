@@ -6,6 +6,7 @@ MAILTO=dincho.todorov@bonex.us
 01      10     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationRegistrationReminder.php
 01      11     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/notificationEOT.php
 50      23     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/subscriptionsEOT.php
+01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/subscriptionsActivation.php
 01      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDailyMembersCounters.php
 02      00     1     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearMonthlyMembersCounters.php
 20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDeletedWinks.php

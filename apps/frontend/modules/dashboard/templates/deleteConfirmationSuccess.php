@@ -8,7 +8,7 @@
 <script type="text/javascript" charset="utf-8">
 function paypal_unsubscribe()
 {
-    <?php if( $member->getSubscriptionId() == SubscriptionPeer::PAID ): ?>
+    <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
         var w=window.open("<?php echo sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')); ?>");
         w.focus();
     <?php endif; ?>

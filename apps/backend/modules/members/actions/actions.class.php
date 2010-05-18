@@ -619,6 +619,8 @@ class membersActions extends sfActions
         $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->member->getId());
         $c->addDescendingOrderByColumn(MemberSubscriptionPeer::UPDATED_AT);
         $this->subscriptions = MemberSubscriptionPeer::doSelect($c);
+        
+        $this->currentSubscriptionId = ($this->member->getCurrentMemberSubscription()) ? $this->member->getCurrentMemberSubscription()->getId() : null;
     }
     
     public function executePayments()

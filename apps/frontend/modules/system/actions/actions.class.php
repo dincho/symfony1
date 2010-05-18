@@ -27,12 +27,7 @@ class systemActions extends prActions
   
   public function executeUnavailable()
   {
+      $this->getContext()->getResponse()->setStatusCode(503);
       $this->setLayout('system');
-  }
-  
-  public function executeTest()
-  {
-      print_r(array_shift(sfConfig::get('app_mail_outgoing')));
-      exit();
   }
 }

@@ -501,7 +501,7 @@ class Member extends BaseMember
     
     public function isSubscriptionPaid()
     {
-        return ($this->getSubscriptionId() == SubscriptionPeer::PAID);
+        return ($this->getSubscriptionId() != SubscriptionPeer::FREE);
     }
     
     public function getAdm1()
@@ -752,10 +752,21 @@ class Member extends BaseMember
     
     public function getCurrentMemberSubscription()
     {
-        $c = new Criteria();
-        $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
-        $c->add(MemberSubscriptionPeer::IS_CURRENT, true);
-        
-        return MemberSubscriptionPeer::doSelectOne($c);
+      $days = sfConfig::get('app_settings_extend_eot', 0);
+      
+      $c = new Criteria();
+      $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
+      $c->add(MemberSubscriptionPeer::EOT_AT, 'DATE('.MemberSubscriptionPeer::EOT_AT . ' + INTERVAL ' . $days . ' DAY) >= CURDATE() AND CURDATE() >= DATE('.MemberSubscriptionPeer::EFFECTIVE_DATE.')', Criteria::CUSTOM);
+      $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled'), Criteria::IN);
+      return MemberSubscriptionPeer::doSelectOne($c);
+    }
+    
+    public function getLastEotAt()
+    {
+      $c = new Criteria();
+      $c->addDescendingOrderByColumn(MemberSubscriptionPeer::EOT_AT);
+      $ms =  MemberSubscriptionPeer::doSelectOne($c);
+      
+      return ($ms) ? $ms->getEotAt() : time();
     }
 }

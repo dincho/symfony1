@@ -27,14 +27,6 @@ class MemberSubscription extends BaseMemberSubscription
         return $dt->get();
     }
     
-    public function EOT()
-    {
-        $this->setStatus('eot');
-        $this->setIsCurrent(false);
-        
-        $this->getMember()->changeSubscription(SubscriptionPeer::FREE);
-    }
-    
     public function setDetails($details)
     {
         parent::setDetails(serialize($details));

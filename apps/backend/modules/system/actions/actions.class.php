@@ -154,5 +154,6 @@ class systemActions extends sfActions
   
   public function executeUnavailable()
   {
+    $this->getContext()->getResponse()->setStatusCode(503);
   }  
 }

@@ -10,6 +10,7 @@ class sfZong
     protected $customerKey = null;
     protected $supportedCountries = array();
     private $items = null; //array
+    private $debug = false;
     
     public function __construct()
     {
@@ -161,7 +162,7 @@ class sfZong
     {
         if( !in_array($this->getCountryCode(), $this->getSupportedCountries()) ) return array();
         
-        //return $this->getItemsFromAPI();
+        if($this->debug) return $this->getItemsFromAPI();
         
         if( is_null($this->items) )
         {
@@ -171,15 +172,15 @@ class sfZong
         return $this->items;
     }
     
-    public function getFirstItemWithPriceGreaterThan($amount)
+    public function getFirstItemWithApproxPrice($amount)
     {
         $items = $this->getItems();
         if( count($items) < 1 ) return array();
         
         $best_match_item = array('amount' => PHP_INT_MAX);
         
-        // sfLoader::loadHelpers('I18N');
-        // printf("Country: %s ----------------\n", format_country($this->getCountryCode()));
+        if($this->debug) sfLoader::loadHelpers('I18N');
+        if($this->debug) printf("Country: %s ----------------\n", format_country($this->getCountryCode()));
         
         foreach($items as $item)
         {
@@ -189,7 +190,7 @@ class sfZong
             $best_match_price = $best_match_item['amount']/$this->exchangeRate;
             $best_match_diff = abs($amount - $best_match_price);
             
-            // printf("Item: %.2f %s - %.4f  %s \n", $item['amount'], $this->getLocalCurrency(), $price, $this->getItemsCurrency());
+            if($this->debug) printf("Item: %.2f %s - %.4f  %s \n", $item['amount'], $this->getLocalCurrency(), $price, $this->getItemsCurrency());
 
             if( $diff < $best_match_diff )
             {
@@ -197,7 +198,7 @@ class sfZong
             }
         }
         
-        // printf("Best match: %.2f %s \n",  $best_match_item['amount'], $this->getLocalCurrency());
+        if($this->debug) printf("Best match: %.2f %s \n",  $best_match_item['amount'], $this->getLocalCurrency());
         return $best_match_item;
     }
 }

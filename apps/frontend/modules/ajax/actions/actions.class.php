@@ -63,15 +63,18 @@ class ajaxActions extends geoActions
             return sfView::NONE;
         }
         
-        $subscription = SubscriptionPeer::retrieveByPK(SubscriptionPeer::PAID);
+        $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getRequestParameter('msid'));
+        if( !$member_subscription ) return sfView::NONE;
+        
+        $subscription = $member_subscription->getSubscription();
         
         if( $this->getRequestParameter('entrypointURL') )
         {
             $entrypointURL = $this->getRequestParameter('entrypointURL');
             $amount = 0;
         } else {
-            $zong = new prZong($member->getCountry());
-            $zongItem = $zong->getFirstItemWithPriceGreaterThan(sfConfig::get('app_zong_amount'));
+            $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
+            $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
                 
             if( !$zongItem ) 
             {
@@ -84,8 +87,7 @@ class ajaxActions extends geoActions
         }
 
         
-        $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getRequestParameter('msid'));
-        if( !$member_subscription ) return sfView::NONE;
+
         
         //create new transaction - each zong request needs a new one
         
