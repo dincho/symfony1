@@ -53,7 +53,7 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    setTimeout("$(\"send_message_form\").findFirstElement().focus();",1);
+    setTimeout("$(\"title\").focus();",1);
 });
 ');?>
 

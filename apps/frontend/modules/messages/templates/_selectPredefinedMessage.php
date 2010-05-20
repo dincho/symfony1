@@ -15,7 +15,6 @@
 var predefined_messages = [];
 var body_field = null;
 var subject_field = null;
-window.onload = init_predefined_messages;
 
 function init_predefined_messages()
 {
@@ -24,7 +23,6 @@ function init_predefined_messages()
     subject_field = $('<?php echo $subject_field_id; ?>');
 }
 
-    
 function predefined_message_selected(id)
 {
     if( id )
@@ -55,3 +53,7 @@ function predefined_message_selected(id)
     
 }
 </script>
+
+<?php echo javascript_tag('
+Event.observe(window, "load", init_predefined_messages);
+');?>

@@ -423,7 +423,7 @@ class messagesActions extends prActions
             
             //break/leave if there is no UNread messages
             $cnt_unread = MessagePeer::countUnreadInThreadExcludePredefined($thread->getId(), $member);
-            if( $cnt_unread < 1 ) return true;
+            if( $cnt_unread == 0 ) return true;
 
             
             if( sfConfig::get('app_settings_man_should_pay') && 
@@ -432,7 +432,7 @@ class messagesActions extends prActions
               )
             {
                 $this->setFlash('msg_error', 'M4F: In order to read a message you need to upgrade your membership.');
-                $this->redirectToReferer();
+                $this->redirect('messages/index');
             }
                                 
             if( !$subscription->getCanReadMessages() )

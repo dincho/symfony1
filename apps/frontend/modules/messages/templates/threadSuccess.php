@@ -80,7 +80,7 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    setTimeout("$(\"reply_message_form\").findFirstElement().focus();",1);
+    setTimeout("$(\"your_story\").focus();",1);
 });
 ');?>
 
