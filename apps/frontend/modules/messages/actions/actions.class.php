@@ -396,7 +396,16 @@ class messagesActions extends prActions
             if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
                 
             //3. subscription limits/restrictions ?
-            $subscription = $member->getSubscription();    
+            $subscription = $member->getSubscription();
+            if( sfConfig::get('app_settings_man_should_pay') && 
+                $member->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
+                $profile->getSex() == 'F' && $profile->getSubscriptionId() == SubscriptionPeer::FREE
+              )
+            {
+                $this->getRequest()->setError('subscription', 'M4F: In order to reply to message you need to upgrade your membership.');
+                return false;
+            }
+                          
             if( !$subscription->getCanReplyMessages() )
             {
               $this->getRequest()->setError('subscription', sprintf('%s: In order to reply to message you need to upgrade your membership.', $subscription->getTitle()));
