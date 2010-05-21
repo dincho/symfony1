@@ -1,7 +1,6 @@
-staging:
+stag:
   .settings:
-    web_debug:  on
-    cache:      on
+    no_script_name:           on
     
     #CSS and JS optimizer
     optimizer_dir:            cache        # cache directory in http web dir

@@ -41,6 +41,13 @@ dev:
     mail:
       enabled:          no
       error_exception:  yes
+stag:
+    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
+    domains:            #do not have :sf_culture in the routes
+        pl:             pl.pd.dincho.bonex.us
+    mail:
+      enabled:          yes
+      error_exception:  no      
 prod:
     base_domain:        www.polishdate.com #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
