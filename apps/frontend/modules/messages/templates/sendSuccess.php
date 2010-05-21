@@ -13,19 +13,19 @@
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
     <fieldset class="actions">
-        <?php echo pr_label_for('to', 'To:') ?>
+        <?php echo pr_label_for('to', __('To:')) ?>
         <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br />
         
-        <?php echo pr_label_for('predefined_message', 'Template:'); ?>
+        <?php echo pr_label_for('predefined_message', __('Template:')); ?>
         <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => 'title', 'body_field_id' => 'your_story', )); ?><br />
             
             
-        <?php echo pr_label_for('subject', 'Subject:') ?>
+        <?php echo pr_label_for('subject', __('Subject:')) ?>
         <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />
     </fieldset>
 
     <fieldset class="background_f4">
-        <?php echo pr_label_for('content', 'Message:') ?>
+        <?php echo pr_label_for('content', __('Message:')) ?>
         <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 
                                                                         'rows' => 10, 'cols' => 30)) ?>
         <br />
