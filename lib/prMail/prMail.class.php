@@ -57,7 +57,7 @@ class prMail extends sfMail
         parent::addAddress($address, $name);
     }
 
-    public function send()
+    public function send($webemail_culture = 'en')
     {
         if($this->copy_to_web)
         {
@@ -66,7 +66,8 @@ class prMail extends sfMail
             $webemail->setBody($this->getBody());
             $webemail->generateHash();
             
-            $global_vars = array('{WEB_MAIL_URL}' => BASE_URL . 'en/emails/' . $webemail->getHash() . '.html');
+            $webemail_url  = LinkPeer::create('@web_email?hash=' . $webemail->getHash())->getUrl($webemail_culture);
+            $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
             $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
             $this->setBody($body);
             $webemail->setBody($body); //set body again with parsed URL
@@ -75,15 +76,18 @@ class prMail extends sfMail
         
         $this->setBody(nl2br($this->getBody()));
         
-        try
+        if( sfConfig::get('app_mail_enabled') )
         {
-            //$this->mailer->Send();
-        } catch ( Exception $e )
-        {
-            if(SF_ENVIRONMENT == 'dev') throw new sfException($e->getMessage(), $e->getCode());
-            return false;
+          try
+          {
+              $this->mailer->Send();
+              return true;
+          } catch ( Exception $e )
+          {
+              if( sfConfig::get('app_mail_error_exception') ) throw new sfException($e->getMessage(), $e->getCode());
+          }
         }
         
-        return true;
+        return false;
     }
 }

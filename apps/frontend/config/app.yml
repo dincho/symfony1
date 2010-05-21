@@ -1,40 +1,6 @@
 all:
-  gmaps_key:
-    pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    pr_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-  paypal:
-    business:             admin_1231849319_biz@polishromance.com
-    test:                 yes
-    url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
-    #notify_url: http://pd.dincho.bonex.us:8007/callbacks/paypal.html #this URL should be always absolute!!! ( because of the different enviroments )
-    cert_id:              KRHQZEWMCEYVL
-    notify_url:           http://pd.dincho.bonex.us:8007/callbacks/paypal.html
-    cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
-    cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
-    cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
-    
-  zong:
-      customer_key:         polishdev
-      items_currency:       PLN
-      amount:               100
-      supported_countries:  [PL]
-      accept_simulated:     true
   sf_google_analytics_plugin:
-    enabled:      off
-    profile_id:   UA-11123315-1
-    tracker:      google
-    insertion:    top
-    params:
-      domain_name:   none
-      linker_policy: true    
-  title_prefix:
-    pd_dincho_bonex_us:  "PolishDate - "
-    pl_pd_dincho_bonex_us:  "SzukamMilionera.com - "
-    www_polishdate_com:  "PolishDate - "
-    www_szukammilionera_com:  "SzukamMilionera.com - "
+    enabled:                no
   sfSimpleGoogleSitemap:
     orm:                  Propel                 # possible values: auto, Propel, DbFinder. 'auto' is auto detection. Note: case sensitive!
     urls:                                        # define multiple static urls here
@@ -92,3 +58,57 @@ all:
   cse_id:
       en:   "014252771680410157097:dm1temprble"
       pl:   "014252771680410157097:cjbkxr0dyga"
+      
+dev:
+  gmaps_key:
+    pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pr_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+  paypal:
+    business:             admin_1231849319_biz@polishromance.com
+    test:                 yes
+    url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
+    cert_id:              KRHQZEWMCEYVL
+    notify_url:           http://pd.dincho.bonex.us:8007/callbacks/paypal.html
+    cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
+    cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
+    cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
+  zong:
+      customer_key:         polishdev
+      supported_countries:  [PL, US]
+      accept_simulated:     yes
+  title_prefix:
+    pd_dincho_bonex_us:  "PolishDate (dev) - "
+    pl_pd_dincho_bonex_us:  "SzukamMilionera.com (dev) - "
+  sf_google_analytics_plugin:
+    enabled:                no  
+  
+prod:
+  gmaps_key:
+    www_polishdate_com:     ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
+    www_szukammilionera_com:ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
+  paypal:
+    business:             futurise@gmail.com
+    url:                  https://www.paypal.com/cgi-bin/webscr
+    cert_id:              HX7M5C27QXM5L
+    notify_url:           http://PolishDate.com/callbacks/paypal.html
+    cert_public:          %SF_DATA_DIR%/paypal/polishdate-pubcert.pem
+    cert_private_key:     %SF_DATA_DIR%/paypal/polishdate-prvkey.pem
+    cert_public_paypal:   %SF_DATA_DIR%/paypal/paypal_pubcert.pem
+  zong:
+      customer_key:         polish
+      supported_countries:  [US]
+      accept_simulated:     no
+  title_prefix:
+    www_polishdate_com:  "PolishDate - "
+    www_szukammilionera_com:  "SzukamMilionera.com - "
+  sf_google_analytics_plugin:
+    enabled:      yes
+    profile_id:   UA-11123315-1
+    tracker:      google
+    insertion:    top
+    params:
+      domain_name:   none
+      linker_policy: true      

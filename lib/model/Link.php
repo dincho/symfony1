@@ -23,9 +23,7 @@ class Link extends BaseLink
   }
   
   public function getUrl($culture)
-  {
-    $context = sfContext::getInstance();
-    
+  { 
     $domain = sfConfig::get('app_domains_' . $culture, sfConfig::get('app_base_domain', @$_SERVER['HTTP_HOST']));
     $url = 'http://' . $domain . '/link/' . $this->getHash() . '.html';
     

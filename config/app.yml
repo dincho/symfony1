@@ -1,18 +1,16 @@
-default:
+all:
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
-    version:            "v1.4.7/r1413"
+    version:            "v1.4.8"
     mail:
+     enabled:           no
+     error_exception:   no
      incoming:
         host:           imap.gmail.com
         port:           993
         username:       incoming@polishdate.com
         password:       PD11837
-        
      outgoing:
         - admin@szukammilionera.pl:
             mailer:         smtp
@@ -36,3 +34,16 @@ default:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
       default_lifetime:             1814400 #in seconds - 21 days
+dev:
+    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
+    domains:            #do not have :sf_culture in the routes
+        pl:             pl.pd.dincho.bonex.us
+    mail:
+      enabled:          no
+      error_exception:  yes
+prod:
+    base_domain:        www.polishdate.com #always have :sf_culture in the routes
+    domains:            #do not have :sf_culture in the routes
+        pl:             www.szukammilionera.com
+    mail:
+      enabled:          yes

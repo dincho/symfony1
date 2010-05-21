@@ -26,12 +26,14 @@ referer:
 
 domainsFilter:
     class: DomainsFilter
-            
-cache:     ~
-common:    ~
 
-# common:    
-#   class: sfOptimizeStyleAndScript
+sf_google_analytics_plugin:
+  class: sfGoogleAnalyticsFilter
+             
+cache:     ~
+
+common:
+    class: <?php echo (SF_ENVIRONMENT == 'prod') ? 'sfOptimizeStyleAndScript' : 'sfCommonFilter', "\n" ?>
   
 flash:     ~
 execution: ~

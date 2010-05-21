@@ -70,7 +70,8 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $global_vars = array('{LOGIN_URL}' => $login_url);
         return self::executeNotifications(self::WELCOME_APPROVED, $global_vars, $member->getEmail(), $member);
     }
 
@@ -218,7 +219,8 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)));
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $global_vars = array('{LOGIN_URL}' => $login_url);
         return self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
@@ -226,7 +228,8 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)), 
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $global_vars = array('{LOGIN_URL}' => $login_url, 
                              '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
         return self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
     }
@@ -240,7 +243,8 @@ class Events
         $nb_hotlist = MemberCounterPeer::getNbNewOnOtherHotlist($member->getId());
         $nb_profile_view = MemberCounterPeer::getNbNewProfileViews($member->getId());
         
-        $global_vars = array('{LOGIN_URL}' => url_for(BASE_URL . 'signin', array('absolute' => true)),
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $global_vars = array('{LOGIN_URL}' => $login_url,
                              '{NB_MESSAGES}' => $nb_unread,
                              '{NB_WINKS}' => $nb_winks,
                              '{NB_HOTLIST}' => $nb_hotlist,
