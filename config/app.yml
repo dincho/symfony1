@@ -2,7 +2,7 @@ all:
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    version:            "v1.4.8"
+    version:            "v1.4.9"
     mail:
      enabled:           no
      error_exception:   no

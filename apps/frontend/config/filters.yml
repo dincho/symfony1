@@ -33,7 +33,7 @@ sf_google_analytics_plugin:
 cache:     ~
 
 common:
-    class: <?php echo (SF_ENVIRONMENT == 'prod') ? 'sfOptimizeStyleAndScript' : 'sfCommonFilter', "\n" ?>
+    class: <?php echo (SF_ENVIRONMENT == 'dev') ? 'sfCommonFilter' : 'sfOptimizeStyleAndScript', "\n" ?>
   
 flash:     ~
 execution: ~
