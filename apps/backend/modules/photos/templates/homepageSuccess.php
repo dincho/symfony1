@@ -8,6 +8,7 @@
                 <?php echo $photo->getHomepages(); ?><br />
                 S: <?php echo $photo->getHomepagesSet(); ?>
                 P: <?php echo $photo->getHomepagesPos(); ?><br />
+                Status: <?php echo $photo->getMember()->getMemberStatus(); ?><br />
                 <?php echo link_to('Delete', 'photos/deleteHomepagePhoto?id=' . $photo->getId()); ?>
             </div>
     <?php endforeach; ?>

@@ -95,7 +95,7 @@ class photosActions extends sfActions
         $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES);
         $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_SET);
         $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
-        $this->photos = HomepageMemberPhotoPeer::doSelect($c);
+        $this->photos = HomepageMemberPhotoPeer::doSelectJoinMember($c);
     }
     
     public function executeMemberStories()
