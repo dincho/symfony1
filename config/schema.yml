@@ -288,6 +288,7 @@ propel:
     can_contact_assistant:    { type: boolean, default: false, required: true }
     contact_assistant:        { type: integer, default: 0, required: true }
     contact_assistant_day:    { type: integer, default: 0, required: true }
+    private_dating:           { type: boolean, default: false, required: true }
     pre_approve:              { type: boolean, default: false, required: true }
     amount:                   { type: decimal, size: 7, scale: 2, required: true }
     period:                   { type: integer, required: true }

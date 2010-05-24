@@ -17,6 +17,7 @@
             <span class="type"><?php echo __('Send messages') ?></span><br />
             <span class="type"><?php echo __('See who\'s viewed your profile') ?></span><br />
             <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
+            <span class="type"><?php echo __('Private Dating') ?></span><br />
             <span class="type">
                 <?php echo __('Fee per %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) ?>
             </span><br />
@@ -39,7 +40,8 @@
                 <span class="check"><?php echo ($subscription->getCanReplyMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>                           
+                <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
+                <span class="check"><?php echo ($subscription->getPrivateDating()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                 <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')) : __('Free')?></span>
                 <span class="select">
                   <?php if( $is_better): ?>
