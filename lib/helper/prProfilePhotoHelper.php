@@ -20,12 +20,8 @@ function profile_photo($profile, $class="")
 
 function profile_small_photo($profile)
 {
-    if( $profile->isActive() )
-    {
-        return link_to_ref(image_tag($profile->getMainPhoto()->getImg('30x30')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
-    } else {
-        return image_tag('not_available_30x30.jpg');
-    }
+  $image_tag = image_tag($profile->getMainPhoto()->getImg('30x30'), '@profile?pager=1&bc=search&username='.$profile->getUsername());
+  return ( $profile->isActive() ) ? link_to_ref($image_tag) : $image_tag;
 }
 
 function profile_photo_dash_visitors($profile, $class="")
@@ -40,10 +36,5 @@ function profile_photo_dash_visitors($profile, $class="")
 
 function profile_thumbnail_photo_tag($profile, $size = '50x50')
 {
-    if( $profile->isActive() )
-    {
-        return image_tag($profile->getMainPhoto()->getImg($size));
-    } else {
-        return image_tag('not_available_'.$size.'.jpg');
-    }    
+  return image_tag($profile->getMainPhoto()->getImg($size));
 }
