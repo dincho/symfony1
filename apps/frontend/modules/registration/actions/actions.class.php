@@ -44,6 +44,7 @@ class registrationActions extends prActions
             
             //just cleanup
             $this->getUser()->SignOut();
+            $this->getUser()->setAttribute('member_id', $member->getId());
                     
             Events::triggerJoin($member);
             
