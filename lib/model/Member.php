@@ -718,9 +718,10 @@ class Member extends BaseMember
         return ( MessagePeer::doCount($c) > 0 );
     }
     
-    public function getUnreadMessagesCriteria()
+    public function getUnreadMessagesCriteria($crit = null)
     {
-        $c = new Criteria();
+        $c = ( !is_null($crit) ) ? clone $crit : new Criteria();
+        
         $c->add(MessagePeer::RECIPIENT_ID, $this->getId());
         $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);

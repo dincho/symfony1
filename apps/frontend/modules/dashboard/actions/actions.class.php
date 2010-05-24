@@ -38,8 +38,6 @@ class dashboardActions extends prActions
         //messages
         $c = $member->getUnreadMessagesCriteria();
         $c->addJoin(MemberPeer::ID, MessagePeer::SENDER_ID);
-        $cc = clone $c; //count criteria
-        
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         $c->setLimit(5);
         

@@ -133,6 +133,19 @@ class profileActions extends prActions
                 {
                     $this->getUser()->viewProfile($this->member);
                     $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
+                    
+                    //unread messages flash message
+                    $unread_c = new Criteria();
+                    $unread_c->add(MessagePeer::SENDER_ID, $this->member->getId());
+                    $unread_msg_cnt = $this->getUser()->getProfile()->getUnreadMessagesCount();
+                    if( $unread_msg_cnt > 0 )
+                    {
+                      $msg = __('You have %CNT_UNREAD% unread message(s) from %USERNAME%', 
+                                          array('%USERNAME%' => $this->member->getUsername(), '%CNT_UNREAD%' => $unread_msg_cnt), 
+                                          $unread_msg_cnt);
+                      $this->setFlash('msg_ok', $msg, false);
+                    }
+                    
                 } else {
                     $this->setTemplate('unavailableProfile');
                     $this->setFlash('msg_error', $error, false);
