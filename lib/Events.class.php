@@ -260,7 +260,7 @@ class Events
     {
         $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
         $messages_url = LinkPeer::create('messages/index', $recipient->getId())->getUrl($recipient->getCulture());
-        $message_url  = LinkPeer::create('messages/thread?id=' . $message->getThreadId(), $recipient->getId())->getUrl($recipient->getCulture());
+        $message_url  = LinkPeer::create('messages/thread?return_to_profile=1&id=' . $message->getThreadId(), $recipient->getId())->getUrl($recipient->getCulture());
         $message_snippet = Tools::truncate($message->getBody(), 12);
         
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
