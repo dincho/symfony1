@@ -705,51 +705,61 @@ form#sign_in fieldset a {
 
 #subscription div.column {
     float: left;
-    /* border: 1px solid #3d3d3d; */
     border-right: 0px;
+    width: 148px;
 }
 
 #subscription div.column .upgrade_header {
     height: 44px;
 }
 
-#subscription div.upgrade_to {
-    border: 1px solid #35773b;
-    border-top: none;
-}
-
-#subscription div.upgrade_to .upgrade_header {
+#subscription div.upgrade_to .upgrade_header div {
     background-color: #35773b;
     font-family: Myriad, Myriad Pro, sans-serif;
     font-size: 14px;
     color: white;
     padding: 6px;
-    width: 127px;
+    width: 136px;
     height: 32px;
 }
 
-#subscription span.select_one {
-    height: 11px;
+#subscription .outlined_subscription_features {
+    border: 1px solid #35773b;
+}
+
+#subscription .subscription_features {
+    border-top: 1px solid #3d3d3d;
+}
+
+/*#subscription span.select_one {
+    height: 12px;
     display: block;
     font-size: 11px;
     background-color: #3d3d3d;
     margin-top: 8px;
     padding: 8px;
-    width: 144px;
 }
 
 #subscription span.select {
     display: block;
-    font-size: 23px;
+    font-size: 24px;
     background-color: #3d3d3d;
     margin-top: 8px;
-    width: 138px;
     text-align: center;
+}*/
+
+#subscription span.select {
+    display: block;
+    background-color: #3d3d3d;
+    margin-top: 8px;
+    text-align: center;
+    height: 30px;
 }
 
 #subscription span.select input {
-    margin: 0 auto !important;
-    padding: 0px;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 130px !important;
 }
 
 #subscription span.check {
@@ -761,17 +771,6 @@ form#sign_in fieldset a {
     margin-left: 7px;
 }
 
-#subscription span.top_one {
-    display: block;
-    height: 21px;
-    background-color: #3d3d3d;
-    font-weight: bold;
-    color: #d3d3d3;
-    font-size: 11px;
-    padding: 10px 15px 0 7px;
-    width: 138px;
-}
-
 #subscription span.top {
     display: block;
     height: 21px;
@@ -780,12 +779,8 @@ form#sign_in fieldset a {
     color: #d3d3d3;
     font-size: 11px;
     padding: 10px 15px 0 7px;
-    width: 117px;
 }
-#subscription .upgrade_to span.top {
-    padding-right: 35px;
-    width: 97px !important;
-}
+
 /* END Subscription */
 
 /* Dashboard */
