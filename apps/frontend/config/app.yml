@@ -95,7 +95,7 @@ stag:
     test:                 yes
     url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
     cert_id:              KRHQZEWMCEYVL
-    notify_url:           http://pd.dincho.bonex.us:8007/callbacks/paypal.html
+    notify_url:           http://pd.dincho.bonex.us/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
     cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
