@@ -14,6 +14,8 @@ class Member extends BaseMember
     //cache
     private $_unread_messages_count = null;
     
+    private $city = null;
+    
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
@@ -506,20 +508,30 @@ class Member extends BaseMember
     
     public function getAdm1()
     {
-        $adm1 = GeoPeer::retrieveByPK($this->getAdm1Id());
-        return $adm1;
+      return $this->getCity()->getGeoRelatedByAdm1Id();
     }
     
     public function getAdm2()
     {
-        $adm2 = GeoPeer::retrieveByPK($this->getAdm2Id());
-        return $adm2;
+      return $this->getCity()->getGeoRelatedByAdm2Id();
+    }
+    
+    public function getCityOld()
+    {
+      return GeoPeer::retrieveByPK($this->getCityId());
     }
     
     public function getCity()
     {
-        $city = GeoPeer::retrieveByPK($this->getCityId());
-        return $city;
+      if( !is_null($this->getCityId()) && is_null($this->city) )
+      {
+        $c = new Criteria();
+        $c->add(GeoPeer::ID, $this->getCityId());
+      
+        $this->city = GeoPeer::doSelectOneJoinAllFeatures($c);
+      }
+      
+      return $this->city;
     }
     
     public function clearCache()
@@ -735,8 +747,7 @@ class Member extends BaseMember
     {
         if( is_null($this->_unread_messages_count) )
         {
-            $rs = MessagePeer::doSelectRS($this->getUnreadMessagesCriteria());
-            $this->_unread_messages_count = $rs->getRecordCount();
+            $this->_unread_messages_count = MessagePeer::doCount($this->getUnreadMessagesCriteria());
         }
         
         return $this->_unread_messages_count;

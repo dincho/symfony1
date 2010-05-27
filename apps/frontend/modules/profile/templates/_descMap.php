@@ -38,7 +38,7 @@
             <dt><?php echo __('City') ?></dt>
                 <dd><?php echo $member->getCity() ?></dd>
                 
-            <?php if( !$member->getDontDisplayZodiac() ): ?>
+            <?php if( $member->getBirthday() && !$member->getDontDisplayZodiac() ): ?>
                 <dt><?php echo __('Zodiac') ?></dt>
                     <dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
             <?php endif; ?>

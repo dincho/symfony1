@@ -16,12 +16,12 @@ class profileActions extends prActions
     }
     
     protected function profilePreExecute()
-    {
+    {   
+        $this->member = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($this->member);
+        
         $key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
-        
-        $this->member = MemberPeer::retrieveByUsernameJoinAll($this->getRequestParameter('username'));
-        $this->forward404Unless($this->member);
         
         $this->getUser()->getBC()->clear();
         
@@ -59,7 +59,7 @@ class profileActions extends prActions
     }
     
     public function executeIndex()
-    {
+    { 
         $this->profilePreExecute();
         
         $admin_hash = sha1(sfConfig::get('app_admin_user_hash') . $this->member->getUsername() . sfConfig::get('app_admin_user_hash'));
@@ -141,8 +141,7 @@ class profileActions extends prActions
                     if( $unread_msg_cnt > 0 )
                     {
                       $msg = __('You have %CNT_UNREAD% unread message(s) from %USERNAME%', 
-                                          array('%USERNAME%' => $this->member->getUsername(), '%CNT_UNREAD%' => $unread_msg_cnt), 
-                                          $unread_msg_cnt);
+                                          array('%USERNAME%' => $this->member->getUsername(), '%CNT_UNREAD%' => $unread_msg_cnt));
                       $this->setFlash('msg_ok', $msg, false);
                     }
                     
@@ -155,7 +154,7 @@ class profileActions extends prActions
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
                 $this->profile_pager = new ProfilePager($this->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager'), $this->member->getUsername());
-    
+
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
     
@@ -194,7 +193,6 @@ class profileActions extends prActions
         } else {
             $this->setTemplate('simpleProfile');
         }
-        
         
         $bc->setCustomLastItem(__("%USERNAME%'s profile", array('%USERNAME%' => $this->member->getUsername())));
         $this->profilePostExecute();

@@ -15,19 +15,18 @@ class imbraPaymentFilter extends sfFilter
     {
         $context = $this->getContext();
         $user = $context->getUser();
-        if ($this->isFirstCall() && $user->isAuthenticated())
+        if ( !sfConfig::get('app_settings_imbra_disable') && $this->isFirstCall() && $user->isAuthenticated())
         {
             $module = $context->getModuleName();
             $action = $context->getActionName();
             $module_action = $module . '/' . $action;
-            $member = $user->getProfile();
 
             if ( $user->isAuthenticated() && 
                 !in_array($module_action, self::$skip_actions) && 
                 $module != 'ajax' && 
                 $module != 'registration' && 
                 $module != 'IMBRA' &&
-                $member->mustPayIMBRA())
+                $user->getProfile()->mustPayIMBRA())
             {
 	            $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
 	            $AI->redirect('IMBRA/payment');

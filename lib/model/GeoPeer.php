@@ -307,4 +307,69 @@ class GeoPeer extends BaseGeoPeer
         
         return self::doSelectOne($c);
     }
+
+    public static function addAliasSelectColumns($alias, Criteria $criteria)
+    {
+      foreach(self::getFieldNames(BasePeer::TYPE_COLNAME) as $fieldName)
+      {
+        $criteria->addSelectColumn(self::alias($alias ,$fieldName));
+      }
+    }
+
+    public static function doSelectJoinAllFeatures(Criteria $c, $con = null)
+    {
+        $c = clone $c;
+
+        if ($c->getDbName() == Propel::getDefaultDB()) {
+          $c->setDbName(self::DATABASE_NAME);
+        }
+        
+        GeoPeer::addSelectColumns($c);
+
+        //see http://www.symfony-project.com/forum/index.php/m/10570/ for addAlias examples
+        $c->addAlias("Adm1", GeoPeer::TABLE_NAME);
+        $startcol_adm1 = (GeoPeer::NUM_COLUMNS - GeoPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+        GeoPeer::addAliasSelectColumns('Adm1', $c);
+        $c->addJoin(GeoPeer::ADM1_ID, GeoPeer::alias("Adm1", GeoPeer::ID), Criteria::LEFT_JOIN);
+
+        $c->addAlias("Adm2", GeoPeer::TABLE_NAME);
+        $startcol_adm2 = $startcol_adm1 + GeoPeer::NUM_COLUMNS;
+        GeoPeer::addAliasSelectColumns('Adm2', $c);
+        $c->addJoin(GeoPeer::ADM2_ID, GeoPeer::alias("Adm2", GeoPeer::ID), Criteria::LEFT_JOIN);
+        
+        $rs = BasePeer::doSelect($c, $con);
+        $results = array();
+        
+        while($rs->next())
+        {
+            $omClass = GeoPeer::getOMClass();
+            $cls = Propel::import($omClass);
+            
+            $geo = new $cls();
+            $geo->hydrate($rs);
+
+            $adm1 = new $cls();
+            $adm1->hydrate($rs, $startcol_adm1);
+            $geo->setGeoRelatedByAdm1Id($adm1);
+            
+            $adm2 = new $cls();
+            $adm2->hydrate($rs, $startcol_adm2);
+            $geo->setGeoRelatedByAdm2Id($adm2);
+
+            $results[] = $geo;
+        }
+        
+        return $results;
+    }
+
+    public static function doSelectOneJoinAllFeatures(Criteria $criteria, $con = null)
+    {
+      $critcopy = clone $criteria;
+      $critcopy->setLimit(1);
+      $objects = self::doSelectJoinAllFeatures($critcopy, $con);
+      if ($objects) {
+        return $objects[0];
+      }
+      return null;
+    }
 }

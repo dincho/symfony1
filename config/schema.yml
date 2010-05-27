@@ -338,6 +338,8 @@ propel:
     recipient_deleted_at:     { type: timestamp }
     created_at:
     updated_at:               #currently used only for drafts
+    _indexes:           
+      type:          [type]
 
   predefined_message:
     id:

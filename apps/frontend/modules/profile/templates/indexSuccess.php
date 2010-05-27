@@ -38,7 +38,7 @@
             <br />
         <?php endif; ?>
     <?php endforeach; ?>
-    <?php if( $member->getYoutubeVid() && sfConfig::get('app_settings_profile_display_video') ): ?>
+    <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
         <br /><br />
         <object width="350" height="355">
             <param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param>
