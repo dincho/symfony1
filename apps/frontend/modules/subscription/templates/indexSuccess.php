@@ -26,7 +26,7 @@
             </div>
         </div>
         <?php foreach($subscriptions as $subscription): ?>
-            <?php $is_better = ( $subscription->getAmount() > $member->getSubscription()->getAmount()) ? true : false; ?>
+            <?php $is_better = ( $subscription->getAmount() > $recent_subscription->getAmount()) ? true : false; ?>
             <div class="column <?php if( $subscription->getAmount() > 0 ) echo 'upgrade_to' ?>">
                 <div class="upgrade_header">
                   <?php if( $is_better  ): ?>

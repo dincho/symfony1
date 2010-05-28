@@ -18,6 +18,9 @@ class subscriptionActions extends prActions
         $this->subscriptions = SubscriptionPeer::doSelect($c);
     
         $this->member = $this->getUser()->getProfile();
+        $this->recent_subscription = $this->member->getMostRecentSubscription();
+        $this->forward404Unless($this->recent_subscription);
+        
         // $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
     }
 
@@ -31,6 +34,7 @@ class subscriptionActions extends prActions
         $this->redirectIf($this->member->getSubscriptionId() == SubscriptionPeer::FREE, 'subscription/payment');
         
         $this->member_subscription = $this->member->getCurrentMemberSubscription();
+        $this->next_member_subscription = $this->member->getNextMemberSubscription();
         $this->last_payment = ( $this->member_subscription ) ? $this->member_subscription->getLastCompletedPayment() : null;
         $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
         
@@ -57,6 +61,9 @@ class subscriptionActions extends prActions
         
         $subscription = SubscriptionPeer::retrieveByPK($this->getRequestParameter('sid'));
         $this->forward404Unless($subscription);
+        
+        //downgrades and double payments are not allowed
+        $this->forward404Unless($subscription->getAmount() > $member->getMostRecentSubscription()->getAmount());
                 
         if( $member->getCurrentMemberSubscription() && $member->getCurrentMemberSubscription()->getStatus() != 'canceled')
         {

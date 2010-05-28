@@ -41,6 +41,14 @@
     <?php echo __('Manage subscription - membership by admin'); ?>
 <?php endif; ?>
 
+<?php if( $next_member_subscription ): ?>
+  <?php echo __('Manage subscription - next subscription', array('%EFFECTIVE_DATE%' => format_date($next_member_subscription->getEffectiveDate(null), $date_format),
+                                                                         '%EOT_DATE%' => format_date($next_member_subscription->getExtendedEOT(null), $date_format),
+                                                                         '%SUBSCRIPTION_TYPE%' => $next_member_subscription->getSubscription()->getTitle(),
+                                                                        )
+              ); ?>
+<?php endif; ?>
+
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

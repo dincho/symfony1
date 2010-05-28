@@ -781,4 +781,33 @@ class Member extends BaseMember
       
       return ($ms) ? $ms->getEotAt() : time();
     }
+    
+    public function getNextMemberSubscription()
+    {
+      if( $current_subscription = $this->getCurrentMemberSubscription() )
+      {
+        $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::STATUS, array('confirmed', 'canceled'), Criteria::IN);
+        $c->add(MemberSubscriptionPeer::EFFECTIVE_DATE, $current_subscription->getEffectiveDate(null), Criteria::GREATER_THAN);
+        $c->addDescendingOrderByColumn(MemberSubscriptionPeer::EFFECTIVE_DATE);
+        return MemberSubscriptionPeer::doSelectOne($c);
+      }
+      
+      return null;
+    }
+
+    public function getMostRecentSubscription()
+    {
+        if( $next_member_subscription = $this->getNextMemberSubscription() )
+        {
+          $subscription_id = $next_member_subscription->getSubscriptionId();
+        } elseif ( $current_member_subscription = $this->getCurrentMemberSubscription() )
+        {
+          $subscription_id = $current_member_subscription->getSubscriptionId();
+        } else {
+          $subscription_id = $this->getSubscriptionId();
+        }
+        
+        return SubscriptionPeer::retrieveByPK($subscription_id);
+    }
 }
