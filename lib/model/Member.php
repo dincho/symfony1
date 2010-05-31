@@ -72,9 +72,6 @@ class Member extends BaseMember
     public function initNewMember()
     {
         //some default values
-        $this->setLastProfileView(time());
-        $this->setLastHotlistView(time());
-        $this->setLastWinksView(time());
         $this->setLastActivityNotification(time());
         $this->setEmailNotifications(0);
         

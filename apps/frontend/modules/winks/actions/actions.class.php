@@ -31,10 +31,6 @@ class winksActions extends prActions
         $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
-        
-        $member = $this->getUser()->getProfile();
-        $member->setLastWinksView(time());
-        $member->save();
     }
 
     public function executeSend()

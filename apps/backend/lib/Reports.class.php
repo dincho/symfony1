@@ -241,6 +241,7 @@ class Reports
                             WHEN t1.member_status_id IN(6,10) THEN "06) Suspensions (flags)"
                             WHEN t1.member_status_id = 1 AND t1.from_status_id IN(2,6,10) THEN "07) Unsuspensions (admin)"
                             WHEN t1.member_status_id = 3 THEN "08) Removals (deletions by admin)"
+                            WHEN t1.member_status_id = 11 THEN "09) Deactivations (auto)"
                         END AS title, 2 AS sort_order, t1.created_at AS dt
                 
                     FROM member_status_history AS t1
@@ -265,15 +266,12 @@ class Reports
                 FROM
                 (SELECT
                         CASE
-                            WHEN t1.member_subscr_id = 2 AND t1.is_renewal = 0 AND t1.txn_type = "subscr_payment" AND t1.payment_status = "Completed" THEN "09) Memb. Upgrade (paid)"
-                            WHEN t1.member_subscr_id = 3 AND t1.is_renewal = 0 AND t1.txn_type = "subscr_payment" AND t1.payment_status = "Completed" THEN "10) Memb. Upgrade (comp.)"
-                            WHEN t1.member_subscr_id = 2 AND t1.is_renewal = 1 AND t1.txn_type = "subscr_payment" AND t1.payment_status = "Completed" THEN "11) Memb. Renewals (paid)"
-                            WHEN t1.member_subscr_id = 3 AND t1.is_renewal = 1 AND t1.txn_type = "subscr_payment" AND t1.payment_status = "Completed" THEN "12) Memb. Renewals (comp.)"
+                            WHEN t1.txn_type = "subscr_payment" AND t1.payment_status = "Completed" THEN "09) Memb. Upgrade (paid)"
                             WHEN t1.txn_type = "subscr_cancel" THEN "13) Memb. Un-Subscriptions"
                         END AS title, t1.created_at AS dt
                 
                     FROM ipn_history AS t1
-                    WHERE ((t1.txn_type = "subscr_payment" AND t1.member_subscr_id IS NOT NULL) OR t1.txn_type = "subscr_cancel")
+                    WHERE ((t1.txn_type = "subscr_payment" AND t1.subscr_id IS NOT NULL) OR t1.txn_type = "subscr_cancel")
                     AND t1.paypal_response = "VERIFIED"
                     UNION
                     SELECT

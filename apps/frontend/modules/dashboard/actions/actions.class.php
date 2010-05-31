@@ -151,10 +151,6 @@ class dashboardActions extends prActions
         $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
-        
-        $member = $this->getUser()->getProfile();
-        $member->setLastProfileView(time());
-        $member->save();
     }
     
     public function validateVisitors()

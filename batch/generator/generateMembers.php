@@ -138,7 +138,6 @@ $member->addSubscriptionHistory($sub_history);
 unset($sub_history);
 
 $member->setCreatedAt(Tools::randomTimestamp());
-$member->setLastActivity(Tools::randomTimestamp());
 
 $member->setMemberStatusId(1);
 //$member->setMemberStatusId(rand(1,10));

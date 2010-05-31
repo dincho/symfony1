@@ -223,7 +223,6 @@ class membersActions extends sfActions
                 $subscription_id = $this->getRequestParameter('subscription_id');
                 if ( $this->member->getSubscriptionId() != $subscription_id )
                 {
-                  $this->member->setLastPaypalItem(null);
                   $this->member->changeSubscription($subscription_id);
                 }
                 

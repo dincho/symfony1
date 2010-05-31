@@ -34,10 +34,6 @@ class hotlistActions extends prActions
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
-        
-        $member = $this->getUser()->getProfile();
-        $member->setLastHotlistView(time());
-        $member->save();
     }
 
     public function executeAdd()

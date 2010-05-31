@@ -77,10 +77,6 @@ class MessagePeer extends BaseMessagePeer
         Events::triggerFirstContact($message);
         if( $recipient->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($recipient, $sender, $message);
 
-        //update last activity
-        $sender->setLastActivity(time());
-        $sender->save();
-
         if( !is_null($draft_id) ) MessagePeer::clearDraft($draft_id, $sender->getId());
         
         //increment counters
@@ -98,7 +94,6 @@ class MessagePeer extends BaseMessagePeer
 
         $recipient->incCounter('ReceivedMessages');
         
-                
         return $message;
     }
     

@@ -50,8 +50,6 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         $history->setPaymentStatus($this->getParam('payment_status'));
         $history->setRequestIp(ip2long($_SERVER['REMOTE_ADDR']));
         $history->setPaypalResponse($this->paypal_response);
-        $history->setIsRenewal($this->getParam('is_renewal', false));
-        $history->setMemberSubscrId($this->getParam('member_subscr_id'));
         $history->save();
     }
     

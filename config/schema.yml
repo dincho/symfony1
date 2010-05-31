@@ -90,23 +90,14 @@ propel:
     essay_introduction:       { type: longvarchar }
     main_photo_id:            { type: integer, required: false, foreignTable: member_photo, foreignReference: id, onDelete: setnull }
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
-    sub_auto_renew:           { type: boolean, required: true, default: true }
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
     public_search:            { type: boolean, required: true, default: false }
     private_dating:           { type: boolean, required: true, default: false }
     registration_ip:          { type: integer, required: false }
     last_ip:                  { type: integer, required: false }
-    last_paypal_subscr_id:    { type: varchar, size: 255, required: false }
-    last_paypal_item:         { type: varchar, size: 255, required: false }
-    paypal_unsubscribed_at:   { type: timestamp }
-    last_paypal_payment_at:   { type: timestamp }
-    last_activity:            { type: timestamp } #timestamp of last sent message
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
     last_flagged:             { type: timestamp } #timestamp of the last flag
     last_login:               { type: timestamp }
-    last_winks_view:          { type: timestamp }
-    last_hotlist_view:        { type: timestamp }
-    last_profile_view:        { type: timestamp }
     last_activity_notification:        { type: timestamp }
     created_at:
     dashboard_msg:            { type: integer, size: 1, required: false, default: 0 }
@@ -241,8 +232,8 @@ propel:
     address:                  { type: varchar, size: 255 }
     city:                     { type: varchar, size: 100 }
     adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
-    zip:                      { type: varchar, size: 20 }                  
-    phone:                    { type: varchar, size: 30 }                  
+    zip:                      { type: varchar, size: 20 }
+    phone:                    { type: varchar, size: 30 }
     created_at:
   member_imbra_i18n:
     text:                     { type: longvarchar }
@@ -292,13 +283,7 @@ propel:
     pre_approve:              { type: boolean, default: false, required: true }
     amount:                   { type: decimal, size: 7, scale: 2, required: true }
     period:                   { type: integer, required: true }
-    period_type:              { type: char, size: 1, required: true, required: true }    
-    trial1_amount:            { type: decimal, size: 7, scale: 2, required: true }
-    trial1_period:            { type: integer, required: true }
-    trial1_period_type:       { type: char, size: 1, required: true, required: true }
-    trial2_amount:            { type: decimal, size: 7, scale: 2, required: true }
-    trial2_period:            { type: integer, required: true }
-    trial2_period_type:       { type: char, size: 1, required: true, required: true }
+    period_type:              { type: char, size: 1, required: true, required: true }
     imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }
   subscription_history:
     id:
@@ -338,8 +323,8 @@ propel:
     recipient_deleted_at:     { type: timestamp }
     created_at:
     updated_at:               #currently used only for drafts
-    _indexes:           
-      type:          [type]
+    _indexes:
+      msg_type:               [type]
 
   predefined_message:
     id:
@@ -524,9 +509,6 @@ propel:
     adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
     latitude:                 { type: float }
     longitude:                { type: float }
-    alt_names:                { type: varchar, size: 400 }
-    orig_name:                { type: varchar, size: 197 }
-    orig_dsg:                 { type: varchar, size: 255 }
     population:               { type: integer, size: 10, required: true, default: 0 }
     timezone:                 { type: varchar, size: 255, default: "UTC" }
     geo_details_id:           { type: integer, required: false, foreignTable: geo_details, foreignReference: id, onDelete: setnull }
@@ -622,8 +604,6 @@ propel:
     subscr_id:          { type: varchar, size: 255 }
     payment_status:     { type: varchar, size: 255 }
     paypal_response:    { type: varchar, size: 8 }
-    is_renewal:         { type: boolean, required: true, default: 0 }
-    member_subscr_id:   { type: integer, required: false }
     txn_created_at:     { type: timestamp }
     created_at:
 

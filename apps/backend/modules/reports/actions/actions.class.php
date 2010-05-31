@@ -27,7 +27,7 @@ class reportsActions extends sfActions
         $this->getUser()->getBC()->replaceLast(array('name' => 'Daily Sales'));
         
         $this->dailySalesByStatus = Reports::getDaylySalesByStatus($this->filters);
-        $this->dailySalesLambdas = array(1, -1, -1, 1, -1, -1, 1, -1);
+        $this->dailySalesLambdas = array(1, -1, -1, 1, -1, -1, 1, -1, -11);
         
         $this->dailySalesPaidMembers = Reports::getDaylySalesPaidMembers($this->filters);
         $this->dailySalesPaidMembersLambdas = array(1, 1, 1, 1, -1, -1, -1, -1, 1, -1);
