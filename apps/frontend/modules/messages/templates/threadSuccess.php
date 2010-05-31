@@ -2,13 +2,13 @@
 
 <div class="thread_actions">
     <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
-        <?php echo button_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'button')); ?> 
+      &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent'); ?> 
     <?php else: ?>
-        <?php echo button_to(__('Back to Inbox'), 'messages/index', array('class' => 'button')); ?> 
+      &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
     <?php endif; ?>
 
-    <?php echo button_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'button float-right')) ?>
-    <?php echo button_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'button float-right')) ?>
+    <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
+    <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;</div>
     
     <br class="clear" />
 </div>
@@ -72,9 +72,9 @@
 <br /><br />
 <div class="thread_actions">
     <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
-        <?php echo button_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'button')); ?> 
+        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'sec_link')); ?> 
     <?php else: ?>
-        <?php echo button_to(__('Back to Inbox'), 'messages/index', array('class' => 'button')); ?> 
+        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
     <?php endif; ?>
 </div>
 
