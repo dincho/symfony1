@@ -30,11 +30,7 @@
         
         <hr style="width: auto;" />
         
-        <!--  PERIOD 3 -->
-        <label class="period_label" style="width:60px">Fee per&nbsp;</label>
-        <?php echo object_input_tag($sub1, 'getPeriod', 'class=period_input_left') ?>
-        <?php echo pr_select_payment_period_type('period_type', $sub1->getPeriodType(), array('style' => 'width: 80px')) ?> 
-        <br />
+        <label>Price:&nbsp;</label><br />
         
         <hr style="width: auto;" />
         
@@ -92,7 +88,11 @@
         <hr style="width: 140px;" />
     
         <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label"></label><br />
+        <label class="period_label">/</label>
+        
+        <?php echo input_tag('subs['. $sub->getId() .'][period]', $sub->getPeriod(), 'class=period_input_left') ?>
+        <?php echo pr_select_payment_period_type('subs['. $sub->getId() .'][period_type]', $sub->getPeriodType(), array('style' => 'width: 80px')) ?> 
+        <br />
         
         <hr style="width: 140px;" />
         

@@ -58,8 +58,8 @@ class subscriptionsActions extends sfActions
                 $subscription->setContactAssistantDay($req_subs[$subscription->getId()]['contact_assistant_day']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
                 
-                $subscription->setPeriod($this->getRequestParameter('period'));
-                $subscription->setPeriodType($this->getRequestParameter('period_type'));                
+                $subscription->setPeriod($req_subs[$subscription->getId()]['period']);
+                $subscription->setPeriodType($req_subs[$subscription->getId()]['period_type']);
                 $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
                 $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
                 $subscription->save();   
@@ -78,47 +78,54 @@ class subscriptionsActions extends sfActions
   public function validateEdit()
   {
     if( $this->getRequest()->getMethod() == sfRequest::POST )
-    {                  
-        if( !is_numeric($this->getRequestParameter('period')) || $this->getRequestParameter('period') <= 0 )
-        {
-            $this->getRequest()->setError('period', 'Please enter a positive integer');
-            return false;
-            
-        }
+    {   
+        $req_subs = $this->getRequestParameter('subs');
         
-        //regular subscription
-        switch ($this->getRequestParameter('period_type')) {
-            case 'D':
-                if( $this->getRequestParameter('period') > 90 )
-                {
-                    $this->getRequest()->setError('period', 'Allowable range is 1 to 90');
-                    return false;
-                }
-                break;
-            case 'W':
-                if( $this->getRequestParameter('period') > 52 )
-                {
-                    $this->getRequest()->setError('period', 'Allowable range is 1 to 52');
-                    return false;
-                }            
-                break;
-            case 'M':
-                if( $this->getRequestParameter('period') > 24 )
-                {
-                    $this->getRequest()->setError('period', 'Allowable range is 1 to 24');
-                    return false;
-                }            
-                break;
-            case 'Y':
-                if( $this->getRequestParameter('period') > 5 )
-                {
-                    $this->getRequest()->setError('period', 'Allowable range is 1 to 5');
-                    return false;
-                }            
-                break;
-            default:
-                break;
-        }               
+        foreach($req_subs as $id => $sub)
+        {
+          $field_name = 'subs['. $id.'][period]';
+        
+          if( !is_numeric($sub['period']) || $sub['period'] <= 0 )
+          {
+              $this->getRequest()->setError($field_name, 'Please enter a positive integer');
+              return false;
+            
+          }
+        
+          //regular subscription
+          switch ($sub['period_type']) {
+              case 'D':
+                  if( $sub['period'] > 90 )
+                  {
+                      $this->getRequest()->setError($field_name, 'Allowable range is 1 to 90');
+                      return false;
+                  }
+                  break;
+              case 'W':
+                  if( $sub['period'] > 52 )
+                  {
+                      $this->getRequest()->setError($field_name, 'Allowable range is 1 to 52');
+                      return false;
+                  }            
+                  break;
+              case 'M':
+                  if( $sub['period'] > 24 )
+                  {
+                      $this->getRequest()->setError($field_name, 'Allowable range is 1 to 24');
+                      return false;
+                  }            
+                  break;
+              case 'Y':
+                  if( $sub['period'] > 5 )
+                  {
+                      $this->getRequest()->setError($field_name, 'Allowable range is 1 to 5');
+                      return false;
+                  }            
+                  break;
+              default:
+                  break;
+          }
+        }
     }
     
     return true;

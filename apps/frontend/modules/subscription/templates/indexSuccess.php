@@ -1,7 +1,6 @@
 <?php use_helper('Number', 'dtForm') ?>
 <?php echo __('Subscription page headline') ?>
 
-<?php $sub1 = $subscriptions[0]; ?>
 <?php $better_subscription_flag = false; ?>
 
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
@@ -20,7 +19,7 @@
               <span class="type"><?php echo __('Contact Online Assistant') ?></span><br />
               <span class="type"><?php echo __('Private Dating') ?></span><br />
               <span class="type">
-                  <?php echo __('Fee per %PERIOD% ' . pr_format_payment_period_type($sub1->getPeriodType()), array('%PERIOD%' => $sub1->getPeriod())) ?>
+                  <?php echo __('Subscription Price:'); ?>
               </span><br />
               <span class="select"><?php echo __('Select Membership') ?>&nbsp;</span>
             </div>
@@ -45,7 +44,15 @@
                   <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                   <span class="check"><?php echo ($subscription->getCanContactAssistant()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                   <span class="check"><?php echo ($subscription->getPrivateDating()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
-                  <span class="check"><?php echo ($subscription->getAmount() > 0 ) ? format_currency($subscription->getAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')) : __('Free')?></span>
+                  <span class="check">
+                    <?php if ($subscription->getAmount() > 0 ): ?>
+                      <?php $price = format_currency($subscription->getAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')); ?>
+                      <?php $period_type = pr_format_payment_period_type($subscription->getPeriodType()); ?>
+                      <?php echo __('%PRICE% / %PERIOD% %PERIOD_TYPE%', array('%PRICE%' => $price, '%PERIOD%' => $subscription->getPeriod(), '%PERIOD_TYPE%' => $period_type)); ?>
+                    <?php else: ?>
+                      <?php echo __('Free'); ?>
+                    <?php endif; ?>
+                  </span>
                   <span class="select">
                     <?php if( $is_better): ?>
                       <?php $better_subscription_flag = true; ?>
