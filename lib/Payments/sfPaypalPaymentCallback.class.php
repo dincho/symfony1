@@ -110,10 +110,10 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                 break;
                 
                 case 'subscr_cancel':
-                    //cancel member subscription - note that this not lead to EOF
+                    //cancel member subscription - note that this not lead to EOT
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                     
-                    if($member_subscription)
+                    if( $member_subscription && in_array($member_subscription->getStatus(), array('active', 'confirmed')) )
                     {
                         $member_subscription->setStatus('canceled');
                         $member_subscription->save();

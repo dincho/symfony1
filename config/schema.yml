@@ -565,10 +565,11 @@ propel:
     gift_by:                { type: integer, required: false }
     status:                 { type: varchar, size: 100, default: "pending" }
         #pending - on subscription creation, no payment and any confirmation yet
-        #active - the member has confirmed the subscription e.g. made payment related to it
+        #confirmed - subscription is confirmed, but no payment yet, also used for prepaid-subscriptons ( with effective date in future )
+        #active
         #canceled - subscription has been canceled
         #eot
-        #exprired - not cofirmed subscriptions should expire after 24 hours.
+        #exprired - not cofirmed subscriptions should expire after 24 hours. ( not implemented yet )
     last_status_change_at:  { type: timestamp }
     period:                 { type: tinyint, required: true }
     period_type:            { type: char, size: 1, required: true } #D, W, M, Y
