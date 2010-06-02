@@ -90,7 +90,8 @@ class subscriptionActions extends prActions
         }
         
         //if effective subscription look for last subscription EOT
-        $member_subscription->setEffectiveDate( ($member->getCurrentMemberSubscription()) ? $member->getLastEotAt() : time() );
+        $effective_date = ( sfConfig::get('app_immediately_subscription_upgrade') || !$member->getCurrentMemberSubscription() ) ? time() : $member->getLastEotAt();
+        $member_subscription->setEffectiveDate( $effective_date );
         $member_subscription->save();
                     
         //paypal setup

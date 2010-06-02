@@ -58,6 +58,7 @@ all:
   cse_id:
       en:   "014252771680410157097:dm1temprble"
       pl:   "014252771680410157097:cjbkxr0dyga"
+  immediately_subscription_upgrade:   yes
       
 dev:
   gmaps_key:
