@@ -766,7 +766,7 @@ class Member extends BaseMember
       $c = new Criteria();
       $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
       $c->add(MemberSubscriptionPeer::EOT_AT, 'DATE('.MemberSubscriptionPeer::EOT_AT . ' + INTERVAL ' . $days . ' DAY) >= CURDATE() AND CURDATE() >= DATE('.MemberSubscriptionPeer::EFFECTIVE_DATE.')', Criteria::CUSTOM);
-      $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled'), Criteria::IN);
+      $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled', 'failed'), Criteria::IN);
       return MemberSubscriptionPeer::doSelectOne($c);
     }
     

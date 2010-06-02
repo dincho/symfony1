@@ -113,10 +113,34 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                     //cancel member subscription - note that this not lead to EOT
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                     
-                    if( $member_subscription && in_array($member_subscription->getStatus(), array('active', 'confirmed')) )
+                    if( $member_subscription && in_array($member_subscription->getStatus(), array('active', 'confirmed', 'failed')) )
                     {
                         $member_subscription->setStatus('canceled');
                         $member_subscription->save();
+                    }
+                break;
+                
+                case 'subscr_failed':
+
+                    $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
+                    
+                    if( $member_subscription )
+                    {
+                        if( $member_subscription->getStatus() == 'active' )
+                        {
+                          $member = $member_subscription->getMember();
+                          $member->changeSubscription(SubscriptionPeer::FREE);
+                          
+                          $member_subscription->setStatus('failed');
+                          $member_subscription->save();
+                        } elseif ( $member_subscription->getStatus() == 'failed' )
+                        {
+                          //if paypal does not send subscr_cancel on second failture we need to cancel the subscription here
+                          //it would be better if paypal sends such notification, cause we will not hardcode the "cancel on second failture", but keep paypal decide that
+                          $member_subscription->setStatus('canceled');
+                          $member_subscription->save();
+                        }
+
                     }
                 break;
                 

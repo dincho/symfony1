@@ -567,6 +567,7 @@ propel:
         #pending - on subscription creation, no payment and any confirmation yet
         #confirmed - subscription is confirmed, but no payment yet, also used for prepaid-subscriptons ( with effective date in future )
         #active
+        #failed - when subscription payment fails, this status is used to prevent EOT
         #canceled - subscription has been canceled
         #eot
         #exprired - not cofirmed subscriptions should expire after 24 hours. ( not implemented yet )

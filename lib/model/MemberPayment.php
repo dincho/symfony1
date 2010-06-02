@@ -31,7 +31,9 @@ class MemberPayment extends BaseMemberPayment
         if( $member_subscription->getEffectiveDate(null) <= time() && //effective date is today or in the past ( e.g. pending payment )
             $member->getSubscriptionId() != $member_subscription->getSubscriptionId() ) //in other words, this means first payment to this subscription
         {
-           if( $curr_subscription = $member->getCurrentMemberSubscription() )
+           if( $curr_subscription = $member->getCurrentMemberSubscription() && 
+               //failed subscription detection, because failed subscription is also returned as "current", to prevent double subscribes
+               $curr_subscription->getId() != $member_subscription->getId() ) 
            {
              $curr_subscription->setStatus('eot');
              $curr_subscription->save();
