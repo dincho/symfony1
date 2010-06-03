@@ -46,5 +46,5 @@ foreach( $member_subscriptions as $subscription)
       $member->changeSubscription(SubscriptionPeer::FREE);
     }
         
-    //$subscription->save();
+    $subscription->save();
 }
