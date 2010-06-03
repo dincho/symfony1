@@ -218,7 +218,9 @@ class dashboardActions extends prActions
             Events::triggerAccountDeleteByMember($member, nl2br(strip_tags($this->getRequestParameter('delete_reason'))));
             
             $this->getUser()->signOut();
-            $this->message('delete_account_confirm');            
+            $this->getUser()->setAttribute('member_id', $member->getId()); //we need this to receive member's profile in the confirmation message page
+            
+            $this->message('delete_account_confirm');
         }
         
         $this->member = $member;
