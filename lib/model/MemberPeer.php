@@ -8,7 +8,8 @@
  */
 class MemberPeer extends BaseMemberPeer
 {
-
+    public static $purposes = array('CR' => 'Casual relationship', 'M' => 'Marriage', 'GG' => 'Generous Gifts', 'T' => 'Travel', 'MA' => 'Monthly Allowance');
+    
     public static function retrieveByEmail($email)
     {
         $c = new Criteria();

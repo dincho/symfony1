@@ -515,19 +515,28 @@ function pr_purpose_checkboxes_tag($name, $selected = null, $html_options = arra
     return $return;
 }
 
-function format_purpose($purpose_key)
+function format_purpose($purpose_key, $orientation_key)
 {
-    $array = _purpose_array();
+    $array = _purpose_array($orientation_key);
     return ( isset($array[$purpose_key]) ) ? $array[$purpose_key] : null;
 }
 
 
-function _purpose_array()
+function _purpose_array($orientation_key)
 {
+    $options = MemberPeer::$purposes;
+    
     if( sfConfig::get('sf_i18n') )
     {
-        return array('CR' => __('Casual relationship'), 'M' => __('Marriage')); 
-    } else {
-        return array('CR' => 'Casual relationship', 'M' => 'Marriage');
-    } 
+        array_walk($options, '_format_purpose_item_i18n', $orientation_key);
+    }
+    
+    return $options;
 }
+
+function _format_purpose_item_i18n(&$item, $key, $orientation_key)
+{
+  $item = __($orientation_key . ': ' . $item);
+}
+
+

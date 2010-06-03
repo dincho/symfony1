@@ -50,13 +50,8 @@
         <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
         
         <div class="purpose_fields">
-            <?php echo pr_label_for('purpose', __('Purpose') . '<span style="color:red;">*</span>') ?>
-            <?php echo checkbox_tag('purpose[]', 'CR', fillIn('purpose[CR]', 'r', false, in_array('CR', $member->getPurpose())), array('class' => 'checkbox') ); ?>
-            <var><?php echo __('Casual relationship'); ?></var><br />
-            
-            <?php echo checkbox_tag('purpose[]', 'M', fillIn('purpose[M]', 'r', false, in_array('M', $member->getPurpose())), array('class' => 'checkbox') ); ?>
-            <var><?php echo __('Marriage'); ?></var>
-        </div><br class="clear" />
+            <?php include_partial('editProfile/purpose_fields', array('member' => $member)) ?>
+        </div><br class="clear" />        
                 
     </fieldset>
     <?php echo __('Registration notice') ?> 

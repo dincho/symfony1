@@ -104,6 +104,15 @@ class editProfileActions extends prActions
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
                 $return = false;
             }
+            
+            $purpose = $this->getRequestParameter('purpose');
+
+            
+            if( $purpose && count(array_diff($purpose, array_keys(MemberPeer::$purposes))) )
+            {
+              $this->getRequest()->setError('purpose', 'Invalid Purpose.');
+              $return = false;
+            }
         }
         return $return;
     }

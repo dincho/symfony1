@@ -807,4 +807,9 @@ class Member extends BaseMember
         
         return SubscriptionPeer::retrieveByPK($subscription_id);
     }
+    
+    public function getOrientationKey()
+    {
+      return $this->getSex().'4'.$this->getLookingFor();
+    }
 }

@@ -27,11 +27,13 @@
 <?php echo select_tag('orientation', looking_for_options_admin($member->getSex(), $member->getLookingFor())) ?><br />
 
 <label for="purpose">Purpose</label>
-<?php echo checkbox_tag('purpose[]', 'CR', fillIn('purpose[CR]', 'r', false, in_array('CR', $member->getPurpose())) ); ?>
-<var>Casual relationship</var>
-<?php echo checkbox_tag('purpose[]', 'M', fillIn('purpose[M]', 'r', false, in_array('M', $member->getPurpose())) ); ?>
-<var>Marriage</var> 
-<br />
+
+
+<?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>
+  <?php echo checkbox_tag('purpose[]', $key, fillIn('purpose['.$key.']', 'r', false, in_array($key, $member->getPurpose(ESC_RAW)))); ?>
+  <var><?php echo format_purpose($key, $member->getOrientationKey()); ?>&nbsp;</var>
+  <?php if($pIndex % 2 == 0) echo '<br /><label />' ?>
+<?php $pIndex++; endforeach; ?><br />
 
 <label for="member_id">ID</label>
 <var id="member_id"><?php echo $member->getId() ?></var><br />

@@ -19,13 +19,7 @@
         <?php echo select_tag('looking_for', looking_for_options($member->getSex() . '_' . $member->getLookingFor()), array("disabled" => "true")) ?><br />
         
         <div class="purpose_fields">
-            <?php echo pr_label_for('purpose', __('Purpose') . '<span style="color:red;">*</span>') ?>
-
-            <?php echo checkbox_tag('purpose[]', 'CR', fillIn('purpose[CR]', 'r', false, in_array('CR', $member->getPurpose())), array('class' => 'checkbox') ); ?>
-            <var><?php echo __('Casual relationship'); ?></var><br />
-    
-            <?php echo checkbox_tag('purpose[]', 'M', fillIn('purpose[M]', 'r', false, in_array('M', $member->getPurpose())), array('class' => 'checkbox') ); ?>
-            <var><?php echo __('Marriage'); ?></var>
+             <?php include_partial('editProfile/purpose_fields', array('member' => $member)) ?>
         </div><br class="clear" />
         
         <?php echo pr_label_for('country', __('Country of Residence') . '<span style="color:red;">*</span>') ?>

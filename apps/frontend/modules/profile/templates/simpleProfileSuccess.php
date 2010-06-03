@@ -21,7 +21,7 @@
                 endforeach;
                 
               else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
-                echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'), $image_options);
+                echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'));
               endif; 
         ?>
     </div>

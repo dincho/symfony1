@@ -17,7 +17,7 @@
             <dt><?php echo __('Purpose') ?></dt>
                 <dd>
                     <?php foreach($member->getPurpose() as $purpose): ?>
-                        <?php echo format_purpose($purpose); ?><br />
+                        <?php echo format_purpose($purpose, $member->getOrientationKey()); ?><br />
                     <?php endforeach; ?>
                 </dd>
             <?php endif; ?>

@@ -37,8 +37,6 @@ class myUser extends sfBasicSecurityUser
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
      
-        //var_dump($user->getAttributeHolder()->getAll('frontend/member/referer_stack'));exit();
-        
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());

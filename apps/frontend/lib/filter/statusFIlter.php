@@ -14,6 +14,7 @@ class statusFilter extends sfFilter
     
     public function execute($filterChain)
     {
+      
         $context = $this->getContext();
         $user = $context->getUser();
         if ($this->isFirstCall() && $user->isAuthenticated())
@@ -23,7 +24,7 @@ class statusFilter extends sfFilter
             $action = $context->getActionName();
             $module_action = $module . '/' . $action;
             $member = $user->getProfile();
-
+           
             //second condition is to bypass case constructor if status is active
             if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && 
                 !in_array($module_action, self::$skip_actions) && $module != 'ajax')
@@ -38,13 +39,15 @@ class statusFilter extends sfFilter
                       {
                           $AI->redirect('registration/requestNewActivationEmail');
                       }
-                        if ( $module != 'registration' && $module != 'IMBRA' )
-                        {
-                          
-                            /*if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
-                                && $member->countMemberPhotos() > 0 ) $user->completeRegistration();*/
-                            $AI->message('complete_registration');
-                        }
+                      
+                      
+                      if ( $module != 'registration' && $module != 'IMBRA' )
+                      {
+                        
+                          /*if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
+                              && $member->countMemberPhotos() > 0 ) $user->completeRegistration();*/
+                          $AI->message('complete_registration');
+                      }
                         break;
                     case MemberStatusPeer::CANCELED:
                         $AI->message('status_canceled');

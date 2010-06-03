@@ -202,6 +202,10 @@ class registrationActions extends prActions
             {
                 $this->getRequest()->setError('purpose', 'Please select purpose.');
                 $return = false;                
+            } elseif ( count(array_diff($purpose, array_keys(MemberPeer::$purposes))) )
+            {
+              $this->getRequest()->setError('purpose', 'Invalid Purpose.');
+              $return = false;              
             }
         }
         
