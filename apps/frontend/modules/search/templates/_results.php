@@ -32,11 +32,11 @@
                   <?php $when = (is_null($member->getLastLogin())) ? __('never') : distance_of_time_in_words($member->getLastLogin(null)); ?>
                   <p><?php echo __('last log in: %WHEN%', array('%WHEN%' => $when)) ?></p>
                   <?php if( $sf_user->getProfile()->hasSearchCriteria()): ?>
-                      <p><?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
+                      <p><?php echo __('%she_he% matches you: %MATCH%%', array('%MATCH%' => $match->getPct(), '%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'))) ?></p>
                   <?php else: ?>
-                      <p><?php echo __('%she_he% matches you: set criteria', array('%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She')) ?></p>
+                      <p><?php echo __('%she_he% matches you: set criteria', array('%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'))) ?></p>
                   <?php endif; ?>
-                  <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? 'him' : 'her')) ?></p>
+                  <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => (int) $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?></p>
               </div>
             </div>  
             <?php if( $i < $pager->getMaxPerPage() && $i%3 == 0): ?>
