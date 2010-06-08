@@ -33,7 +33,7 @@ class prPrivacyValidator extends sfValidator
            return false;
        }
        
-       if ( $this->getParameter('check_onlyfull') && $this->sender->getSubscriptionId() == SubscriptionPeer::FREE && $this->receiver->getContactOnlyFullMembers() )
+       if ( $this->getParameter('check_onlyfull') && $this->sender->getSubscriptionId() != SubscriptionPeer::VIP && $this->receiver->getContactOnlyFullMembers() )
        {
            $error = $this->getParameter('onlyfull_error');
            return false;

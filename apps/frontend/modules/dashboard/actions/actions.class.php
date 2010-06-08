@@ -243,12 +243,7 @@ class dashboardActions extends prActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $modified = false;
-            if( $member->getPrivateDating() != $this->getRequestParameter('private_dating') ||
-                $member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members'))
-                {
-                  $modified = true;
-                }
+            $modified = ( $member->getPrivateDating() != $this->getRequestParameter('private_dating') );
             
             $member->setPrivateDating($this->getRequestParameter('private_dating', 0));
             if( $this->getRequestParameter('private_dating', 0) == 1) 
