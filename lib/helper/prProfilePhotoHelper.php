@@ -20,8 +20,8 @@ function profile_photo($profile, $class="")
 
 function profile_small_photo($profile)
 {
-  $image_tag = image_tag($profile->getMainPhoto()->getImg('30x30'), '@profile?pager=1&bc=search&username='.$profile->getUsername());
-  return ( $profile->isActive() ) ? link_to_ref($image_tag) : $image_tag;
+  $image_tag = image_tag($profile->getMainPhoto()->getImg('30x30'));
+  return ( $profile->isActive() ) ? link_to_ref($image_tag, '@profile?pager=1&bc=search&username=' . $profile->getUsername()) : $image_tag;
 }
 
 function profile_photo_dash_visitors($profile, $class="")

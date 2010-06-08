@@ -81,18 +81,7 @@ class dashboardActions extends prActions
         $this->hotlist_cnt = MemberPeer::doCount($cc);
         
         //visitors
-        $c = new Criteria();
-        $c->add(ProfileViewPeer::PROFILE_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, ProfileViewPeer::MEMBER_ID);
-        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
-        $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
-        $c->add(ProfileViewPeer::IS_NEW, true);
-        
-        //privacy check
-        $c->addJoin(ProfileViewPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. ProfileViewPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
-        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
-        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
-                
+        $c = ProfileViewPeer::getVisitorsCriteria($member->getId());
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);

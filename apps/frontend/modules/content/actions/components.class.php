@@ -52,5 +52,15 @@ class contentComponents extends sfComponents
         }
         
         $this->photos = ( count($photos) == 9) ? $photos : array();
-    }    
+    }
+    
+    
+    public function executeNotifications()
+    {
+      $response = $this->getResponse();
+      $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/prototype');
+      $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/effects');
+      $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/controls');
+      $response->addJavascript('notifications.js');
+    }
 }

@@ -486,6 +486,15 @@ propel:
       event_notify:  [notification_id, event]
     _indexes:
       event:         [event]
+      
+  member_notification:
+    id:
+    member_id:      { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    title:          { type: varchar, size: 255, required: true }
+    body:           { type: varchar, size: 255, required: true }
+    sent_at:        { type: timestamp }
+    created_at:
+      
   web_email:
     id:
     subject:        { type: varchar, size: 255 }

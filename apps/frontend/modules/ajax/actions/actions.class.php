@@ -86,9 +86,6 @@ class ajaxActions extends geoActions
             $amount = $zongItem['amount'];
         }
 
-        
-
-        
         //create new transaction - each zong request needs a new one
         
         $member_payment = new MemberPayment();
@@ -118,5 +115,48 @@ class ajaxActions extends geoActions
         $zongIframeSrc = $entrypointURL . '&' . http_build_query($zongParams, '', '&');
         $this->zongIframeSrc = $zongIframeSrc;
         $this->setLayout(false);
+    }
+    
+    public function executeNotifications()
+    {
+        $output = null;
+        
+        if ( $this->getUser()->isAuthenticated() )
+        {            
+            $c = new Criteria();
+            $c->add(MemberNotificationPeer::MEMBER_ID, $this->getUser()->getId());
+            $c->add(MemberNotificationPeer::SENT_AT, null, Criteria::ISNULL);
+            $c->add(MemberNotificationPeer::CREATED_AT, time()-60, Criteria::GREATER_THAN);
+            $c->addAscendingOrderByColumn(MemberNotificationPeer::CREATED_AT);
+            $c->setLimit(8);
+            $notifications = MemberNotificationPeer::doSelect($c);
+
+            
+            $results_tmp = array();
+            
+            if( $notifications ) //to prevent empty updates
+            {
+              $ids = array();
+            
+              foreach($notifications as $notification)
+              {
+                $ids[] = $notification->getId();
+                $results_tmp[] = array('title' => $notification->getTitle(), 'body' => $notification->getBody());
+              }
+
+              $output = json_encode($results_tmp);
+              
+              $u1 = new Criteria();
+              $u1->add(MemberNotificationPeer::ID, $ids, Criteria::IN);
+              
+              $u2 = new Criteria();
+              $u2->add(MemberNotificationPeer::SENT_AT, time());
+              
+              BasePeer::doUpdate($u1, $u2, Propel::getConnection());
+            }
+        }
+        
+        $this->setLayout(false);
+        return $this->renderText($output);
     }
 }
