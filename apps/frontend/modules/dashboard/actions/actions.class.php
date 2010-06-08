@@ -254,7 +254,7 @@ class dashboardActions extends prActions
             
             $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
             
-            if( $modified && $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE )
+            if( $modified && $this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::VIP )
             {
               $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
             } else {
