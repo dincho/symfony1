@@ -120,6 +120,26 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                     }
                 break;
                 
+                case 'subscr_modify':
+                    //modification become effective immeditaly, but paypal charges on next billing cycle
+                    $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
+                    
+                    if( $member_subscription )
+                    {
+                        list($period, $period_type) = explode(' ', $this->getParam('period3'));
+                        
+                        $member_subscription->setPeriod($period);
+                        $member_subscription->setPeriodType($period_type);
+                        $member_subscription->setDetails($this->getParams());
+                        $member_subscription->setUpdatedAt(strtotime($this->getParam('subscr_date')));
+                        $member_subscription->setSubscriptionId($this->getParam('item_number'));
+                        
+                        $member_subscription->getMember()->changeSubscription($member_subscription->getSubscriptionId());
+                        
+                        $member_subscription->save();
+                    }
+                break;                
+                
                 case 'subscr_failed':
 
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));

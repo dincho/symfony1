@@ -16,6 +16,8 @@ class Member extends BaseMember
     
     private $city = null;
     
+    private $_current_member_subscription = false;
+    
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
@@ -761,13 +763,18 @@ class Member extends BaseMember
     
     public function getCurrentMemberSubscription()
     {
-      $days = sfConfig::get('app_settings_extend_eot', 0);
+      if( $this->_current_member_subscription === false )
+      {
+        $days = sfConfig::get('app_settings_extend_eot', 0);
       
-      $c = new Criteria();
-      $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
-      $c->add(MemberSubscriptionPeer::EOT_AT, 'DATE('.MemberSubscriptionPeer::EOT_AT . ' + INTERVAL ' . $days . ' DAY) >= CURDATE() AND CURDATE() >= DATE('.MemberSubscriptionPeer::EFFECTIVE_DATE.')', Criteria::CUSTOM);
-      $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled', 'failed'), Criteria::IN);
-      return MemberSubscriptionPeer::doSelectOne($c);
+        $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
+        $c->add(MemberSubscriptionPeer::EOT_AT, 'DATE('.MemberSubscriptionPeer::EOT_AT . ' + INTERVAL ' . $days . ' DAY) >= CURDATE() AND CURDATE() >= DATE('.MemberSubscriptionPeer::EFFECTIVE_DATE.')', Criteria::CUSTOM);
+        $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled', 'failed'), Criteria::IN);
+        $this->_current_member_subscription = MemberSubscriptionPeer::doSelectOne($c);
+      }
+      
+      return $this->_current_member_subscription;
     }
     
     public function getLastEotAt()

@@ -64,42 +64,59 @@ class subscriptionActions extends prActions
         
         //downgrades and double payments are not allowed
         $this->forward404Unless($subscription->getAmount() > $member->getMostRecentSubscription()->getAmount());
-                
-        if( $member->getCurrentMemberSubscription() && $member->getCurrentMemberSubscription()->getStatus() != 'canceled')
+        
+        $current_member_subscription = $member->getCurrentMemberSubscription();
+        $is_last_processor_paypal = ($current_member_subscription && $current_member_subscription->getLastCompletedPayment()->getPaymentProcessor() == 'paypal');
+        
+        if( $current_member_subscription && !$is_last_processor_paypal && $current_member_subscription->getStatus() != 'canceled')
         {
           $this->redirect('subscription/cancelToUpgrade?sid=' . $subscription->getId());
         }
 
-        $member->setLastPaymentState('init');
-        $member->save();
-
-        //check if we already have some subscription
-        $c = new Criteria();
-        $c->add(MemberSubscriptionPeer::MEMBER_ID, $member->getId());
-        $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getID());
-        $c->add(MemberSubscriptionPeer::STATUS, 'pending');
-        $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
+        $this->zongAvailable = false;
         
-        if( !$member_subscription ) //no subscription found, create new one.
+        if( !$is_last_processor_paypal )
         {
-            $member_subscription = new MemberSubscription();
-            $member_subscription->setMemberId($member->getId());
-            $member_subscription->setSubscriptionId($subscription->getId());
-            $member_subscription->setPeriod($subscription->getPeriod());
-            $member_subscription->setPeriodType($subscription->getPeriodType());
-        }
+          $member->setLastPaymentState('init');
+          $member->save();
         
-        //if effective subscription look for last subscription EOT
-        $effective_date = ( sfConfig::get('app_immediately_subscription_upgrade') || !$member->getCurrentMemberSubscription() ) ? time() : $member->getLastEotAt();
-        $member_subscription->setEffectiveDate( $effective_date );
-        $member_subscription->save();
-                    
+          //check if we already have some pending subscription
+          $c = new Criteria();
+          $c->add(MemberSubscriptionPeer::MEMBER_ID, $member->getId());
+          $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getID());
+          $c->add(MemberSubscriptionPeer::STATUS, 'pending');
+          $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
+        
+          if( !$member_subscription ) //no subscription found, create new one.
+          {
+              $member_subscription = new MemberSubscription();
+              $member_subscription->setMemberId($member->getId());
+              $member_subscription->setSubscriptionId($subscription->getId());
+              $member_subscription->setPeriod($subscription->getPeriod());
+              $member_subscription->setPeriodType($subscription->getPeriodType());
+          }
+          
+          
+          //if effective subscription look for last subscription EOT
+          $effective_date = ( sfConfig::get('app_immediately_subscription_upgrade') || !$current_member_subscription ) ? time() : $member->getLastEotAt();
+          $member_subscription->setEffectiveDate( $effective_date );
+          $member_subscription->save();
+          
+          $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
+          $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
+          $this->zongAvailable = true;
+        
+        } else {
+          $member_subscription = $current_member_subscription;
+        }
+
         //paypal setup
+        //@see https://www.paypal.com/en_US/ebook/subscriptions/html.html
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => $_SERVER['HTTP_HOST'] . ' Membership',
-                            'item_number' => $member->getId(),
+                            "item_name" => $subscription->getTitle() . ' Membership',
+                            'item_number' => $subscription->getId(),
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
@@ -107,6 +124,7 @@ class subscriptionActions extends prActions
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'src' => 1, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture
+                            'modify' => ( $is_last_processor_paypal ) ? 2 : 0, 
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
                             'return' => $this->getController()->genUrl('subscription/thankyou', true),
                             'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $member_subscription->getId(), true),
@@ -119,12 +137,6 @@ class subscriptionActions extends prActions
         
         $this->encrypted = $EWP->encryptFields($parameters);
         $this->amount = $subscription->getAmount();
-        
-        //zong setup
-        $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
-        $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
-                
-        $this->zongAvailable = (bool) $zongItem;
         $this->member_subscription_id = $member_subscription->getId();
     }
 
