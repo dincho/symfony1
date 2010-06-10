@@ -350,7 +350,7 @@ class searchActions extends prActions
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod($peerMethod);
         $pager->setPeerCountMethod($peerCountMethod);
-        $pager->setMaxRecordLimit(600); //max 600 results due to FS
+        if( $this->getUser()->getProfile()->isFree() ) $pager->setMaxRecordLimit(600); //max 600 results due to FS
         $pager->init();
         $this->pager = $pager;
     }

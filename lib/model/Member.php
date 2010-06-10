@@ -819,4 +819,16 @@ class Member extends BaseMember
     {
       return $this->getSex().'4'.$this->getLookingFor();
     }
+    
+    public function isFree()
+    {
+      return ( $this->getSubscriptionId() == SubscriptionPeer::FREE );
+    }
+    
+    //if you wonder why we need this method but not using !isFree(), 
+    //it's just for better method calls wording
+    public function isPaid()
+    {
+      return !$this->isFree();
+    }
 }
