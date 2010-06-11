@@ -486,48 +486,33 @@ class profileActions extends prActions
     public function executeRate()
     {
       $request = $this->getRequest();
-
-      $memberId = $request->getParameter('id');
-      $rate = round($request->getParameter('rate'));
-
-      if($rate > 5)
-        $rate = 5;
-
-      $member = MemberPeer::retrieveByPk($memberId);
+      $member = MemberPeer::retrieveByPk($request->getParameter('id'));
+      $rate = min(round($request->getParameter('rate')), 5);
       
       if(! $member){
-        return($this->renderText("Error with member ID!"));
+        return $this->renderText(__("Wrong member ID!"));
       }
 
       $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID,$memberId);
-      $c->addAnd(MemberRatePeer::RATER_ID,$this->getUser()->getId());
-      $memberRate = MemberRatePeer::doSelectOne($c);
+      $c->add(MemberRatePeer::MEMBER_ID, $member->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID, $this->getUser()->getId());
+      $alreadyRated = MemberRatePeer::doCount($c);
 
-      /* 
-      if($memberRate){
-        return($this->renderText("You've already rated this user!"));
+      //member should rate only once particular member
+      if( $alreadyRated )
+      {
+        return($this->renderText(__("You've already rated this user!")));
       }
 
-      */
-
-      if(! $memberRate){
-        $memberRate = new MemberRate();
-        $memberRate->setMemberId($memberId);
-        $memberRate->setRaterId($this->getUser()->getId());
-      }
-
+      $memberRate = new MemberRate();
+      $memberRate->setMemberRelatedByMemberId($member);
+      $memberRate->setRaterId($this->getUser()->getId());
       $memberRate->setRate($rate);
-
       $memberRate->save();
-
-
-      // Need fresh member data so current rating could be updated right
-      $member = MemberPeer::retrieveByPk($memberId);
 
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $member->getRate())).')');
 
-      return($this->renderText(__("Rated with $rate stars")));
+      return($this->renderText(__("Rated with %NB% stars", array('%NB%' => $rate))));
     }
 
 }
