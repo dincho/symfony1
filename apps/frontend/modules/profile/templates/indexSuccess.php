@@ -124,6 +124,58 @@
             </div>
         </div>
     </div>
+    <h3><?php echo __('Rating:') ?><div id="currentRate"><?php echo round($member->getRate()) ?></div></h3>
+
+    <ul id="currentRatingStars" class="rating star<?php echo round($member->getRate()) ?>">
+      <li class="one">
+        <?php echo link_to_remote('1',array(
+          'url'         =>  'profile/rate?id='.$member->getId().'&rate=1',
+          'update'      =>  'rateMessage',
+          'complete'  =>  'changeRate(json)'
+        ),array(
+          'title' => __('1 Star')
+        )) ?>
+      </li>
+      <li class="two">
+        <?php echo link_to_remote('2',array(
+          'url'         =>  'profile/rate?id='.$member->getId().'&rate=2',
+          'update'      =>  'rateMessage',
+          'complete'  =>  'changeRate(json)'
+        ),array(
+          'title' => __('2 Star')
+        )) ?>
+      </li>
+      <li class="three">
+        <?php echo link_to_remote('3',array(
+          'url'         =>  'profile/rate?id='.$member->getId().'&rate=3',
+          'update'      =>  'rateMessage',
+          'complete'  =>  'changeRate(json)'
+        ),array(
+          'title' => __('3 Star')
+        )) ?>
+      </li>
+      <li class="four">
+        <?php echo link_to_remote('4',array(
+          'url'         =>  'profile/rate?id='.$member->getId().'&rate=4',
+          'update'      =>  'rateMessage',
+          'complete'  =>  'changeRate(json)'
+        ),array(
+          'title' => __('4 Star')
+        )) ?>
+      </li>
+      <li class="five">
+        <?php echo link_to_remote('5',array(
+          'url'         =>  'profile/rate?id='.$member->getId().'&rate=5',
+          'update'      =>  'rateMessage',
+          'complete'  =>  'changeRate(json)'
+        ),array(
+          'title' => __('5 Star')
+        )) ?>
+      </li>
+    </ul>
+    <div id="rateMessage"></div>
+
+
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
     <?php include_partial('profile/recent_activities', array('member' => $member)); ?>
 </div>
@@ -146,3 +198,8 @@
         </p>
     </div>
 <?php endif; ?>
+
+<?php echo javascript_tag('function changeRate(json){ 
+  $("currentRatingStars").className = "rating star" + json.currentRate;
+  $("currentRate").innerHTML = json.currentRate;
+}') ?>

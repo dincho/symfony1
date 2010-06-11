@@ -483,4 +483,51 @@ class profileActions extends prActions
         $this->feed = $feed;
     }
 
+    public function executeRate()
+    {
+      $request = $this->getRequest();
+
+      $memberId = $request->getParameter('id');
+      $rate = round($request->getParameter('rate'));
+
+      if($rate > 5)
+        $rate = 5;
+
+      $member = MemberPeer::retrieveByPk($memberId);
+      
+      if(! $member){
+        return($this->renderText("Error with member ID!"));
+      }
+
+      $c = new Criteria();
+      $c->add(MemberRatePeer::MEMBER_ID,$memberId);
+      $c->addAnd(MemberRatePeer::RATER_ID,$this->getUser()->getId());
+      $memberRate = MemberRatePeer::doSelectOne($c);
+
+      /* 
+      if($memberRate){
+        return($this->renderText("You've already rated this user!"));
+      }
+
+      */
+
+      if(! $memberRate){
+        $memberRate = new MemberRate();
+        $memberRate->setMemberId($memberId);
+        $memberRate->setRaterId($this->getUser()->getId());
+      }
+
+      $memberRate->setRate($rate);
+
+      $memberRate->save();
+
+
+      // Need fresh member data so current rating could be updated right
+      $member = MemberPeer::retrieveByPk($memberId);
+
+      $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $member->getRate())).')');
+
+      return($this->renderText(__("Rated with $rate stars")));
+    }
+
 }

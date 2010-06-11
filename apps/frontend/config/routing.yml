@@ -50,6 +50,10 @@ undo_new_email:
 profilese:
     url:   /:sf_culture/profiles_search_engine/:username/:headline/*
     param: { module: profile, action: indexse, sf_culture: en }
+
+profile_rate:
+    url:   /:sf_culture/profile/rate/*
+    param: { module: profile, action: rate, sf_culture: en, bc: dashboard }
     
 profile:
     url:   /:sf_culture/:bc/profile/:username/*
@@ -62,7 +66,7 @@ profiles_feed:
 public_profile:
     url:   /:sf_culture/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }
-        
+
 my_profile:
     url:   /:sf_culture/myProfile
     param: { module: profile, action: myProfile, sf_culture: en }
