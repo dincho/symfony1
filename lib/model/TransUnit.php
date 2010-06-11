@@ -19,7 +19,8 @@ class TransUnit extends BaseTransUnit
         // used in cache update sfMessageSource_MySQL::getLastModified
         $this->getCatalogue()->setDateModified($this->getDateModified());
       }
-      parent::save();
+      
+      parent::save($con);
     }
 
 }
