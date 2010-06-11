@@ -109,6 +109,7 @@ propel:
     purpose:                  { type: varchar, size: 255 }
     millionaire:              { type: boolean, default: false }
     last_payment_state:       { type: varchar, size: 50, required: false }
+    rate:                     { type: integer, size: 1, required: false, default: 0 }
     _uniques:
       username:               [username]
       email:                  [email]
@@ -153,6 +154,14 @@ propel:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     last_login:               { type: timestamp }
     created_at:
+
+  member_rate:
+    id:
+    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    rater_id:                 { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    rate:                     { type: integer, size: 1, required: true }
+    created_at:
+
   desc_question:
     id:
     title:                    { type: varchar, size: 255 }
