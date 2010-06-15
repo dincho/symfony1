@@ -510,8 +510,16 @@ class profileActions extends prActions
       $memberRate->setRate($rate);
       $memberRate->save();
 
-      if($rate >= 4){
-        Events::triggerUserIsRated($member,MemberPeer::retrieveByPk($this->getUser()->getId()));
+      $userMemberRate = MemberPeer::retrieveByPk($this->getUser()->getId());
+
+      $c = new Criteria();
+      $c->add(MemberRatePeer::MEMBER_ID,$this->getUser()->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID,$member->getId());
+
+      if($rate >= 4 && MemberPeer::doCount($c)){
+        $rater = MemberPeer::retrieveByPk($this->getUser()->getId());
+        Events::triggerUserIsRated($member,$rater);
+        Events::triggerUserIsRated($rater,$member);
       }
 
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
