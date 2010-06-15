@@ -10,6 +10,8 @@
 class MemberRate extends BaseMemberRate
 {
 
+  /*
+
   // Update "rate" field in "member" table everytime there is update in "members_rate" table
   public function save($con = null)
   {
@@ -43,4 +45,6 @@ class MemberRate extends BaseMemberRate
     
     return $return;
   }
+
+  */
 }

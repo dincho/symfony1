@@ -510,7 +510,11 @@ class profileActions extends prActions
       $memberRate->setRate($rate);
       $memberRate->save();
 
-      $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $member->getRate())).')');
+      if($rate >= 4){
+        Events::triggerUserIsRated($member,MemberPeer::retrieveByPk($this->getUser()->getId()));
+      }
+
+      $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
 
       return($this->renderText(__("Rated with %NB% stars", array('%NB%' => $rate))));
     }

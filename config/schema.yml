@@ -111,7 +111,7 @@ propel:
     purpose:                  { type: varchar, size: 255 }
     millionaire:              { type: boolean, default: false }
     last_payment_state:       { type: varchar, size: 50, required: false }
-    rate:                     { type: integer, size: 1, required: false, default: 0 }
+    # rate:                     { type: integer, size: 1, required: false, default: 0 }
     _uniques:
       username:               [username]
       email:                  [email]

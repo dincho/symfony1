@@ -831,4 +831,24 @@ class Member extends BaseMember
     {
       return !$this->isFree();
     }
+
+    public function getMemberRate($raterId = NULL)
+    {
+
+      if(! $raterId)
+        $raterId = sfContext::getInstance()->getUser()->getId();
+      
+      $c = new Criteria();
+      $c->add(MemberRatePeer::MEMBER_ID,$this->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID,$raterId);
+
+      // Just in case if we have more than 1 ratings
+      $c->addDescendingOrderByColumn(MemberRatePeer::CREATED_AT);
+
+      $memberRate = MemberRatePeer::doSelectOne($c);
+      if($memberRate)
+        return($memberRate->getRate());
+      else
+        return(0);
+    }
 }
