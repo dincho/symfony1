@@ -2231,7 +2231,7 @@ div.best_video div.right img {
 }
 
 .msg_form select {
-    height: 18px;
+    height: 22px;
     padding: 1px 0;
     margin: 2px;
 }
@@ -2845,6 +2845,20 @@ button, .button, form .button {
 }
 
 form .button_disabled {
+    height: 28px !important;
+    width: auto !important;
+    color: #575757 !important;
+    background: #333333;
+    font-family: Arial;
+    font-size: 12px !important;
+    border: none !important;
+    padding: 6px 8px !important;
+    cursor: arrow;
+    margin-top: 5px;
+}
+
+button[disabled], .button[disabled], form .button[disabled] 
+{
     height: 28px !important;
     width: auto !important;
     color: #575757 !important;
