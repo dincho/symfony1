@@ -7,4 +7,5 @@
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'matches', __('Matches'), 'search/matches', array('class' => 'sec_link', 'onclick' => "show_loader('match_results')")) ?>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'byKeyword', __('by Keyword'), 'search/byKeyword', array('class' => 'sec_link', 'onclick' => "show_loader('match_results')")) ?>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'profileID', __('Profile ID'), 'search/profileID', array('class' => 'sec_link', 'onclick' => "show_loader('match_results')")) ?>
+&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'byRate', __('by Rate'), 'search/byRate', array('class' => 'sec_link', 'onclick' => "show_loader('match_results')")) ?>
 </div>

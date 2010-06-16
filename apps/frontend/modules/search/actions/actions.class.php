@@ -181,6 +181,23 @@ class searchActions extends prActions
         }
     }
 
+    public function executeByRate()
+    {
+        $c = new Criteria();
+        $this->addGlobalCriteria($c);
+        $this->addFiltersCriteria($c);
+
+        $c->addJoin(MemberMatchPeer::MEMBER1_ID,MemberRatePeer::RATER_ID);
+        $c->add(MemberRatePeer::RATER_ID,$this->getUser()->getId());
+        $c->addDescendingOrderByColumn(MemberRatePeer::RATE);
+        $rows = sfConfig::get('app_settings_search_rate', 4);
+        $per_page = $rows * 3; //3 boxes/profiles per row
+        $this->initPager($c, $per_page);
+        
+        $this->getUser()->setAttribute('last_search_url', 'search/byRate?page=' . $this->pager->getPage());
+    }
+ 
+
     public function executeProfileID()
     {
         if ( $this->getRequestParameter('profile_id') )
