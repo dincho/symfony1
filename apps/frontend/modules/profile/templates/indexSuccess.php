@@ -180,7 +180,7 @@
       </li>
     </ul>    
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <div id="rateMessage" style="float: left"></div>
+    <div id="rateMessage" style="float: left"></div> <br class="clear">
     
     <!-- <div style="clear: both"> -->
 
