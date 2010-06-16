@@ -1,12 +1,13 @@
 <?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm') ?>
 
 <div class="thread_actions">
-    <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
-      &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent'); ?> 
-    <?php else: ?>
-      &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
-    <?php endif; ?>
-
+    <div class="float-left">
+      <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
+        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent'); ?> 
+      <?php else: ?>
+        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
+      <?php endif; ?>
+    </div>
     <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
     <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;</div>
     
