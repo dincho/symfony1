@@ -1,5 +1,5 @@
 Event.observe(window, 'load', function() {
-  var fields = $$("input");
+  var fields = $$("input", "textarea", "select");
   for (var i = 0; i < fields.length; i++) {
     if( fields[i].type != 'submit' && fields[i].type != 'button')
     {
