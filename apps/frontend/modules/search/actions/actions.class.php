@@ -188,6 +188,7 @@ class searchActions extends prActions
         $this->addFiltersCriteria($c);
 
         // $c->addJoin(MemberMatchPeer::MEMBER1_ID, MemberRatePeer::RATER_ID.' OR '.MemberMatchPeer::MEMBER2_ID.' = '.MemberRatePeer::RATER_ID,Criteria::LEFT_JOIN);
+
         $c->addJoin(MemberMatchPeer::MEMBER1_ID, MemberRatePeer::MEMBER_ID.' OR '.MemberMatchPeer::MEMBER2_ID.' = '.MemberRatePeer::MEMBER_ID,Criteria::LEFT_JOIN);
 
         // $c->add(MemberRatePeer::RATER_ID,$this->getUser()->getId());
