@@ -187,8 +187,10 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
 
-        $c->addJoin(MemberMatchPeer::MEMBER1_ID,MemberRatePeer::RATER_ID);
-        $c->add(MemberRatePeer::RATER_ID,$this->getUser()->getId());
+        // $c->addJoin(MemberMatchPeer::MEMBER1_ID, MemberRatePeer::RATER_ID.' OR '.MemberMatchPeer::MEMBER2_ID.' = '.MemberRatePeer::RATER_ID,Criteria::LEFT_JOIN);
+        $c->addJoin(MemberMatchPeer::MEMBER1_ID, MemberRatePeer::MEMBER_ID.' OR '.MemberMatchPeer::MEMBER2_ID.' = '.MemberRatePeer::MEMBER_ID,Criteria::LEFT_JOIN);
+
+        // $c->add(MemberRatePeer::RATER_ID,$this->getUser()->getId());
         $c->addDescendingOrderByColumn(MemberRatePeer::RATE);
         $rows = sfConfig::get('app_settings_search_rate', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row
