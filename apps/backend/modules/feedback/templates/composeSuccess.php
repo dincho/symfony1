@@ -31,7 +31,7 @@
                   'related_class' => 'FeedbackTemplate',
                   'peer_method' => 'doSelect',
                   'include_blank' => true,
-                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value;',
+                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
                 ))?>
         </td>
       </tr>
