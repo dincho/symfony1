@@ -146,7 +146,14 @@ class feedbackActions extends sfActions
         $request = $this->getRequest();
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
-        $request->setParameter('body', $mail->getBodyForReply());
+        if ( $request->hasParameter('template_id') )
+        {
+          $request->setParameter('body', $this->template->getBody());
+        }
+        else
+        {
+          $request->setParameter('body', $mail->getBodyForReply());
+        }
         $request->setParameter('template_id', $this->template->getId());
         
         $this->forward($this->getModuleName(), 'compose');
