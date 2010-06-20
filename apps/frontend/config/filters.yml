@@ -12,6 +12,8 @@ ipblock:
     class: ipblockFilter
 status:
     class:  statusFilter
+deactivation:
+    class:  deactivationFilter
 imbraPayment:
     class:  imbraPaymentFilter
     enabled: <?php echo (sfConfig::get('app_settings_imbra_disable')) ? 'no' : 'yes', "\n"; ?>

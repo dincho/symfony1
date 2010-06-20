@@ -146,6 +146,7 @@ propel:
     made_profile_views:       { type: integer, required: true, default: 0 }
     hotlist:                  { type: integer, required: true, default: 0 }
     on_others_hotlist:        { type: integer, required: true, default: 0 }
+    deactivation_counter:     { type: integer, required: true, default: 0 }
     active:                   { type: integer, size: 1, required: true, default: 0 }
     
   member_note:

@@ -36,7 +36,9 @@ class myUser extends sfBasicSecurityUser
     {
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
-     
+          
+        $member->incCounter('DeactivationCounter');
+
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());
@@ -44,6 +46,8 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('member_id', $member->getId());
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
+        $this->setAttribute('deactivation_counter', $member->getCounter('DeactivationCounter'));
+        
         if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
         
         //login history
@@ -51,7 +55,7 @@ class myUser extends sfBasicSecurityUser
         $history->setMemberId($member->getId());
         $history->setLastLogin($member->getLastLogin());
         $history->save();
-        
+                
         $member->setLastIp(ip2long($_SERVER ['REMOTE_ADDR']));
         $member->setLastLogin(time());
         $member->save();
