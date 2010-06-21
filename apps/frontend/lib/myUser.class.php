@@ -47,6 +47,7 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
         $this->setAttribute('deactivation_counter', $member->getCounter('DeactivationCounter'));
+        $this->setAttribute('is_free', $member->isFree());
         
         if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
         
