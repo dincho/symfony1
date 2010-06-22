@@ -6,11 +6,11 @@
         <?php echo link_to($profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?>
     </div>
     <div class="left">
-        <?php echo pr_label_for('flag_category', 'Please tell us why you are flagging this member.') ?>
+        <?php echo pr_label_for('flag_category', __('Please tell us why you are flagging this member.')) ?>
         <fieldset>
             <?php foreach($flag_categories as $flag_cat): ?>
                 <?php echo radiobutton_tag('flag_category', $flag_cat->getId(), false) ?>
-                <?php echo pr_label_for('flag_category_' . $flag_cat->getId(), $flag_cat->getTitle()) ?><br />
+                <?php echo pr_label_for('flag_category_' . $flag_cat->getId(), __($flag_cat->getTitle())) ?><br />
             <?php endforeach; ?>
           <br />
             <?php if( sfConfig::get('app_settings_flags_comment_field') ): ?>
