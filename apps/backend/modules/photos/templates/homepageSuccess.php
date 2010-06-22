@@ -5,7 +5,6 @@
     <?php foreach($photos as $photo): ?>
             <div class="photo_slot">
                 <?php echo image_tag($photo->getWebRelativePath(), array('size' => '100x95')); ?><br />
-                <?php echo $photo->getHomepages(); ?><br />
                 S: <?php echo $photo->getHomepagesSet(); ?>
                 P: <?php echo $photo->getHomepagesPos(); ?><br />
                 Status: <?php echo $photo->getMember()->getMemberStatus(); ?><br />
@@ -14,5 +13,8 @@
     <?php endforeach; ?>
 </div>
 <?php else: ?>
-    <p>No homepage photos found.</p>
+    <p>No homepage photos found for selected catalog.</p>
 <?php endif; ?>
+
+<br class="clear" />
+<?php include_component('content', 'bottomMenu', array('url' => 'photos/homepage'))?>

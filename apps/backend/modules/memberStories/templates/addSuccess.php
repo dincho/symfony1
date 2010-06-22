@@ -7,8 +7,9 @@
         <label for="link_name">Link Name:</label>
         <?php echo input_tag('link_name', null, error_class('link_name')) ?><br />
         
-        <label for="culture">Language:</label>
-        <?php echo select_language_tag('culture', $culture, array('languages' => array('en', 'pl'))); ?><br />
+        <label for="catalog">Catalogue:</label>
+        <?php echo  select_tag('cat_id', objects_for_select($catalogs, 'getCatId', '__toString')); ?><br />
+        
     
       </fieldset>
       <fieldset class="form_fields float-left">
@@ -26,13 +27,13 @@
         <?php echo input_tag('summary', null, error_class('summary')) ?><br />  
                
       </fieldset>
-  
+
   <fieldset class="form_fields email_fields">
     <label for="html_content">HTML Content:</label>
     <?php echo textarea_tag('html_content', null, 'rows=20 cols=38 id=html_content ' . error_class('html_content')) ?>
   </fieldset>        
 
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'memberStories/list?cancel=1')  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'memberStories/list?cancel=1&cat_id=' .$sf_request->getParameter('cat_id'))  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>

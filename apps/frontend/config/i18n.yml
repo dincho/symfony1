@@ -1,6 +1,6 @@
 all:
   default_culture:     en
-  source:              MySQL
+  source:              pdMySQL
   database:            mysql://pr:polish@localhost/polish_romance
   debug:               off
   cache:               on
@@ -8,4 +8,6 @@ all:
   untranslated_suffix: "[/T]"
 trans:
     debug:             on
+    cache:             off
+dev:
     cache:             off

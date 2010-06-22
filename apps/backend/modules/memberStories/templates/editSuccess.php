@@ -9,7 +9,7 @@
         <div style=float:left;"><?php echo object_input_tag($story, 'getLinkName', error_class('link_name')) ?></div><br />
         
         <label for="culture">Language:</label>
-        <?php echo object_select_language_tag($story, 'getCulture', array('languages' => array('en', 'pl'))); ?><br />
+        <?php echo object_select_tag($story, 'getCatId', array ('related_class' => 'Catalogue','include_blank' => false,)); ?><br />
     
       </fieldset>
       <fieldset class="form_fields float-left">
@@ -35,6 +35,6 @@
   </fieldset>        
 
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'memberStories/list?cancel=1&culture=' . $story->getCulture())  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'memberStories/list?cancel=1&cat_id=' . $story->getCatId())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>

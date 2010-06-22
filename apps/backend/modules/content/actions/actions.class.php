@@ -12,7 +12,13 @@ class contentActions extends sfActions
 {
     public function preExecute()
     {
-        $this->culture = $this->getRequestParameter('culture', 'en');
+        if ($this->getRequestParameter('cancel') == 1)
+        {
+          $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved', false);
+        }
+        
+        $this->catalog = CataloguePeer::retrieveByPK($this->getRequestParameter('cat_id'));
+        // $this->forward404Unless($this->catalog);
     }
     
     public function executeList()
@@ -22,6 +28,8 @@ class contentActions extends sfActions
     
     public function executeHomepages()
     {
+        $this->left_menu_selected = 'Home Pages';
+      
         $c = new Criteria();
         $c->add(TransUnitPeer::MSG_COLLECTION_ID, 1); //headline
         $this->trans = TransUnitPeer::doSelectJoinAll($c);
@@ -32,13 +40,13 @@ class contentActions extends sfActions
         $this->left_menu_selected = 'Home Pages';
         
         $c = new Criteria();
-        $c->add(HomepageMemberStoryPeer::HOMEPAGE_CULTURE, $this->culture);
+        $c->add(HomepageMemberStoryPeer::CAT_ID, $this->catalog->getCatId());
         $homepage_story = HomepageMemberStoryPeer::doSelectOne($c);
         
         if( !$homepage_story ) 
         {
             $homepage_story = new HomepageMemberStory();
-            $homepage_story->setHomepageCulture($this->culture);
+            $homepage_story->setCatId($this->catalog->getCatId());
         }
         
                    
@@ -49,15 +57,15 @@ class contentActions extends sfActions
             $homepage_story->setMemberStories(implode(',', $this->getRequestParameter('member_stories', array())));
             $homepage_story->save();
             
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/homepages?culture=' . $this->culture);
+            $this->redirect('content/homepages?cat_id=' . $this->catalog->getCatId());
         }
         
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::HOMEPAGE, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::HOMEPAGE, $this->catalog);
         $c = new Criteria();
-        $c->add(MemberStoryPeer::CULTURE, $this->culture);
+        $c->add(MemberStoryPeer::CAT_ID, $this->catalog->getCatId());
         $this->member_stories = MemberStoryPeer::doSelect($c);
         $this->homepage_stories = explode(',', $homepage_story->getMemberStories());
         
@@ -65,165 +73,169 @@ class contentActions extends sfActions
 
     public function executeProfilepages()
     {
-        
+        $this->left_menu_selected = 'Profile Pages';
+        $this->catalogues = CataloguePeer::doSelect(new Criteria());
     }
         
     public function executeProfilepage()
     {
+              
         $this->left_menu_selected = 'Profile Pages';
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/profilepages?culture=' . $this->culture);
+            $this->redirect('content/profilepages?cat_id=' . $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::PROFILE, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::PROFILE, $this->catalog);
     }
 
     public function executeSearchpages()
     {
+        $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));        
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));        
     }
         
     public function executeSearchMostRecent()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
-        $bc->add(array('name' => 'Edit Most Recent', 'uri' => 'content/searchMostRecent'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
+        $bc->add(array('name' => 'Edit Most Recent', 'uri' => 'content/searchMostRecent?cat_id=1'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_most_recent'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_MOST_RECENT, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_MOST_RECENT, $this->catalog);
     }
         
     public function executeSearchCustom()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
-        $bc->add(array('name' => 'Edit Custom (by Criteria)', 'uri' => 'content/searchCustom'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
+        $bc->add(array('name' => 'Edit Custom (by Criteria)', 'uri' => 'content/searchCustom?cat_id=1'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_custom'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_CUSTOM, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_CUSTOM, $this->catalog);
     }
         
     public function executeSearchReverse()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
         $bc->add(array('name' => 'Edit Reverse'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_reverse'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_REVERSE, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_REVERSE, $this->catalog);
     }
         
     public function executeSearchMatches()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
         $bc->add(array('name' => 'Edit Matches'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_matches'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_MATCHES, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_MATCHES, $this->catalog);
     }
         
     public function executeSearchKeyword()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
         $bc->add(array('name' => 'Edit by Keyword'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_keyword'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_KEYWORD, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_KEYWORD, $this->catalog);
     }
         
     public function executeSearchProfileId()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
         $bc->add(array('name' => 'Edit Profile ID'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_PROFILE_ID, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_PROFILE_ID, $this->catalog);
     }
         
     public function executeSearchPublic()
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages'));
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
         $bc->add(array('name' => 'Edit Public'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
             sfSettingPeer::updateFromRequest(array('search_rows_public'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/searchpages?culture=' .  $this->culture);
+            $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_PUBLIC, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_PUBLIC, $this->catalog);
     }
     
     public function executeRegpages()
     {
+        $this->left_menu_selected = 'Reg/Sign Up Pages';
         $bc = $this->getUser()->getBC();
         $bc->replaceLast(array('name' => 'Reg/Sign Up Pages', 'uri' => 'content/regpages'));        
     }    
@@ -238,12 +250,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_JOIN, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_JOIN, $this->catalog);
     }
         
     public function executeRegReg()
@@ -256,12 +268,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_REG, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_REG, $this->catalog);
     }
         
     public function executeRegSelf()
@@ -274,12 +286,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_SELF, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_SELF, $this->catalog);
     }
     
     public function executeRegEssay()
@@ -292,12 +304,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_ESSAY, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_ESSAY, $this->catalog);
     }
     
     public function executeRegPhotos()
@@ -310,12 +322,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_PHOTOS, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_PHOTOS, $this->catalog);
     }
     
     public function executeRegSearch()
@@ -328,12 +340,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/regpages?culture=' .  $this->culture);
+            $this->redirect('content/regpages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_SEARCH, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::REGISTRATION_SEARCH, $this->catalog);
     }
     
     public function executeImbrapages()
@@ -352,12 +364,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/imbrapages?culture=' .  $this->culture);
+            $this->redirect('content/imbrapages');
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::IMBRA_APP, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::IMBRA_APP, $this->catalog);
     }    
 
     public function executeImbraReport()
@@ -367,38 +379,38 @@ class contentActions extends sfActions
         $bc->replaceLast(array('name' => 'IMBRA Pages', 'uri' => 'content/imbrapages'));
         $bc->add(array('name' => 'Edit IMBRA Report Template'));
         
-        $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria(), $this->culture);
+        $c = new Criteria();
+        $c->add(ImbraQuestionPeer::CAT_ID, $this->catalog->getCatId());
+        $this->imbra_questions = ImbraQuestionPeer::doSelect($c);
 
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-	    $this->answers = $this->getRequestParameter('answers');
+            $this->answers = $this->getRequestParameter('answers');
 
             $this->getUser()->checkPerm(array('content_edit'));
 
-	    if (!empty($this->imbra_questions))
-	    {
-		foreach ($this->imbra_questions as $q)
-		{
-		    if( !$q->getOnlyExplain())
-		    {
-			if (isset($this->answers['negative'][$q->getId()] ))
-			{
-			    $q->setNegativeAnswer($this->answers['negative'][$q->getId()]);
-			}
-		    }
+            if (!empty($this->imbra_questions))
+            {
+                foreach ($this->imbra_questions as $q)
+                {
+                    if( !$q->getOnlyExplain() &&
+                        isset($this->answers['negative'][$q->getId()])
+                    )
+                    {
+                        $q->setNegativeAnswer($this->answers['negative'][$q->getId()]);
+                    }
 
-		    if (isset($this->answers['positive'][$q->getId()] ))
-		    {
-			$q->setPositiveAnswer($this->answers['positive'][$q->getId()]);
-		    }
+                    if ( isset($this->answers['positive'][$q->getId()]) )
+                    {
+                        $q->setPositiveAnswer($this->answers['positive'][$q->getId()]);
+                    }
 
-		    $q->save();
-		    
-		}
-	    }
+                    $q->save();
+                }
+            }
 
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/imbrapages?culture=' .  $this->culture);
+            $this->redirect('content/imbrapages?cat_id=' .  $this->catalog->getCatId());
         }
         
     }
@@ -413,12 +425,12 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/systemMessages?culture=' .  $this->culture);
+            $this->redirect('content/systemMessages?cat_id=' . $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SYSTEM_MESSAGES, $this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SYSTEM_MESSAGES, $this->catalog);
     }
     
     public function executeAssistant()
@@ -431,40 +443,44 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->culture);
+            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/assistant?culture=' .  $this->culture);
+            $this->redirect('content/assistant?cat_id=' .  $this->catalog->getCatId());
         }
         
-        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::ASSISTANT, $this->culture);
-        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->culture);
+        $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::ASSISTANT, $this->catalog);
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCatalog($this->catalog);
     }
+    
     public function executeBestVideo()
     {
         $this->left_menu_selected = 'Best Videos Templates';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Best Videos Templates', 'uri' => 'content/bestVideo'));
+        $bc->replaceLast(array('name' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=' .  $this->catalog->getCatId()));
+
+        $c = new Criteria();
+        $c->add(BestVideoTemplatePeer::CAT_ID, $this->catalog->getCatId());
+        $template = BestVideoTemplatePeer::doSelectOne($c);
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-			
-			$c = new Criteria();
-			$c->add(BestvTmplI18nPeer::CULTURE, $this->culture);
-			$update = BestvTmplI18nPeer::doSelectOne($c);
-			
-			$update->setHeader($this->getRequestParameter('Header'));
-			$update->setBodyWinner($this->getRequestParameter('BodyWinner'));
-			$update->setFooter($this->getRequestParameter('Footer'));
-			$update->save();
+            
+            if( !$template )
+            {
+                $template = new BestVideoTemplate();
+                $template->setCatId($this->catalog->getCatId());
+            }
+            
+            $template->setHeader($this->getRequestParameter('Header'));
+            $template->setBodyWinner($this->getRequestParameter('BodyWinner'));
+            $template->setFooter($this->getRequestParameter('Footer'));
+            $template->save();
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/bestVideo?culture=' .  $this->culture);
+            $this->redirect('content/bestVideo?cat_id=' .  $this->catalog->getCatId());
         }
-                
-        $c = new Criteria();
-        $c->add(BestvTmplI18nPeer::CULTURE, $this->getRequestParameter('culture', $this->culture));
-        $this->video = BestvTmplI18nPeer::doSelectOne($c);
         
+        $this->template = $template;
     }
 }

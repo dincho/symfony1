@@ -1,4 +1,4 @@
-<?php $links_map = StaticPagePeer::getLinskMap(); ?>
+<?php $links_map = StaticPagePeer::getLinskMap($sf_user->getCatalogId()); ?>
 <?php if($sf_context->getModuleName() != 'registration'): ?>
     <?php if( !$sf_user->isAuthenticated() ): ?>
         <?php echo link_to(__('Join Now'), 'registration/joinNow'); ?>&nbsp;&nbsp;&bull;&nbsp;

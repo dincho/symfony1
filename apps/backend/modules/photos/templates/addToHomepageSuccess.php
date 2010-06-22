@@ -13,14 +13,14 @@
     </div><br /><br /><br />
     
     
-    <table class="zebra" style="width: 200px">
+    <table class="zebra" style="width: 300px">
         <tr>
             <th colspan="2">Languages</th>
         </tr>
         <?php foreach($catalogs as $catalog): ?>
             <tr>
-                <td style="width:5px; padding: 0;"><?php echo checkbox_tag('catalogs[]', $catalog->getTargetLang(), in_array($catalog->getTargetLang(), $homepages)) ?></td>
-                <td><?php echo format_language($catalog->getTargetLang()) ?></td>
+                <td style="width:5px; padding: 0;"><?php echo checkbox_tag('catalogs[]', $catalog->getCatId(), in_array($catalog->getCatId(), $homepages)) ?></td>
+                <td><?php echo $catalog; ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

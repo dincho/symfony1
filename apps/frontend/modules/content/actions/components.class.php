@@ -13,11 +13,11 @@ class contentComponents extends sfComponents
     
     public function executeHomepagePhotoSet()
     {
-        $culture = $this->getUser()->getCulture();
+        $catalog_id = $this->getUser()->getCatalogId();
         
         $c = new Criteria();
         $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
-        $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $culture .'", ' . StockPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
+        $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $catalog_id .'", ' . StockPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
         $c->add(StockPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
         $c->addAscendingOrderByColumn(StockPhotoPeer::HOMEPAGES_POS);
         $c->setLimit(9);
@@ -34,11 +34,11 @@ class contentComponents extends sfComponents
     
     public function executeHomepageMemberPhotoSet()
     {
-        $culture = $this->getUser()->getCulture();
+        $catalog_id = $this->getUser()->getCatalogId();
         
         $c = new Criteria();
         $c->add(HomepageMemberPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
-        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $culture .'", ' . HomepageMemberPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
+        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $catalog_id .'", ' . HomepageMemberPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
         $c->add(HomepageMemberPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
         $c->addGroupByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
         //$c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);

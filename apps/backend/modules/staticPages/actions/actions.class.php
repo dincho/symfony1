@@ -13,8 +13,7 @@ class staticPagesActions extends sfActions
     {
         if ($this->getRequestParameter('cancel') == 1)
         {
-          $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved');
-          $this->redirect($this->getModuleName().'/'.$this->getActionName().'?id=' . $this->getRequestParameter('id'));
+          $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved', false);
         }
     
         $this->left_menu_selected = 'Static Pages';
@@ -30,20 +29,29 @@ class staticPagesActions extends sfActions
         
         $c = new Criteria();
         $this->addSortCriteria($c);
-        $c->add(StaticPageI18nPeer::CULTURE, $this->getRequestParameter('lang', 'en'));
-        $this->pages = StaticPagePeer::doSelectWithI18n($c);
+        $c->add(StaticPageDomainPeer::CAT_ID, 1); //watherver id ...
+        $this->pages = StaticPageDomainPeer::doSelectJoinAll($c);
     }
     
     public function executeEdit()
     {
         $c = new Criteria();
-        $c->add(StaticPagePeer::ID, $this->getRequestParameter('id'));
+        $c->add(StaticPageDomainPeer::CAT_ID, $this->getRequestParameter('cat_id'));
+        $c->add(StaticPageDomainPeer::ID, $this->getRequestParameter('id'));
+        $c->setLimit(1);
+        $pages = StaticPageDomainPeer::doSelectJoinAll($c);
         
-        $page = StaticPagePeer::doSelectOne($c);
-        $page->setCulture($this->getRequestParameter('culture', 'en'));
+        if( $pages )
+        {
+            $page = $pages[0];
+        } else {
+            $page = new StaticPageDomain();
+            $page->setCatId($this->getRequestParameter('cat_id'));
+            $page->setId($this->getRequestParameter('id'));
+        }
         
         $bc = $this->getUser()->getBC();
-        $bc->add(array('name' => 'Edit ' . $page->getSlug() .'.html', 'uri' => 'staticPages/edit?id=' . $page->getId()));
+        $bc->add(array('name' => 'Edit ' . $page->getStaticPage()->getSlug() .'.html', 'uri' => 'staticPages/edit?id=' . $page->getId() . '&cat_id=' .$page->getCatId()));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
@@ -74,7 +82,7 @@ class staticPagesActions extends sfActions
         
         if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $this->getUser()->setAttribute('sort', 'StaticPageI18n::title', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('sort', 'StaticPageDomain::title', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'asc', $this->sort_namespace); //default order
         }
     }

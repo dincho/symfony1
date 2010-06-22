@@ -48,7 +48,7 @@ class Events
         //sfLoader::loadHelpers(array('Tag', 'Url'));
         $hash = sha1(SALT . $member->getUsername() . SALT);
         
-        $activation_url = LinkPeer::create('registration/activate?username=' . $member->getUsername() . '&hash=' . $hash)->getUrl($member->getCulture());
+        $activation_url = LinkPeer::create('registration/activate?username=' . $member->getUsername() . '&hash=' . $hash)->getUrl($member->getCatalogue());
         
         $global_vars = array('{ACTIVATION_URL}' => $activation_url);
         
@@ -70,7 +70,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
         $global_vars = array('{LOGIN_URL}' => $login_url);
         return self::executeNotifications(self::WELCOME_APPROVED, $global_vars, $member->getEmail(), $member);
     }
@@ -78,7 +78,7 @@ class Events
     /* EMAIL & PASSOWRD EVENTS */
     public static function triggerForgotPassword($member)
     {   
-        $confirmation_url  = LinkPeer::create('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), $member->getId())->getUrl($member->getCulture());
+        $confirmation_url  = LinkPeer::create('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
         return self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);
@@ -86,7 +86,7 @@ class Events
     
     public static function triggerNewPasswordConfirm($member)
     {
-        $confirmation_url  = LinkPeer::create('@confirm_new_password?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), $member->getId())->getUrl($member->getCulture());
+        $confirmation_url  = LinkPeer::create('@confirm_new_password?username=' . $member->getUsername() . '&hash=' . $member->getNewPassword(), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
         return self::executeNotifications(self::NEW_PASSWORD_CONFIRM, $global_vars, $member->getEmail(), $member);
@@ -205,7 +205,7 @@ class Events
     
     public static function triggerGiftReceived(BaseMember $recipient, BaseMember $sender)
     {
-        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCatalogue());
         
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
                              '{SENDER_USERNAME}' => $sender->getUsername(),
@@ -219,7 +219,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
         $global_vars = array('{LOGIN_URL}' => $login_url);
         return self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
     }
@@ -228,7 +228,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
         $global_vars = array('{LOGIN_URL}' => $login_url, 
                              '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
         return self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
@@ -243,7 +243,7 @@ class Events
         $nb_hotlist = MemberCounterPeer::getNbNewOnOtherHotlist($member->getId());
         $nb_profile_view = MemberCounterPeer::getNbNewProfileViews($member->getId());
         
-        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCulture());
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
         $global_vars = array('{LOGIN_URL}' => $login_url,
                              '{NB_MESSAGES}' => $nb_unread,
                              '{NB_WINKS}' => $nb_winks,
@@ -258,9 +258,9 @@ class Events
     
     public static function triggerAccountActivityMessage($recipient, $sender, $message)
     {
-        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
-        $messages_url = LinkPeer::create('messages/index', $recipient->getId())->getUrl($recipient->getCulture());
-        $message_url  = LinkPeer::create('messages/thread?return_to_profile=1&id=' . $message->getThreadId(), $recipient->getId())->getUrl($recipient->getCulture());
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCatalogue());
+        $messages_url = LinkPeer::create('messages/index', $recipient->getId())->getUrl($recipient->getCatalogue());
+        $message_url  = LinkPeer::create('messages/thread?return_to_profile=1&id=' . $message->getThreadId(), $recipient->getId())->getUrl($recipient->getCatalogue());
         $message_snippet = Tools::truncate($message->getBody(), 12);
         
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
@@ -276,7 +276,7 @@ class Events
     
     public static function triggerAccountActivityWink(BaseMember $member, BaseMember $from_member)
     {
-        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
                              '{SENDER_USERNAME}' => $from_member->getUsername(),
                             );
@@ -286,7 +286,7 @@ class Events
     
     public static function triggerAccountActivityHotlist(BaseMember $member, BaseMember $from_member)
     {
-        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
                              '{SENDER_USERNAME}' => $from_member->getUsername(),
                             );
@@ -296,7 +296,7 @@ class Events
     
     public static function triggerAccountActivityVisitor(BaseMember $member, BaseMember $visitor)
     {
-        $profile_url = LinkPeer::create('@profile?username=' . $visitor->getUsername(), $member->getId())->getUrl($member->getCulture());
+        $profile_url = LinkPeer::create('@profile?username=' . $visitor->getUsername(), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{VISITOR_PROFILE_URL}' => $profile_url,
                              '{VISITOR_USERNAME}' => $visitor->getUsername(),
                             );
@@ -328,26 +328,29 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
-        $culture = null;
+        
         
         if ( !is_null($object) && $object instanceof Member )
         {
-            $culture = $object->getCulture();
-            $notifications_url = LinkPeer::create('dashboard/emailNotifications', $object->getId())->getUrl($culture);
+            $catalog = $object->getCatalogue();
+            $notifications_url = LinkPeer::create('dashboard/emailNotifications', $object->getId())->getUrl($catalog);
             $global_vars['{NOTIFICATIONS_URL}'] = $notifications_url;
+        } else {
+            $catalog = CataloguePeer::retrieveByPK(1); //polishdate.com - english
         }
         
         $c = new Criteria();
         $c->add(NotificationEventPeer::EVENT, $event);
         $c->addJoin(NotificationPeer::ID, NotificationEventPeer::NOTIFICATION_ID);
         $c->add(NotificationPeer::IS_ACTIVE, true);
-        $notifications = NotificationPeer::doSelectWithI18N($c, $culture);
+        $c->add(NotificationPeer::CAT_ID, $catalog->getCatId());
+        $notifications = NotificationPeer::doSelect($c);
         
         $ret = true;
         foreach ($notifications as $notification) 
         {
-          if( $notification->getToAdmins() ) $notification->setCulture('en'); //force admin notifications to English
-          $notification_ret = $notification->execute($global_vars, $addresses, $object, $mail_from);
+          // if( $notification->getToAdmins() ) $notification->setCulture('en'); //force admin notifications to English
+          $notification_ret = $notification->execute($global_vars, $addresses, $object, $mail_from, $catalog);
           
           if( !$notification_ret ) $ret = false;
         }

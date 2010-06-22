@@ -64,6 +64,37 @@ class Member extends BaseMember
         return (parent::getPurpose()) ? unserialize(parent::getPurpose()) : array();
     }
     
+    public function setLanguage($v)
+    {
+        if( $this->getLanguage() != $v && $this->getCatalogId() )
+        {
+            $current_catalog = $this->getCatalogue();
+            
+            //find out a catalog in the some domain with new language
+            $c = new Criteria();
+            $c->add(CataloguePeer::DOMAIN, $current_catalog->getDomain());
+            $c->add(CataloguePeer::TARGET_LANG, $v);
+            $new_catalog = CataloguePeer::doSelectOne($c);
+            
+            if( $new_catalog )
+            {
+                $this->setCatalogId($new_catalog->getCatId());
+            } elseif( $current_catalog->getTargetLang() != 'en' ) //there is no catalog with this language in the domain, so set it to english catalog if not so
+            {
+                $c1 = clone $c;
+                $c->add(CataloguePeer::TARGET_LANG, 'en');
+                $en_catalog = CataloguePeer::doSelectOne($c);
+                
+                if( $en_catalog )
+                {
+                    $this->setCatalogId($en_catalog->getCatId());
+                }
+            }
+        }
+        
+        parent::setLanguage($v);
+    }
+    
     public function clearDescAnswers()
     {
         $select = new Criteria();
@@ -649,17 +680,17 @@ class Member extends BaseMember
         return false;
     }
     
-    public function getMostAccurateAreaInfoId()
+    public function getMostAccurateAreaInfo($catalog_id)
     {
-        if( $this->getCity()->getGeoDetailsId() ) return $this->getCityId();
-        if( $this->getAdm2Id() && $this->getAdm2()->getGeoDetailsId() ) return $this->getAdm2Id();
-        if( $this->getAdm1Id() && $this->getAdm1()->getGeoDetailsId() ) return $this->getAdm1Id();
+        if( $details = $this->getCity()->getDetails($catalog_id) ) return $details;
+        if( $this->getAdm2Id() && $details = $this->getAdm2()->getDetails($catalog_id) ) return $details;
+        if( $this->getAdm1Id() && $details = $this->getAdm1()->getDetails($catalog_id) ) return $details;
         
         $geo_country = GeoPeer::retrieveCountryByISO($this->getCountry());
-        if( $geo_country && $geo_country->getGeoDetailsId() ) return $geo_country->getId();
+        if( $geo_country && $details = $geo_country->getDetails($catalog_id) ) return $details;
         
         //default no geo feature with info field
-        return $this->getCityId();
+        return null;
     }
     
     public function getLastActivityWith($member_id)

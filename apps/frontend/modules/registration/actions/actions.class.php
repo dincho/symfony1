@@ -39,7 +39,8 @@ class registrationActions extends prActions
             $member->initNewMember();
             $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->setRegistrationIp(ip2long($_SERVER['REMOTE_ADDR']));
-            $member->setLanguage($this->getUser()->getCulture()); //used by notifications
+            $member->setLanguage($this->getUser()->getCulture());
+            $member->setCatalogId($this->getUser()->getCatalogId()); //used by notifications
             $member->save();
             
             //just cleanup
@@ -51,7 +52,7 @@ class registrationActions extends prActions
             $this->message('verify_your_email');
         }
         
-        $this->photo = StockPhotoPeer::getJoinNowPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getJoinNowPhotoByCatalog($this->getUser()->getCatalog());
         $this->getResponse()->addMeta('description', 'JoinNow description');
         $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
     }

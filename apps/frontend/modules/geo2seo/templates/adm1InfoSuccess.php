@@ -29,7 +29,7 @@
             'url'    => 'ajax/usernameExists',
             'with'     => "'username=' + $('username').value",
             'script'    => true
-        ), array('class' => 'button_mini butt_availability')) ?>        
+        ), array('class' => 'button_mini butt_availability')) ?>
         </div><br  />
     </fieldset>
     <div id="ajax_response"></div>

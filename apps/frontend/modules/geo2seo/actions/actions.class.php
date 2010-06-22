@@ -65,6 +65,6 @@ class geo2seoActions extends sfActions
 
         $bc->add(array('name' => $adm1->getName()));
         $this->adm1 = $adm1;
-        $this->photo = StockPhotoPeer::getJoinNowPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getJoinNowPhotoByCatalog($this->getUser()->getCatalog());
     }
 }

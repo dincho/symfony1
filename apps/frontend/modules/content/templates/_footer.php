@@ -1,4 +1,4 @@
-<?php $links_map = StaticPagePeer::getLinskMap(); ?>
+<?php $links_map = StaticPagePeer::getLinskMap($sf_user->getCatalogId()); ?>
 <div id="footer">
     <?php if($sf_context->getModuleName() != 'registration'): ?>
         <?php if( !$sf_user->isAuthenticated() ): ?>

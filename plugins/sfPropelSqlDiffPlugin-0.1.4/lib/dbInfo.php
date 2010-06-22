@@ -68,6 +68,7 @@ class dbInfo {
       if($type=='BIGINT') $type = 'BIGINT(20)';
       if($type=='BLOB') $type = 'TEXT';   //propel fix, blob is TEXT field with BINARY collation 
       $type = str_replace('VARBINARY', 'VARCHAR', $type);
+      $type = str_replace('INTEGER', 'INT', $type); //INT difference fix by Dincho Todorov
       $this->tables[$table]['fields'][$fieldname] = array(
         'code'    => $code,
         'type'    => $type,
@@ -215,7 +216,6 @@ class dbInfo {
         if($mycode and !$othercode) {
           $diff_sql .= "ALTER TABLE `$tablename` DROP `$field`;\n";
         } elseif($fielddata['type'] != $otherdata['type']
-        or $fielddata['type'] != $otherdata['type']
         or $fielddata['null'] != $otherdata['null']
         or $fielddata['default'] != $otherdata['default']   ) {
           if($this->debug) {

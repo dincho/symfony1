@@ -9,7 +9,7 @@
  */ 
 class Notification extends BaseNotification
 {
-    public function execute($global_vars, $addresses = null, $object = null, $mail_from = null)
+    public function execute($global_vars, $addresses = null, $object = null, $mail_from = null, Catalogue $catalog = null)
     {
         $content = $this->getBody() . $this->getFooter();
         $content = str_replace(array_keys($global_vars), array_values($global_vars), $content);
@@ -42,7 +42,7 @@ class Notification extends BaseNotification
             $mail->setSender($mail_from);  
         } else {
             $mail->setFrom($this->getSendFrom());
-            $mail->setSender($this->getSendFrom());            
+            $mail->setSender($this->getSendFrom());
         }
 
         
@@ -54,7 +54,7 @@ class Notification extends BaseNotification
             $mail->addAddress($this->getSendTo());
         } else {
             $mail->addAddresses($addresses);
-            $mail->CopyToWeb();
+            $mail->CopyToWeb($catalog);
         }
         
         if( $this->getBcc() ) $mail->addBcc($this->getBcc());

@@ -2,15 +2,16 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('staticPages/edit', 'class=form') ?>
-  <?php echo object_input_hidden_tag($page, 'getId', 'class=hidden') ?>
-  <?php echo object_input_hidden_tag($page, 'getCulture', 'class=hidden') ?>
+  <?php echo object_input_hidden_tag($page, 'getId', array('class' => 'hidden')); ?>
+  <?php echo object_input_hidden_tag($page, 'getCatId', array('class' => 'hidden')); ?>
+  
   <div class="legend">Edit <?php echo $page->getSlug() ?>.html</div>
       <fieldset class="form_fields float-left">
         <label for="link_name">Link Name:</label>
         <span style="float: left"><?php echo object_input_tag($page, 'getLinkName', error_class('link_name')) ?></span><br />
         
-        <label for="culture">Language:</label>
-        <var><?php echo format_language($page->getCulture()) ?></var>
+        <label for="catalog">Catalog:</label>
+        <var><?php echo $page->getCatalogue() ?></var>
     
       </fieldset>
       <fieldset class="form_fields float-left">
@@ -33,9 +34,9 @@
             <var><?php echo link_to('Regenerate Best Videos Content', 'staticPages/edit?regenerate_best_videos=1&culture=' . $page->getCulture() . '&id=' . $page->getId()) ?></var><br />
         <?php endif; ?>
         
-        <?php if( $page->getHasContent() ): ?>
+        <?php if( $page->hasContent() ): ?>
             <label for="html_content">HTML Content:</label>
-            <?php $content = ($sf_request->getParameter('regenerate_best_videos') && $page->getSlug() == 'best_videos') ? get_component('staticPages', 'bestVideos', array('culture' => $page->getCulture())) : $page->getContent() ?>
+            <?php $content = ($sf_request->getParameter('regenerate_best_videos') && $page->getSlug() == 'best_videos') ? get_component('staticPages', 'bestVideos', array('cat_id' => $page->getCatId())) : $page->getContent() ?>
             <?php echo textarea_tag('html_content', $content, 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
         <?php endif; ?>
       </fieldset>
@@ -45,12 +46,5 @@
     <?php echo button_to('Cancel', 'staticPages/list?cancel=1')  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>
-
-<div id="bottom_menu">
-  <span class="bottom_menu_title">Edit:</span>
-  <ul>
-    <li><?php echo link_to_unless($page->getCulture() == 'en', 'English', 'staticPages/edit?culture=en&id=' . $page->getId()) ?>&nbsp;|</li>
-    <li><?php echo link_to_unless($page->getCulture() == 'pl', 'Polish', 'staticPages/edit?culture=pl&id=' . $page->getId()) ?>&nbsp;</li>
-  </ul>
-</div>
+<?php include_component('content', 'bottomMenu', array('url' => 'staticPages/edit?id=' . $page->getId())) ?>
 

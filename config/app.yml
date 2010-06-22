@@ -38,8 +38,12 @@ dev:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
+    catalog_domains:    
+        "pd.dincho.bonex.us":     www.polishdate.com
+        "pl.pd.dincho.bonex.us":  www.szukammilionera.com
+        "du.dincho.bonex.us":     www.dyskretnyuklad.com
     mail:
-      enabled:          no
+      enabled:          yes
       error_exception:  yes
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes

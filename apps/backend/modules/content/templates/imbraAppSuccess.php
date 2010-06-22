@@ -2,7 +2,7 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('content/imbraApp', 'class=form') ?>
-    <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
+    <?php echo input_hidden_tag('cat_id', $catalog->getCatId(), array('class' => 'hidden')); ?>
     <div class="legend">Edit IMBRA Application Template</div>
     <fieldset class="form_fields">
         <label for="trans_65">Headline</label>
@@ -28,6 +28,7 @@
     </fieldset>
         
     <fieldset class="actions">
-        <?php echo button_to('Cancel', 'content/imbrapages?cancel=1&culture=' . $culture)  . submit_tag('Save', 'class=button') ?>
+        <?php echo button_to('Cancel', 'content/imbrapages?cancel=1&cat_id=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
+<?php include_component('content', 'bottomMenu', array('url' => 'content/imbraApp')); ?>

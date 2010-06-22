@@ -10,26 +10,25 @@
 class TransUnitPeer extends BaseTransUnitPeer
 {
 
-    public static function getByCultureAndCollection($msg_collection_id, $culture)
+    public static function getByCultureAndCollection($msg_collection_id, Catalogue $catalog)
     {
         $c = new Criteria();
         $c->add(TransUnitPeer::MSG_COLLECTION_ID, $msg_collection_id);
-        $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
-        $c->add(CataloguePeer::TARGET_LANG, $culture);
+        $c->add(TransUnitPeer::CAT_ID, $catalog->getCatId());
         
         return TransUnitPeer::doSelectOne($c);
     }
 
-    public static function bulkUpdate($trans = array(), $culture)
+    public static function bulkUpdate($trans = array(), Catalogue $catalog)
     {
-        $catalog = CataloguePeer::getByTargetLang($culture);
+
         foreach ($trans as $msg_coll_id => $value)
         {
-            $trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $culture);
+            $trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog);
             
             if (! $trans_unit)
             {
-                $base_trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, 'en');
+                $base_trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog->getEnglishCatalogForDomain());
                 if (! $base_trans_unit) throw new sfException('Trans unit: ' . $msg_coll_id . ' has no base unit.');
                 
                 $trans_unit = new TransUnit();
@@ -65,7 +64,7 @@ class TransUnitPeer extends BaseTransUnitPeer
     public static function getTagsList()
     {
         $c = new Criteria();
-        $c->add(TransUnitPeer::CAT_ID, 1); //only english catalog is enough
+        $c->add(TransUnitPeer::CAT_ID, 1); //only one catalogue is enough, because tags are spread to all catalogs
         $c->add(TransUnitPeer::TAGS, '', Criteria::NOT_EQUAL);
         $c->addGroupByColumn(TransUnitPeer::TAGS);  
         $units = TransUnitPeer::doSelect($c);

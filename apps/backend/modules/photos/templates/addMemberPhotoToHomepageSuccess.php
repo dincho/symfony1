@@ -31,14 +31,14 @@
                 <?php echo select_tag('homepages_pos', options_for_select(array(1 => 'A1', 2 => 'B1', 3 => 'C1', 4 => 'A2', 5 => 'B2', 6 => 'C2', 7 => 'A3', 8 => 'B3', 9 => 'C3'), null, 'include_blank=true'), array('class' => 'limit_input')) ?>
                 <label style="width: 130px; text-align: left;">Homepage position</label><br />
         
-                <table class="zebra" style="width: 200px">
+                <table class="zebra" style="width: 300px">
                     <tr>
                         <th colspan="2">Languages</th>
                     </tr>
                     <?php foreach($catalogs as $catalog): ?>
                         <tr>
-                            <td style="width:5px; padding: 0;"><?php echo checkbox_tag('catalogs[]', $catalog->getTargetLang(), false) ?></td>
-                            <td><?php echo format_language($catalog->getTargetLang()) ?></td>
+                            <td style="width:5px; padding: 0;"><?php echo checkbox_tag('catalogs[]', $catalog->getCatId(), false) ?></td>
+                            <td><?php echo $catalog; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

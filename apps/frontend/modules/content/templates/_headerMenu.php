@@ -1,5 +1,5 @@
 <?php use_helper('prLink') ?>
-<?php $links_map = StaticPagePeer::getLinskMap(); ?>
+<?php $links_map = StaticPagePeer::getLinskMap($sf_user->getCatalogId()); ?>
 
 <div id="right">
     <?php if( !$sf_user->isAuthenticated()): ?>

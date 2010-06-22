@@ -10,11 +10,13 @@
 class StaticPagePeer extends BaseStaticPagePeer
 {
     private static $link_map_cache = null;
-    public static function getLinskMap()
+    public static function getLinskMap($catalog_id)
     {
         if( is_null(self::$link_map_cache) )
         {
-            $pages = StaticPagePeer::doSelectWithI18n(new Criteria());
+            $c = new Criteria();
+            $c->add(StaticPageDomainPeer::CAT_ID, $catalog_id);
+            $pages = StaticPageDomainPeer::doSelectJoinStaticPage($c);
             
             $map = array();
             foreach ($pages as $page)
@@ -33,7 +35,7 @@ class StaticPagePeer extends BaseStaticPagePeer
         $c = new Criteria();
         $c->add(StaticPagePeer::SLUG, $slug);
         $c->setLimit(1);
-        $pages = StaticPagePeer::doSelectWithI18n($c);
+        $pages = StaticPageDomainPeer::doSelectJoinStaticPage($c);
 
         return isset($pages[0]) ? $pages[0] : null;
     }

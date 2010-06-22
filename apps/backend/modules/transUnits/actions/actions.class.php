@@ -70,19 +70,40 @@ class transUnitsActions extends sfActions
       return sfView::SUCCESS;
     }
 
+    public function executeEditRelated()
+    {
+        $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
+        $this->forward404Unless($trans_unit);
+                
+        $c = new Criteria();
+        $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+        $c->add(TransUnitPeer::CAT_ID, $this->getRequestParameter('cat_id'));
+        $unit = TransUnitPeer::doSelectOne($c);
+        
+        if( $unit )
+        {
+            $this->redirect('transUnits/edit?id=' . $unit->getId());
+        } else {
+            $this->setFlash('Selected TU does not exists in selected catalog!');
+            $this->redirect('transUnits/edit?id=' . $trans_unit->getId());
+        }
+    }
+    
     public function executeEdit()
     {
         $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($trans_unit);
         $this->trans_unit = $trans_unit;
         
-        if( $trans_unit->getCatId() != 1)
+        $catalogue = $trans_unit->getCatalogue();
+        if( $catalogue->getTargetLang() != 'en' )
         {
           $c = new Criteria();
           $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
-          $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
+          $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+          $c->add(CataloguePeer::TARGET_LANG, 'en');
+          $c->add(CataloguePeer::DOMAIN, $catalogue->getDomain());
           $en_trans_unit = TransUnitPeer::doSelectOne($c);
-          $this->forward404Unless($en_trans_unit);
           $this->en_trans_unit = $en_trans_unit;
         }
         
@@ -96,7 +117,7 @@ class transUnitsActions extends sfActions
             $trans_unit->setLink($this->getRequestParameter('link'));
             $trans_unit->save();
             
-            if( $trans_unit->getCatId() != 1)
+            if( $catalogue->getTargetLang() != 'en' && $en_trans_unit)
             {
                 $en_trans_unit->setTarget($this->getRequestParameter('en_target'));
                 $en_trans_unit->save();
@@ -121,14 +142,18 @@ class transUnitsActions extends sfActions
         $this->forward404Unless($trans_unit);
         $this->trans_unit = $trans_unit;
         
-        if( $trans_unit->getCatId() != 1)
+        $catalogue = $trans_unit->getCatalogue();
+        if( $catalogue->getTargetLang() != 'en' )
         {
-            $c = new Criteria();
-            $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
-            $c->add(TransUnitPeer::CAT_ID, 1); //english catalog
-            $en_trans_unit = TransUnitPeer::doSelectOne($c);
-            $this->forward404Unless($en_trans_unit);
-            $this->en_trans_unit = $en_trans_unit;
+          $c = new Criteria();
+          $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+          $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::ID);
+          $c->add(CataloguePeer::TARGET_LANG, 'en');
+          $c->add(CataloguePeer::DOMAIN, $catalogue->getDomain());
+          $en_trans_unit = TransUnitPeer::doSelectOne($c);
+          
+          $this->forward404Unless($en_trans_unit);
+          $this->en_trans_unit = $en_trans_unit;
         }
               
       return sfView::SUCCESS;

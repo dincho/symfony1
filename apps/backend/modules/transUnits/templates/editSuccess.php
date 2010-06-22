@@ -1,43 +1,45 @@
-<?php use_helper('Object', 'dtForm', 'I18N') ?>
+<?php use_helper('Object', 'dtForm', 'I18N', 'Catalog') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('transUnits/edit', 'class=form') ?>
     <?php echo object_input_hidden_tag($trans_unit, 'getId', 'class=hidden') ?>
     <div class="legend">Edit Translation Unit</div>
     <fieldset class="form_fields">
-    
-	    <label for="language">Language:</label>
-	    <var><?php echo format_language($trans_unit->getCatalogue()->getTargetLang()) ?></var><br />
-	    
-	    <label for="source">Source:</label>
-	    <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5')) ?><br />
-	    
-	    <?php  if( $trans_unit->getCatId() != 1): ?>
-		    <label for="en_target">English Target:</label>
-		    <?php echo object_textarea_tag($en_trans_unit, 'getTarget', array ('size' => '60x5', 'control_name' => 'en_target')) ?><br />
-	    <?php endif; ?>
-	    
-	    <div style="float:left;">
+
+
+        <label for="catalogue">Catalogue:</label>
+        <?php echo select_catalog2url(null, 'transUnits/editRelated?id=' . $trans_unit->getId(), 
+                                        $trans_unit->getCatId()); ?><br />
+        
+        <label for="source">Source:</label>
+        <?php echo object_textarea_tag($trans_unit, 'getSource', array ('size' => '60x5')) ?><br />
+        
+        <?php  if( $trans_unit->getCatalogue()->getTargetLang() != 'en' && $en_trans_unit): ?>
+            <label for="en_target">English Target:</label>
+            <?php echo object_textarea_tag($en_trans_unit, 'getTarget', array ('size' => '60x5', 'control_name' => 'en_target')) ?><br />
+        <?php endif; ?>
+        
+        <div style="float:left;">
         <label for="target">Target:</label>
-	    <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
-	    
-	    <label for="tags">Tags:</label>
-	    <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?>
+        <?php echo object_textarea_tag($trans_unit, 'getTarget', array ('size' => '60x5')) ?><br />
+        
+        <label for="tags">Tags:</label>
+        <?php echo object_textarea_tag($trans_unit, 'getTags', array ('size' => '60x5')) ?>
         </div>
         <div style="float:left;">
-	    <?php echo select_tag('defined_tags', 
-	                           options_for_select(TransUnitPeer::getTagsWithKeys(), null), 
-	                           array('multiple' => true, 'style' => 'width:250px; height:207px', 'onclick' => 'add_tags(this.value, "tags")'))?>
-	    </div>
+        <?php echo select_tag('defined_tags', 
+                               options_for_select(TransUnitPeer::getTagsWithKeys(), null), 
+                               array('multiple' => true, 'style' => 'width:250px; height:207px', 'onclick' => 'add_tags(this.value, "tags")'))?>
+        </div>
         <br />
-	    
-	    <label for="link">Link:</label>
-	    <?php echo object_input_tag($trans_unit, 'getLink', array('style' => 'width: 420px')) ?>
-	    <?php if( $trans_unit->getLink() ) echo link_to('Open', $trans_unit->getLink(), array('popup' => true, 'class' => 'float-left'))?>
-	    <br />
-	    
-	    <label for="translated">Translated:</label>
-	    <?php echo object_checkbox_tag($trans_unit, 'getTranslated', array('class' => 'checkbox'))?><br />
+        
+        <label for="link">Link:</label>
+        <?php echo object_input_tag($trans_unit, 'getLink', array('style' => 'width: 420px')) ?>
+        <?php if( $trans_unit->getLink() ) echo link_to('Open', $trans_unit->getLink(), array('popup' => true, 'class' => 'float-left'))?>
+        <br />
+        
+        <label for="translated">Translated:</label>
+        <?php echo object_checkbox_tag($trans_unit, 'getTranslated', array('class' => 'checkbox'))?><br />
     </fieldset>
     
     <fieldset class="actions">

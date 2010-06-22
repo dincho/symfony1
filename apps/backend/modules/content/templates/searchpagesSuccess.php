@@ -1,9 +1,11 @@
+<?php use_helper('Catalog'); ?>
+
 <table class="zebra">
     <thead>
         <tr>
          <th width="20px">Pages</th>
          <th width="150px">Name</th>
-         <th>Language</th>
+         <th>Catalog</th>
         </tr>
     </thead>
         <tbody>
@@ -11,56 +13,49 @@
               <td>1</td>
               <td>Most Recent</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchMostRecent?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchMostRecent?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchMostRecent', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>2</td>
               <td>Custom (by Criteria)</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchCustom?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchCustom?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchCustom', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>3</td>
               <td>Reverse</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchReverse?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchReverse?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchReverse', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>4</td>
               <td>Matches</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchMatches?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchMatches?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchMatches', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>5</td>
               <td>By Keyword</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchKeyword?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchKeyword?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchKeyword', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>6</td>
               <td>Profile ID</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchProfileId?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchProfileId?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchProfileId', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>
               <td>7</td>
               <td>Public Search</td>
               <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/searchPublic?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/searchPublic?culture=pl') ?>
+                <?php echo select_catalog2url(null, 'content/searchPublic', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
         </tbody>

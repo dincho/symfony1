@@ -2,17 +2,16 @@
 <table class="zebra">
     <thead>
         <tr>
-         <th>Profile Page</th>
-         <th>Language</th>
+          <th>Catalog</th>
         </tr>
     </thead>
         <tbody>
-            <tr>
-              <td>Profile</td>
-              <td>
-                <?php echo link_to(image_tag('flags/us.gif'), 'content/profilepage?culture=en') ?>
-                <?php echo link_to(image_tag('flags/pl.gif'), 'content/profilepage?culture=pl') ?>
-              </td>
-            </tr>
+              <?php foreach($catalogues as $catalog): ?>
+                <tr rel="<?php echo url_for('content/profilepage?cat_id=' . $catalog->getCatId()) ?>">
+                  <td>
+                    <?php echo $catalog; ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
         </tbody>
 </table>

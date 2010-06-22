@@ -4,15 +4,15 @@
         <tr>
          <th>Home Page</th>
          <th>Description</th>
-         <th>Language</th>
+         <th>Catalog</th>
         </tr>
     </thead>
         <tbody>
             <?php $i=1;foreach ($trans as $tran): ?>
-            <tr rel="<?php echo url_for('content/homepage?culture=' . $tran->getCatalogue()->getTargetLang()) ?>">
+            <tr rel="<?php echo url_for('content/homepage?cat_id=' . $tran->getCatalogue()->getCatId()) ?>">
               <td><?php echo $i++; ?></td>
               <td><?php echo $tran->getTarget() ?></td>
-              <td><?php echo format_language($tran->getCatalogue()->getTargetLang()) ?></td>
+              <td><?php echo $tran->getCatalogue() ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

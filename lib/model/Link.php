@@ -22,9 +22,10 @@ class Link extends BaseLink
     $this->setLifetime(sfConfig::get('app_links_default_lifetime'));
   }
   
-  public function getUrl($culture)
+  public function getUrl(Catalogue $catalog)
   { 
-    $domain = sfConfig::get('app_domains_' . $culture, sfConfig::get('app_base_domain', @$_SERVER['HTTP_HOST']));
+    // $domain = sfConfig::get('app_domains_' . $culture, sfConfig::get('app_base_domain', @$_SERVER['HTTP_HOST']));
+    $domain = $catalog->getDomain();
     $url = 'http://' . $domain . '/link/' . $this->getHash() . '.html';
     
     return $url;

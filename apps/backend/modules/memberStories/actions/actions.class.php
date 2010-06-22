@@ -15,7 +15,7 @@ class memberStoriesActions extends sfActions
         if ($this->getRequestParameter('cancel') == 1)
         {
             $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved');
-            $this->redirect($this->getModuleName() . '/' . $this->getActionName() . '?id=' . $this->getRequestParameter('id'));
+            $this->redirect($this->getModuleName() . '/' . $this->getActionName() . '?cat_id=' . $this->getRequestParameter('cat_id'));
         }
         $this->left_menu_selected = 'Member Stories';
         $this->top_menu_selected = 'content';
@@ -23,7 +23,8 @@ class memberStoriesActions extends sfActions
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Content', 'uri' => 'content/list'))->add(array('name' => 'Member Stories', 'uri' => 'memberStories/list'));
         
-        $this->culture = ($this->getRequestParameter('culture', 'en'));
+        $this->catalog = CataloguePeer::retrieveByPK($this->getRequestParameter('cat_id'));
+        $this->forward404Unless($this->catalog);
     }
 
     public function executeList()
@@ -33,7 +34,7 @@ class memberStoriesActions extends sfActions
         $c = new Criteria();
         $this->addSortCriteria($c);
         
-        $c->add(MemberStoryPeer::CULTURE, $this->culture); 
+        $c->add(MemberStoryPeer::CAT_ID, $this->catalog->getCatId()); 
         $this->stories = MemberStoryPeer::doSelect($c);
     }
 
@@ -44,7 +45,7 @@ class memberStoriesActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $story = new MemberStory();
-            $story->setCulture($this->getRequestParameter('culture'));
+            $story->setCatId($this->getRequestParameter('cat_id'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setTitle($this->getRequestParameter('title'));
             $story->setSummary($this->getRequestParameter('summary'));
@@ -52,8 +53,10 @@ class memberStoriesActions extends sfActions
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));
             $story->save();
-            $this->redirect('memberStories/list?culture=' . $story->getCulture());
+            $this->redirect('memberStories/list?cat_id=' . $story->getCatId());
         }
+        
+        $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
 
     public function executeEdit()
@@ -68,7 +71,7 @@ class memberStoriesActions extends sfActions
         {
             $this->getUser()->checkPerm(array('content_edit'));
             
-            $story->setCulture($this->getRequestParameter('culture'));
+            $story->setCatId($this->getRequestParameter('cat_id'));
             $story->setLinkName($this->getRequestParameter('link_name'));
             $story->setTitle($this->getRequestParameter('title'));
             $story->setSummary($this->getRequestParameter('summary'));
@@ -76,7 +79,7 @@ class memberStoriesActions extends sfActions
             $story->setDescription($this->getRequestParameter('description'));
             $story->setContent($this->getRequestParameter('html_content'));
             $story->save();
-            $this->redirect('memberStories/list?culture=' . $story->getCulture());
+            $this->redirect('memberStories/list?cat_id=' . $story->getCatId());
         }
         $this->story = $story;
     }
@@ -113,7 +116,7 @@ class memberStoriesActions extends sfActions
                 $this->setFlash('msg_ok', 'Selected stories has been deleted.');
             }
         }
-        $this->redirect('memberStories/list?culture=' . $this->getRequestParameter('culture'));
+        $this->redirect('memberStories/list?cat_id=' . $this->getRequestParameter('cat_id'));
     }
     
     protected function processSort()

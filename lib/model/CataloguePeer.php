@@ -15,4 +15,11 @@ class CataloguePeer extends BaseCataloguePeer
         $c->add(CataloguePeer::TARGET_LANG, $lang);
         return CataloguePeer::doSelectOne($c);
     }
+    
+    public static function getAll($crit = null)
+    {
+        $c = ( is_null($crit) ) ? new Criteria() : clone $crit;
+        
+        return self::doSelect($c);
+    }
 }

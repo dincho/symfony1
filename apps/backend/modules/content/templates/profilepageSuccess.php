@@ -2,7 +2,7 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('content/profilepage', 'class=form') ?>
-    <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
+    <?php echo input_hidden_tag('cat_id', $catalog->getCatId(), array('class' => 'hidden', )) ?>
     <div class="legend">Edit Profile Page</div>
     <fieldset class="form_fields" id="labels_120">
         <div class="float-right">
@@ -66,7 +66,7 @@
                 
         <br /><label style="width: 120px;">To VIP members</label><br />
         <label>upg. to send</label><?php echo input_tag('trans[126]', (isset($trans[126])) ? $trans[126]->getTarget() : null) ?><br />
-        <label>send limit</label><?php echo input_tag('trans[127]', (isset($trans[127])) ? $trans[127]->getTarget() : null) ?><br />        
+        <label>send limit</label><?php echo input_tag('trans[127]', (isset($trans[127])) ? $trans[127]->getTarget() : null) ?><br />
         <label>upg. to read</label><?php echo input_tag('trans[120]', (isset($trans[120])) ? $trans[120]->getTarget() : null) ?><br />
         <label>read limit</label><?php echo input_tag('trans[121]', (isset($trans[121])) ? $trans[121]->getTarget() : null) ?><br />
         <label>upg. to reply</label><?php echo input_tag('trans[122]', (isset($trans[122])) ? $trans[122]->getTarget() : null) ?><br />
@@ -84,10 +84,4 @@
         <?php echo button_to('Cancel', 'content/profilepages?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
-<div id="bottom_menu">
-  <span class="bottom_menu_title">Edit:</span>
-  <ul>
-    <li><?php echo link_to_unless($culture == 'en', 'English', 'content/profilepage?culture=en') ?>&nbsp;|</li>
-    <li><?php echo link_to_unless($culture == 'pl', 'Polish', 'content/profilepage?culture=pl') ?>&nbsp;</li>
-  </ul>
-</div>
+<?php include_component('content', 'bottomMenu', array('url' => 'content/profilepage'))?>

@@ -130,7 +130,7 @@ class contentActions extends prActions
         
         if( $page->getSlug() == 'best_videos_rules' )
         {
-            $links_map = StaticPagePeer::getLinskMap();
+            $links_map = StaticPagePeer::getLinskMap($this->getUser()->getCatalogId());
             $bc_middle = array('name' => $links_map['best_videos'], 'uri' => '@page?slug=best_videos');
         } else {
             $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
@@ -242,6 +242,11 @@ class contentActions extends prActions
         $geo = GeoPeer::retrieveByPK($this->getRequestParameter('area_id'));
         $this->forward404Unless($geo);
         
+        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($member);
+        
+        $this->details = $member->getMostAccurateAreaInfo($this->getUser()->getCatalogId());
+        
         $geo_tree = array();
         $geo_tree[] = format_country($geo->getCountry());
         
@@ -270,15 +275,6 @@ class contentActions extends prActions
         $title_prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->setTitle($title_prefix.implode(', ', $geo_tree));
 
-        $this->geo = GeoPeer::retrieveByPK($this->getUser()->getProfile()->getMostAccurateAreaInfoId());
-        $this->info = null;
-        if ( $this->geo->getGeoDetailsId() )
-        {
-          $details = $this->geo->getGeoDetails();
-          $details->setCulture($this->getUser()->getCulture());
-          $this->info = $details->getMemberInfo();
-        }
-        
         $this->geo_tree_string = implode(', ', array_reverse($geo_tree));
     }
     

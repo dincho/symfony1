@@ -1,11 +1,11 @@
 <?php use_helper('Javascript', 'Number', 'xSortableTitle') ?>
 
 <?php echo form_tag('memberStories/update') ?>
-    <?php echo input_hidden_tag('culture', $culture) ?>
+    <?php echo input_hidden_tag('cat_id', $catalog->getCatId(), 'class=hidden') ?>
     <table class="zebra">
         <thead>
             <tr class="top_actions">
-                <td colspan="4"><?php echo button_to ('New', 'memberStories/add?culture=' . $culture) ?></td>
+                <td colspan="4"><?php echo button_to ('New', 'memberStories/add?cat_id=' . $catalog->getCatId()) ?></td>
             </tr>            
             <tr>
                 <th></th>
@@ -16,7 +16,7 @@
         </thead>
         
     <?php foreach ($stories as $story): ?>
-        <tr rel="<?php echo url_for('memberStories/edit?id=' . $story->getId()) ?>">
+        <tr rel="<?php echo url_for('memberStories/edit?id=' . $story->getId() . '&cat_id='. $catalog->getCatId()) ?>">
             <td class="marked"><?php echo checkbox_tag('marked[]', $story->getId(), null) ?></td>
             <td class="marked"><?php echo input_tag('sort['.$story->getId().']', $story->getSortOrder(), 'style=width: 15px') ?>
             <td><?php echo $story->getTitle(); ?></td>
@@ -30,10 +30,4 @@
         <?php echo submit_tag('Sort', 'name=sort_submit id=sort_submit') ?>
     </div>
 </form>
-<div id="bottom_menu">
-  <span class="bottom_menu_title">Edit:</span>
-  <ul>
-    <li><?php echo link_to_unless($culture == 'en', 'English', 'memberStories/list?culture=en') ?>&nbsp;|</li>
-    <li><?php echo link_to_unless($culture == 'pl', 'Polish', 'memberStories/list?culture=pl') ?>&nbsp;</li>
-  </ul>
-</div>
+<?php include_component('content', 'bottomMenu', array('url' => 'memberStories/list'))?>

@@ -2,8 +2,8 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('notifications/edit', 'class=form') ?>
-    <?php echo input_hidden_tag('id', $notification->getId(), 'class=hidden') ?>
-    <?php echo object_input_hidden_tag($notification, 'getCulture', 'class=hidden')?>
+    <?php echo object_input_hidden_tag($notification, 'getId', array('class' => 'hidden')); ?>
+    <?php echo object_input_hidden_tag($notification, 'getCatId', array('class' => 'hidden')); ?>
     
     <div class="legend"><?php echo $notification->getName() ?></div>
     <fieldset class="form_fields">
@@ -16,7 +16,10 @@
           <?php echo radiobutton_tag('whn', 'B', $notification->getWhn() == 'B', array('style' => 'float: none;display: inline;')) ?>Before
           <?php echo radiobutton_tag('whn', 'A', $notification->getWhn() == 'A', array('style' => 'float: none;display: inline;')) ?>After
       </div>
-        
+      
+      <label for="catalog">Catalog:</label>
+      <var><?php echo $notification->getCatalogue(); ?></var><br />
+      
       <label for="name">Name:</label>
       <?php echo object_input_tag($notification, 'getName', error_class('name')) ?><br />
 
@@ -49,15 +52,7 @@
     
     
     <fieldset class="actions">
-        <?php echo button_to('Cancel', 'notifications/list?cancel=1&to_admins=' . $notification->getToAdmins())  . submit_tag('Save', 'class=button') ?>
+        <?php echo button_to('Cancel', 'notifications/list?cancel=1&to_admins=' . (int)$notification->getToAdmins(). '&cat_id='. $notification->getCatId())  . submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
-<?php if( !$notification->getToAdmins() ): ?>
-  <div id="bottom_menu">
-    <span class="bottom_menu_title">Edit:</span>
-    <ul>
-      <li><?php echo link_to_unless($notification->getCulture() == 'en', 'English', 'notifications/edit?culture=en&id=' . $notification->getId()) ?>&nbsp;|</li>
-      <li><?php echo link_to_unless($notification->getCulture() == 'pl', 'Polish', 'notifications/edit?culture=pl&id=' . $notification->getId()) ?>&nbsp;</li>
-    </ul>
-  </div>
-<?php endif; ?>
+<?php include_component('content', 'bottomMenu', array('url' => 'notifications/edit?id=' . $notification->getId())); ?>

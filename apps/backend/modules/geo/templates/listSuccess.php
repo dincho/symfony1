@@ -93,7 +93,7 @@
             <td><?php echo $geo->getLatitude() ?></td>
             <td><?php echo $geo->getLongitude() ?></td>
             <td><?php echo $geo->getTimezone(); ?></td>
-            <td class="skip"><?php echo link_to(($geo->getGeoDetailsId() ? 'edit' : 'add'), 'geo/editDetails?id=' . $geo->getId()); ?></td>
+            <td class="skip"><?php echo link_to('edit', 'geo/editDetails?cat_id=1&id=' . $geo->getId()); ?></td>
           </tr>
       <?php endforeach; ?>
       </tbody>

@@ -292,7 +292,7 @@ class dashboardActions extends prActions
             $this->redirect('dashboard/contactAssistantConfirmation');
         }
         
-        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCatalog($this->getUser()->getCatalog());
     }
     
     public function validateContactYourAssistant()
@@ -322,14 +322,14 @@ class dashboardActions extends prActions
     public function handleErrorContactYourAssistant()
     {
         $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title'));
-        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCatalog($this->getUser()->getCatalog());
         return sfView::SUCCESS;
     }
     
     public function executeContactAssistantConfirmation()
     {
         $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title', 'uri' => 'dashboard/contactYourAssistant'))->add(array('name' => 'Assistant response title'));
-        $this->photo = StockPhotoPeer::getAssistantPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getAssistantPhotoByCatalog($this->getUser()->getCatalog());
     }
     
     public function executeSearchCriteria()

@@ -521,27 +521,25 @@ class geoActions extends sfActions
 
     public function executeEditDetails()
     {
-        $geo = GeoPeer::retrieveByPK($this->getRequestParameter('id'));
-        $this->forward404Unless($geo);
+        $details = GeoDetailsPeer::retrieveByPK($this->getRequestParameter('id'), $this->getRequestParameter('cat_id'));
         
-        $details = ( $geo->getGeoDetailsId() ) ? $geo->getGeoDetails() : new GeoDetails();
-        $details->setCulture($this->getRequestParameter('culture', 'en'));
+        if( !$details ) 
+        {
+            $details = new GeoDetails();
+            $details->setId($this->getRequestParameter('id'));
+            $details->setCatId($this->getRequestParameter('cat_id'));
+        }
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $details->setGeo($geo);
             $details->setMemberInfo($this->getRequestParameter('member_info'));
             $details->setSeoInfo($this->getRequestParameter('seo_info'));
             $details->save();
-            
-            $geo->setGeoDetails($details);
-            $geo->save();
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             //$this->redirect('geo/list');
         }
         
-        $this->geo = $geo;
         $this->details = $details;
     }
     

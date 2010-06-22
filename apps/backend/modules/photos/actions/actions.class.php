@@ -90,9 +90,9 @@ class photosActions extends sfActions
         $this->sort_namespace = 'backend/photos/sort';
         $this->getUser()->getBC()->add(array('name' => 'Home Page'));
         $this->left_menu_selected = 'Home Page';
-                    
+        
         $c = new Criteria();
-        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES);
+        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET(' . $this->getRequestParameter('cat_id', 0) . ', ' . HomepageMemberPhotoPeer::HOMEPAGES .')', Criteria::CUSTOM);
         $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_SET);
         $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
         $this->photos = HomepageMemberPhotoPeer::doSelectJoinMember($c);

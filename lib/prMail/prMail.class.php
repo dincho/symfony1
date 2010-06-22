@@ -46,9 +46,20 @@ class prMail extends sfMail
         parent::initialize();
     }
 
-    public function CopyToWeb($bool = true)
+    public function CopyToWeb(Catalogue $catalog)
     {
-        $this->copy_to_web = $bool;
+        $webemail = new WebEmail();
+        $webemail->setSubject($this->getSubject());
+        $webemail->setBody($this->getBody());
+        $webemail->generateHash();
+    
+        $webemail_url  = LinkPeer::create('@web_email?hash=' . $webemail->getHash())->getUrl($catalog);
+        $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
+        $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
+        $this->setBody($body);
+        
+        $webemail->setBody($body); //set body again with parsed URL
+        $webemail->save();
     }
 
     public function addAddress($address, $name = null)
@@ -57,23 +68,8 @@ class prMail extends sfMail
         parent::addAddress($address, $name);
     }
 
-    public function send($webemail_culture = 'en')
+    public function send()
     {
-        if($this->copy_to_web)
-        {
-            $webemail = new WebEmail();
-            $webemail->setSubject($this->getSubject());
-            $webemail->setBody($this->getBody());
-            $webemail->generateHash();
-            
-            $webemail_url  = LinkPeer::create('@web_email?hash=' . $webemail->getHash())->getUrl($webemail_culture);
-            $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
-            $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
-            $this->setBody($body);
-            $webemail->setBody($body); //set body again with parsed URL
-            $webemail->save();
-        }
-        
         $this->setBody(nl2br($this->getBody()));
         
         if( sfConfig::get('app_mail_enabled') )

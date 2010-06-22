@@ -57,7 +57,7 @@ propel:
     _indexes:
       item_type:            [item_type]
       
-  member:
+  member: 
     id:
     member_status_id:         { type: integer, required: false, foreignTable: member_status, foreignReference: id, onDelete: restrict }
     username:                 { type: varchar, size: 20, required: true }
@@ -81,6 +81,7 @@ propel:
     zip:                      { type: varchar, size: 20, required: true }
     nationality:              { type: varchar, size: 255, required: true }
     language:                 { type: varchar, size: 3, required: true } #this filed is currently used for match engine and notifications
+    catalog_id:               { type: integer, required: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: SETNULL, onUpdate: RESTRICT }
     birthday:                 { type: bu_date }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
     us_citizen:               { type: boolean, required: false }
@@ -224,14 +225,13 @@ propel:
     updated_at:
       
   imbra_question:
-    id:
-    only_explain:             { type: boolean, required: true, default: false }  
-    
-  imbra_question_i18n:
+    id:                       { type: INTEGER, required: true, primaryKey: true }
+    cat_id:                   { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
     title:                    { type: longvarchar, required: false }
     explain_title:            { type: longvarchar, required: false }
     positive_answer:          { type: longvarchar, required: false }
     negative_answer:          { type: longvarchar, required: false }
+    only_explain:             { type: boolean, required: true, default: false }
     
   imbra_status:
     id:
@@ -432,11 +432,12 @@ propel:
     name:           { type: varchar, size: 100, required: true,  default: '' }
     source_lang:    { type: varchar, size: 100, required: true,  default: '' }
     target_lang:    { type: varchar, size: 100, required: true,  default: '' }
+    domain:         { type: varchar, size: 255, required: true,  default: '' }
     date_created:   { type: integer, size: 11, required: true,  default: 0 }
     date_modified:  { type: integer, size: 11, required: true,  default: 0 }
     author:         { type: varchar, size: 255, required: true,  default: '' }
-    _uniques:
-      name:         [name]
+    # _uniques:
+    #   name:         [name]
       
   trans_unit:
     id:
@@ -469,26 +470,27 @@ propel:
     has_mini_menu:          { type: boolean, required: true, default: false }
     has_content:            { type: boolean, required: true, default: true }
     
-  static_page_i18n:
-    link_name:      { type: varchar, size: 100, required: false }
-    title:          { type: varchar, size: 255, required: true }
-    keywords:       { type: varchar, size: 255, required: false }
-    description:    { type: longvarchar, required: false }
-    content:        { type: longvarchar, required: true }
+  static_page_domain:
+    id:                     { type: INTEGER, required: true, primaryKey: true, foreignTable: static_page, foreignReference: id, onDelete: CASCADE, onUpdate: RESTRICT }
+    cat_id:                 { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
+    link_name:              { type: varchar, size: 100, required: false }
+    title:                  { type: varchar, size: 255, required: true }
+    keywords:               { type: varchar, size: 255, required: false }
+    description:            { type: longvarchar, required: false }
+    content:                { type: longvarchar, required: true }
     updated_at:     
     
-  bestv_tmpl:
-    id:
+  best_video_template:
+    id:                   { type: INTEGER, required: true, primaryKey: true }
+    cat_id:               { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
+    header:               { type: longvarchar, required: false }
+    body_winner:          { type: longvarchar, required: false }
+    footer:               { type: longvarchar, required: false }
     updated_at:
-      
-  bestv_tmpl_i18n:    
-    header:         { type: longvarchar, required: false }
-    body_winner:    { type: longvarchar, required: false }
-    footer:         { type: longvarchar, required: false }    
     
   member_story:
     id:
-    culture:            { type: varchar, size: 7 }
+    cat_id:             { type: integer, required: false, foreignTable: catalogue, foreignReference: cat_id, onDelete: setnull }
     slug:               { type: varchar, size: 255, required: true }
     sort_order:         { type: integer, size: 11, required: true, default: 0 }
     link_name:          { type: varchar, size: 100, required: true }
@@ -502,33 +504,32 @@ propel:
     _uniques:
       slug:             [slug]
     _indexes:           
-      culture:          [culture]
+      cat_id:          [cat_id]
       
   homepage_member_story:
     id:
     member_stories:     { type: varchar, size: 255 }
-    homepage_culture:   { type: varchar, size: 7 }
+    cat_id:             { type: integer, required: false, foreignTable: catalogue, foreignReference: cat_id, onDelete: setnull }
     _indexes:
-      homepage_culture: [homepage_culture]
-      
-  notification:
-    id:
-    name:           { type: varchar, size: 255 }
-    trigger_name:   { type: varchar, size: 255 }
-    is_active:      { type: boolean, required: true, default: false }
-    to_admins:      { type: boolean, required: true, default: false }
-    days:           { type: integer }
-    whn:            { type: char, size: 1 } # when ... before after X days
+      cat_id: [cat_id]
     
-  notification_i18n:
-    send_from:      { type: varchar, size: 255 }
-    send_to:        { type: varchar, size: 255 }
-    reply_to:       { type: varchar, size: 255 }
-    bcc:            { type: varchar, size: 255 }    
-    subject:        { type: varchar, size: 255 }
-    body:           { type: longvarchar }
-    footer:         { type: longvarchar }
-    mail_config:    { type: varchar, size: 255 }
+  notification::
+    id:                   { type: INTEGER, required: true, primaryKey: true }
+    cat_id:               { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
+    name:                 { type: varchar, size: 255 }
+    trigger_name:         { type: varchar, size: 255 }
+    is_active:            { type: boolean, required: true, default: false }
+    to_admins:            { type: boolean, required: true, default: false }
+    days:                 { type: integer }
+    whn:                  { type: char, size: 1 }    
+    send_from:            { type: varchar, size: 255 }
+    send_to:              { type: varchar, size: 255 }
+    reply_to:             { type: varchar, size: 255 }
+    bcc:                  { type: varchar, size: 255 }
+    subject:              { type: varchar, size: 255 }
+    body:                 { type: longvarchar }
+    footer:               { type: longvarchar }
+    mail_config:          { type: varchar, size: 255 }
       
   notification_event:
     id:
@@ -573,8 +574,6 @@ propel:
     longitude:                { type: float }
     population:               { type: integer, size: 10, required: true, default: 0 }
     timezone:                 { type: varchar, size: 255, default: "UTC" }
-    geo_details_id:           { type: integer, required: false, foreignTable: geo_details, foreignReference: id, onDelete: setnull }
-    #info:                     { type: longvarchar }
     _indexes:
       complex:                [country, dsg, adm1_id, adm2_id, name]
       
@@ -584,10 +583,8 @@ propel:
     file:                     { type: varchar, size: 255 }
     
   geo_details:
-    id:
-    geo_id:                   { type: integer, required: true, foreignTable: geo, foreignReference: id, onDelete: cascade }
-    
-  geo_details_i18n:
+    id:                       { type: INTEGER, required: true, primaryKey: true, foreignTable: geo, foreignReference: id, onDelete: CASCADE, onUpdate: RESTRICT }
+    cat_id:                   { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
     member_info:              { type: longvarchar }
     seo_info:                 { type: longvarchar }
     
@@ -618,7 +615,7 @@ propel:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     filepath:                 { type: varchar, size: 255 }
     gender:                   { type: char, size: 1, required: true, default: "M" }
-    homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG) ..
+    homepages:                { type: varchar, size: 255 } #will be used like array with comma separator (1,3,7) ..
     homepages_set:            { type: tinyint } 
     homepages_pos:            { type: tinyint }
     updated_at:

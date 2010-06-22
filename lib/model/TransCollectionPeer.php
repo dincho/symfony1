@@ -28,13 +28,12 @@ class TransCollectionPeer extends BaseTransCollectionPeer
     const SYSTEM_MESSAGES = 18;
     const ASSISTANT = 19;
     
-    public static function getCollection($id, $culture)
+    public static function getCollection($id, Catalogue $catalog)
     {
         $c = new Criteria();
-        $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
         $c->addJoin(TransUnitPeer::MSG_COLLECTION_ID, MsgCollectionPeer::ID);
         $c->addJoin(MsgCollectionPeer::TRANS_COLLECTION_ID, TransCollectionPeer::ID);
-        $c->add(CataloguePeer::TARGET_LANG, $culture);
+        $c->add(TransUnitPeer::CAT_ID, $catalog->getCatId());
         $c->add(TransCollectionPeer::ID, $id);
         
         $trans = TransUnitPeer::doSelect($c);

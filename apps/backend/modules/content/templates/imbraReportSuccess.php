@@ -2,7 +2,7 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('content/imbraReport', 'class=form') ?>
-    <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
+    <?php echo input_hidden_tag('cat_id', $catalog->getCatId(), array('class' => 'hidden')); ?>
     <div class="legend">Edit IMBRA Report Template</div>
     <fieldset class="form_fields">
         <?php foreach($imbra_questions as $imbra_question): ?>
@@ -22,13 +22,7 @@
     </fieldset>
         
     <fieldset class="actions">
-        <?php echo button_to('Cancel', 'content/imbrapages?cancel=1&culture=' . $culture)  . submit_tag('Save', 'class=button') ?>
+        <?php echo button_to('Cancel', 'content/imbrapages?cancel=1&cat_id=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
-<div id="bottom_menu">
-  <span class="bottom_menu_title">Edit:</span>
-  <ul>
-    <li><?php echo link_to_unless($culture == 'en', 'English', 'content/imbraReport?culture=en') ?>&nbsp;|</li>
-    <li><?php echo link_to_unless($culture == 'pl', 'Polish', 'content/imbraReport?culture=pl') ?>&nbsp;</li>
-  </ul>
-</div>
+<?php include_component('content', 'bottomMenu', array('url' => 'content/imbraReport')); ?>

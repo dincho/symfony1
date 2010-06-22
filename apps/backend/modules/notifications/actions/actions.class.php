@@ -14,20 +14,21 @@ class notificationsActions extends sfActions
     public function preExecute()
     {
         $this->top_menu_selected = 'content';
+        $this->left_menu_selected = 'System Notifications';
     }
     
     public function executeList()
     {
         $c = new Criteria();
         $c->add(NotificationPeer::TO_ADMINS, $this->getRequestParameter('to_admins', 0));
+        $c->add(NotificationPeer::CAT_ID, $this->getRequestParameter('cat_id'));
         $this->notifications = NotificationPeer::doSelect($c);
     }
 
     public function executeEdit()
     {
-        $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'));
+        $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'), $this->getRequestParameter('cat_id'));
         $this->forward404Unless($notification);
-        $notification->setCulture($this->getRequestParameter('culture', 'en'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -47,7 +48,7 @@ class notificationsActions extends sfActions
             $notification->save();
             
             $this->setFlash('msg_ok', 'Your changes have been saved');
-            $this->redirect('notifications/list?to_admins=' . $notification->getToAdmins());
+            $this->redirect('notifications/list?to_admins=' . (int)$notification->getToAdmins() . '&cat_id=' . $notification->getCatId());
         }
         
         $this->notification = $notification;

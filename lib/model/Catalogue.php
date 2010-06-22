@@ -11,7 +11,23 @@ class Catalogue extends BaseCatalogue
 {
     public function __toString()
     {
-        sfLoader::loadHelpers(array('I18N'));
-        return format_language($this->getTargetLang());    
+        static $langs = array(); //performance, staticPages/index is too slow otherwise
+        
+        if( !isset($langs[$this->getTargetLang()]) )
+        {
+            sfLoader::loadHelpers(array('I18N'));
+            $langs[$this->getTargetLang()] = format_language($this->getTargetLang());
+        }
+        
+        return $this->getDomain() . ' - ' . $langs[$this->getTargetLang()];
+    }
+    
+    public function getEnglishCatalogForDomain()
+    {
+        $c = new Criteria();
+        $c->add(CataloguePeer::DOMAIN, $this->getDomain());
+        $c->add(CataloguePeer::TARGET_LANG, 'en');
+        
+        return CataloguePeer::doSelectOne($c);
     }
 }

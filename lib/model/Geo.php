@@ -32,5 +32,14 @@ class Geo extends BaseGeo
     public function getAdm2()
     {
         return GeoPeer::retrieveByPK($this->getAdm2Id());
-    }    
+    }
+    
+    public function getDetails($catalog_id)
+    {
+        $c = new Criteria();
+        $c->add(GeoDetailsPeer::ID, $this->getId());
+        $c->add(GeoDetailsPeer::CAT_ID, $catalog_id);
+        
+        return GeoDetailsPeer::doSelectOne($c);
+    }
 }

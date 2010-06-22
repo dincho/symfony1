@@ -9,19 +9,19 @@
  */ 
 class StockPhotoPeer extends BaseStockPhotoPeer
 {
-    public static function getAssistantPhotoByCulture($culture = 'en')
+    public static function getAssistantPhotoByCatalog(Catalogue $catalog)
     {
         $c = new Criteria();
-        $c->add(self::ASSISTANTS, $culture);
+        $c->add(self::ASSISTANTS, $catalog->getCatId());
         $c->setLimit(1);
         
         return self::doSelectOne($c);
     }
     
-    public static function getJoinNowPhotoByCulture($culture = 'en')
+    public static function getJoinNowPhotoByCatalog(Catalogue $catalog)
     {
         $c = new Criteria();
-        $c->add(self::JOIN_NOW, $culture);
+        $c->add(self::JOIN_NOW, $catalog->getCatId());
         $c->setLimit(1);
         
         return self::doSelectOne($c);

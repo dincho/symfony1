@@ -1,12 +1,17 @@
+<?php if( $details ): ?>
 <div class="float-left" style="margin-right: 10px">
-    <?php foreach($geo->getGeoPhotos() as $photo): ?>
+    <?php foreach($details->getGeo()->getGeoPhotos() as $photo): ?>
         <?php echo image_tag($photo->getImageUrlPath('file')) ?><br /><br />
     <?php endforeach; ?>
 </div>
+<?php endif; ?>
 
 <div class="city_right">
     <?php echo __('Area Info Headline', array('%GEO_TREE_STRING%' => $geo_tree_string)); ?><br />
-    <?php echo $sf_data->getRaw('info') ?><br /><br />
+    
+    <?php if( $details ): ?>
+        <?php echo $details->getMemberInfo(ESC_RAW); ?><br /><br />
+    <?php endif; ?>
     
     <br /><br />
     <script type="text/javascript">

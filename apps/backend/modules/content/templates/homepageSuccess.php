@@ -2,12 +2,12 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('content/homepage', 'class=form') ?>
-  <?php echo input_hidden_tag('culture', $culture, 'class=hidden') ?>
+  <?php echo input_hidden_tag('cat_id', $catalog->getCatId(), 'class=hidden') ?>
   <div class="legend">Edit Home Page</div>
 
       <fieldset class="form_fields">
-        <label for="culture">Language</label>
-        <var><?php echo format_language($culture) ?></var><br />
+        <label for="catalog">Catalog</label>
+        <var><?php echo $catalog ?></var><br />
         
         <label for="title">Title:</label>
         <?php echo input_tag('trans[3]', (isset($trans[3])) ? $trans[3]->getTarget() : null, error_class('title')) ?><br /> 
@@ -45,6 +45,6 @@
 
   
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'content/homepages?cancel=1')  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'content/homepages?cancel=1&cat_id=1')  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>

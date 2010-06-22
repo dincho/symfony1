@@ -2,6 +2,7 @@
 class myUser extends sfBasicSecurityUser
 {
     private $profile = null;
+    private $catalog = null;
 
     public function getId()
     {
@@ -164,5 +165,26 @@ class myUser extends sfBasicSecurityUser
     public function getLocale()
     {
        return ($this->getCulture() == 'en') ? 'en_US.utf8' : $this->getCulture().'_'.strtoupper($this->getCulture()).'.utf8';
+    }
+    
+    public function getCatalog()
+    {
+        if( is_null($this->catalog) )
+        {
+            $domain = strtolower($_SERVER['HTTP_HOST']);
+            $catalog_domain = sfConfig::get('app_catalog_domains_' . $domain, $domain);
+
+            $c = new Criteria();
+            $c->add(CataloguePeer::DOMAIN, $catalog_domain);
+            $c->add(CataloguePeer::TARGET_LANG, $this->getCulture());
+            $this->catalog = CataloguePeer::doSelectOne($c);
+        }
+        
+        return $this->catalog;
+    }
+    
+    public function getCatalogId()
+    {
+        return $this->getCatalog()->getCatId();
     }
 }

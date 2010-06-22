@@ -6,7 +6,7 @@ class memberStoriesComponents extends sfComponents
     {
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
-        $c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
+        $c->add(MemberStoryPeer::CAT_ID, $this->getUser()->getCatalogId());
         $c->setLimit(7);
         $this->stories_list = MemberStoryPeer::doSelect($c);
     }
@@ -14,7 +14,7 @@ class memberStoriesComponents extends sfComponents
     public function executeHomepageList()
     {
         $c = new Criteria();
-        $c->add(HomepageMemberStoryPeer::HOMEPAGE_CULTURE, $this->getUser()->getCulture());
+        $c->add(HomepageMemberStoryPeer::CAT_ID, $this->getUser()->getCatalogId());
         $home_member_story = HomepageMemberStoryPeer::doSelectOne($c);
         
         $home_story_list = ($home_member_story) ? explode(',', $home_member_story->getMemberStories()) : array();
