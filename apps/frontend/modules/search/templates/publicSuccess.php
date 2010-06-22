@@ -59,7 +59,7 @@
                 <div class="profile_info">
                     <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                     <p></p>
-                    <p><?php echo link_to('View Profile', 'registration/joinNow', array('class' => 'sec_link')) ?></p>
+                    <p><?php echo link_to(__('View Profile'), 'registration/joinNow', array('class' => 'sec_link')) ?></p>
                     <p></p>
                     <p></p>
                     <p>
