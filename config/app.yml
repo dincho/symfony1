@@ -43,7 +43,7 @@ dev:
         "pl.pd.dincho.bonex.us":  www.szukammilionera.com
         "du.dincho.bonex.us":     www.dyskretnyuklad.com
     mail:
-      enabled:          yes
+      enabled:          no
       error_exception:  yes
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
