@@ -176,6 +176,10 @@ class Member extends BaseMember
             $history->setMemberStatusId($this->getMemberStatusId());
             $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null );
 
+            if($subscription_id == SubscriptionPeer::FREE)
+            {
+              $this->clearCounter('DeactivationCounter');
+            }
             $this->setSubscriptionId($subscription_id);
             $this->addSubscriptionHistory($history);
             $this->setLastSubscriptionChange(time());
