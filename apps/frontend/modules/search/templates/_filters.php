@@ -1,3 +1,5 @@
+    <?php use_helper('Javascript', 'Date', 'dtForm') ?>
+
     <table border="0" cellpadding="0" cellspacing="0" class="search_filter">
       <tbody>
         <tr class="search_filter_top_row">
@@ -15,10 +17,30 @@
         </tr>
         <tr class="search_filter_middle_row">
             <td class="search_filter_row_label"><?php echo __('Location') ?></td>
-            <td><?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ) . __('Everywhere') ?></td>
-    
-            <td><?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1) ) . __('In selected countries only') ?></td>
-            <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ) . __('Within') ?>&nbsp;<?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
+            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ),
+              array(
+                'before'    => '$(\'filters_location\').checked = true;', 
+                'complete'  => '$(\'filters_location\').checked = true;',            
+                'update'    => 'match_results',
+                'submit'    => 'search_box',
+                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Everywhere') ?>
+            </td>
+            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 1, ($filters['location'] == 1) ), 
+              array(
+                'before'    => '$(\'filters_location_1\').checked = true;', 
+                'complete'  => '$(\'filters_location_1\').checked = true;',            
+                'update'    => 'match_results',
+                'submit'    => 'search_box',
+                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('In selected countries only') ?>
+            </td>
+            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ),
+              array(
+                'before'    => '$(\'filters_location_2\').checked = true;', 
+                'complete'  => '$(\'filters_location_2\').checked = true;',            
+                'update'    => 'match_results',
+                'submit'    => 'search_box',
+                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Within') ?>&nbsp;
+                <?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
                 &nbsp;
                 <?php echo select_tag('filters[kmmils]',  options_for_select(array( 'mil' => __('mil'), 'km' => __('km')), isset($filters['kmmils'])?$filters['kmmils']:sfConfig::get('app_settings_search_default_kilometers_miles')), array('class' => 'select_radius')) ?>
                 &nbsp;<?php echo __('radius from my city') ?>

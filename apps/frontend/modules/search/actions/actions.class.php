@@ -62,6 +62,7 @@ class searchActions extends prActions
 
     public function executeMostRecent()
     {
+
         $c = new Criteria();
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
@@ -74,6 +75,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page);
         
         $this->getUser()->setAttribute('last_search_url', 'search/mostRecent?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
 
     public function executeLastLogin()
@@ -88,6 +97,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page);
         
         $this->getUser()->setAttribute('last_search_url', 'search/lastLogin?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
     
     public function executeCriteria()
@@ -110,6 +127,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page);
         
         $this->getUser()->setAttribute('last_search_url', 'search/criteria?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
 
     public function executeReverse()
@@ -135,6 +160,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page, 'doSelectJoinMemberRelatedByMember2Id', 'doCountJoinMemberRelatedByMember2IdReverse');
         
         $this->getUser()->setAttribute('last_search_url', 'search/reverse?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
 
     public function executeMatches()
@@ -157,6 +190,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page);
         
         $this->getUser()->setAttribute('last_search_url', 'search/matches?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
 
     public function executeByKeyword()
@@ -178,7 +219,15 @@ class searchActions extends prActions
             $this->initPager($c, $per_page);
             
             $this->getUser()->setAttribute('last_search_url', 'search/byKeyword?page=' . $this->pager->getPage());
-        }
+
+          //add ajax support
+          if($this->getRequest()->isXmlHttpRequest())
+          {
+            sfLogger::getInstance()->info(" isXmlHttpRequest ");
+            $this->setLayout(false);
+            return 'Ajax';
+          }
+       }
     }
 
     public function executeByRate()
@@ -194,6 +243,14 @@ class searchActions extends prActions
         $this->initPager($c, $per_page);
         
         $this->getUser()->setAttribute('last_search_url', 'search/byRate?page=' . $this->pager->getPage());
+
+        //add ajax support
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          $this->setLayout(false);
+          return 'Ajax';
+        }
     }
  
 
@@ -373,8 +430,11 @@ class searchActions extends prActions
 
     protected function processFilters()
     {
+             sfLogger::getInstance()->info(" processFilters()");
         if ($this->getRequest()->hasParameter('filter'))
         {
+             sfLogger::getInstance()->info(" getRequest()->hasParameter('filter')");
+
             $filters = $this->getRequestParameter('filters');
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
@@ -451,6 +511,10 @@ class searchActions extends prActions
                     }
                     
                     if (!isset($crit)) $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $selected_countries, Criteria::IN);
+                }
+                else
+                {
+                    $crit = $c->getNewCriterion(MemberPeer::COUNTRY, $this->getUser()->getProfile()->getCountry(), Criteria::IN);
                 }
                 break;
             //within given radius from where I live
