@@ -19,26 +19,29 @@
             <td class="search_filter_row_label"><?php echo __('Location') ?></td>
             <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ),
               array(
-                'before'    => '$(\'filters_location\').checked = true;', 
-                'complete'  => '$(\'filters_location\').checked = true;',            
+                'before'    => "$('filters_location').checked = true;", 
                 'update'    => 'match_results',
                 'submit'    => 'search_box',
+                'loading'   => "show_load();",
+                'complete'  => "hide_load(); $('filters_location').checked = true;",                            
                 'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Everywhere') ?>
             </td>
             <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 1, ($filters['location'] == 1) ), 
               array(
-                'before'    => '$(\'filters_location_1\').checked = true;', 
-                'complete'  => '$(\'filters_location_1\').checked = true;',            
+                'before'    => "$('filters_location_1').checked = true;", 
                 'update'    => 'match_results',
                 'submit'    => 'search_box',
+                'loading'   => "show_load();",
+                'complete'  => "hide_load(); $('filters_location_1').checked = true;",                            
                 'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('In selected countries only') ?>
             </td>
             <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ),
               array(
-                'before'    => '$(\'filters_location_2\').checked = true;', 
-                'complete'  => '$(\'filters_location_2\').checked = true;',            
+                'before'    => "$('filters_location_2').checked = true;", 
                 'update'    => 'match_results',
                 'submit'    => 'search_box',
+                'loading'   => "show_load();",
+                'complete'  => "hide_load(); $('filters_location_2').checked = true;",                            
                 'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Within') ?>&nbsp;
                 <?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
                 &nbsp;
@@ -63,3 +66,8 @@
       </tbody>
   </table> 
 </form>
+<span id="loading" class="loading" style="display: none;">
+  <?php echo image_tag('loading.gif') ?>
+  <br>
+  <?php echo __('Updating Results...')?>
+</span>

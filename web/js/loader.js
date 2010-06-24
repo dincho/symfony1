@@ -30,3 +30,15 @@ function show_loader(hide_id)
       if( hide ) hide.style.display = 'none';
     }
 }
+
+function show_load()
+{
+  document.getElementById('match_results').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';  
+}
+
+function hide_load()
+{
+  document.getElementById('match_results').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';  
+}
