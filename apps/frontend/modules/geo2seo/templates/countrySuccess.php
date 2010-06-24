@@ -1,4 +1,4 @@
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p><?php echo $info; ?></p>
 
 <hr />
 <?php include_component('geo2seo', 'profiles'); ?>
@@ -16,10 +16,10 @@
                 <td>
                     <?php $index = ($row_index+$column_index*$itemsPerColumn-$itemsPerColumn-1); ?>
                     <?php if( isset($adms[$index]) ): ?>
-                        <?php echo link_to($adms[$index]->getName(), '@adm1_info?country_iso=' . $country_iso . 
-                                                                                        '&country_name=' . $country_name. 
+                        <?php echo link_to($adms[$index]->getName(), '@adm1_info?country_iso=' . $country->getCountry() . 
+                                                                                        '&country_name=' . $sf_params->get('country_name'). 
                                                                                         '&adm1_id=' . $adms[$index]->getId() . 
-                                                                                        '&adm1_name=' . $adms[$index]->getName()); ?>                    
+                                                                                        '&adm1_name=' . $adms[$index]->getName()); ?>
                     <?php endif; ?>
                 </td>
             <?php endfor; ?>

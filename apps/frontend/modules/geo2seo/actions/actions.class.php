@@ -38,18 +38,21 @@ class geo2seoActions extends sfActions
     public function executeCountry()
     {
         //this show all adm1 of the country
+        $this->country = GeoPeer::retrieveCountryByISO($this->getRequestParameter('country_iso'));
+        $this->forward404Unless($this->country);
+
+        $this->getUser()->getBC()->replaceLast(array('name' => $this->getRequestParameter('country_name'), 
+                                                    'uri' => '@country_info?country_iso=' . $this->country->getCountry() . '&name='. $this->getRequestParameter('country_name')));  
+                                                            
         $c = new Criteria();
-        $c->add(GeoPeer::COUNTRY, $this->getRequestParameter('country_iso'));
+        $c->add(GeoPeer::COUNTRY, $this->country->getCountry());
         $c->add(GeoPeer::DSG, 'ADM1');
 
         $this->adms = GeoPeer::doSelect($c);
         $this->rows_per_column = count($this->adms)/5; //5 columns
-        $this->country_iso = $this->getRequestParameter('country_iso');
-        $this->country_name = $this->getRequestParameter('country_name');
         
-        $this->getUser()->getBC()->replaceLast(array('name' => $this->country_name, 
-                                                    'uri' => '@country_info?country_iso=' . $this->country_iso . '&name='. $this->country_name));
-                                                            
+        $details = $this->country->getDetails($this->getUser()->getCatalogId());
+        $this->info = ($details) ? $details->getSeoInfo() : null;
     }
 
     public function executeAdm1Info()
@@ -64,7 +67,10 @@ class geo2seoActions extends sfActions
                                                     'uri' => $uri));
 
         $bc->add(array('name' => $adm1->getName()));
+        
         $this->adm1 = $adm1;
+        $details = $adm1->getDetails($this->getUser()->getCatalogId());
+        $this->info = ($details) ? $details->getSeoInfo() : null;
         $this->photo = StockPhotoPeer::getJoinNowPhotoByCatalog($this->getUser()->getCatalog());
     }
 }
