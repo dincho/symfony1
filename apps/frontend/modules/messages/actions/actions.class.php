@@ -19,7 +19,7 @@ class messagesActions extends prActions
         
         $c->addGroupByColumn(ThreadPeer::ID);
         $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
-        $c->addJoin(MessagePeer::SENDER_ID, MemberPeer::ID);
+        $c->addJoin(MessagePeer::SENDER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         $c->addDescendingOrderByColumn(ThreadPeer::UPDATED_AT);
         $this->threads_received = ThreadPeer::doSelectHydrateObject($c);
         
@@ -317,7 +317,7 @@ class messagesActions extends prActions
         
         
         $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
-        $this->getUser()->getBC()->removeLast()->add(array('name' => __('Conversation between You and %USERNAME%', array('%USERNAME%' => $profile->getUsername())) ));
+        if($profile) $this->getUser()->getBC()->removeLast()->add(array('name' => __('Conversation between You and %USERNAME%', array('%USERNAME%' => $profile->getUsername())) ));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {   
@@ -334,7 +334,7 @@ class messagesActions extends prActions
         }
                 
         MessagePeer::markAsReadInThread($thread->getId(), $member);
-        $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $member->getId(), $profile->getId(), $thread->getId());
+        if($profile) $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $member->getId(), $profile->getId(), $thread->getId());
       
         //template varibales
         $this->thread = $thread;
@@ -428,6 +428,7 @@ class messagesActions extends prActions
         } else {
             /* THREAD VIEW */
             
+            if( !$profile ) return true; //system message
             if( !$profile->isActive() ) $this->setFlash('msg_error', __('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $profile->getUsername())), false);
             
             //break/leave if there is no UNread messages

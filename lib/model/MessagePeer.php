@@ -96,7 +96,34 @@ class MessagePeer extends BaseMessagePeer
         
         return $message;
     }
-    
+
+    public static function sendSystem(BaseMember $recipient, $subject = '', $body = '', BaseThread $thread = null)
+    {
+        $message = new Message();
+        $reply = true; //default value
+        
+        $message->setRecipientId($recipient->getId());
+        $message->setSubject($subject);
+        $message->setBody(nl2br($body));
+
+        if( !$thread)
+        {
+            $reply = false;
+            $thread = new Thread();
+            $thread->setSubject($subject);
+        }
+        
+        $thread->setSnippet($message->getBody());
+        $message->setThread($thread);
+            
+        //save objects
+        $message->save();
+        
+        if( $recipient->getEmailNotifications() === 0 ) Events::triggerAccountActivitySystemMessage($recipient, $message);
+        
+        return $message;
+    }
+        
     public static function getThreadLastMessage($thread_id, $member_id)
     {
         $c = new Criteria();

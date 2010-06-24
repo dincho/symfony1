@@ -36,13 +36,19 @@ class ThreadPeer extends BaseThreadPeer
             $obj1 = new $cls();
             $obj1->hydrate($rs);
 
-            $omClass = MemberPeer::getOMClass();
+            
 
-            $cls = Propel::import($omClass);
-            $obj2 = new $cls();
-            $obj2->hydrate($rs, $startcol);
+            if( $rs->get($startcol) )
+            {
+                $omClass = MemberPeer::getOMClass();
+                $cls = Propel::import($omClass);
+                $obj2 = new $cls();
+                $obj2->hydrate($rs, $startcol);
+                $obj1->object = $obj2;
+            } else {
+                $obj1->object = null;
+            }
 
-            $obj1->object = $obj2;
             $obj1->unread = $rs->getInt($unread_index);
 
             $results[] = $obj1;

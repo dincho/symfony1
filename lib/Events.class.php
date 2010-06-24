@@ -37,6 +37,7 @@ class Events
     const LOGIN_REMINDER = 10;
     const ACCOUNT_ACTIVITY = 11;
     const ACCOUNT_ACTIVITY_MESSAGE = 19;
+    const ACCOUNT_ACTIVITY_SYSTEM_MESSAGE = 25;
     const ACCOUNT_ACTIVITY_WINK = 20;
     const ACCOUNT_ACTIVITY_HOTLIST = 21;
     const ACCOUNT_ACTIVITY_VISITOR = 22;
@@ -274,6 +275,21 @@ class Events
         return self::executeNotifications(self::ACCOUNT_ACTIVITY_MESSAGE, $global_vars, $recipient->getEmail(), $recipient);
     }
     
+    public static function triggerAccountActivitySystemMessage($recipient, $message)
+    {
+
+        $messages_url = LinkPeer::create('messages/index', $recipient->getId())->getUrl($recipient->getCatalogue());
+        $message_url  = LinkPeer::create('messages/thread?id=' . $message->getThreadId())->getUrl($recipient->getCatalogue());
+
+        
+        $global_vars = array('{URL_TO_MESSAGES}' => $messages_url,
+                             '{URL_TO_MESSAGE}' => $message_url,
+                             '{MESSAGE}' => $message->getBody(),
+                            );
+        
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_SYSTEM_MESSAGE, $global_vars, $recipient->getEmail(), $recipient);
+    }    
+    
     public static function triggerAccountActivityWink(BaseMember $member, BaseMember $from_member)
     {
         $profile_url = LinkPeer::create('@profile?username=' . $from_member->getUsername(), $member->getId())->getUrl($member->getCatalogue());
@@ -328,8 +344,6 @@ class Events
      */
     protected static function executeNotifications($event = -1, $global_vars = array(), $addresses = null, $object = null, $mail_from = null)
     {
-        
-        
         if ( !is_null($object) && $object instanceof Member )
         {
             $catalog = $object->getCatalogue();

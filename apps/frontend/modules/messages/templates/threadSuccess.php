@@ -8,8 +8,10 @@
         &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
       <?php endif; ?>
     </div>
-    <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
-    <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;</div>
+    <?php if($profile): ?>
+        <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
+        <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;</div>
+    <?php endif; ?>
     
     <br class="clear" />
 </div>
@@ -21,9 +23,17 @@
     <a name="message_<?php echo $message->getId();?>"></a>
     <table class="threaded_message">  
             <tr>
-                <td class="profile_photo"><?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?></td>
+                <td class="profile_photo">
+                    <?php if( $sender ): ?>
+                        <?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?>
+                    <?php endif; ?>
+                </td>
                 <td class="message_info">
-                    <?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
+                    <?php if( $sender ): ?>
+                        <?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
+                    <?php else: ?>
+                        <?php echo __('Internal System'); ?><br />
+                    <?php endif; ?>
                     <?php echo format_date_pr($message->getCreatedAt(null), null, null, $member->getTimezone()); ?>
                 </td>
                 <td  class="message_body">
@@ -34,7 +44,7 @@
     
 <?php endforeach; ?>
 
-<?php if( $profile->isActive() ): ?>
+<?php if( $profile && $profile->isActive() ): ?>
     <span id="feedback">&nbsp;</span>
 
     <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>

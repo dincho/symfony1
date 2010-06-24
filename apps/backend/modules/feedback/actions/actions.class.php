@@ -12,8 +12,6 @@ class feedbackActions extends sfActions
 
     public function preExecute()
     {
-        $this->processFilters();
-        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/filters');
         //breadcrumb
         $bc = $this->getUser()->getBC();
         $bc->removeLast(); //remove action name
@@ -21,6 +19,8 @@ class feedbackActions extends sfActions
 
     public function executeList()
     {
+        $this->processFilters();
+        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/filters');        
         $this->processSort();
         
         $c = new Criteria();
@@ -205,51 +205,66 @@ class feedbackActions extends sfActions
             $feedback->setSubject($this->getRequestParameter('subject'));
             $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
             $feedback->save();
-        
         }
         
         //to members
         $c = new Criteria();
         $this->addSendFiltersCriteria($c);
-        $c->setLimit(100); //max emails
         
+        if( MemberPeer::doCount($c) > 100 )
+        {
+            $this->setFlash('msg_error', 'Too many emails ( max 100 ), please be more specific in your criteria! This restriction to be removed after #1754');
+            $this->redirect('feedback/list');
+        }
+        
+        $send_options = $this->getRequestParameter('send_options');
         if (isset($this->send_to_members) && $this->send_to_members)
         {
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member)
             {
-                $mail = new prMail($this->getRequestParameter('mail_config'));
-                $mail->setFrom($this->getRequestParameter('mail_from'));
-                $mail->setSender($this->getRequestParameter('mail_from'));
-                $mail->setSubject($this->getRequestParameter('subject'));
-                $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-                $mail->addAddress($member->getEmail());
+                if( in_array('email_address', $send_options) )
+                {
+                    $mail = new prMail($this->getRequestParameter('mail_config'));
+                    $mail->setFrom($this->getRequestParameter('mail_from'));
+                    $mail->setSender($this->getRequestParameter('mail_from'));
+                    $mail->setSubject($this->getRequestParameter('subject'));
+                    $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                    $mail->addAddress($member->getEmail());
                 
-                try
-                {
-                    $mail->send();
-                } catch (sfException $e)
-                {
-                    if(SF_ENVIRONMENT == 'dev') 
+                    try
                     {
-                        if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
-                        throw new sfException($e->getMessage(), $e->getCode());
-                    }
+                        $mail->send();
+                    } catch (sfException $e)
+                    {
+                        if(SF_ENVIRONMENT == 'dev') 
+                        {
+                            if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
+                            throw new sfException($e->getMessage(), $e->getCode());
+                        }
                     
-                    $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
-                    $this->redirect('feedback/list');
+                        $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
+                        $this->redirect('feedback/list');
+                    }
+                
+                    $feedback = new Feedback();
+                    $feedback->setMailbox(FeedbackPeer::SENT);
+                    $feedback->setIsRead(true);
+                    $feedback->setMailTo($member->getEmail());
+                    $feedback->setMailFrom($this->getRequestParameter('mail_from'));
+                    $feedback->setSubject($this->getRequestParameter('subject'));
+                    $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                    $feedback->save();
                 }
                 
-                $feedback = new Feedback();
-                $feedback->setMailbox(FeedbackPeer::SENT);
-                $feedback->setIsRead(true);
-                $feedback->setMailTo($member->getEmail());
-                $feedback->setMailFrom($this->getRequestParameter('mail_from'));
-                $feedback->setSubject($this->getRequestParameter('subject'));
-                $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-                $feedback->save();
-            }
-        }
+                if( in_array('internal_inbox', $send_options) )
+                {
+                    MessagePeer::sendSystem($member, 
+                                            $this->getRequestParameter('subject'), 
+                                            $this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                }
+            }//foreach
+        }//if
     }
 
 
@@ -417,14 +432,16 @@ class feedbackActions extends sfActions
         $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
         $this->getUser()->getBC()->add(array('name' => 'Add Email Recipients', 'uri' => '#'));
 
-        $this->processSort();
+        $this->processFilters('backend/feedback/email_recipients/filters');
+        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/email_recipients/filters');
+        $this->processSort('backend/feedback/email_recipients/sort', 'Member::created_at');
         
         $c = new Criteria();
-        $this->addFiltersCriteria($c);
+        $this->addMembersFiltersCriteria($c);
         $this->addSortCriteria($c);
-        $c->setDistinct();
+        //$c->setDistinct();
         
-        $this->members = MemberPeer::doSelectJoinAll($c);
+        //$this->members = MemberPeer::doSelectJoinAll($c);
         
         if ($this->getRequest()->getMethod() == sfRequest::POST && !$this->getRequestParameter('per_page'))
         {
@@ -433,19 +450,18 @@ class feedbackActions extends sfActions
         
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Member', $per_page);
-        $pager->setCriteria($c);
-       
         $pager->setPage($this->getRequestParameter('page', 1));
-
+        $pager->setCriteria($c);
+        $pager->setPeerMethod('doSelectJoinAll');
+        $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
+        
         $this->pager = $pager;
-        
-        
     }
     
-    protected function processSort()
+    protected function processSort($namespace = 'backend/feedback/sort', $default_column = 'Feedback::created_at')
     {
-        $this->sort_namespace = 'backend/feedback/sort';
+        $this->sort_namespace = $namespace;
         
         if ($this->getRequestParameter('sort'))
         {
@@ -455,7 +471,7 @@ class feedbackActions extends sfActions
         
         if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
         {
-            $this->getUser()->setAttribute('sort', 'Feedback::created_at', $this->sort_namespace); //default sort column
+            $this->getUser()->setAttribute('sort', $default_column, $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
     }
@@ -478,13 +494,13 @@ class feedbackActions extends sfActions
         }
     }
 
-    protected function processFilters()
+    protected function processFilters($namespace = 'backend/feedback/filters')
     {
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
-            $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/filters');
-            $this->getUser()->getAttributeHolder()->add($filters, 'backend/feedback/filters');
+            $this->getUser()->getAttributeHolder()->removeNamespace($namespace);
+            $this->getUser()->getAttributeHolder()->add($filters, $namespace);
         }
     }
 
@@ -541,6 +557,14 @@ class feedbackActions extends sfActions
             $this->left_menu_selected = 3;
         }
         
+        $this->addMembersFiltersCriteria($c);
+    }
+    
+    protected function addMembersFiltersCriteria($c)
+    {
+        $bc = $this->getUser()->getBC();
+        $filters = $this->filters;
+        
         if (isset($filters['search_type']) && isset($filters['search_query']) && strlen($filters['search_query']) > 0)
         {
             switch ($filters['search_type']) {
@@ -566,5 +590,5 @@ class feedbackActions extends sfActions
                     break;
             }
         }
-    }
+    }    
 }

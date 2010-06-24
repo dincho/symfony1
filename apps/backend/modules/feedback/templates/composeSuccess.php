@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'Javascript') ?>
+<?php use_helper('Object', 'Javascript', 'Fillin') ?>
 
 <?php include_component('system', 'formErrors') ?>
 
@@ -42,7 +42,15 @@
       <tr>
         <th>Mail Config</th>
         <td><?php echo select_tag('mail_config', options_for_select($mail_options, $sf_request->getParameter('mail_config'))); ?></td>
-      </tr>      
+      </tr>
+      <tr>
+        <th>Send options</th>
+        <td>
+            <?php $f = fillIn('send_options[email_address]', 'c', 'email_address', true); ?>
+            <?php echo checkbox_tag('send_options[]', 'email_address', $f); ?><label>to email address</label>
+            <?php echo checkbox_tag('send_options[]', 'internal_inbox'); ?><label>to internal inbox</label>
+        </td>
+      </tr>
     <tbody>
   </table>
   <table class="details compose_options float-left">

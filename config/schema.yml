@@ -344,7 +344,7 @@ propel:
 
   message:
     id:
-    sender_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    sender_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade }
     recipient_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     thread_id:                { type: integer, required: false, foreignTable: thread, foreignReference: id, onDelete: setnull }
     subject:                  { type: longvarchar }

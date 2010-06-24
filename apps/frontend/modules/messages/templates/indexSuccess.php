@@ -38,9 +38,18 @@
             </td>          
             <td class="checkboxes"><?php echo checkbox_tag('selected[]', $thread->getId(), $is_selected, array('class' => 'checkbox', 'read' => (int) $thread->isRead())) ?></td>
           
-            <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' . $thread->object->getUsername()); ?></td>
+            <td class="profile_image">
+                <?php if( $thread->object): ?>
+                    <?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' . $thread->object->getUsername()); ?>
+                <?php endif; ?>
+            </td>
             <td class="message_from">
-                <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
+                <?php //var_dump($thread->object);exit(); ?>
+                <?php if( $thread->object ): ?>
+                    <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
+                <?php else: ?>
+                    <?php echo __('Internal System'); ?><br />
+                <?php endif; ?>
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, null, $member->getTimezone()); ?></a>
             </td>
             <td>
