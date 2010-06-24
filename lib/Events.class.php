@@ -31,6 +31,8 @@ class Events
     //others
     const TELL_FRIEND = 7;
     const GIFT_RECEIVED = 23;
+    const USER_RATED = 28;
+
     
     //reminders - crons
     const REGISTRATION_REMINDER = 9;
@@ -214,6 +216,19 @@ class Events
                                     
         return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $recipient->getEmail(), $recipient);
     }
+
+    public static function triggerUserIsRated(BaseMember $recipient, BaseMember $sender)
+    {
+
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
+        
+        $global_vars = array('{RATER_PROFILE_URL}' => $profile_url,
+                             '{RATER_USERNAME}' => $sender->getUsername(),
+                            );
+                                    
+        return self::executeNotifications(self::USER_RATED, $global_vars, $recipient->getEmail(), $recipient);
+ 
+    }
     
     /* REMINDERS */
     public static function triggerRegistrationReminder($member)
@@ -359,7 +374,7 @@ class Events
         $c->add(NotificationPeer::IS_ACTIVE, true);
         $c->add(NotificationPeer::CAT_ID, $catalog->getCatId());
         $notifications = NotificationPeer::doSelect($c);
-        
+
         $ret = true;
         foreach ($notifications as $notification) 
         {
