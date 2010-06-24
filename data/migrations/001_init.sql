@@ -1,18 +1,3 @@
-ALTER TABLE `member` ADD CONSTRAINT `member_FK_6`
-		FOREIGN KEY (`catalog_id`)
-		REFERENCES `catalogue` (`cat_id`)
-		ON UPDATE RESTRICT
-		ON DELETE SET NULL;
-/* old definition: (`main_photo_id`)
-   new definition: (`catalog_id`) */
-ALTER TABLE `member` DROP INDEX member_FI_6,        ADD  INDEX `member_FI_6` (`catalog_id`);
-/* old definition: (`subscription_id`)
-   new definition: (`main_photo_id`) */
-ALTER TABLE `member` DROP INDEX member_FI_7,        ADD  INDEX `member_FI_7` (`main_photo_id`);
-/* old definition: (`member_counter_id`)
-   new definition: (`subscription_id`) */
-ALTER TABLE `member` DROP INDEX member_FI_8,        ADD  INDEX `member_FI_8` (`subscription_id`);
-
 # This is a fix for InnoDB in MySQL >= 4.1.x
 # It "suspends judgement" for fkey relationships until are tables are set.
 SET FOREIGN_KEY_CHECKS = 0;
@@ -99,6 +84,179 @@ CREATE TABLE `ipblock`
 	UNIQUE KEY `uniq_item_type` (`item`, `item_type`),
 	KEY `item_type`(`item_type`)
 )Type=InnoDB;
+
+
+#-----------------------------------------------------------------------------
+#-- member_status
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_status`;
+
+
+CREATE TABLE `member_status`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+#-----------------------------------------------------------------------------
+#-- member_counter
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_counter`;
+
+
+CREATE TABLE `member_counter`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`current_flags` INTEGER default 0 NOT NULL,
+	`total_flags` INTEGER default 0 NOT NULL,
+	`sent_flags` INTEGER default 0 NOT NULL,
+	`sent_winks` INTEGER default 0 NOT NULL,
+	`sent_winks_day` INTEGER default 0 NOT NULL,
+	`received_winks` INTEGER default 0 NOT NULL,
+	`received_winks_day` INTEGER default 0 NOT NULL,
+	`read_messages` INTEGER default 0 NOT NULL,
+	`read_messages_day` INTEGER default 0 NOT NULL,
+	`sent_messages` INTEGER default 0 NOT NULL,
+	`sent_messages_day` INTEGER default 0 NOT NULL,
+	`received_messages` INTEGER default 0 NOT NULL,
+	`reply_messages` INTEGER default 0 NOT NULL,
+	`reply_messages_day` INTEGER default 0 NOT NULL,
+	`unsuspensions` INTEGER default 0 NOT NULL,
+	`assistant_contacts` INTEGER default 0 NOT NULL,
+	`assistant_contacts_day` INTEGER default 0 NOT NULL,
+	`profile_views` INTEGER default 0 NOT NULL,
+	`made_profile_views` INTEGER default 0 NOT NULL,
+	`hotlist` INTEGER default 0 NOT NULL,
+	`on_others_hotlist` INTEGER default 0 NOT NULL,
+	`deactivation_counter` INTEGER default 0 NOT NULL,
+	`active` INTEGER(1) default 0 NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+
+#-----------------------------------------------------------------------------
+#-- subscription
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `subscription`;
+
+
+CREATE TABLE `subscription`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	`can_create_profile` INTEGER default 0 NOT NULL,
+	`create_profiles` INTEGER default 0 NOT NULL,
+	`can_post_photo` INTEGER default 0 NOT NULL,
+	`post_photos` INTEGER default 0 NOT NULL,
+	`can_wink` INTEGER default 0 NOT NULL,
+	`winks` INTEGER default 0 NOT NULL,
+	`winks_day` INTEGER default 0 NOT NULL,
+	`can_read_messages` INTEGER default 0 NOT NULL,
+	`read_messages` INTEGER default 0 NOT NULL,
+	`read_messages_day` INTEGER default 0 NOT NULL,
+	`can_reply_messages` INTEGER default 0 NOT NULL,
+	`reply_messages` INTEGER default 0 NOT NULL,
+	`reply_messages_day` INTEGER default 0 NOT NULL,
+	`can_send_messages` INTEGER default 0 NOT NULL,
+	`send_messages` INTEGER default 0 NOT NULL,
+	`send_messages_day` INTEGER default 0 NOT NULL,
+	`can_see_viewed` INTEGER default 0 NOT NULL,
+	`see_viewed` INTEGER default 0 NOT NULL,
+	`can_contact_assistant` INTEGER default 0 NOT NULL,
+	`contact_assistant` INTEGER default 0 NOT NULL,
+	`contact_assistant_day` INTEGER default 0 NOT NULL,
+	`private_dating` INTEGER default 0 NOT NULL,
+	`pre_approve` INTEGER default 0 NOT NULL,
+	`amount` DECIMAL(7,2)  NOT NULL,
+	`period` INTEGER  NOT NULL,
+	`period_type` CHAR(1)  NOT NULL,
+	`imbra_amount` DECIMAL(7,2)  NOT NULL,
+	PRIMARY KEY (`id`)
+)Type=InnoDB;
+
+
+#-----------------------------------------------------------------------------
+#-- geo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `geo`;
+
+
+CREATE TABLE `geo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(100),
+	`dsg` VARCHAR(4)  NOT NULL,
+	`country` VARCHAR(4)  NOT NULL,
+	`adm1_id` INTEGER,
+	`adm2_id` INTEGER,
+	`latitude` FLOAT,
+	`longitude` FLOAT,
+	`population` INTEGER(10) default 0 NOT NULL,
+	`timezone` VARCHAR(255) default 'UTC',
+	PRIMARY KEY (`id`),
+	KEY `complex`(`country`, `dsg`, `adm1_id`, `adm2_id`, `name`),
+	INDEX `geo_FI_1` (`adm1_id`),
+	CONSTRAINT `geo_FK_1`
+		FOREIGN KEY (`adm1_id`)
+		REFERENCES `geo` (`id`)
+		ON DELETE SET NULL,
+	INDEX `geo_FI_2` (`adm2_id`),
+	CONSTRAINT `geo_FK_2`
+		FOREIGN KEY (`adm2_id`)
+		REFERENCES `geo` (`id`)
+		ON DELETE SET NULL
+)Type=InnoDB;
+
+
+#-----------------------------------------------------------------------------
+#-- catalogue
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `catalogue`;
+
+
+CREATE TABLE `catalogue`
+(
+	`cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(100) default '' NOT NULL,
+	`source_lang` VARCHAR(100) default '' NOT NULL,
+	`target_lang` VARCHAR(100) default '' NOT NULL,
+	`domain` VARCHAR(255) default '' NOT NULL,
+	`date_created` INTEGER(11) default 0 NOT NULL,
+	`date_modified` INTEGER(11) default 0 NOT NULL,
+	`author` VARCHAR(255) default '' NOT NULL,
+	PRIMARY KEY (`cat_id`)
+)Type=InnoDB;
+
+
+#-----------------------------------------------------------------------------
+#-- member_photo
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_photo`;
+
+
+CREATE TABLE `member_photo`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`member_id` INTEGER,
+	`file` VARCHAR(255),
+	`cropped` VARCHAR(255),
+	`is_main` INTEGER default 0 NOT NULL,
+	`auth` CHAR(1),
+	PRIMARY KEY (`id`),
+	INDEX `member_photo_FI_1` (`member_id`),
+	CONSTRAINT `member_photo_FK_1`
+		FOREIGN KEY (`member_id`)
+		REFERENCES `member` (`id`)
+		ON DELETE CASCADE
+)Type=InnoDB;
+
 
 #-----------------------------------------------------------------------------
 #-- member
@@ -191,12 +349,6 @@ CREATE TABLE `member`
 		FOREIGN KEY (`city_id`)
 		REFERENCES `geo` (`id`)
 		ON DELETE RESTRICT,
-	INDEX `member_FI_6` (`catalog_id`),
-	CONSTRAINT `member_FK_6`
-		FOREIGN KEY (`catalog_id`)
-		REFERENCES `catalogue` (`cat_id`)
-		ON UPDATE RESTRICT
-		ON DELETE SET NULL,
 	INDEX `member_FI_7` (`main_photo_id`),
 	CONSTRAINT `member_FK_7`
 		FOREIGN KEY (`main_photo_id`)
@@ -212,56 +364,6 @@ CREATE TABLE `member`
 		FOREIGN KEY (`member_counter_id`)
 		REFERENCES `member_counter` (`id`)
 		ON DELETE RESTRICT
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- member_status
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_status`;
-
-
-CREATE TABLE `member_status`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`title` VARCHAR(255),
-	PRIMARY KEY (`id`)
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- member_counter
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_counter`;
-
-
-CREATE TABLE `member_counter`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`current_flags` INTEGER default 0 NOT NULL,
-	`total_flags` INTEGER default 0 NOT NULL,
-	`sent_flags` INTEGER default 0 NOT NULL,
-	`sent_winks` INTEGER default 0 NOT NULL,
-	`sent_winks_day` INTEGER default 0 NOT NULL,
-	`received_winks` INTEGER default 0 NOT NULL,
-	`received_winks_day` INTEGER default 0 NOT NULL,
-	`read_messages` INTEGER default 0 NOT NULL,
-	`read_messages_day` INTEGER default 0 NOT NULL,
-	`sent_messages` INTEGER default 0 NOT NULL,
-	`sent_messages_day` INTEGER default 0 NOT NULL,
-	`received_messages` INTEGER default 0 NOT NULL,
-	`reply_messages` INTEGER default 0 NOT NULL,
-	`reply_messages_day` INTEGER default 0 NOT NULL,
-	`unsuspensions` INTEGER default 0 NOT NULL,
-	`assistant_contacts` INTEGER default 0 NOT NULL,
-	`assistant_contacts_day` INTEGER default 0 NOT NULL,
-	`profile_views` INTEGER default 0 NOT NULL,
-	`made_profile_views` INTEGER default 0 NOT NULL,
-	`hotlist` INTEGER default 0 NOT NULL,
-	`on_others_hotlist` INTEGER default 0 NOT NULL,
-	`deactivation_counter` INTEGER default 0 NOT NULL,
-	`active` INTEGER(1) default 0 NOT NULL,
-	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -435,29 +537,6 @@ CREATE TABLE `search_crit_desc`
 	CONSTRAINT `search_crit_desc_FK_2`
 		FOREIGN KEY (`desc_question_id`)
 		REFERENCES `desc_question` (`id`)
-		ON DELETE CASCADE
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- member_photo
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `member_photo`;
-
-
-CREATE TABLE `member_photo`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`member_id` INTEGER,
-	`file` VARCHAR(255),
-	`cropped` VARCHAR(255),
-	`is_main` INTEGER default 0 NOT NULL,
-	`auth` CHAR(1),
-	PRIMARY KEY (`id`),
-	INDEX `member_photo_FI_1` (`member_id`),
-	CONSTRAINT `member_photo_FK_1`
-		FOREIGN KEY (`member_id`)
-		REFERENCES `member` (`id`)
 		ON DELETE CASCADE
 )Type=InnoDB;
 
@@ -684,47 +763,6 @@ CREATE TABLE `block`
 		FOREIGN KEY (`profile_id`)
 		REFERENCES `member` (`id`)
 		ON DELETE CASCADE
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- subscription
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `subscription`;
-
-
-CREATE TABLE `subscription`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`title` VARCHAR(255),
-	`can_create_profile` INTEGER default 0 NOT NULL,
-	`create_profiles` INTEGER default 0 NOT NULL,
-	`can_post_photo` INTEGER default 0 NOT NULL,
-	`post_photos` INTEGER default 0 NOT NULL,
-	`can_wink` INTEGER default 0 NOT NULL,
-	`winks` INTEGER default 0 NOT NULL,
-	`winks_day` INTEGER default 0 NOT NULL,
-	`can_read_messages` INTEGER default 0 NOT NULL,
-	`read_messages` INTEGER default 0 NOT NULL,
-	`read_messages_day` INTEGER default 0 NOT NULL,
-	`can_reply_messages` INTEGER default 0 NOT NULL,
-	`reply_messages` INTEGER default 0 NOT NULL,
-	`reply_messages_day` INTEGER default 0 NOT NULL,
-	`can_send_messages` INTEGER default 0 NOT NULL,
-	`send_messages` INTEGER default 0 NOT NULL,
-	`send_messages_day` INTEGER default 0 NOT NULL,
-	`can_see_viewed` INTEGER default 0 NOT NULL,
-	`see_viewed` INTEGER default 0 NOT NULL,
-	`can_contact_assistant` INTEGER default 0 NOT NULL,
-	`contact_assistant` INTEGER default 0 NOT NULL,
-	`contact_assistant_day` INTEGER default 0 NOT NULL,
-	`private_dating` INTEGER default 0 NOT NULL,
-	`pre_approve` INTEGER default 0 NOT NULL,
-	`amount` DECIMAL(7,2)  NOT NULL,
-	`period` INTEGER  NOT NULL,
-	`period_type` CHAR(1)  NOT NULL,
-	`imbra_amount` DECIMAL(7,2)  NOT NULL,
-	PRIMARY KEY (`id`)
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
@@ -1050,26 +1088,6 @@ CREATE TABLE `suspended_by_flag`
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------
-#-- catalogue
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `catalogue`;
-
-
-CREATE TABLE `catalogue`
-(
-	`cat_id` INTEGER(11)  NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(100) default '' NOT NULL,
-	`source_lang` VARCHAR(100) default '' NOT NULL,
-	`target_lang` VARCHAR(100) default '' NOT NULL,
-	`domain` VARCHAR(255) default '' NOT NULL,
-	`date_created` INTEGER(11) default 0 NOT NULL,
-	`date_modified` INTEGER(11) default 0 NOT NULL,
-	`author` VARCHAR(255) default '' NOT NULL,
-	PRIMARY KEY (`cat_id`)
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
 #-- trans_unit
 #-----------------------------------------------------------------------------
 
@@ -1378,39 +1396,6 @@ CREATE TABLE `member_match`
 		FOREIGN KEY (`member2_id`)
 		REFERENCES `member` (`id`)
 		ON DELETE CASCADE
-)Type=InnoDB;
-
-#-----------------------------------------------------------------------------
-#-- geo
-#-----------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `geo`;
-
-
-CREATE TABLE `geo`
-(
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(100),
-	`dsg` VARCHAR(4)  NOT NULL,
-	`country` VARCHAR(4)  NOT NULL,
-	`adm1_id` INTEGER,
-	`adm2_id` INTEGER,
-	`latitude` FLOAT,
-	`longitude` FLOAT,
-	`population` INTEGER(10) default 0 NOT NULL,
-	`timezone` VARCHAR(255) default 'UTC',
-	PRIMARY KEY (`id`),
-	KEY `complex`(`country`, `dsg`, `adm1_id`, `adm2_id`, `name`),
-	INDEX `geo_FI_1` (`adm1_id`),
-	CONSTRAINT `geo_FK_1`
-		FOREIGN KEY (`adm1_id`)
-		REFERENCES `geo` (`id`)
-		ON DELETE SET NULL,
-	INDEX `geo_FI_2` (`adm2_id`),
-	CONSTRAINT `geo_FK_2`
-		FOREIGN KEY (`adm2_id`)
-		REFERENCES `geo` (`id`)
-		ON DELETE SET NULL
 )Type=InnoDB;
 
 #-----------------------------------------------------------------------------

@@ -148,6 +148,25 @@ abstract class sfMigration
     $data->loadData($fixturesDir, $con);
   }
 
+  protected function loadSqlFixtures()
+  {
+        $fixturesDir = $this->getMigrator()->getMigrationsFixturesDir().DIRECTORY_SEPARATOR.$this->getMigrationNumber();
+      
+        if (is_dir($fixturesDir))
+        {
+          $fixture_files = sfFinder::type('file')->ignore_version_control()->name('*.sql')->in($fixturesDir);
+        }
+        else
+        {
+          throw new sfException('No SQL fixtures exist for migration '.$this->getMigrationNumber());
+        }
+
+        foreach($fixture_files as $fixture_file)
+        {
+            $this->loadSql($fixture_file);
+        }
+  }
+  
   /**
    * Execute SQL from a file.
    * 
