@@ -73,7 +73,7 @@
             <?php echo link_to(__('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php endif; ?>
         
-        <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername(), 'class=sec_link') ?>
+        <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername() . ($sf_request->hasParameter('pager')?'&pager=1':''), 'class=sec_link') ?>
    </div>
     <span class="profile_gift">
         <?php if( $member->getMillionaire() ): ?>

@@ -84,7 +84,7 @@ class contentActions extends prActions
             $this->getUser()->getProfile()->incCounter('SentFlags');
             
             $this->setFlash('msg_ok', 'Thanks for taking time to report the profile! We appreciate it.');
-            $this->redirect('@profile?username=' . $profile->getUsername());
+            $this->redirect('@profile?username=' . $profile->getUsername() . ($this->getRequestParameter('pager')?'&pager=1':'') );
         }
         
                 $this->getUser()->getBC()->replaceFirst(array(

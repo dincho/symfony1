@@ -1,6 +1,9 @@
 <?php use_helper('dtForm') ?>
 <?php echo form_tag('content/flag', array('id' => 'flag')) ?>
     <?php echo input_hidden_tag('username', $profile->getUsername(), array('class' => 'hidden')) ?>
+    <?php if ( $sf_request->hasParameter('pager') ): ?>
+      <?php echo input_hidden_tag('pager', 1, array('class' => 'hidden')) ?>
+    <?php endif; ?>
     <div class="photo">
         <?php echo link_to(image_tag($profile->getMainPhoto()->getImg('100x100')), '@profile?username=' . $profile->getUsername()) ?><br />
         <?php echo link_to($profile->getUsername(), '@profile?username=' . $profile->getUsername(), 'class=sec_link') ?>
