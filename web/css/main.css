@@ -328,7 +328,7 @@ form fieldset br {
 #photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #public_reg_form label
 {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 
@@ -1057,7 +1057,7 @@ table.threaded_message .message_body {
     margin-top: 1px;
     margin-bottom: 1px;
     padding: 0px;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 #secondary_container #imbra_2 textarea {
@@ -1069,7 +1069,7 @@ table.threaded_message .message_body {
     padding: 0px;
     width: 480px;
     height: 60px;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 #secondary_container #imbra_2 label.form_1 {
@@ -1285,7 +1285,7 @@ div.title_first, #secondary_container label.title_first {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 #self_desc_form fieldset {
@@ -1298,7 +1298,7 @@ div.title_first, #secondary_container label.title_first {
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
-    font-size: 11px;
+    font-size: 12px;
     margin-right: 4px;
     margin-top: 6px;
 }
@@ -1876,7 +1876,7 @@ div.best_video div.right img {
 
 #register input, #register select {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
@@ -2024,7 +2024,7 @@ div.best_video div.right img {
 
 #registration_box_complete_page input, #registration_box_complete_page select {
     width: 146px;
-    font-size: 10px;
+    font-size: 12px;
     border: 1px solid #7995ae;
     background-color: #363639;
     color: #aca49c;
