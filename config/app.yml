@@ -5,6 +5,7 @@ all:
     version:            "v1.5"
     mail:
      enabled:           no
+     use_queue:         no
      error_exception:   no
      incoming:
         host:           imap.gmail.com
@@ -44,6 +45,7 @@ dev:
         "du.dincho.bonex.us":     www.dyskretnyuklad.com
     mail:
       enabled:          no
+      use_queue:        yes
       error_exception:  yes
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
@@ -51,13 +53,15 @@ stag:
         pl:             pl.pd.dincho.bonex.us
     mail:
       enabled:          yes
-      error_exception:  no      
+      use_queue:        yes
+      error_exception:  no
 prod:
     base_domain:        www.polishdate.com #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             www.szukammilionera.com
     mail:
       enabled:          yes
+      use_queue:        yes
 trans:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes

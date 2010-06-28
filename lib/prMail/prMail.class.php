@@ -1,11 +1,6 @@
 <?php
 class prMail extends sfMail
 {
-    //used as recepient container
-    //since the phpmailer property is protected
-    private $to;
-    private $copy_to_web = false;
-
     public function __construct($mail_config_key = null)
     {
         $mail_configs = sfConfig::get('app_mail_outgoing');
@@ -39,33 +34,6 @@ class prMail extends sfMail
         $this->setSender($mail_config['from']);
         
         //print_r($this->mailer);exit();
-    }
-
-    public function initialize()
-    {
-        parent::initialize();
-    }
-
-    public function CopyToWeb(Catalogue $catalog)
-    {
-        $webemail = new WebEmail();
-        $webemail->setSubject($this->getSubject());
-        $webemail->setBody($this->getBody());
-        $webemail->generateHash();
-    
-        $webemail_url  = LinkPeer::create('@web_email?hash=' . $webemail->getHash())->getUrl($catalog);
-        $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
-        $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
-        $this->setBody($body);
-        
-        $webemail->setBody($body); //set body again with parsed URL
-        $webemail->save();
-    }
-
-    public function addAddress($address, $name = null)
-    {
-        $this->to = $address;
-        parent::addAddress($address, $name);
     }
 
     public function send()

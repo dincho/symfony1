@@ -547,6 +547,21 @@ propel:
     body:           { type: varchar, size: 255, required: true }
     sent_at:        { type: timestamp }
     created_at:
+
+  PR_mail_message:
+    id:
+    mail_config_id: { type: tinyint }
+    sender:         { type: longvarchar }
+    mail_from:      { type: longvarchar }
+    recipients:     { type: longvarchar }
+    cc:             { type: longvarchar }
+    bcc:            { type: longvarchar }
+    subject:        { type: longvarchar }
+    body:           { type: longvarchar }
+    status:         { type: varchar, size: 10, required: true, default: "pending" }
+    status_message: { type: longvarchar, required: false }
+    created_at:
+    updated_at:
       
   web_email:
     id:

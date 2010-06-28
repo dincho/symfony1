@@ -35,29 +35,30 @@ class Notification extends BaseNotification
             }
         }
         
-        $mail = new prMail($this->getMailConfig());
+        $message = new PrMailMessage();
+        $message->setMailConfigId($this->getMailConfig());
+        
         if( !is_null($mail_from) )
         {
-            $mail->setFrom($mail_from);
-            $mail->setSender($mail_from);  
+            $message->setMailFrom($mail_from);
+            $message->setSender($mail_from);
         } else {
-            $mail->setFrom($this->getSendFrom());
-            $mail->setSender($this->getSendFrom());
+            $message->setMailFrom($this->getSendFrom());
+            $message->setSender($this->getSendFrom());
         }
-
         
-        $mail->setSubject($subject);
-        $mail->setBody($content);
+        $message->setSubject($subject);
+        $message->setBody($content);
         
         if( $this->getToAdmins() )
         {
-            $mail->addAddress($this->getSendTo());
+            $message->addRecipient($this->getSendTo());
         } else {
-            $mail->addAddresses($addresses);
-            $mail->CopyToWeb($catalog);
+            $message->addRecipients(array($addresses));
+            $message->createWebCopy($catalog);
         }
         
-        if( $this->getBcc() ) $mail->addBcc($this->getBcc());
-        return $mail->send();
+        if( $this->getBcc() ) $message->addBcc($this->getBcc());
+        return $message->saveAndSend();
     }
 }

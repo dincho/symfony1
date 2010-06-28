@@ -175,22 +175,27 @@ class feedbackActions extends sfActions
     {
         if ($this->getRequestParameter('mail_to'))
         {
-            $mail = new prMail($this->getRequestParameter('mail_config'));
-            $mail->setSender($this->getRequestParameter('mail_from'));
-            $mail->setFrom($this->getRequestParameter('mail_from'));
-            $mail->setSubject($this->getRequestParameter('subject'));
-            $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-            $mail->addAddress($this->getRequestParameter('mail_to'));
+            $message = new PrMailMessage();
+            $message->setMailConfigId($this->getRequestParameter('mail_config'));
+            $message->setSender($this->getRequestParameter('mail_from'));
+            $message->setMailFrom($this->getRequestParameter('mail_from'));
+            $message->setSubject($this->getRequestParameter('subject'));
+            $message->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+            $message->addRecipient($this->getRequestParameter('mail_to'));
             
             try
             {
-                $mail->send();
+                if( !$message->saveAndSend() )
+                {
+                    $this->setFlash('msg_error', 'Error sending email: unknown error or sending emails is disabled');
+                    $this->redirect('feedback/list');                            
+                }
             } catch (sfException $e)
             {   
                 if(SF_ENVIRONMENT == 'dev') 
                 {
                     if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
-                    throw new sfException($e->getMessage(), $e->getCode());
+                    throw $e;
                 }
                 
                 $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
@@ -210,31 +215,36 @@ class feedbackActions extends sfActions
         //to members
         $c = new Criteria();
         $this->addSendFiltersCriteria($c);
-        
-        if( MemberPeer::doCount($c) > 100 )
-        {
-            $this->setFlash('msg_error', 'Too many emails ( max 100 ), please be more specific in your criteria! This restriction to be removed after #1754');
-            $this->redirect('feedback/list');
-        }
-        
-        $send_options = $this->getRequestParameter('send_options');
+
         if (isset($this->send_to_members) && $this->send_to_members)
         {
+            $send_options = $this->getRequestParameter('send_options');
+            if( MemberPeer::doCount($c) > 100 )
+            {
+                $this->setFlash('msg_error', 'Too many emails ( max 100 ), please be more specific in your criteria! This restriction to be removed after #1754');
+                $this->redirect('feedback/list');
+            }
+            
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member)
             {
                 if( in_array('email_address', $send_options) )
                 {
-                    $mail = new prMail($this->getRequestParameter('mail_config'));
-                    $mail->setFrom($this->getRequestParameter('mail_from'));
-                    $mail->setSender($this->getRequestParameter('mail_from'));
-                    $mail->setSubject($this->getRequestParameter('subject'));
-                    $mail->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-                    $mail->addAddress($member->getEmail());
+                    $message = new PrMailMessage();
+                    $message->setMailConfigId($this->getRequestParameter('mail_config'));
+                    $message->setMailFrom($this->getRequestParameter('mail_from'));
+                    $message->setSender($this->getRequestParameter('mail_from'));
+                    $message->setSubject($this->getRequestParameter('subject'));
+                    $message->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                    $message->addRecipient($member->getEmail());
                 
                     try
                     {
-                        $mail->send();
+                        if( !$message->saveAndSend() )
+                        {
+                            $this->setFlash('msg_error', 'Error sending email: unknown error or sending emails is disabled');
+                            $this->redirect('feedback/list');                            
+                        }
                     } catch (sfException $e)
                     {
                         if(SF_ENVIRONMENT == 'dev') 
@@ -287,7 +297,48 @@ class feedbackActions extends sfActions
         $this->setFlash('msg_ok', 'Ticket #' . $ticket_number . ' has been added to the Bug Tracking system');
         $this->redirect('feedback/read?id=' . $message->getId());
     }
+    
+    public function executeOutgoingMailList()
+    {
+        $this->getUser()->checkPerm(array('feedback_edit'));
+        $this->getUser()->getBC()->add(array('name' => 'All Outgoing Emails', 'uri' => 'feedback/outgoingMailList'));
         
+        $this->processSort('backend/feedback/outgoing_mail_list/sort', 'PrMailMessage::updated_at');
+        
+        $c = new Criteria();
+        // $this->addFiltersCriteria($c);
+        $this->addSortCriteria($c);
+        
+        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        $pager = new sfPropelPager('PrMailMessage', $per_page);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->setCriteria($c);
+        $pager->init();
+        
+        $this->pager = $pager;
+    }
+    
+    public function executeOutgoingMailResend()
+    {
+        $this->getUser()->checkPerm(array('feedback_edit'));
+        $marked = $this->getRequestParameter('marked', false);
+        if (is_array($marked) && !empty($marked))
+        {
+            $c = new Criteria();
+            $c->add(PrMailMessagePeer::ID, $marked, Criteria::IN);
+            $c->addDescendingOrderByColumn(PrMailMessagePeer::CREATED_AT);
+            $messages = PrMailMessagePeer::doSelect($c);
+            
+            foreach($messages as $message)
+            {
+                $message->send();
+            }
+        }
+        
+        $this->setFlash('msg_ok', 'Selected messages has been scheduled for retry.');
+        $this->redirect('feedback/outgoingMailList');
+    }
+    
     protected function addSendFiltersCriteria(Criteria $c)
     {
         $has_second_crit = false;

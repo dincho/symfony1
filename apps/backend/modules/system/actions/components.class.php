@@ -139,6 +139,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
                                            array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),
                                            array('title' => 'Templates', 'uri' => 'feedbackTemplates/'),
+                                           array('title' => 'All Outgoing Emails', 'uri' => 'feedback/outgoingMailList'),
                                            ),
                         'messages' => array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
                                             array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
