@@ -98,7 +98,7 @@ class PrMailMessage extends BasePrMailMessage
         {
             $gmc = new GearmanClient();
             $gmc->addServer('127.0.0.1', 4730);
-            $handle = $gmc->doBackground('MailQueue_Send', $this->getId());
+            $handle = @$gmc->doBackground('MailQueue_Send', $this->getId());
             
             if ( $gmc->returnCode() == GEARMAN_SUCCESS )
             {            

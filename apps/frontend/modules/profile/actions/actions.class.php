@@ -488,42 +488,50 @@ class profileActions extends prActions
     {
       $request = $this->getRequest();
       $member = MemberPeer::retrieveByPk($request->getParameter('id'));
+      $rater = $this->getUser()->getProfile();
       $rate = min(round($request->getParameter('rate')), 5);
       
-      if(! $member){
+      if( !$member )
+      {
         return $this->renderText(__("Wrong member ID!"));
       }
 
       $c = new Criteria();
       $c->add(MemberRatePeer::MEMBER_ID, $member->getId());
-      $c->addAnd(MemberRatePeer::RATER_ID, $this->getUser()->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID, $rater->getId());
       $memberRate = MemberRatePeer::doSelectOne($c);
 
       if( !$memberRate )
       {
           $memberRate = new MemberRate();
           $memberRate->setMemberRelatedByMemberId($member);
-          $memberRate->setRaterId($this->getUser()->getId());
+          $memberRate->setRaterId($rater->getId());
       }
 
       $memberRate->setRate($rate);
-      $memberRate->save();
-
+      
       $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID, $this->getUser()->getId());
+      $c->add(MemberRatePeer::MEMBER_ID, $rater->getId());
       $c->addAnd(MemberRatePeer::RATER_ID, $member->getId());
       $reverseRate = MemberRatePeer::doSelectOne($c);
-
-      //mutual rate
-      if( $rate >= 4 && $reverseRate && $reverseRate->getRate() >= 4 )
+      
+      if( $memberRate->isModified() )
       {
-        $rater = $this->getUser()->getProfile();
-        Events::triggerUserIsRated($member, $rater);
-        Events::triggerUserIsRated($rater, $member);
+          //mutual rate
+        if( $rate >= 4 && $reverseRate && $reverseRate->getRate() >= 4 )
+        {
+            if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($member, $rater);
+            if( $rater->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($rater, $member);
+
+        } elseif( $rate == 5 )
+        {
+          if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityRate($member, $rater);
+        }
+          //we need to check some modified filed before saving this
+          $memberRate->save();
       }
-
+      
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
-
       return($this->renderText(__("Rated with %NB% stars", array('%NB%' => $rate))));
     }
 

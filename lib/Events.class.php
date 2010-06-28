@@ -31,7 +31,6 @@ class Events
     //others
     const TELL_FRIEND = 7;
     const GIFT_RECEIVED = 23;
-    const USER_RATED = 28;
 
     
     //reminders - crons
@@ -43,6 +42,8 @@ class Events
     const ACCOUNT_ACTIVITY_WINK = 20;
     const ACCOUNT_ACTIVITY_HOTLIST = 21;
     const ACCOUNT_ACTIVITY_VISITOR = 22;
+    const ACCOUNT_ACTIVITY_RATE = 26;
+    const ACCOUNT_ACTIVITY_MUTUAL_RATE = 27;
     const EOT = 24;
     
     /* REGISTRATION EVENTS */
@@ -217,18 +218,6 @@ class Events
         return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $recipient->getEmail(), $recipient);
     }
 
-    public static function triggerUserIsRated(BaseMember $recipient, BaseMember $sender)
-    {
-
-        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCulture());
-        
-        $global_vars = array('{RATER_PROFILE_URL}' => $profile_url,
-                             '{RATER_USERNAME}' => $sender->getUsername(),
-                            );
-                                    
-        return self::executeNotifications(self::USER_RATED, $global_vars, $recipient->getEmail(), $recipient);
- 
-    }
     
     /* REMINDERS */
     public static function triggerRegistrationReminder($member)
@@ -334,6 +323,29 @@ class Events
                             
         return self::executeNotifications(self::ACCOUNT_ACTIVITY_VISITOR, $global_vars, $member->getEmail(), $member);
     }
+
+
+    public static function triggerAccountActivityRate(BaseMember $recipient, BaseMember $sender)
+    {
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCatalogue());
+        
+        $global_vars = array('{RATER_PROFILE_URL}' => $profile_url,
+                             '{RATER_USERNAME}' => $sender->getUsername(),
+                            );
+                                    
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_RATE, $global_vars, $recipient->getEmail(), $recipient);
+    }
+    
+    public static function triggerAccountActivityMutualRate(BaseMember $recipient, BaseMember $sender)
+    {
+        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCatalogue());
+        
+        $global_vars = array('{RATER_PROFILE_URL}' => $profile_url,
+                             '{RATER_USERNAME}' => $sender->getUsername(),
+                            );
+                                    
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_MUTUAL_RATE, $global_vars, $recipient->getEmail(), $recipient);
+    }    
     
     public static function triggerEOT(BaseMemberSubscription $subscription)
     {

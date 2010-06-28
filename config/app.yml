@@ -46,7 +46,7 @@ dev:
     mail:
       enabled:          no
       use_queue:        yes
-      error_exception:  yes
+      error_exception:  no
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
