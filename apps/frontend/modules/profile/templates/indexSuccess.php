@@ -126,10 +126,8 @@
     </div>
     <br>
 
-    <div>
 
-    <?php /* <ul id="currentRatingStars" class="rating star<?php echo round($member->getRate()) ?>" style="float: left; margin-right: 5px"> */ ?>
-      <ul id="currentRatingStars" class="rating star<?php echo $member->getMemberRate() ?>" style="float: left; margin-right: 5px">
+      <ul id="currentRatingStars" class="rating star<?php echo $member->getMemberRate() ?>">
       <li class="one">
         <?php echo link_to_remote('1',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=1',
@@ -175,19 +173,13 @@
           'title' => __('5 Star')
         )) ?>
       </li>
-      <li style="float: left">
-        aaaa
-        dsfdfsd
-      </li>
     </ul>    
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div id="rateMessage" style="float: left"></div> <br class="clear">
-    
-    <!-- <div style="clear: both"> -->
+    <div id="rateMessage" style="float: left"></div>
+    <br class="clear">
 
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
     <?php include_partial('profile/recent_activities', array('member' => $member)); ?>
-    </div> 
+
 </div>
 
 <br class="clear" />

@@ -496,30 +496,29 @@ class profileActions extends prActions
       $c = new Criteria();
       $c->add(MemberRatePeer::MEMBER_ID, $member->getId());
       $c->addAnd(MemberRatePeer::RATER_ID, $this->getUser()->getId());
-      $alreadyRated = MemberRatePeer::doCount($c);
+      $memberRate = MemberRatePeer::doSelectOne($c);
 
-      //member should rate only once particular member
-      if( $alreadyRated )
+      if( !$memberRate )
       {
-        return($this->renderText(__("You've already rated this user!")));
+          $memberRate = new MemberRate();
+          $memberRate->setMemberRelatedByMemberId($member);
+          $memberRate->setRaterId($this->getUser()->getId());
       }
 
-      $memberRate = new MemberRate();
-      $memberRate->setMemberRelatedByMemberId($member);
-      $memberRate->setRaterId($this->getUser()->getId());
       $memberRate->setRate($rate);
       $memberRate->save();
 
-      $userMemberRate = MemberPeer::retrieveByPk($this->getUser()->getId());
-
       $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID,$this->getUser()->getId());
-      $c->addAnd(MemberRatePeer::RATER_ID,$member->getId());
+      $c->add(MemberRatePeer::MEMBER_ID, $this->getUser()->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID, $member->getId());
+      $reverseRate = MemberRatePeer::doSelectOne($c);
 
-      if($rate >= 4 && MemberPeer::doCount($c)){
-        $rater = MemberPeer::retrieveByPk($this->getUser()->getId());
-        Events::triggerUserIsRated($member,$rater);
-        Events::triggerUserIsRated($rater,$member);
+      //mutual rate
+      if( $rate >= 4 && $reverseRate && $reverseRate->getRate() >= 4 )
+      {
+        $rater = $this->getUser()->getProfile();
+        Events::triggerUserIsRated($member, $rater);
+        Events::triggerUserIsRated($rater, $member);
       }
 
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');

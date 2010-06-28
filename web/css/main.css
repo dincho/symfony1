@@ -634,7 +634,7 @@ form#sign_in fieldset a {
 }
 
 #winks div.member_profile img.x2 {
-	float: right;
+    float: right;
     margin-top: 86px;    
 }
 
@@ -1239,8 +1239,8 @@ form#edit_photos fieldset {
 }
 
 #secondary_container .photo span.delete {
-	background-color: #F00;
-	padding: 4px;
+    background-color: #F00;
+    padding: 4px;
 }
 
 .photo_authenticity {
@@ -1304,9 +1304,9 @@ div.title_first, #secondary_container label.title_first {
 }
 
 #self_desc_form input.text {
-    width: 130px;	
+    width: 130px;    
 }
-	
+    
 #self_desc_form .radio {
     width: 30px;
     margin-left: 2px;
@@ -1625,12 +1625,12 @@ span.sec_link {
 }
 
 .profile_not_available_dash_matsh {
-	border:none !important;
-	color: #F00 !important;
-	font-size: 12px !important;
-	font-weight: bold !important; 
-	padding-top: 45px !important; 
-	text-align: center !important;
+    border:none !important;
+    color: #F00 !important;
+    font-size: 12px !important;
+    font-weight: bold !important; 
+    padding-top: 45px !important; 
+    text-align: center !important;
 }
 /*search*/ /* profile setings */ /* END profile settings */
 
@@ -2713,14 +2713,14 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:f
 }
 
 /* ---=== border code follows ===--- */ /*
-	tlc = top left corner
-	trc = top right corner
-	blc = bottom left corner
-	brc = bottom right corner
-	lb = left border
-	rb = right border
-	tb = top border
-	bb = bottom border 
+    tlc = top left corner
+    trc = top right corner
+    blc = bottom left corner
+    brc = bottom right corner
+    lb = left border
+    rb = right border
+    tb = top border
+    bb = bottom border 
 */
 * html #tlc,* html #trc {
     height: 1%;
@@ -2922,7 +2922,7 @@ form.public_matches table.search_filter tr.search_filter_top_row td {
 }
 
 table.search_filter tr.separator td {
-	background-color: #000000;
+    background-color: #000000;
   height: 1px;
 }
 
@@ -2944,7 +2944,7 @@ tr.search_filter_top_row input, tr.search_filter_middle_row input {
 tr.search_filter_middle_row td {
   line-height: 14px;
   vertical-align: middle;
-	padding: 5px 0pt 0 5px;
+    padding: 5px 0pt 0 5px;
 }
 
 tr.search_filter_bottom_row {
@@ -2952,7 +2952,7 @@ tr.search_filter_bottom_row {
 }
 
 tr.search_filter_bottom_row td {
-	padding-left: 25px;
+    padding-left: 25px;
 }
 
 table.search_filter tr.actions {
@@ -3039,16 +3039,23 @@ table.geo_columns td {
 
 /* the default rating is placed as a background image in the ul */
 /* use the background position according to the table above to display the required images*/
-.rating{
-	width:80px;
-	height:16px;
-	margin:0 0 20px 0;
-	padding:0;
-	list-style:none;
-	clear:both;
-	position:relative;
-	background: url(/images/star-matrix.gif) no-repeat 0 0;
+#currentRatingStars {
+    float: left; 
+    margin-right: 5px
 }
+
+.rating {
+    width:80px;
+    height:16px;
+    margin:0 0 20px 0;
+    padding:0;
+    list-style:none;
+    clear:both;
+    position:relative;
+    background: url(/images/star-matrix.gif) no-repeat 0 0;
+    border: 0;
+}
+
 /* add these classes to the ul to effect the change to the correct number of stars */
 .star0 {background-position:0 0}
 .star1 {background-position:0 -16px}
@@ -3056,42 +3063,44 @@ table.geo_columns td {
 .star3 {background-position:0 -48px}
 .star4 {background-position:0 -64px}
 .star5 {background-position:0 -80px}
+
 ul.rating li {
-	cursor: pointer;
+    cursor: pointer;
  /*ie5 mac doesn't like it if the list is floated\*/
-	float:left;
-	/* end hide*/
-	text-indent:-999em;
+    float:left;
+    /* end hide*/
+    text-indent:-999em;
 }
+
 ul.rating li a {
-	position:absolute;
-	left:0;
-	top:0;
-	width:16px;
-	height:16px;
-	text-decoration:none;
-	z-index: 200;
-}
+    position:absolute;
+    left:0;
+    top:0;
+    width:16px;
+    height:16px;
+    text-decoration:none;
+    z-index: 200;
+    outline: none;
+} 
+
 ul.rating li.one a {left:0}
 ul.rating li.two a {left:16px;}
 ul.rating li.three a {left:32px;}
 ul.rating li.four a {left:48px;}
 ul.rating li.five a {left:64px;}
 ul.rating li a:hover {
-	z-index:2;
-	width:80px;
-	height:16px;
-	overflow:hidden;
-	left:0;	
-	background: url(/images/star-matrix.gif) no-repeat 0 0
+    z-index:2;
+    width:80px;
+    height:16px;
+    overflow:hidden;
+    left:0;    
+    background: url(/images/star-matrix.gif) no-repeat 0 0
 }
+
 ul.rating li.one a:hover {background-position:0 -96px;}
 ul.rating li.two a:hover {background-position:0 -112px;}
 ul.rating li.three a:hover {background-position:0 -128px}
 ul.rating li.four a:hover {background-position:0 -144px}
 ul.rating li.five a:hover {background-position:0 -160px}
 /* end rating code */
-h3{margin:0 0 2px 0;font-size:110%}
 
-
-/* end of star ratings */
