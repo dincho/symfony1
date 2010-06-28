@@ -137,7 +137,8 @@ class profileActions extends prActions
                     //unread messages flash message
                     $unread_c = new Criteria();
                     $unread_c->add(MessagePeer::SENDER_ID, $this->member->getId());
-                    $unread_msg_cnt = $this->getUser()->getProfile()->getUnreadMessagesCount();
+                    $c = $this->getUser()->getProfile()->getUnreadMessagesCriteria($unread_c);
+                    $unread_msg_cnt = MessagePeer::doCount($c);
                     if( $unread_msg_cnt > 0 )
                     {
                       $msg = __('You have %CNT_UNREAD% unread message(s) from %USERNAME%', 
