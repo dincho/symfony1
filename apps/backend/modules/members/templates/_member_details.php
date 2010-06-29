@@ -1,5 +1,5 @@
             <label for="username">Username</label>
-            <var id="username"><?php echo $member->getUsername() ?></var><br />
+            <var id="username"><?php echo link_to($member->getUsername(), 'members/edit?id=' . $member->getId() ) ?></var><br />
             
             <label for="first_name">First Name</label>
             <var id="first_name"><?php echo $member->getFirstName() ?></var><br />
