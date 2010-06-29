@@ -11,10 +11,13 @@
         <tr>
             <th>Username</th>
             <td><?php echo $message->getMember()->getUsername() ?></td>
+            <td><?php echo link_to('view FE profile', $message->getMember()->getFrontendProfileUrl(), array('popup' => true)) ?></td>
+
         </tr>
         <tr>
             <th>Profile ID</th>
             <td><?php echo $message->getMember()->getId() ?></td>
+            <td><?php echo link_to('edit BE profile', 'members/edit?id=' . $message->getMember()->getId(), array('popup' => true)) ?></td>
         </tr>
         <?php endif; ?>
         <tr>
