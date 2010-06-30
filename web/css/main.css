@@ -952,7 +952,7 @@ table.threaded_message .profile_photo {
     width: 55px;
 }
 
-.profile_photo_right {
+.new_message_profile_photo {
     width: 55px;
     float: right; 
     clear: left; 

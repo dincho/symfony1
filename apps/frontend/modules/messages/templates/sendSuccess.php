@@ -13,7 +13,7 @@
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
     <fieldset class="actions">
-        <div class="profile_photo_right" >
+        <div class="new_message_profile_photo" >
             <?php if( $recipient ): ?>
                 <?php echo link_to_unless(!$recipient->isActive(), profile_thumbnail_photo_tag($recipient), '@profile?username=' . $recipient->getUsername()); ?>
             <?php endif; ?>
