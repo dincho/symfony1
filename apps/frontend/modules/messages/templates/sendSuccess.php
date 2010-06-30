@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'dtForm') ?>
+<?php use_helper('Javascript', 'dtForm', 'prProfilePhoto') ?>
 
 <span id="feedback">&nbsp;</span>
 
@@ -13,6 +13,12 @@
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
     
     <fieldset class="actions">
+        <div class="profile_photo_right" >
+            <?php if( $recipient ): ?>
+                <?php echo link_to_unless(!$recipient->isActive(), profile_thumbnail_photo_tag($recipient), '@profile?username=' . $recipient->getUsername()); ?>
+            <?php endif; ?>
+        </div>
+
         <?php echo pr_label_for('to', __('To:')) ?>
         <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br />
         

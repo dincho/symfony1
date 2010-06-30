@@ -952,6 +952,14 @@ table.threaded_message .profile_photo {
     width: 55px;
 }
 
+.profile_photo_right {
+    width: 55px;
+    float: right; 
+    clear: left; 
+    margin: 10px;
+}
+
+
 table.threaded_message .message_info {
     width: 140px;
 }
