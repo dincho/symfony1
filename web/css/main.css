@@ -3116,7 +3116,21 @@ ul.rating li.five a:hover {background-position:0 -160px}
 #secondary_container #recaptcha_post_your_story{
     padding-left: 70px;
 }
+
+.recaptchatable #recaptcha_instructions_image {
+  border:0 none;
+  bottom:auto;
+  color: #92897E;
+  left:auto;
+  margin:0;
+  padding:0;
+  position:static;
+  right:auto;
+  text-align:left !important;
+  top:auto;
+}
 .recaptchatable #recaptcha_response_field {
+  border:1px solid #7995AE !important;
   bottom:7px !important;
   font-size:10pt;
   height:16px;
