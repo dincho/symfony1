@@ -17,9 +17,10 @@
         <?php echo pr_label_for('your_story', __('Your Story')) ?>
         <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30, 'maxlength' => 2500)) ?><br />
 				<?php echo javascript_tag('parseCharCounts();') ?><br />
-				
-        <?php echo recaptcha_get_html(sfConfig::get('app_recaptcha_publickey')) ?>
-
+							
+				<div id="recaptcha_post_your_story">
+          <?php echo recaptcha_get_html(sfConfig::get('app_recaptcha_publickey')) ?>
+        </div>
     </fieldset>
     <fieldset>
         <label><input type="checkbox" name="tos" id="tos" class="tos" value="1" /></label>

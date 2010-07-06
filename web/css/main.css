@@ -3112,3 +3112,17 @@ ul.rating li.four a:hover {background-position:0 -144px}
 ul.rating li.five a:hover {background-position:0 -160px}
 /* end rating code */
 
+
+#secondary_container #recaptcha_post_your_story{
+    padding-left: 70px;
+}
+.recaptchatable #recaptcha_response_field {
+  bottom:7px !important;
+  font-size:10pt;
+  height:16px;
+  margin:0 !important;
+  padding:0 !important;
+  position:absolute !important;
+  width:145px !important;
+}
+
