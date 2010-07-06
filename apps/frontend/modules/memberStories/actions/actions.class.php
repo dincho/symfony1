@@ -142,7 +142,14 @@ class memberStoriesActions extends prActions
           {
             $this->getRequest()->setError('tos', 'You must agree to Terms of Use and Privacy Policy to continue.');
             $return = false;
-          }            
+          }
+          $recaptcha_Validator = new sfReCaptchaValidator();
+          $recaptcha_Validator->initialize($this->getContext());
+          if (!$recaptcha_Validator->execute($this->getRequestParameter('recaptcha_response_field'), $error)) 
+          {
+            $this->getRequest()->setError('recaptcha_response_field', __('Incorrect captcha!'));
+            $return = false;
+          }
         }
         return $return;
     }

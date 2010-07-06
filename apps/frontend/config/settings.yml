@@ -104,7 +104,7 @@ all:
     standard_helpers:       [Partial, Cache, Form, I18N, prI18N, multiDomains]
 
     # Activated modules from plugins or from the symfony core
-    enabled_modules:        [sfSimpleGoogleSitemap]
+    enabled_modules:        [sfSimpleGoogleSitemap, recaptcha]
 
     # Charset used for the response
     charset:                utf-8

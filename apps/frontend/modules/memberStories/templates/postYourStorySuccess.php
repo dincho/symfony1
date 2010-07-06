@@ -1,4 +1,4 @@
-<?php use_helper('dtForm', 'Javascript') ?>
+<?php use_helper('dtForm', 'Javascript', 'recaptcha') ?>
 
 <?php echo __('If you have experience of personal relation with a Polish single and would like to share it with other members, please fill out the form below.<br />After review, we will publish your story and your name.') ?>
 <?php echo form_tag('memberStories/postYourStory', array('class' => 'msg_form', 'id' => 'post_story')) ?>
@@ -16,7 +16,10 @@
         
         <?php echo pr_label_for('your_story', __('Your Story')) ?>
         <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30, 'maxlength' => 2500)) ?><br />
-				<?php echo javascript_tag('parseCharCounts();') ?>
+				<?php echo javascript_tag('parseCharCounts();') ?><br />
+				
+        <?php echo recaptcha_get_html(sfConfig::get('app_recaptcha_publickey')) ?>
+
     </fieldset>
     <fieldset>
         <label><input type="checkbox" name="tos" id="tos" class="tos" value="1" /></label>

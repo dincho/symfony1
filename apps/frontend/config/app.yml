@@ -61,6 +61,9 @@ all:
   immediately_subscription_upgrade:   yes
       
 dev:
+  recaptcha:
+    publickey:            "6Lf1QrsSAAAAAG_ITvhe-lHXS6ee2H2regzVKvIY"
+    privatekey:           "6Lf1QrsSAAAAALCjP4N_HWs1xTliBkNDTAiaZpD2"
   gmaps_key:
     pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
