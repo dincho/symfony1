@@ -30,13 +30,13 @@ class registrationActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = new Member();
+            $member->initNewMember();
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
             $member->changeSubscription(SubscriptionPeer::FREE);
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
-            $member->initNewMember();
             $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->setRegistrationIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->setLanguage($this->getUser()->getCulture());
@@ -64,7 +64,7 @@ class registrationActions extends prActions
         $this->getResponse()->addMeta('description', 'JoinNow description');
         $this->getResponse()->addMeta('keywords', 'JoinNow keywords');
         
-        $this->photo = StockPhotoPeer::getJoinNowPhotoByCulture($this->getUser()->getCulture());
+        $this->photo = StockPhotoPeer::getJoinNowPhotoByCatalog($this->getUser()->getCatalog());
                 
         return sfView::SUCCESS;
     }
