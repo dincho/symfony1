@@ -35,7 +35,21 @@ class prMail extends sfMail
         
         //print_r($this->mailer);exit();
     }
-
+    
+    public function addBccRecipients(array $recipients)
+    {
+        foreach ($recipients as $recipient) {
+            parent::addBcc($recipient);
+        }
+    }
+    
+    public function addCcRecipients(array $recipients)
+    {
+        foreach ($recipients as $recipient) {
+            parent::addCc($recipient);
+        }
+    }    
+    
     public function send()
     {
         $this->setBody(nl2br($this->getBody()));
