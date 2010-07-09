@@ -130,6 +130,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Flags/ Suspensions', 'uri' => 'reports/flagsSuspensions'),
                                            array('title' => 'IMBRA', 'uri' => 'reports/imbra'),
                                            array('title' => 'Registration', 'uri' => 'reports/registration'),
+                                           array('title' => 'Outgoing Emails', 'uri' => 'reports/outgoingEmails'),
                                            ),
                         'feedback'  => array(array('title' => 'All Messages (' . $feedback_cnt_all . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'),
                                            array('title' => 'From Paid Members (' . $feedback_cnt_paid . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[paid]=1'),
