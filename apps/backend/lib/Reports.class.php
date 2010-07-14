@@ -301,6 +301,7 @@ class Reports
         $customObject = new CustomQueryObject();
         
         $sql = 'SELECT `sender`, 
+                  SUBSTRING_INDEX(SUBSTRING_INDEX(`sender`, "<",-1), ">",1) as email,
                   SUM(IF( DATE(`created_at`) = CURDATE(), 1, 0 )) AS today,
                   SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 1 DAY), 1, 0 )) AS yesterday,
                   SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 2 DAY), 1, 0 )) AS two_days_ago,

@@ -14,7 +14,7 @@
     </thead>
     <?php foreach ($outgoingMails as $key => $object): ?>
         <tr>
-            <td><?php echo $object->getSender() ?></td>
+            <td><?php echo $object->getEmail() ?></td>
             <td><?php echo number_format($object->getToday(), 0, '.', ',') ?></td>
             <td><?php echo number_format($object->getYesterday(), 0, '.', ',') ?></td>
             <td><?php echo number_format($object->getTwoDaysAgo(), 0, '.', ',') ?></td>

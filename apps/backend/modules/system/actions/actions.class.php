@@ -126,7 +126,7 @@ class systemActions extends sfActions
 	
 	//clear the cache
 	$sf_root_cache_dir = sfConfig::get('sf_root_cache_dir');
-	$cache_dir = $sf_root_cache_dir.'/frontend/*/i18n/';
+	$cache_dir = $sf_root_cache_dir.'/frontend/*/i18n/*';
 	sfToolkit::clearGlob($cache_dir);
 	
 	$this->setFlash('msg_ok', 'Frontend i18n cache has been removed');
