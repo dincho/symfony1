@@ -40,12 +40,12 @@ dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
     catalog_domains:    
-        "localhost":     localhost/pr/frontend_dev.php
+        "pd.dincho.bonex.us":     www.polishdate.com
         "pl.pd.dincho.bonex.us":  www.szukammilionera.com
         "du.dincho.bonex.us":     www.dyskretnyuklad.com
     mail:
       enabled:          no
-      use_queue:        no
+      use_queue:        yes
       error_exception:  no
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
