@@ -296,6 +296,25 @@ class Reports
         return $objects;        
     }
     
+    public static function getOutgoingEmails()
+    {
+        $customObject = new CustomQueryObject();
+        
+        $sql = 'SELECT `sender`, 
+                  SUM(IF( DATE(`created_at`) = CURDATE(), 1, 0 )) AS today,
+                  SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 1 DAY), 1, 0 )) AS yesterday,
+                  SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 2 DAY), 1, 0 )) AS two_days_ago,
+                  count(*) as all_time,
+                  DATEDIFF(max(`created_at`),min(`created_at`))+1 as all_days,
+                  count(*)/(DATEDIFF(max(`created_at`),min(`created_at`))+1) as average_day
+                FROM `pr_mail_message` 
+                group by `sender` 
+                order by `sender`';
+             
+        $objects = $customObject->query($sql);
+        return $objects;        
+    }
+
     protected static function addPeriods($sql)
     {
         $periods_sql = 'SUM(IF( DATE(%DATE_FIELD%) = CURDATE(), 1, 0 )) AS today,

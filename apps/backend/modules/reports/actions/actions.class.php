@@ -122,24 +122,7 @@ class reportsActions extends sfActions
     {
         $this->getUser()->getBC()->replaceLast(array('name' => 'Outgoing Emails'));
         
-        $this->memberContacts = Reports::getMemberContact($this->filters);
-        $this->loginActivity = Reports::getLoginActivity();
-         
-        //most active members
-        $c = new Criteria();
-        $this->active_namespace = 'backend/reports/sort_active';
-        $this->processActivitySort($this->active_namespace, 'sort_active', 'MemberCounter::profile_views');
-        $this->addActivitySortCriteria($c, $this->active_namespace, 'sort_active');
-        $c->setLimit(60);
-        $this->mostActiveMembers = MemberPeer::doSelectJoinMemberCounter($c);
-        
-        //most popular members
-        $c = new Criteria();
-        $this->popular_namespace = 'backend/reports/sort_popular';
-        $this->processActivitySort($this->popular_namespace, 'sort_popular', 'MemberCounter::made_profile_views');
-        $this->addActivitySortCriteria($c, $this->popular_namespace, 'sort_popular');
-        $c->setLimit(60);
-        $this->mostPopularMembers = MemberPeer::doSelectJoinMemberCounter($c);
+        $this->outgoingMails = Reports::getOutgoingEmails();
     }
 
     
