@@ -40,9 +40,10 @@ dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
     catalog_domains:    
-        "pd.dincho.bonex.us":     www.polishdate.com
-        "pl.pd.dincho.bonex.us":  www.szukammilionera.com
-        "du.dincho.bonex.us":     www.dyskretnyuklad.com
+        "pd.dincho.bonex.us":       www.polishdate.com
+        "devel.pd.dincho.bonex.us": www.polishdate.com
+        "pl.pd.dincho.bonex.us":    www.szukammilionera.com
+        "du.dincho.bonex.us":       www.dyskretnyuklad.com
     mail:
       enabled:          no
       use_queue:        no
@@ -51,6 +52,11 @@ stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
+    catalog_domains:    
+        "pd.dincho.bonex.us":       www.polishdate.com
+        "devel.pd.dincho.bonex.us": www.polishdate.com
+        "pl.pd.dincho.bonex.us":    www.szukammilionera.com
+        "du.dincho.bonex.us":       www.dyskretnyuklad.com
     mail:
       enabled:          yes
       use_queue:        yes

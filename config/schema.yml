@@ -560,7 +560,7 @@ propel:
     sent_at:        { type: timestamp }
     created_at:
 
-  PR_mail_message:
+  pr_mail_message:
     id:
     mail_config_id: { type: tinyint }
     sender:         { type: longvarchar }

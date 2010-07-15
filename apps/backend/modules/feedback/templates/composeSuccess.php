@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'Javascript', 'Fillin') ?>
+<?php use_helper('Object', 'Javascript', 'fillIn') ?>
 
 <?php include_component('system', 'formErrors') ?>
 
