@@ -145,7 +145,8 @@ class memberStoriesActions extends prActions
           }
           $recaptcha_Validator = new sfReCaptchaValidator();
           $recaptcha_Validator->initialize($this->getContext());
-          if (!$recaptcha_Validator->execute($this->getRequestParameter('recaptcha_response_field'), $error)) 
+          $recaptcha_value = $this->getRequestParameter('recaptcha_response_field');
+          if (!$recaptcha_Validator->execute($recaptcha_value, $error)) 
           {
             $this->getRequest()->setError('recaptcha_response_field', __('Incorrect captcha!'));
             $return = false;
