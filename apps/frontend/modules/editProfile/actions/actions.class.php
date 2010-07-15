@@ -7,57 +7,66 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class editProfileActions extends prActions
+class editProfileActions extends BaseEditProfileActions
 {
 
+    public function preExecute()
+    {
+        $this->setMember();
+    }
+    
+    public function setMember()
+    {
+        $this->member = $this->getUser()->getProfile();
+        $this->forward404Unless($this->member);
+    }
+    
     public function executeRegistration()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $member = MemberPeer::retrieveByPK($this->getUser()->getid());
-        $this->forward404Unless($member); //just in case
+
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $member->setCountry($this->getRequestParameter('country'));
-            $member->setAdm1Id($this->getRequestParameter('adm1_id'));
-            $member->setAdm2Id($this->getRequestParameter('adm2_id'));
-            $member->setCityId($this->getRequestParameter('city_id'));
-            $member->setZip($this->getRequestParameter('zip'));
-            $member->setNationality($this->getRequestParameter('nationality'));
-            $member->setPurpose($this->getRequestParameter('purpose'));
+            $this->member->setCountry($this->getRequestParameter('country'));
+            $this->member->setAdm1Id($this->getRequestParameter('adm1_id'));
+            $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
+            $this->member->setCityId($this->getRequestParameter('city_id'));
+            $this->member->setZip($this->getRequestParameter('zip'));
+            $this->member->setNationality($this->getRequestParameter('nationality'));
+            $this->member->setPurpose($this->getRequestParameter('purpose'));
             
             $flash_error = '';
-            if ($member->getEmail() != $this->getRequestParameter('email')) //email changed
+            if ($this->member->getEmail() != $this->getRequestParameter('email')) //email changed
             {
                 $flash_error .= 'IMPORTANT! Your email address change is not complete!';
-                $member->setTmpEmail($this->getRequestParameter('email'));
-                Events::triggerNewEmailConfirm($member);
+                $this->member->setTmpEmail($this->getRequestParameter('email'));
+                Events::triggerNewEmailConfirm($this->member);
             }
             
             if ($this->getRequestParameter('password')) //password changed
             {
                 if ($this->getUser()->getAttribute('must_change_pwd', false)) //comming from forgot password
                 {
-                    $member->setPassword($this->getRequestParameter('password'));
-                    $member->setMustChangePwd(false);
+                    $this->member->setPassword($this->getRequestParameter('password'));
+                    $this->member->setMustChangePwd(false);
                     $this->getUser()->setAttribute('must_change_pwd', false);
                 } else
                 {
                     $flash_error .= 'IMPORTANT! Your password change is complete!';
-                    $member->setNewPassword($this->getRequestParameter('password'));
-                    Events::triggerNewPasswordConfirm($member);
+                    $this->member->setNewPassword($this->getRequestParameter('password'));
+                    Events::triggerNewPasswordConfirm($this->member);
                 }
             }
             
-            $member->save();
+            $this->member->save();
             if ($flash_error) $this->setFlash('msg_error', $flash_error); //password and email changes
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
             $this->redirect('dashboard/index'); //the dashboard
         } else {
-          $this->has_adm1 = ( !is_null($member->getAdm1Id()) ) ? true : false;
-          $this->has_adm2 = ( !is_null($member->getAdm2Id()) ) ? true : false;
+          $this->has_adm1 = ( !is_null($this->member->getAdm1Id()) ) ? true : false;
+          $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;
         }
         
-        $this->member = $member;
     }
 
     public function validateRegistration()
@@ -66,11 +75,9 @@ class editProfileActions extends prActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            $member = MemberPeer::retrieveByPK($this->getUser()->getid());
-            $this->forward404Unless($member); //just in case
             $mail = $this->getRequestParameter('email');
             
-            if ($member->getEmail() != $mail) //new mail
+            if ($this->member->getEmail() != $mail) //new mail
             {
                 $myValidator = new sfPropelUniqueValidator();
                 $myValidator->initialize($this->getContext(), 
@@ -120,9 +127,6 @@ class editProfileActions extends prActions
     public function handleErrorRegistration()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getid());
-        $this->forward404Unless($this->member); //just in case
-        
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
         
         if( $this->getRequestParameter('adm1_id') && 
@@ -140,9 +144,6 @@ class editProfileActions extends prActions
     public function executeSelfDescription()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
-        
 
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -291,7 +292,6 @@ class editProfileActions extends prActions
 
     public function handleErrorSelfDescription()
     {
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
@@ -302,8 +302,6 @@ class editProfileActions extends prActions
     public function executeEssay()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -326,195 +324,32 @@ class editProfileActions extends prActions
     public function handleErrorEssay()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case  
         return sfView::SUCCESS;
     }
 
     public function executePhotos()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
-        
-
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            if ($this->getRequestParameter('commit') && $this->getRequest()->getFileSize('new_photo'))
-            {
-                $new_photo = new MemberPhoto();
-                $new_photo->setMember($this->member);
-                $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
-                $new_photo->save();
-                
-                $this->member->setLastPhotoUploadAt(time());
-                $this->member->setReviewedById(null);
-                $this->member->setReviewedAt(null);                
-            }
-            
-            //set main photo
-            if ($this->getRequestParameter('main_photo'))
-            {
-                $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo) $this->member->setMemberPhoto($photo);
-            }
-            
-            //YouTube Video
-            $youtube_url = $this->getRequestParameter('youtube_url');
-            $matches = array();
-            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9_]+)#i', $youtube_url, $matches);
-            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
-            $this->member->save();
-            
-            //if the form is submited by "Save and continue" button
-            if (! $this->getRequestParameter('commit'))
-            {
-                $this->setFlash('msg_ok', 'Your Photos have been updated');
-                $this->redirect('dashboard/index');
-            } 
-            
-            //else the upload button is pressed "commit", so show the photos .. 
-            //BUT redirect to itself, to prevent form resubmit
-            $this->redirect('editProfile/photos');
-        }
-        
-        
-        $this->photos = $this->member->getMemberPhotos();
-        
-        //message deletion confirmation
-        if( $this->getRequestParameter('confirm_delete') )
-        {
-            $contoller = $this->getController();
-            $i18n = $this->getContext()->getI18N();
-            
-            $i18n_options = array('%URL_FOR_CANCEL%' => $contoller->genUrl('editProfile/photos'), 
-                                  '%URL_FOR_CONFIRM%' => $contoller->genUrl('editProfile/deletePhoto?id=' . $this->getRequestParameter('confirm_delete')));
-            $del_msg = $i18n->__('Are you sure you want to delete selected photo? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>', $i18n_options);
-            $this->setFlash('msg_error', $del_msg, false);
-        }        
-    }
-
-    public function validatePhotos()
-    {
-        if ($this->getRequest()->getMethod() == sfRequest::POST )
-        {
-          if( $this->getRequestParameter('commit') ) //uploading photo
-          {
-            $member = MemberPeer::retrieveByPK($this->getUser()->getId());
-            $subscription = $member->getSubscription();
-            $cnt_photos = $member->countMemberPhotos();
-            
-            $file_arr = $this->getRequest()->getFile('new_photo');
-            if( !$file_arr['name'] )
-            {
-                $this->getRequest()->setError('new_photo', 'Please select photo');
-                return false;
-            }
-            
-            if( $file_arr['tmp_name'] )
-            {
-                $image_info = getimagesize($file_arr['tmp_name']);
-                
-                if( empty($image_info) )
-                {
-                    $this->getRequest()->setError('new_photo', 'Please select correct file type');
-                    return false;
-                }
-                
-                if( $image_info[0] < 200 )
-                {
-                    $this->getRequest()->setError('new_photo', 'The photo should be at least 200px wide');
-                    return false;
-                }
-            }
-                        
-            if (! $subscription->getCanPostPhoto())
-            {
-              $this->getRequest()->setError('subscription', sprintf('%s: In order to post photo you need to upgrade your membership.', $subscription->getTitle()));
-              return false;
-            }
-            
-            if ($cnt_photos >= $subscription->getPostPhotos())
-            {
-              $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.', $subscription->getTitle()));
-              return false;
-            }
-            
-          } elseif( $this->getRequestParameter('youtube_url') ) //save and continue clicked
-          { 
-            $youValidator = new sfRegexValidator();
-            $youValidator->initialize($this->getContext(), array(
-              'match_error' => 'Youtube error',
-              'pattern'       => '/http:\/\/www\.youtube\.com\/watch\?v=[a-z0-9_]+/i',
-            ));
-            
-            $value = $this->getRequestParameter('youtube_url');
-            $error = '';
-            if (!$youValidator->execute($value, $error))
-            {
-              $this->getRequest()->setError('youtube_url', $error);
-              return false;
-            }
-          }
-        }
-        
-        return true;
-    }
-
-    public function handleErrorPhotos()
-    {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
-        $this->photos = $this->member->getMemberPhotos();
-        return sfView::SUCCESS;
-    }
-
-    public function executeDeletePhoto()
-    {
-        $c = new Criteria();
-        $c->add(MemberPhotoPeer::MEMBER_ID, $this->getUser()->getId());
-        $c->add(MemberPhotoPeer::ID, $this->getRequestParameter('id'));
-        $photo = MemberPhotoPeer::doSelectOne($c);
-        $this->forward404Unless($photo);
-        
-        $photo->delete();
-        
-        $this->setFlash('msg_ok', 'Your photo has been deleted.');
-        $this->redirect('editProfile/photos');
+        return parent::executePhotos();
     }
 
     public function validateDeletePhoto()
     {
-        $member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $photos = $member->countMemberPhotos();
-        if ($photos < 2)
-        {
-            $this->getRequest()->setError('photo', 'You only have 1 photo, please upload a second photo and then delete it.');
-            return false;
-        }
-        return true;
+        $this->setMember();
+        return parent::validateDeletePhoto();
     }
 
-    public function handleErrorDeletePhoto()
+    public function validateUploadPhoto()
     {
-        $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        $this->setTemplate('photos');
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
-        $this->photos = $this->member->getMemberPhotos();
-        return sfView::SUCCESS;
+        $this->setMember();
+        return parent::validateUploadPhoto();
     }
-    
+
     public function executePhotoAuthenticity()
     {
         $this->getUser()->getBC()->clear()
         ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
         ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
         ->add(array('name' => 'Photo Authenticity'));
-        
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
         
          if ($this->getRequest()->getMethod() == sfRequest::POST)
          {
@@ -535,7 +370,7 @@ class editProfileActions extends prActions
              $this->redirect('editProfile/photoAuthenticity');
          }
          
-        $this->photos = $this->member->getMemberPhotos();
+        $this->photos = $this->member->getPublicMemberPhotos();
     }
     
     public function validatePhotoAuthenticity()
@@ -558,11 +393,8 @@ class editProfileActions extends prActions
         ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
         ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
         ->add(array('name' => 'Photo Authenticity'));
-        
-        $this->member = MemberPeer::retrieveByPK($this->getUser()->getId());
-        $this->forward404Unless($this->member); //just in case
          
-        $this->photos = $this->member->getMemberPhotos();
+        $this->photos = $this->member->getPublicMemberPhotos();
         
         return sfView::SUCCESS;
     }

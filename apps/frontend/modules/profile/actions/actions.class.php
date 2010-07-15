@@ -155,6 +155,8 @@ class profileActions extends prActions
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
                 $this->profile_pager = new ProfilePager($this->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager'), $this->member->getUsername());
+                $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
+                $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
 
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
@@ -533,6 +535,29 @@ class profileActions extends prActions
       
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
       return($this->renderText(__("Rated with %NB% stars", array('%NB%' => $rate))));
+    }
+    
+    public function executeTogglePrivatePhotosPerm()
+    {
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
+        
+        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId());
+        if( $perm )
+        {
+            $perm->delete();
+            $this->setFlash('msg_ok', 'Private photos permission revoked.', false);
+        } else {
+            $perm = new PrivatePhotoPermission();
+            $perm->setMemberRelatedByMemberId($this->getUser()->getProfile());
+            $perm->setMemberRelatedByProfileId($profile);
+            $perm->save();
+            $this->setFlash('msg_ok', 'Private photos permission granted.', false);
+        }
+        
+        if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
+        
+        $this->perm = $perm;
     }
 
 }

@@ -50,6 +50,12 @@
             <?php endif; ?>
         </div>
         <div class="dashboard-menu">
+            <?php echo link_to(__('Private Photo Access ( %count% )', array('%count%' => $private_photos_profiles_cnt)), 'dashboard/photoAccess', array('class' => 'sec_link menu_title')) ?>
+            <?php foreach ($private_photos_profiles as $private_photos_profile): ?>
+                <?php echo link_to_unless(!$private_photos_profile->isActive(), profile_small_photo($private_photos_profile), '@profile?username=' . $private_photos_profile->getUsername()) ?>
+            <?php endforeach; ?>
+        </div>        
+        <div class="dashboard-menu">
             <?php echo link_to(__('Blocked Members ( %count% )', array('%count%' => $blocked_cnt)), '@blocked_members', 'class=sec_link_brown') ?>
         </div>
     </div>

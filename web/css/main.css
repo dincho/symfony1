@@ -811,7 +811,7 @@ span.online-assistant {
 #dashboard-container div.left,#dashboard-container div.right {
     float: left;
     width: 325px;
-    height: 225px;
+    height: 255px;
     background-color: #000000;
     padding: 12px;
 }
@@ -841,7 +841,7 @@ span.online-assistant {
 #dashboard-container div.left a.menu_title {
     display: block;
     float: left;
-    width: 110px;
+    width: 140px;
     color: #73a7ff;
 }
 
@@ -893,6 +893,7 @@ span.online-assistant {
     text-align: center;
     margin: 5px 2px;
     width: 90px;
+    float: left;
 }
 
 #dashboard-container div.bottom div.photo p {
@@ -1220,45 +1221,117 @@ form#edit_photos fieldset {
   padding: 0;
 }
 
-#secondary_container .photos {
+.photos {
     width: 700px;
-    height: 180px;
 }
 
-#secondary_container .photos img {
+.photos #main_photo {
+    color: #E0B400;
+    padding-left: 7px;
+    font-weight: bold;
+    width: 126px;
+    display: block;
+    text-align: center;
+}
+
+.photos .photo_container {
+    float: left;
+    margin: 5px;
+    width: 126px; /* min 116px */
+    height: 138px; /* min 138px */
+    text-align: center;
+    border: 1px solid #2B2B2B;
+    
+    background-color: #3D3D3D; 
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    
+    -webkit-border-top-right-radius: 16px;
+    -moz-border-radius-topright: 16px;    
+}
+
+.photos .drop_hover {
+/*    background-color: yellow;*/
+    border: 1px solid #E0B400;
+}
+
+.photos div.photo {
+    background-color: #3d3d3d;
+    text-align: center;
+    -webkit-border-top-right-radius: 16px;
+    -moz-border-radius-topright: 16px;
+    cursor: move;
+}
+
+.photos div.photo .img {
+    margin: 0 auto;
+    width: 126px;
+    height: 113px;
+    clear: both;
+}
+
+.photos div.photo .img img {
     border: 3px solid #000;
 }
 
-#secondary_container div.photo {
-    float: left;
-    margin: 5px;
+.photos div.photo .top_actions {
+    height: 20px;
+    margin: 0 auto;
+    padding: 0 0 5px 0;
+    -webkit-border-top-right-radius: 15px;
+    -moz-border-radius-topright: 15px;
 }
 
-#secondary_container div.photo label {
+.photos div.photo .delete_button {
+    float: left;
+    margin: 0 !important;
+}
+
+.photos div.photo label {
     color: #e0b400;
     line-height: 14px;
     vertical-align: 30%;
 }
 
-#secondary_container .photo span {
+.photos .photo span {
     background-color: #3d3d3d;
     padding: 5px;
     display: block;
 }
 
-#secondary_container .photo span.delete {
+.photos .photo span.delete {
     background-color: #F00;
     padding: 4px;
 }
 
 .photo_authenticity {
     color: #e0b400;
-    margin: 0;
+    margin: 5px 2px 0 2px;
     font-style: italic;
     font-size: 12px;
     padding: 1px 0;
+    float: right;
 }
 
+.upload_photos {
+    position: relative;
+}
+
+.upload_photos object {
+    margin: 5px 2px 0 2px;
+}
+
+.upload_photos object, .upload_photos input {
+    width: 140px !important; /* stupid IE needs this */
+    margin: 5px 2px 0 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.upload_photos {
+    margin-bottom: 50px;
+}
 
 .public_reg_notice {
     color: #e0b400;
@@ -2367,6 +2440,10 @@ div.best_video div.right img {
 
 }
 
+#profile_left .photo_authenticity {
+    float: left;
+}
+
 /* END left */ /* right */
 #profile_right {
     float: right;
@@ -2622,7 +2699,7 @@ div.best_video div.right img {
     text-align: center;
     margin: 15px auto 0 auto;
     height: 500px;
-    width: 782;
+    width: 782px;
     font-size: 11px;
     padding: 0 10px;
 }
@@ -2861,7 +2938,7 @@ form .button_disabled {
     font-size: 12px !important;
     border: none !important;
     padding: 6px 8px !important;
-    cursor: arrow;
+    cursor: default;
     margin-top: 5px;
 }
 
@@ -2875,7 +2952,7 @@ button[disabled], .button[disabled], form .button[disabled]
     font-size: 12px !important;
     border: none !important;
     padding: 6px 8px !important;
-    cursor: arrow;
+    cursor: default;
     margin-top: 5px;
 }
 

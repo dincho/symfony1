@@ -10,6 +10,8 @@ class prFileValidator extends sfFileValidator
 
   public function execute(&$value, &$error)
   { 
+      $request = $this->getContext()->getRequest();
+      
     // file too large (php.ini) ?
     if( isset($value['error']) && $value['error'] != UPLOAD_ERR_OK )
     {
@@ -23,7 +25,35 @@ class prFileValidator extends sfFileValidator
         return false;
     }
     
-    return parent::execute(&$value, &$error);
+    
+
+    // file too large?
+    $max_size = $this->getParameter('max_size');
+    if ($max_size !== null && $max_size < $value['size'])
+    {
+      $error = $this->getParameter('max_size_error');
+
+      return false;
+    }
+
+    // supported mime types formats
+    $mime_types = $this->getParameter('mime_types');
+    $imgData = @getimagesize($value['tmp_name']);
+
+    if (!$imgData)
+    {
+      throw new sfException("Could not load image data for: " . $value['tmp_name']);
+    }
+        
+    $file_mime = $imgData['mime'];
+    if ($mime_types !== null && !in_array($file_mime, $mime_types))
+    {
+      $error = $this->getParameter('mime_types_error');
+
+      return false;
+    }
+
+    return true;
   }
 
 

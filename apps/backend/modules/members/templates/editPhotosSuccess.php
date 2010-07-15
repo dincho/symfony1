@@ -1,113 +1,125 @@
-<?php use_helper('Object', 'dtForm', 'Javascript') ?>
+<?php use_helper('Javascript'); ?>
 <?php include_component('system', 'formErrors') ?>
+
+<script type="text/javascript" charset="utf-8">
+    var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler?member_id=' . $member->getId()); ?>';
+    var move_photo_error_url = '<?php echo url_for('editProfile/movePhotoError?member_id=' . $member->getId()); ?>';
+    var photo_crop_url = '<?php echo url_for('editProfile/cropPhoto?member_id=' . $member->getId()); ?>';
+</script>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
 <?php include_partial('members/profile_pager', array('member' => $member)); ?>
 <br /><br />
 
+
 <div class="legend">Photos</div>
+<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
 
-<?php echo form_tag('members/editPhotos', array('class' => 'form', 'multipart' => true)) ?>
-  <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-  <?php echo input_hidden_tag('photo_id', $sf_request->getParameter('photo_id'), 'class=hidden') ?>
-  
-  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
-  
-  <fieldset class="actions">
-    <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
-  </fieldset>
+
+
+<br />
+<div>
     
-  <fieldset class="form_fields">
-    <?php object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-    <?php $cnt_photos = count($photos); ?>
-    <?php $i=1; foreach ($photos as $photo): ?>
-        <div class="photo_slot">
-        <?php echo radiobutton_tag('main_photo', $photo->getId(), $photo->isMain(), 'class=radio') ?>
-        <?php if( $photo->isMain()): ?>
-        <var>Main Photo</var>
-        <?php endif; ?><br />
-          <div id="thePhotoPrev_<?php echo $photo->getId() ?>" <?php if( isset($selected_photo) && $selected_photo->getId() == $photo->getId() ) echo 'class=selected_photo'; ?>>
-            <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100').'?'.time() : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
-          </div>
-        <?php echo link_to('Delete', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?>
-        <p>
-        <?php if( $photo->getAuth() == 'A'): ?>
-            Status: Approved<br />
-            (<?php echo link_to('Deny', 'members/verifyPhoto?auth=D&id=' . $member->getId() . '&photo_id='.$photo->getId()); ?>)
-        <?php elseif($photo->getAuth() == 'D'): ?>
-            Status: Denied<br />
-            (<?php echo link_to('Approve', 'members/verifyPhoto?auth=A&id=' . $member->getId() . '&photo_id='.$photo->getId()); ?>)       
-        <?php elseif($photo->getAuth() == 'S'): ?>
-            Status: Request<br />
-            (<?php echo link_to('Approve', 'members/verifyPhoto?auth=A&id=' . $member->getId() . '&photo_id='.$photo->getId()) . 
-                                '&nbsp|&nbsp;'. link_to('Deny', 'members/verifyPhoto?auth=D&id=' . $member->getId() . '&photo_id='.$photo->getId() ); ?>)
-        <?php endif; ?>
-        </p>
+    <h3>Public Photos</h3><hr />
+    
+    <?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
+                                                      'upload_url' => url_for('editProfile/uploadPhoto?block_id=public_photos&member_id=' . $member->getId()),
+                                                      'photos' => $public_photos, 
+                                                      'num_containers' => $member->getSubscription()->getPostPhotos(),
+                                                      'member' => $member,
+                                                      'upload_button_title' => 'Upload Public Photos',
+                                                      'file_upload_limit' => ($member->getSubscription()->getPostPhotos() - count($public_photos)), 
+                                                      'container_bg_image' => '/images/no_photo/'. $member->getSex() . '/x100x100.jpg', )); ?>
+    
+    <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
+    
+    <br class="clear" />
+    
+    <?php if( $member->getSubscription()->getCanPostPrivatePhoto() && $member->getSubscription()->getPostPrivatePhotos() > 0 ): ?>
         
-        </div>
-        <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
-        </fieldset>
-        <fieldset class="form_fields">
-        <?php endif; ?>      
-    <?php endforeach; ?>
+        <h3>Private Photos</h3><hr />
+        <?php include_partial('editProfile/photos_block', array('id' => 'private_photos', 
+                                                          'upload_url' => url_for('editProfile/uploadPhoto?block_id=private_photos&member_id=' . $member->getId()),
+                                                          'photos' => $private_photos, 
+                                                          'num_containers' => $member->getSubscription()->getPostPrivatePhotos(), 
+                                                          'member' => $member,
+                                                          'upload_button_title' => 'Upload Private Photos',
+                                                          'file_upload_limit' => ($member->getSubscription()->getPostPrivatePhotos() - count($private_photos)), 
+                                                          'container_bg_image' => '/images/no_photo/'. $member->getSex() . '/x100x100.jpg', )); ?>
+                                                          
+        <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPrivatePhotos())) ?></p>
 
-  </fieldset>
-  
-  <fieldset class="form_fields">
-    <label style="width: 90px">YouTube URL:</label>
-    <?php echo input_tag('youtube_url', $member->getYoutubeVidUrl(), array('style' => 'width: 300px')) ?><br />
-    
-    <label style="width: 90px">Upload Photo:</label>
-    <?php echo input_file_tag('new_photo') ?><br />
-  </fieldset>
-  
-  <?php if( isset($selected_photo)): ?>
-  <?php echo input_hidden_tag('crop_x1', null, 'class=hidden') ?>
-  <?php echo input_hidden_tag('crop_y1', null, 'class=hidden') ?>
-  <?php echo input_hidden_tag('crop_x2', null, 'class=hidden') ?>
-  <?php echo input_hidden_tag('crop_y2', null, 'class=hidden') ?>
-  <?php echo input_hidden_tag('crop_width', null, 'class=hidden') ?>
-  <?php echo input_hidden_tag('crop_height', null, 'class=hidden') ?>
-  
-  <script type="text/javascript" charset="utf-8">
-	function onEndCrop( coords, dimensions ) {
-		$( 'crop_x1' ).value = coords.x1;
-		$( 'crop_y1' ).value = coords.y1;
-		$( 'crop_x2' ).value = coords.x2;
-		$( 'crop_y2' ).value = coords.y2;
-		$( 'crop_width' ).value = dimensions.width;
-		$( 'crop_height' ).value = dimensions.height;
-	}
-  
-    Event.observe( 
-      window, 
-      'load', 
-      function() { 
-        new Cropper.ImgWithPreview( 
-          'thePhoto',
-          { 
-            minWidth: 100, 
-            minHeight: 100,
-            ratioDim: { x: 100, y: 100 },
-            displayOnInit: true, 
-            onEndCrop: onEndCrop,
-            previewWrap: 'thePhotoPrev_<?php echo $selected_photo->getId() ?>'
-          } 
-        ) 
-      } 
-    );
-    
-  </script>
-    
-    <fieldset class="form_fields" id="photo_edit">
-      <label class="full_row">Crop photo:</label>
-      <?php echo image_tag($selected_photo->getImageUrlPath('file'), 'id=thePhoto') ?> <br />
-    </fieldset>
-  <?php endif; ?>
-  
-  <fieldset class="actions">
-    <?php echo button_to('Cancel', $sf_user->getRefererUrl())  . submit_tag('Save', 'class=button') ?>
-  </fieldset>
-</form>
+        <br class="clear" />
+    <?php endif; ?>
+</div>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<script type="text/javascript" charset="utf-8">
+    var cropper = null;
+
+    function show_crop_area(photo_id, img_src)
+    {
+        var photo_el = "photo_" + photo_id;
+        //remove old cropper if any
+        if( cropper ) 
+        {
+            // console.log("cropper.previewWrap: ", cropper.previewWrap);
+            
+            $('imgCrop_crop_image').remove();
+            cropper.previewWrap.removeClassName( 'imgCrop_previewWrap' );
+            cropper.previewWrap.removeAttribute('style');
+            cropper.remove();
+            cropper = null;
+        }
+        
+        //set the image and show the crop_area
+        $('crop_area').down('#crop_image').src = img_src;
+        $('crop_area').show();
+
+        //this should be done after the image is loaded
+        cropper = new Cropper.ImgWithPreview( 
+              'crop_image',
+              { 
+                minWidth: 100, 
+                minHeight: 100,
+                ratioDim: { x: 100, y: 100 },
+                displayOnInit: true, 
+                previewWrap: $(photo_el).down('.img'),
+                pd_photo_id: photo_id
+              } 
+            );
+    }
+        
+    function remove_crop_area()
+    {
+        cropper.previewWrap.removeClassName( 'imgCrop_previewWrap' );
+        cropper.previewWrap.removeAttribute('style');        
+        cropper.remove();
+        cropper = null;
+        
+        if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
+        $('crop_image').src = null;
+        $('crop_area').hide();
+    }
+    
+    function crop()
+    {
+        var params = 'photo_id=' + cropper.options.pd_photo_id + '&crop[x1]=' + cropper.areaCoords.x1 + '&crop[y1]=' + cropper.areaCoords.y1 + '&crop[x2]=' + cropper.areaCoords.x2 + '&crop[y2]=' + cropper.areaCoords.y2;
+        params += '&crop[width]=' + cropper.calcW() + '&crop[height]=' + cropper.calcH();
+        
+        var photo_container = $('photo_' + cropper.options.pd_photo_id).parentNode;
+        photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
+        new Ajax.Updater(photo_container, photo_crop_url, {asynchronous:true, evalScripts:false, parameters:params});
+        remove_crop_area();
+    }
+    
+    Event.observe(window, 'load', function() {
+      new Draggable('crop_area', {});
+    });
+    
+</script>
+
+<div id="crop_area" style="display: none;">
+    <img id="crop_image" />
+    <?php echo button_to_function('Cancel', 'remove_crop_area()') ?>
+    <?php echo button_to_function('Crop', 'crop()') ?>
+</div>

@@ -1,10 +1,8 @@
 fillin:
-  enabled: true
-  param:
-    content_type:   xhtml   
+  enabled: false
 fields:
-    new_photo:
-        file: true 
+    Filedata:
+        file: true
         prFileValidator:
           mime_types: @web_images
           mime_types_error: Only PNG, JPEG and GIF images are allowed

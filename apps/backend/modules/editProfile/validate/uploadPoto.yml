@@ -1,9 +1,7 @@
 fillin:
-  enabled: true
-  param:
-    content_type:   xhtml   
+  enabled: false
 fields:
-    new_photo:
+    Filedata:
         file: true 
         prFileValidator:
           mime_types: @web_images

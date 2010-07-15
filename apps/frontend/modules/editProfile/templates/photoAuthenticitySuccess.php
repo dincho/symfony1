@@ -3,39 +3,43 @@
 <?php echo form_tag('editProfile/photoAuthenticity', array('id' => 'edit_photos')) ?>
     <?php $cnt_photos = count($photos); ?>
     <?php $free_photos_cnt = 0; ?>
-    
+
     <?php if($cnt_photos > 0): ?>
         <div class="photos">
-            <?php $i=1;foreach ($photos as $photo): ?>
-              <div class="photo">
-                    <?php if( !$photo->getAuth() ): ?>
-                      <?php echo radiobutton_tag('auth_photo_id', $photo->getId(), null, array('id' => 'main_photo')) ?>
-                    <?php endif; ?>
-                  
-                    <label for="main_photo">
-                        <?php if( $photo->getAuth() == 'S' ): ?>
-                            <?php echo __('Submitted'); ?>
-                        <?php elseif($photo->getAuth() == 'A' ): ?>
-                            <?php echo __('Approved'); ?>
-                        <?php elseif( $photo->getAuth() == 'D' ): ?>
-                            <?php echo __('Denied'); ?>
+            <label id="main_photo"><?php echo __('Main Photo'); ?></label>
+            
+            <?php foreach ($photos as $photo): ?>
+                <div class="photo_container">
+                    <div class="photo">
+                        <?php if( !$photo->getAuth() ): ?>
+                          <?php echo radiobutton_tag('auth_photo_id', $photo->getId(), null, array('id' => 'main_photo')) ?>
+                        <?php endif; ?>
+                        
+                        <?php if( $photo->getAuth() ): ?>
+                            <label>
+                                <?php if( $photo->getAuth() == 'S' ): ?>
+                                    <?php echo __('Submitted'); ?>
+                                <?php elseif($photo->getAuth() == 'A' ): ?>
+                                    <?php echo __('Approved'); ?>
+                                <?php elseif( $photo->getAuth() == 'D' ): ?>
+                                    <?php echo __('Denied'); ?>
+                                <?php endif;?>
+                            </label><br />
                         <?php else: ?>
                             <?php $free_photos_cnt++; ?>
                         <?php endif;?>
-                    </label><br />
-                <span>
-                    <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
-                </span>
-              </div>
-        <?php if( $i++ % 5 == 0 && $i <= $cnt_photos): ?>
-        </div>
-        <div class="photos">
-        <?php endif; ?>
+                        
+                    <span>
+                        <?php echo image_tag( $photo->getImageUrlPath('file', '100x100') ) ?>
+                    </span>
+                    </div>
+                </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
     
-    <p class="photo_authenticity float-right"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
+    <br class="clear" />
+    <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
     <br class="clear" />
     <hr />
     

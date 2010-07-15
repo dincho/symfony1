@@ -45,8 +45,8 @@ dev:
         "du.dincho.bonex.us":     www.dyskretnyuklad.com
     mail:
       enabled:          no
-      use_queue:        yes
-      error_exception:  no
+      use_queue:        no
+      error_exception:  yes
 stag:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes

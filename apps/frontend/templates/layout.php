@@ -31,15 +31,18 @@
                 </div>
                 <?php include_component('content','headerMenu', array('username' => $sf_user->getUsername(), 'auth' => $sf_user->isAuthenticated())); ?>
             </div>
-            <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
-                      $sf_data->get('sf_flash')->has('msg_warning') || 
-                      $sf_data->get('sf_flash')->has('msg_ok') || 
-                      $sf_data->get('sf_flash')->has('msg_info') ): ?>
-                <?php include_partial('content/messages'); ?>
-            <?php endif; ?>
+            <div id="msg_container">
+                <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
+                          $sf_data->get('sf_flash')->has('msg_warning') || 
+                          $sf_data->get('sf_flash')->has('msg_ok') || 
+                          $sf_data->get('sf_flash')->has('msg_info') ): ?>
+                    <?php include_partial('content/messages'); ?>
+                <?php endif; ?>
+
             
-            <?php include_partial('content/formErrors'); ?>
-            
+                <?php include_partial('content/formErrors'); ?>
+            </div>
+                        
             <?php if( stripos(sfRouting::getInstance()->getCurrentInternalUri(), 'myProfile') !== false ): //looking my profile ?>
               <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated(), 'sf_cache_key' => $sf_user->getId()); ?>
             <?php else: //other's profiles ?>

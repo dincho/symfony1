@@ -7,9 +7,9 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 3335 2007-01-23 16:19:56Z fabien $
  */
-class membersActions extends sfActions
+class membersActions extends prActions
 {
-
+    
     public function preExecute()
     {
         if ($this->getRequestParameter('cancel') == 1)
@@ -433,54 +433,13 @@ class membersActions extends sfActions
     
     public function executeEditPhotos()
     {
+        $this->getResponse()->addJavascript('photos', 'last');
+        $this->getResponse()->addJavascript('swfupload/swfupload.js', 'last');
+        $this->getResponse()->addJavascript('swfupload/handlers.js', 'last');
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            $this->getUser()->checkPerm(array('members_edit'));
-            //crop the photo if selected
-            if ($this->getRequestParameter('photo_id') && $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id')))
-            {
-                $crop_area['x1'] = $this->getRequestParameter('crop_x1');
-                $crop_area['y1'] = $this->getRequestParameter('crop_y1');
-                $crop_area['x2'] = $this->getRequestParameter('crop_x2');
-                $crop_area['y2'] = $this->getRequestParameter('crop_y2');
-                $crop_area['width'] = $this->getRequestParameter('crop_width');
-                $crop_area['height'] = $this->getRequestParameter('crop_height');
-                $photo->updateCroppedImage($crop_area);
-            }
-            
-            //add new photo if choosen
-            if ($this->getRequest()->getFileSize('new_photo'))
-            {
-                $new_photo = new MemberPhoto();
-                $new_photo->setMember($this->member);
-                $new_photo->updateImageFromRequest('file', 'new_photo', true, true);
-                $new_photo->save();
-                
-                $this->member->setLastPhotoUploadAt(time());
-            }
-            
-            //set main photo
-            if ($this->getRequestParameter('main_photo'))
-            {
-                $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('main_photo'));
-                if ($photo) $this->member->setMemberPhoto($photo);
-            }
-            
-            //YouTube Video
-            $youtube_url = $this->getRequestParameter('youtube_url');
-            $matches = array();
-            preg_match('#http://www\.youtube\.com/watch\?v=([a-z0-9]+)#i', $youtube_url, $matches);
-            $this->member->setYoutubeVid(($youtube_url && isset($matches[1])) ? $matches[1] : null);
-            $this->member->save();
-            
-            //set confirm msg and redirect
-            $this->setFlash('msg_ok', 'Your changes have been saved');
-            $this->redirect($this->getUser()->getRefererUrl());
-        }
         
-        $this->photos = $this->member->getMemberPhotos();
-        $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
+        $this->public_photos = $this->member->getPublicMemberPhotos();
+        $this->private_photos = $this->member->getPrivateMemberPhotos();
     }
     
     public function handleErrorEditPhotos()
@@ -489,7 +448,7 @@ class membersActions extends sfActions
         $this->forward404Unless($member);
         $this->member = $member;
         
-        $this->photos = $this->member->getMemberPhotos();
+        $this->photos = $this->member->getPublicMemberPhotos();
         $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
               
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
@@ -629,17 +588,7 @@ class membersActions extends sfActions
         $c->addDescendingOrderByColumn(MemberPaymentPeer::UPDATED_AT);
         $this->payments = MemberPaymentPeer::doSelect($c);
     }
-    
-    public function executeDeletePhoto()
-    {
-        $this->getUser()->checkPerm(array('members_edit'));
-        $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
-        $this->forward404Unless($photo);
-        $photo->delete();
-        $this->setFlash('msg_ok', 'Photo have been deleted.');
-        //return $this->redirect('members/editPhotos?id=' . $this->member->getId());
-        $this->redirect($this->getUser()->getRefererUrl());
-    }
+
 
     public function executeStar()
     {
@@ -719,7 +668,7 @@ class membersActions extends sfActions
         $photo->setAuth($this->getRequestParameter('auth'));
         $photo->save();
         
-        $this->setFlash("Member's photo authenticity successfully changed");
+        $this->setFlash('msg_ok', "Member's photo authenticity successfully changed");
         $this->redirect($this->getUser()->getRefererUrl());
     }
         

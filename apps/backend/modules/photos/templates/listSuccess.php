@@ -13,7 +13,7 @@
             <span>Status: <?php echo $member->getMemberStatus(); ?></span>
         </div>
         <fieldset class="form_fields">
-        <?php $photos = $member->getMemberPhotos(); $cnt_photos = count($photos); ?>
+        <?php $photos = $member->getPublicMemberPhotos(); $cnt_photos = count($photos); ?>
         <?php $i=1; foreach($photos as $photo): ?>
             <div class="photo_slot">
                 <div <?php if( $photo->isMain() ) echo 'class="selected_photo"'; ?>>

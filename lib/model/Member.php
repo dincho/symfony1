@@ -465,9 +465,12 @@ class Member extends BaseMember
         $this->clearCounter('CurrentFlags');
     }
     
-    public function getMemberPhotos($count = null, $con = null)
+    public function getMemberPhotos($crit = null, $con = null, $count = null)
     {
-        $c = new Criteria();
+        $c = ( is_null($crit) ) ? new Criteria() : $crit;
+        $c->addAscendingOrderByColumn(MemberPhotoPeer::SORT_ORDER);
+        $c->addAscendingOrderByColumn(MemberPhotoPeer::ID);
+        
         if( !is_null($count))
         {
             $c->setLimit($count);
@@ -475,6 +478,38 @@ class Member extends BaseMember
         
         return parent::getMemberPhotos($c, $con);
     }
+    
+    public function getPublicMemberPhotos($crit = null, $con = null, $count = null)
+    {
+        $c = ( is_null($crit) ) ? new Criteria() : $crit;
+        $c->add(MemberPhotoPeer::IS_PRIVATE, false);
+        
+        return self::getMemberPhotos($c, $con, $count);
+    }
+    
+    public function getPrivateMemberPhotos($crit = null, $con = null, $count = null)
+    {
+        $c = ( is_null($crit) ) ? new Criteria() : $crit;
+        $c->add(MemberPhotoPeer::IS_PRIVATE, true);
+        
+        return self::getMemberPhotos($c, $con, $count);
+    }    
+    
+    public function countPublicMemberPhotos($crit = null, $con = null)
+    {
+        $c = ( is_null($crit) ) ? new Criteria() : $crit;
+        $c->add(MemberPhotoPeer::IS_PRIVATE, false);
+        
+        return parent::countMemberPhotos($c, false, $con);
+    }
+    
+    public function countPrivateMemberPhotos($crit = null, $con = null)
+    {
+        $c = ( is_null($crit) ) ? new Criteria() : $crit;
+        $c->add(MemberPhotoPeer::IS_PRIVATE, true);
+        
+        return parent::countMemberPhotos($c, false, $con);
+    }    
     
     public function getLastIP($long = false)
     {
@@ -885,5 +920,23 @@ class Member extends BaseMember
         return($memberRate->getRate());
       else
         return(0);
+    }
+    
+    public function hasPrivatePhotosPermsFor(BaseMember $member)
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $member->getId());
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
+        
+        return (bool) PrivatePhotoPermissionPeer::doCount($c);
+    }
+    
+    public function hasGrantPrivatePhotosPermsFor(BaseMember $member)
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
+        
+        return (bool) PrivatePhotoPermissionPeer::doCount($c);
     }
 }

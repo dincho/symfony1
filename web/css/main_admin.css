@@ -1,3 +1,8 @@
+#wrap {
+    height: 100%;
+    width: 100%;
+}
+
 #top_menu {
   height: 50px;
   background-color: #3D3D3D;
@@ -34,7 +39,8 @@
   background-color: black;
   color: white;
   margin: 0;
-  width: 250px;
+  width: 18%;
+  height: 100%;
 }
 
 #left_menu {
@@ -84,8 +90,10 @@ form #left_menu li {
 }
 
 #content {
-  margin-left: 250px;
+/*  margin-left: 250px;*/
   padding: 10px;
+  float: left;
+  width: 80%;
 }
 
 #breadcrumb {
@@ -501,4 +509,135 @@ div.member_flags table {
     padding: 0 20px;
     font-size: 14px;
     font-weight: bold;
+}
+
+/* new photos styling */
+
+.photos {
+    width: 700px;
+}
+
+.photos #main_photo {
+    color: #E0B400;
+    padding-left: 7px;
+    font-weight: bold;
+    width: 126px;
+    display: block;
+    text-align: center;
+}
+
+.photos .photo_container {
+    float: left;
+    margin: 5px;
+    width: 126px; /* min 116px */
+    height: 150px; /* min 138px */
+    text-align: center;
+    border: 1px solid #2B2B2B;
+    
+    background-color: #3D3D3D; 
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    
+    -webkit-border-top-right-radius: 16px;
+    -moz-border-radius-topright: 16px;    
+}
+
+.photos .drop_hover {
+/*    background-color: yellow;*/
+    border: 1px solid #E0B400;
+}
+
+.photos .drop_hover div.photo .img img {
+    border: 3px solid #E0B400;
+}
+
+.photos div.photo {
+    background-color: #3d3d3d;
+    text-align: center;
+    -webkit-border-top-right-radius: 16px;
+    -moz-border-radius-topright: 16px;
+    cursor: move;
+}
+
+.photos div.photo .img {
+    margin: 0 auto;
+    width: 126px;
+    height: 113px;
+    clear: both;
+}
+
+.photos div.photo .img img {
+    border: 3px solid #000;
+}
+
+.photos div.photo .top_actions {
+    height: 20px;
+    margin: 0 auto;
+    padding: 0 0 5px 0;
+    -webkit-border-top-right-radius: 15px;
+    -moz-border-radius-topright: 15px;
+}
+
+.photos div.photo .delete_button {
+    float: left;
+    margin: 0 !important;
+}
+
+.photos div.photo label {
+    color: #e0b400;
+    line-height: 14px;
+    vertical-align: 30%;
+}
+
+.photos .photo span {
+    background-color: #3d3d3d;
+    padding: 5px;
+    display: block;
+}
+
+.photos .photo span.delete {
+    background-color: #F00;
+    padding: 4px;
+}
+
+.photos .photo_container .status {
+    font-size: 10px;
+    color: white;
+    background-color: #3D3D3D;
+    height: 13px;
+}
+
+.photos .photo_container .status a {
+    color: #E0B400;
+}
+.upload_photos {
+    position: relative;
+}
+
+.upload_photos object {
+    margin: 5px 2px 0 2px;
+}
+
+.upload_photos object, .upload_photos input {
+    width: 140px !important; /* stupid IE needs this */
+    margin: 5px 2px 0 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.upload_photos {
+    margin-bottom: 50px;
+}
+
+
+#crop_area {
+    position: absolute;
+    top: 15%;
+    left: 600px;
+    background-color: #3D3D3D;
+    border: 2px solid #E0B400;
+    cursor: move;
+    padding: 0 20px 20px 20px;
+    min-height: 720px;
 }

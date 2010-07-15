@@ -28,14 +28,17 @@
                     <?php endif; ?> 
                     <?php echo link_to(domain_image_tag('logo.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
-            <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
-                      $sf_data->get('sf_flash')->has('msg_warning') || 
-                      $sf_data->get('sf_flash')->has('msg_ok') || 
-                      $sf_data->get('sf_flash')->has('msg_info') ): ?>
-                <?php include_partial('content/messages'); ?>
-            <?php endif; ?>
+            <div id="msg_container">
+                <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
+                          $sf_data->get('sf_flash')->has('msg_warning') || 
+                          $sf_data->get('sf_flash')->has('msg_ok') || 
+                          $sf_data->get('sf_flash')->has('msg_info') ): ?>
+                    <?php include_partial('content/messages'); ?>
+                <?php endif; ?>
                       
-            <?php include_partial('content/formErrors'); ?>          
+                <?php include_partial('content/formErrors'); ?>
+            </div>
+            
             <?php include_component('content', 'breadcrumb', array('header_title' => @$header_title, 'header_current_step' => @$header_current_step, 'header_steps' => @$header_steps)); ?>
             <div id="secondary_container">
                 <?php echo $sf_data->getRaw('sf_content') ?>

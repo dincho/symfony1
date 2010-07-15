@@ -1,6 +1,7 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<?php $member_photos = $member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')); ?>
+<?php $public_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
+<?php $private_photos = $member->getPrivateMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_private_photos')); ?>
 
 <div id="profile_left" style="padding-top: 14px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
@@ -16,7 +17,7 @@
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
                                 ));
-                foreach ($member_photos as $photo):
+                foreach ($public_photos as $photo):
                     echo content_tag('a', null, array('href' => $photo->getImageUrlPath('file'), 'rel' => 'lightbox[slide]'));
                 endforeach;
                 
@@ -25,19 +26,20 @@
               endif; 
         ?>
     </div>
-    <?php $i=1;foreach ($member_photos as $photo): ?>
-        <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
-            <?php $class = 'current_thumb';?>
-            <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>
+    
+    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member)); ?>
+    
+    <?php if( count($private_photos) > 0 ): ?>
+        <hr />
+        <?php if( $private_photos_perm ): ?>
+            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member)); ?>
         <?php else: ?>
-            <?php $class = 'thumb'; ?>
+            <?php for($i=0; $i<count($private_photos); $i++): ?>
+                <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
+            <?php endfor; ?>
         <?php endif; ?>
-        <?php $the_img = image_tag($photo->getImg('50x50'), array('id' => 'thumb_' . $photo->getId(), 'class' => $class)); ?>
-        <?php echo link_to_function($the_img, 'show_profile_image("'. $photo->getImg('350x350', 'file').'", '. $photo->getId() .', "'. $photo->getImageUrlPath('file') .'")', array()) ?>
-        <?php if($i++ % 6 == 0 ): ?>
-            <br />
-        <?php endif; ?>
-    <?php endforeach; ?>
+    <?php endif; ?>
+    
     <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
         <br /><br />
         <object width="350" height="355">
@@ -124,8 +126,12 @@
             </div>
         </div>
     </div>
-    <br>
-
+    <br />
+    <?php echo link_to_remote( ( $grant_private_photos_perm ) ? __('Revoke private photos view permissions') : __('Grant private photos view permissions'), array(
+                                    'url' => '@toggle_private_photos_perm?toggle_link=1&username=' . $member->getUsername(),
+                                    'update' => array('success' => 'msg_container'),
+                                    'script' => true, 
+                            ), array('id' => 'photo_perm_link', 'class' => 'sec_link', )); ?><br /><br />
 
       <ul id="currentRatingStars" class="rating star<?php echo $member->getMemberRate() ?>">
       <li class="one">
@@ -174,8 +180,8 @@
         )) ?>
       </li>
     </ul>    
-    <div id="rateMessage" style="float: left"></div>
-    <br class="clear">
+    <div id="rateMessage" style="float: left">&nbsp;</div>
+    <br class="clear" /><br />
 
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
     <?php include_partial('profile/recent_activities', array('member' => $member)); ?>

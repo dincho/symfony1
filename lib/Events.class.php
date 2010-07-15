@@ -44,6 +44,7 @@ class Events
     const ACCOUNT_ACTIVITY_VISITOR = 22;
     const ACCOUNT_ACTIVITY_RATE = 26;
     const ACCOUNT_ACTIVITY_MUTUAL_RATE = 27;
+    const ACCOUNT_ACTIVITY_PRIVATE_PHOTOS_GRANTED = 28;
     const EOT = 24;
     
     /* REGISTRATION EVENTS */
@@ -345,6 +346,17 @@ class Events
                             );
                                     
         return self::executeNotifications(self::ACCOUNT_ACTIVITY_MUTUAL_RATE, $global_vars, $recipient->getEmail(), $recipient);
+    }
+    
+    public static function triggerAccountActivityPrivatePhotosGranted(BaseMember $grantee, BaseMember $granter)
+    {
+        $profile_url  = LinkPeer::create('@profile?username=' . $granter->getUsername(), $grantee->getId())->getUrl($grantee->getCatalogue());
+        
+        $global_vars = array('{GRANTER_PROFILE_URL}' => $profile_url,
+                             '{GRANTER_USERNAME}' => $granter->getUsername(),
+                            );
+                                    
+        return self::executeNotifications(self::ACCOUNT_ACTIVITY_PRIVATE_PHOTOS_GRANTED, $global_vars, $grantee->getEmail(), $grantee);
     }    
     
     public static function triggerEOT(BaseMemberSubscription $subscription)

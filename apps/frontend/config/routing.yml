@@ -54,6 +54,10 @@ profilese:
 profile_rate:
     url:   /:sf_culture/profile/rate/*
     param: { module: profile, action: rate, sf_culture: en, bc: dashboard }
+
+toggle_private_photos_perm:
+    url:   /:sf_culture/privatePhotosPerm/:username/:toggle_link
+    param: { module: profile, action: togglePrivatePhotosPerm, sf_culture: en, toggle_link: 0 }
     
 profile:
     url:   /:sf_culture/:bc/profile/:username/*

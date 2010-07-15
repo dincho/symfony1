@@ -1,6 +1,4 @@
 essaySuccess:
     javascripts: [ charcount, essay_polish_letters ]
-photosSuccess:
-    javascripts: [ check_upload_field ]
 selfDescriptionSuccess:
     javascripts: [/sf/prototype/js/prototype, show_hide_other]

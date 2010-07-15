@@ -90,15 +90,15 @@ class sfPropelThumbnailsBehavior
      
       $object->deleteImage($column);
       
-      $file = $Request->getFileName($ImageField);
-      $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
-      $ext = $Request->getFileExtension($ImageField);
-         
-      $newFile = $object->getImagesPath().$FileName.$ext;
-      
       //max 700x700 for original image!
       $file_arr = $Request->getFile($ImageField);
       $tmp_file = $file_arr['tmp_name'];
+            
+      $file = $Request->getFileName($ImageField);
+      $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
+      $ext = $this->getFileExtension($tmp_file);
+         
+      $newFile = $object->getImagesPath().$FileName.$ext;
       
       $thumbnail = new sfThumbnail(700, 700);
       $thumbnail->loadFile($tmp_file);
@@ -128,7 +128,8 @@ class sfPropelThumbnailsBehavior
       
       $file = basename($ImagePath);
       $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
-      $ext = substr($file, strrpos($file, '.'));
+      $ext = $this->getFileExtension($file);
+      // $ext = substr($file, strrpos($file, '.'));
       //$ext = $Request->getFileExtension($file);
       
       $newFile = $object->getImagesPath().$FileName.$ext;
@@ -188,5 +189,31 @@ class sfPropelThumbnailsBehavior
     
     //delete object`s normal image
     if( file_exists($this->getImagePath($object, $column)) ) unlink($this->getImagePath($object, $column));      
+  }
+  
+  protected function getFileExtension($file)
+  {
+    static $mimeTypes = null;
+
+    $imgData = @getimagesize($file);
+
+    if (!$imgData)
+    {
+      throw new sfException("Could not load image data for: " . $file);
+    }
+        
+    $file_mime = $imgData['mime'];
+    
+    if (!$file_mime)
+    {
+      return '.bin';
+    }
+
+    if (is_null($mimeTypes))
+    {
+      $mimeTypes = unserialize(file_get_contents(sfConfig::get('sf_symfony_data_dir').'/data/mime_types.dat'));
+    }
+
+    return isset($mimeTypes[$file_mime]) ? '.'.$mimeTypes[$file_mime] : '.bin';
   }  
 }

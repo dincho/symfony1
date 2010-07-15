@@ -1,4 +1,7 @@
 propel:
+  schema_info:
+    version:              { type: integer, primaryKey: true,  required: false }
+    
   session_storage:
     sess_id:              { type: varchar, size: 255, required: true }
     sess_data:            { type: longvarchar, required: true }
@@ -210,8 +213,15 @@ propel:
     file:                     { type: varchar, size: 255 }
     cropped:                  { type: varchar, size: 255 }
     is_main:                  { type: boolean, required: true, default: false }
+    is_private:               { type: boolean, required: true }
+    sort_order:               { type: integer, required: true, default: 0 }
     auth:                     { type: char, size: 1, required: false } #S - submitted for approve, A - approved, D - Denied
-    
+  
+  private_photo_permission:
+    member_id:                { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    profile_id:               { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    created_at:
+      
   stock_photo:
     id:
     file:                     { type: varchar, size: 255 }
@@ -294,6 +304,8 @@ propel:
     create_profiles:          { type: integer, default: 0, required: true }
     can_post_photo:           { type: boolean, default: false, required: true }
     post_photos:              { type: integer, default: 0, required: true }
+    can_post_private_photo:   { type: boolean, default: false, required: true }
+    post_private_photos:      { type: integer, default: 0, required: true }    
     can_wink:                 { type: boolean, default: false, required: true }
     winks:                    { type: integer, default: 0, required: true }
     winks_day:                { type: integer, default: 0, required: true }

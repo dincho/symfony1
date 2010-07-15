@@ -12,7 +12,7 @@ function profile_photo($profile, $class="")
 {
     if( $profile->isActive() )
     {
-        return link_to_ref(image_tag($profile->getMainPhoto()->getImg('80x100')), '@profile?pager=1&bc=search&username='.$profile->getUsername());
+        return image_tag($profile->getMainPhoto()->getImg('80x100'));
     } else {
         return image_tag('no_photo/' . $profile->getSex() . '/80x100.jpg');
     }

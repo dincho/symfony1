@@ -1,6 +1,6 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<?php $member_photos = $member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')); ?>
+<?php $member_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
 
 <div id="profile_left" style="padding-top: 14px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
@@ -25,7 +25,7 @@
               endif; 
         ?>
     </div>
-    <?php $i=1;foreach ($member->getMemberPhotos(sfConfig::get('app_settings_profile_max_photos')) as $photo): ?>
+    <?php $i=1;foreach ($member_photos as $photo): ?>
         <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
             <?php $class = 'current_thumb';?>
             <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>

@@ -92,7 +92,26 @@ class dashboardActions extends prActions
         $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
+
+        //hotlist
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
+        $c->addJoin(MemberPeer::ID, PrivatePhotoPermissionPeer::MEMBER_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         
+        //privacy check
+        $c->addJoin(PrivatePhotoPermissionPeer::PROFILE_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. PrivatePhotoPermissionPeer::MEMBER_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+        
+        $cc = clone $c; //count criteria
+        
+        $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
+        $c->setLimit(5);
+        
+        $this->private_photos_profiles = MemberPeer::doSelectJoinMemberPhoto($c);
+        $this->private_photos_profiles_cnt = MemberPeer::doCount($cc);
+                
         //blocked member count
         $c = new Criteria();
         $c->add(BlockPeer::MEMBER_ID, $member->getId());
@@ -429,5 +448,26 @@ class dashboardActions extends prActions
         $member->setDashboardMsg(1);
         $member->save();
         $this->redirect('dashboard/index');
+    }
+    
+    public function executePhotoAccess()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
+        $this->my_grants = PrivatePhotoPermissionPeer::doSelectJoinMemberRelatedByProfileId($c);
+        
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getUser()->getId());
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        
+        //privacy check
+        $c->addJoin(PrivatePhotoPermissionPeer::PROFILE_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. PrivatePhotoPermissionPeer::MEMBER_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
+        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
+        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
+        
+        $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
+        $this->other_grants = PrivatePhotoPermissionPeer::doSelectJoinMemberRelatedByMemberId($c);
     }
 }
