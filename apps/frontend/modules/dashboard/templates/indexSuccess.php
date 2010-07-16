@@ -21,7 +21,7 @@
         <div class="dashboard-menu">
             <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($messages as $message_profile): ?>
-                <?php echo link_to_unless(!$message_profile->isActive(), profile_small_photo($message_profile), '@profile?username=' . $message_profile->getUsername()) ?>
+                <?php echo link_to(profile_small_photo($message_profile), '@profile?username=' . $message_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
