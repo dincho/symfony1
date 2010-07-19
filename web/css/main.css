@@ -710,7 +710,7 @@ form#sign_in fieldset a {
 }
 
 #subscription div.column .upgrade_header {
-    height: 44px;
+    height: 60px; 
 }
 
 #subscription div.upgrade_to .upgrade_header div {
@@ -720,7 +720,7 @@ form#sign_in fieldset a {
     color: white;
     padding: 6px;
     width: 136px;
-    height: 32px;
+    height: 48px;
 }
 
 #subscription .outlined_subscription_features {
