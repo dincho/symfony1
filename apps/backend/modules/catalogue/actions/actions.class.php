@@ -19,10 +19,10 @@ class catalogueActions extends sfActions
         }
 
        
-        $this->left_menu_selected = 'Translation Catalogue';
+        $this->left_menu_selected = 'Catalogs';
         $this->top_menu_selected = 'content';
         $bc = $this->getUser()->getBC();
-        $bc->replaceFirst(array('name' => 'Translation Catalogue', 'uri' => 'catalogue/list'));        
+        $bc->replaceFirst(array('name' => 'Catalogs', 'uri' => 'catalogue/list'));        
     }
     
     public function executeList()
@@ -33,30 +33,45 @@ class catalogueActions extends sfActions
         $this->catalogues = CataloguePeer::doSelect($c);
     }
 
-    public function executeCreate()
-    {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            $source_culture = 'en';
-            $tagrget_culture = $this->getRequestParameter('language');
-            $catalogue = new Catalogue();
-            $catalogue->setName('messages.' . $tagrget_culture);
-            $catalogue->setSourceLang($source_culture);
-            $catalogue->setTargetLang($tagrget_culture);
-            $catalogue->setDateCreated(time());
-            //$catalogue->setDateModified();
-            //$catalogue->setAuthor();
-            $catalogue->save();
-            $this->redirect('catalogue/list');
-        }
-    }
-    /*
+    // public function executeCreate()
+    // {
+    //     if ($this->getRequest()->getMethod() == sfRequest::POST)
+    //     {
+    //         $source_culture = 'en';
+    //         $tagrget_culture = $this->getRequestParameter('language');
+    //         $catalogue = new Catalogue();
+    //         $catalogue->setName('messages.' . $tagrget_culture);
+    //         $catalogue->setSourceLang($source_culture);
+    //         $catalogue->setTargetLang($tagrget_culture);
+    //         $catalogue->setDateCreated(time());
+    //         //$catalogue->setDateModified();
+    //         //$catalogue->setAuthor();
+    //         $catalogue->save();
+    //         $this->redirect('catalogue/list');
+    //     }
+    // }
+    
   public function executeEdit()
   {
-    $this->catalogue = CataloguePeer::retrieveByPk($this->getRequestParameter('cat_id'));
-    $this->forward404Unless($this->catalogue);
+    $this->catalog = CataloguePeer::retrieveByPk($this->getRequestParameter('id'));
+    $this->forward404Unless($this->catalog);
+    
+    if( $this->getRequest()->getMethod() == sfRequest::POST )
+    {
+        // print_r($this->getRequestParameter('shared_catalogs'));exit();
+        $this->catalog->setSharedCatalogs(implode(',', $this->getRequestParameter('shared_catalogs')));
+        $this->catalog->save();
+        
+        $this->setFlash('msg_ok', 'Your changes have been saved.');
+        $this->redirect('catalogue/list');
+    }
+    
+    $c = new Criteria();
+    $c->add(CataloguePeer::CAT_ID, $this->catalog->getCatId(), Criteria::NOT_EQUAL);
+    $this->catalogs = CataloguePeer::doSelect($c);
   }
-
+  
+/*
   public function executeDelete()
   {
     $catalogue = CataloguePeer::retrieveByPk($this->getRequestParameter('cat_id'));

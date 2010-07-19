@@ -82,7 +82,7 @@ class systemComponents extends sfComponents
     }
     
     $this->menu = array();
-    $full_menu = array('content'  => array(//array('title' => 'Translation Catalogue', 'uri' => 'catalogue/list'),
+    $full_menu = array('content'  => array(array('title' => 'Catalogs', 'uri' => 'catalogue/list'),
                                            array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
                                            array('title' => 'Home Pages', 'uri' => 'content/homepages?cat_id=1'),
                                            array('title' => 'Profile Pages', 'uri' => 'content/profilepages?cat_id=1'),

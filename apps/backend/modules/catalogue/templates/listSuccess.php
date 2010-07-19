@@ -1,6 +1,3 @@
-<div class="filter_right"><?php echo button_to ('Add Catalogue', 'catalogue/create') ?></div>
-<br /><br /><br />
-
 <table class="zebra">
     <thead>
         <tr>
@@ -9,7 +6,9 @@
     </thead>
     <tbody>
         <?php foreach ($catalogues as $catalogue): ?>
-            <tr><td><?php echo $catalogue ?></td></tr>
+            <tr rel="<?php echo url_for('catalogue/edit?id=' . $catalogue->getCatId()) ?>">
+                <td><?php echo $catalogue ?></td>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>

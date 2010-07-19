@@ -286,6 +286,7 @@ class membersActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('members_edit'));
+            $this->member->setCatalogId($this->getRequestParameter('catalog_id'));
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setAdm1Id($this->getRequestParameter('adm1_id'));
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));

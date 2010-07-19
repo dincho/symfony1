@@ -440,17 +440,18 @@ propel:
     created_at:
       
   catalogue:
-    cat_id:         { type: integer, size: 11,  required: true, autoincrement: true, primaryKey: true }
-    name:           { type: varchar, size: 100, required: true,  default: '' }
-    source_lang:    { type: varchar, size: 100, required: true,  default: '' }
-    target_lang:    { type: varchar, size: 100, required: true,  default: '' }
-    domain:         { type: varchar, size: 255, required: true,  default: '' }
-    date_created:   { type: integer, size: 11, required: true,  default: 0 }
-    date_modified:  { type: integer, size: 11, required: true,  default: 0 }
-    author:         { type: varchar, size: 255, required: true,  default: '' }
+    cat_id:             { type: integer, size: 11,  required: true, autoincrement: true, primaryKey: true }
+    name:               { type: varchar, size: 100, required: true,  default: '' }
+    source_lang:        { type: varchar, size: 100, required: true,  default: '' }
+    target_lang:        { type: varchar, size: 100, required: true,  default: '' }
+    domain:             { type: varchar, size: 255, required: true,  default: '' }
+    date_created:       { type: integer, size: 11, required: true,  default: 0 }
+    date_modified:      { type: integer, size: 11, required: true,  default: 0 }
+    author:             { type: varchar, size: 255, required: true,  default: '' }
+    shared_catalogs:    {type: varchar, size: 255, required: false }
     # _uniques:
     #   name:         [name]
-      
+    
   trans_unit:
     id:
     cat_id:                 { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }

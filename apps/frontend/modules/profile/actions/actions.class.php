@@ -271,9 +271,16 @@ class profileActions extends prActions
             $c->add(MemberPeer::EMAIL, $email);
             $c->add(MemberPeer::PASSWORD, $password);
             $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED_BY_MEMBER, Criteria::NOT_EQUAL);
+            $c->addJoin(MemberPeer::CATALOG_ID, CataloguePeer::CAT_ID, Criteria::LEFT_JOIN);
+            
+            $crit = $c->getNewCriterion(CataloguePeer::CAT_ID, $this->getUser()->getCatalogId());
+            $crit->addOr($c->getNewCriterion(CataloguePeer::SHARED_CATALOGS, $this->getUser()->getCatalogId() . ' IN ('.CataloguePeer::SHARED_CATALOGS.')', Criteria::CUSTOM));
+            $c->add($crit);
+            
             $c->setLimit(1);
             $member = MemberPeer::doSelectOne($c);
-            if (! $member)
+            
+            if (!$member)
             {
                 $this->getRequest()->setError('login', 'Email and password do not match. Please try again.');
                 $firstloginattempt = 1;
