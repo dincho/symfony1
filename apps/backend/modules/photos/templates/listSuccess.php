@@ -15,11 +15,15 @@
         <fieldset class="form_fields">
         <?php $photos = $member->getPublicMemberPhotos(); $cnt_photos = count($photos); ?>
         <?php $i=1; foreach($photos as $photo): ?>
-            <div class="photo_slot">
+            <div class="photo_slot" id="<?php echo 'photo_' . $photo->getId(); ?>">
                 <div <?php if( $photo->isMain() ) echo 'class="selected_photo"'; ?>>
                     <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
                 </div>
-                <?php echo link_to('Delete Photo', 'members/deletePhoto?id='.$member->getId().'&photo_id='.$photo->getId(), 'confirm=Are you sure you want to delete this photo?') ?><br />
+                
+                <?php echo link_to_remote('Delete Photo', array('url' => 'editProfile/confirmDeletePhoto?simple_delete=1&id=' . $photo->getId() . '&member_id=' . $member->getId(),
+                                                                         'update'  => 'msg_container',
+                                                                        )) ?><br />
+                                                                           
                 <?php echo link_to_unless($member->getPrivateDating(), 'Add to homepage', 'photos/addMemberPhotoToHomepage?photo_id=' . $photo->getId()); ?>
             </div>
             <?php if( $i++ % 6 == 0 && $i <= $cnt_photos): ?>
