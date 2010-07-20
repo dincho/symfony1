@@ -1,4 +1,5 @@
-<?php use_helper('Object') ?>
+<?php use_helper('Object', 'xSortableTitle'); ?>
+
 <div class="filter_right">
     <?php echo button_to ('Clear Cache', 'system/clearI18NCache') ?>
     <?php echo button_to ('Add Translation Unit', 'transUnits/create') ?>
@@ -37,9 +38,11 @@
 <table class="zebra">
     <thead>
     <tr>
-      <th>Source</th>
-      <th>Target</th>
-      <th>Tags</th>
+        <th><?php echo sortable_title('Source', 'TransUnit::source', $sort_namespace) ?></th>
+        <th>Target</th>
+        <th>Tags</th>
+        <th><?php echo sortable_title('Created', 'TransUnit::date_added', $sort_namespace) ?></th>
+        <th><?php echo sortable_title('Modified', 'TransUnit::date_modified', $sort_namespace) ?></th>
     </tr>
     </thead>
     <tbody>
@@ -48,6 +51,8 @@
         <td><?php echo Tools::truncate($trans_unit->getSource(), 110) ?></td>
         <td><?php echo Tools::truncate($trans_unit->getTarget(), 110) ?></td>
         <td><?php echo Tools::truncate($trans_unit->getTags(), 110) ?></td>
+        <td><?php echo date('m/d/Y', $trans_unit->getDateAdded()); ?></td>
+        <td><?php echo date('m/d/Y', $trans_unit->getDateModified()); ?></td>
     </tr>
     <?php endforeach; ?>
     </tbody>
