@@ -91,4 +91,11 @@ class TransUnitPeer extends BaseTransUnitPeer
       
       return $ret;
     }
+    
+    public static function deleteSource($source)
+    {
+        $c = new Criteria();
+        $c->add(self::SOURCE, $source);
+        self::doDelete($c);
+    }
 }

@@ -566,5 +566,38 @@ class profileActions extends prActions
         
         $this->perm = $perm;
     }
+    
+    public function validateTogglePrivatePhotosPerm()
+    {
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
+        
+        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId());
+        
+        if( !$perm ) //validate only granting
+        {
+            $member = $this->getUser()->getProfile();
+            
+            if( $member->countMemberPhotos() == 0 )
+            {
+                $this->getRequest()->setError('photo', 'You currently have no photos at all. Please upload some photos first.');
+                return false;
+            }
+            
+            
+            if( $member->countPrivateMemberPhotos() == 0 )
+            {
+                $this->getRequest()->setError('photo', 'You currently have no private photos. You need to make some of your photos private.');
+                return false;
+            }
+        }
+    }
+    
+    public function handleErrorTogglePrivatePhotosPerm()
+    {
+        sfLoader::loadHelpers(array('Partial'));
+        
+        return $this->renderText(get_partial('content/formErrors'));
+    }    
 
 }
