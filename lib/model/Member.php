@@ -902,24 +902,16 @@ class Member extends BaseMember
       return !$this->isFree();
     }
 
-    public function getMemberRate($raterId = NULL)
+    public function getMemberRateWith(BaseMember $rater, $return_object = false)
     {
-
-      if(! $raterId)
-        $raterId = sfContext::getInstance()->getUser()->getId();
-      
       $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID,$this->getId());
-      $c->addAnd(MemberRatePeer::RATER_ID,$raterId);
-
-      // Just in case if we have more than 1 ratings
-      $c->addDescendingOrderByColumn(MemberRatePeer::CREATED_AT);
-
+      $c->add(MemberRatePeer::MEMBER_ID, $this->getId());
+      $c->addAnd(MemberRatePeer::RATER_ID, $rater->getId());
       $memberRate = MemberRatePeer::doSelectOne($c);
-      if($memberRate)
-        return($memberRate->getRate());
-      else
-        return(0);
+      
+      if( $return_object ) return $memberRate;
+      
+      return ($memberRate) ? $memberRate->getRate() : 0;
     }
     
     public function hasPrivatePhotosPermsFor(BaseMember $member)

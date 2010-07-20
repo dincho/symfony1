@@ -157,6 +157,7 @@ class profileActions extends prActions
                 $this->profile_pager = new ProfilePager($this->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager'), $this->member->getUsername());
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
+                $this->rate = $this->member->getMemberRateWith($this->getUser()->getProfile());
 
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));
@@ -505,10 +506,7 @@ class profileActions extends prActions
         return $this->renderText(__("Wrong member ID!"));
       }
 
-      $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID, $member->getId());
-      $c->addAnd(MemberRatePeer::RATER_ID, $rater->getId());
-      $memberRate = MemberRatePeer::doSelectOne($c);
+      $memberRate = $member->getMemberRateWith($rater, true);
 
       if( !$memberRate )
       {
@@ -519,10 +517,7 @@ class profileActions extends prActions
 
       $memberRate->setRate($rate);
       
-      $c = new Criteria();
-      $c->add(MemberRatePeer::MEMBER_ID, $rater->getId());
-      $c->addAnd(MemberRatePeer::RATER_ID, $member->getId());
-      $reverseRate = MemberRatePeer::doSelectOne($c);
+      $reverseRate = $rater->getMemberRateWith($member, true);
       
       if( $memberRate->isModified() )
       {
@@ -541,7 +536,7 @@ class profileActions extends prActions
       }
       
       $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
-      return($this->renderText(__("Rated with %NB% stars", array('%NB%' => $rate))));
+      return $this->renderText(__("You gave this member %NB% star", array('%NB%' => $rate)));
     }
     
     public function executeTogglePrivatePhotosPerm()

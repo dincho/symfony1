@@ -135,7 +135,7 @@
                                     'script' => true, 
                             ), array('id' => 'photo_perm_link', 'class' => 'sec_link', )); ?><br /><br />
 
-      <ul id="currentRatingStars" class="rating star<?php echo $member->getMemberRate() ?>">
+      <ul id="currentRatingStars" class="rating star<?php echo $rate; ?>">
       <li class="one">
         <?php echo link_to_remote('1',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=1',
@@ -182,7 +182,13 @@
         )) ?>
       </li>
     </ul>    
-    <div id="rateMessage" style="float: left">&nbsp;</div>
+    <div id="rateMessage" style="float: left">
+        <?php if( $rate == 0 ): ?>
+            <?php echo __('rate this member')?>
+        <?php else: ?>
+            <?php echo __("You gave this member %NB% star", array('%NB%' => $rate)); ?>
+        <?php endif; ?>
+    </div>
     <br class="clear" /><br />
 
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>

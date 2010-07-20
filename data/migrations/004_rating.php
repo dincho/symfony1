@@ -11,6 +11,7 @@ class Migration004 extends sfMigration
   public function up()
   {
     $this->loadSqlFixtures();
+    $this->loadTransUnits();
   }
 
   /**
@@ -18,6 +19,8 @@ class Migration004 extends sfMigration
    */
   public function down()
   {
+      $this->deleteTransUnits();
+      
       $this->executeSQL("DELETE FROM `notification_event` WHERE `notification_id` = 29 AND `event` = 26");
       $this->executeSQL("DELETE FROM `notification_event` WHERE `notification_id` = 30 AND `event` = 27");
       $this->executeSQL("DELETE FROM `notification` WHERE (`id`=29 AND `cat_id`=1) OR (`id`=29 AND `cat_id`= 2)");
