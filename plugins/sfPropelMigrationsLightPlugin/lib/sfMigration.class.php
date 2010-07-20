@@ -167,6 +167,45 @@ abstract class sfMigration
         }
   }
   
+  protected function getTransUnits()
+  {
+        $fixturesDir = $this->getMigrator()->getMigrationsFixturesDir().DIRECTORY_SEPARATOR.$this->getMigrationNumber();
+      
+        if (is_dir($fixturesDir))
+        {
+          $tu_files = sfFinder::type('file')->ignore_version_control()->name('*.tu')->in($fixturesDir);
+        }
+        else
+        {
+          throw new sfException('No TU fixtures exist for migration '.$this->getMigrationNumber());
+        }
+
+        $rows = array();
+        
+        foreach($tu_files as $tu_file)
+        {
+            $rows = array_merge($rows, explode("\n", file_get_contents($tu_file)));
+        }
+        
+        return $rows;
+  }
+  
+  protected function loadTransUnits()
+  {
+    foreach( $this->getTransUnits() as $source )
+    {
+        TransUnitPeer::createNewUnit($source);
+    }
+  }
+  
+  protected function deleteTransUnits()
+  {
+    foreach( $this->getTransUnits() as $source )
+    {
+        TransUnitPeer::deleteSource($source);
+    }
+  }
+  
   /**
    * Execute SQL from a file.
    * 
