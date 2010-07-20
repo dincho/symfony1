@@ -39,6 +39,8 @@ class subscriptionsActions extends sfActions
                 $subscription->setCreateProfiles($req_subs[$subscription->getId()]['create_profiles']);
                 $subscription->setCanPostPhoto($req_subs[$subscription->getId()]['can_post_photo']);
                 $subscription->setPostPhotos($req_subs[$subscription->getId()]['post_photos']);
+                $subscription->setCanPostPrivatePhoto($req_subs[$subscription->getId()]['can_post_private_photo']);
+                $subscription->setPostPrivatePhotos($req_subs[$subscription->getId()]['post_private_photos']);
                 $subscription->setCanWink($req_subs[$subscription->getId()]['can_wink']);
                 $subscription->setWinks($req_subs[$subscription->getId()]['winks']);
                 $subscription->setWinksDay($req_subs[$subscription->getId()]['winks_day']);

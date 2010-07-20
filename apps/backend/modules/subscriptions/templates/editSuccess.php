@@ -14,6 +14,8 @@
         
         <label for="post_photo">Post a photo:</label><br />
         
+        <label for="post_private_photo">Post a private photo:</label><br />
+        
         <label for="send_wink">Send &amp; receive winks:</label><br />
         
         <label for="read_messages">Read new messages:</label><br />
@@ -55,10 +57,13 @@
         <var><b><?php echo $sub->getTitle() ?></b></var><br />
         <var>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monthly&nbsp;&nbsp;&nbsp;&nbsp;Daily</var><br />
         <?php echo object_bool_select_tag($sub, 'getCanCreateProfile', array('control_name' => 'subs['. $sub->getId() .'][can_create_profile]')) ?>
-        <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />        
+        <?php echo object_input_tag($sub, 'getCreateProfiles', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][create_profiles]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanPostPhoto', array('control_name' => 'subs['. $sub->getId() .'][can_post_photo]')) ?>
-        <?php echo object_input_tag($sub, 'getPostPhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_photos]')) ?><br />       
+        <?php echo object_input_tag($sub, 'getPostPhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_photos]')) ?><br />
+        
+        <?php echo object_bool_select_tag($sub, 'getCanPostPrivatePhoto', array('control_name' => 'subs['. $sub->getId() .'][can_post_private_photo]')) ?>
+        <?php echo object_input_tag($sub, 'getPostPrivatePhotos', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][post_private_photos]')) ?><br />
         
         <?php echo object_bool_select_tag($sub, 'getCanWink', array('control_name' => 'subs['. $sub->getId() .'][can_wink]')) ?>
         <?php echo object_input_tag($sub, 'getWinks', array('class' => 'limit_input', 'control_name' => 'subs['. $sub->getId() .'][winks]')) ?>
