@@ -1,4 +1,4 @@
-<?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink') ?>
+<?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink', 'Javascript') ?>
 
 <div id="winks">
     <div class="you_recived">
@@ -21,23 +21,13 @@
             </div>        
         <?php endforeach; ?>
     </div>
-    <div class="you_sent">
+    
+    <div class="you_sent" id="sent_hotlist">
         <?php echo __('You\'ve added these members to your Hotlist')?><br />
         <span><?php echo __('Click on the "x" in the lower corner of a profile to remove it from the list.')?></span><br /><br />
         <?php foreach ($hotlists as $hotlist_row): ?>
-            <?php $profile = $hotlist_row->getMemberRelatedByProfileId(); ?>
-            <div class="member_profile">
-                <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
-                <?php echo link_to_ref(profile_photo($profile, 'float-left'), '@profile?bc=hotlist&username=' . $profile->getUsername()) ?>
-                <div class="input">
-                    <span class="public_reg_notice"><?php echo __('Added to your hotlist %date%', array('%date%' => distance_of_time_in_words($hotlist_row->getCreatedAt(null)))) ?></span>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
-                    <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?id=' . $hotlist_row->getId()) ?>
-                </div>
-                <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'hotlist/delete?id=' . $hotlist_row->getId()) ?>
-
-            </div>        
-        <?php endforeach; ?>        
+            <?php include_partial('hotlist/sent_hotlist_profile', array('hotlist' => $hotlist_row)); ?>
+        <?php endforeach; ?>
     </div>
 </div>
 <?php slot('footer_menu') ?>

@@ -58,22 +58,46 @@
     </div>
    
    <div id="profile_top">
+        <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()) ): ?>
+            <span class="sec_link"><?php echo __('Wink'); ?></span>
+        <?php else: ?>
+            <?php echo link_to_remote(__('Wink'), 
+                                      array('url'     => 'winks/send?profile_id=' . $member->getId(),
+                                            'update'  => 'msg_container',
+                                            'success' => '$("wink_link").removeAttribute("onclick"); $("wink_link").addClassName("inactive_link");'
+                                            // 'success' => '$("wink_link").wrap("span").remove("wink_link");', 
+                                          ),
+                                      array('class' => 'sec_link',
+                                            'id'    => 'wink_link', 
+                                            )
+                        ); ?>
+        <?php endif; ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        
         <?php $cancel_url =  strtr(base64_encode(sfRouting::getInstance()->getCurrentInternalUri()), '+/=', '-_,'); ?>
-        <?php echo link_to_unless_ref($sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()), __('Wink'), 'winks/send?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php echo link_to(__('Send Mail'), 'messages/send?recipient_id=' . $member->getId() . '&cancel_url=' . $cancel_url, 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
+        <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
+        <?php echo link_to_remote($hotlist_link_title,
+                                  array('url'     => 'hotlist/toggle?update_selector=hotlist_link&profile_id=' . $member->getId(),
+                                        'update'  => 'msg_container',
+                                        'script'  => true
+                                      ),
+                                  array('class' => 'sec_link',
+                                        'id'    => 'hotlist_link', 
+                                        )
+                    ); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
 
-        <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-         <?php echo link_to_ref(__('Remove from Hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php else: ?>
-            <?php echo link_to_ref(__('Add to Hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php endif; ?>
 
-        <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId()) ): ?>
-            <?php echo link_to(__('Unblock'), 'block/remove?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php else: ?>
-            <?php echo link_to(__('Block'), 'block/add?profile_id=' . $member->getId(), 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        <?php endif; ?>
+        <?php $block_link_title = ( $sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($member->getId()) ) ? __('Unblock') : __('Block'); ?>
+        <?php echo link_to_remote($block_link_title,
+                                  array('url'     => 'block/toggle?update_selector=block_link&profile_id=' . $member->getId(),
+                                        'update'  => 'msg_container',
+                                        'script'  => true
+                                      ),
+                                  array('class' => 'sec_link',
+                                        'id'    => 'block_link', 
+                                        )
+                    ); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
         <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername() . ($sf_request->hasParameter('pager')?'&pager=1':''), 'class=sec_link') ?>
    </div>
@@ -219,3 +243,4 @@
   $("currentRatingStars").className = "rating star" + json.currentRate;
   $("currentRate").innerHTML = json.currentRate;
 }') ?>
+

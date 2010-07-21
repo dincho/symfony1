@@ -43,9 +43,9 @@ class winksActions extends prActions
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('Congratulations! You have just sent the wink. Wait and see. Or see <a href="%WINKS_URL%" class="sec_link">all your winks</a>.', 
                 array('%WINKS_URL%' => $this->getController()->genUrl('@winks')));
-        $this->setFlash('msg_ok', $msg_ok);
+        $this->setFlash('msg_ok', $msg_ok, false);
         
-        $this->redirectToReferer();
+        return $this->renderText(get_partial('content/messages'));
     }
 
     public function validateSend()
@@ -57,7 +57,8 @@ class winksActions extends prActions
         if( $member->getId() == $profile->getId() )
         {
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $profile->getUsername() );
+            // $this->redirect('profile/index?username=' . $profile->getUsername() );
+            return false;
         }
         
         //2. Privacy
@@ -106,21 +107,7 @@ class winksActions extends prActions
 
     public function handleErrorSend()
     {
-        $c = new Criteria();
-        $c->add(WinkPeer::MEMBER_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
-        $c->add(WinkPeer::SENT_BOX, true);
-        $this->sent_winks = WinkPeer::doSelectJoinMemberRelatedByProfileId($c);
-        
-        $c = new Criteria();
-        $c->add(WinkPeer::PROFILE_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(WinkPeer::CREATED_AT);
-        $c->add(WinkPeer::SENT_BOX, false);
-        $this->received_winks = WinkPeer::doSelectJoinMemberRelatedByMemberId($c);
-
-        $this->getUser()->getBC()->removeLast();
-        $this->setTemplate('index');
-        return sfView::SUCCESS;
+        return $this->renderText(get_partial('content/formErrors'));
     }
 
     public function executeDelete()

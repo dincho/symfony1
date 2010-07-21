@@ -22,11 +22,16 @@
                   
                   <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                   <p>
-                      <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-                        <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                      <?php else: ?>
-                        <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                      <?php endif; ?>
+                    <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
+                    <?php echo link_to_remote($hotlist_link_title,
+                                              array('url'     => 'hotlist/toggle?update_selector=hotlist_link_'.$member->getId().'&profile_id=' . $member->getId(),
+                                                    'update'  => 'msg_container',
+                                                    'script'  => true
+                                                  ),
+                                              array('class' => 'sec_link',
+                                                    'id'    => 'hotlist_link_' . $member->getId(), 
+                                                    )
+                                ); ?>
                   </p>
                   <p><?php include_partial('search/last_action', array('match' => $match)); ?></p>
                   <?php $when = (is_null($member->getLastLogin())) ? __('never') : distance_of_time_in_words($member->getLastLogin(null)); ?>

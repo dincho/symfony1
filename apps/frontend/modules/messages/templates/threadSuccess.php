@@ -10,7 +10,19 @@
     </div>
     <?php if($profile): ?>
         <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
-        <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Block'), 'block/add?profile_id=' . $profile->getId(), array('class' => 'sec_link')) ?>&nbsp;&nbsp;</div>
+        <div class="float-right">&bull;&nbsp;&nbsp;
+            <?php $block_link_title = ( $sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($profile->getId()) ) ? __('Unblock') : __('Block'); ?>
+            <?php echo link_to_remote($block_link_title,
+                                      array('url'     => 'block/toggle?update_selector=block_link&profile_id=' . $profile->getId(),
+                                            'update'  => 'msg_container',
+                                            'script'  => true
+                                          ),
+                                      array('class' => 'sec_link',
+                                            'id'    => 'block_link', 
+                                            )
+                        ); ?>
+            &nbsp;&nbsp;
+        </div>
     <?php endif; ?>
     
     <br class="clear" />

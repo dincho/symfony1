@@ -9,14 +9,11 @@
  */
 class hotlistActions extends prActions
 {
-    public function preExecute()
+    public function executeIndex()
     {
         $bc = $this->getUser()->getBC();
         $bc->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-    }
-
-    public function executeIndex()
-    {
+                
         $c = new Criteria();
         $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
@@ -35,99 +32,83 @@ class hotlistActions extends prActions
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
         $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
     }
-
-    public function executeAdd()
+    
+    public function executeToggle()
     {
-        $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
-        $n = $this->getRequestParameter('n');
-        $this->forward404Unless($profile);
-        $hotlist = new Hotlist();
-        $hotlist->setMemberId($this->getUser()->getId());
-        $hotlist->setProfileId($profile->getId());
-        if( $n ) $hotlist->setIsNew(false);
-        $hotlist->save();
-        
-        //@TODO what's this, probably if not undo ? ?!
-        if (!isset($n))
-        {
-          if( $profile->getEmailNotifications() === 0 && 
-              (!$this->getUser()->getProfile()->getPrivateDating() || $this->getUser()->getProfile()->hasOpenPrivacyFor($profile->getId()))
-             )
-          {
-              Events::triggerAccountActivityHotlist($profile, $this->getUser()->getProfile());
-          }
-          
-          //confirm msg
-          $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
-          array('%USERNAME%' => $profile->getUsername()));
-          $this->setFlash('msg_ok', $msg_ok);
-        }
-        //$this->redirect('@profile?username=' . $profile->getUsername());
-        $this->redirectToReferer();
-    }
-
-    public function validateAdd()
-    {
-        $bc = $this->getUser()->getBC();
-        $bc->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-            	
+        $this->forward404Unless($this->getRequestParameter('profile_id'));
         $profile = MemberPeer::retrieveByPK($this->getRequestParameter('profile_id'));
         $this->forward404Unless($profile);
         
-        if( $this->getUser()->getId() == $profile->getId() )
-        {
-            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $profile->getUsername() );
-        }
-                
+        $member = $this->getUser()->getProfile();
+        
         $c = new Criteria();
-        $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
+        $c->add(HotlistPeer::MEMBER_ID, $member->getId());
         $c->add(HotlistPeer::PROFILE_ID, $profile->getId());
-        $cnt = HotlistPeer::doCount($c);
-        if ($cnt > 0)
+        $hotlist = HotlistPeer::doSelectOne($c);
+        
+        if( $hotlist )
         {
-            $this->getRequest()->setError('hotlist', 'This member is already in your hotlist.');
+            $hotlist->delete();
+            
+            sfLoader::LoadHelpers(array('Url', 'Javascript', 'Tag'));
+            
+            $undo_url = 'hotlist/toggle?undo=1&profile_id=' . $profile->getId();
+            if( $this->getRequestParameter('update_selector') ) $undo_url .= '&update_selector=' . $this->getRequestParameter('update_selector');
+            if( $this->getRequestParameter('show_element') ) $undo_url .= '&show_element=' . $this->getRequestParameter('show_element');
+            
+            $undo_link = link_to_remote(__('click here'),
+                                  array('url'     => $undo_url,
+                                        'update'  => 'msg_container',
+                                        'script'  => true
+                                      ),
+                                  array('class' => 'sec_link',
+                                        )
+                    );
+                                
+            $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been removed from your hotlist. To undo, %UNDO_LINK%.', 
+                                          array('%USERNAME%' => $profile->getUsername(), 
+                                                '%UNDO_LINK%' => $undo_link)
+                            );
+                    
+        } else {
+            $undo = (bool) $this->getRequestParameter('undo');
+            
+            $hotlist = new Hotlist();
+            $hotlist->setMemberId($member->getId());
+            $hotlist->setProfileId($profile->getId());
+            $hotlist->save(null, !$undo);
+            
+            
+            if( $profile->getEmailNotifications() === 0 && 
+                ( !$member->getPrivateDating() || $member->hasOpenPrivacyFor($profile->getId()) )
+              )
+            {
+              Events::triggerAccountActivityHotlist($profile, $member);
+            }
+                      
+            $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
+                                          array('%USERNAME%' => $profile->getUsername()));
+        }
+        
+        $this->setFlash('msg_ok', $msg_ok, false);
+        $this->hotlist = $hotlist;
+    }
+    
+    public function validateToggle()
+    {
+        if( $this->getUser()->getId() == $this->getRequestParameter('profile_id') )
+        {
+            $this->getRequest()->setError('hotlist', 'You can\'t use this function on your own profile');
+            
             return false;
         }
+        
         return true;
     }
-
-    public function handleErrorAdd()
+    
+    public function handleErrorToggle()
     {
-        $c = new Criteria();
-        $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
-        $this->hotlists = HotlistPeer::doSelectJoinMemberRelatedByProfileId($c);
-        
-        $c = new Criteria();
-        $c->add(HotlistPeer::PROFILE_ID, $this->getUser()->getId());
-        $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
-        $this->others_hotlists = HotlistPeer::doSelectJoinMemberRelatedByMemberId($c);
-
-        $this->getUser()->getBC()->removeLast();
-        $this->setTemplate('index');
-        return sfView::SUCCESS;
-    }
-
-    public function executeDelete()
-    {
-        $this->forward404Unless($this->getRequestParameter('id') || $this->getRequestParameter('profile_id'));
-        
-        $c = new Criteria();
-        $c->add(HotlistPeer::MEMBER_ID, $this->getUser()->getId());
-        if( $this->getRequestParameter('id') ) $c->add(HotlistPeer::ID, $this->getRequestParameter('id'));
-        if( $this->getRequestParameter('profile_id')) $c->add(HotlistPeer::PROFILE_ID, $this->getRequestParameter('profile_id'));
-        $hotlist = HotlistPeer::doSelectOne($c);
-        $this->forward404Unless($hotlist);
-        $hotlist->delete();
-        
-        //confirm msg
-        $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been removed from your hotlist. To undo, <a href="%ADD_URL%" class="sec_link">click here</a>.', 
-        array('%USERNAME%' => $hotlist->getMemberRelatedByProfileId()->getUsername(), '%ADD_URL%' => $this->getController()->genUrl('hotlist/add?profile_id=' . $hotlist->getProfileId() . '&n=1')));
-        $this->setFlash('msg_ok', $msg_ok);
-        
-        if( $hotlist->getProfile()->hasBlockFor($this->getUser()->getId()) ) $this->redirect('@hotlist');
-        
-        $this->redirectToReferer();
+        $this->getResponse()->setStatusCode(400);
+        return $this->renderText(get_partial('content/formErrors'));
     }
 }

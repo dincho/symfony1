@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm', 'Javascript') ?>
 
 <?php include_partial('searchTypes'); ?>
 
@@ -23,11 +23,16 @@
                 <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                 <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                 <p>
-                  <?php if( $sf_user->getProfile()->hasInHotlist($member->getId()) ): ?>
-                    <?php echo link_to_ref(__('Remove from hotlist'), 'hotlist/delete?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                  <?php else: ?>
-                    <?php echo link_to_ref(__('Add to hotlist'), 'hotlist/add?profile_id=' . $member->getId(), array('class' => 'sec_link')) ?>
-                  <?php endif; ?>                    
+                <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
+                <?php echo link_to_remote($hotlist_link_title,
+                                          array('url'     => 'hotlist/toggle?update_selector=hotlist_link&profile_id=' . $member->getId(),
+                                                'update'  => 'msg_container',
+                                                'script'  => true
+                                              ),
+                                          array('class' => 'sec_link',
+                                                'id'    => 'hotlist_link', 
+                                                )
+                            ); ?>
                 </p>
                 <p></p>
                 <?php $when =  ($member->isLoggedIn()) ? __('Online') : distance_of_time_in_words($member->getLastLogin(null)); ?>

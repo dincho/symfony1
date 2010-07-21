@@ -3100,6 +3100,14 @@ table.geo_columns td {
     font-size: 12px;
 }
 
+a.inactive_link, a.inactive_link:active, a.inactive_link:visited {
+    color: #2B2B2B;
+}
+
+a.inactive_link:hover {
+    text-decoration: none;
+    cursor: text;
+}
 
 /* star rating code - use lists because its more semantic */
 /* No javascript required */
