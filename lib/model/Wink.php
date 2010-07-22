@@ -19,7 +19,9 @@ class Wink extends BaseWink
         if($inc_counter && !$this->getSentBox() && $this->isNew() && parent::save($con))
         {
             $this->getMemberRelatedByMemberId()->incCounter('SentWinks');
+            $this->getMemberRelatedByMemberId()->incCounter('SentWinksDay');
             $this->getMemberRelatedByProfileId()->incCounter('ReceivedWinks');
+            $this->getMemberRelatedByProfileId()->incCounter('ReceivedWinksDay');
             
             return true;
         }
