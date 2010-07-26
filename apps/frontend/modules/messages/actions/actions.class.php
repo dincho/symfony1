@@ -93,26 +93,18 @@ class messagesActions extends prActions
         $this->sender = $this->getUser()->getProfile();
         
         //force members to use only one thread
-        $c  =  new Criteria();
-        
-        $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
-        $c->addGroupByColumn(ThreadPeer::ID);
-        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
-                
-        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->sender->getId());
-        $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
-        $crit->addAnd($c->getNewCriterion(MessagePeer::SENDER_ID, $this->recipient->getId()));
-
-        $crit2 = $c->getNewCriterion(MessagePeer::SENDER_ID, $this->sender->getId());
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL));
-        $crit2->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->recipient->getId()));
-    
-        $crit->addOr($crit2);
-        $c->addAnd($crit);
-        $c->addDescendingOrderByColumn(ThreadPeer::CREATED_AT);
-        $old_thread = ThreadPeer::doSelectOne($c);
-        
-        if( $old_thread ) $this->redirect('messages/thread?id=' . $old_thread->getId());
+        $old_thread = ThreadPeer::getOldThread($this->sender, $this->recipient);
+        if( $old_thread ) 
+        {
+            $redirect_url = 'messages/thread?id=' . $old_thread->getId();
+            
+            if( $this->getRequest()->isXmlHttpRequest() )
+            {
+                return $this->renderText(get_partial('content/client_side_redirect', array('url' => $redirect_url)));
+            } else {
+                $this->redirect($redirect_url);
+            }
+        }
         //end enforcement 
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
@@ -125,11 +117,18 @@ class messagesActions extends prActions
                                           PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'))
                                           );
 
-            $this->setFlashConfirmation($send_msg);
-            $this->redirectToReferer();
+            $this->setFlashConfirmation($send_msg, false);
+            return $this->renderText(get_partial('content/messages'));
         }
         
         $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $this->sender->getId(), $this->recipient->getId() );
+
+        if( $this->getRequestParameter('layout') == 'window' )
+        {
+            sfConfig::set('sf_web_debug', false);
+            $this->setLayout('window');
+        }
+
     }
 
     public function validateSend()
@@ -141,7 +140,7 @@ class messagesActions extends prActions
             if( $sender->getId() == $recipient->getId() )
             {
                 $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-                $this->redirect('profile/index?username=' . $recipient->getUsername() );
+                return false;
             }
                     
             //1. is the other member active ?
@@ -215,17 +214,12 @@ class messagesActions extends prActions
     }
     
     public function handleErrorSend()
-    {
-        $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
-        $this->forward404Unless($this->recipient);
-        $this->sender = $this->getUser()->getProfile();
-        
-        $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $this->sender->getId(), $this->recipient->getId());
-        
-        return sfView::SUCCESS;
+    {   
+            $this->getResponse()->setStatusCode(400);
+            return $this->renderText(get_partial('content/formErrors'));
     }
     
-    protected function setFLashConfirmation(BaseMessage $sent_msg)
+    protected function setFLashConfirmation(BaseMessage $sent_msg, $persist = true)
     {
         $to_username = $sent_msg->getMemberRelatedByRecipientId()->getUsername();
         
@@ -236,7 +230,7 @@ class messagesActions extends prActions
                           )
                     );
                     
-        $this->setFlash('msg_ok', $msg_ok);
+        $this->setFlash('msg_ok', $msg_ok, $persist);
     }
         
     public function executeDelete()
@@ -265,7 +259,6 @@ class messagesActions extends prActions
             $c2->add(MessagePeer::SENDER_DELETED_AT, time());
             
             BasePeer::doUpdate($c, $c2, Propel::getConnection());
-                        
         }
         
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
@@ -285,7 +278,7 @@ class messagesActions extends prActions
         }
         
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
-        $this->redirect('messages/index');        
+        $this->redirect('messages/index');
     }
         
     public function executeDiscard()
@@ -294,13 +287,25 @@ class messagesActions extends prActions
         $c->add(MessagePeer::ID, $this->getRequestParameter('draft_id'));
         $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
-        
         $draft = MessagePeer::doSelectOne($c);
         
         if($draft) $draft->delete();
         
-        $this->setFlash('msg_ok', 'Your message has been discarded.');
-        $this->redirect('messages/index');
+        if( $this->getRequest()->isXmlHttpRequest() )
+        {
+            if( $this->getRequestParameter('layout') == 'window' )
+            {
+                $this->setFlash('msg_ok', 'Your message has been discarded.', false);
+                return $this->renderText(get_partial('content/messages'));
+            } else {
+                $this->setFlash('msg_ok', 'Your message has been discarded.');
+                return $this->renderText(get_partial('content/client_side_redirect', array('url' => 'messages/index')));
+            }
+
+        } else {
+            $this->setFlash('msg_ok', 'Your message has been discarded.');
+            $this->redirect('messages/index');
+        }
     }
     
     public function executeThread()

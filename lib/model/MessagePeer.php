@@ -244,5 +244,5 @@ class MessagePeer extends BaseMessagePeer
         $c->add(self::SENDER_ID, $member_id);
 
         self::doDelete($c);
-    }    
+    }
 }

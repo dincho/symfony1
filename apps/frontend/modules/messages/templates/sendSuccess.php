@@ -1,6 +1,6 @@
 <?php use_helper('Javascript', 'dtForm', 'prProfilePhoto') ?>
 
-<span id="feedback">&nbsp;</span>
+
 
 <?php if( $sf_request->getParameter('cancel_url') ): ?>
     <div class="thread_actions">
@@ -8,14 +8,25 @@
     </div>
 <?php endif; ?>
 
-<?php echo form_tag('messages/send', array('class'  => 'msg_form', 'id' => 'send_message_form')) ?>
+<?php echo form_remote_tag(array('url'    => 'messages/send', 
+                                 'complete' => 'send_message_complete(request)',
+                            ), 
+                           array('class'  => 'msg_form', 
+                                 'id' => 'send_message_form',
+                            )
+        ); ?>
     <?php echo input_hidden_tag('recipient_id', $recipient->getId(), 'class=hidden') ?>
     <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
+    <?php echo input_hidden_tag('layout', $sf_params->get('layout'), array('class' => 'hidden')); ?>
+    
+    <div id="feedback">&nbsp;</div>
     
     <fieldset class="actions">
+        
         <div class="new_message_profile_photo" >
             <?php if( $recipient ): ?>
-                <?php echo link_to_unless(!$recipient->isActive(), profile_thumbnail_photo_tag($recipient), '@profile?username=' . $recipient->getUsername()); ?>
+                <?php echo link_to_unless((!$recipient->isActive() || $sf_params->get('layout') == 'window'), 
+                                            profile_thumbnail_photo_tag($recipient), '@profile?username=' . $recipient->getUsername()); ?>
             <?php endif; ?>
         </div>
 
@@ -49,7 +60,12 @@
         <label></label>
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
         <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn', 'disabled' => 'disabled')) ?>
-        <?php echo button_to(__('Discard'), 'messages/discard?draft_id=' . $draft->getId(), array('class' => 'button', )) ?>
+        <?php echo button_to_remote(__('Discard'), array('url'      => 'messages/discard?draft_id=' . $draft->getId(),
+                                                         'complete' => 'draft_complete(request)',
+                                                         'with'     => "'layout=' + $('layout').value",
+                                                         'script'   => 'true', 
+                                                    ), 
+                                                   array('class' => 'button', )) ?>
         <br />
     </fieldset>
   
@@ -57,12 +73,13 @@
 
 <?php include_partial('draft_save', array('draft' => $draft)); ?>
 
+<?php slot('footer_menu') ?>
+    <?php include_partial('content/footer_menu') ?>
+<?php end_slot(); ?>
+
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
     setTimeout("$(\"title\").focus();",1);
 });
 ');?>
 
-<?php slot('footer_menu') ?>
-    <?php include_partial('content/footer_menu') ?>
-<?php end_slot(); ?>

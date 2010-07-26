@@ -158,6 +158,7 @@ class profileActions extends prActions
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
                 $this->rate = $this->member->getMemberRateWith($this->getUser()->getProfile());
+                $this->has_old_threads = (bool) ThreadPeer::countOldthreads($this->getUser()->getProfile(), $this->member);
 
                 //BC Setup below
                 $bc->add(array('name' => 'Dashboard', 'uri' => '@dashboard'));

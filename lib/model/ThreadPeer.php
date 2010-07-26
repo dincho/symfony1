@@ -55,5 +55,40 @@ class ThreadPeer extends BaseThreadPeer
         }
         return $results;
     }
+    
+    public static function getOldThreadCriteria(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
+    {
+        $c  = (is_null($crit)) ? new Criteria() : clone $crit;
+        
+        $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
+        $c->addGroupByColumn(ThreadPeer::ID);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+                
+        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $sender->getId());
+        $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
+        $crit->addAnd($c->getNewCriterion(MessagePeer::SENDER_ID, $recipient->getId()));
+
+        $crit2 = $c->getNewCriterion(MessagePeer::SENDER_ID, $sender->getId());
+        $crit2->addAnd($c->getNewCriterion(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL));
+        $crit2->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_ID, $recipient->getId()));
+    
+        $crit->addOr($crit2);
+        $c->addAnd($crit);
+        $c->addDescendingOrderByColumn(ThreadPeer::CREATED_AT);
+        
+        return $c;
+    }
+    
+    public static function getOldThread(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
+    {
+        $c = self::getOldThreadCriteria($sender, $recipient, $crit);
+        return ThreadPeer::doSelectOne($c);
+    }
+    
+    public static function countOldThreads(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
+    {
+        $c = self::getOldThreadCriteria($sender, $recipient, $crit);
+        return ThreadPeer::doCount($c);
+    }    
          
 }

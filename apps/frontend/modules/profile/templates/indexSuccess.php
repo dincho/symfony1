@@ -1,10 +1,10 @@
-<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
+<?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink', 'Window') ?>
 
 <?php $public_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
 <?php $private_photos = $member->getPrivateMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_private_photos')); ?>
 
 <div id="profile_left" style="padding-top: 14px">
-    <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
+    <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
     <div style="min-height: 350px">
         <?php 
               _addLbRessources();
@@ -65,7 +65,6 @@
                                       array('url'     => 'winks/send?profile_id=' . $member->getId(),
                                             'update'  => 'msg_container',
                                             'success' => '$("wink_link").removeAttribute("onclick"); $("wink_link").addClassName("inactive_link");'
-                                            // 'success' => '$("wink_link").wrap("span").remove("wink_link");', 
                                           ),
                                       array('class' => 'sec_link',
                                             'id'    => 'wink_link', 
@@ -73,8 +72,39 @@
                         ); ?>
         <?php endif; ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
+        <?php if( !$has_old_threads ): ?>
+            <?php //used when the popup window is shown, so user can't click again on the below links ?>
+            <span class="sec_link" id="send_message_span" style="display: none;"><?php echo __('Send Mail'); ?></span>
+        
+            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title'          => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
+                                                                                    'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
+                                                                                    'id'             => '"send_message_window"', 
+                                                                                    'width'          => '550', 
+                                                                                    'height'         => '460',
+                                                                                    // 'top'            => '200', 
+                                                                                    // 'left'           => '470', 
+                                                                                    'center'         => 'true', 
+                                                                                    'minimizable'    => 'false',
+                                                                                    'maximizable'    => 'false',
+                                                                                    'closable'       => 'true', 
+                                                                                    'destroyOnClose' => "true",
+                                                                                    'onClose'        => 'function() { 
+                                                                                            if($("send_message_span")) $("send_message_span").hide();
+                                                                                            if($("send_message_link_window")) $("send_message_link_window").show();
+                                                                                         }',
+                                                                                    'className'      => 'polishdate',
+                                                                                ), 
+                                                                             array('absolute'        => false, 
+                                                                                   'id'              => 'send_message_link_window',
+                                                                                   'class'           => 'sec_link',
+                                                                                   'onclick'         => '$("send_message_link_window").hide(); $("send_message_span").show();', 
+                                                                                 )); ?>
+        <?php endif; ?>
+        
         <?php $cancel_url =  strtr(base64_encode(sfRouting::getInstance()->getCurrentInternalUri()), '+/=', '-_,'); ?>
-        <?php echo link_to(__('Send Mail'), 'messages/send?recipient_id=' . $member->getId() . '&cancel_url=' . $cancel_url, 'class=sec_link') ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php $send_link_style = ($has_old_threads) ? '' : 'display: none;'; ?>
+        <?php echo link_to(__('Send Mail'), 'messages/send?recipient_id=' . $member->getId() . '&cancel_url=' . $cancel_url, 
+                                            array('class' => 'sec_link', 'id' => 'send_message_link', 'style' => $send_link_style, )) ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
         <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
         <?php echo link_to_remote($hotlist_link_title,

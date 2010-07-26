@@ -1,0 +1,40 @@
+= dwPrototypeWindowPlugin - Plugin for prototype based windows and dialogs =
+
+== Overview ==
+
+The plugin provides windows and dialog boxes via the prototype library for the symfony php framework.
+
+== License ==
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+=== Installation ===
+
+To install the plugin use `symfony plugin-install` command :
+
+{{{
+symfony plugin-install http://plugins.symfony-project.com/dwPrototypeWindowPlugin
+}}}
+
+== Support ==
+Questions and concerns regarding this plugin can be submitted and viewed here: [http://www.symfony-project.org/forum/index.php/m/41331/]
+
+== Using the plugin ==
+
+{{{
+
+<?php use_helper('Window'); ?>
+
+<?php if(sfConfig::get('sf_debug')) { echo link_to_function('open js debug window', 'showDebug()'); } ?>
+
+<?php echo link_to_prototype_window('Google', 'google', array('title' => 'Google', 'url' => 'http://google.com', 'width' => '520', 'height' => '350', 'center' => 'true', 'className' => 'alphacube'), array('absolute' => true)); ?>
+
+<?php echo link_to_prototype_dialog('hello', 'hello world', 'alert', array('className' => 'alphacube')); ?>
+
+}}}
+
+== Examples ==
+
+http://prototype-window.xilinus.com/samples.html
+

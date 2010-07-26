@@ -3109,6 +3109,29 @@ a.inactive_link:hover {
     cursor: text;
 }
 
+.window {
+    background-color: #2B2B2B;
+}
+
+.window #secondary_container {
+   padding-top: 0;
+   width: auto;
+}
+
+.window #send_message_form {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#send_message_form #feedback {
+    padding-bottom: 10px;
+}
+
+.window #msgs {
+    width: 490px;
+}
+
 /* star rating code - use lists because its more semantic */
 /* No javascript required */
 /* all the stars are contained in one matrix to solve rollover problems with delay */
@@ -3198,7 +3221,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
 /* end rating code */
 
 
-#secondary_container #recaptcha_post_your_story{
+#secondary_container #recaptcha_post_your_story {
     padding-left: 70px;
 }
 
