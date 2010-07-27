@@ -1,7 +1,5 @@
 fillin:
-  enabled: true
-  param:
-    content_type:   xhtml  
+  enabled: false
 fields:
   flag_category:
     required:

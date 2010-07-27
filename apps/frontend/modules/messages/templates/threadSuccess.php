@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm') ?>
+<?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm', 'Window') ?>
 
 <div class="thread_actions">
     <div class="float-left">
@@ -9,7 +9,24 @@
       <?php endif; ?>
     </div>
     <?php if($profile): ?>
-        <div class="float-right">&bull;&nbsp;&nbsp;<?php echo link_to(__('Flag'), 'content/flag?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></div>
+        <div class="float-right">&bull;&nbsp;&nbsp;
+            <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $profile->getUsername())), 
+                                                                                    'url'            => 'content/flag?layout=window&username=' . $profile->getUsername(), 
+                                                                                    'id'             => '"flag_profile_window"', 
+                                                                                    'width'          => '550', 
+                                                                                    'height'         => '340',
+                                                                                    'center'         => 'true', 
+                                                                                    'minimizable'    => 'false',
+                                                                                    'maximizable'    => 'false',
+                                                                                    'closable'       => 'true', 
+                                                                                    'destroyOnClose' => "true",
+                                                                                    'className'      => 'polishdate',
+                                                                                ), 
+                                                                             array('absolute'        => false, 
+                                                                                   'id'              => 'flag_profile_link_window',
+                                                                                   'class'           => 'sec_link',
+                                                                                 )); ?>
+        </div>
         <div class="float-right">&bull;&nbsp;&nbsp;
             <?php $block_link_title = ( $sf_user->getProfile() && $sf_user->getProfile()->hasBlockFor($profile->getId()) ) ? __('Unblock') : __('Block'); ?>
             <?php echo link_to_remote($block_link_title,

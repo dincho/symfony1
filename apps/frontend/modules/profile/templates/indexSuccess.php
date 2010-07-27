@@ -128,8 +128,23 @@
                                         'id'    => 'block_link', 
                                         )
                     ); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        
-        <?php echo link_to(__('Flag'), 'content/flag?username=' . $member->getUsername() . ($sf_request->hasParameter('pager')?'&pager=1':''), 'class=sec_link') ?>
+                    
+        <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
+                                                                                'url'            => 'content/flag?layout=window&username=' . $member->getUsername(), 
+                                                                                'id'             => '"flag_profile_window"', 
+                                                                                'width'          => '550', 
+                                                                                'height'         => '340',
+                                                                                'center'         => 'true', 
+                                                                                'minimizable'    => 'false',
+                                                                                'maximizable'    => 'false',
+                                                                                'closable'       => 'true', 
+                                                                                'destroyOnClose' => "true",
+                                                                                'className'      => 'polishdate',
+                                                                            ), 
+                                                                         array('absolute'        => false, 
+                                                                               'id'              => 'flag_profile_link_window',
+                                                                               'class'           => 'sec_link',
+                                                                             )); ?>
    </div>
     <span class="profile_gift">
         <?php if( $member->getMillionaire() ): ?>

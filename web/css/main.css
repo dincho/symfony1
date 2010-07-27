@@ -2373,6 +2373,8 @@ div.best_video div.right img {
 /* Flagging */
 #flag {
     height: 240px;
+    width: 490px;
+    margin: 20px auto;
 }
 
 #flag .left {
@@ -2389,6 +2391,10 @@ div.best_video div.right img {
     background-color: transparent;
     float: none;
     padding-left: 0;
+}
+
+#flag #comment {
+    width: 400px;
 }
 
 /* END flaggind */ /* profile */ /* left */
@@ -3116,6 +3122,7 @@ a.inactive_link:hover {
 .window #secondary_container {
    padding-top: 0;
    width: auto;
+   min-height: 200px;
 }
 
 .window #send_message_form {

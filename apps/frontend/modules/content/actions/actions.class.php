@@ -83,16 +83,18 @@ class contentActions extends prActions
             
             $this->getUser()->getProfile()->incCounter('SentFlags');
             
-            $this->setFlash('msg_ok', 'Thanks for taking time to report the profile! We appreciate it.');
-            $this->redirect('@profile?username=' . $profile->getUsername() . ($this->getRequestParameter('pager')?'&pager=1':'') );
+            $this->setFlash('msg_ok', 'Thanks for taking time to report the profile! We appreciate it.', false);
+            return $this->renderText(get_partial('content/messages'));
         }
         
-                $this->getUser()->getBC()->replaceFirst(array(
-                    'name' => sfI18N::getInstance()->__('%USERNAME%\'s profile', array('%USERNAME%' => $profile->getUsername())),
-                    'uri' => '@profile?username=' . $profile->getUsername()
-                    ));
         $this->profile = $profile;
         $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
+        
+        if( $this->getRequestParameter('layout') == 'window' )
+        {
+            sfConfig::set('sf_web_debug', false);
+            $this->setLayout('window');
+        }
     }
 
     public function validateFlag()
@@ -103,7 +105,7 @@ class contentActions extends prActions
         if ($this->getUser()->getId() == $profile->getId())
         {
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $profile->getUsername());
+            return false;
         }
         
         return true;
@@ -111,10 +113,8 @@ class contentActions extends prActions
 
     public function handleErrorFlag()
     {
-        $this->profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
-        $this->forward404Unless($this->profile);
-        $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
-        return sfView::SUCCESS;
+        $this->getResponse()->setStatusCode(400);
+        return $this->renderText(get_partial('content/formErrors'));
     }
 
     public function executePage()

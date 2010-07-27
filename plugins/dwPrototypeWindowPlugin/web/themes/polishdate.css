@@ -103,7 +103,7 @@
     color: #D3D3D3;
 }
 
-#send_message_window {
+.dialog {
     border: 3px solid black;
 }
 
@@ -114,17 +114,6 @@
     font: 12px arial;
 
     border-top: none;
-}
-
-
-#send_message_window_row1 {
-}
-
-#send_message_window_row2 {
-}
-
-
-#send_message_window_row3 {
 }
 
 /* For alert/confirm dialog */

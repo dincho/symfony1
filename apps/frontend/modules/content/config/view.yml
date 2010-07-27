@@ -4,3 +4,5 @@ searchEngineSuccess:
   layout:      se
   stylesheets: [-*]
   javascripts: [-*]
+flagSuccess:
+  javascripts: [flag_profile_handlers]
