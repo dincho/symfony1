@@ -861,6 +861,7 @@ class Member extends BaseMember
       if( $current_subscription = $this->getCurrentMemberSubscription() )
       {
         $c = new Criteria();
+        $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->getId());
         $c->add(MemberSubscriptionPeer::STATUS, array('confirmed', 'canceled'), Criteria::IN);
         $c->add(MemberSubscriptionPeer::EFFECTIVE_DATE, $current_subscription->getEffectiveDate(null), Criteria::GREATER_THAN);
         $c->addDescendingOrderByColumn(MemberSubscriptionPeer::EFFECTIVE_DATE);
