@@ -587,6 +587,8 @@ class profileActions extends prActions
                 return false;
             }
         }
+        
+        return true;
     }
     
     public function handleErrorTogglePrivatePhotosPerm()

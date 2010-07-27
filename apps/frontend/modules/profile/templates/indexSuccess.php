@@ -32,8 +32,10 @@
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
         <?php if( $private_photos_perm ): ?>
+            <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member)); ?>
         <?php else: ?>
+            <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below but you have no access to them.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php for($i=0; $i<count($private_photos); $i++): ?>
                 <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
             <?php endfor; ?>

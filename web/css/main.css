@@ -2428,6 +2428,11 @@ div.best_video div.right img {
     cursor: default;
 }
 
+#profile_left .private_photos_headline {
+    margin: 8px 0 0 0;
+    color: #92897E;
+}
+
 #profile_left #sign_in {
     width: 350px;
     height: 240px;
