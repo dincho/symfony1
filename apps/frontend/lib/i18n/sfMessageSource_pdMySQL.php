@@ -18,7 +18,7 @@ class sfMessageSource_pdMySQL extends sfMessageSource_MySQL
   {
     parent::__construct($source);
     
-    $domain = strtolower($_SERVER['HTTP_HOST']);
+    $domain = (isset($_SERVER['HTTP_HOST'])) ? strtolower($_SERVER['HTTP_HOST']) : 'localhost';
     $this->domain = sfConfig::get('app_catalog_domains_' . $domain, $domain);
   }
   
