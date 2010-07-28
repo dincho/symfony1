@@ -1,0 +1,20 @@
+INSERT INTO `desc_question` (`id`,`title`,`search_title`,`desc_title`,`factor_title`,`type`,`is_required`,`select_greather`,`other`,`include_custom`)
+VALUES
+	(1, 'What is your birthday?', 'You\'re looking for someone aged:', NULL, 'the \"age factor\" is:', 'age', 1, 0, NULL, NULL),
+	(2, 'What is your marital status?', 'You\'re looking for someone whose marital status is:', 'Marital Status', 'the \"marital status factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(3, 'Do you have children?', 'You\'re looking for someone who has:', 'Children', 'the \"children factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(4, 'What is your living situation?', 'You\'re looking for someone who:', 'Living Situation', 'the \"own vs. rent factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(5, 'Do you want to have children in the future?', 'You\'re looking for someone who, in the future:', 'Future children', 'the \"want children factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(6, 'What is your education?', 'You\'re looking for someone whose highest degree in education is:', 'Education', 'the \"education factor\" is:', 'radio', 0, 1, NULL, NULL),
+	(7, 'What is your annual income?', 'You\'re looking for someone with annual income of:', 'Yearly income', 'the \"income factor\" is:', 'radio', 1, 0, NULL, NULL),
+	(8, 'What is your religion?', 'Religion - you want someone whose:', 'Religion', 'the \"partner\'s religion factor\" is:', 'radio', 0, 0, 'Other, specify', NULL),
+	(9, 'What is your ethnicity?', 'Ethnicity - you\'re looking for someone who\'s: ', 'Ethnicity', 'the \"ethnicity factor\" is:', 'radio', 0, 0, 'Other, specify', NULL),
+	(10, 'Have you ever smoked?', 'You\'re looking for someone who:', 'Smoking', 'the \"smoking factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(11, 'Do you drink?', 'Drinking - you\'re looking for someone who:', 'Drinks', 'the \"drinking factor\" is:', 'radio', 0, 0, NULL, NULL),
+	(12, 'What is your weight?', 'Weight - you\'re looking for someone whose weight is between:', 'Weight', 'the \"weight factor\" is:', 'select', 0, 0, NULL, 'select weight'),
+	(13, 'What is your height?', 'Height - you\'re looking for someone who\'s height is between:', 'Height', 'the \"height factor\" is:', 'select', 1, 0, NULL, 'select height'),
+	(14, 'What is the color of your eyes?', 'Eye color - you\'re looking for someone whose eye color is:', 'Eye\'s color', 'the \"eye color factor\" is:', 'radio', 0, 0, 'Other, specify', NULL),
+	(15, 'What is the color of your hair?', 'Hair color - you\'re looking for someone whose hair color is:', 'Hair color', 'the \"hair color factor\" is:', 'radio', 0, 0, 'Other, specify', NULL),
+	(16, 'What is your native language?', 'How important it is that she / he speaks your native language? ', NULL, NULL, 'native_lang', 1, 0, 'Can\'t find your native language on the list? Write it in.', NULL),
+	(17, 'What other languages do you speak?', 'How important it is that she / he speaks other languages? ', NULL, NULL, 'other_langs', 0, 0, 'Can\'t find it on the list? write it in the box, use comma (\",\") when necessary:', NULL),
+	(18, 'What is your personality', 'You\'re looking for someone who\'s personality is?', 'Personality', NULL, 'radio', 0, 0, NULL, NULL);

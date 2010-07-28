@@ -11,6 +11,7 @@ class Migration001 extends sfMigration
   public function up()
   {
     $this->loadSql(dirname(__FILE__).'/001_init.sql');
+    $this->loadSqlFixtures();
   }
 
   /**
