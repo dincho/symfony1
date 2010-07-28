@@ -3,6 +3,11 @@ class prMail extends sfMail
 {
     public function __construct($mail_config_key = null)
     {
+        $this->initialize($mail_config_key);
+    }
+    
+    public function initialize($mail_config_key = null)
+    {
         $mail_configs = sfConfig::get('app_mail_outgoing');
         
         if( !is_array($mail_configs) )
@@ -33,7 +38,7 @@ class prMail extends sfMail
         $this->setFrom($mail_config['from']);
         $this->setSender($mail_config['from']);
         
-        //print_r($this->mailer);exit();
+        //print_r($this->mailer);exit();        
     }
     
     public function addBccRecipients(array $recipients)

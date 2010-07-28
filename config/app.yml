@@ -4,6 +4,7 @@ all:
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
     version:            "v1.5.2"
     mail:
+     class:             prMail
      enabled:           no
      use_queue:         no
      error_exception:   no
@@ -79,3 +80,9 @@ trans:
     mail:
       enabled:          no
       error_exception:  no
+test:
+    mail:
+      class:            testPrMail
+      enabled:          no
+      use_queue:        yes
+      error_exception:  yes  

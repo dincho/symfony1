@@ -119,8 +119,12 @@ class PrMailMessage extends BasePrMailMessage
     {
         $this->setStatus(PrMailMessagePeer::STATUS_SENDING);
         $this->save();
-            
-        $mailer = new prMail($this->getMailConfigId());
+        
+        $mailer_class = sfConfig::get('app_mail_class');
+        
+        // $mailer = new prMail($this->getMailConfigId());
+        $mailer = new $mailer_class;
+        $mailer->initialize($this->getMailConfigId());
         $mailer->setSubject($this->getSubject());
         $mailer->setBody($this->getBody());
         $mailer->setFrom($this->getMailFrom());
