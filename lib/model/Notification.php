@@ -31,6 +31,10 @@ class Notification extends BaseNotification
                 if( method_exists($object, $method))
                 {
                     $content = str_replace('{'. $var . '}', $object->$method(), $content);
+                } else{
+                    /*
+                        @TODO add log entry if notification tries to use unknow object method
+                    */
                 }
             }
         }
