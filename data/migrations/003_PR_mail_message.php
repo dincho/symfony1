@@ -10,7 +10,7 @@ class Migration003 extends sfMigration
    */
   public function up()
   {
-    $this->executeSQL("CREATE TABLE `PR_mail_message`
+    $this->executeSQL("CREATE TABLE `pr_mail_message`
                                     (
                                         `id` INTEGER  NOT NULL AUTO_INCREMENT,
                                         `mail_config_id` TINYINT,
@@ -36,6 +36,6 @@ class Migration003 extends sfMigration
    */
   public function down()
   {
-    $this->executeSQL("DROP TABLE `PR_mail_message`");
+    $this->executeSQL("DROP TABLE `pr_mail_message`");
   }
 }
