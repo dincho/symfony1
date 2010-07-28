@@ -148,21 +148,21 @@ class sfMigrator
  */
 class Migration$newVersion extends sfMigration
 {
-  /**
-   * Migrate up to version $newVersion.
-   */
-  public function up()
-  {
-    $upLogic
-  }
+    /**
+    * Migrate up to version $newVersion.
+    */
+    public function up()
+    {
+        $upLogic
+    }
 
-  /**
-   * Migrate down to version $maxVersion.
-   */
-  public function down()
-  {
-    $downLogic
-  }
+    /**
+    * Migrate down to version $maxVersion.
+    */
+    public function down()
+    {
+        $downLogic
+    }
 }
 
 EOF;

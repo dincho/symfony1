@@ -192,9 +192,21 @@ abstract class sfMigration
   
   protected function loadTransUnits()
   {
+    $rs = $this->executeQuery('SELECT `cat_id` FROM `catalogue`');
+    
+    $catalogs = array();
+    while($rs->next()) $catalogs[] = $rs->getInt('cat_id'); //double loop because we want per source inserts
+
     foreach( $this->getTransUnits() as $source )
     {
-        TransUnitPeer::createNewUnit($source);
+        $values = array();
+        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s")', $catalog, $source);
+
+        if( !empty($values) )
+        {
+            $values_str = implode(', ', $values);
+            $this->executeQuery(sprintf('INSERT INTO `trans_unit` (`cat_id`, `source`) VALUES %s', $values_str));
+        }
     }
   }
   
@@ -202,7 +214,7 @@ abstract class sfMigration
   {
     foreach( $this->getTransUnits() as $source )
     {
-        TransUnitPeer::deleteSource($source);
+        $this->executeQuery(sprintf('DELETE FROM trans_unit WHERE `source` = "%s"', $source));
     }
   }
   
