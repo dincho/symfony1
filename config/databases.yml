@@ -2,5 +2,25 @@ all:
   propel:
     class:          sfPropelDatabase
     param:
-      dsn:          mysql://pr:polish@localhost/polish_romance
+      dsn:          mysql://localhost/NO_SUCH_DATABASE
       encoding:     utf8
+      
+dev:
+  propel:
+    param:
+      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+
+prod:
+  propel:
+    param:
+      dsn:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
+
+stag:
+  propel:
+    param:
+      dsn:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
+
+test:
+  propel:
+    param:
+      dsn:          mysql://pd_test:polish_test@localhost/polishdate_test
