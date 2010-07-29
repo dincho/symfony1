@@ -110,8 +110,8 @@ class sfOptimizeStyleAndScript extends sfFilter
 
           $this->content['javascript'] .= "\n\n".'/* include js file: '.$file." */\n\n";
           
-          if(false === ($this->content['javascript'] .= file_get_contents($_SERVER['DOCUMENT_ROOT'].$file)))
-          throw new sfFileException('Can not open '.$_SERVER['DOCUMENT_ROOT'].$file.' for merging');
+          if(false === ($this->content['javascript'] .= file_get_contents(sfConfig::get('sf_web_dir').$file)))
+          throw new sfFileException('Can not open '.sfConfig::get('sf_web_dir').$file.' for merging');
         }
       }
     }
@@ -228,7 +228,7 @@ class sfOptimizeStyleAndScript extends sfFilter
 
   private function getStyleConent($file)
   {
-        return file_get_contents($_SERVER['DOCUMENT_ROOT'].$file);      
+        return file_get_contents(sfConfig::get('sf_web_dir').$file);      
   }
   /**
    * Redefine the url() properties for css (because the css file has a new position)
@@ -239,15 +239,15 @@ class sfOptimizeStyleAndScript extends sfFilter
   private function getStyleContentWithNewBgUrl($file){
 
       
-    chdir($_SERVER['DOCUMENT_ROOT']);
+    chdir(sfConfig::get('sf_web_dir'));
 
-    $rootdir = realpath($_SERVER['DOCUMENT_ROOT']);
+    $rootdir = realpath(sfConfig::get('sf_web_dir'));
     $content = '';
 
     eregi("^(.*)/(.*)$",$file, $captured_filepath);
       
     
-    if(!$content_lines = @file($_SERVER['DOCUMENT_ROOT'].$file))
+    if(!$content_lines = @file(sfConfig::get('sf_web_dir').$file))
     {
       throw new sfFileException('Can not open '.$file.' for merging');
     }
