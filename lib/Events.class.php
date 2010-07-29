@@ -60,12 +60,12 @@ class Events
         return self::executeNotifications(self::JOIN, $global_vars, $member->getEmail(), $member);
     }
 
-    public static function triggerWelcome($member)
+    public static function triggerWelcome($member, $ip = 'UNKNOWN_IP_ADDRESS')
     {
         sfLoader::loadHelpers(array('Tag', 'Url'));
         $global_vars = array('{LOGIN_URL}' => url_for('@signin', array('absolute' => true)),
                              '{PROFILE_URL}' => url_for('@profile?username=' . $member->getUsername(), array('absolute' => true)),
-                             '{IP}' => $_SERVER['REMOTE_ADDR'],
+                             '{IP}' => $ip,
                             );
         
         return self::executeNotifications(self::WELCOME, $global_vars, $member->getEmail(), $member);

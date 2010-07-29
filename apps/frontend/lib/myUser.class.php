@@ -104,7 +104,7 @@ class myUser extends sfBasicSecurityUser
                 } else
                 {
                     $member->changeStatus(MemberStatusPeer::ACTIVE, false);
-                    Events::triggerWelcome($member);
+                    Events::triggerWelcome($member, $_SERVER['REMOTE_ADDR']);
                 }
                 $member->save();
                 $member->updateMatches();
