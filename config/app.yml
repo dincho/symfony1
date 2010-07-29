@@ -36,7 +36,6 @@ all:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
       default_lifetime:             1814400 #in seconds - 21 days
-dev:
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
@@ -44,24 +43,16 @@ dev:
         "pd.dincho.bonex.us":       www.polishdate.com
         "devel.pd.dincho.bonex.us": www.polishdate.com
         "pl.pd.dincho.bonex.us":    www.szukammilionera.com
-        "du.dincho.bonex.us":       www.dyskretnyuklad.com
+        "du.dincho.bonex.us":       www.dyskretnyuklad.com 
+dev:
     mail:
       enabled:          no
       use_queue:        no
       error_exception:  yes
 stag:
-    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
-    catalog_domains:    
-        "pd.dincho.bonex.us":       www.polishdate.com
-        "devel.pd.dincho.bonex.us": www.polishdate.com
-        "pl.pd.dincho.bonex.us":    www.szukammilionera.com
-        "du.dincho.bonex.us":       www.dyskretnyuklad.com
     mail:
       enabled:          yes
       use_queue:        yes
-      error_exception:  no
 prod:
     base_domain:        www.polishdate.com #always have :sf_culture in the routes
     domains:            #do not have :sf_culture in the routes
@@ -69,20 +60,7 @@ prod:
     mail:
       enabled:          yes
       use_queue:        yes
-trans:
-    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
-    catalog_domains:    
-        "pd.dincho.bonex.us":     www.polishdate.com
-        "pl.pd.dincho.bonex.us":  www.szukammilionera.com
-        "du.dincho.bonex.us":     www.dyskretnyuklad.com
-    mail:
-      enabled:          no
-      error_exception:  no
 test:
     mail:
       class:            testPrMail
-      enabled:          no
-      use_queue:        no
       error_exception:  yes  
