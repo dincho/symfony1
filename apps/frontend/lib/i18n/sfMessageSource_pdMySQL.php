@@ -30,6 +30,7 @@ class sfMessageSource_pdMySQL extends sfMessageSource_MySQL
    */
   protected function &loadData($variant)
   {
+
     $variant = mysql_real_escape_string($variant, $this->db);
     $domain = mysql_real_escape_string($this->domain, $this->db);
     
@@ -155,4 +156,9 @@ class sfMessageSource_pdMySQL extends sfMessageSource_MySQL
 
     return $result;
   }
+  
+  function __destruct()
+  {
+      //do nothing, the parent closes the mysql connection, but we don't want so.
+  }  
 }
