@@ -142,7 +142,7 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $global_vars = array('{PROFILE_URL}' => url_for('profile/index?username=' . $member->getUsername(), array('absolute' => true)),
-                             '{EOT_DATE}' => date('M d, Y', $member->getEotDate()),
+                             '{EOT_DATE}' => date('M d, Y', $member->getCurrentMemberSubscription()->getExtendedEOT(null)),
                             );
         
         return self::executeNotifications(self::AUTO_RENEW, $global_vars, null, $member);     
@@ -179,7 +179,7 @@ class Events
         return self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);     
     }
     
-    public static function triggerFirstContact($message)
+    public static function triggerFirstContact(BaseMessage $message)
     {
         $sender = $message->getMemberRelatedBySenderId();
         if( $sender->getCounter('SentMessages') == 0 )
@@ -244,7 +244,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $nb_unread = $member->getNbUnreadMessages();
+        $nb_unread = $member->getUnreadMessagesCount();
         $nb_winks = MemberCounterPeer::getNbNewWinks($member->getId());
         $nb_hotlist = MemberCounterPeer::getNbNewOnOtherHotlist($member->getId());
         $nb_profile_view = MemberCounterPeer::getNbNewProfileViews($member->getId());
@@ -257,9 +257,12 @@ class Events
                              '{NB_PROFILE_VIEWES}' => $nb_profile_view,
                             );
                             
-        self::executeNotifications(self::ACCOUNT_ACTIVITY, $global_vars, $member->getEmail(), $member);
+        $ret = self::executeNotifications(self::ACCOUNT_ACTIVITY, $global_vars, $member->getEmail(), $member);
+        
         $member->setLastActivityNotification(time());
-        $member->save();        
+        $member->save();
+        
+        return $ret;
     }
     
     public static function triggerAccountActivityMessage($recipient, $sender, $message)

@@ -361,16 +361,6 @@ class Member extends BaseMember
         return ( $this->getImbraPayment() != 'completed' && $this->getLastImbra() );
     }
     
-    public function getNbUnreadMessages()
-    {
-        $c = new Criteria();
-        $c->add(MessagePeer::TO_MEMBER_ID, $this->getId());
-        $c->add(MessagePeer::SENT_BOX, false);
-        $c->add(MessagePeer::IS_READ, false);
-        
-        return MessagePeer::doCount($c);
-    }
-    
     public function getNbSendMessagesToday()
     {
         $c = new Criteria();
