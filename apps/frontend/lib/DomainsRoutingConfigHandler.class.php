@@ -26,12 +26,14 @@ class DomainsRoutingConfigHandler extends sfRoutingConfigHandler
                       date('Y/m/d H:i:s'));
 
     $domains_config = sfYaml::load(sfConfig::get('sf_config_dir') . DIRECTORY_SEPARATOR . 'app.yml');
-    $domains_culture = $domains_config[SF_ENVIRONMENT]['domains']; 
-    if( empty($domains_culture) )
+    
+    if( !isset($domains_config[SF_ENVIRONMENT]['domains']) )
     {
         throw new Exception("Culture based domains are not set!");
     }
-                      
+    
+    $domains_culture = $domains_config[SF_ENVIRONMENT]['domains']; 
+           
     $routing->clearRoutes();
     foreach ($default_config as $name => $params)
     {

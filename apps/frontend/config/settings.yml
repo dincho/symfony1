@@ -37,6 +37,7 @@ test:
     web_debug:              off
     no_script_name:         off
     etag:                   off
+    suffix:                 ""
 
 all:
   .actions:

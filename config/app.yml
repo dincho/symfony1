@@ -37,19 +37,21 @@ all:
       default_expire_period:        604800 #in seconds - 7 days
       default_lifetime:             1814400 #in seconds - 21 days
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
-    catalog_domains:    
+    catalog_domains:
         "pd.dincho.bonex.us":       www.polishdate.com
         "devel.pd.dincho.bonex.us": www.polishdate.com
         "pl.pd.dincho.bonex.us":    www.szukammilionera.com
         "du.dincho.bonex.us":       www.dyskretnyuklad.com 
 dev:
+    domains:            #do not have :sf_culture in the routes
+        pl:             pl.pd.dincho.bonex.us
     mail:
       enabled:          no
       use_queue:        no
       error_exception:  yes
 stag:
+    domains:            #do not have :sf_culture in the routes
+        pl:             pl.pd.dincho.bonex.us  
     mail:
       enabled:          yes
       use_queue:        yes
@@ -61,6 +63,8 @@ prod:
       enabled:          yes
       use_queue:        yes
 test:
+    domains:            #do not have :sf_culture in the routes
+        pl:             pl.pd.dincho.bonex.us
     mail:
       class:            testPrMail
       error_exception:  yes  

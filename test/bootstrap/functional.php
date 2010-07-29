@@ -27,3 +27,8 @@ require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.D
 
 // remove all cache
 sfToolkit::clearDirectory(sfConfig::get('sf_cache_dir'));
+
+//custom browser
+require_once(dirname(__FILE__).'/../lib/prTestBrowser.class.php');
+require_once(dirname(__FILE__).'/../lib/testPrMail.class.php');
+require_once(dirname(__FILE__).'/reload_test_data.php');

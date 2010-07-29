@@ -8,7 +8,8 @@ if (!@constant('SF_ENVIRONMENT')) { // Only load constants in not done before (g
 if (!@constant('SF_ROOT_DIR')) { // Only load constants in not done before (group tests)
     include(dirname(__FILE__).'/unit.php');
 }
- 
+
+require_once($sf_symfony_lib_dir.'/util/sfCore.class.php');
 sfCore::initSimpleAutoload(array(SF_ROOT_DIR.'/lib'
                                 ,$sf_symfony_lib_dir // Symfony itself
                                 ,dirname(__FILE__).'/../lib' // Location class to be tested

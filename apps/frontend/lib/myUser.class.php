@@ -185,6 +185,6 @@ class myUser extends sfBasicSecurityUser
     
     public function getCatalogId()
     {
-        return $this->getCatalog()->getCatId();
+        return ($this->getCatalog()) ? $this->getCatalog()->getCatId() : null;
     }
 }

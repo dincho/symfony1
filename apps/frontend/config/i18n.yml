@@ -11,3 +11,5 @@ trans:
     cache:             off
 dev:
     cache:             off
+test:
+  source:              XLIFF
