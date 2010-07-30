@@ -38,10 +38,11 @@ all:
       default_lifetime:             1814400 #in seconds - 21 days
     base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
     catalog_domains:
-        "pd.dincho.bonex.us":       www.polishdate.com
-        "devel.pd.dincho.bonex.us": www.polishdate.com
-        "pl.pd.dincho.bonex.us":    www.szukammilionera.com
-        "du.dincho.bonex.us":       www.dyskretnyuklad.com 
+        "pd.dincho.bonex.us":           www.polishdate.com
+        "devel.pd.dincho.bonex.us":     www.polishdate.com
+        "pl.pd.dincho.bonex.us":        www.szukammilionera.com
+        "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
+        "du.dincho.bonex.us":           www.dyskretnyuklad.com 
 dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
