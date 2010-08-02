@@ -85,6 +85,64 @@ class messagesActions extends prActions
         return true;
     }
 
+    public function executeOpenSendMessage()
+    {
+        $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
+        $this->forward404Unless($this->recipient);
+        
+        $this->sender = $this->getUser()->getProfile();
+        
+        //execution stops here with redirect if there is an old thread already
+        if($ret = $this->needsToforceOneThread($this->sender, $this->recipient)) return $ret;
+        
+        if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirect('messages/send?recipient_id=' . $this->recipient->getId());
+    }
+    
+    public function validateOpenSendMessage()
+    {
+        $recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
+        $this->forward404Unless($recipient);
+        $sender = $this->getUser()->getProfile();
+    
+        if( $sender->getId() == $recipient->getId() )
+        {
+            $this->getRequest()->setError('message', 'You can\'t use this function on your own profile');
+            return false;
+        }
+            
+        //1. is the other member active ?
+        if ( $recipient->getmemberStatusId() != MemberStatusPeer::ACTIVE )
+        {
+            $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
+            return false;
+        }
+    
+        //2. Privacy
+        $prPrivavyValidator = new prPrivacyValidator();
+        $prPrivavyValidator->setProfiles($sender, $recipient);
+        $prPrivavyValidator->initialize($this->getContext(), array(
+            'block_error' => 'You can not send message to this member!',
+            'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
+            'onlyfull_error' => 'This member accept messages only from paid members!',
+        ));
+
+        $error = '';
+        if( !$prPrivavyValidator->execute(&$value, &$error) )
+        {
+            
+            $this->getRequest()->setError('privacy', $error);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public function handleErrorOpenSendMessage()
+    {
+        $this->getResponse()->setStatusCode(400);
+        return $this->renderText(get_partial('content/formErrors'));
+    }
+    
     public function executeSend()
     {
         $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
@@ -92,20 +150,8 @@ class messagesActions extends prActions
         
         $this->sender = $this->getUser()->getProfile();
         
-        //force members to use only one thread
-        $old_thread = ThreadPeer::getOldThread($this->sender, $this->recipient);
-        if( $old_thread ) 
-        {
-            $redirect_url = 'messages/thread?id=' . $old_thread->getId();
-            
-            if( $this->getRequest()->isXmlHttpRequest() )
-            {
-                return $this->renderText(get_partial('content/client_side_redirect', array('url' => $redirect_url)));
-            } else {
-                $this->redirect($redirect_url);
-            }
-        }
-        //end enforcement 
+        //execution stops here with redirect if there is an old thread already
+        if($ret = $this->needsToforceOneThread($this->sender, $this->recipient)) return $ret;
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {   
@@ -168,7 +214,6 @@ class messagesActions extends prActions
       
             if( $this->getRequest()->getMethod() == sfRequest::POST )
             {
-             
                 if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) )
                 {
                     $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
@@ -209,14 +254,45 @@ class messagesActions extends prActions
                   return false;
                 }
             }
-                        
-        return true;        
+        
+        return true;
     }
     
     public function handleErrorSend()
     {   
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
             $this->getResponse()->setStatusCode(400);
             return $this->renderText(get_partial('content/formErrors'));
+        }
+
+        if( $this->getRequestParameter('layout') == 'window' )
+        {
+            sfConfig::set('sf_web_debug', false);
+            $this->setLayout('window');
+        }
+        
+        $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
+        $this->sender = $this->getUser()->getProfile();
+        $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $this->sender->getId(), $this->recipient->getId() );
+        
+        return sfView::SUCCESS;
+    }
+    
+    protected function needsToforceOneThread($sender, $recipient)
+    {
+        $old_thread = ThreadPeer::getOldThread($sender, $recipient);
+        if( $old_thread ) 
+        {
+            $redirect_url = 'messages/thread?id=' . $old_thread->getId();
+            
+            if( $this->getRequest()->isXmlHttpRequest() )
+            {
+                return $this->renderText(get_partial('content/client_side_redirect', array('url' => $redirect_url)));
+            } else {
+                $this->redirect($redirect_url);
+            }
+        }
     }
     
     protected function setFLashConfirmation(BaseMessage $sent_msg, $persist = true)

@@ -65,7 +65,7 @@ function link_to_prototype_dialog($name, $content, $dialog_type = 'alert', $opti
 }
 
 /**
- * link_to_prototype_window creates a window using prototype.
+ * prototype_window creates a window using prototype.
  *
  * Example:
  * <code>
@@ -83,7 +83,7 @@ function link_to_prototype_dialog($name, $content, $dialog_type = 'alert', $opti
  * @param array $options_html
  * @return string
  */
-function link_to_prototype_window($name, $window_id, $options, $options_html = array())
+function prototype_window($window_id, $options)
 {
   /**
 	 * @todo to get from config default options
@@ -98,9 +98,9 @@ function link_to_prototype_window($name, $window_id, $options, $options_html = a
 
   if (isset($options['url']))
   {
-    $options['url'] = _method_option_to_s(url_for($options['url'], isset($options_html['absolute']) ? true : false));
+    $options['url'] = _method_option_to_s(url_for($options['url'], isset($options['absolute']) ? true : false));
   }
-  unset($options_html['absolute']);
+  unset($options['absolute']);
 
   $front = isset($options['front']) ? $window_id.'.toFront();' : '';
   unset($options['front']);
@@ -113,15 +113,27 @@ function link_to_prototype_window($name, $window_id, $options, $options_html = a
 
   $destroy = $window_id. '.setDestroyOnClose();';
   $options = _options_for_javascript($options);
-  $options_html = _parse_attributes($options_html);
+  
+  $js_code = 'var ' . $window_id . ' = new Window('. $options.');'.$front. $status. $show. $destroy;
 
-  $js_code = 'var ' . $window_id . ' = new Window('. $options.');'. $front. $status. $show. $destroy;
-  $js_code = 'var ' . $window_id . ' = new Window('. $options.');'.$front. $status. $show. $destroy.' return false;';
+  return $js_code;
+}
 
-  $options_html['href'] = isset($options_html['href']) ? $options_html['href'] : '#';
-  $options_html['onclick'] = isset($options_html['onclick']) ? $options_html['onclick'] . $js_code : $js_code;
-
-  return content_tag('a', $name, $options_html);
+function link_to_prototype_window($name, $window_id, $options, $options_html = array())
+{
+    if (isset($options_html['absolute']))
+    {
+        $options['absolute'] = $options_html['absolute'];
+    }
+    unset($options_html['absolute']);
+  
+    $window = prototype_window($window_id, $options) .' return false;';
+    
+    $options_html = _parse_attributes($options_html);
+    $options_html['href'] = isset($options_html['href']) ? $options_html['href'] : '#';
+    $options_html['onclick'] = isset($options_html['onclick']) ? $options_html['onclick'] . $window : $window;
+    
+    return content_tag('a', $name, $options_html);
 }
 
 /**

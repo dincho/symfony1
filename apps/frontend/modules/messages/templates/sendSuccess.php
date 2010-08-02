@@ -8,7 +8,7 @@
     </div>
 <?php endif; ?>
 
-<?php echo form_remote_tag(array('url'    => 'messages/send', 
+<?php echo form_remote_tag(array('url'      => 'messages/send', 
                                  'complete' => 'send_message_complete(request)',
                             ), 
                            array('class'  => 'msg_form', 
