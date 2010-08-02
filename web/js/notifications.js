@@ -1,4 +1,4 @@
-function parse_notifications(request)
+function parse_notifications(request, notification_lifetime)
 {
 
   var json = eval('(' + request.responseText + ')');
@@ -7,11 +7,11 @@ function parse_notifications(request)
   
   for (var i = 0; i <= nbElementsInResponse; i++)
   {
-    if(json[i]) show_notification(json[i]);
+    if(json[i]) show_notification(json[i], notification_lifetime);
   }
 }
 
-function show_notification(note)
+function show_notification(note, lifetime)
 {
 
     if( typeof(note.title) != 'string' ) return; //don't show empty notifications
@@ -24,7 +24,7 @@ function show_notification(note)
     
     if( last_note )
     {
-      theBox.style.bottom = ( parseInt(last_note.style.height) + parseInt(last_note.style.bottom) + padding ) + 'px';
+      theBox.style.bottom = ( parseInt(last_note.style.height, 10) + parseInt(last_note.style.bottom, 10) + padding ) + 'px';
     } else {
       theBox.style.bottom = padding + 'px';
     }
@@ -60,5 +60,5 @@ function show_notification(note)
     setTimeout(function () { 
                 new Effect.Fade(theBox, { duration: 1.0 }); 
                 setTimeout(function() { theBox.remove(); }, 1200);
-                }, 7000);
+                }, lifetime);
 }
