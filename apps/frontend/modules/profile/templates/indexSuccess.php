@@ -152,15 +152,9 @@
         <?php if( $member->getMillionaire() ): ?>
             <div class="millionaire_mark"><?php echo __('M'); ?></div>
         <?php endif; ?>
-        <div class="membership">
-            <?php if( $member->getSubscriptionId() == SubscriptionPeer::PREMIUM ): ?>
-              <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
-            <?php elseif( $member->getSubscriptionId() == SubscriptionPeer::VIP ): ?>
-              <?php echo link_to(image_tag($sf_user->getCulture().'/vip_member.gif'), 'subscription/index') ?>
-            <?php elseif(sfConfig::get('app_settings_enable_gifts')): ?>
-              <?php echo image_tag($sf_user->getCulture().'/buy_gift_' . $member->getSex() . '.gif'); ?>
-            <?php endif; ?>
-        </div>
+        
+        <?php include_partial('profile/membership', array('member' => $member)); ?>
+        
         <br class="clear" />
     </span>
     <div id="profile_double_box">

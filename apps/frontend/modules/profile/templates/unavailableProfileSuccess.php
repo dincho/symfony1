@@ -22,11 +22,9 @@
         <?php if( $member->getMillionaire() ): ?>
             <div class="millionaire_mark"><?php echo __('M'); ?></div>
         <?php endif; ?>
-        <div class="membership">
-            <?php if( $member->getSubscriptionId() != SubscriptionPeer::FREE ): ?>
-              <?php echo link_to(image_tag($sf_user->getCulture().'/full_member.gif'), 'subscription/index') ?>
-            <?php endif; ?>
-        </div>
+
+        <?php include_partial('profile/membership', array('member' => $member)); ?>
+
         <br class="clear" />
     </span>
     <div id="profile_double_box">
