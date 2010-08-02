@@ -32,6 +32,24 @@ all:
             smtp_username:  hello@szukammilionera.pl
             smtp_password:  SM11837
             from:           hello@szukammilionera.pl
+        - witaj@szukammilionera.pl:
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  witaj@szukammilionera.pl
+            smtp_password:  SM11837
+            from:           witaj@szukammilionera.pl
+        - admin2@szukammilionera.pl:
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  admin2@szukammilionera.pl
+            smtp_password:  SM11837
+            from:           admin2@szukammilionera.pl
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
