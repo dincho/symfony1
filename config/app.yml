@@ -86,4 +86,7 @@ test:
         pl:             pl.pd.dincho.bonex.us
     mail:
       class:            testPrMail
-      error_exception:  yes  
+      error_exception:  yes
+trans:
+    domains:            #do not have :sf_culture in the routes
+      pl:             pl.pd.dincho.bonex.us

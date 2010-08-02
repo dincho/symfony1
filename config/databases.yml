@@ -24,3 +24,8 @@ test:
   propel:
     param:
       dsn:          mysql://pd_test:polish_test@localhost/polishdate_test
+
+trans:
+  propel:
+    param:
+      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev      
