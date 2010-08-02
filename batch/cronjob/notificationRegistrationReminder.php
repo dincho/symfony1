@@ -12,23 +12,24 @@
  * Running once a day
  */
 
-define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../..'));
-define('SF_APP',         'backend');
-define('SF_ENVIRONMENT', 'prod');
-define('SF_DEBUG',       0);
-
-require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
+require_once('config.php');
 
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-$notification = NotificationPeer::retrieveByPK(NotificationPeer::REGISTRATION_REMINDER);
-$days = (int) $notification->getDays();
+$c = new Criteria();
+$c->add(NotificationPeer::ID, NotificationPeer::REGISTRATION_REMINDER);
+$c->add(NotificationPeer::IS_ACTIVE, true);
+$c->add(NotificationPeer::DAYS, 0, Criteria::GREATER_THAN);
+$c->add(NotificationPeer::WHN, 'A');
+$notifications = NotificationPeer::doSelect($c);
 
-if ( $notification->getIsActive() && $days > 0 && $notification->getWhn() == 'A')
+foreach ($notifications as $notification)
 {
+    $days = (int) $notification->getDays();
+    
     $c = new Criteria();
     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ABANDONED);
     $c->add(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
@@ -36,4 +37,3 @@ if ( $notification->getIsActive() && $days > 0 && $notification->getWhn() == 'A'
     
     foreach ($members as $member) Events::triggerRegistrationReminder($member);
 }
-

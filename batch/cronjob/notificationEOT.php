@@ -12,12 +12,7 @@
  * Run each day
  */
 
-define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../..'));
-define('SF_APP',         'backend');
-define('SF_ENVIRONMENT', 'prod');
-define('SF_DEBUG',       0);
-
-require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
+require_once('config.php');
 include_once (sfConfigCache::getInstance()->checkConfig('config/db_settings.yml')); 
 
 // initialize database manager
@@ -25,9 +20,12 @@ $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-$notification = NotificationPeer::retrieveByPK(NotificationPeer::EOT);
+$c = new Criteria();
+$c->add(NotificationPeer::ID, NotificationPeer::EOT);
+$c->add(NotificationPeer::IS_ACTIVE, true);
+$notifications = NotificationPeer::doSelect($c);
 
-if ( $notification->getIsActive() )
+foreach ($notifications as $notification)
 {
     $sign = ($notification->getWhn() == 'B') ? '-' : '+';
     $days = $notification->getDays() + sfConfig::get('app_settings_extend_eot', 0);
@@ -36,8 +34,8 @@ if ( $notification->getIsActive() )
     $c = new Criteria();
     $c->add(MemberSubscriptionPeer::GIFT_BY, null, Criteria::ISNULL);
     $c->add(MemberSubscriptionPeer::EOT_AT, $date_expresion, Criteria::CUSTOM);
+    $c->add(MemberPeer::CATALOG_ID, $notification->getCatid());
     $subscriptions = MemberSubscriptionPeer::doSelectJoinMember($c);
     
     foreach ($subscriptions as $subscription) Events::triggerEOT($subscription);
 }
-

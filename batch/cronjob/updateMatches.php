@@ -11,15 +11,9 @@
  * 
  * Run once a day
  */
+require_once('config.php');
 
-define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../..'));
-define('SF_APP',         'backend');
-define('SF_ENVIRONMENT', 'prod');
-define('SF_DEBUG',       0);
 set_time_limit(0);
-
-require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-
 sfConfig::set('pr_timer_start', microtime(true));
 
 // initialize database manager
@@ -27,8 +21,6 @@ $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-
-
 //echo 'Initial memory: ' . number_format(memory_get_usage()/1024/1024, 0, '.', ',') . " MB\n";
 
 $c = new Criteria();

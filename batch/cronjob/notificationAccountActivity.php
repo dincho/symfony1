@@ -12,32 +12,31 @@
  * Running once a day
  */
 
-define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../..'));
-define('SF_APP',         'backend');
-define('SF_ENVIRONMENT', 'prod');
-define('SF_DEBUG',       0);
-
-require_once(SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
+require_once('config.php');
 
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
 // batch process here
-$notification = NotificationPeer::retrieveByPK(NotificationPeer::ACCOUNT_ACTIVITY);
+$c = new Criteria();
+$c->add(NotificationPeer::ID, NotificationPeer::ACCOUNT_ACTIVITY);
+$c->add(NotificationPeer::IS_ACTIVE, true);
+$notifications = NotificationPeer::doSelect($c);
 
-if ( $notification->getIsActive() )
+foreach ($notifications as $notification)
 {
     $c = new Criteria();
     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+    $c->add(MemberPeer::CATALOG_ID, $notification->getCatId());
     $c->add(MemberPeer::EMAIL_NOTIFICATIONS, NULL, Criteria::ISNOTNULL);
     $crit = $c->getNewCriterion(MemberPeer::EMAIL_NOTIFICATIONS, 0, Criteria::NOT_EQUAL);
     $c->addAnd($crit);
     $c->add(MemberPeer::LAST_ACTIVITY_NOTIFICATION, MemberPeer::LAST_ACTIVITY_NOTIFICATION . '< NOW() - INTERVAL ' . MemberPeer::EMAIL_NOTIFICATIONS . ' DAY', Criteria::CUSTOM);
     
-    
     $members = MemberPeer::doSelect($c);
     
     foreach ($members as $member) Events::triggerAccountActivity($member);
 }
+
 
