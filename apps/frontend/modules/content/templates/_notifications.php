@@ -1,6 +1,6 @@
 <?php use_helper('Javascript'); ?>
 
-<?php $ajax_request = remote_function(array('success' => 'parse_notifications(request, '. sfConfig::get('app_member_notification_lifetime', 7000) .')', 
+<?php $ajax_request = remote_function(array('success' => 'parse_notifications(request, '. sfConfig::get('app_settings_member_notification_lifetime', 7000) .')', 
                                  'url' => 'ajax/notifications',
                                 )); ?>
                                 
