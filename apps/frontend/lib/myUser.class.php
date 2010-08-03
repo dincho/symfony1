@@ -38,8 +38,6 @@ class myUser extends sfBasicSecurityUser
         $this->getAttributeHolder()->clear();
         $this->clearCredentials();
           
-        $member->incCounter('DeactivationCounter');
-
         $this->setAuthenticated(true);
         $this->addCredential('member');
         $this->setAttribute('username', $member->getUsername());
@@ -47,10 +45,16 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('member_id', $member->getId());
         $this->setAttribute('status_id', $member->getMemberStatusId());
         $this->setAttribute('must_change_pwd', $member->getMustChangePwd());
-        $this->setAttribute('deactivation_counter', $member->getCounter('DeactivationCounter'));
-        $this->setAttribute('is_free', $member->isFree());
         
-        if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
+         //just for optimizations, we don't deactivate paid members at all..
+        if( $member->isFree() )
+        {
+            $member->incCounter('DeactivationCounter');
+            $this->setAttribute('deactivation_counter', $member->getCounter('DeactivationCounter'));
+            $this->setAttribute('is_free', true);
+        }
+        
+        if( $member->getMemberStatusId() == MemberStatusPeer::ABANDONED ) $this->setAttribute('must_confirm_email', !$member->getHasEmailConfirmation());
         
         //login history
         $history = new MemberLoginHistory();
