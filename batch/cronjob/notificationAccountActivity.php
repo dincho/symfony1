@@ -12,7 +12,7 @@
  * Running once a day
  */
 
-require_once('config.php');
+require_once(realpath(dirname(__FILE__).'/../config.php'));
 
 // initialize database manager
 $databaseManager = new sfDatabaseManager();

@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 
-require_once('config.php');
+require_once(realpath(dirname(__FILE__).'/../config.php'));
 include_once (sfConfigCache::getInstance()->checkConfig('config/db_settings.yml')); 
 
 // initialize database manager

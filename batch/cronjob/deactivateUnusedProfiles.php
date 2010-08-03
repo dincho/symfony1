@@ -12,7 +12,7 @@
  * Running once a day
  */
 
-require_once('config.php');
+require_once(realpath(dirname(__FILE__).'/../config.php'));
 require_once(sfConfigCache::getInstance()->checkConfig('config/db_settings.yml'));
 
 // initialize database manager
