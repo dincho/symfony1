@@ -21,11 +21,9 @@ class statusFilter extends sfFilter
         $user = $context->getUser();
         if ($this->isFirstCall() && $user->isAuthenticated())
         {
-            
             $module = $context->getModuleName();
             $action = $context->getActionName();
             $module_action = $module . '/' . $action;
-            $member = $user->getProfile();
            
             //second condition is to bypass case constructor if status is active
             if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && 
@@ -34,22 +32,17 @@ class statusFilter extends sfFilter
                 $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
                 switch ($user->getAttribute('status_id')) {
                     case MemberStatusPeer::ABANDONED:
-                      
-                      if( $user->getAttribute('must_confirm_email') && 
-                          $module_action != 'registration/requestNewActivationEmail' &&
-                          $module_action != 'registration/activate')
-                      {
-                          $AI->redirect('registration/requestNewActivationEmail');
-                      }
-                      
-                      
-                      if ( $module != 'registration' && $module != 'IMBRA' )
-                      {
-                        
-                          /*if( $member->getFirstName() && $member->getBirthDay() && $member->getEssayHeadline() 
-                              && $member->countMemberPhotos() > 0 ) $user->completeRegistration();*/
-                          $AI->message('complete_registration');
-                      }
+                            if( $user->getAttribute('must_confirm_email') && 
+                                $module_action != 'registration/requestNewActivationEmail' &&
+                                $module_action != 'registration/activate')
+                            {
+                              $AI->redirect('registration/requestNewActivationEmail');
+                            }
+
+                            if ( $module != 'registration' && $module != 'IMBRA' )
+                            {
+                              $AI->message('complete_registration');
+                            }
                         break;
                     case MemberStatusPeer::CANCELED:
                         $AI->message('status_canceled');
@@ -72,7 +65,7 @@ class statusFilter extends sfFilter
                     case MemberStatusPeer::DEACTIVATED:
                     case MemberStatusPeer::DEACTIVATED_AUTO:
                         $AI->message('status_deactivated');
-                        break;                        
+                        break;
                     default:
                         break;
                 }
