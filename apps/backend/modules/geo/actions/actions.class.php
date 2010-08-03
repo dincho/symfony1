@@ -559,7 +559,7 @@ class geoActions extends sfActions
             $this->setFlash('msg_ok', 'New photo has been uploaded');
         }
         
-        $this->redirect('geo/editInfo?id=' . $geo->getId());
+        $this->redirect('geo/editDetails?id=' . $geo->getId());
     }
     
     public function executeDeletePhoto()
