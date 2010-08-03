@@ -26,7 +26,14 @@ class deactivationFilter extends sfFilter
         if ($this->isFirstCall() && $user->isAuthenticated() && $user->getAttribute('status_id') == MemberStatusPeer::ACTIVE &&
             $user->getAttribute('is_free') && !in_array($module_action, self::$skip_actions) && $module != 'ajax' && $module != 'subscription')
         {
-            if( $user->getAttribute('deactivation_counter') > sfConfig::get('app_settings_deactivation_counter'))
+            $enabled_for_orientations = sfConfig::get('app_settings_enable_upgrade_or_close');
+            $enabled_for_orientations = ($enabled_for_orientations) ? explode(',', $enabled_for_orientations) : array();
+            $enabled_for_orientations = array_map('trim', $enabled_for_orientations);
+            $enabled_for_orientations = array_map('strtoupper', $enabled_for_orientations);
+            
+            if( $user->getAttribute('deactivation_counter') > sfConfig::get('app_settings_deactivation_counter') &&
+                in_array($user->getProfile()->getOrientationKey(), $enabled_for_orientations)
+              )
             {
               sfLogger::getInstance()->info('deactivationFilter: jailing member - ' . $user->getUsername());
               $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
