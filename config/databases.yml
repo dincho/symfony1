@@ -9,6 +9,8 @@ dev:
   propel:
     param:
       dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+      #dsn:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
+      #dsn:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
 
 prod:
   propel:
@@ -28,4 +30,6 @@ test:
 trans:
   propel:
     param:
-      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev      
+      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+      #dsn:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
+      #dsn:          mysql://pd_prod:polish_prod@localhost/polishdate_prod     

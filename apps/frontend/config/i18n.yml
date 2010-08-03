@@ -8,12 +8,16 @@ all:
   untranslated_suffix: "[/T]"
   
 trans:
-    database:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
+    database:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+    #database:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
+    #database:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
     debug:             on
     cache:             off
     
 dev:
     database:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+    #database:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
+    #database:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
     cache:             off
     
 stag:
