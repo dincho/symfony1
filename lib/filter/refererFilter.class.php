@@ -7,7 +7,14 @@ class refererFilter extends sfFilter
         if ($this->isFirstCall())
         {
             $context = $this->getContext();
-            if ($context->getRequest()->getMethod() == sfRequest::GET)
+            $request = $context->getRequest();
+            $response = $context->getResponse();
+            
+            if ( $request->getMethod() == sfRequest::GET &&
+                 !$request->isXmlHttpRequest() &&
+                 !$request->hasParameter('layout') &&
+                 $response->getStatusCode() != 404
+               )
             {
                 $user = $context->getUser();
                 $stack = $user->getAttributeHolder()->getAll($this->getParameter('namespace'));
