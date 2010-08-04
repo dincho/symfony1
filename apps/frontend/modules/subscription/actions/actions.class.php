@@ -98,7 +98,7 @@ class subscriptionActions extends prActions
           
           
           //if effective subscription look for last subscription EOT
-          $effective_date = ( sfConfig::get('app_immediately_subscription_upgrade') || !$current_member_subscription ) ? time() : $member->getLastEotAt();
+          $effective_date = ( sfConfig::get('app_settings_immediately_subscription_upgrade') || !$current_member_subscription ) ? time() : $member->getLastEotAt();
           $member_subscription->setEffectiveDate( $effective_date );
           $member_subscription->save();
           
