@@ -71,6 +71,8 @@ class editProfileActions extends BaseEditProfileActions
 
     public function validateRegistration()
     {
+        $this->setMember();
+        
         $return = true;
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
