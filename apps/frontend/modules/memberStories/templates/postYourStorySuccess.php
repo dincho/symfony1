@@ -16,10 +16,11 @@
         
         <?php echo pr_label_for('your_story', __('Your Story')) ?>
         <?php echo textarea_tag('your_story', null, array('rows' => 10, 'cols' => 30, 'maxlength' => 2500)) ?><br />
-				<?php echo javascript_tag('parseCharCounts();') ?><br />
-							
-				<div id="recaptcha_post_your_story">
-          <?php echo recaptcha_get_html(sfConfig::get('app_recaptcha_publickey')) ?>
+        <?php echo javascript_tag('parseCharCounts();') ?><br />
+                            
+        <div id="recaptcha_post_your_story">
+          <?php $recaptcha_keys = sfConfig::get('app_recaptcha_' . str_replace('.', '_', $sf_request->getHost())); ?>
+          <?php echo recaptcha_get_html($recaptcha_keys['publickey']); ?>
         </div>
     </fieldset>
     <fieldset>

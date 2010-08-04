@@ -1,7 +1,17 @@
 all:
   recaptcha:
-    publickey:            "6Lf1QrsSAAAAAG_ITvhe-lHXS6ee2H2regzVKvIY"
-    privatekey:           "6Lf1QrsSAAAAALCjP4N_HWs1xTliBkNDTAiaZpD2"
+    pd_dincho_bonex_us:
+      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
+      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
+    pl_pd_dincho_bonex_us:
+      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
+      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
+    devel_pd_dincho_bonex_us:
+      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
+      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
+    branch_pd_dincho_bonex_us:
+      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
+      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
   sf_google_analytics_plugin:
     enabled:                no
   sfSimpleGoogleSitemap:
@@ -117,6 +127,13 @@ prod:
   gmaps_key:
     www_polishdate_com:     ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
     www_szukammilionera_com:ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
+  recaptcha:
+    www_polishdate_com:
+      publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"
+      privatekey:           "6LdYDLwSAAAAAJimpEAAo5FJH47QSfHB6XpDfZRt"
+    www_szukammilionera_com:
+      publickey:            "6LepC7wSAAAAAOhZJiIVZmqC-wyANP63_5jEwyzM" #dincho.bonex.us
+      privatekey:           "6LepC7wSAAAAAE5UWS9O2KZHy8Q3REx9ICvid2rq"
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
