@@ -58,6 +58,7 @@
                 
                     // Flash Settings
                     flash_url : "/flash/swfupload.swf",
+                    prevent_swf_caching: <?php echo (SF_ENVIRONMENT == 'dev') ? 'true' : 'false'; ?>,
 
                     custom_settings : {
                         upload_target : "<?php echo $id; ?>_fileProgressContainer",
@@ -65,7 +66,8 @@
                     },
                 
                     // Debug Settings
-                    debug: false
+                    debug: <?php echo (SF_ENVIRONMENT == 'dev') ? 'true' : 'false'; ?>
+                    
                 });
             });
     </script>
