@@ -133,6 +133,8 @@ class BaseEditProfileActions extends prActions
         $this->member->setReviewedAt(null);
         $this->member->save();
         
+
+        $this->getResponse()->setHttpHeader('Content-type', 'application/json');
         $return = array('status' => 'success', 'data' => get_partial('editProfile/photo_slot', array('photo' => $member_photo)));
         return $this->renderText(json_encode($return));
     }
