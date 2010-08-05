@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm') ?>
+<?php use_helper('Date', 'prProfilePhoto', 'prLink', 'dtForm', 'Javascript') ?>
 
 <?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">

@@ -17,32 +17,20 @@
         </tr>
         <tr class="search_filter_middle_row">
             <td class="search_filter_row_label"><?php echo __('Location') ?></td>
-            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 0, ($filters['location'] == 0) ),
-              array(
-                'before'    => "$('filters_location').checked = true;", 
-                'update'    => 'match_results',
-                'submit'    => 'search_box',
-                'loading'   => "show_load();",
-                'complete'  => "hide_load(); $('filters_location').checked = true;",                            
-                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Everywhere') ?>
+            <td><?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0), array(
+                  'onclick' => "$('filters_location').checked = true; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;", 
+                ) 
+              ) . __('Everywhere') ?>
             </td>
-            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 1, ($filters['location'] == 1) ), 
-              array(
-                'before'    => "$('filters_location_1').checked = true;", 
-                'update'    => 'match_results',
-                'submit'    => 'search_box',
-                'loading'   => "show_load();",
-                'complete'  => "hide_load(); $('filters_location_1').checked = true;",                            
-                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('In selected countries only') ?>
+            <td><?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1), array(
+                  'onclick' => "$('filters_location_1').checked = true; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location_1').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;",
+                ) 
+              ) . __('In selected countries only') ?>
             </td>
-            <td><?php echo link_to_remote( radiobutton_tag('filters[location]', 2, ($filters['location'] == 2) ),
-              array(
-                'before'    => "$('filters_location_2').checked = true;", 
-                'update'    => 'match_results',
-                'submit'    => 'search_box',
-                'loading'   => "show_load();",
-                'complete'  => "hide_load(); $('filters_location_2').checked = true;",                            
-                'url'       => 'search/' . sfContext::getInstance()->getActionName(),)) . __('Within') ?>&nbsp;
+            <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array(
+                  'onclick' => "$('filters_location_2').checked = true;; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location_2').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;", 
+                )
+              ) . __('Within') ?>&nbsp;
                 <?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
                 &nbsp;
                 <?php echo select_tag('filters[kmmils]',  options_for_select(array( 'mil' => __('mil'), 'km' => __('km')), isset($filters['kmmils'])?$filters['kmmils']:sfConfig::get('app_settings_search_default_kilometers_miles')), array('class' => 'select_radius')) ?>

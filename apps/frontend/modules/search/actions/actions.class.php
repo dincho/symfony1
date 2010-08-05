@@ -30,7 +30,10 @@ class searchActions extends prActions
         $filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
         if (! isset($filters['location']))
             $filters['location'] = 0;
+        if( $this->getRequest()->hasParameter('filters[location]') )
+            $filters['location'] = $this->getRequest()->getParameter('filters[location]', 0);
         $this->filters = $filters;
+        
     }
 
     public function executePublic()
@@ -79,7 +82,7 @@ class searchActions extends prActions
         //add ajax support
         if($this->getRequest()->isXmlHttpRequest())
         {
-          sfLogger::getInstance()->info(" isXmlHttpRequest ");
+          sfLogger::getInstance()->info(" isXmlHttpRequest "); 
           $this->setLayout(false);
           return 'Ajax';
         }
@@ -565,15 +568,31 @@ class searchActions extends prActions
         if( !$radius )
         {
             $this->setFlash('msg_error', "Please enter radius");
-            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
-            $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
+            $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters'); 
+            if(!$this->getRequest()->isXmlHttpRequest())
+            {
+              $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
+            }
+            else
+            {
+              $this->getResponse()->setStatusCode(404);
+            }
         }
         
         if( !is_numeric($radius) || $radius < 0 || $radius >1000 )
         {
             $this->setFlash('msg_error', "Radius must be betwen 0 and 1000");
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
-            $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
-        }       
-    }
+            if(!$this->getRequest()->isXmlHttpRequest())
+            {
+              $this->redirect($this->getUser()->getAttribute('last_search_url', 'search/index'));
+            }
+            else
+            {
+              $this->getResponse()->setStatusCode(404);
+            }
+        } 
+              
+    }      
+  
 }
