@@ -9,12 +9,6 @@
  */ 
 class PrMailMessage extends BasePrMailMessage
 {
-
-    public function setBody($v)
-    {
-        parent::setBody(nl2br($v));
-    }
-        
     public function setRecipients($v)
     {
         if(!is_array($v)) $v = array($v);

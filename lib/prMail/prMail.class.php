@@ -57,8 +57,6 @@ class prMail extends sfMail
     
     public function send()
     {
-        $this->setBody(nl2br($this->getBody()));
-        
         if( sfConfig::get('app_mail_enabled') )
         {
           try
