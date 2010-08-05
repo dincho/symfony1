@@ -28,7 +28,7 @@
         <?php foreach($subscriptions as $subscription): ?>
             <?php $is_better = ( $subscription->getAmount() > $recent_subscription->getAmount()) ? true : false; ?>
             <div class="column <?php if( $subscription->getAmount() > 0 ) echo 'upgrade_to' ?>">
-                <div class="upgrade_header">
+                <div class="upgrade_header<?php echo ($is_first)?'':'_2' ?>">
                   <?php if( $is_better  ): ?>
                     <?php if( count($subscriptions) >1  and ! $is_first): ?>
                       <div style='float: left; margin-top: 0px; margin-left: -1px; padding:0px; width: 1px; height: 60px; border-left: 2px solid #3D3D3D;'></div>
