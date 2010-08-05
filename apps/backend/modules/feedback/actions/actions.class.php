@@ -176,7 +176,7 @@ class feedbackActions extends sfActions
         if ($this->getRequestParameter('mail_to'))
         {
             $message = new PrMailMessage();
-            $message->setMailConfigId($this->getRequestParameter('mail_config'));
+            $message->setMailConfig($this->getRequestParameter('mail_config'));
             $message->setSender($this->getRequestParameter('mail_from'));
             $message->setMailFrom($this->getRequestParameter('mail_from'));
             $message->setSubject($this->getRequestParameter('subject'));
@@ -231,7 +231,7 @@ class feedbackActions extends sfActions
                 if( in_array('email_address', $send_options) )
                 {
                     $message = new PrMailMessage();
-                    $message->setMailConfigId($this->getRequestParameter('mail_config'));
+                    $message->setMailConfig($this->getRequestParameter('mail_config'));
                     $message->setMailFrom($this->getRequestParameter('mail_from'));
                     $message->setSender($this->getRequestParameter('mail_from'));
                     $message->setSubject($this->getRequestParameter('subject'));

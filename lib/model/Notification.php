@@ -40,7 +40,7 @@ class Notification extends BaseNotification
         }
         
         $message = new PrMailMessage();
-        $message->setMailConfigId($this->getMailConfig());
+        $message->setMailConfig($this->getMailConfig());
         
         if( !is_null($mail_from) )
         {

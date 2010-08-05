@@ -563,7 +563,7 @@ propel:
 
   pr_mail_message:
     id:
-    mail_config_id: { type: tinyint }
+    mail_config:    { type: varchar, size: 255 }
     sender:         { type: longvarchar }
     mail_from:      { type: longvarchar }
     recipients:     { type: longvarchar }
