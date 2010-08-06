@@ -5,7 +5,7 @@
 
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
     <fieldset style="width: 90%;">
-        <div style='float: left; margin-top: 60px; width: 1px; height: 294px; border-right: 1px solid #3D3D3D;'></div>
+        <div style='float: left; margin-top: 44px; width: 1px; height: 294px; border-right: 1px solid #3D3D3D;'></div>
         <div class="column" >
             <div class="upgrade_header">&nbsp;</div>
             <div class="subscription_features">
@@ -24,17 +24,11 @@
               <span class="select"><?php echo __('Select Membership') ?>&nbsp;</span>
             </div>
         </div>
-        <?php $is_first = true ?>
         <?php foreach($subscriptions as $subscription): ?>
             <?php $is_better = ( $subscription->getAmount() > $recent_subscription->getAmount()) ? true : false; ?>
             <div class="column <?php if( $subscription->getAmount() > 0 ) echo 'upgrade_to' ?>">
-                <div class="upgrade_header<?php echo ($is_first)?'':'_2' ?>">
+                <div class="upgrade_header">
                   <?php if( $is_better  ): ?>
-                    <?php if( count($subscriptions) >1  and ! $is_first): ?>
-                      <div style='float: left; margin-top: 0px; margin-left: -1px; padding:0px; width: 1px; height: 60px; border-left: 2px solid #3D3D3D;'></div>
-                    <?php else: ?>
-                      <?php $is_first = false ?>
-                    <?php endif; ?>
                     <div><?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?></div>
                   <?php else: ?>
                     &nbsp;

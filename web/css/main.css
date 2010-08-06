@@ -710,11 +710,7 @@ form#sign_in fieldset a {
 }
 
 #subscription div.column .upgrade_header {
-    margin-top: 16px;
-    height: 44px; 
-}
-#subscription div.column .upgrade_header_2 {
-    height: 60px; 
+    height: 44px;
 }
 
 #subscription div.upgrade_to .upgrade_header div {
@@ -724,16 +720,7 @@ form#sign_in fieldset a {
     color: white;
     padding: 6px;
     width: 136px;
-    height: 48px;
-}
-#subscription div.upgrade_to .upgrade_header_2 div {
-    background-color: #35773b;
-    font-family: Myriad, Myriad Pro, sans-serif;
-    font-size: 14px;
-    color: white;
-    padding: 22px 6px 6px 6px;
-    width: 136px;
-    height: 48px;
+    height: 32px;
 }
 
 #subscription .outlined_subscription_features {
