@@ -13,13 +13,11 @@
                 
                 echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
                                     array('href' => $member->getMainPhoto()->getImageUrlPath('file'),
-                                          'rel' => 'lightbox[slide]',
+                                          'rel' => 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
                                 ));
-                foreach ($public_photos as $photo):
-                    echo content_tag('a', null, array('href' => $photo->getImageUrlPath('file'), 'rel' => 'lightbox[slide]'));
-                endforeach;
+
                 
               else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
                 echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'));
@@ -27,13 +25,13 @@
         ?>
     </div>
     
-    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member)); ?>
+    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
     
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
         <?php if( $private_photos_perm ): ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
-            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member)); ?>
+            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
         <?php else: ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below but you have no access to them.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php for($i=0; $i<count($private_photos); $i++): ?>
