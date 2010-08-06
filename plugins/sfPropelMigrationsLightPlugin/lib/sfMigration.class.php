@@ -195,17 +195,18 @@ abstract class sfMigration
     $rs = $this->executeQuery('SELECT `cat_id` FROM `catalogue`');
     
     $catalogs = array();
+    $ts = time();
     while($rs->next()) $catalogs[] = $rs->getInt('cat_id'); //double loop because we want per source inserts
 
     foreach( $this->getTransUnits() as $source )
     {
         $values = array();
-        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s")', $catalog, $source);
+        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s", %d, %d)', $catalog, $source, $ts, $ts);
 
         if( !empty($values) )
         {
             $values_str = implode(', ', $values);
-            $this->executeQuery(sprintf('INSERT INTO `trans_unit` (`cat_id`, `source`) VALUES %s', $values_str));
+            $this->executeQuery(sprintf('INSERT INTO `trans_unit` (`cat_id`, `source`, `date_added`, `date_modified`) VALUES %s', $values_str));
         }
     }
   }
