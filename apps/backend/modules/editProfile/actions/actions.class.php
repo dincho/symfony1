@@ -8,8 +8,7 @@ class editProfileActions extends BaseEditProfileActions
 
     public function validateDeletePhoto()
     {
-        $this->preExecute();
-        return parent::validateDeletePhoto();
+        return true; //administrator always can delete photos
     }
 
 
