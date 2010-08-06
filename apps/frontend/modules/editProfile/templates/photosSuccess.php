@@ -11,7 +11,7 @@
 </script>
 
     <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
-    <h3>Public Photos</h3><hr />
+    <h3><?php echo __('Public Photos'); ?></h3><hr />
     
     <?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
                                                       'upload_url' => url_for('editProfile/uploadPhoto?block_id=public_photos'),
@@ -29,7 +29,7 @@
     
     <?php if( $member->getSubscription()->getCanPostPrivatePhoto() && $member->getSubscription()->getPostPrivatePhotos() > 0 ): ?>
         <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPrivatePhotos())) ?></p>
-        <h3>Private Photos</h3><hr />
+        <h3><?php echo __('Private Photos'); ?></h3><hr />
         <?php include_partial('editProfile/photos_block', array('id' => 'private_photos', 
                                                           'upload_url' => url_for('editProfile/uploadPhoto?block_id=private_photos'),
                                                           'photos' => $private_photos, 
