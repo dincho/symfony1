@@ -119,7 +119,12 @@ class contentActions extends prActions
 
     public function executePage()
     {
-        $page = StaticPagePeer::getBySlug($this->getRequestParameter('slug'));
+        $c = new Criteria();
+        $c->add(StaticPageDomainPeer::CAT_ID, $this->getUser()->getCatalogId());
+        $c->add(StaticPagePeer::SLUG, $this->getRequestParameter('slug'));
+        $c->setLimit(1);
+        $pages = StaticPageDomainPeer::doSelectJoinAll($c);
+        $page = (isset($pages[0])) ? $pages[0] : null;
         $this->forward404Unless($page);
 
         $page->setContent(strtr($page->getContent(), $this->getContext()->getI18N()->getPredefinedHashes()));
