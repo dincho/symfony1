@@ -806,7 +806,8 @@ class Member extends BaseMember
     {
         if( is_null($this->_unread_messages_count) )
         {
-            $this->_unread_messages_count = MessagePeer::doCount($this->getUnreadMessagesCriteria());
+            $rs = MessagePeer::doSelectRS($this->getUnreadMessagesCriteria());
+            $this->_unread_messages_count = $rs->getRecordCount();
         }
         
         return $this->_unread_messages_count;
