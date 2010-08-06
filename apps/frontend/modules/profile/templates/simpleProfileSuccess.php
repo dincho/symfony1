@@ -1,6 +1,7 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<?php $member_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
+<?php $public_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
+<?php $private_photos = $member->getPrivateMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_private_photos')); ?>
 
 <div id="profile_left" style="padding-top: 14px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
@@ -12,34 +13,30 @@
                 
                 echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
                                     array('href' => $member->getMainPhoto()->getImageUrlPath('file'),
-                                          'rel' => 'lightbox[slide]',
+                                          'rel' => 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
                                 ));
-                foreach ($member_photos as $photo):
-                    echo content_tag('a', null, array('href' => $photo->getImageUrlPath('file'), 'rel' => 'lightbox[slide]'));
-                endforeach;
                 
               else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
                 echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'));
               endif; 
         ?>
     </div>
-    <?php $i=1;foreach ($member_photos as $photo): ?>
-        <?php if ($member->getMainPhoto()->getId() == $photo->getId()): ?>
-            <?php $class = 'current_thumb';?>
-            <script type="text/javascript">current_thumb_id = <?php echo $photo->getId() ?>;</script>
-        <?php else: ?>
-            <?php $class = 'thumb'; ?>
-        <?php endif; ?>
-        <?php $the_img = image_tag($photo->getImg('50x50'), array('id' => 'thumb_' . $photo->getId(), 'class' => $class)); ?>
-        <?php echo link_to_function($the_img, 'show_profile_image("'. $photo->getImg('350x350', 'file').'", '. $photo->getId() .', "'. $photo->getImageUrlPath('file') .'")', array()) ?>
-        <?php if($i++ % 6 == 0 ): ?>
-            <br />
-        <?php endif; ?>
-    <?php endforeach; ?>
-    <?php if( $member->getYoutubeVid() && sfConfig::get('app_settings_profile_display_video') ): ?>
-        <br /><br /><object width="350" height="355"><param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed></object>
+    
+    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
+
+    <?php if( count($private_photos) > 0 ): ?>
+        <hr /><?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
+    <?php endif; ?>
+        
+    <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
+        <br /><br />
+        <object width="350" height="355">
+            <param name="movie" value="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0"></param>
+            <param name="wmode" value="transparent"></param>
+            <embed src="http://www.youtube.com/v/<?php echo $member->getYoutubeVid() ?>&rel=0" type="application/x-shockwave-flash" wmode="transparent" width="350" height="355"></embed>
+        </object>
     <?php endif; ?>
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
