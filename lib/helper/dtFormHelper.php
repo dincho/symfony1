@@ -468,7 +468,7 @@ function pr_select_payment_period_type($name, $selected = null, $options = array
 
 function pr_format_payment_period_type($type)
 {
-    $types = array('D' => 'Day(s)', 'W' => 'Week(s)', 'M' => 'Month(s)', 'Y' => 'Year(s)');
+    $types = array('D' => __('Day(s)'), 'W' => __('Week(s)'), 'M' => __('Month(s)'), 'Y' => __('Year(s)'));
     return (array_key_exists($type, $types)) ? $types[$type] : null;
 }
 
