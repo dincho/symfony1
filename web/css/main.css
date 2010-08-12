@@ -709,18 +709,48 @@ form#sign_in fieldset a {
     width: 148px;
 }
 
-#subscription div.column .upgrade_header {
+#subscription div.column .upgrade_header_1,
+#subscription div.column .upgrade_header_3 {
+    height: 16px;
+}
+
+#subscription div.column .upgrade_header_2,
+#subscription div.column .upgrade_header_4 {
     height: 44px;
 }
 
-#subscription div.upgrade_to .upgrade_header div {
+#subscription div.upgrade_to .upgrade_header_2 div {
     background-color: #35773b;
     font-family: Myriad, Myriad Pro, sans-serif;
     font-size: 14px;
     color: white;
     padding: 6px;
-    width: 136px;
+    width: 135px;
     height: 32px;
+    border-right:1px solid #3D3D3D;
+}
+#subscription div.upgrade_to .upgrade_header_4 div {
+    background-color: #35773b;
+    font-family: Myriad, Myriad Pro, sans-serif;
+    font-size: 14px;
+    color: white;
+    padding: 6px;
+    width: 135px;
+    height: 32px;
+    border-left:1px solid #3D3D3D;
+}
+
+#subscription div.upgrade_to .upgrade_header_3 {
+    background-color: #35773b;
+    border-left:1px solid #3D3D3D;
+}
+
+#subscription .left_border  {
+    border-right:1px solid #3D3D3D;
+    float:left;
+    height:294px;
+    margin-top:60px;
+    width:1px;
 }
 
 #subscription .outlined_subscription_features {

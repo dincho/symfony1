@@ -5,9 +5,10 @@
 
 <?php echo form_tag('subscription/index', array('id' => 'subscription')) ?>
     <fieldset style="width: 90%;">
-        <div style='float: left; margin-top: 44px; width: 1px; height: 294px; border-right: 1px solid #3D3D3D;'></div>
+        <div class="left_border" >&nbsp;</div>
         <div class="column" >
-            <div class="upgrade_header">&nbsp;</div>
+            <div class="upgrade_header_1">&nbsp;</div>
+            <div class="upgrade_header_2">&nbsp;</div>
             <div class="subscription_features">
               <span class="top">&nbsp;</span>
               <span class="type"><?php echo __('Create a profile') ?></span><br />
@@ -24,11 +25,17 @@
               <span class="select"><?php echo __('Select Membership') ?>&nbsp;</span>
             </div>
         </div>
+        <?php $is_VIP = false; ?>
         <?php foreach($subscriptions as $subscription): ?>
             <?php $is_better = ( $subscription->getAmount() > $recent_subscription->getAmount()) ? true : false; ?>
             <div class="column <?php if( $subscription->getAmount() > 0 ) echo 'upgrade_to' ?>">
-                <div class="upgrade_header">
+<!--                <?php if ($is_VIP): ?>
+                  <div class="separator">&nbsp;</div>
+                <?php endif; ?>
+-->                <div class="upgrade_header_<?php echo ( $is_VIP )? '3':'1' ?>">&nbsp;</div> 
+                <div class="upgrade_header_<?php echo ( $is_VIP )? '4':'2' ?>">
                   <?php if( $is_better  ): ?>
+                    <?php $is_VIP = true; ?>
                     <div><?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?></div>
                   <?php else: ?>
                     &nbsp;
