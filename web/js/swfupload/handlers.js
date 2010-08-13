@@ -11,6 +11,9 @@ function fileQueueError(file, errorCode, message) {
         if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
             show_error("You have attempted to queue too many files.");
         }
+        if (errorCode === SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT) {
+            show_error("File is too big.");
+        }
 
     } catch (ex) {
         this.debug(ex);
