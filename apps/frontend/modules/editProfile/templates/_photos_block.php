@@ -62,7 +62,8 @@
 
                     custom_settings : {
                         upload_target : "<?php echo $id; ?>_fileProgressContainer",
-                        block : $("<?php echo $id; ?>")
+                        block : $("<?php echo $id; ?>"),
+                        file_is_too_big: "<?php echo __('File is too big.'); ?>"
                     },
                 
                     // Debug Settings

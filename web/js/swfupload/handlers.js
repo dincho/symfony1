@@ -12,7 +12,7 @@ function fileQueueError(file, errorCode, message) {
             show_error("You have attempted to queue too many files.");
         }
         if (errorCode === SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT) {
-            show_error("File is too big.");
+            show_error(this.customSettings.file_is_too_big);
         }
 
     } catch (ex) {
