@@ -77,9 +77,4 @@
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
 
-<?php echo javascript_tag('
-Event.observe(window, "load", function() {
-    setTimeout("$(\"title\").focus();",1);
-});
-');?>
 
