@@ -71,6 +71,10 @@
                     
                 });
             });
+            
+            Event.observe(window, 'unload', function() {
+                <?php echo $id; ?>_swfu.destroy();
+            });
     </script>
 
     
