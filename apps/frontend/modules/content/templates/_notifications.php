@@ -8,12 +8,10 @@
 //<![CDATA[
 Event.observe(window, 'load', function() {
 
-
-  <?php echo $ajax_request; ?>
-  
   setTimeout(function() {
-    new PeriodicalExecuter(function() {<?php echo $ajax_request; ?>}, 60);
-  }, 1000);
+      <?php echo $ajax_request; ?>
+      new PeriodicalExecuter(function() {<?php echo $ajax_request; ?>}, 60);
+  }, 1500);
   
 });
 
