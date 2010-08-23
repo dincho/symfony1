@@ -22,8 +22,8 @@ class Migration018 extends sfMigration
     {
         $this->deleteTransUnits();
 
-        $this->executeSQL('UPDATE `polish_romance`.`desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =16;');        
-        $this->executeSQL('UPDATE `polish_romance`.`desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =17;');        
-        $this->executeSQL('UPDATE `polish_romance`.`desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =18;');        
+        $this->executeSQL('UPDATE `desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =16;');
+        $this->executeSQL('UPDATE `desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =17;');
+        $this->executeSQL('UPDATE `desc_question` SET `factor_title` = "" WHERE `desc_question`.`id` =18;');
     }
 }
