@@ -12,6 +12,7 @@ class BaseEditProfileActions extends prActions
         
         $this->getResponse()->addJavascript('photos', 'last');
         $this->getResponse()->addJavascript('swfupload/swfupload.js', 'last');
+        $this->getResponse()->addJavascript('swfupload/swfupload.swfobject.js', 'last');
         $this->getResponse()->addJavascript('swfupload/handlers.js', 'last');
         
         $this->public_photos = $this->member->getPublicMemberPhotos();

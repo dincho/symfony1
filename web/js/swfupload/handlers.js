@@ -6,13 +6,12 @@ function show_error(message)
 function fileQueueError(file, errorCode, message) {
     
     try {
-        var imageName = "error.gif";
 
         if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
-            show_error("You have attempted to queue too many files.");
+            show_error(this.customSettings.errors.queued_too_many_files);
         }
         if (errorCode === SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT) {
-            show_error(this.customSettings.file_is_too_big);
+            show_error(this.customSettings.errors.file_is_too_big);
         }
 
     } catch (ex) {
@@ -129,4 +128,14 @@ function uploadError(file, errorCode, message) {
         this.debug(ex3);
     }
 
+}
+
+function swfUploadLoaded() {
+    var id = this.customSettings.block.getAttribute('id');
+    var btn = "btn_upload_" + id;
+    $(btn).show();
+}
+
+function swfuploadLoadFailed() {
+    show_error(this.customSettings.errors.load);
 }
