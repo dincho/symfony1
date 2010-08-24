@@ -161,9 +161,11 @@ class contentActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $member = $this->getUser()->getProfile();
+            $desc = $this->getRequestParameter('description');
+            $desc .= "\n\nTechnical Info\n--------------------------------\n" . $this->getRequestParameter('tech_info');
             $feedback = new Feedback();
             $feedback->setSubject($this->getRequestParameter('subject'));
-            $feedback->setBody($this->getRequestParameter('description'));
+            $feedback->setBody($desc);
             $feedback->setMailTo(FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
             $feedback->setMailFrom($member->getEmail());
             $feedback->setNameFrom($member->getFullName());

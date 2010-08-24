@@ -6,3 +6,5 @@ searchEngineSuccess:
   javascripts: [-*]
 flagSuccess:
   javascripts: [flag_profile_handlers]
+reportBugSuccess:
+  javascripts: [flash_detect]
