@@ -4,7 +4,7 @@
     <div class="top_actions">
         <?php echo button_to_remote('x', array('url' => $sf_params->get('module').'/confirmDeletePhoto?id=' . $photo->getId(),
                                                                  'update'  => 'msg_container',
-                                                                 'after'   => '$("msg_container").scrollTo()',
+                                                                 'after'   => '$("box").scrollTo()',
                                                                 ),
                                                            array('class' => 'button_mini delete_button')) ?>
     </div>                                
