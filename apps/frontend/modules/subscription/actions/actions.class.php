@@ -104,7 +104,7 @@ class subscriptionActions extends prActions
           
           $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
           $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
-          $this->zongAvailable = true;
+          $this->zongAvailable = (bool) $zongItem;
         
         } else {
           $member_subscription = $current_member_subscription;
