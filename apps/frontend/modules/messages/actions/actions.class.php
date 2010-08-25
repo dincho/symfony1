@@ -525,7 +525,7 @@ class messagesActions extends prActions
                 $this->setFlash('msg_error', 'M4F: In order to read a message you need to upgrade your membership.');
                 if( $this->getRequestParameter('return_to_profile') )
                 {
-                  $this->redirect('@profile?username='. $profile->getUsernme());
+                  $this->redirect('@profile?username='. $profile->getUsername());
                 }
                 $this->redirect('messages/index');
             }
