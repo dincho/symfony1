@@ -6,6 +6,12 @@ class prMail extends sfMail
         $this->initialize($mail_config_key);
     }
     
+    public function setBody($body)
+    {
+         //we send only html emails so, always convert newlines.
+        parent::setBody(nl2br($body));
+    }
+  
     public function initialize($mail_config_key = null)
     {
         $mail_configs = sfConfig::get('app_mail_outgoing');

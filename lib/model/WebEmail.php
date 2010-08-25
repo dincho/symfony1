@@ -21,8 +21,9 @@ class WebEmail extends BaseWebEmail
     
     public function generateHash()
     {
-    	$this->setHash(sha1(SALT . $this->getSubject() . SALT . $this->getBody() . SALT . time() . SALT));
-    	
-    	return $this->getHash();
+        $hash = sha1(SALT . $this->getSubject() . SALT . $this->getBody() . SALT . time() . SALT);
+        $this->setHash($hash);
+        
+        return $hash;
     }
 }

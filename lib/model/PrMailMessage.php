@@ -115,7 +115,7 @@ class PrMailMessage extends BasePrMailMessage
         $this->save();
         
         $mailer_class = sfConfig::get('app_mail_class');
-        
+
         $mailer = new $mailer_class;
         $mailer->initialize($this->getMailConfig());
         $mailer->setSubject($this->getSubject());
@@ -140,17 +140,21 @@ class PrMailMessage extends BasePrMailMessage
     
     public function createWebCopy(Catalogue $catalog)
     {
+        $body = $this->getBody();
+        
         $webemail = new WebEmail();
         $webemail->setSubject($this->getSubject());
-        $webemail->setBody($this->getBody());
-        $webemail->generateHash();
+        $webemail->setBody($body);
+        $hash = $webemail->generateHash(); //both body and subject are used in hash generation
     
-        $webemail_url  = LinkPeer::create('@web_email?hash=' . $webemail->getHash())->getUrl($catalog);
+        $webemail_url  = LinkPeer::create('@web_email?hash=' . $hash)->getUrl($catalog);
         $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
-        $body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
-        $this->setBody($body);
+        $new_body = str_replace(array_keys($global_vars), array_values($global_vars), $body);
         
-        $webemail->setBody($body); //set body again with parsed URL
+        //re-set parsed body
+        $this->setBody($new_body);
+        $webemail->setBody($new_body);
+        
         $webemail->save();
     }
     

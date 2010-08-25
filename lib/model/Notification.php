@@ -52,7 +52,7 @@ class Notification extends BaseNotification
         }
         
         $message->setSubject($subject);
-        $message->setBody(nl2br($content));
+        $message->setBody($content);
         
         if( $this->getToAdmins() )
         {
