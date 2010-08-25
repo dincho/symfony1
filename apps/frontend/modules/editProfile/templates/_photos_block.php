@@ -70,7 +70,7 @@
                         block : $("<?php echo $id; ?>"),
                         errors: {
                             queued_too_many_files: "<?php echo __('You have attempted to queue too many photos.'); ?>",
-                            file_is_too_big: "<?php echo __('File is too big.'); ?>",
+                            file_is_too_big: "<?php echo __('Max image size is 3MB'); ?>",
                             load: "<?php echo __('You need Flash plugin installed to upload photos.'); ?>"
                         }
                         
