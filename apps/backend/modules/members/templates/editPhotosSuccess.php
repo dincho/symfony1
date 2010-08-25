@@ -108,7 +108,7 @@
         
         var photo_container = $('photo_' + cropper.options.pd_photo_id).parentNode;
         photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
-        new Ajax.Updater(photo_container, photo_crop_url, {asynchronous:true, evalScripts:false, parameters:params});
+        new Ajax.Updater(photo_container, photo_crop_url, {asynchronous:true, evalScripts:true, parameters:params});
         remove_crop_area();
     }
     
