@@ -12,8 +12,8 @@
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% granted you access %date%', 
                                    array('%date%' => distance_of_time_in_words($perm->getCreatedAt(null)),
-                                         '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
-                                         '%her_his%' => ( $member->getSex() == 'M' ) ? 'his' : 'her'
+                                         '%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'),
+                                         '%her_his%' => ( $member->getSex() == 'M' ) ? __('his') : __('her')
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
