@@ -135,7 +135,7 @@ class BaseEditProfileActions extends prActions
         $this->member->save();
         
 
-        $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+        $this->getResponse()->setContentType('application/json');
         $return = array('status' => 'success', 'data' => get_partial('editProfile/photo_slot', array('photo' => $member_photo)));
         return $this->renderText(json_encode($return));
     }
@@ -218,9 +218,9 @@ class BaseEditProfileActions extends prActions
     public function handleErrorUploadPhoto()
     {
         sfLoader::loadHelpers(array('Partial'));
-        
         sfConfig::set('sf_web_debug', false);
-
+        
+        $this->getResponse()->setContentType('application/json');
         $return = array('status' => 'failed', 'messages' => get_partial($this->getContentModule() . '/formErrors'));
         return $this->renderText(json_encode($return));                
     }
