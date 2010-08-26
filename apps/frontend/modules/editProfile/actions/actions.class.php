@@ -395,7 +395,8 @@ class editProfileActions extends BaseEditProfileActions
         ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
         ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
         ->add(array('name' => 'Photo Authenticity'));
-         
+        
+        $this->setMember();
         $this->photos = $this->member->getPublicMemberPhotos();
         
         return sfView::SUCCESS;
