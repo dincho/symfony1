@@ -361,15 +361,46 @@ class sfThumbnail
   
   public function prBrand($text = '', $font_size = 18)
   {
-    $watermark = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');
-    $watermark_width = imagesx($watermark); 
-    $watermark_height = imagesy($watermark);
-    $ptr_white = imageColorAllocate($watermark,255,255,255);
-    imageColorTransparent($watermark,$ptr_white);
+    $watermark_src = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');
+    //keep the transparency
+    imagealphablending($watermark_src, false);
+    imagesavealpha($watermark_src, true);
+        
+    $watermark_src_width = imagesx($watermark_src); 
+    $watermark_src_height = imagesy($watermark_src);
+
+    $x = $this->getThumbWidth() - $watermark_src_width - 8;
+    $y = $this->getThumbHeight() - $watermark_src_height - 20;
     
-    $x = $this->getThumbWidth() - $watermark_width - 8;
-    $y = $this->getThumbHeight() - $watermark_height - 20;
-    imagecopy($this->thumb, $watermark, $x, $y, 0,0, $watermark_width, $watermark_height);
+    if( $x < 0 )
+    {
+        $new_watermark_width = $watermark_src_width + $x - 20; //20 left padding/space for better looking
+        $watermark_scale = $watermark_src_width/$new_watermark_width;
+        
+        //new size
+        $watermark_width = floor($watermark_src_width/$watermark_scale);
+        $watermark_height = floor($watermark_src_height/$watermark_scale);
+        
+        //re-calculate position
+        $x = $this->getThumbWidth() - $watermark_width - ceil(8/$watermark_scale);
+        $y = $this->getThumbHeight() - $watermark_height - ceil(20/$watermark_scale);
+    
+        //create empty transperant image with new size
+        $watermark = imagecreatetruecolor($watermark_width, $watermark_height);
+        imagealphablending($watermark, false);
+        imagesavealpha($watermark, true);
+        
+        //actual resize of the watermark
+        imagecopyresampled($watermark, $watermark_src, 0, 0, 0, 0, $watermark_width, $watermark_height, $watermark_src_width, $watermark_src_height);
+        
+    } else {
+        $watermark = $watermark_src;
+        $watermark_width = $watermark_src_width;
+        $watermark_height = $watermark_src_height;
+    }
+    
+    imagecopy($this->thumb, $watermark, $x, $y, 0, 0, $watermark_width, $watermark_height);
+    imagedestroy($watermark_src);
   }
   
   /**
