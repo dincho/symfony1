@@ -24,9 +24,15 @@
 
 <div class="upload_photos">
     <script type="text/javascript">
+                
             var <?php echo $id; ?>_swfu;
             Event.observe(window, 'load', function() {
                 <?php echo $id; ?>_swfu = new SWFUpload({
+                    //SWFObject plugin settings
+                    minimum_flash_version: "9.0.28",
+                    // swfupload_pre_load_handler: swfuploadPreLoad,
+                    swfupload_load_failed_handler: swfuploadLoadFailed,
+                                        
                     // Backend Settings
                     upload_url: "<?php echo $upload_url; ?>",
                     post_params: {"PDBSSID": "<?php echo session_id(); ?>"},
@@ -38,9 +44,8 @@
                     file_types_description : "Photos",
                     file_upload_limit : "0",
 
-                    // Event Handler Settings - these functions as defined in Handlers.js
-                    //  The handlers are not part of SWFUpload but are part of this website and control how
-                    //  my website reacts to the SWFUpload events.
+                    // Event Handler Settings
+                    swfupload_loaded_handler : swfUploadLoaded,
                     file_queue_error_handler : fileQueueError,
                     file_dialog_complete_handler : fileDialogComplete,
                     upload_progress_handler : uploadProgress,
@@ -58,20 +63,31 @@
                 
                     // Flash Settings
                     flash_url : "/flash/swfupload.swf",
+                    prevent_swf_caching: <?php echo (SF_ENVIRONMENT == 'dev') ? 'true' : 'false'; ?>,
 
                     custom_settings : {
                         upload_target : "<?php echo $id; ?>_fileProgressContainer",
-                        block : $("<?php echo $id; ?>")
+                        block : $("<?php echo $id; ?>"),
+                        errors: {
+                            queued_too_many_files: "You have attempted to queue too many photos.",
+                            file_is_too_big: "Max image size is 3MB",
+                            load: "You need Flash plugin installed to upload photos."
+                        }
+                        
                     },
                 
                     // Debug Settings
-                    debug: false
+                    debug: <?php echo (SF_ENVIRONMENT == 'dev') ? 'true' : 'false'; ?>
+                    
                 });
             });
+            
+            Event.observe(window, 'unload', function() {
+                <?php echo $id; ?>_swfu.destroy();
+            });
     </script>
-
     
-    <input type="button" value="<?php echo $upload_button_title; ?>" id="btn_upload_<?php echo $id; ?>" class="button" />
+    <input type="button" value="<?php echo $upload_button_title; ?>" id="btn_upload_<?php echo $id; ?>" class="button" style="display: none;" />
     <span id="<?php echo $id; ?>_spanButtonPlaceholder"></span>
 </div>
 
