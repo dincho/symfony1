@@ -567,12 +567,12 @@ class Member extends BaseMember
     
     public function getAdm1()
     {
-      return $this->getCity()->getGeoRelatedByAdm1Id();
+      return ($this->getCity()) ? $this->getCity()->getGeoRelatedByAdm1Id() : null;
     }
     
     public function getAdm2()
     {
-      return $this->getCity()->getGeoRelatedByAdm2Id();
+      return ($this->getCity()) ? $this->getCity()->getGeoRelatedByAdm2Id() : null;
     }
     
     public function getCityOld()
