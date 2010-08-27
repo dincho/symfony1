@@ -11,7 +11,10 @@
 
 </head>
 <body>
-    <div id="box">              
+    <noscript>
+        <div id="noscript-padding"></div>
+    </noscript>
+    <div id="box">
         <!--- box border -->
         <div id="lb"><div id="rb">
         <div id="bb"><div id="blc">
@@ -53,5 +56,6 @@
         <?php include_partial('content/footer_links', array('auth' => $sf_user->isAuthenticated())); ?>
         <?php include_partial('content/footer_copyright');?>
     </div>
+    <?php include_partial('content/javascriptWarning'); ?>
 </body>
 </html>

@@ -11,13 +11,16 @@
 </head>
 
 <body>
+    <noscript>
+        <div id="noscript-padding"></div>
+    </noscript>
     <?php if( $sf_user->isAuthenticated() && 
               $sf_user->getAttribute('status_id') == MemberStatusPeer::ABANDONED && 
               $sf_context->getModuleName() != 'IMBRA' && 
               !$sf_user->getAttribute('must_confirm_email')): ?>
         <?php include_partial('content/headerCompleteRegistration'); ?>
     <?php endif; ?>
-    <div id="box">              
+    <div id="box">
         <!--- box border -->
         <div id="lb"><div id="rb">
         <div id="bb"><div id="blc">
@@ -66,6 +69,7 @@
         <?php include_partial('content/footer_links', array('auth' => $sf_user->isAuthenticated())); ?>
         <?php include_partial('content/footer_copyright');?>
     </div>
+    <?php include_partial('content/javascriptWarning'); ?>
     <?php if( $sf_user->isAuthenticated() ): ?>
       <?php include_component('content', 'notifications') ?>
     <?php endif; ?>

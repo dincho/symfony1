@@ -236,13 +236,29 @@ body .sign_in {
 }
 
 /* END breadcrumb */ /*index*/
-#complete_registration {
+#complete_registration, #javascript_warning {
     background-color: #000;
     color: #ff0000;
     font-size: 12px;
     font-weight: bold;
     padding: 5px 0;
 }
+
+#javascript_warning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* non IE */
+noscript > #javascript_warning { position: fixed; }
+
+
+#noscript-padding {
+    padding-top: 20px;
+}
+
 
 #complete_registration a {
     font-size: 11px;
@@ -3237,7 +3253,7 @@ ul.rating li a {
     width:16px;
     height:16px;
     text-decoration:none;
-    z-index: 200;
+    z-index: 3;
     outline: none;
 } 
 

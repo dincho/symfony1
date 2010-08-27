@@ -11,20 +11,18 @@
 </head>
 
 <body class="window">
+    <div id="msg_container">
+        <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
+                  $sf_data->get('sf_flash')->has('msg_warning') || 
+                  $sf_data->get('sf_flash')->has('msg_ok') || 
+                  $sf_data->get('sf_flash')->has('msg_info') ): ?>
+            <?php include_partial('content/messages'); ?>
+        <?php endif; ?>
+        <?php include_partial('content/formErrors'); ?>
+    </div>
 
-            <div id="msg_container">
-                <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
-                          $sf_data->get('sf_flash')->has('msg_warning') || 
-                          $sf_data->get('sf_flash')->has('msg_ok') || 
-                          $sf_data->get('sf_flash')->has('msg_info') ): ?>
-                    <?php include_partial('content/messages'); ?>
-                <?php endif; ?>
-                <?php include_partial('content/formErrors'); ?>
-            </div>
-
-            <div id="secondary_container">
-                <?php echo $sf_data->getRaw('sf_content') ?>
-            </div>
-
+    <div id="secondary_container">
+        <?php echo $sf_data->getRaw('sf_content') ?>
+    </div>
 </body>
 </html>
