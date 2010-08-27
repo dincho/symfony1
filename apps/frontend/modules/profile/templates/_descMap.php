@@ -14,15 +14,18 @@
                 <dd><?php echo __($member->getOrientationString()) ?></dd>
             
             <dt><?php echo __('Purpose') ?></dt>
-                <?php if( count($member->getPurpose()) ): ?>
-                <dd>
-                    <?php foreach($member->getPurpose() as $purpose): ?>
-                        <?php echo format_purpose($purpose, $member->getOrientationKey()); ?><br />
-                    <?php endforeach; ?>
-                </dd>
+                <?php $purposes = $member->getPurpose(); ?>
+                <?php if( count($purposes) ): ?>
+                    <dd><?php echo format_purpose($purposes[0], $member->getOrientationKey()); ?></dd>
+                    
+                    <?php for($i = 1; $i < count($purposes); $i++): ?>
+                        <dt>&nbsp;</dt><dd><?php echo format_purpose($purposes[$i], $member->getOrientationKey()); ?></dd>
+                    <?php endfor; ?>
+
                 <?php else: ?>
                   <dd> - </dd>
                 <?php endif; ?>
+
             
             <dt><?php echo __('Country') ?></dt>
                 <?php $country = pr_format_country($member->getCountry()) ?>
