@@ -26,7 +26,7 @@ var hidden_lang_ids = '.$hidden_lang_ids.';
 
 function hide_lang_row(id)
 {
-    $("answers_'.$question->getId().'_" + id.toString()).value = null;
+    $("answers_'.$question->getId().'_" + id.toString()).value = "";
     $("answers_'.$question->getId().'_lang_levels_" + id.toString()).value = null;
     
     $("lang_container_" + id.toString()).hide();
