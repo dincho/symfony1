@@ -418,6 +418,7 @@ class membersActions extends prActions
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
             $this->member->save();
+            $this->member->clearCache();
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editEssay?id=' . $this->member->getId());
         }
