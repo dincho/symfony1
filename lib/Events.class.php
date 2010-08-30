@@ -392,7 +392,9 @@ class Events
             $notifications_url = LinkPeer::create('dashboard/emailNotifications', $object->getId())->getUrl($catalog);
             $global_vars['{NOTIFICATIONS_URL}'] = $notifications_url;
         } else {
-            $catalog = CataloguePeer::retrieveByPK(1); //polishdate.com - english
+            //try to get catalog from user's sessions
+            $catalog = sfContext::getInstance()->getUser()->getCatalog();
+            if( !$catalog ) $catalog = CataloguePeer::retrieveByPK(1); //polishdate.com - english
         }
         
         $c = new Criteria();
