@@ -52,7 +52,7 @@
               <?php if( $member->getBirthday() && !$member->getDontDisplayZodiac() ): ?>
                 <dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
               <?php else: ?>
-                <dd> - </dd>
+                <dd>-</dd>
               <?php endif; ?>
 
             <?php foreach ($questions as $question): ?>
@@ -66,7 +66,7 @@
                         <?php elseif( !is_null($other) ): ?>
                             <?php echo $other; ?>
                         <?php else: ?>
-                            <?php echo __('not provided'); ?>
+                            -
                         <?php endif; ?>
                     </dd>
                   <?php else: ?>
