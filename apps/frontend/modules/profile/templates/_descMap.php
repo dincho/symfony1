@@ -28,8 +28,7 @@
 
             
             <dt><?php echo __('Country') ?></dt>
-                <?php $country = pr_format_country($member->getCountry()) ?>
-                <dd><?php echo (strlen(trim($country)) > 0)?$country : "-" ?></dd>
+                <dd><?php echo ($member->getCountry()) ? pr_format_country($member->getCountry()) : "-" ?></dd>
             
             <dt><?php echo __('Area') ?></dt>
                 <?php if( $member->getAdm1Id() ): ?>
@@ -39,30 +38,23 @@
                 <?php endif; ?>
             
             <dt><?php echo __('District') ?></dt>
-              <?php if( $member->getAdm2Id() ): ?>
-                <dd><?php echo $member->getAdm2(); ?></dd>
-              <?php else: ?>
-                <dd> - </dd>
-              <?php endif; ?>
+                <dd><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : '-'; ?></dd>
             
             <dt><?php echo __('City') ?></dt>
-                <dd><?php echo (strlen(trim($member->getCity())) > 0)?$member->getCity() : "-" ?></dd>
+                <dd><?php echo ($member->getCity()) ? $member->getCity() : '-'; ?></dd>
                 
             <dt><?php echo __('Zodiac') ?></dt>
-              <?php if( $member->getBirthday() && !$member->getDontDisplayZodiac() ): ?>
-                <dd><?php echo __($member->getZodiac()->getSign()) ?></dd>
-              <?php else: ?>
-                <dd>-</dd>
-              <?php endif; ?>
+                <dd><?php echo ($member->getBirthday() && !$member->getDontDisplayZodiac()) ? __($member->getZodiac()->getSign()) : '-'; ?></dd>
 
             <?php foreach ($questions as $question): ?>
               <?php if( ($question->getType() == 'radio' || $question->getType() == 'select') && $question->getDescTitle() ): ?>
                 <dt><?php echo __($question->getDescTitle(ESC_RAW)) ?></dt>
-                  <?php if( isset($member_answers[$question->getId()]) ): ?>
+                  <?php $member_answer = isset($member_answers[$question->getId()]) ? $member_answers[$question->getId()] : null; ?>
+                  <?php if( $member_answer ): ?>
                     <dd>
-                        <?php $other = $member_answers[$question->getId()]->getOther(); ?>
-                        <?php if( is_null($other) && $member_answers[$question->getId()]->getDescAnswerId() ): ?>
-                            <?php echo __($answers[$member_answers[$question->getId()]->getDescAnswerId()]->getTitle(ESC_RAW)) ?>
+                        <?php $other = $member_answer->getOther(); ?>
+                        <?php if( is_null($other) && $member_answer->getDescAnswerId() ): ?>
+                            <?php echo __($answers[$member_answer->getDescAnswerId()]->getTitle(ESC_RAW)) ?>
                         <?php elseif( !is_null($other) ): ?>
                             <?php echo $other; ?>
                         <?php else: ?>
@@ -73,34 +65,33 @@
                     <dd> - </dd>
                   <?php endif; ?>
               <?php endif; ?>
-                
             <?php endforeach; ?>
-            <?php $no_language = true ?>
+            
+            
             <dt><?php echo __('Language'); ?></dt>
-              <?php foreach ($questions as $question): ?>
-                <?php if( $question->getType() == 'native_lang' && ( isset($member_answers[$question->getId()])) ): ?>
-                  <dd><?php echo ( is_null($member_answers[$question->getId()]->getOther()) ) ? format_language($member_answers[$question->getId()]->getCustom()) : $member_answers[$question->getId()]->getOther() ?> (<?php echo __('native'); ?>)</dd>
-                <?php elseif( $question->getType() == 'other_langs' ): ?>
-                    <?php if( isset($member_answers[$question->getId()]) ): ?>
-                        <?php if( is_null($member_answers[$question->getId()]->getOther()) ): ?>
-                            <?php $lang_answers = $member_answers[$question->getId()]->getOtherLangs(); ?>
-                            <?php foreach ($lang_answers as $lang_answer): ?>
+                <?php $no_language = true ?>
+                
+                <?php foreach ($questions as $question): ?>
+                    <?php $member_answer = isset($member_answers[$question->getId()]) ? $member_answers[$question->getId()] : null; ?>
+                    <?php if( $question->getType() == 'native_lang' && $member_answer ): ?>
+                        <?php $no_language = false; ?>
+                        <dd><?php echo ( is_null($member_answer->getOther()) ) ? format_language($member_answer->getCustom()) : $member_answer->getOther() ?> (<?php echo __('native'); ?>)</dd>
+                    <?php elseif( $question->getType() == 'other_langs' && $member_answer ): ?>
+                        <?php if( is_null($member_answer->getOther()) ): ?>
+                            <?php foreach ($member_answer->getOtherLangs() as $lang_answer): ?>
                                 <?php if( $lang_answer['lang'] ): ?>
-                                    <?php $no_language = false ?>
-                                    <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)</dd>
+                                        <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)</dd>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <?php $no_language = false ?>
-                            <dt>&nbsp;</dt><dd><?php echo $member_answers[$question->getId()]->getOther(); ?></dd>
+                            <dt>&nbsp;</dt><dd><?php echo $member_answer->getOther(); ?></dd>
                         <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            <?php if( $no_language ): ?>
-              <dd> - </dd>
-            <?php endif; ?>
+                <?php endforeach; ?>
             
+                <?php if( $no_language ): ?>
+                  <dd> - </dd>
+                <?php endif; ?>
         </dl>
     </div>
     <div id="profile_map" style="display: none;">
