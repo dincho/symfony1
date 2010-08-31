@@ -1,9 +1,17 @@
-<?php use_helper('dtForm') ?>
+<?php use_helper('dtForm', 'Object') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('predefinedMessages/create', 'class=form') ?>
   <div class="legend">New Predefined Message</div>
   <fieldset class="form_fields">
+    <label>Catalog:</label>
+    <?php echo object_select_tag(null, 'getObjectId', array (
+                                'related_class' => 'Catalogue',
+                                'peer_method' => 'doSelect',
+                                'control_name' => 'catalog_id',
+                                'include_blank' => false,
+                                )); ?><br />
+                                
     <label for="sex">Sex:</label>
     <?php echo select_tag('sex', options_for_select(array('' => '--', 'M' => 'Male', 'F' => 'Female')), error_class('sex')) ?><br />
 

@@ -6,6 +6,7 @@ class messagesComponents extends sfComponents
         $member = $this->getUser()->getProfile();
         
         $c = new Criteria();
+        $c->add(PredefinedMessagePeer::CATALOG_ID, $this->getUser()->getCatalogId());
         $crit1 = $c->getNewCriterion(PredefinedMessagePeer::SEX, $member->getSex());
         $crit1->addOr($c->getNewCriterion(PredefinedMessagePeer::SEX, ''));
         

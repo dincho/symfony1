@@ -1,10 +1,14 @@
-<?php use_helper('dtForm') ?>
+<?php use_helper('dtForm', 'Object') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('predefinedMessages/edit', 'class=form') ?>
     <?php echo input_hidden_tag('id', $message->getId()); ?>
   <div class="legend">Edit Predefined Message</div>
   <fieldset class="form_fields">
+
+    <label for="catalog">Catalog</label>
+    <?php echo object_select_tag($message, 'getCatalogId', array('related_class' => 'Catalogue')) ?><br />
+          
     <label for="sex">Sex:</label>
     <?php echo select_tag('sex', options_for_select(array('' => '--', 'M' => 'Male', 'F' => 'Female'), $message->getSex()), error_class('sex')) ?><br />
 

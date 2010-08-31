@@ -36,6 +36,7 @@ class predefinedMessagesActions extends sfActions
         {
             $this->getUser()->checkPerm(array('content_edit'));
             $message = new PredefinedMessage();
+            $message->setCatalogId($this->getRequestParameter('catalog_id'));
             $message->setSex($this->getRequestParameter('sex'));
             $message->setLookingFor($this->getRequestParameter('looking_for'));
             $message->setSubject($this->getRequestParameter('subject'));
@@ -62,7 +63,8 @@ class predefinedMessagesActions extends sfActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('content_edit'));
-
+            
+            $message->setCatalogId($this->getRequestParameter('catalog_id'));
             $message->setSex($this->getRequestParameter('sex'));
             $message->setLookingFor($this->getRequestParameter('looking_for'));
             $message->setSubject($this->getRequestParameter('subject'));

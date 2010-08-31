@@ -374,6 +374,7 @@ propel:
 
   predefined_message:
     id:
+    catalog_id:               { type: integer, required: true, foreignTable: catalogue, foreignReference: cat_id }
     subject:                  { type: longvarchar }
     body:                     { type: longvarchar }
     sex:                      { type: char, size: 1, required: true }
