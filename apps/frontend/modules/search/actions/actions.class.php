@@ -431,7 +431,15 @@ class searchActions extends prActions
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod($peerMethod);
         $pager->setPeerCountMethod($peerCountMethod);
-        if( $this->getUser()->getProfile()->isFree() ) $pager->setMaxRecordLimit(600); //max 600 results due to FS
+        
+        $profile = $this->getUser()->getProfile();
+        if( sfConfig::get('app_settings_man_should_pay') && $profile->isFree() &&
+            $profile->getSex() == 'M' && $profile->getLookingFor() == 'F'
+          ) 
+        {
+            $pager->setMaxRecordLimit(600);
+        }
+        
         $pager->init();
         $this->pager = $pager;
     }
