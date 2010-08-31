@@ -76,7 +76,11 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
-        $global_vars = array('{LOGIN_URL}' => $login_url);
+        $dashboard_url  = LinkPeer::create('@dashboard', $member->getId())->getUrl($member->getCatalogue());
+        
+        $global_vars = array('{LOGIN_URL}' => $login_url,
+                            '{INSTANT_LOGIN_URL}' => $dashboard_url, 
+                            );
         return self::executeNotifications(self::WELCOME_APPROVED, $global_vars, $member->getEmail(), $member);
     }
 
@@ -226,7 +230,11 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
-        $global_vars = array('{LOGIN_URL}' => $login_url);
+        $dashboard_url  = LinkPeer::create('@dashboard', $member->getId())->getUrl($member->getCatalogue());
+        
+        $global_vars = array('{LOGIN_URL}' => $login_url,
+                            '{INSTANT_LOGIN_URL}' => $dashboard_url,
+                            );
         return self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
@@ -235,8 +243,12 @@ class Events
         sfLoader::loadHelpers(array('Url'));
         
         $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
+        $dashboard_url  = LinkPeer::create('@dashboard', $member->getId())->getUrl($member->getCatalogue());
+        
         $global_vars = array('{LOGIN_URL}' => $login_url, 
-                             '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0));
+                             '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0),
+                             '{INSTANT_LOGIN_URL}' => $dashboard_url,
+                             );
         return self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
