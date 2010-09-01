@@ -40,7 +40,7 @@ class MemberPayment extends BaseMemberPayment
              $curr_subscription->save();
            }
            
-           $member->changeSubscription($member_subscription->getSubscriptionId());
+           $member->changeSubscription($member_subscription->getSubscriptionId(), 'system (payment)');
            $member_subscription->setStatus('active');
         }
         

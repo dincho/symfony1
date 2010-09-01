@@ -42,7 +42,7 @@ foreach( $member_subscriptions as $subscription)
     //we does not switch member to free, if it's already upgraded to other subscription
     if( $member->getSubscriptionId() == $subscription->getSubscriptionId() )
     {
-      $member->changeSubscription(SubscriptionPeer::FREE);
+      $member->changeSubscription(SubscriptionPeer::FREE, 'system (EOT)');
     }
         
     $subscription->save();

@@ -196,7 +196,7 @@ class Member extends BaseMember
         return SubscriptionHistoryPeer::doSelectOne($c);        
     }
     
-    public function changeSubscription($subscription_id)
+    public function changeSubscription($subscription_id, $changed_by = 'unknown')
     {
         if ($this->getSubscriptionId() != $subscription_id )
         {
@@ -206,6 +206,7 @@ class Member extends BaseMember
             $history->setSubscriptionId($subscription_id);
             $history->setMemberStatusId($this->getMemberStatusId());
             $history->setFromDate(($last_history) ? $last_history->getCreatedAt(null) : null );
+            $history->setChangedBy($changed_by);
 
             if($subscription_id == SubscriptionPeer::FREE)
             {

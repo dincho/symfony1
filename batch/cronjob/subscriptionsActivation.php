@@ -39,7 +39,7 @@ foreach( $member_subscriptions as $subscription)
       $current_subscription->save();
   
       $subscription->setStatus('active');
-      $member->changeSubscription($subscription->getSubscriptionId());
+      $member->changeSubscription($subscription->getSubscriptionId(), 'system (prepaid)');
       $subscription->save();
     
       $con->commit();

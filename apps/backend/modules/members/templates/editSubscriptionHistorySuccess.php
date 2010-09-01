@@ -1,0 +1,31 @@
+<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<?php include_partial('members/profile_pager', array('member' => $member)); ?>
+<br /><br />
+
+<div class="legend">Subscription History</div>
+
+<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+
+<table class="zebra" style="margin-top: 18px;">
+    <tr>
+        <th>Subscription</th>
+        <th>Member's status</th>
+        <th>Changed by</th>
+        <th>Period</th>
+    </tr>
+    <?php $cnt = count($history); ?>
+    <?php for($i=0; $i<$cnt; $i++): ?>
+        <tr>
+            <td><?php echo $history[$i]->getSubscription(); ?></td>
+            <td><?php echo $history[$i]->getMemberStatus(); ?></td>
+            <td><?php echo $history[$i]->getChangedBy(); ?></td>
+            <?php if( isset($history[$i-1]) ): ?>
+                <td><?php echo $history[$i]->getCreatedAt('m/d/Y') ?> - <?php echo  $history[$i-1]->getCreatedAt('m/d/Y') ?></td>
+            <?php else: ?>
+                <td><?php echo $history[$i]->getCreatedAt('m/d/Y') ?> - Current</td>
+            <?php endif; ?>
+        </tr>
+    <?php endfor; ?>
+</table>
+
+<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>

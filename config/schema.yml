@@ -336,6 +336,7 @@ propel:
     subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: cascade }
     member_status_id:
     from_date:                { type: timestamp }
+    changed_by:               { type: varchar, size: 255, default: 'unknown' }
     created_at:
       
   member_status_history:

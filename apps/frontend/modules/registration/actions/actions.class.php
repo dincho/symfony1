@@ -44,7 +44,7 @@ class registrationActions extends BaseEditProfileActions
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
-            $member->changeSubscription(SubscriptionPeer::FREE);
+            $member->changeSubscription(SubscriptionPeer::FREE, 'system (registration)');
             $member->changeStatus(MemberStatusPeer::ABANDONED);
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setLastIp(ip2long($_SERVER['REMOTE_ADDR']));

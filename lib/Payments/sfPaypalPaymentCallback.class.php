@@ -134,7 +134,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         $member_subscription->setUpdatedAt(strtotime($this->getParam('subscr_date')));
                         $member_subscription->setSubscriptionId($this->getParam('item_number'));
                         
-                        $member_subscription->getMember()->changeSubscription($member_subscription->getSubscriptionId());
+                        $member_subscription->getMember()->changeSubscription($member_subscription->getSubscriptionId(), 'system (modify)');
                         
                         $member_subscription->save();
                     }
@@ -149,7 +149,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         if( $member_subscription->getStatus() == 'active' )
                         {
                           $member = $member_subscription->getMember();
-                          $member->changeSubscription(SubscriptionPeer::FREE);
+                          $member->changeSubscription(SubscriptionPeer::FREE, 'system (failed payment)');
                           
                           $member_subscription->setStatus('failed');
                           $member_subscription->save();

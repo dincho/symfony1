@@ -95,7 +95,7 @@ class membersActions extends prActions
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
             $member->changeStatus(MemberStatusPeer::PENDING);
-            $member->changeSubscription(SubscriptionPeer::FREE);
+            $member->changeSubscription(SubscriptionPeer::FREE, $this->getUser()->getUsername() . ' (create)');
             $member->parseLookingFor($this->getRequestParameter('looking_for', 'M_F'));
             $member->setCountry($this->getRequestParameter('country'));
             $member->setAdm1Id($this->getRequestParameter('adm1_id'));
@@ -223,7 +223,7 @@ class membersActions extends prActions
                 $subscription_id = $this->getRequestParameter('subscription_id');
                 if ( $this->member->getSubscriptionId() != $subscription_id )
                 {
-                  $this->member->changeSubscription($subscription_id);
+                  $this->member->changeSubscription($subscription_id, $this->getUser()->getUsername() . ' (edit)');
                 }
                 
                 $this->member->save();
@@ -572,6 +572,14 @@ class membersActions extends prActions
         $c->addDescendingOrderByColumn(MemberStatusHistoryPeer::CREATED_AT);
         $this->history = $this->member->getMemberStatusHistorysJoinMemberStatus($c);
     }
+    
+    public function executeEditSubscriptionHistory()
+    {
+        $this->getUser()->getBC()->add(array('name' => 'Subscription History', 'uri' => 'members/editSubscriptionHistory?id=' . $this->member->getId()));
+        $c = new Criteria();
+        $c->addDescendingOrderByColumn(SubscriptionHistoryPeer::CREATED_AT);
+        $this->history = $this->member->getSubscriptionHistorys($c);
+    }    
 
     public function executeSubscriptions()
     {
