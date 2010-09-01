@@ -17,8 +17,11 @@ include_once (sfConfigCache::getInstance()->checkConfig('config/db_settings.yml'
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
-// batch process here
+$logger = new sfFileLogger();
+$logger->initialize(array('file' => SF_ROOT_DIR . '/log/cron/subscriptionEOT.log'));
+ 
 
+// batch process here
 $days = sfConfig::get('app_settings_extend_eot', 0);
 
 $c = new Criteria();
@@ -31,8 +34,9 @@ $member_subscriptions = MemberSubscriptionPeer::doSelectJoinMember($c);
 foreach( $member_subscriptions as $subscription)
 {
     $member = $subscription->getMember();
-    echo "EOT event for member: " . $member->getUsername() . ' - EOT: ' .$subscription->getEotAt()  . "\n";
-
+    $log_msg = "EOT event for member: " . $member->getUsername() . ' - EOT: ' .$subscription->getEotAt();
+    $logger->log($log_msg, 0, "Info");
+    
     $subscription->setStatus('eot');
         
     //we does not switch member to free, if it's already upgraded to other subscription
