@@ -2,11 +2,8 @@
 
 <div class="thread_actions">
     <div class="float-left">
-      <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
-        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent'); ?> 
-      <?php else: ?>
-        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
-      <?php endif; ?>
+        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?> 
+        &nbsp;&bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?>
     </div>
     <?php if($profile): ?>
         <div class="float-right">&bull;&nbsp;&nbsp;
@@ -111,11 +108,8 @@
 
 <br /><br />
 <div class="thread_actions">
-    <?php if( $sf_request->getParameter('mailbox') == 'sent' ): ?>
-        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Sent'), 'messages/index?expand=sent', array('class' => 'sec_link')); ?> 
-    <?php else: ?>
-        &bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?> 
-    <?php endif; ?>
+        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?> 
+        &nbsp;&bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?>
 </div>
 
 <?php echo javascript_tag('
