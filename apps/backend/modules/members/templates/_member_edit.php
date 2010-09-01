@@ -26,8 +26,10 @@
 <label for="orientation">Orientation</label>
 <?php echo select_tag('orientation', looking_for_options_admin($member->getSex(), $member->getLookingFor())) ?><br />
 
-<label for="purpose">Purpose</label>
+<label for="catalog">Catalog</label>
+<?php echo object_select_tag($member, 'getCatalogId', array('related_class' => 'Catalogue')) ?><br />
 
+<label for="purpose">Purpose</label>
 
 <?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>
   <?php echo checkbox_tag('purpose[]', $key, fillIn('purpose['.$key.']', 'r', false, in_array($key, $member->getPurpose(ESC_RAW)))); ?>

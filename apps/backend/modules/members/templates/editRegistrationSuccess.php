@@ -23,9 +23,6 @@
     <?php echo pr_label_for('repeat_password', 'Repeat Password', array('id' => 'labels_160')) ?>
     <?php echo input_password_tag('repeat_password') ?><br />
     
-    <label for="catalog">Catalog</label>
-    <?php echo object_select_tag($member, 'getCatalogId', array('related_class' => 'Catalogue')) ?><br />
-        
     <label for="country">Country of Residence</label>
     <?php echo pr_select_country_tag('country', $member->getCountry(), array('class' => error_class('country', true), 'include_custom' => 'Please Select')) ?><br />
     
