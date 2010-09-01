@@ -125,6 +125,7 @@ class PrMailMessage extends BasePrMailMessage
         $mailer->addAddresses($this->getRecipients());
         $mailer->addBccRecipients($this->getBcc());
         $mailer->addCcRecipients($this->getCc());
+        $mailer->setMessageId($this->getId());
         $status = $mailer->send();
         
         if( $status )

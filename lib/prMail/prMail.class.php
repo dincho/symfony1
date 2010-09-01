@@ -11,6 +11,12 @@ class prMail extends sfMail
          //we send only html emails so, always convert newlines.
         parent::setBody(nl2br($body));
     }
+    
+    public function setMessageId($id)
+    {
+        $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'console.polishdate.com';
+        $this->mailer->MessageID = sprintf('<%d_%s@%s>', $id, SF_ENVIRONMENT, $host);
+    }
   
     public function initialize($mail_config_key = null)
     {
