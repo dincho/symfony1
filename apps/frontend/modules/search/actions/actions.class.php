@@ -75,7 +75,7 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $sort_by_subscription = sprintf("FIELD(%s,%s)", MemberPeer::SUBSCRIPTION_ID, implode(',', array(SubscriptionPeer::PREMIUM, SubscriptionPeer::VIP, SubscriptionPeer::FREE)) );
+        $sort_by_subscription = sprintf("FIELD(%s,%s)", MemberPeer::SUBSCRIPTION_ID, implode(',', array(SubscriptionPeer::VIP, SubscriptionPeer::PREMIUM, SubscriptionPeer::FREE)) );
         $c->addAscendingOrderByColumn( $sort_by_subscription );
         $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
         $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
