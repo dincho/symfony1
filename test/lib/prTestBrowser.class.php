@@ -5,4 +5,10 @@ class prTestBrowser extends sfTestBrowser
   {
     parent::initialize($hostname, $remote, $options);
   }
+  
+  public function dump()
+  {
+    echo $this->getResponse()->getContent();
+    exit();
+  }
 }
