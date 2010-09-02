@@ -3,7 +3,10 @@ class geoActions extends sfActions
 {
     public function executeGetAdm1ByCountry()
     {
-        $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
+        $countries = $this->getRequestParameter('country');
+        if( $countries && strpos($countries, ',') !== false ) $countries = explode(',', $countries);
+        
+        // $countries = ($this->getRequestParameter('country')) ? explode(',', $this->getRequestParameter('country')) : array();
         
         if( !$this->getRequestParameter('allow_blank') && !$countries ) return sfView::NONE;
         

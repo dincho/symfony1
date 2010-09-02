@@ -17,8 +17,10 @@ class GeoPeer extends BaseGeoPeer
       return self::doCount($c);
     }
   
-    public static function getAllByCountry($countries = array())
+    public static function getAllByCountry($countries)
     {
+        $sort = GeoPeer::NAME;
+        
         $c = new Criteria();
         if( is_array($countries)  ) 
         {
@@ -37,26 +39,14 @@ class GeoPeer extends BaseGeoPeer
         } elseif( $countries )
         {
             $c->add(GeoPeer::COUNTRY, $countries);
+            if($countries == 'PL') $sort = sprintf("%s %s", GeoPeer::NAME, 'COLLATE utf8_polish_ci');
         }
-        
+
         $c->add(GeoPeer::DSG, "ADM1", Criteria::EQUAL);
-        $c->addAscendingOrderByColumn(GeoPeer::NAME);
+        $c->addAscendingOrderByColumn($sort);
         
         return GeoPeer::doSelect($c);
     }
-    
-    // public static function getAllByAdm1($adm1)
-    // {
-    //     $adm1_obj = GeoPeer::retrieveByPK($adm1);
-    //     
-    //     $c = new Criteria();
-    //     $c->add(GeoPeer::COUNTRY, $adm1_obj->getCountry());
-    //     $c->add(GeoPeer::ADM1_ID, $adm1_obj->getName(), Criteria::EQUAL);
-    //     $c->add(GeoPeer::DSG, "ADM2", Criteria::EQUAL);
-    //     $c->addAscendingOrderByColumn(GeoPeer::NAME);
-    //     
-    //     return GeoPeer::doSelect($c);
-    // }
     
     public static function getAllByAdm1Id($countries = array(), $adm1s = array())
     {
@@ -180,8 +170,10 @@ class GeoPeer extends BaseGeoPeer
         $c = new Criteria();
         $c->add(GeoPeer::DSG, 'PPL');
         $c->add(GeoPeer::COUNTRY, $country);
-        $c->addAscendingOrderByColumn(GeoPeer::NAME);
-
+        
+        $sort = ($country == 'PL') ? sprintf("%s %s", GeoPeer::NAME, 'COLLATE utf8_polish_ci') : GeoPeer::NAME;
+        $c->addAscendingOrderByColumn($sort);
+                
         if( $adm1_id )
         {
           $c->add(GeoPeer::ADM1_ID, $adm1_id);
