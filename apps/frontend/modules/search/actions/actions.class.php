@@ -558,20 +558,8 @@ class searchActions extends prActions
             default:
                 break;
         }
-        
-        if (isset($crit) && $this->filters['location'] != 0 && isset($this->filters['include_poland']))
-        {
-            $polish_areas = $this->getUser()->getAttributeHolder()->getAll('frontend/search/polish_areas');
-            $crit3 = $c->getNewCriterion(MemberPeer::COUNTRY, 'PL');
-            if (count($polish_areas) > 0)
-            {
-                $crit3->addAnd($c->getNewCriterion(MemberPeer::ADM1_ID, $polish_areas, Criteria::IN));
-            }
-            
-            $crit->addOr($crit3);
-        }
-        if (isset($crit))
-            $c->add($crit);
+
+        if (isset($crit)) $c->add($crit);
     }
     
     protected function validateRadius()
