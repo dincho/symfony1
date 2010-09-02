@@ -472,10 +472,22 @@ class searchActions extends prActions
     {
         $filters = $this->filters;
         
-        if (isset($filters['location']) && $filters['location'] == 2)
+        if (isset($filters['location']))
         {
-            $this->getRequest()->setError('filter', 'You must be registered member to use area filter');
-            $filters['location'] = 0;
+            if( $filters['location'] == 2 )
+            {
+                $this->getRequest()->setError('filter', 'You must be registered member to use area filter');
+                $filters['location'] = 0;
+            }
+            
+            $countries = $this->getUser()->getAttributeHolder()->getAll('frontend/search/countries');
+            if( $filters['location'] == 1 && !$this->getUser()->isAuthenticated() && empty($countries))
+            {
+                
+                $this->getRequest()->setError('filter', 'You need to select countries first');
+                $filters['location'] = 0;
+            }
+
         }
         
         if( isset($filters['looking_for']) )
@@ -521,7 +533,6 @@ class searchActions extends prActions
                             $crit->addAnd($c->getNewCriterion(MemberPeer::ADM1_ID, $selected_areas[$selected_country], Criteria::IN));
                             //$crit->addOr($crit2);
                             
-
                             unset($selected_countries[$key]);
                         }
                     }
