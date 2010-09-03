@@ -3,32 +3,30 @@ loader_img.src = '/images/loading.gif';
 loader_img.alt = 'Updating Results...';
 loader_img.id = 'loader';
     
-function show_loader(hide_id)
+function show_loader(hide_id, update_result)
 {
     //currently using only this container
     // so hardcode it!
-    hide_id = 'match_results';
-    
-    if (document.getElementById('loader') != null) return;
+  if (document.getElementById('loader') != null) return;
     
 	loader_span = document.createElement('span');
 	loader_span.className = 'loading';
 	loader_br = document.createElement('br');
-	loader_text = document.createTextNode('Updating Results...');
+	loader_text = document.createTextNode(update_result);
     
-    loader_span.appendChild(loader_img);
-    loader_span.appendChild(loader_br);
-    loader_span.appendChild(loader_text);
-    
-    container = document.getElementById('secondary_container');
-    container.appendChild(loader_span);
-    
+  loader_span.appendChild(loader_img);
+  loader_span.appendChild(loader_br);
+  loader_span.appendChild(loader_text);
+  
+  container = document.getElementById('secondary_container');
+  container.appendChild(loader_span);
+  
 
-    if( typeof(hide_id) != undefined) 
-    {
-      hide = document.getElementById(hide_id);
-      if( hide ) hide.style.display = 'none';
-    }
+  if( typeof(hide_id) != undefined) 
+  {
+    hide = document.getElementById(hide_id);
+    if( hide ) hide.style.display = 'none';
+  }
 }
 
 function show_load()

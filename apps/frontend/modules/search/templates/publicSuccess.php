@@ -39,7 +39,7 @@
             <td><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('class' => 'sec_link')) ?></td>
         </tr>
         <tr class="actions">
-            <td colspan="5"><?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results')")) ?></td>
+            <td colspan="5"><?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results','".__('Updating Results...')."'))")) ?></td>
         </tr>
       </tbody>
   </table> 
