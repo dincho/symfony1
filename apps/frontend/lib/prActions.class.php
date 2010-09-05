@@ -25,4 +25,12 @@ class prActions extends sfActions
         $stack = $this->getUser()->getAttributeHolder()->getAll('frontend/member/referer_stack');
         return isset($stack[0]) ? $stack[0] : null;        
     }
+    
+    public function warningTimeout()
+    {
+      $timeout_mins = sfConfig::get('sf_timeout')/60;
+      
+      $this->setFlash('warning_timeout', __('Please save this page within %TIMEOUT% minutes or your changes will be lost.', array('%TIMEOUT%' => $timeout_mins)));
+    }
+
 }

@@ -25,6 +25,7 @@ class editProfileActions extends BaseEditProfileActions
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
 
+                
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setCountry($this->getRequestParameter('country'));
@@ -63,6 +64,7 @@ class editProfileActions extends BaseEditProfileActions
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
             $this->redirect('dashboard/index'); //the dashboard
         } else {
+          $this->warningTimeout();
           $this->has_adm1 = ( !is_null($this->member->getAdm1Id()) ) ? true : false;
           $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;
         }
@@ -130,7 +132,9 @@ class editProfileActions extends BaseEditProfileActions
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
-        
+
+        $this->warningTimeout();
+    
         if( $this->getRequestParameter('adm1_id') && 
             $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
           )
@@ -192,6 +196,10 @@ class editProfileActions extends BaseEditProfileActions
             $this->member->clearCache();
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
+        }
+        else
+        {
+          $this->warningTimeout();        
         }
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
@@ -294,6 +302,10 @@ class editProfileActions extends BaseEditProfileActions
 
     public function handleErrorSelfDescription()
     {
+        $this->setMember();
+        
+        $this->warningTimeout();
+
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
@@ -304,7 +316,7 @@ class editProfileActions extends BaseEditProfileActions
     public function executeEssay()
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-        
+
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
@@ -321,17 +333,27 @@ class editProfileActions extends BaseEditProfileActions
             $this->setFlash('msg_ok', 'Your Posting have been updated');
             $this->redirect('dashboard/index');
         }
+        else
+        {
+          $this->warningTimeout();
+        }
     }
 
     public function handleErrorEssay()
     {
-        $this->setMember();    
+        $this->setMember();
+
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
+
+        $this->warningTimeout();
+
         return sfView::SUCCESS;
     }
 
     public function executePhotos()
     {
+        $this->warningTimeout();
+
         return parent::executePhotos();
     }
 
@@ -354,7 +376,9 @@ class editProfileActions extends BaseEditProfileActions
         ->add(array('name' => 'Photos', 'uri' => 'editProfile/photos'))
         ->add(array('name' => 'Photo Authenticity'));
         
-         if ($this->getRequest()->getMethod() == sfRequest::POST)
+        $this->setMember();
+        
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
          {
              $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('auth_photo_id'));
              $this->forward404Unless($photo);
@@ -398,6 +422,8 @@ class editProfileActions extends BaseEditProfileActions
         ->add(array('name' => 'Photo Authenticity'));
         
         $this->setMember();
+        $this->setMember();
+
         $this->photos = $this->member->getPublicMemberPhotos();
         
         return sfView::SUCCESS;
