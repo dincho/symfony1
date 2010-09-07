@@ -7,7 +7,7 @@
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
-                <?php echo link_to_ref(profile_photo($member, 'float-left'), '@profile?bc=hotlist&username=' . $member->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($member), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% added you to %her_his% hotlist %date%', 

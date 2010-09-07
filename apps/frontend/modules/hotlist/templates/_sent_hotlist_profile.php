@@ -4,7 +4,7 @@
 
 <div class="member_profile" id="member_<?php echo $profile->getId(); ?>">
     <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
-    <?php echo link_to_ref(profile_photo($profile, 'float-left'), '@profile?bc=hotlist&username=' . $profile->getUsername()) ?>
+    <?php echo link_to_ref(profile_photo($profile), '@profile?bc=hotlist&username=' . $profile->getUsername(), array('class' => 'photo_link', )) ?>
     <div class="input">
         <span class="public_reg_notice"><?php echo __('Added to your hotlist %date%', array('%date%' => distance_of_time_in_words($hotlist->getCreatedAt(null)))) ?></span>
         <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />

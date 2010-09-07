@@ -8,7 +8,7 @@
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
             <div class="member_profile">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
-                <?php echo link_to_ref(profile_photo($member, 'float-left'), '@profile?bc=winks&username=' . $member->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($member), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% winked at you %date%', 
@@ -29,7 +29,7 @@
             <?php $profile = $sent_wink->getMemberRelatedByProfileId(); ?>        
             <div class="member_profile">
                 <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
-                <?php echo link_to_ref(profile_photo($profile, 'float-left'), '@profile?bc=winks&username=' . $profile->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($profile), '@profile?bc=winks&username=' . $profile->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
                     <span class="public_reg_notice">
                         <?php echo __('You winked at %her_his% %date%', 

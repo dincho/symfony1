@@ -342,7 +342,6 @@ class editProfileActions extends BaseEditProfileActions
     public function handleErrorEssay()
     {
         $this->setMember();
-
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
 
         $this->warningTimeout();

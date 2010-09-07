@@ -629,7 +629,15 @@ form#sign_in fieldset a {
 }
 
 #winks div.member_profile img {
+
+}
+
+#winks div.member_profile .photo_link {
+    width: 80px;
+    height: 100px;
+    display: block;
     float: left;
+    text-align: center;
 }
 
 #winks div.member_profile h2 {
