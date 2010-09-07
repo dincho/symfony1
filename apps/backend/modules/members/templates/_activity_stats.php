@@ -1,9 +1,13 @@
 <table class="details">
     <tbody>
         <tr>
-            <th>Send Messages</th>
+            <th>Sent Messages (This Month)</th>
             <td><?php echo $member->getCounter('SentMessages') ?></td>
         </tr>
+        <tr>
+            <th>Sent Messages (All)</th>
+            <td><?php echo $member->getNbSentMessages() ?></td>
+        </tr>        
     
         <tr>
             <th>Received Messages</th>

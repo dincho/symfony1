@@ -362,7 +362,17 @@ class Member extends BaseMember
         return ( $this->getImbraPayment() != 'completed' && $this->getLastImbra() );
     }
     
-    public function getNbSendMessagesToday()
+    public function getNbSentMessages()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
+        $c->add(MessagePeer::SENDER_ID, $this->getId());
+        
+        return MessagePeer::doCount($c);
+    }
+    
+    public function getNbSentMessagesToday()
     {
         $c = new Criteria();
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);

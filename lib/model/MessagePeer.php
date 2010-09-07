@@ -85,8 +85,8 @@ class MessagePeer extends BaseMessagePeer
             $sender->incCounter('ReplyMessages');
             $sender->incCounter('ReplyMessagesDay');
         } else {
-            if( $sender->getNbSendMessagesToday()+1 == sfConfig::get('app_settings_notification_spam_msgs') ) 
-                Events::triggerSpamActivity($sender, $sender->getNbSendMessagesToday()+1);
+            if( $sender->getNbSentMessagesToday()+1 == sfConfig::get('app_settings_notification_spam_msgs') ) 
+                Events::triggerSpamActivity($sender, $sender->getNbSentMessagesToday()+1);
             
             $sender->incCounter('SentMessages');
             $sender->incCounter('SentMessagesDay');
