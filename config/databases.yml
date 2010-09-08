@@ -2,14 +2,13 @@ all:
   propel:
     class:          sfPropelDatabase
     param:
-      dsn:          mysql://pr:polish@localhost/polish_romance
+      dsn:          mysql://localhost/NO_SUCH_DATABASE
       encoding:     utf8
 
 dev:
   propel:
     param:
-      dsn:          mysql://pr:polish@localhost/polish_romance
-#      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
+      dsn:          mysql://pd_dev:polish_dev@localhost/polishdate_dev
       #dsn:          mysql://pd_stag:polish_stag@localhost/polishdate_stag
       #dsn:          mysql://pd_prod:polish_prod@localhost/polishdate_prod
 
