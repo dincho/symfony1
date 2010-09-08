@@ -50,6 +50,9 @@ class BaseEditProfileActions extends prActions
         
         $photo->delete();
         
+        $this->member->setLastPhotoUploadAt(time());
+        $this->member->save();
+        
         $this->setFlash('msg_ok', 'Your photo has been deleted.', false);
         
         return $this->renderText(get_partial('editProfile/delete_photo'));
@@ -107,7 +110,10 @@ class BaseEditProfileActions extends prActions
             
             if( $i == 0 && !$is_private ) $photo->setAsMainPhoto(); //main photo is always the first public photo
         }
-
+        
+        $this->member->setLastPhotoUploadAt(time());
+        $this->member->save();
+        
         return sfView::NONE;
     }
     
