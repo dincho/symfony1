@@ -2,7 +2,7 @@ all:
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    version:            "v1.5.3"
+    version:            "v1.5.4"
     mail:
      class:             prMail
      enabled:           no
@@ -95,6 +95,15 @@ all:
             smtp_username:  hello@expatcalling.com
             smtp_password:  EC11837
             from:           hello@expatcalling.com
+        - hello@meskamilosc.pl
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  hello@meskamilosc.pl
+            smtp_password:  MM11837
+            from:           hello@meskamilosc.pl
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
@@ -108,6 +117,7 @@ all:
         "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
         "du.dincho.bonex.us":           www.dyskretnyuklad.com
         "ec.pd.dincho.bonex.us":        www.expatcalling.com
+        "mm.pd.dincho.bonex.us":        www.meskamilosc.pl
 dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us

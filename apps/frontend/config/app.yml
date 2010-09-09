@@ -15,6 +15,9 @@ all:
     ec_pd_dincho_bonex_us:
       publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
       privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
+    mm_pd_dincho_bonex_us:
+      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
+      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"      
   sf_google_analytics_plugin:
     enabled:                no
   sfSimpleGoogleSitemap:
@@ -83,6 +86,7 @@ dev:
     devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     ec_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    mm_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
@@ -97,9 +101,10 @@ dev:
       supported_countries:  [PL, US]
       accept_simulated:     yes
   title_prefix:
-    pd_dincho_bonex_us:  "PolishDate (dev) - "
+    pd_dincho_bonex_us:     "PolishDate (dev) - "
     pl_pd_dincho_bonex_us:  "SzukamMilionera.com (dev) - "
     ec_pd_dincho_bonex_us:  "ExpatCalling.com (dev) - "
+    mm_pd_dincho_bonex_us:  "MeskaMilosc.pl (dev) - "
   sf_google_analytics_plugin:
     enabled:                no
     
@@ -109,6 +114,7 @@ stag:
     pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     ec_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    mm_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
@@ -123,9 +129,10 @@ stag:
       supported_countries:  [PL, US]
       accept_simulated:     yes
   title_prefix:
-    pd_dincho_bonex_us:  "PolishDate (stag) - "
+    pd_dincho_bonex_us:     "PolishDate (stag) - "
     pl_pd_dincho_bonex_us:  "SzukamMilionera.com (stag) - "
     ec_pd_dincho_bonex_us:  "ExpatCalling.com (stag) - "
+    mm_pd_dincho_bonex_us:  "MeskaMilosc.pl (stag) - "
   sf_google_analytics_plugin:
     enabled:                no  
       
@@ -134,6 +141,7 @@ prod:
     www_polishdate_com:     ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
     www_szukammilionera_com:ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
     www_expatcalling_com:   ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTVq_jkNdk7c3EunQ0bhNQklpYTghRhnRWLGHE9840MvMDdJmIAGaAaLw
+    www_meskamilosc_pl:     ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhSTx2cZH2anLpRmckr8Ru6pruWHXRRRc6-x87-_nzejI15G2wtjIwlGfg
   recaptcha:
     www_polishdate_com:
       publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"
@@ -144,6 +152,9 @@ prod:
     www_szukammilionera_com:
       publickey:            "6Lf26bwSAAAAAEDae5UVuOwzRSmx7rJZpIizO0i2"
       privatekey:           "6Lf26bwSAAAAALF-dabveoS-4vpq8F8pZq0j0Zz6"
+    www_meskamilosc_pl:
+      publickey:            "6LeQ8bwSAAAAAKFI1hfhketTw3fK2GuJ9ZQvHlmN"
+      privatekey:           "6LeQ8bwSAAAAADjGUNiAG9IAsnWQmgpwWjnTiP-D"
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
@@ -157,9 +168,10 @@ prod:
       supported_countries:  [US]
       accept_simulated:     no
   title_prefix:
-    www_polishdate_com:  "PolishDate - "
+    www_polishdate_com:       "PolishDate - "
     www_szukammilionera_com:  "SzukamMilionera.com - "
-    www_expatcalling_com:  "ExpatCalling.com - "
+    www_expatcalling_com:     "ExpatCalling.com - "
+    www_meskamilosc_pl:       "MeskaMilosc.pl - "
   sf_google_analytics_plugin:
     enabled:      yes
     profile_id:   UA-11123315-1

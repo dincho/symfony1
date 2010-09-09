@@ -24,6 +24,6 @@ class Migration027 extends sfMigration
     public function down()
     {
         $this->executeSQL('DELETE FROM `trans_unit` WHERE `cat_id` = 15');
-        $this->executeSQL('DELETE FROM `catalogue` WHERE `id` = 15');
+        $this->executeSQL('DELETE FROM `catalogue` WHERE `cat_id` = 15');
     }
 }
