@@ -86,6 +86,15 @@ all:
             smtp_username:  witamy2@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy2@szukammilionera.pl
+        - hello@expatcalling.com
+            mailer:         smtp
+            smtp_host:      "sslv3://smtp.gmail.com"
+            smtp_port:      465
+            smtp_security:  off #security is set via host address socket transport
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  hello@expatcalling.com
+            smtp_password:  EC11837
+            from:           hello@expatcalling.com
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
@@ -97,7 +106,8 @@ all:
         "branch.pd.dincho.bonex.us":    www.polishdate.com
         "pl.pd.dincho.bonex.us":        www.szukammilionera.com
         "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
-        "du.dincho.bonex.us":           www.dyskretnyuklad.com 
+        "du.dincho.bonex.us":           www.dyskretnyuklad.com
+        "ec.pd.dincho.bonex.us":        www.expatcalling.com
 dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
