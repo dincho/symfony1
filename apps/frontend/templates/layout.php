@@ -82,6 +82,7 @@
     <?php include_partial('content/javascriptWarning'); ?>
     <?php if( $sf_user->isAuthenticated() ): ?>
       <?php include_component('content', 'notifications') ?>
+      <?php include_partial('content/timeout_warning'); ?>
     <?php endif; ?>
 </body>
 </html>
