@@ -26,12 +26,16 @@
             </div>
         </div>
         <?php $is_VIP = false; ?>
-        <?php $col_number =1; ?>
         <?php foreach($subscriptions as $subscription): ?>
+            <?php $is_better = ( $subscription->getAmount() > $recent_subscription->getAmount()) ? true : false; ?>
             <div class="column <?php if( $subscription->getAmount() > 0 ) echo 'upgrade_to' ?>">
-                <div class="upgrade_header_<?php echo ( $col_number > 2)? '3':'1' ?>">&nbsp;</div> 
-                <div class="upgrade_header_<?php echo ( $col_number > 1 )? '4':'2' ?>">
-                  <?php if( $col_number > 1  ): ?>
+<!--                <?php if ($is_VIP): ?>
+                  <div class="separator">&nbsp;</div>
+                <?php endif; ?>
+-->                <div class="upgrade_header_<?php echo ( $is_VIP )? '3':'1' ?>">&nbsp;</div> 
+                <div class="upgrade_header_<?php echo ( $is_VIP )? '4':'2' ?>">
+                  <?php if( $is_better  ): ?>
+                    <?php $is_VIP = true; ?>
                     <div><?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?></div>
                   <?php else: ?>
                     &nbsp;
@@ -57,7 +61,7 @@
                     <?php endif; ?>
                   </span>
                   <span class="select">
-                    <?php if( $subscription->getAmount() > $recent_subscription->getAmount()): ?>
+                    <?php if( $is_better): ?>
                       <?php $better_subscription_flag = true; ?>
                       <?php echo button_to(__('Upgrade to %SUBSCRIPTION_TITLE%',  array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())), 
                                           'subscription/payment?sid=' . $subscription->getId(), array('class' => 'button')); ?>
@@ -67,7 +71,6 @@
                   </span>
                 </div>
             </div>        
-            <?php $col_number++;?>
         <?php endforeach; ?>
     </fieldset>
     <br class="clear" />
