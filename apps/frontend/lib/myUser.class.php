@@ -102,7 +102,7 @@ class myUser extends sfBasicSecurityUser
                 $action->redirect('IMBRA/payment');
             } else
             {
-                if($member->getSubscription()->getPreApprove())
+                if($member->getSubscriptionDetails()->getPreApprove())
                 {
                     $member->changeStatus(MemberStatusPeer::PENDING, false);
                 } else
@@ -115,7 +115,7 @@ class myUser extends sfBasicSecurityUser
                 $this->setAttribute('status_id', $member->getMemberStatusId());
 
                 //show congratulation message only if pre approve is OFF
-                if( $member->getSubscription()->getPreApprove() ) 
+                if( $member->getSubscriptionDetails()->getPreApprove() ) 
                 {
                   $action->message('status_pending');
                 } else {

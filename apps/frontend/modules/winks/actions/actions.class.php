@@ -77,7 +77,7 @@ class winksActions extends prActions
             return false;
         }
                     
-        $subscription = $this->getUser()->getProfile()->getSubscription();
+        $subscription = $this->getUser()->getProfile()->getSubscriptionDetails();
         if( !$subscription->getCanWink() )
         {
           $this->getRequest()->setError('subscription', sprintf('%s: In order to send wink you need to upgrade to become a Full Member.', $subscription->getTitle()));

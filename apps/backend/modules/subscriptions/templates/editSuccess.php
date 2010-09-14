@@ -2,8 +2,9 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('subscriptions/edit', 'class=form') ?>
+  <?php echo object_input_hidden_tag($sub1, 'getCatId'); ?>
   
-  <div class="legend">Editing subscriptions</div>
+  <div class="legend">Edit subscriptions: <?php echo $sub1->getCatalogue(); ?></div>
     <div class="subscription_container" style="border: none;">  
       <fieldset class="form_fields">
         

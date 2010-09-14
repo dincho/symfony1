@@ -220,7 +220,6 @@ class systemComponents extends sfComponents
                             'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
     
     $c = new Criteria();
-    $c->addAscendingOrderByColumn(SubscriptionPeer::AMOUNT);
     $this->subscriptions = SubscriptionPeer::doSelect($c);
     $this->countries = array('PL', 'US', 'CA', 'GB', 'IE');
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());

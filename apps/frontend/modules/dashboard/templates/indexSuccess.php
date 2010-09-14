@@ -2,7 +2,7 @@
 
 <span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
 
-<?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
+<?php if( $member->isFree() ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />
 <?php endif; ?>
   <?php if( !sfConfig::get('app_settings_imbra_disable') && is_null($member->getUsCitizen()) ): ?>
@@ -38,7 +38,7 @@
         </div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
-            <?php if( $member->getSubscription()->getCanSeeViewed() ): ?>
+            <?php if( $member->getSubscriptionDetails()->getCanSeeViewed() ): ?>
                 <?php foreach ($visits as $visit_profile): ?>
                     <?php echo link_to_unless(!$visit_profile->isActive(), profile_small_photo($visit_profile), '@profile?username=' . $visit_profile->getUsername()) ?>
                 <?php endforeach; ?>
@@ -81,7 +81,7 @@
             <li><strong><?php echo __('Your Account') ?></strong></li>
             <li><?php echo link_to(__('Email notifications'), 'dashboard/emailNotifications', array('class' => 'sec_link')) ?></li>
             <li>
-                <?php if( $member->getSubscriptionId() == SubscriptionPeer::FREE ): ?>
+                <?php if( $member->isFree() ): ?>
                     <?php echo link_to(__('Subscribe'), 'subscription/index', array('class' => 'sec_link')) ?>
                 <?php else: ?>
                     <?php echo link_to(__('Manage Subscription'), 'subscription/manage', array('class' => 'sec_link')) ?>

@@ -17,15 +17,18 @@ class subscriptionsActions extends sfActions
   public function executeList()
   {
     $c = new Criteria();
-    $c->addAscendingOrderByColumn(SubscriptionPeer::AMOUNT);
-    $this->subscriptions = SubscriptionPeer::doSelect($c);
+    $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::CAT_ID);
+    $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+    $this->subscriptions = SubscriptionDetailsPeer::doSelectJoinAll($c);
   }
 
   public function executeEdit()
   {
-    //$subscription = SubscriptionPeer::retrieveByPk($this->getRequestParameter('id'));
-    //$this->forward404Unless($subscription);
-    $subscriptions = SubscriptionPeer::doSelect(new Criteria());
+    $c = new Criteria();
+    $c->add(SubscriptionDetailsPeer::CAT_ID, $this->getRequestParameter('cat_id'));
+    $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+    $subscriptions = SubscriptionDetailsPeer::doSelect($c);
+    $this->forward404Unless($subscriptions);
     
     if( $this->getRequest()->getMethod() == sfRequest::POST )
     {
@@ -133,12 +136,17 @@ class subscriptionsActions extends sfActions
     return true;
   }
   
-  public function handleErrorEdit()
-  {
-      $subscriptions = SubscriptionPeer::doSelect(new Criteria());
-      $this->subscriptions = $subscriptions;
-      $this->sub1 = $subscriptions[0];  
-      
-      return sfView::SUCCESS;    
-  }
+    public function handleErrorEdit()
+    {
+        $c = new Criteria();
+        $c->add(SubscriptionDetailsPeer::CAT_ID, $this->getRequestParameter('cat_id'));
+        $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+        $subscriptions = SubscriptionDetailsPeer::doSelect($c);
+        $this->forward404Unless($subscriptions);
+
+        $this->subscriptions = $subscriptions;
+        $this->sub1 = $subscriptions[0];  
+
+        return sfView::SUCCESS;    
+    }
 }

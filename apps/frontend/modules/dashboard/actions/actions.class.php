@@ -85,10 +85,8 @@ class dashboardActions extends prActions
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
-        $c->setLimit(min(5, $member->getSubscription()->getSeeViewed()));
+        $c->setLimit(min(5, $member->getSubscriptionDetails()->getSeeViewed()));
         
-        //@TODO to be test for performance
-        //if( $member->getSubscription()->getCanSeeViewed() ) $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
@@ -156,7 +154,7 @@ class dashboardActions extends prActions
                 
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
-        $c->setLimit($this->getUser()->getProfile()->getSubscription()->getSeeViewed());
+        $c->setLimit($this->getUser()->getProfile()->getSubscriptionDetails()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
     }
@@ -164,10 +162,10 @@ class dashboardActions extends prActions
     public function validateVisitors()
     {
         //subscription limits/restrictions ?
-        $subscription = $this->getUser()->getProfile()->getSubscription();
-        if( !$subscription->getCanSeeViewed() )
+        $member = $this->getUser()->getProfile();
+        if( !$member->getSubscriptionDetails()->getCanSeeViewed() )
         {
-            $this->setFlash('msg_error', sprintf('%s: In order to see who viewed your profile you need to upgrade your membership.', $subscription->getTitle()));
+            $this->setFlash('msg_error', sprintf('%s: In order to see who viewed your profile you need to upgrade your membership.', $member->getSubscription()->getTitle()));
             $this->redirect('@dashboard');
         }
         
@@ -316,7 +314,7 @@ class dashboardActions extends prActions
     
     public function validateContactYourAssistant()
     {
-        $subscription = $this->getUser()->getProfile()->getSubscription();
+        $subscription = $this->getUser()->getProfile()->getSubscriptionDetails();
         if( !$subscription->getCanContactAssistant() )
         {
           $this->getRequest()->setError('subscription', sprintf('%s: In order to contact assistant you need to upgrade your membership.', $subscription->getTitle()));

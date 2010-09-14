@@ -49,11 +49,8 @@ class messagesActions extends prActions
         $c1->add($crit);
         $this->draft_messages = MessagePeer::doSelectJoinMemberRelatedByRecipientId($c1);
         
-        
-        $this->received_messages_truncate_limit = ( $this->getUser()->getProfile()->getSex() == 'M' && 
-            $this->getUser()->getProfile()->getSubscriptionId() == SubscriptionPeer::FREE &&
-            $this->getUser()->getProfile()->hasUnreadMessagesFromFreeFemales()
-          ) ? 12 : 80;
+        $profile = $this->getUser()->getProfile();
+        $this->received_messages_truncate_limit = ( $profile->getSex() == 'M' && $profile->isFree() && $profile->hasUnreadMessagesFromFreeFemales() ) ? 12 : 80;
                 
         //message deletion confirmation
         if( ($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft')) && count($this->getRequestParameter('selected', array())) > 0 )
@@ -65,7 +62,7 @@ class messagesActions extends prActions
             $this->setFlash('msg_error', $del_msg, false);            
         }
         
-        $this->member = $this->getUser()->getProfile();
+        $this->member = $profile;
     }
     
     public function validateIndex()
@@ -224,19 +221,19 @@ class messagesActions extends prActions
                 if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
                 
                 //3. subscription limits/restrictions ?
-                $subscription = $sender->getSubscription();
+                $subscription = $sender->getSubscriptionDetails();
 
                 //we don't need to check the looking for field since privacy validator is already applied.
                 if( sfConfig::get('app_settings_man_should_pay') && 
-                    $sender->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
-                    $recipient->getSex() == 'F' && $recipient->getSubscriptionId() == SubscriptionPeer::FREE
+                    $sender->getSex() == 'M' && $sender->isFree() &&
+                    $recipient->getSex() == 'F' && $recipient->isFree()
                   )
                 {
                     $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
                     return false;
                 }
             
-                if( !$subscription->getCanSendMessages() && $subscription->getId() != SubscriptionPeer::FREE )
+                if( !$subscription->getCanSendMessages() && !$sender->isFree() )
                 {
                     $this->getRequest()->setError('subscription', sprintf('%s: In order to send message you need to upgrade your membership.', $subscription->getTitle()));
                     return false;
@@ -438,13 +435,13 @@ class messagesActions extends prActions
         $message_sample = $messages[0];
         
         $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
-        $subscription = $member->getSubscription();
+        $subscription = $member->getSubscriptionDetails();
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             /* REPLYING TO THREAD */
             //1. is the other member active ?
-            if ( $profile->getmemberStatusId() != MemberStatusPeer::ACTIVE )
+            if ( $profile->getMemberStatusId() != MemberStatusPeer::ACTIVE )
             {
                 $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
                 return false;
@@ -477,10 +474,10 @@ class messagesActions extends prActions
             if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
                 
             //3. subscription limits/restrictions ?
-            $subscription = $member->getSubscription();
+
             if( sfConfig::get('app_settings_man_should_pay') && 
-                $member->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
-                $profile->getSex() == 'F' && $profile->getSubscriptionId() == SubscriptionPeer::FREE
+                $member->getSex() == 'M' && $member->isFree() &&
+                $profile->getSex() == 'F' && $profile->isFree()
               )
             {
                 $this->getRequest()->setError('subscription', 'M4F: In order to reply to message you need to upgrade your membership.');
@@ -518,8 +515,8 @@ class messagesActions extends prActions
 
             
             if( sfConfig::get('app_settings_man_should_pay') && 
-                $member->getSex() == 'M' && $subscription->getId() == SubscriptionPeer::FREE &&
-                $profile->getSex() == 'F' && $profile->getSubscriptionId() == SubscriptionPeer::FREE
+                $member->getSex() == 'M' && $member->isFree() &&
+                $profile->getSex() == 'F' && $profile->isFree()
               )
             {
                 $this->setFlash('msg_error', 'M4F: In order to read a message you need to upgrade your membership.');
@@ -534,7 +531,7 @@ class messagesActions extends prActions
             {
               $this->setFlash('msg_error', sprintf('%s: In order to read a message you need to upgrade your membership.', $subscription->getTitle()));
               $this->redirect('messages/index');
-            } elseif ( $subscription->getId() == SubscriptionPeer::FREE && $profile->isSubscriptionFree() && !$profile->getSubscription()->getCanSendMessages() )
+            } elseif ( $member->isFree() && $profile->isFree() && !$profile->getSubscriptionDetails()->getCanSendMessages() )
             {
                 //received by FREE member with send messages OFF
                 $this->setFlash('msg_error', 'Sender of the message is not a paid member. At least one of you must be a paid member for either send or receive messages.');

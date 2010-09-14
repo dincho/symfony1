@@ -25,29 +25,29 @@
     <?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
                                                       'upload_url' => url_for('editProfile/uploadPhoto?block_id=public_photos&member_id=' . $member->getId()),
                                                       'photos' => $public_photos, 
-                                                      'num_containers' => $member->getSubscription()->getPostPhotos(),
+                                                      'num_containers' => $member->getSubscriptionDetails()->getPostPhotos(),
                                                       'member' => $member,
                                                       'upload_button_title' => 'Upload Public Photos',
-                                                      'file_upload_limit' => ($member->getSubscription()->getPostPhotos() - count($public_photos)), 
+                                                      'file_upload_limit' => ($member->getSubscriptionDetails()->getPostPhotos() - count($public_photos)), 
                                                       'container_bg_image' => '/images/no_photo/'. $member->getSex() . '/x100x100.jpg', )); ?>
     
-    <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPhotos())) ?></p>
+    <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $member->getSubscriptionDetails()->getPostPhotos())) ?></p>
     
     <br class="clear" />
     
-    <?php if( $member->getSubscription()->getCanPostPrivatePhoto() && $member->getSubscription()->getPostPrivatePhotos() > 0 ): ?>
+    <?php if( $member->getSubscriptionDetails()->getCanPostPrivatePhoto() && $member->getSubscriptionDetails()->getPostPrivatePhotos() > 0 ): ?>
         
         <h3>Private Photos</h3><hr />
         <?php include_partial('editProfile/photos_block', array('id' => 'private_photos', 
                                                           'upload_url' => url_for('editProfile/uploadPhoto?block_id=private_photos&member_id=' . $member->getId()),
                                                           'photos' => $private_photos, 
-                                                          'num_containers' => $member->getSubscription()->getPostPrivatePhotos(), 
+                                                          'num_containers' => $member->getSubscriptionDetails()->getPostPrivatePhotos(), 
                                                           'member' => $member,
-                                                          'upload_button_title' => 'Upload Private Photos',
-                                                          'file_upload_limit' => ($member->getSubscription()->getPostPrivatePhotos() - count($private_photos)), 
+                                                          'upload_button_title' => 'Upload getSubscriptionDetails Photos',
+                                                          'file_upload_limit' => ($member->getSubscriptionDetails()->getPostPrivatePhotos() - count($private_photos)), 
                                                           'container_bg_image' => '/images/no_photo/'. $member->getSex() . '/x100x100.jpg', )); ?>
                                                           
-        <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $member->getSubscription()->getPostPrivatePhotos())) ?></p>
+        <p class="note float-right"><?php echo strtr('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $member->getSubscriptionDetails()->getPostPrivatePhotos())) ?></p>
 
         <br class="clear" />
     <?php endif; ?>

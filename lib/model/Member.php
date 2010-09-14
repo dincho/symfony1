@@ -18,6 +18,8 @@ class Member extends BaseMember
     
     private $_current_member_subscription = false;
     
+    private $subscriptionDetails = null;
+    
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
@@ -885,7 +887,7 @@ class Member extends BaseMember
           $subscription_id = $this->getSubscriptionId();
         }
         
-        return SubscriptionPeer::retrieveByPK($subscription_id);
+        return SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($subscription_id, $this->getCatalogId());
     }
     
     public function getOrientationKey()
@@ -933,5 +935,15 @@ class Member extends BaseMember
         $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
         
         return (bool) PrivatePhotoPermissionPeer::doCount($c);
+    }
+    
+    public function getSubscriptionDetails()
+    {
+        if( is_null($this->subscriptionDetails) )
+        {
+            $this->subscriptionDetails = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->getSubscriptionId(), $this->getCatalogId());
+        } 
+        
+        return $this->subscriptionDetails;
     }
 }

@@ -140,9 +140,8 @@ class IMBRAActions extends prActions
     public function executePayment()
     {
         $member = $this->getUser()->getProfile();
-        //$this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
         $this->getUser()->getBC()->clear()->add(array('name' => 'IMBRA Information', 'uri' => 'IMBRA/index'))->add(array('name' => 'IMBRA Payment'));
-        $this->amount = $member->getSubscription()->getImbraAmount();
+        $this->amount = $member->getSubscriptionDetails()->getImbraAmount();
         
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick",

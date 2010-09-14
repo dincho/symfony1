@@ -12,16 +12,15 @@ class subscriptionActions extends prActions
 
     public function executeIndex()
     {
-
-        $c = new Criteria();
-        $c->addAscendingOrderByColumn(SubscriptionPeer::AMOUNT);
-        $this->subscriptions = SubscriptionPeer::doSelect($c);
-    
         $this->member = $this->getUser()->getProfile();
+        
+        $c = new Criteria();
+        $c->add(SubscriptionDetailsPeer::CAT_ID, $this->member->getCatalogId());
+        $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+        $this->subscriptions = SubscriptionDetailsPeer::doSelect($c);
+    
         $this->recent_subscription = $this->member->getMostRecentSubscription();
         $this->forward404Unless($this->recent_subscription);
-        
-        // $this->redirectIf($this->member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
     }
 
     public function executeManage()
@@ -40,8 +39,9 @@ class subscriptionActions extends prActions
         
         if( $this->last_payment && $this->last_payment->getPaymentProcessor() == 'zong' )
         {
+            $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->member_subscription->getSubscriptionId(), $this->member->getCatalogId());
             $zong = new prZong($this->member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
-            $zongItem = $zong->getFirstItemWithApproxPrice($this->member_subscription->getSubscription()->getAmount());
+            $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
         
             $this->zongAvailable = (bool) $zongItem;
         }
@@ -59,7 +59,7 @@ class subscriptionActions extends prActions
             $this->redirect('@dashboard');
         }
         
-        $subscription = SubscriptionPeer::retrieveByPK($this->getRequestParameter('sid'));
+        $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->getRequestParameter('sid'), $member->getCatalogId());
         $this->forward404Unless($subscription);
         
         //downgrades and double payments are not allowed
@@ -70,7 +70,7 @@ class subscriptionActions extends prActions
         
         if( $current_member_subscription && !$is_last_processor_paypal && $current_member_subscription->getStatus() != 'canceled')
         {
-          $this->redirect('subscription/cancelToUpgrade?sid=' . $subscription->getId());
+          $this->redirect('subscription/cancelToUpgrade?sid=' . $subscription->getSubscriptionId());
         }
 
         $this->zongAvailable = false;
@@ -83,7 +83,7 @@ class subscriptionActions extends prActions
           //check if we already have some pending subscription
           $c = new Criteria();
           $c->add(MemberSubscriptionPeer::MEMBER_ID, $member->getId());
-          $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getID());
+          $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getSubscriptionID());
           $c->add(MemberSubscriptionPeer::STATUS, 'pending');
           $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
         
@@ -91,7 +91,7 @@ class subscriptionActions extends prActions
           {
               $member_subscription = new MemberSubscription();
               $member_subscription->setMemberId($member->getId());
-              $member_subscription->setSubscriptionId($subscription->getId());
+              $member_subscription->setSubscriptionId($subscription->getSubscriptionId());
               $member_subscription->setPeriod($subscription->getPeriod());
               $member_subscription->setPeriodType($subscription->getPeriodType());
           }
@@ -116,7 +116,7 @@ class subscriptionActions extends prActions
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
                             "item_name" => $subscription->getTitle() . ' Membership',
-                            'item_number' => $subscription->getId(),
+                            'item_number' => $subscription->getSubscriptionId(),
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
@@ -207,7 +207,7 @@ class subscriptionActions extends prActions
         if( $this->getRequestParameter('bonus') == 'true' && $member->getCurrentMemberSubscription() ) //zong sends true/false strings
         {
             $this->zongBonusEntryPointUrl = urlencode($this->getRequestParameter('bonusEntryPointUrl'));
-            $this->member_subscription_id = $member->getCurrentMemberSubscription()->getId();
+            $this->member_subscription_id = $member->getCurrentMemberSubscription()->getSubscriptionId();
         }
     }
         

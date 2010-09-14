@@ -328,8 +328,40 @@ propel:
     amount:                   { type: decimal, size: 7, scale: 2, required: true }
     period:                   { type: integer, required: true }
     period_type:              { type: char, size: 1, required: true, required: true }
-    imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }
-    
+    imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }        
+  subscription_details:
+    id:
+    subscription_id:          { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: cascade }
+    cat_id:                   { type: integer, required: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: cascade }
+    can_create_profile:       { type: boolean, default: false, required: true }
+    create_profiles:          { type: integer, default: 0, required: true }
+    can_post_photo:           { type: boolean, default: false, required: true }
+    post_photos:              { type: integer, default: 0, required: true }
+    can_post_private_photo:   { type: boolean, default: false, required: true }
+    post_private_photos:      { type: integer, default: 0, required: true }    
+    can_wink:                 { type: boolean, default: false, required: true }
+    winks:                    { type: integer, default: 0, required: true }
+    winks_day:                { type: integer, default: 0, required: true }
+    can_read_messages:        { type: boolean, default: false, required: true }
+    read_messages:            { type: integer, default: 0, required: true }
+    read_messages_day:        { type: integer, default: 0, required: true }
+    can_reply_messages:       { type: boolean, default: false, required: true }
+    reply_messages:           { type: integer, default: 0, required: true }
+    reply_messages_day:       { type: integer, default: 0, required: true }
+    can_send_messages:        { type: boolean, default: false, required: true }
+    send_messages:            { type: integer, default: 0, required: true }
+    send_messages_day:        { type: integer, default: 0, required: true }
+    can_see_viewed:           { type: boolean, default: false, required: true }
+    see_viewed:               { type: integer, default: 0, required: true }
+    can_contact_assistant:    { type: boolean, default: false, required: true }
+    contact_assistant:        { type: integer, default: 0, required: true }
+    contact_assistant_day:    { type: integer, default: 0, required: true }
+    private_dating:           { type: boolean, default: false, required: true }
+    pre_approve:              { type: boolean, default: false, required: true }
+    amount:                   { type: decimal, size: 7, scale: 2, required: true }
+    period:                   { type: integer, required: true }
+    period_type:              { type: char, size: 1, required: true, required: true }
+    imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }    
   subscription_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

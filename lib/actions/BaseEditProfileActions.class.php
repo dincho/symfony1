@@ -150,7 +150,7 @@ class BaseEditProfileActions extends prActions
     {
         $this->forward404Unless($this->member);
         
-        $subscription = $this->member->getSubscription();
+        $subscription = $this->member->getSubscriptionDetails();
         
         $file_arr = $this->getRequest()->getFile('Filedata');
         if( !$file_arr['name'] )

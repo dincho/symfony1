@@ -1,8 +1,5 @@
 fillin:
   enabled: true
-fields:
-  subs[1]amount[]:
-    required:
-      msg:  Amount is required field
+
 
       

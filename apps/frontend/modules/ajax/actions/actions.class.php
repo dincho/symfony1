@@ -66,7 +66,7 @@ class ajaxActions extends geoActions
         $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getRequestParameter('msid'));
         if( !$member_subscription ) return sfView::NONE;
         
-        $subscription = $member_subscription->getSubscription();
+        $subscriptioDetails = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($member_subscription->getSubscriptionId(), $member->getCatalogId());
         
         if( $this->getRequestParameter('entrypointURL') )
         {
@@ -74,7 +74,7 @@ class ajaxActions extends geoActions
             $amount = 0;
         } else {
             $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
-            $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
+            $zongItem = $zong->getFirstItemWithApproxPrice($subscriptioDetails->getAmount());
                 
             if( !$zongItem ) 
             {

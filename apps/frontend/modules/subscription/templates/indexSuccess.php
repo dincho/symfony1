@@ -64,7 +64,7 @@
                     <?php if( $is_better): ?>
                       <?php $better_subscription_flag = true; ?>
                       <?php echo button_to(__('Upgrade to %SUBSCRIPTION_TITLE%',  array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())), 
-                                          'subscription/payment?sid=' . $subscription->getId(), array('class' => 'button')); ?>
+                                          'subscription/payment?sid=' . $subscription->getSubscriptionId(), array('class' => 'button')); ?>
                     <?php else: ?>
                       &nbsp;
                     <?php endif; ?>

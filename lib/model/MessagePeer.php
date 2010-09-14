@@ -49,9 +49,8 @@ class MessagePeer extends BaseMessagePeer
         
         //add auto reply message if nessecary
         if( is_null($pMessage) && 
-            $sender->isSubscriptionFree() && 
-            !$sender->getSubscription()->getCanSendMessages() && 
-            ( $recipient->isSubscriptionFree() || !$recipient->getSubscription()->getCanReadMessages() )
+            $sender->isFree() && !$sender->getSubscriptionDetails()->getCanSendMessages() && 
+            ( $recipient->isFree() || !$recipient->getSubscriptionDetails()->getCanReadMessages() )
           )
         {
             $subject = 'Re: ' . $subject . ' - (auto-response)';
