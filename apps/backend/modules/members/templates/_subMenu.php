@@ -16,6 +16,7 @@
     <li><?php echo link_to('Subscripion History', 'members/editSubscriptionHistory?id=' . $member_id) ?>&nbsp;|</li>
     <li><?php echo link_to('Messages', 'messages/member?id=' . $member_id);?>&nbsp;|</li>
     <li><?php echo link_to('Subscriptions', 'members/subscriptions?id=' . $member_id);?>&nbsp;|</li>
-    <li><?php echo link_to('Payments', 'members/payments?id=' . $member_id);?></li>
+    <li><?php echo link_to('Payments', 'members/payments?id=' . $member_id);?>&nbsp;|</li>
+    <li><?php echo link_to('Open Privacy', 'members/editOpenPrivacy?received_only='.$sf_request->getParameter('received_only').'&id=' . $member_id);?></li>
   </ul>
 </div>

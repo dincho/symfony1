@@ -599,6 +599,26 @@ class membersActions extends prActions
         $this->payments = MemberPaymentPeer::doSelect($c);
     }
 
+    public function executeEditOpenPrivacy()
+    {
+        $this->getUser()->getBC()->add(array('name' => 'Privacy Relations', 'uri' => 'members/editPrivacyRelations?id=' . $this->member->getId()));
+        
+        $c = new Criteria();
+        
+        if ($this->getRequestParameter('received_only'))
+        {
+            $c->add(OpenPrivacyPeer::PROFILE_ID, $this->member->getId());
+            $c->addJoin(OpenPrivacyPeer::MEMBER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
+        } 
+        else
+        {
+            $c->add(OpenPrivacyPeer::MEMBER_ID, $this->member->getId());
+            $c->addJoin(OpenPrivacyPeer::PROFILE_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
+        }
+        $c->addDescendingOrderByColumn(OpenPrivacyPeer::CREATED_AT);
+        $this->open_privacy = OpenPrivacyPeer::doSelect($c);
+    }    
+
 
     public function executeStar()
     {
