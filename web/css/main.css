@@ -108,8 +108,10 @@ body .sign_in {
 }
 
 #header #right p.second_row {
-    text-align: right;
-    padding-right: 80px;
+  padding-right:80px;
+  text-align:right;
+  margin-top: 4px; 
+  clear:both;
 }
 
 #header #right p.second_row a, #header #right p.second_row span {
@@ -3336,4 +3338,40 @@ ul.rating li.five a:hover {background-position:0 -160px}
   position:fixed;
   top:0px;
   height:20px;
+}
+
+#dhtmlgoodies_contentBox {
+ border:1px solid #317082;
+ height:0px;
+ visibility:hidden;
+ position:absolute;
+ background-color: #363639;
+ color:#D3D3D3;
+ overflow:hidden;
+ padding:4px;
+ width:200px;
+ text-align:left; 
+ left: 120px;
+}
+
+#dhtmlgoodies_content {
+ position:relative;
+}
+
+#dhtmlgoodies_slidedown {
+ position:relative;
+ height:100%;
+ float:right;
+}
+
+#dhtmlgoodies_contentBox  ul {
+  list-style-type:none;
+}
+#dhtmlgoodies_contentBox  li {
+  list-style-type:none;
+}
+#header #right #dhtmlgoodies_content a.sec_link, 
+#header #right #dhtmlgoodies_content a.sec_link:visited, 
+#header #right #dhtmlgoodies_content a.sec_link:active {
+  color:#73A7FF;
 }
