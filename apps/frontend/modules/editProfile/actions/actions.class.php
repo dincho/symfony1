@@ -58,7 +58,10 @@ class editProfileActions extends BaseEditProfileActions
                     Events::triggerNewPasswordConfirm($this->member);
                 }
             }
-            
+
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
+
             $this->member->save();
             if ($flash_error) $this->setFlash('msg_error', $flash_error); //password and email changes
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
@@ -192,6 +195,10 @@ class editProfileActions extends BaseEditProfileActions
                 //millionaire check
                 if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) ); 
             }
+            
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
+
             $this->member->save();
             $this->member->clearCache();
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
