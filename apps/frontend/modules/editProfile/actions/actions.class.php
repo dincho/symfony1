@@ -196,7 +196,7 @@ class editProfileActions extends BaseEditProfileActions
                 if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) ); 
             }
             
-            $this->member->setReviewedById(null);
+            $this->member->setReviewedById(null);  
             $this->member->setReviewedAt(null);
 
             $this->member->save();
