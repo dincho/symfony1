@@ -54,7 +54,7 @@ all:
         priority:         0.5                    # 1.0 is top priority (100%) compared to 0.5 which is less priority (50%)
       model_pages:
         model:            MemberStory
-        propel_method:    doSelectJoinStockPhotoWithCurrentCulture
+        propel_method:    doSelect
         route:            memberStories/read
         params:
           slug:           getSlug
