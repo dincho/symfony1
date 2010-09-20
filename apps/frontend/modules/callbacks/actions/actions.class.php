@@ -17,6 +17,7 @@ class callbacksActions extends sfActions
       $zong->initialize($this->getRequest(), $this->getRequestParams());
       $zong->handle();
       
+      $this->getResponse()->setContentType('text/plain');
       $this->renderText(sprintf("%d:OK", $zong->getTransactionId()));
       
       return sfView::NONE;
