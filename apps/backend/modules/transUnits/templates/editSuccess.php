@@ -1,6 +1,18 @@
 <?php use_helper('Object', 'dtForm', 'I18N', 'Catalog') ?>
 <?php include_component('system', 'formErrors') ?>
 
+<?php $pager = new ProfilePager($sf_user->getAttributeHolder()->getAll('backend/transUnits/pager_tu'), $trans_unit->getId()); ?>
+
+<?php if( $pager->hasResults() ): ?>
+    <div id="profile_pager">
+        <?php echo link_to_unless(is_null($pager->getPrevious()), '&lt;&lt;&nbsp;Previous', 'transUnits/edit?id=' . $pager->getPrevious(), array()) ?>
+        <?php echo link_to("Back to List", 'transUnits/list', array('class' => 'sec_link')) ?>
+        <?php echo link_to_unless(is_null($pager->getNext()), 'Next&nbsp;&gt;&gt;', 'transUnits/edit?id=' . $pager->getNext(), array()) ?>
+    </div>
+    <br />
+<?php endif; ?>
+
+
 <?php echo form_tag('transUnits/edit', 'class=form') ?>
     <?php echo object_input_hidden_tag($trans_unit, 'getId', 'class=hidden') ?>
     <div class="legend">Edit Translation Unit</div>

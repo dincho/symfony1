@@ -44,6 +44,22 @@ class transUnitsActions extends sfActions
         $pager->setPeerCountMethod('doCountJoinAllExceptMsgCollection');
         $pager->init();
         $this->pager = $pager;  
+
+        if( $this->getRequestParameter('page', 1)  == 1 )
+        {   
+            $pc = clone $c;
+            $pc->setLimit(null);
+            $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
+            $rs = TransUnitPeer::doSelectRS($pc);
+            $pager_tu = array();
+
+            while($rs->next()) {
+                $pager_tu[] = $rs->getInt(1);
+            }
+        
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/transUnits/pager_tu');
+            $this->getUser()->getAttributeHolder()->add($pager_tu, 'backend/transUnits/pager_tu');
+        }
         
         $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
@@ -92,7 +108,7 @@ class transUnitsActions extends sfActions
     }
     
     public function executeEdit()
-    {
+    {            
         $trans_unit = TransUnitPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($trans_unit);
         $this->trans_unit = $trans_unit;
