@@ -128,15 +128,55 @@ class dashboardActions extends prActions
         
         if( $member->getDashboardMsg() == 0 && !$this->hasFlash('msg_ok') ) //not hidden and has no other message
         {
-          $this->setFlash('msg_ok', 
-                          sfI18N::getInstance()->__('This is your control panel. Here you can find everything you need to use the website', 
+          if ($this->member->getSex() == 'M' && $this->member->getLookingFor() == 'M')
+          {
+            $this->setFlash('msg_ok', 
+                          sfI18N::getInstance()->__('M_M This is your control panel. Here you can find everything you need to use the website', 
                           array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
                           , false);
+          }
+          else if ($this->member->getSex() == 'M' && $this->member->getLookingFor() == 'F')
+          {
+            $this->setFlash('msg_ok', 
+                          sfI18N::getInstance()->__('M_F This is your control panel. Here you can find everything you need to use the website', 
+                          array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
+                          , false);
+          }
+          else if ($this->member->getSex() == 'F' && $this->member->getLookingFor() == 'M')
+          {
+            $this->setFlash('msg_ok', 
+                          sfI18N::getInstance()->__('F_M This is your control panel. Here you can find everything you need to use the website', 
+                          array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
+                          , false);
+          }
+          else if ($this->member->getSex() == 'F' && $this->member->getLookingFor() == 'F')
+          {
+            $this->setFlash('msg_ok', 
+                          sfI18N::getInstance()->__('F_F This is your control panel. Here you can find everything you need to use the website', 
+                          array('%URL_FOR_HIDE%' => $this->getController()->genUrl('dashboard/hide')))
+                          , false);
+          }
+
         }
         
         if( !$member->getMainPhotoId() && !$this->hasFlash('msg_warning') )
         {
-            $this->setFlash('msg_warning', 'No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+          if ($this->member->getSex() == 'M' && $this->member->getLookingFor() == 'M')
+          {
+            $this->setFlash('msg_warning', 'M_M No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+          }
+          else if ($this->member->getSex() == 'M' && $this->member->getLookingFor() == 'F')
+          {
+            $this->setFlash('msg_warning', 'M_F No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+          }
+          else if ($this->member->getSex() == 'F' && $this->member->getLookingFor() == 'M')
+          {
+            $this->setFlash('msg_warning', 'F_M No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+          }
+          else if ($this->member->getSex() == 'F' && $this->member->getLookingFor() == 'F')
+          {
+            $this->setFlash('msg_warning', 'F_F No photo can get you flagged by other members. Please add photo as soon as you can.', false);
+          }
         }
         
     }
