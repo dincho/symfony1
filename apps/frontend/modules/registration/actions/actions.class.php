@@ -51,6 +51,9 @@ class registrationActions extends BaseEditProfileActions
             $member->setRegistrationIp(ip2long($_SERVER['REMOTE_ADDR']));
             $member->setLanguage($this->getUser()->getCulture());
             $member->setCatalogId($this->getUser()->getCatalogId()); //used by notifications
+            $member->setReviewedById(null);
+            $member->setReviewedAt(null);
+
             $member->save();
             
             //just cleanup
@@ -114,6 +117,8 @@ class registrationActions extends BaseEditProfileActions
             $this->redirect('@signin');
         } else {
             $member->setHasEmailConfirmation(true);
+            $member->setReviewedById(null);
+            $member->setReviewedAt(null);
             $member->save();
             
             //log in the member so he/she can continue with registration
@@ -146,16 +151,22 @@ class registrationActions extends BaseEditProfileActions
             
             if( !is_null($this->member->getOriginalFirstName()) ) //already confirmed
             {
+                $member->setReviewedById(null);
+                $member->setReviewedAt(null);
                 $this->member->save();
                 $this->redirect('registration/selfDescription');
             } else { //not confirmed yet
                 if( $this->hasRequestParameter('confirmed') ) //form confirmation ?
               {
                   $this->member->setOriginalFirstName('');
+                  $member->setReviewedById(null);
+                  $member->setReviewedAt(null);
                   $this->member->save();
                   $this->redirect('registration/selfDescription');
               } else { //ask for confirmation
-                    $this->member->parseLookingFor($this->getRequestParameter('orientation'));                  
+                  $this->member->parseLookingFor($this->getRequestParameter('orientation'));                  
+                  $member->setReviewedById(null);
+                  $member->setReviewedAt(null);
                   $this->member->save();
                   $this->redirect('registration/index?confirm=1' );
               }
@@ -297,6 +308,8 @@ class registrationActions extends BaseEditProfileActions
                 if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) ); 
             }
             
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
             $this->member->save();
             $this->redirect('registration/essay');
         }
@@ -430,6 +443,8 @@ class registrationActions extends BaseEditProfileActions
         {
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
             $this->member->save();
             
             $this->redirect('registration/photos');
@@ -461,6 +476,8 @@ class registrationActions extends BaseEditProfileActions
         if( $this->getRequestParameter('skip') )
         {
                 $this->member->setYoutubeVid(''); //registration marker
+                $this->member->setReviewedById(null);
+                $this->member->setReviewedAt(null);
                 $this->member->save();
                 $this->getUser()->completeRegistration();
         }
