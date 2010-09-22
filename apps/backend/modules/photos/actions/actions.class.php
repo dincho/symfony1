@@ -525,5 +525,12 @@ class photosActions extends sfActions
             $bc->add(array('name' =>  $this->filters['country']));
             $this->left_menu_selected = 'Country';
         }            
+        if ($this->getRequestParameter('pending_verification', 0) == 1)
+        {
+            $custom_sql = MemberPeer::ID." in (select ".MemberPhotoPeer::MEMBER_ID." from ".MemberPhotoPeer::TABLE_NAME." where ".MemberPhotoPeer::AUTH." = 'S')";
+            $c->add(MemberPeer::ID, $custom_sql,  Criteria::CUSTOM);
+            $bc->add(array('name' => 'Pending Verification'));
+            $this->left_menu_selected = 'Pending Verification';
+        }
     }
 }

@@ -25,6 +25,9 @@
                                                                         )) ?><br />
                                                                            
                 <?php echo link_to_unless($member->getPrivateDating(), 'Add to homepage', 'photos/addMemberPhotoToHomepage?photo_id=' . $photo->getId()); ?>
+
+                <?php include_partial('editProfile/photo_status', array('photo' => $photo)); ?>
+
             </div>
             <?php if( $i++ % 6 == 0 && $i <= $cnt_photos): ?>
                 </fieldset>
