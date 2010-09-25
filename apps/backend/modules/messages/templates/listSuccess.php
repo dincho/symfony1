@@ -56,7 +56,7 @@
     <td><?php echo $message->getMemberRelatedByRecipientId()->getUsername() ?></td>
     <td class="profile_link"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
     <td class="preview_button">
-        <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
+        <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?details=1&id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
     </td>
   </tr>
   <?php endforeach; ?>
