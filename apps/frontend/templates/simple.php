@@ -23,13 +23,13 @@
         <!--  -->   
         <div id="content">  
             <div id="header">
-              <div id="left" class="index">
-                <?php echo link_to(domain_image_tag('logo.gif'), '@homepage', array('style' => @$logo_style)) ?>
-              </div>
-              <?php if(has_slot('change_language')): ?>
-                <?php include_slot('change_language') ?>
-                <?php $logo_style = 'padding-right: 150px' ?>
-              <?php endif; ?> 
+                    <?php if(has_slot('change_language')): ?>
+                        <div id="left" class="index">
+                            <?php include_slot('change_language') ?>
+                            <?php $logo_style = 'padding-right: 150px' ?>
+                        </div>
+                    <?php endif; ?> 
+                    <?php echo link_to(domain_image_tag('logo.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
             <div id="msg_container">
                 <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
