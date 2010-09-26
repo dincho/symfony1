@@ -3375,3 +3375,13 @@ ul.rating li.five a:hover {background-position:0 -160px}
 #header #right #dhtmlgoodies_content a.sec_link:active {
   color:#73A7FF;
 }
+
+#thread_text{
+  display:block;
+  padding:15px;
+  color:#D3D3D3;
+  font-size:11px;
+  float: right;
+  position:relative;
+  width:265px;
+}
