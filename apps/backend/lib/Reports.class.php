@@ -122,7 +122,7 @@ class Reports
             FROM subscription_history AS t1
             LEFT JOIN member AS t2 ON t1.member_id = t2.id
             WHERE t1.subscription_id = %SUBSCRIPTION_ID%
-            AND t1.member_status_id = 1
+            AND t1.member_status_id = 1 
             GROUP BY title WITH ROLLUP';
         
         $sql = self::addPeriods2($sql);
@@ -194,6 +194,24 @@ class Reports
                     SELECT t2.created_at, "Winks Sent" AS title
                     FROM wink AS t2
                     WHERE t2.sent_box = 1
+                    
+                    UNION ALL
+                    
+                    SELECT hl.created_at, "Hotlists Added" AS title
+                    FROM hotlist AS hl
+                    WHERE hl.is_new = 1
+
+                    UNION ALL
+                    
+                    SELECT mr.created_at, "Rates Given" AS title
+                    FROM member_rate AS mr
+                    WHERE mr.rate > 3
+
+                    UNION ALL
+                    
+                    SELECT ppp.created_at, "Pr. Photos Access Granted" AS title
+                    FROM private_photo_permission AS ppp
+
                     ) AS t3 
                 GROUP BY title DESC WITH ROLLUP';
         
