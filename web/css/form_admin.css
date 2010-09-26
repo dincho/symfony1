@@ -183,6 +183,13 @@ label.full_row {
   padding: 0 10px;    
 }
 
+.private_photo_slot {
+  text-align: left;
+  float: left;
+  padding: 0 10px;
+  background-color: #bbb;    
+}
+
 #member_registration_form label {
     width: 180px;
 }
