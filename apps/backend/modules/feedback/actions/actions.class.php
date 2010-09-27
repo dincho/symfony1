@@ -173,43 +173,56 @@ class feedbackActions extends sfActions
 
     protected function send()
     {
+        $send_options = $this->getRequestParameter('send_options');
+        
         if ($this->getRequestParameter('mail_to'))
         {
-            $message = new PrMailMessage();
-            $message->setMailConfig($this->getRequestParameter('mail_config'));
-            $message->setSender($this->getRequestParameter('mail_from'));
-            $message->setMailFrom($this->getRequestParameter('mail_from'));
-            $message->setSubject($this->getRequestParameter('subject'));
-            $message->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-            $message->addRecipient($this->getRequestParameter('mail_to'));
-            
-            try
+            if( in_array('email_address', $send_options) )
             {
-                if( !$message->saveAndSend() )
+                $message = new PrMailMessage();
+                $message->setMailConfig($this->getRequestParameter('mail_config'));
+                $message->setSender($this->getRequestParameter('mail_from'));
+                $message->setMailFrom($this->getRequestParameter('mail_from'));
+                $message->setSubject($this->getRequestParameter('subject'));
+                $message->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                $message->addRecipient($this->getRequestParameter('mail_to'));
+            
+                try
                 {
-                    $this->setFlash('msg_error', 'Error sending email: unknown error or sending emails is disabled');
-                    $this->redirect('feedback/list');                            
-                }
-            } catch (sfException $e)
-            {   
-                if(SF_ENVIRONMENT == 'dev') 
-                {
-                    if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
-                    throw $e;
-                }
+                    if( !$message->saveAndSend() )
+                    {
+                        $this->setFlash('msg_error', 'Error sending email: unknown error or sending emails is disabled');
+                        $this->redirect('feedback/list');                            
+                    }
+                } catch (sfException $e)
+                {   
+                    if(SF_ENVIRONMENT == 'dev') 
+                    {
+                        if( sfConfig::get('app_mail_smtp_debug', 0) > 0 ) exit(); //we need to exit to see the output from the SMTP echos
+                        throw $e;
+                    }
                 
-                $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
-                $this->redirect('feedback/list');
+                    $this->setFlash('msg_error', 'Error sending email: ' . $e->getMessage());
+                    $this->redirect('feedback/list');
+                }
+            
+                $feedback = new Feedback();
+                $feedback->setMailbox(FeedbackPeer::SENT);
+                $feedback->setIsRead(true);
+                $feedback->setMailTo($this->getRequestParameter('mail_to'));
+                $feedback->setMailFrom($this->getRequestParameter('mail_from', sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com')));
+                $feedback->setSubject($this->getRequestParameter('subject'));
+                $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+                $feedback->save();
             }
             
-            $feedback = new Feedback();
-            $feedback->setMailbox(FeedbackPeer::SENT);
-            $feedback->setIsRead(true);
-            $feedback->setMailTo($this->getRequestParameter('mail_to'));
-            $feedback->setMailFrom($this->getRequestParameter('mail_from', sfConfig::get('app_mail_from', 'from_email_not_set@PolishRomance.com')));
-            $feedback->setSubject($this->getRequestParameter('subject'));
-            $feedback->setBody($this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
-            $feedback->save();
+            if( in_array('internal_inbox', $send_options) && 
+                $member = MemberPeer::retrieveByEmail($this->getRequestParameter('mail_to')) )
+            {
+                MessagePeer::sendSystem($member, 
+                                        $this->getRequestParameter('subject'), 
+                                        $this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
+            }
         }
         
         //to members
@@ -218,7 +231,6 @@ class feedbackActions extends sfActions
 
         if (isset($this->send_to_members) && $this->send_to_members)
         {
-            $send_options = $this->getRequestParameter('send_options');
             if( MemberPeer::doCount($c) > 100 )
             {
                 $this->setFlash('msg_error', 'Too many emails ( max 100 ), please be more specific in your criteria! This restriction to be removed after #1754');
