@@ -218,7 +218,7 @@ class membersActions extends prActions
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
                 $this->member->setPurpose($this->getRequestParameter('purpose'));
-                $this->member->setCatalogId($this->getRequestParameter('catalog_id'));
+                $this->member->changeCatalog($this->getRequestParameter('catalog_id'));
                 
                 //change the subscription and clear the last subscription item
                 $subscription_id = $this->getRequestParameter('subscription_id');
