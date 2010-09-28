@@ -86,6 +86,7 @@ propel:
     language:                 { type: varchar, size: 3, required: true } #this filed is currently used for match engine and notifications
     catalog_id:               { type: integer, required: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: SETNULL, onUpdate: RESTRICT }
     birthday:                 { type: bu_date }
+    age:                      { type: integer, required: false }
     dont_display_zodiac:      { type: boolean, required: true, default: false }
     us_citizen:               { type: boolean, required: false }
     email_notifications:      { type: tinyint, required: false }
@@ -589,6 +590,8 @@ propel:
     created_at:
       
   member_match:
+    #member1_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    #member2_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }    
     id:
     member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

@@ -32,6 +32,12 @@ class Member extends BaseMember
         parent::setNewPassword($new_val);
     }
     
+    public function setBirthday($val)
+    {
+        if( $val != $this->getBirthday() ) $this->setAge(Tools::getAgeFromDateString($val));
+        return parent::setBirthday($val);
+    }
+    
     public function getFullName()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
@@ -290,11 +296,6 @@ class Member extends BaseMember
         $address_info[] = $this->getCountry();
         
         return implode(', ', $address_info);
-    }
-    
-    public function getAge()
-    {
-        return ( is_null($this->getBirthday()) ) ? null : Tools::getAgeFromDateString($this->getBirthday());
     }
     
     public function getZodiac()
