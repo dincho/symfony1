@@ -154,7 +154,11 @@ class profileActions extends prActions
                 
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
-                $this->profile_pager = new ProfilePager($this->getUser()->getAttributeHolder()->getAll('frontend/search/profile_pager'), $this->member->getUsername());
+                $pager_cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'search_profile_pager';
+                $pager_cache = new sfFileCache($pager_cache_dir);
+                $profile_pager_members = unserialize($pager_cache->get($this->getUser()->getId(), null));
+
+                $this->profile_pager = new ProfilePager($profile_pager_members, $this->member->getUsername());
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
                 $this->rate = $this->member->getMemberRateWith($this->getUser()->getProfile());
