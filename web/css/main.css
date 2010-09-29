@@ -3385,3 +3385,8 @@ ul.rating li.five a:hover {background-position:0 -160px}
   position:relative;
   width:265px;
 }
+
+#dashboard-container div.right li
+{
+  padding: 10px;
+}
