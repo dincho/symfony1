@@ -122,7 +122,7 @@ class Reports
             FROM subscription_history AS t1
             LEFT JOIN member AS t2 ON t1.member_id = t2.id
             WHERE t1.subscription_id = %SUBSCRIPTION_ID%
-            AND t1.member_status_id = 1 
+            AND t1.member_status_id = 1
             GROUP BY title WITH ROLLUP';
         
         $sql = self::addPeriods2($sql);
@@ -143,7 +143,7 @@ class Reports
                     WHEN (t2.country = "US") THEN "Foreign (US)" 
                     WHEN (t2.country != "US" AND t2.country != "PL") THEN "Foreign (Non-US)" 
                 END AS title, %PERIODS_SQL%
-            FROM member_status_history AS t1
+            FROM subscription_history AS t1
             LEFT JOIN member AS t2 ON t1.member_id = t2.id
             WHERE t1.member_status_id = 1
             GROUP BY title DESC';
@@ -165,7 +165,7 @@ class Reports
                     WHEN (t2.sex = "M") THEN "Total men"
                     WHEN (t2.sex = "F") THEN "Total women"
                 END AS title, %PERIODS_SQL%
-            FROM member_status_history AS t1
+            FROM subscription_history AS t1
             LEFT JOIN member AS t2 ON t1.member_id = t2.id
             WHERE t1.member_status_id = 1
             GROUP BY title ASC WITH ROLLUP';
@@ -362,6 +362,7 @@ class Reports
     }
     */
 
+/*    
     protected static function addPeriods2($sql)
     {
         $periods_sql = 'SUM(IF(CURDATE() BETWEEN DATE(COALESCE(t1.from_date, "2009-01-28")) AND DATE(t1.created_at) , 1, 0 )) AS today,
@@ -372,6 +373,19 @@ class Reports
                         SUM(IF((CURDATE() - INTERVAL 1 YEAR) BETWEEN DATE(COALESCE(t1.from_date, "2009-01-28")) AND DATE(t1.created_at) , 1, 0 )) AS 1ya,
                         SUM(IF((CURDATE() - INTERVAL 2 YEAR) BETWEEN DATE(COALESCE(t1.from_date, "2009-01-28")) AND DATE(t1.created_at) , 1, 0 )) AS 2ya,
                         SUM(IF((CURDATE() - INTERVAL 3 YEAR) BETWEEN DATE(COALESCE(t1.from_date, "2009-01-28")) AND DATE(t1.created_at) , 1, 0 )) AS 3ya';
+        return strtr($sql, array('%PERIODS_SQL%' => $periods_sql));
+    }
+*/
+    protected static function addPeriods2($sql)
+    {
+        $periods_sql = 'SUM(IF(t1.id = last_subscription_id_on(t1.member_id, CURDATE()), 1, 0 )) AS today,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 7 DAY)), 1, 0 )) AS 7da,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 30 DAY)), 1, 0 )) AS 30da,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 3 MONTH)), 1, 0 )) AS 3ma,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 6 MONTH)), 1, 0 )) AS 6ma,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 1 YEAR)), 1, 0 )) AS 1ya,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 2 YEAR)), 1, 0 )) AS 2ya,
+                        SUM(IF(t1.id = last_subscription_id_on(t1.member_id, (CURDATE() - INTERVAL 3 YEAR)), 1, 0 )) AS 3ya';
         return strtr($sql, array('%PERIODS_SQL%' => $periods_sql));
     }
 }
