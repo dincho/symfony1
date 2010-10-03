@@ -16,4 +16,7 @@ function messagebar_message(message)
    }
 }
 
-
+Event.observe(window, 'unload', function()
+{
+  $('messageBar').hide();
+});
