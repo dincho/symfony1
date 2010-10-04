@@ -318,8 +318,7 @@ class Reports
     {
         $customObject = new CustomQueryObject();
         
-        $sql = 'SELECT `sender`, 
-                  SUBSTRING_INDEX(SUBSTRING_INDEX(`sender`, "<",-1), ">",1) as email,
+        $sql = 'SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(`sender`, "<",-1), ">",1) as email,
                   SUM(IF( DATE(`created_at`) = CURDATE(), 1, 0 )) AS today,
                   SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 1 DAY), 1, 0 )) AS yesterday,
                   SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 2 DAY), 1, 0 )) AS two_days_ago,
@@ -327,8 +326,8 @@ class Reports
                   DATEDIFF(max(`created_at`),min(`created_at`))+1 as all_days,
                   count(*)/(DATEDIFF(max(`created_at`),min(`created_at`))+1) as average_day
                 FROM `pr_mail_message` 
-                group by `sender` 
-                order by `sender`';
+                group by `email` 
+                order by `email`';
              
         $objects = $customObject->query($sql);
         return $objects;        
