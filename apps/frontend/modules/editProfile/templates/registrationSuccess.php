@@ -1,4 +1,7 @@
 <?php use_helper('dtForm', 'Javascript', 'Object', 'fillIn'); ?>
+
+<?php echo javascript_include_tag('save_changes') ?>
+
 <?php $member = $sf_data->getRaw('member'); //it's not secutiry flaw since this page is only accessible by the member itself. ?>
 
 <?php echo __('Here you may change your registration information.') ?><br />
@@ -43,7 +46,7 @@
     </fieldset>
     <fieldset class="actions">
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-        <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+        <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
     </fieldset>
 </form>
 

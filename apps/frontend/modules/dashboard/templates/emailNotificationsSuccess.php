@@ -1,5 +1,7 @@
 <?php use_helper('dtForm') ?>
 
+<?php echo javascript_include_tag('save_changes') ?>
+
 <?php echo __('Here you may change the way you receive notifications from our website.') ?><br />
 <span><?php echo __('Make changes and click Save.') ?></span>
 <?php echo form_tag('dashboard/emailNotifications', array('id' => 'deactivate')) ?>
@@ -21,7 +23,7 @@
     <?php echo pr_label_for('email_notifications_no', __('Do not send me e-mail notifications about activity on my profile')) ?><br />
     
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
 </form>
 
 <?php slot('footer_menu') ?>

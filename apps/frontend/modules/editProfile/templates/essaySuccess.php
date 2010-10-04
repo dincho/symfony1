@@ -1,9 +1,10 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 
+<?php echo javascript_include_tag('save_changes') ?>
+
 <?php echo __('You may change your essay here.') ?><br />
 <span><?php echo __("Make changes and click Save.") ?></span>
 
-                
 <?php echo form_tag('editProfile/essay', array('id' => 'essay')) ?>
 
     <?php if( $sf_user->getCulture() == 'pl'): ?>
@@ -45,7 +46,7 @@
     </fieldset>
     <fieldset class="actions">
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-        <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+        <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
     </fieldset>
 </form>
 <br /><br /><br class="clear" />

@@ -3,6 +3,8 @@
 <?php echo __('Search criteria headline') ?>
 <?php end_slot(); ?>
 
+<?php echo javascript_include_tag('save_changes') ?>
+
 <?php echo __("Search criteria instructions"); ?>
 <?php echo form_tag('dashboard/searchCriteria', array('id' => 'self_desc_form', 'name' => 'self_desc_form')) ?>
     <?php $i=0; ?>
@@ -23,7 +25,7 @@
           <label><?php echo __($answer->getSearchTitle(ESC_RAW)) ?></label><br />
         <?php endforeach; ?>
         </div>
-        <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], true)'); ?> <?php echo __('- any option is fine'); ?><br />
+        <?php echo link_to_function(__('Select All'), 'SC_select_all(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], true); validate_save_btn()'); ?> <?php echo __('- any option is fine'); ?><br />
         <label for="weights_<?php echo $question->getId() ?>"><?php echo __($question->getFactorTitle(ESC_RAW)) ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?>
         
@@ -70,7 +72,7 @@
     <br /><br />
     <fieldset>
       <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-      <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+      <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
     </fieldset>
 </form>
 <?php slot('footer_menu') ?>

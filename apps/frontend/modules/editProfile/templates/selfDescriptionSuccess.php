@@ -1,5 +1,7 @@
 <?php use_helper('Object', 'dtForm', 'fillIn', 'Javascript') ?>
 
+<?php echo javascript_include_tag('save_changes') ?>
+
 <?php echo __('Here you may change your self-description.') ?><br />
 <span><?php echo __('Make changes and click Save at the bottom of the page.') ?></span><br />
 
@@ -29,7 +31,7 @@
     <?php endforeach; ?>
         
     <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
 </form>
 <br /><br /><br />
 <?php slot('footer_menu') ?>
