@@ -147,26 +147,21 @@ class registrationActions extends BaseEditProfileActions
             $this->member->setZip($this->getRequestParameter('zip'));
             $this->member->setNationality($this->getRequestParameter('nationality'));
             $this->member->setPurpose($this->getRequestParameter('purpose'));
-            
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
             
             if( !is_null($this->member->getOriginalFirstName()) ) //already confirmed
             {
-                $member->setReviewedById(null);
-                $member->setReviewedAt(null);
                 $this->member->save();
                 $this->redirect('registration/selfDescription');
             } else { //not confirmed yet
                 if( $this->hasRequestParameter('confirmed') ) //form confirmation ?
               {
                   $this->member->setOriginalFirstName('');
-                  $member->setReviewedById(null);
-                  $member->setReviewedAt(null);
                   $this->member->save();
                   $this->redirect('registration/selfDescription');
               } else { //ask for confirmation
-                  $this->member->parseLookingFor($this->getRequestParameter('orientation'));                  
-                  $member->setReviewedById(null);
-                  $member->setReviewedAt(null);
+                  $this->member->parseLookingFor($this->getRequestParameter('orientation'));
                   $this->member->save();
                   $this->redirect('registration/index?confirm=1' );
               }
