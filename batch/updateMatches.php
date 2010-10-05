@@ -11,7 +11,7 @@
  * 
  * Run once a day
  */
-require_once(realpath(dirname(__FILE__).'/../config.php'));
+require_once(realpath(dirname(__FILE__).'/config.php'));
 
 set_time_limit(0);
 sfConfig::set('pr_timer_start', microtime(true));
@@ -42,7 +42,7 @@ do
     
     foreach( $pager->getResults() as $member )
     {
-      $member->updateMatches();
+      $member->updateStraightMatches();
       $total_cnt++;
     }
  

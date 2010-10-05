@@ -118,6 +118,10 @@ all:
         "du.dincho.bonex.us":           www.dyskretnyuklad.com
         "ec.pd.dincho.bonex.us":        www.expatcalling.com
         "mm.pd.dincho.bonex.us":        www.meskamilosc.pl
+    matches:
+      max_weight:       21
+      use_queue:        no
+      error_exception:  no
 dev:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us
@@ -125,11 +129,16 @@ dev:
       enabled:          no
       use_queue:        no
       error_exception:  yes
+    matches:
+      use_queue:        yes
+      error_exception:  yes
 stag:
     domains:            #do not have :sf_culture in the routes
         pl:             pl.pd.dincho.bonex.us  
     mail:
       enabled:          yes
+      use_queue:        yes
+    matches:
       use_queue:        yes
 prod:
     base_domain:        www.polishdate.com #always have :sf_culture in the routes
@@ -137,6 +146,8 @@ prod:
         pl:             www.szukammilionera.com
     mail:
       enabled:          yes
+      use_queue:        yes
+    matches:
       use_queue:        yes
 test:
     domains:            #do not have :sf_culture in the routes

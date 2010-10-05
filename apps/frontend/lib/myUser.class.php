@@ -93,7 +93,6 @@ class myUser extends sfBasicSecurityUser
         
         if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
         {
-            
             if($member->mustFillIMBRA())
             {
                 $action->redirect('IMBRA/index');
@@ -110,8 +109,8 @@ class myUser extends sfBasicSecurityUser
                     $member->changeStatus(MemberStatusPeer::ACTIVE, false);
                     Events::triggerWelcome($member, $_SERVER['REMOTE_ADDR']);
                 }
+                
                 $member->save();
-                $member->updateMatches();
                 $this->setAttribute('status_id', $member->getMemberStatusId());
 
                 //show congratulation message only if pre approve is OFF

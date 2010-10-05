@@ -419,7 +419,7 @@ class dashboardActions extends prActions
                 }
             }
             
-            $member->updateMatches();
+            $member->updateStraightMatches();
             $msg = ($hasSearchCriteria) ? 'Your Match Criteria have been updated' : 'You have just set up your search criteria';
             $this->setFlash('msg_ok', $msg);
             $this->redirect('dashboard/index');

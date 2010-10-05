@@ -400,6 +400,8 @@ class membersActions extends prActions
                 if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) );                 
             }
             $this->member->save();
+            $this->member->updateReverseMatches();
+            
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editSelfDescription?id=' . $this->member->getId());
         }
@@ -494,7 +496,7 @@ class membersActions extends prActions
                 }
             }
             
-            $this->member->updateMatches();
+            $this->member->updateStraightMatches();
             $this->setFlash('msg_ok', 'Your changes have been saved');
         }
         

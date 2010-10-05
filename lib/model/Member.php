@@ -161,10 +161,14 @@ class Member extends BaseMember
     {
         if ($this->getMemberStatusId() != $StatusId )
         {
-            if( ($this->getMemberStatusId() == MemberStatusPeer::PENDING ) && $StatusId == MemberStatusPeer::ACTIVE )
+            if( $StatusId == MemberStatusPeer::ACTIVE )
             {
-                Events::triggerWelcomeApproved($this);
+                if( $this->getMemberStatusId() == MemberStatusPeer::PENDING ) Events::triggerWelcomeApproved($this);
+                
+                //non active members are excluded from matches
+                //so regenerate the results
                 $this->updateMatches();
+                $this->updateReverseMatches();
             }
             
             $old_status_id = $this->getMemberStatusId();
@@ -175,13 +179,12 @@ class Member extends BaseMember
                   $this->incCounter('unsuspensions');
               }
               
-              //last history
-              $c = new Criteria();
-              $c->add(MemberStatusHistoryPeer::MEMBER_ID, $this->getId());
-              $c->addDescendingOrderByColumn(MemberStatusHistoryPeer::ID);
-              $c->setLimit(1);
-              $last_history = MemberStatusHistoryPeer::doSelectOne($c);
-              
+            //last history
+            $c = new Criteria();
+            $c->add(MemberStatusHistoryPeer::MEMBER_ID, $this->getId());
+            $c->addDescendingOrderByColumn(MemberStatusHistoryPeer::ID);
+            $c->setLimit(1);
+            $last_history = MemberStatusHistoryPeer::doSelectOne($c);
               
             $history = new MemberStatusHistory();
             $history->setMemberStatusId($StatusId);
@@ -191,7 +194,8 @@ class Member extends BaseMember
             $this->setMemberStatusId($StatusId);
             $this->setLastStatusChange(time());
             
-            if( !in_array($StatusId, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) && !in_array($old_status_id, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) && $kill_session ) $this->killSession();
+            if( !in_array($StatusId, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) 
+                && !in_array($old_status_id, array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) && $kill_session ) $this->killSession();
         }
     }
     
@@ -387,16 +391,78 @@ class Member extends BaseMember
         return ThreadPeer::doCount($c);
     }
     
-    public function updateMatches()
+    // straight
+    
+    public function updateStraightMatches()
     {
-        $connection = Propel::getConnection();
-        $query = 'CALL update_matches(%d, %d)';
-        $query = sprintf($query, $this->getId(), 21);
-        $statement = $connection->prepareStatement($query);
-        $statement->executeQuery();
+        if( sfConfig::get('app_matches_use_queue') )
+        {
+            $gmc = new GearmanClient();
+            $gmc->addServer('127.0.0.1', 4730);
+            $handle = @$gmc->doBackground('MatchQueue_Straight', $this->getId());
+            
+            if ( $gmc->returnCode() == GEARMAN_SUCCESS )
+            {
+                return true;
+            } else {
+                if( sfConfig::get('app_matches_error_exception') ) throw new sfException("(MatchQueue_Straight) Unable to schedule gearman job!", $gmc->returnCode());
+                return false;
+            }
+            
+        } else {
+            $connection = Propel::getConnection();
+            $query = 'CALL update_straight_matches(%d, %d)';
+            $query = sprintf($query, $this->getId(), sfConfig::get('app_matches_max_weight'));
+            $statement = $connection->prepareStatement($query);
+            $statement->executeQuery();
+        }
         
         return true;
     }
+    
+    public function updateReverseMatches()
+    {
+        if( sfConfig::get('app_matches_use_queue') )
+        {
+            $gmc = new GearmanClient();
+            $gmc->addServer('127.0.0.1', 4730);
+            $handle = @$gmc->doBackground('MatchQueue_Reverse', $this->getId());
+            
+            if ( $gmc->returnCode() == GEARMAN_SUCCESS )
+            {
+                return true;
+            } else {
+                if( sfConfig::get('app_matches_error_exception') ) throw new sfException("(MatchQueue_Reverse) Unable to schedule gearman job!", $gmc->returnCode());
+                return false;
+            }
+            
+        } else {
+            $connection = Propel::getConnection();
+            $query = 'CALL update_reverse_matches(%d, %d)';
+            $query = sprintf($query, $this->getId(), sfConfig::get('app_matches_max_weight'));
+            $statement = $connection->prepareStatement($query);
+            $statement->executeQuery();
+        }
+
+        return true;
+    }
+    
+    public function updateMatches()
+    {
+        $this->updateStraightMatches();
+        $this->updateReverseMatches();
+    }
+    
+    // public function updateMatches()
+    // {
+    //     $connection = Propel::getConnection();
+    //     $query = 'CALL update_matches(%d, %d)';
+    //     $query = sprintf($query, $this->getId(), 21);
+    //     $statement = $connection->prepareStatement($query);
+    //     $statement->executeQuery();
+    //     
+    //     return true;
+    // }
     
     public function isLoggedIn()
     {

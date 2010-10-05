@@ -200,6 +200,7 @@ class editProfileActions extends BaseEditProfileActions
             $this->member->setReviewedAt(null);
 
             $this->member->save();
+            $this->member->updateReverseMatches();
             $this->member->clearCache();
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
