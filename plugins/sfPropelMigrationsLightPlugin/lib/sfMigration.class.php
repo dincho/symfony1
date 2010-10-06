@@ -206,7 +206,7 @@ abstract class sfMigration
         if( !empty($values) )
         {
             $values_str = implode(', ', $values);
-            $this->executeQuery(sprintf('INSERT INTO `trans_unit` (`cat_id`, `source`, `date_added`, `date_modified`) VALUES %s', $values_str));
+            $this->executeQuery(sprintf('INSERT IGNORE INTO `trans_unit` (`cat_id`, `source`, `date_added`, `date_modified`) VALUES %s', $values_str));
         }
     }
   }

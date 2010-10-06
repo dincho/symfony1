@@ -49,7 +49,7 @@
         <?php if( !sfConfig::get('app_settings_imbra_disable') && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) ): ?>
             <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>
             <label class="imbra_tos">
-                <?php echo __('I am familiar with <a href="%URL_FOR_PROFILE_IMBRA%" class="sec_link">background check information provided by this member</a> and I have read the <a href="%URL_FOR_IMMIGRANT_RIGHTS%" class="sec_link">Information About Legal Rights and Resources for Immigrant Victims of Domestic Violence</a>. I also understand that Polish-Romance never reveals my personal information (email, address etc.) to other members.', 
+                <?php echo __('I am familiar with this member IMBRA and I accept the TOS', 
                             array('%URL_FOR_PROFILE_IMBRA%' => url_for('@profile?username=' . $recipient->getUsername() . '#profile_imbra_info'), '%URL_FOR_IMMIGRANT_RIGHTS%' => url_for('@page?slug=immigrant_rights'))) ?>
           </label>
         <?php endif; ?>
