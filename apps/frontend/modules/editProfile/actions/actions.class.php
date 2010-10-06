@@ -359,8 +359,6 @@ class editProfileActions extends BaseEditProfileActions
 
     public function executePhotos()
     {
-        $this->warningTimeout();
-
         return parent::executePhotos();
     }
 
