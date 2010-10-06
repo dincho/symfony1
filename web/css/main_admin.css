@@ -640,4 +640,5 @@ div.member_flags table {
     cursor: move;
     padding: 0 20px 20px 20px;
     min-height: 720px;
+    z-index: 100;
 }
