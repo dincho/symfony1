@@ -12,7 +12,8 @@
             <th></th>
         </tr>
     </thead>
-    <?php foreach ($outgoingMails as $key => $object): ?>
+    <?php if($outgoingMails): ?>
+      <?php foreach ($outgoingMails as $key => $object): ?>
         <tr>
             <td><?php echo $object->getEmail() ?></td>
             <td><?php echo number_format($object->getToday(), 0, '.', ',') ?></td>
@@ -22,6 +23,7 @@
             <td><?php echo number_format($object->getAllDays(), 0, '.', ',') ?></td>
             <td><?php echo number_format($object->getAverageDay(), 0, '.', ',') ?></td>
         </tr>
-    <?php endforeach; ?>
+      <?php endforeach; ?>
+    <?php endif; ?>
 </table>
 <br />

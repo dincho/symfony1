@@ -326,6 +326,7 @@ class Reports
                   DATEDIFF(max(`created_at`),min(`created_at`))+1 as all_days,
                   count(*)/(DATEDIFF(max(`created_at`),min(`created_at`))+1) as average_day
                 FROM `pr_mail_message` 
+                WHERE 	status = "sent"
                 group by `email` 
                 order by `email`';
              
