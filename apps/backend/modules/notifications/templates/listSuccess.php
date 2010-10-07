@@ -1,9 +1,11 @@
-<?php use_helper('Javascript', 'dtBoolValue') ?>
+<?php use_helper('Javascript', 'dtBoolValue', 'Number') ?>
 
 <table class="zebra">
     <thead>
         <tr>
             <th>Name</th>
+            <th>Mail Config</th>
+            <th>Today</th>
             <th>Status</th>
         </tr>
     </thead>
@@ -11,6 +13,8 @@
 <?php foreach ($notifications as $notification): ?>
       <tr rel="<?php echo url_for('notifications/edit?id=' . $notification->getId() . '&cat_id=' . $sf_request->getParameter('cat_id')) ?>">
         <td><?php echo $notification->getName(); ?></td>
+        <td><?php echo $notification->getMailConfig(); ?></td>
+        <td><?php echo format_number($notification->getToday()); ?></td>
         <td><?php echo boolValue($notification->getIsActive(), 'On', 'Off'); ?></td>
     </tr>
 <?php endforeach; ?>

@@ -19,10 +19,23 @@ class notificationsActions extends sfActions
     
     public function executeList()
     {
-        $c = new Criteria();
-        $c->add(NotificationPeer::TO_ADMINS, $this->getRequestParameter('to_admins', 0));
-        $c->add(NotificationPeer::CAT_ID, $this->getRequestParameter('cat_id'));
-        $this->notifications = NotificationPeer::doSelect($c);
+        $customObject = new CustomQueryObject();
+        
+        $sql = 'SELECT n.name, n.mail_config, n.is_active, n.id, IF(m.today IS NULL, 0, m.today) as today
+                  FROM notification n 
+                  LEFT JOIN (SELECT m.notification_id, m.notification_cat,
+                               SUM(IF( DATE(m.created_at) = CURDATE(), 1, 0 )) AS today
+                  					 FROM pr_mail_message m
+                                  WHERE 	status = "sent"
+                                  group by m.notification_id, m.notification_cat 
+                                  order by m.notification_id, m.notification_cat) m on m.notification_id = n.id and m.notification_cat= n.cat_id
+                  WHERE n.to_admins =%TO_ADMIN% and n.cat_id =%CAT_ID%';
+             
+        $sql = strtr($sql, array(
+            '%TO_ADMIN%' => $this->getRequestParameter('to_admins', 0),
+            '%CAT_ID%'   => $this->getRequestParameter('cat_id')));
+            
+        $this->notifications = $customObject->query($sql);
     }
 
     public function executeEdit()

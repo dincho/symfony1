@@ -41,6 +41,8 @@ class Notification extends BaseNotification
         
         $message = new PrMailMessage();
         $message->setMailConfig($this->getMailConfig());
+        $message->setNotificationId($this->getId());
+        $message->setNotificationCat($this->getCatId());
         
         if( !is_null($mail_from) )
         {
