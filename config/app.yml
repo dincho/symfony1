@@ -1,4 +1,19 @@
 all:
+    .domains:
+        domain_cultures:   #do not have :sf_culture in the routes
+            pl:             pl.pd.dincho.bonex.us
+            en:             pd.dincho.bonex.us
+            en:             du.dincho.bonex.us
+            pl:             mm.pd.dincho.bonex.us
+        catalog_domains:
+            "pd.dincho.bonex.us":           www.polishdate.com
+            "devel.pd.dincho.bonex.us":     www.polishdate.com
+            "branch.pd.dincho.bonex.us":    www.polishdate.com
+            "pl.pd.dincho.bonex.us":        www.szukammilionera.com
+            "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
+            "du.dincho.bonex.us":           www.dyskretnyuklad.com
+            "ec.pd.dincho.bonex.us":        www.expatcalling.com
+            "mm.pd.dincho.bonex.us":        www.meskamilosc.pl
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
@@ -108,53 +123,39 @@ all:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
       default_lifetime:             1814400 #in seconds - 21 days
-    base_domain:        pd.dincho.bonex.us #always have :sf_culture in the routes
-    catalog_domains:
-        "pd.dincho.bonex.us":           www.polishdate.com
-        "devel.pd.dincho.bonex.us":     www.polishdate.com
-        "branch.pd.dincho.bonex.us":    www.polishdate.com
-        "pl.pd.dincho.bonex.us":        www.szukammilionera.com
-        "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
-        "du.dincho.bonex.us":           www.dyskretnyuklad.com
-        "ec.pd.dincho.bonex.us":        www.expatcalling.com
-        "mm.pd.dincho.bonex.us":        www.meskamilosc.pl
     matches:
       max_weight:       21
       use_queue:        no
       error_exception:  no
 dev:
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
-    mail:
-      enabled:          no
-      use_queue:        no
-      error_exception:  yes
-    matches:
-      use_queue:        yes
-      error_exception:  yes
+  mail:
+    enabled:          no
+    use_queue:        no
+    error_exception:  yes
+  matches:
+    use_queue:        yes
+    error_exception:  yes
 stag:
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us  
     mail:
       enabled:          yes
       use_queue:        yes
     matches:
       use_queue:        yes
 prod:
-    base_domain:        www.polishdate.com #always have :sf_culture in the routes
-    domains:            #do not have :sf_culture in the routes
-        pl:             www.szukammilionera.com
+    .domains:
+        domain_cultures:   #do not have :sf_culture in the routes
+            pl:             www.szukammilionera.com
+            en:             www.polishdate.com
+            en:             www.dyskretnyuklad.com
+            en:             www.expatcalling.com
+            pl:             www.meskamilosc.pl
     mail:
       enabled:          yes
       use_queue:        yes
     matches:
       use_queue:        yes
 test:
-    domains:            #do not have :sf_culture in the routes
-        pl:             pl.pd.dincho.bonex.us
     mail:
       class:            testPrMail
       error_exception:  yes
 trans:
-    domains:            #do not have :sf_culture in the routes
-      pl:             pl.pd.dincho.bonex.us

@@ -25,29 +25,26 @@ class DomainsRoutingConfigHandler extends sfRoutingConfigHandler
                       \$routes = sfRouting::getInstance();\n",
                       date('Y/m/d H:i:s'));
 
-    $domains_config = sfYaml::load(sfConfig::get('sf_config_dir') . DIRECTORY_SEPARATOR . 'app.yml');
-    
-    if( !isset($domains_config[SF_ENVIRONMENT]['domains']) )
+    $domain_cultures = sfConfig::get('app_domain_cultures');
+    if( empty($domain_cultures) )
     {
         throw new Exception("Culture based domains are not set!");
     }
     
-    $domains_culture = $domains_config[SF_ENVIRONMENT]['domains']; 
-           
     $routing->clearRoutes();
     foreach ($default_config as $name => $params)
     {
-      unset($params['param']['sf_culture']);
-          $routing->connect(
-              $name,
-              ($params['url'] ? str_replace(':sf_culture/', '', $params['url']) : '/'),
-              (isset($params['param']) ? $params['param'] : array()),
-              (isset($params['requirements']) ? $params['requirements'] : array())
-          );
+        unset($params['param']['sf_culture']);
+        $routing->connect(
+            $name,
+            ($params['url'] ? str_replace(':sf_culture/', '', $params['url']) : '/'),
+            (isset($params['param']) ? $params['param'] : array()),
+            (isset($params['requirements']) ? $params['requirements'] : array())
+        );
     }
   
     $domain_routes = var_export($routing->getRoutes(), 1);
-    $domains_array = "'" .implode("','", array_values($domains_culture)) . "'";
+    $domains_array = "'" .implode("','", array_values($domain_cultures)) . "'";
     $retval .= sprintf("\nif(in_array(@\$_SERVER['HTTP_HOST'], array(%s))  ) {
                                    \$routes->setRoutes(\n%s\n); \n}", 
                                    $domains_array, $domain_routes);    

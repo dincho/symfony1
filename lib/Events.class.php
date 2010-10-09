@@ -178,9 +178,10 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $global_vars = array('{PROFILE_URL}' => 'http://' . sfConfig::get('app_base_domain') . '/en/dashboard/profile/' . $member->getUsername() . '.html' );
+        $dashboard_url  = LinkPeer::create('@dashboard', $member->getId())->getUrl($member->getCatalogue());
+        $global_vars = array('{PROFILE_URL}' => $dashboard_url);
         
-        return self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);     
+        return self::executeNotifications(self::ABANDONED_REGISTRATION, $global_vars, null, $member);
     }
     
     public static function triggerFirstContact(BaseMessage $message)

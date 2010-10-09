@@ -23,12 +23,6 @@
         <!--  -->   
         <div id="content">  
             <div id="header">
-                    <?php if(has_slot('change_language')): ?>
-                        <div id="left" class="index">
-                            <?php include_slot('change_language') ?>
-                            <?php $logo_style = 'padding-right: 150px' ?>
-                        </div>
-                    <?php endif; ?> 
                     <?php echo link_to(domain_image_tag('logo.gif'), '@homepage', array('style' => @$logo_style)) ?>
             </div>
             <div id="msg_container">

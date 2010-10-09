@@ -23,8 +23,7 @@ class Link extends BaseLink
   }
   
   public function getUrl(Catalogue $catalog)
-  { 
-    // $domain = sfConfig::get('app_domains_' . $culture, sfConfig::get('app_base_domain', @$_SERVER['HTTP_HOST']));
+  {
     $domain = $catalog->getDomain();
     $url = 'http://' . $domain . '/link/' . $this->getHash() . '.html';
     

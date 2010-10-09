@@ -8,12 +8,11 @@ class DomainsFilter extends sfFilter
     $user = $context->getUser();
     $request = $context->getRequest();
     
-    $domains_config = sfYaml::load(sfConfig::get('sf_config_dir') . DIRECTORY_SEPARATOR . 'app.yml');
-    $domains_culture = $domains_config[SF_ENVIRONMENT]['domains'];
+    $domain_cultures = sfConfig::get('app_domain_cultures');
     
-    if( $culture = array_search($request->getHost(), $domains_culture) )
+    if( $culture = array_search($request->getHost(), $domain_cultures) )
     {
-    	$user->setCulture($culture);
+        $user->setCulture($culture);
     }
     
     $filterChain->execute();

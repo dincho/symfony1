@@ -1,7 +1,6 @@
 <?php use_helper('Javascript') ?>
 <div id="header" class="index">
     <div id="left" class="index">
-        <?php include_partial('content/lang');?>
     </div>
     <div id="polish_romance_logo">
         <?php echo domain_image_tag('logo_index.gif', 'alt=logo') ?>

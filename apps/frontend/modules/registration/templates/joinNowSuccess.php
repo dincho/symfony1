@@ -54,10 +54,6 @@ Event.observe(window, "load", function() {
 });
 ');?>
 
-<?php slot('change_language') ?>
-    <?php include_partial('content/lang'); ?>
-<?php end_slot(); ?>
-
 <!-- Google Code for LoveStreet Conversion Page -->
 <script type="text/javascript">
 <!--

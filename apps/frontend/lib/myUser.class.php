@@ -175,7 +175,8 @@ class myUser extends sfBasicSecurityUser
         if( is_null($this->catalog) )
         {
             $domain = strtolower($_SERVER['HTTP_HOST']);
-            $catalog_domain = sfConfig::get('app_catalog_domains_' . $domain, $domain);
+            $catalog_domains = sfConfig::get('app_catalog_domains');
+            $catalog_domain = isset($catalog_domains[$domain]) ? $catalog_domains[$domain] : $domain;
 
             $c = new Criteria();
             $c->add(CataloguePeer::DOMAIN, $catalog_domain);
