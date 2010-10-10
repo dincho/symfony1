@@ -41,7 +41,6 @@ table.SelectableTable.prototype._init = function(){
   }
 }
 
-
 table.SelectableTable.prototype.selectFirst = function(){
 
   var firstRow = $$('#'+this.tableId +' tr')[1];

@@ -29,7 +29,6 @@
     </fieldset>
 </form>
 
-
 <table class="zebra" id="table1">
   <thead>
     <tr>

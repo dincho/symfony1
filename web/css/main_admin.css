@@ -164,12 +164,12 @@ tbody tr:hover, tbody td.first:hover {
 .selected {
   background-color: yellow;
 }
+
 .selected td.first{
   background-repeat: no-repeat ;
   background-image:url('/images/tarrow.png');
   background-position: left;
 }
-
 
 #messages {
   margin: 10px 0;
