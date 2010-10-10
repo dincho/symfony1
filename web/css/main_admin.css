@@ -157,9 +157,19 @@ tbody tr.even {
   background-color: #eee;
 }
 
-tbody tr:hover {
+tbody tr:hover, tbody td.first:hover {
   background-color: #CDDAE6;
 }
+
+.selected {
+  background-color: yellow;
+}
+.selected td.first{
+  background-repeat: no-repeat ;
+  background-image:url('/images/tarrow.png');
+  background-position: left;
+}
+
 
 #messages {
   margin: 10px 0;
@@ -331,9 +341,9 @@ dl.imbra_answers {
 	background-color: #EAEAEA;
 	margin-top:  10px;
 	padding:  10px;
-  	min-height:100px;
-  	height:auto !important;
-  	height:100px;	
+	min-height:100px;
+	height:auto !important;
+	height:100px;
 }
 
 .zebra {
@@ -346,6 +356,10 @@ dl.imbra_answers {
 
 .zebra th a.sorted_by {
     color: #1646CB;
+}
+
+.zebra .firstcolumn{
+    width: 1px;
 }
 
 .reports th, .reports td {

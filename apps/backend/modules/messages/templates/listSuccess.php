@@ -1,5 +1,9 @@
 <?php echo use_helper('Javascript', 'Number', 'xSortableTitle') ?>
 <?php echo form_tag('messages/list', array('method' => 'get', 'id' => 'search_filter')) ?>
+
+<?php echo javascript_include_tag('table_navigation') ?>
+
+
     <div class="filter_right text-right">
         <?php echo input_date_tag('filters[date_from]', ( isset($filters['date_from']) ) ? $filters['date_from'] : time() - 2592000, array('calendar_button_img' => '/sf/sf_admin/images/date.png',
                                                               'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'style' => 'width: 74px;', 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_from"')) ?> -
@@ -26,9 +30,10 @@
 </form>
 
 
-<table class="zebra">
+<table class="zebra" id="table1">
   <thead>
     <tr>
+      <th class="firstcolumn"></th>
       <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
       <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
@@ -45,6 +50,7 @@
   <?php foreach ($pager->getResults() as $message): ?>
   <?php $member = $message->getMemberRelatedBySenderId(); //shortcut ?>
   <tr rel="<?php echo url_for('messages/conversation?member_id='.$message->getSenderId() . '&id=' . $message->getThreadId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">
+    <td class="first"></td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
     <td><?php echo $member->getLastName() ?></td>
