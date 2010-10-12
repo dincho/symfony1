@@ -26,6 +26,10 @@
   background-color: #EFEFEF;
   float: left;
 }
+.form_fields .member_stories
+{
+  width: 260px;
+}
 
 .form_fields input:focus, .form_fields select:focus, .form_fields textarea:focus {
     background-color: white;

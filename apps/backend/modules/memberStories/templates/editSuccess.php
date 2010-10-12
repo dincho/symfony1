@@ -6,7 +6,7 @@
   <div class="legend">Edit <?php echo $story->getSlug() ?>.html</div>
       <fieldset class="form_fields float-left">
         <label for="link_name">Link Name:</label>
-        <div style=float:left;"><?php echo object_input_tag($story, 'getLinkName', error_class('link_name')) ?></div><br />
+        <div style=float:left;"><?php echo object_input_tag($story, 'getLinkName', array('class'=> 'member_stories', error_class('link_name'))) ?></div><br />
         
         <label for="culture">Language:</label>
         <?php echo object_select_tag($story, 'getCatId', array ('related_class' => 'Catalogue','include_blank' => false,)); ?><br />
@@ -15,16 +15,16 @@
       <fieldset class="form_fields float-left">
         
         <label for="title">Title:</label>
-        <?php echo object_input_tag($story, 'getTitle', error_class('title')) ?><br /> 
+        <?php echo object_input_tag($story, 'getTitle', array('class'=> 'member_stories', error_class('title'))) ?><br /> 
           
         <label for="keywords">Keywords:</label>
-        <?php echo object_input_tag($story, 'getKeywords', error_class('keywords')) ?><br />
+        <?php echo object_input_tag($story, 'getKeywords', array('class'=> 'member_stories', error_class('keywords'))) ?><br />
         
         <label for="description">Description:</label>
-        <?php echo object_input_tag($story, 'getDescription', error_class('description')) ?><br />
+        <?php echo object_input_tag($story, 'getDescription', array('class'=> 'member_stories', error_class('description'))) ?><br />
         
         <label for="summary">Summary:</label>
-        <?php echo object_input_tag($story, 'getSummary', error_class('summary')) ?><br />        
+        <?php echo object_input_tag($story, 'getSummary', array('class'=> 'member_stories', error_class('summary'))) ?><br />        
        
       </fieldset>
   
