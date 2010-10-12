@@ -63,13 +63,16 @@ class subscriptionsActions extends sfActions
                 $subscription->setContactAssistantDay($req_subs[$subscription->getId()]['contact_assistant_day']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
                 
-                $subscription->setPeriod($req_subs[$subscription->getId()]['period']);
-                $subscription->setPeriodType($req_subs[$subscription->getId()]['period_type']);
-                $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
-                $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
-                $subscription->save();   
+                if( isset($req_subs[$subscription->getId()]['period']) )
+                {
+                    $subscription->setPeriod($req_subs[$subscription->getId()]['period']);
+                    $subscription->setPeriodType($req_subs[$subscription->getId()]['period_type']);
+                    $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
+                    $subscription->setCurrency($req_subs[$subscription->getId()]['currency']);
+                }
                 
-                sfSettingPeer::updateFromRequest(array('currency_en', 'currency_pl'));
+                $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
+                $subscription->save();
             }
         }
         
@@ -88,6 +91,8 @@ class subscriptionsActions extends sfActions
         
         foreach($req_subs as $id => $sub)
         {
+            if( $id == 1 ) continue; //skip the free subscription
+            
           $field_name = 'subs['. $id.'][period]';
         
           if( !is_numeric($sub['period']) || $sub['period'] <= 0 )

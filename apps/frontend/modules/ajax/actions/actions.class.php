@@ -73,7 +73,7 @@ class ajaxActions extends geoActions
             $entrypointURL = $this->getRequestParameter('entrypointURL');
             $amount = 0;
         } else {
-            $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
+            $zong = new prZong($member->getCountry(), $subscriptioDetails->getCurrency());
             $zongItem = $zong->getFirstItemWithApproxPrice($subscriptioDetails->getAmount());
                 
             if( !$zongItem ) 

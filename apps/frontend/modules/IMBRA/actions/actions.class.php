@@ -151,7 +151,7 @@ class IMBRAActions extends prActions
                             'lc' => 'US',
                             'no_note' => 1,
                             'no_shipping' => 1,
-                            'currency_code' => sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'),
+                            'currency_code' => $member->getSubscriptionDetails()->getCurrency(),
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true), 
                             'return' => $this->getController()->genUrl('IMBRA/paymentConfirmation', true),

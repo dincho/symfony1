@@ -40,7 +40,7 @@ class subscriptionActions extends prActions
         if( $this->last_payment && $this->last_payment->getPaymentProcessor() == 'zong' )
         {
             $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->member_subscription->getSubscriptionId(), $this->member->getCatalogId());
-            $zong = new prZong($this->member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
+            $zong = new prZong($this->member->getCountry(), $subscription->getCurrency());
             $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
         
             $this->zongAvailable = (bool) $zongItem;
@@ -102,7 +102,7 @@ class subscriptionActions extends prActions
           $member_subscription->setEffectiveDate( $effective_date );
           $member_subscription->save();
           
-          $zong = new prZong($member->getCountry(), sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'));
+          $zong = new prZong($member->getCountry(), $subscription->getCurrency());
           $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
           $this->zongAvailable = (bool) $zongItem;
         
@@ -120,7 +120,7 @@ class subscriptionActions extends prActions
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
-                            'currency_code' => sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'),
+                            'currency_code' => $subscription->getCurrency(),
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'src' => 1, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture
@@ -137,6 +137,7 @@ class subscriptionActions extends prActions
         
         $this->encrypted = $EWP->encryptFields($parameters);
         $this->amount = $subscription->getAmount();
+        $this->currency = $subscription->getCurrency();
         $this->member_subscription_id = $member_subscription->getId();
     }
 
@@ -173,7 +174,7 @@ class subscriptionActions extends prActions
                             'lc' => $this->getUser()->getProfile()->getCountry(),
                             'no_note' => 1,
                             'no_shipping' => 1,
-                            'currency_code' => sfConfig::get('app_settings_currency_' . $this->getUser()->getCulture(), 'GBP'),
+                            'currency_code' => 'GBP',
                             'rm' => 1, //return method 1 = GET, 2 = POST
                             'src' => 0, //Recurring or not
                             'sra' => 1, //Reattemt recurring payments on failture

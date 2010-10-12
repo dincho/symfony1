@@ -39,17 +39,8 @@
         
         <!-- IMBRA -->
         <label class="period_label" style="width:60px; float: right;">IMBRA&nbsp;</label>
-        <br /><br />
-        
-        <hr style="width: auto;" />
+        <br /><br /><br />
 
-
-        <label class="period_label" style="width: 120px; float: left;">English Currency&nbsp;</label>
-        <?php echo input_tag('currency_en', sfConfig::get('app_settings_currency_en'), array('class' => 'limit_input', 'style' => 'float: left', 'maxlength' => 3)) ?><br />
-        <label class="period_label" style="width: 120px; float: left;">Polish Currency&nbsp;</label>
-        <?php echo input_tag('currency_pl', sfConfig::get('app_settings_currency_pl'), array('class' => 'limit_input', 'style' => 'float: left', 'maxlength' => 3)) ?><br />
-        <br />
-                              
       </fieldset>
   </div>        
   <?php foreach($subscriptions as $i => $sub): ?>
@@ -92,12 +83,15 @@
         <?php echo object_checkbox_tag($sub, 'getPreApprove', array('control_name' => 'subs['. $sub->getId() .'][pre_approve]', 'class' => 'checkbox') ) ?><br />
       
         <hr style="width: 140px;" />
-    
-        <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label">/</label>
+            <?php if( $sub->getSubscriptionId() != 1 ): ?>
+            <?php echo input_tag('subs['. $sub->getId() .'][amount]', format_currency($sub->getAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
+            <?php echo select_tag('subs['. $sub->getId() .'][currency]', 
+                                            options_for_select(array('GBP' => 'GBP', 'PLN' => 'PLN', 'USD' => 'USD', ), $sub->getCurrency()), array('class' => '', 'style' => 'width: 60px; float: left')) ?>
+            <label class="period_label">/</label>
         
-        <?php echo input_tag('subs['. $sub->getId() .'][period]', $sub->getPeriod(), 'class=period_input_left') ?>
-        <?php echo pr_select_payment_period_type('subs['. $sub->getId() .'][period_type]', $sub->getPeriodType(), array('style' => 'width: 80px')) ?> 
+            <?php echo input_tag('subs['. $sub->getId() .'][period]', $sub->getPeriod(), 'class=period_input_left') ?>
+            <?php echo pr_select_payment_period_type('subs['. $sub->getId() .'][period_type]', $sub->getPeriodType(), array('style' => 'width: 80px')) ?>
+        <?php endif; ?>
         <br />
         
         <hr style="width: 140px;" />

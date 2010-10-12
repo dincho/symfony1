@@ -53,7 +53,7 @@
                   <span class="check"><?php echo ($subscription->getPrivateDating()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                   <span class="check">
                     <?php if ($subscription->getAmount() > 0 ): ?>
-                      <?php $price = format_currency($subscription->getAmount(), sfConfig::get('app_settings_currency_' . $sf_user->getCulture(), 'GBP')); ?>
+                      <?php $price = format_currency($subscription->getAmount(), $subscription->getCurrency()); ?>
                       <?php $period_type = pr_format_payment_period_type($subscription->getPeriodType()); ?>
                       <?php echo __('%PRICE% / %PERIOD% %PERIOD_TYPE%', array('%PRICE%' => $price, '%PERIOD%' => $subscription->getPeriod(), '%PERIOD_TYPE%' => $period_type)); ?>
                     <?php else: ?>

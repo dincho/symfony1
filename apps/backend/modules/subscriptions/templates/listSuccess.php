@@ -1,4 +1,4 @@
-<?php use_helper('dtBoolValue', 'dtForm'); ?>
+<?php use_helper('dtBoolValue', 'dtForm', 'Number'); ?>
 
 <table class="zebra">
   <thead>
@@ -36,7 +36,7 @@
         <td><?php echo boolColor($sub->getSendMessages(), $sub->getCanSendMessages()) ?></td>
         <td><?php echo boolColor($sub->getSeeViewed(), $sub->getCanSeeViewed()) ?></td>
         <td><?php echo boolColor($sub->getContactAssistant(), $sub->getCanContactAssistant()) ?></td>
-        <td><?php echo ($sub->getAmount() == 0) ? "free" : ($sub->getAmount() . '/' . $sub->getPeriod() . ' ' . pr_format_payment_period_type($sub->getPeriodType())); ?></td>
+        <td><?php echo ($sub->getAmount() == 0) ? "free" : (format_currency($sub->getAmount()) .'&nbsp;'.$sub->getCurrency(). '/' . $sub->getPeriod() . ' ' . pr_format_payment_period_type($sub->getPeriodType())); ?></td>
       </tr>
   <?php endforeach; ?>
   </tbody>
