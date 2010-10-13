@@ -1,6 +1,6 @@
             <?php echo textarea_tag('note_content', null, array('rows' => 4, 'cols' => 57)); ?><br />
             <?php echo submit_tag('Add Note', array('class' => 'float-right button',  'name' => 'add_note')) ?><br /><br />
-            <?php echo ($member->IsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'); ?>
+            <?php echo link_to(($member->IsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'members/star?id=' . $member->getId()); ?>
             <div id="member_notes" class="scrollable">
                 <?php $i=0;foreach ($notes as $note): ?>
                 <p <?php if($i%2 == 0) echo 'class="odd"' ?>>

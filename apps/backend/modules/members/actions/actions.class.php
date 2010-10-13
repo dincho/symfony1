@@ -217,7 +217,6 @@ class membersActions extends prActions
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
-                $this->member->setPurpose($this->getRequestParameter('purpose'));
                 $this->member->changeCatalog($this->getRequestParameter('catalog_id'));
                 
                 //change the subscription and clear the last subscription item
@@ -287,6 +286,7 @@ class membersActions extends prActions
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->getUser()->checkPerm(array('members_edit'));
+            $this->member->setPurpose($this->getRequestParameter('purpose'));
             $this->member->setCountry($this->getRequestParameter('country'));
             $this->member->setAdm1Id($this->getRequestParameter('adm1_id'));
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));

@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'Javascript') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
@@ -23,6 +23,13 @@
     <?php echo pr_label_for('repeat_password', 'Repeat Password', array('id' => 'labels_160')) ?>
     <?php echo input_password_tag('repeat_password') ?><br />
     
+    <label for="purpose">Purpose</label>
+    <?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>
+      <?php echo checkbox_tag('purpose[]', $key, fillIn('purpose['.$key.']', 'r', false, in_array($key, $member->getPurpose(ESC_RAW)))); ?>
+      <var><?php echo format_purpose($key, $member->getOrientationKey()); ?>&nbsp;</var>
+      <?php if($pIndex % 2 == 0) echo '<br /><label />' ?>
+    <?php $pIndex++; endforeach; ?><br />
+
     <label for="country">Country of Residence</label>
     <?php echo pr_select_country_tag('country', $member->getCountry(), array('class' => error_class('country', true), 'include_custom' => 'Please Select')) ?><br />
     

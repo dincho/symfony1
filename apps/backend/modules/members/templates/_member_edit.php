@@ -1,5 +1,3 @@
-<?php use_helper('fillIn'); ?>
-
 <label for="first_name">First Name</label>
 <?php echo object_input_tag($member, 'getFirstName', error_class('first_name')) ?><br />
 
@@ -28,14 +26,6 @@
 
 <label for="catalog">Catalog</label>
 <?php echo object_select_tag($member, 'getCatalogId', array('related_class' => 'Catalogue')) ?><br />
-
-<label for="purpose">Purpose</label>
-
-<?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>
-  <?php echo checkbox_tag('purpose[]', $key, fillIn('purpose['.$key.']', 'r', false, in_array($key, $member->getPurpose(ESC_RAW)))); ?>
-  <var><?php echo format_purpose($key, $member->getOrientationKey()); ?>&nbsp;</var>
-  <?php if($pIndex % 2 == 0) echo '<br /><label />' ?>
-<?php $pIndex++; endforeach; ?><br />
 
 <label for="member_id">ID</label>
 <var id="member_id"><?php echo $member->getId() ?></var><br />
