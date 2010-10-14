@@ -9,7 +9,7 @@
     </thead>
     
 <?php foreach ($settings as $setting): ?>
-    <tr rel="<?php echo url_for('settings/edit?id=' . $setting->getId()) ?>">
+    <tr rel="<?php echo url_for('settings/edit?name=' . $setting->getName() . '&cat_id=' . $setting->getCatId()) ?>">
         <td><?php echo $setting->getDescription(); ?></td>
         <td>
             <?php if( $setting->getVarType() == 'bool'): ?>
@@ -21,3 +21,4 @@
     </tr>
 <?php endforeach; ?>
 </table>
+<?php include_component('content', 'bottomMenu', array('url' => 'settings/list'))?>

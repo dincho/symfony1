@@ -3,9 +3,9 @@ propel:
   
   sf_setting:
     _attributes:     { phpName: sfSetting }
-    id:
-    env:             { type: varchar(10) }
-    name:            { type: varchar(40) }
+    cat_id:          { type: integer, size: 11, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id }
+    env:             { type: varchar(10), primaryKey: true }
+    name:            { type: varchar(40), primaryKey: true }
     value:           { type: varchar(100) }
     var_type:        { type: varchar(30) }
     description:     { type: varchar(255) }

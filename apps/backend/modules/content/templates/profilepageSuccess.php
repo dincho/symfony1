@@ -7,13 +7,13 @@
     <fieldset class="form_fields" id="labels_120">
         <div class="float-right">
             <label for="profile_max_photos">Display Photos</label>
-            <?php echo input_tag('profile_max_photos', sfConfig::get('app_settings_profile_max_photos'), array('class' => 'mini')) ?><br />
+            <?php echo input_tag('profile_max_photos', sfSettingPeer::valueForCatalogAndName($catalog, 'profile_max_photos'), array('class' => 'mini')) ?><br />
             
             <label for="profile_num_recent_messages">Display Recent Activities</label>
-            <?php echo input_tag('profile_num_recent_activities', sfConfig::get('app_settings_profile_num_recent_activities'), array('class' => 'mini')) ?><br /> 
+            <?php echo input_tag('profile_num_recent_activities', sfSettingPeer::valueForCatalogAndName($catalog, 'profile_num_recent_activities'), array('class' => 'mini')) ?><br /> 
               
             <label for="profile_display_video">Display Video</label>
-            <?php echo bool_select_tag('profile_display_video', array(), sfConfig::get('app_settings_profile_display_video')) ?><br />   
+            <?php echo bool_select_tag('profile_display_video', array(), sfSettingPeer::valueForCatalogAndName($catalog, 'profile_display_video')) ?><br />   
         </div>
         <label for="trans_8">Message Panel<br />Signup Preview</label>
         <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />

@@ -53,5 +53,6 @@ class flagCategoriesActions extends sfActions
         }
         
         $this->categories = FlagCategoryPeer::doSelect(new Criteria());
+        $this->catalog = CataloguePeer::retrieveByPk(1); //fake catalog just because of the sfSetting params
     }
 }

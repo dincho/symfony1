@@ -2,7 +2,9 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo form_tag('settings/edit', 'class=form') ?>
-  <?php echo object_input_hidden_tag($setting, 'getId', 'class=hidden') ?>
+  <?php echo object_input_hidden_tag($setting, 'getName', array('class' => 'hidden', )) ?>
+  <?php echo object_input_hidden_tag($setting, 'getCatId', array('class' => 'hidden', )) ?>
+  
   <div class="legend">Editing: <?php echo $setting->getDescription() ?></div>
   <fieldset class="form_fields">
     <label for="value">Value:</label>
@@ -10,6 +12,6 @@
       
   </fieldset> 
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'settings/list')  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'settings/list?cat_id=' . $catalog->getCatId())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>

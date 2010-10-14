@@ -9,7 +9,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 
 
 	
-	protected $id;
+	protected $cat_id;
 
 
 	
@@ -48,16 +48,19 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	protected $updated_at;
 
 	
+	protected $aCatalogue;
+
+	
 	protected $alreadyInSave = false;
 
 	
 	protected $alreadyInValidation = false;
 
 	
-	public function getId()
+	public function getCatId()
 	{
 
-		return $this->id;
+		return $this->cat_id;
 	}
 
 	
@@ -154,16 +157,20 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setId($v)
+	public function setCatId($v)
 	{
 
 						if ($v !== null && !is_int($v) && is_numeric($v)) {
 			$v = (int) $v;
 		}
 
-		if ($this->id !== $v) {
-			$this->id = $v;
-			$this->modifiedColumns[] = sfSettingPeer::ID;
+		if ($this->cat_id !== $v) {
+			$this->cat_id = $v;
+			$this->modifiedColumns[] = sfSettingPeer::CAT_ID;
+		}
+
+		if ($this->aCatalogue !== null && $this->aCatalogue->getCatId() !== $v) {
+			$this->aCatalogue = null;
 		}
 
 	} 
@@ -304,7 +311,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->id = $rs->getInt($startcol + 0);
+			$this->cat_id = $rs->getInt($startcol + 0);
 
 			$this->env = $rs->getString($startcol + 1);
 
@@ -428,11 +435,19 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 			$this->alreadyInSave = true;
 
 
+												
+			if ($this->aCatalogue !== null) {
+				if ($this->aCatalogue->isModified()) {
+					$affectedRows += $this->aCatalogue->save($con);
+				}
+				$this->setCatalogue($this->aCatalogue);
+			}
+
+
 						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = sfSettingPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
-					$this->setId($pk);  
 					$this->setNew(false);
 				} else {
 					$affectedRows += sfSettingPeer::doUpdate($this, $con);
@@ -475,6 +490,14 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 			$failureMap = array();
 
 
+												
+			if ($this->aCatalogue !== null) {
+				if (!$this->aCatalogue->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aCatalogue->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = sfSettingPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -499,7 +522,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getId();
+				return $this->getCatId();
 				break;
 			case 1:
 				return $this->getEnv();
@@ -538,7 +561,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		$keys = sfSettingPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getId(),
+			$keys[0] => $this->getCatId(),
 			$keys[1] => $this->getEnv(),
 			$keys[2] => $this->getName(),
 			$keys[3] => $this->getValue(),
@@ -564,7 +587,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setId($value);
+				$this->setCatId($value);
 				break;
 			case 1:
 				$this->setEnv($value);
@@ -600,7 +623,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		$keys = sfSettingPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+		if (array_key_exists($keys[0], $arr)) $this->setCatId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setEnv($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setValue($arr[$keys[3]]);
@@ -617,7 +640,7 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(sfSettingPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(sfSettingPeer::ID)) $criteria->add(sfSettingPeer::ID, $this->id);
+		if ($this->isColumnModified(sfSettingPeer::CAT_ID)) $criteria->add(sfSettingPeer::CAT_ID, $this->cat_id);
 		if ($this->isColumnModified(sfSettingPeer::ENV)) $criteria->add(sfSettingPeer::ENV, $this->env);
 		if ($this->isColumnModified(sfSettingPeer::NAME)) $criteria->add(sfSettingPeer::NAME, $this->name);
 		if ($this->isColumnModified(sfSettingPeer::VALUE)) $criteria->add(sfSettingPeer::VALUE, $this->value);
@@ -636,7 +659,9 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(sfSettingPeer::DATABASE_NAME);
 
-		$criteria->add(sfSettingPeer::ID, $this->id);
+		$criteria->add(sfSettingPeer::CAT_ID, $this->cat_id);
+		$criteria->add(sfSettingPeer::ENV, $this->env);
+		$criteria->add(sfSettingPeer::NAME, $this->name);
 
 		return $criteria;
 	}
@@ -644,22 +669,32 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 	
 	public function getPrimaryKey()
 	{
-		return $this->getId();
+		$pks = array();
+
+		$pks[0] = $this->getCatId();
+
+		$pks[1] = $this->getEnv();
+
+		$pks[2] = $this->getName();
+
+		return $pks;
 	}
 
 	
-	public function setPrimaryKey($key)
+	public function setPrimaryKey($keys)
 	{
-		$this->setId($key);
+
+		$this->setCatId($keys[0]);
+
+		$this->setEnv($keys[1]);
+
+		$this->setName($keys[2]);
+
 	}
 
 	
 	public function copyInto($copyObj, $deepCopy = false)
 	{
-
-		$copyObj->setEnv($this->env);
-
-		$copyObj->setName($this->name);
 
 		$copyObj->setValue($this->value);
 
@@ -678,7 +713,9 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 
 		$copyObj->setNew(true);
 
-		$copyObj->setId(NULL); 
+		$copyObj->setCatId(NULL); 
+		$copyObj->setEnv(NULL); 
+		$copyObj->setName(NULL); 
 	}
 
 	
@@ -697,6 +734,35 @@ abstract class BasesfSetting extends BaseObject  implements Persistent {
 			self::$peer = new sfSettingPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setCatalogue($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCatId(NULL);
+		} else {
+			$this->setCatId($v->getCatId());
+		}
+
+
+		$this->aCatalogue = $v;
+	}
+
+
+	
+	public function getCatalogue($con = null)
+	{
+		if ($this->aCatalogue === null && ($this->cat_id !== null)) {
+						include_once 'lib/model/om/BaseCataloguePeer.php';
+
+			$this->aCatalogue = CataloguePeer::retrieveByPK($this->cat_id, $con);
+
+			
+		}
+		return $this->aCatalogue;
 	}
 
 

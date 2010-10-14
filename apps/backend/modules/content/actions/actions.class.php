@@ -85,7 +85,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'));
+            sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/profilepages?cat_id=' . $this->catalog->getCatId());
@@ -98,7 +98,7 @@ class contentActions extends sfActions
     {
         $this->left_menu_selected = 'Search Pages';
         $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));        
+        $bc->replaceLast(array('name' => 'Search Pages', 'uri' => 'content/searchpages?cat_id=1'));
     }
         
     public function executeSearchMostRecent()
@@ -130,7 +130,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_custom'));
+            sfSettingPeer::updateFromRequest(array('search_rows_custom'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
@@ -149,7 +149,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_reverse'));
+            sfSettingPeer::updateFromRequest(array('search_rows_reverse'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
@@ -168,7 +168,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_matches'));
+            sfSettingPeer::updateFromRequest(array('search_rows_matches'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
@@ -187,7 +187,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_keyword'));
+            sfSettingPeer::updateFromRequest(array('search_rows_keyword'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
@@ -224,7 +224,7 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_public'));
+            sfSettingPeer::updateFromRequest(array('search_rows_public'), $this->catalog);
             TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());

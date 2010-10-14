@@ -12,7 +12,7 @@
         <?php echo textarea_tag('trans[15]', (isset($trans[15])) ? $trans[15]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
         
         <label for="search_rows_matches">Display Rows</label>
-        <?php echo input_tag('search_rows_matches', sfConfig::get('app_settings_search_rows_matches'), array('class' => 'mini')) ?><br />
+        <?php echo input_tag('search_rows_matches', sfSettingPeer::valueForCatalogAndName($catalog, 'search_rows_matches'), array('class' => 'mini')) ?><br />
     </fieldset>
     
     <fieldset class="actions">

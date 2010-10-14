@@ -12,7 +12,7 @@
         <?php echo textarea_tag('trans[145]', (isset($trans[145])) ? $trans[145]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
         
         <label for="search_rows_public">Display Rows</label>
-        <?php echo input_tag('search_rows_public', sfConfig::get('app_settings_search_rows_public'), array('class' => 'mini')) ?><br />
+        <?php echo input_tag('search_rows_public', sfSettingPeer::valueForCatalogAndName($catalog, 'search_rows_public'), array('class' => 'mini')) ?><br />
     </fieldset>
 
     <fieldset class="form_fields float-left">

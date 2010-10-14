@@ -6,10 +6,10 @@
   <div class="legend">Flag Rules</div>
   <fieldset class="form_fields" id="states_fieldset">
     <label for="flags_num_auto_suspension">Flags for auto-suspension</label>
-    <?php echo input_tag('flags_num_auto_suspension', sfConfig::get('app_settings_flags_num_auto_suspension')) ?><br />
+    <?php echo input_tag('flags_num_auto_suspension', sfSettingPeer::valueForCatalogAndName($catalog, 'flags_num_auto_suspension')) ?><br />
     
     <label for="flags_comment_field">Optional Comment Field</label>
-    <?php echo checkbox_tag('flags_comment_field', 1, sfConfig::get('app_settings_flags_comment_field'), 'class=checkbox') ?><br />
+    <?php echo checkbox_tag('flags_comment_field', 1, sfSettingPeer::valueForCatalogAndName($catalog, 'flags_comment_field'), 'class=checkbox') ?><br />
     
     <label for="title">Categories</label><br />
     <?php foreach ($categories as $category): ?>

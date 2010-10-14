@@ -19,13 +19,17 @@ class settingsActions extends sfActions
     public function executeList()
     {
       $c = new Criteria();
+      $c->add(sfSettingPeer::CAT_ID, $this->getRequestParameter('cat_id', 1));
       $c->addAscendingOrderByColumn(sfSettingPeer::DESCRIPTION);
       $this->settings = sfSettingPeer::doSelect($c);
     }
     
     public function executeEdit()
     {
-        $setting = sfSettingPeer::retrieveByPK($this->getRequestParameter('id'));
+        $catalog = CataloguePeer::retrieveByPk($this->getRequestParameter('cat_id'));
+        $this->forward404Unless($catalog);
+        
+        $setting = sfSettingPeer::retrieveByCatalogAndName($catalog, $this->getRequestParameter('name'));
         $this->forward404Unless($setting);
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
@@ -38,9 +42,10 @@ class settingsActions extends sfActions
             $cache_dir = $sf_root_cache_dir.'/*/*/config/';
             sfToolkit::clearGlob($cache_dir.'config_db_settings.yml.php'); 
                         
-            $this->redirect('settings/list?confirm_msg=' . confirmMessageFilter::OK);
+            $this->redirect('settings/list?confirm_msg=' . confirmMessageFilter::OK . '&cat_id=' . $catalog->getCatId());
         }
         
         $this->setting = $setting;
+        $this->catalog = $catalog;
     }
 }

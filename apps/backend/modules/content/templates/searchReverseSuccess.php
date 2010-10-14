@@ -12,7 +12,7 @@
         <?php echo textarea_tag('trans[14]', (isset($trans[14])) ? $trans[14]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
         
         <label for="search_rows_reverse">Display Rows</label>
-        <?php echo input_tag('search_rows_reverse', sfConfig::get('app_settings_search_rows_reverse'), array('class' => 'mini')) ?><br />
+        <?php echo input_tag('search_rows_reverse', sfSettingPeer::valueForCatalogAndName($catalog, 'search_rows_reverse'), array('class' => 'mini')) ?><br />
     </fieldset>
     
     <fieldset class="actions">

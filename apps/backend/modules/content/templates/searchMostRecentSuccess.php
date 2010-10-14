@@ -12,7 +12,7 @@
         <?php echo textarea_tag('trans[12]', (isset($trans[12])) ? $trans[12]->getTarget() : null, array('cols' => 40, 'rows' => 5)) ?><br />
         
         <label for="search_rows_most_recent">Display Rows</label>
-        <?php echo input_tag('search_rows_most_recent', sfConfig::get('app_settings_search_rows_most_recent'), array('class' => 'mini')) ?><br />
+        <?php echo input_tag('search_rows_most_recent', sfSettingPeer::valueForCatalogAndName($catalog, 'search_rows_most_recent'), array('class' => 'mini')) ?><br />
     </fieldset>
     
     <fieldset class="actions">

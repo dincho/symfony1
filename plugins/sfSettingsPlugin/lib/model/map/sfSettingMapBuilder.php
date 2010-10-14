@@ -30,13 +30,13 @@ class sfSettingMapBuilder {
 		$tMap = $this->dbMap->addTable('sf_setting');
 		$tMap->setPhpName('sfSetting');
 
-		$tMap->setUseIdGenerator(true);
+		$tMap->setUseIdGenerator(false);
 
-		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addForeignPrimaryKey('CAT_ID', 'CatId', 'int' , CreoleTypes::INTEGER, 'catalogue', 'CAT_ID', true, 11);
 
-		$tMap->addColumn('ENV', 'Env', 'string', CreoleTypes::VARCHAR, false, 10);
+		$tMap->addPrimaryKey('ENV', 'Env', 'string', CreoleTypes::VARCHAR, true, 10);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, false, 40);
+		$tMap->addPrimaryKey('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 40);
 
 		$tMap->addColumn('VALUE', 'Value', 'string', CreoleTypes::VARCHAR, false, 100);
 

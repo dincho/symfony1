@@ -20,7 +20,7 @@ abstract class BasesfSettingPeer {
 
 
 	
-	const ID = 'sf_setting.ID';
+	const CAT_ID = 'sf_setting.CAT_ID';
 
 	
 	const ENV = 'sf_setting.ENV';
@@ -55,17 +55,17 @@ abstract class BasesfSettingPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Env', 'Name', 'Value', 'VarType', 'Description', 'CreatedUserId', 'UpdatedUserId', 'CreatedAt', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (sfSettingPeer::ID, sfSettingPeer::ENV, sfSettingPeer::NAME, sfSettingPeer::VALUE, sfSettingPeer::VAR_TYPE, sfSettingPeer::DESCRIPTION, sfSettingPeer::CREATED_USER_ID, sfSettingPeer::UPDATED_USER_ID, sfSettingPeer::CREATED_AT, sfSettingPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'env', 'name', 'value', 'var_type', 'description', 'created_user_id', 'updated_user_id', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_PHPNAME => array ('CatId', 'Env', 'Name', 'Value', 'VarType', 'Description', 'CreatedUserId', 'UpdatedUserId', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (sfSettingPeer::CAT_ID, sfSettingPeer::ENV, sfSettingPeer::NAME, sfSettingPeer::VALUE, sfSettingPeer::VAR_TYPE, sfSettingPeer::DESCRIPTION, sfSettingPeer::CREATED_USER_ID, sfSettingPeer::UPDATED_USER_ID, sfSettingPeer::CREATED_AT, sfSettingPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('cat_id', 'env', 'name', 'value', 'var_type', 'description', 'created_user_id', 'updated_user_id', 'created_at', 'updated_at', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Env' => 1, 'Name' => 2, 'Value' => 3, 'VarType' => 4, 'Description' => 5, 'CreatedUserId' => 6, 'UpdatedUserId' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, ),
-		BasePeer::TYPE_COLNAME => array (sfSettingPeer::ID => 0, sfSettingPeer::ENV => 1, sfSettingPeer::NAME => 2, sfSettingPeer::VALUE => 3, sfSettingPeer::VAR_TYPE => 4, sfSettingPeer::DESCRIPTION => 5, sfSettingPeer::CREATED_USER_ID => 6, sfSettingPeer::UPDATED_USER_ID => 7, sfSettingPeer::CREATED_AT => 8, sfSettingPeer::UPDATED_AT => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'env' => 1, 'name' => 2, 'value' => 3, 'var_type' => 4, 'description' => 5, 'created_user_id' => 6, 'updated_user_id' => 7, 'created_at' => 8, 'updated_at' => 9, ),
+		BasePeer::TYPE_PHPNAME => array ('CatId' => 0, 'Env' => 1, 'Name' => 2, 'Value' => 3, 'VarType' => 4, 'Description' => 5, 'CreatedUserId' => 6, 'UpdatedUserId' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, ),
+		BasePeer::TYPE_COLNAME => array (sfSettingPeer::CAT_ID => 0, sfSettingPeer::ENV => 1, sfSettingPeer::NAME => 2, sfSettingPeer::VALUE => 3, sfSettingPeer::VAR_TYPE => 4, sfSettingPeer::DESCRIPTION => 5, sfSettingPeer::CREATED_USER_ID => 6, sfSettingPeer::UPDATED_USER_ID => 7, sfSettingPeer::CREATED_AT => 8, sfSettingPeer::UPDATED_AT => 9, ),
+		BasePeer::TYPE_FIELDNAME => array ('cat_id' => 0, 'env' => 1, 'name' => 2, 'value' => 3, 'var_type' => 4, 'description' => 5, 'created_user_id' => 6, 'updated_user_id' => 7, 'created_at' => 8, 'updated_at' => 9, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
 	);
 
@@ -120,7 +120,7 @@ abstract class BasesfSettingPeer {
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(sfSettingPeer::ID);
+		$criteria->addSelectColumn(sfSettingPeer::CAT_ID);
 
 		$criteria->addSelectColumn(sfSettingPeer::ENV);
 
@@ -142,8 +142,8 @@ abstract class BasesfSettingPeer {
 
 	}
 
-	const COUNT = 'COUNT(sf_setting.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT sf_setting.ID)';
+	const COUNT = 'COUNT(sf_setting.CAT_ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT sf_setting.CAT_ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -224,6 +224,167 @@ abstract class BasesfSettingPeer {
 		}
 		return $results;
 	}
+
+	
+	public static function doCountJoinCatalogue(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(sfSettingPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(sfSettingPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(sfSettingPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$rs = sfSettingPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinCatalogue(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		sfSettingPeer::addSelectColumns($c);
+		$startcol = (sfSettingPeer::NUM_COLUMNS - sfSettingPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CataloguePeer::addSelectColumns($c);
+
+		$c->addJoin(sfSettingPeer::CAT_ID, CataloguePeer::CAT_ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = sfSettingPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = CataloguePeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getCatalogue(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addsfSetting($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initsfSettings();
+				$obj2->addsfSetting($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+	{
+		$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(sfSettingPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(sfSettingPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(sfSettingPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$rs = sfSettingPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAll(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		sfSettingPeer::addSelectColumns($c);
+		$startcol2 = (sfSettingPeer::NUM_COLUMNS - sfSettingPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		CataloguePeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + CataloguePeer::NUM_COLUMNS;
+
+		$c->addJoin(sfSettingPeer::CAT_ID, CataloguePeer::CAT_ID);
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = sfSettingPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+
+					
+			$omClass = CataloguePeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getCatalogue(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addsfSetting($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initsfSettings();
+				$obj2->addsfSetting($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
 	
 	public static function getTableMap()
 	{
@@ -258,7 +419,6 @@ abstract class BasesfSettingPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(sfSettingPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -302,8 +462,14 @@ abstract class BasesfSettingPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(sfSettingPeer::ID);
-			$selectCriteria->add(sfSettingPeer::ID, $criteria->remove(sfSettingPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(sfSettingPeer::CAT_ID);
+			$selectCriteria->add(sfSettingPeer::CAT_ID, $criteria->remove(sfSettingPeer::CAT_ID), $comparison);
+
+			$comparison = $criteria->getComparison(sfSettingPeer::ENV);
+			$selectCriteria->add(sfSettingPeer::ENV, $criteria->remove(sfSettingPeer::ENV), $comparison);
+
+			$comparison = $criteria->getComparison(sfSettingPeer::NAME);
+			$selectCriteria->add(sfSettingPeer::NAME, $criteria->remove(sfSettingPeer::NAME), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -350,7 +516,22 @@ abstract class BasesfSettingPeer {
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(sfSettingPeer::ID, (array) $values, Criteria::IN);
+												if(count($values) == count($values, COUNT_RECURSIVE))
+			{
+								$values = array($values);
+			}
+			$vals = array();
+			foreach($values as $value)
+			{
+
+				$vals[0][] = $value[0];
+				$vals[1][] = $value[1];
+				$vals[2][] = $value[2];
+			}
+
+			$criteria->add(sfSettingPeer::CAT_ID, $vals[0], Criteria::IN);
+			$criteria->add(sfSettingPeer::ENV, $vals[1], Criteria::IN);
+			$criteria->add(sfSettingPeer::NAME, $vals[2], Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -404,40 +585,18 @@ abstract class BasesfSettingPeer {
 	}
 
 	
-	public static function retrieveByPK($pk, $con = null)
-	{
+	public static function retrieveByPK( $cat_id, $env, $name, $con = null) {
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-
-		$criteria = new Criteria(sfSettingPeer::DATABASE_NAME);
-
-		$criteria->add(sfSettingPeer::ID, $pk);
-
-
+		$criteria = new Criteria();
+		$criteria->add(sfSettingPeer::CAT_ID, $cat_id);
+		$criteria->add(sfSettingPeer::ENV, $env);
+		$criteria->add(sfSettingPeer::NAME, $name);
 		$v = sfSettingPeer::doSelect($criteria, $con);
 
-		return !empty($v) > 0 ? $v[0] : null;
+		return !empty($v) ? $v[0] : null;
 	}
-
-	
-	public static function retrieveByPKs($pks, $con = null)
-	{
-		if ($con === null) {
-			$con = Propel::getConnection(self::DATABASE_NAME);
-		}
-
-		$objs = null;
-		if (empty($pks)) {
-			$objs = array();
-		} else {
-			$criteria = new Criteria();
-			$criteria->add(sfSettingPeer::ID, $pks, Criteria::IN);
-			$objs = sfSettingPeer::doSelect($criteria, $con);
-		}
-		return $objs;
-	}
-
 } 
 if (Propel::isInit()) {
 			try {
