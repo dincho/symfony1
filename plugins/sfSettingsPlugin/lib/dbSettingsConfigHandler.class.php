@@ -25,7 +25,7 @@ class dbSettingsConfigHandler
             $data = '';
             foreach ($settings as $p)
             {
-                $data .= sprintf("  '%s' => %s,\n", $p->getName(), var_export($p->getValue(), true));
+                $data .= sprintf("  'app_settings_%s' => %s,\n", $p->getName(), var_export($p->getValue(), true));
             }
             
             $domain = $catalog->getDomain();
