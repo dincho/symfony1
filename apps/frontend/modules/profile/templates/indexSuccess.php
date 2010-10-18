@@ -32,11 +32,22 @@
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
         <?php else: ?>
-            <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below but you have no access to them.', array('%USERNAME%' => $member->getUsername())); ?></p>
+            <?php if( $private_photos_request ): ?>
+              <p class="private_photos_headline"><?php echo __('You already requested access to %USERNAME%\'s private photos.', array('%USERNAME%' => $member->getUsername())); ?></p>
+            <?php else: ?>
+              <div id="private_photos" class="private_photos_headline">
+                <?php echo link_to_remote( __('%USERNAME% has private photos. Request access.', array('%USERNAME%' => $member->getUsername())), array(
+                                        'url' => '@send_private_photos_request?toggle_link=1&username=' . $member->getUsername(),
+                                        'update' => array('success' => 'msg_container'),
+                                        'script' => true, 
+                                ), array('id' => 'photo_req_link', 'class' => 'sec_link', )); ?><br />
+              </div>
+            <?php endif; ?>
+
             <?php for($i=0; $i<count($private_photos); $i++): ?>
                 <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
             <?php endfor; ?>
-        <?php endif; ?>
+          <?php endif; ?>
     <?php endif; ?>
     
     <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>

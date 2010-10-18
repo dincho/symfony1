@@ -33,5 +33,25 @@
             <th>Members on Hotlist</th>
             <td colspan="2"><?php echo $member->getCounter('Hotlist') ?></td> 
         </tr>
+        
+        <tr>
+            <th>Priv. Photo Access Given</th>
+            <td colspan="2"><?php echo $member->getPrivatePhotoAccessGiven() ?></td> 
+        </tr>
+        
+        <tr>
+            <th>Priv. Photo Access Received</th>
+            <td colspan="2"><?php echo $member->getPrivatePhotoAccessReceived() ?></td> 
+        </tr>
+        
+        <tr>
+            <th>Priv. Photo Request Received</th>
+            <td colspan="2"><?php echo $member->getPrivatePhotoRequestReceived() ?></td> 
+        </tr>
+        
+        <tr>
+            <th>Priv. Photo Request Sent</th>
+            <td colspan="2"><?php echo $member->getPrivatePhotoRequestSent() ?></td> 
+        </tr>
     </tbody>
 </table>

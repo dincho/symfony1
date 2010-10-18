@@ -58,6 +58,10 @@ profile_rate:
 toggle_private_photos_perm:
     url:   /:sf_culture/privatePhotosPerm/:username/:toggle_link
     param: { module: profile, action: togglePrivatePhotosPerm, sf_culture: en, toggle_link: 0 }
+
+send_private_photos_request:
+    url:   /:sf_culture/privatePhotosRequest/:username/:toggle_link
+    param: { module: profile, action: sendPrivatePhotosRequest, sf_culture: en, toggle_link: 0 }
     
 profile:
     url:   /:sf_culture/:bc/profile/:username/*

@@ -991,6 +991,8 @@ class Member extends BaseMember
         $c = new Criteria();
         $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $member->getId());
         $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
         
         return (bool) PrivatePhotoPermissionPeer::doCount($c);
     }
@@ -1000,10 +1002,70 @@ class Member extends BaseMember
         $c = new Criteria();
         $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
         $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
         
         return (bool) PrivatePhotoPermissionPeer::doCount($c);
     }
     
+    public function hasPrivatePhotoRequestTo(BaseMember $member)
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        
+        return (bool) PrivatePhotoPermissionPeer::doCount($c);
+    }
+    
+    public function getNumberOfTodaysPrivatePhotoRequest()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        $c->add(PrivatePhotoPermissionPeer::UPDATED_AT, 'DATE('.PrivatePhotoPermissionPeer::UPDATED_AT.') = DATE(CURDATE())', Criteria::CUSTOM) ;
+        
+        return PrivatePhotoPermissionPeer::doCount($c);
+    }
+    
+    public function getPrivatePhotoAccessGiven()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+        
+        return PrivatePhotoPermissionPeer::doCount($c);    
+    }
+
+    public function getPrivatePhotoAccessReceived()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+        
+        return PrivatePhotoPermissionPeer::doCount($c);    
+    }
+
+    public function getPrivatePhotoRequestReceived()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+        
+        return PrivatePhotoPermissionPeer::doCount($c);    
+    }
+
+    public function getPrivatePhotoRequestSent()
+    {
+        $c = new Criteria();
+        $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+        
+        return PrivatePhotoPermissionPeer::doCount($c);    
+    }
+
     public function getSubscriptionDetails()
     {
         if( is_null($this->subscriptionDetails) )

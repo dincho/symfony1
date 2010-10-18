@@ -14,9 +14,17 @@ class PrivatePhotoPermission extends BasePrivatePhotoPermission
         $ret = parent::save($con);
         
         //notification hook
-        $grantee = $this->getMemberRelatedByProfileId();
-        if( $grantee->getEmailNotifications() === 0 ) Events::triggerAccountActivityPrivatePhotosGranted($grantee, $this->getMemberRelatedByMemberId());
-        
+        if($this->getType() == 'P' && $this->getStatus() == 'A') // grant permission
+        {        
+          $grantee = $this->getMemberRelatedByProfileId();
+          if( $grantee->getEmailNotifications() === 0 ) 
+            Events::triggerAccountActivityPrivatePhotosGranted($grantee, $this->getMemberRelatedByMemberId());
+        }
+        else if ($this->getType() == 'R') // requesrt permission
+        {
+          $request_to = $this->getMemberRelatedByProfileId();
+          Events::triggerAccountActivityPrivatePhotosRequest($request_to, $this->getMemberRelatedByMemberId());
+        }
         return $ret;
     }
 }

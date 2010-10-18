@@ -162,6 +162,8 @@ class profileActions extends prActions
                 $this->profile_pager = new ProfilePager($profile_pager_members, $this->member->getUsername());
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
+                $this->private_photos_request = $this->getUser()->getProfile()->hasPrivatePhotoRequestTo($this->member);
+                
                 $this->rate = $this->member->getMemberRateWith($this->getUser()->getProfile());
                 $this->has_old_threads = (bool) ThreadPeer::countOldthreads($this->getUser()->getProfile(), $this->member);
 
@@ -550,18 +552,26 @@ class profileActions extends prActions
         $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
         $this->forward404Unless($profile);
         
-        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId());
-        if( $perm )
+        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId(), 'P');
+        if( ! $perm )
         {
-            $perm->delete();
-            $this->setFlash('msg_ok', 'Private photos permission revoked.', false);
-        } else {
             $perm = new PrivatePhotoPermission();
             $perm->setMemberRelatedByMemberId($this->getUser()->getProfile());
             $perm->setMemberRelatedByProfileId($profile);
-            $perm->save();
+            $perm->setType('P');
+        }
+        
+        if($perm->getStatus() == 'A')
+        { //revoke
+            $perm->setStatus('R');
+            $this->setFlash('msg_ok', 'Private photos permission revoked.', false);
+        }
+        else
+        {// grant
+            $perm->setStatus('A');
             $this->setFlash('msg_ok', 'Private photos permission granted.', false);
         }
+        $perm->save();
         
         if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
         
@@ -573,9 +583,9 @@ class profileActions extends prActions
         $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
         $this->forward404Unless($profile);
         
-        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId());
+        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId(), 'P');
         
-        if( !$perm ) //validate only granting
+        if( !$perm || $perm->getStatus() == 'R' ) //validate only granting
         {
             $member = $this->getUser()->getProfile();
             
@@ -602,5 +612,54 @@ class profileActions extends prActions
         
         return $this->renderText(get_partial('content/formErrors'));
     }    
+
+    public function executeSendPrivatePhotosRequest()
+    {
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
+        
+        sfContext::getInstance()->getLogger()->info('sendPrivatePhotosRequest()');
+
+        $perm = PrivatePhotoPermissionPeer::retrieveByPK($this->getUser()->getId(), $profile->getId(), 'R');
+        if( ! $perm )
+        {
+            $perm = new PrivatePhotoPermission();
+            $perm->setMemberRelatedByMemberId($this->getUser()->getProfile());
+            $perm->setMemberRelatedByProfileId($profile);
+            $perm->setType('R');
+        }
+        
+        $perm->setStatus('A');
+        $this->setFlash('msg_ok', 'Private photos request sent.', false);
+        $perm->save();
+        
+        if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
+        
+        $this->profile = $profile;
+    }
+
+    public function validateSendPrivatePhotosRequest()
+    {
+        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
+        $this->forward404Unless($profile);
+                              
+        if( $this->getUser()->getProfile()->getNumberOfTodaysPrivatePhotoRequest() >=  
+            sfConfig::get('app_settings_private_photo_requests', 5) ) //allow only 5 requests per day
+        {
+          $this->getRequest()->setError('photo', __('You already have %REQUESTS_NUMBER% private photo requests today.', 
+              array('%REQUESTS_NUMBER%' => sfConfig::get('app_settings_private_photo_requests', 5))));
+          return false;
+        }
+        
+        return true;
+    }
+
+    public function handleErrorSendPrivatePhotosRequest()
+    {
+        sfLoader::loadHelpers(array('Partial'));
+        
+        return $this->renderText(get_partial('content/formErrors'));
+    }    
+
 
 }
