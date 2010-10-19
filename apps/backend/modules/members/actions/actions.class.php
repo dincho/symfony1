@@ -245,6 +245,7 @@ class membersActions extends prActions
             
             $c = new Criteria();
             $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
+            $c->addDescendingOrderByColumn(MemberNotePeer::CREATED_AT);
             $this->notes = MemberNotePeer::doSelectJoinAll($c);
             
             $member = clone $this->member;
@@ -268,6 +269,7 @@ class membersActions extends prActions
         
         $c = new Criteria();
         $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
+        $c->addDescendingOrderByColumn(MemberNotePeer::CREATED_AT);
         $this->notes = MemberNotePeer::doSelectJoinAll($c);
         
         $member = clone $this->member;
