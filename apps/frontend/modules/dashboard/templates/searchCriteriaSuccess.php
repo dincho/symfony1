@@ -75,6 +75,8 @@
       <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
     </fieldset>
 </form>
+<?php include_partial('content/timeout_countdown'); ?>
+
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>

@@ -50,6 +50,8 @@
     </fieldset>
 </form>
 
+<?php include_partial('content/timeout_countdown'); ?>
+
 <?php include_partial('content/footer_menu') ?>
 <?php include_partial('editProfile/geo_fields_js'); ?>
 

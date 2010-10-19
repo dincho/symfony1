@@ -51,6 +51,8 @@
 </form>
 <br /><br /><br class="clear" />
 
+<?php include_partial('content/timeout_countdown'); ?>
+
 <?php echo javascript_tag('parseCharCounts();') ?>
 
 <?php echo javascript_tag('
