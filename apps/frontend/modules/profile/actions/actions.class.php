@@ -164,6 +164,12 @@ class profileActions extends prActions
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
                 $this->private_photos_request = $this->getUser()->getProfile()->hasPrivatePhotoRequestTo($this->member);
                 
+                $this->show_request_warning = 
+                  ($this->getUser()->getProfile()->getNumberOfTodaysPrivatePhotoRequest() >=  
+                    sfConfig::get('app_settings_private_photo_requests'))?true:false;
+                
+                sfContext::getInstance()->getLogger()->info('$this->show_request_warning =' . $this->show_request_warning);
+
                 $this->rate = $this->member->getMemberRateWith($this->getUser()->getProfile());
                 $this->has_old_threads = (bool) ThreadPeer::countOldthreads($this->getUser()->getProfile(), $this->member);
 
