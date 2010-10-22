@@ -21,6 +21,8 @@ function messagebar_message(message, to_append)
      
      document.body.appendChild(newdiv);
    }
+   $(id).show();
+
 }
 
 Event.observe(window, 'unload', function()

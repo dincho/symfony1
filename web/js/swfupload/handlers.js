@@ -1,6 +1,7 @@
 function show_error(message)
 {
     $("msg_container").update('<div id="msgs"><p class="msg_error">'+ message +'</p></div>');
+    messagebar_message(message);
 }
 
 function fileQueueError(file, errorCode, message) {

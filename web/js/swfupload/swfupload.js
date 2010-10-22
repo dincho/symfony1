@@ -24,7 +24,7 @@ if (SWFUpload == undefined) {
 }
 
 SWFUpload.prototype.initSWFUpload = function (settings) {
-	try {
+	try {     
 		this.customSettings = {};	// A container where developers can place their own settings associated with this instance.
 		this.settings = settings;
 		this.eventQueue = [];
@@ -469,7 +469,7 @@ SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
 // WARNING: this function does not work in Flash Player 10
 // Public: selectFile causes a File Selection Dialog window to appear.  This
 // dialog only allows 1 file to be selected.
-SWFUpload.prototype.selectFile = function () {
+SWFUpload.prototype.selectFile = function () { 
 	this.callFlash("SelectFile");
 };
 
@@ -833,7 +833,9 @@ SWFUpload.prototype.cleanUp = function (movieElement) {
 
 
 /* This is a chance to do something before the browse window opens */
-SWFUpload.prototype.fileDialogStart = function () {
+SWFUpload.prototype.fileDialogStart = function () { 
+    $('messageBar').hide();
+
 	this.queueEvent("file_dialog_start_handler");
 };
 
