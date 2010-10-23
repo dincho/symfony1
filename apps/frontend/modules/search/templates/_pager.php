@@ -1,7 +1,9 @@
 <?php if ($pager->haveToPaginate()): ?>
     <div class="pager">
         <?php if($pager->getPage() != $pager->getFirstPage()) echo link_to(image_tag('prev.gif'), $route . '?page='.$pager->getPreviousPage() . @$query_string) ?>
-        <span>Page</span>
+        <span>
+          <?php echo __('Page'); ?>
+        </span>
         
         <?php if( $pager->getPage() > 3 && ($pager->getNbResults()/$pager->getMaxPerPage()) > 5 ): ?>
             <?php echo link_to('1...', $route . '?page=1' . @$query_string) ?>
