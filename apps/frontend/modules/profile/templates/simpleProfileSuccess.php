@@ -27,7 +27,11 @@
     <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
 
     <?php if( count($private_photos) > 0 ): ?>
-        <hr /><?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
+        <hr />
+        <p class="private_photos_headline"><?php echo  __('%USERNAME% has private photos. Request access.', array('%USERNAME%' => $member->getUsername())); ?></p>
+        <?php for($i=0; $i<count($private_photos); $i++): ?>
+            <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
+        <?php endfor; ?>
     <?php endif; ?>
         
     <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
