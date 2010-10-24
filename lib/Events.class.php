@@ -264,11 +264,20 @@ class Events
         $nb_profile_view = MemberCounterPeer::getNbNewProfileViews($member->getId());
         
         $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
+        $messages_url = LinkPeer::create('messages/index', $member->getId())->getUrl($member->getCatalogue());
+        $winks_url = LinkPeer::create('winks/index', $member->getId())->getUrl($member->getCatalogue());
+        $hotlist_url = LinkPeer::create('hotlist/index', $member->getId())->getUrl($member->getCatalogue());
+        $profile_viewes_url = LinkPeer::create('dashboard/visitors', $member->getId())->getUrl($member->getCatalogue());
+
         $global_vars = array('{LOGIN_URL}' => $login_url,
                              '{NB_MESSAGES}' => $nb_unread,
+                             '{URL_TO_MESSAGES}' => $messages_url,
                              '{NB_WINKS}' => $nb_winks,
+                             '{URL_TO_WINKS}' => $winks_url,
                              '{NB_HOTLIST}' => $nb_hotlist,
+                             '{URL_TO_HOTLIST}' => $hotlist_url,
                              '{NB_PROFILE_VIEWES}' => $nb_profile_view,
+                             '{URL_TO_PROFILE_VIEWES}' => $profile_viewes_url,
                             );
                             
         $ret = self::executeNotifications(self::ACCOUNT_ACTIVITY, $global_vars, $member->getEmail(), $member);
