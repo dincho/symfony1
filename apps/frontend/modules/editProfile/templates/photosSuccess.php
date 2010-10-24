@@ -3,9 +3,9 @@
 <?php echo javascript_include_tag('messagebar') ?>
                 
 <?php echo __('You may change your photos here') ?><br />
-<span><?php echo __('Make changes and click Save on the bottom of the page.') ?></span><br /><br />
-<?php echo __('You may upload any size of photo - we will shrink it to 700x700 pixels maximum; your high quality will be preserved.') ?><br />
-<?php echo __('Use these formats only: jpg, png and gif.') ?><br /><br />
+<span><?php echo __('Make changes and click Save on the bottom of the page.') ?></span><br />
+<?php echo __('You may upload any size of photo - we will shrink it to 700x700 pixels maximum; your high quality will be preserved.') ?>
+<?php echo __('Use these formats only: jpg, png and gif.') ?><br />
         
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler'); ?>';
