@@ -9,23 +9,34 @@
  */ 
 class MemberNotificationPeer extends BaseMemberNotificationPeer
 {
+    const VISIT = 1;
+
+
   //visitor is actually current sfUser
-  public static function addVisit(BaseMember $member, BaseMember $visitor)
+  public static function addNotification(BaseMember $member, BaseMember $visitor, $notification_type)
   {
-    $con = sfContext::getInstance()->getController();
-    $i18n = sfI18N::getInstance();
-    
-    //i18n setCulture makes extra queries, so let's be resource saving
-    if($member->getCulture() != $visitor->getCulture()) $i18n->setCulture($member->getCulture());
-    
-    $title = $i18n->__('Visitor %USERNAME% just opened your profile!', array('%USERNAME%' => $visitor->getUsername(), 
-                                                                      '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $visitor->getUsername())));
-                                                              
     $notification = new MemberNotification();
     $notification->setMemberId($member->getId());
-    $notification->setTitle($title);
+    $notification->setProfileId($visitor->getId());
+    $notification->setType($notification_type);
     $notification->save();
-    
-    if($member->getCulture() != $visitor->getCulture()) $i18n->setCulture($visitor->getCulture());
   }
+
+
+  public static function getNotificationMessage($notification)
+  {
+    switch ($notification->getType() )
+    {
+      case MemberNotificationPeer::VISIT:
+        $member = $notification->getMemberRelatedByProfileId(); 
+        $con = sfContext::getInstance()->getController();
+        $messsage =  __('Visitor %USERNAME% just opened your profile!', array('%USERNAME%' => $member->getUsername(), 
+                                                                      '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())));
+        break;
+      
+    }
+//  sfContext::getInstance()->getLogger()->info('MemberNotificationPeer::getNotification' . $messsage);
+     return $messsage;
+  }
+
 }

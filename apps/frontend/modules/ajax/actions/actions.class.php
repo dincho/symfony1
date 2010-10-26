@@ -141,7 +141,9 @@ class ajaxActions extends geoActions
               foreach($notifications as $notification)
               {
                 $ids[] = $notification->getId();
-                $results_tmp[] = array('title' => $notification->getTitle(), 'body' => $notification->getBody());
+                $message = MemberNotificationPeer::getNotificationMessage($notification);
+                $results_tmp[] = array('title' => $message,
+                                      'body' => '');
               }
 
               $output = json_encode($results_tmp);
