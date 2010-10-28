@@ -12,7 +12,7 @@
                     <span class="public_reg_notice">
                         <?php echo __('%she_he% granted you access %date%', 
                                    array('%date%' => distance_of_time_in_words($perm->getCreatedAt(null)),
-                                         '%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'),
+                                         '%she_he%' => ( $member->getSex() == 'M' ) ? __('He Cap') : __('She Cap'),
                                          '%her_his%' => ( $member->getSex() == 'M' ) ? __('his') : __('her')
                                )); ?>
                     </span>
