@@ -201,7 +201,7 @@ abstract class sfMigration
     foreach( $this->getTransUnits() as $source )
     {
         $values = array();
-        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s", %d, %d)', $catalog, $source, $ts, $ts);
+        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s", %d, %d)', $catalog, rtrim($source), $ts, $ts);
 
         if( !empty($values) )
         {
