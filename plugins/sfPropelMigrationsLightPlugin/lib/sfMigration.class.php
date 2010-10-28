@@ -215,7 +215,7 @@ abstract class sfMigration
   {
     foreach( $this->getTransUnits() as $source )
     {
-        $this->executeQuery(sprintf('DELETE FROM trans_unit WHERE `source` = "%s"', $source));
+        $this->executeQuery(sprintf('DELETE FROM trans_unit WHERE `source` = "%s"', rtrim($source)));
     }
   }
   
