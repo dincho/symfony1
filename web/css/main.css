@@ -905,6 +905,19 @@ span.online-assistant {
     background-color: #4f4f4f;
     float: right;
 }
+#dashboard-container div.right div.dashboard-menu {
+    clear: left;
+    height: 36px;
+    /* thumnails height 30px + border 2*2px + margin 2*1px */
+    line-height: 36px;
+}
+#dashboard-container div.right a.menu_title {
+    display: block;
+    float: left;
+    width: 140px;
+    color: #73a7ff;
+}
+
 
 #dashboard-container div.right ul {
     list-style-type: none;
