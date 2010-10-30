@@ -39,7 +39,7 @@
     <?php endif; ?>
     
     <br class="clear" />
-    <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p>
+    <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('your photo is verified') : __('photo authenticity not verified'); ?></p>
     <br class="clear" />
     <hr />
     
