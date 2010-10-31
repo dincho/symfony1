@@ -4,7 +4,6 @@
 <?php echo javascript_include_tag('messagebar') ?>
 
 <?php $minutes = sfConfig::get('app_settings_timeout_warning'); ?>
-<?php $timeout = (sfConfig::get('sf_timeout') - $minutes *60)*1000; ?>
 
 <script type="text/javascript" language="javascript">
 //<![CDATA[
@@ -25,6 +24,5 @@
   }
   
   countDown();
-});
 //]]>
 </script>
