@@ -864,7 +864,8 @@ span.online-assistant {
     padding-bottom: 10px;
 }
 
-#dashboard-container div.left,#dashboard-container div.right {
+#dashboard-container div.left,
+#dashboard-container div.right {
     float: left;
     width: 325px;
     height: 255px;
@@ -872,7 +873,8 @@ span.online-assistant {
     padding: 12px;
 }
 
-#dashboard-container div.left div.go-to {
+#dashboard-container div.left div.go-to,
+#dashboard-container div.right div.go-to {
     display: block;
     color: #d3d3d3;
     font-weight: bold;
@@ -880,44 +882,31 @@ span.online-assistant {
 }
 
 #dashboard-container div.right {
-    float: right;
-}
-
-#dashboard-container div.left div.dashboard-menu {
-    clear: left;
-    height: 36px;
-    /* thumnails height 30px + border 2*2px + margin 2*1px */
-    line-height: 36px;
-}
-
-#dashboard-container div.left img {
-    float: left;
-}
-
-#dashboard-container div.left a.menu_title {
-    display: block;
-    float: left;
-    width: 140px;
-    color: #73a7ff;
-}
-
-#dashboard-container div.right {
     background-color: #4f4f4f;
     float: right;
 }
+
+#dashboard-container div.left div.dashboard-menu,
 #dashboard-container div.right div.dashboard-menu {
     clear: left;
     height: 36px;
     /* thumnails height 30px + border 2*2px + margin 2*1px */
     line-height: 36px;
 }
+
+#dashboard-container div.left img,
+#dashboard-container div.right img
+{
+    float: left;
+}
+
+#dashboard-container div.left a.menu_title,
 #dashboard-container div.right a.menu_title {
     display: block;
     float: left;
     width: 140px;
     color: #73a7ff;
 }
-
 
 #dashboard-container div.right ul {
     list-style-type: none;
