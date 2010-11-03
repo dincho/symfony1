@@ -71,6 +71,7 @@
                         errors: {
                             queued_too_many_files: "You have attempted to queue too many photos.",
                             file_is_too_big: "Max image size is 3MB",
+                            file_transfer_error: "File transfer error',
                             load: "You need Flash plugin installed to upload photos."
                         }
                         

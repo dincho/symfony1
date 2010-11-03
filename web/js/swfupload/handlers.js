@@ -2,6 +2,9 @@ function show_error(message)
 {
     $("msg_container").update('<div id="msgs"><p class="msg_error">'+ message +'</p></div>');
     messagebar_message(message);
+    $$('img[src="/images/ajax-loader-bg-3D3D3D.gif"]').each(function(item) {
+      item = null;
+    });
 }
 
 function fileQueueError(file, errorCode, message) {
@@ -24,7 +27,6 @@ function fileQueueError(file, errorCode, message) {
 function fileDialogComplete(numFilesSelected, numFilesQueued) {
     try {
         if (numFilesQueued > 0) {
-           
            $("msg_container").update(); //clear messages
            
            var containers = this.customSettings.block.getElementsBySelector('.photo_container');
@@ -36,6 +38,11 @@ function fileDialogComplete(numFilesSelected, numFilesQueued) {
                {
                    var img = containers[j].down('img');
                    if( img === undefined ) 
+                   {
+                       containers[j].update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
+                       break;
+                   }
+                   else if (img.style.display =='none' )
                    {
                        containers[j].update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
                        break;
@@ -92,7 +99,9 @@ function uploadComplete(file) {
         if (this.getStats().files_queued > 0) {
             this.startUpload();
         } else {
-
+          $$('img[src="/images/ajax-loader-bg-3D3D3D.gif"]').each(function(item) {
+            item.hide();
+          });
         }
     } catch (ex) {
         this.debug(ex);
@@ -121,7 +130,7 @@ function uploadError(file, errorCode, message) {
         case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
             break;
         default:
-            $("msg_container").update(message);
+            show_error(this.customSettings.errors.file_transfer_error);
             break;
         }
 
