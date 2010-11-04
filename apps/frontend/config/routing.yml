@@ -147,6 +147,10 @@ callback_paypal:
 callback_zong:
     url: /callbacks/zong/*
     param: { module: callbacks, action: zong, sf_culture: en }
+
+error404:
+    url: /error404
+    param: { module: system, action: pageNotFound, sf_culture: en }
     
 #this is forwarded to the new callback_paypal route
 ipn:
