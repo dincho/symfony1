@@ -9,4 +9,10 @@
  */ 
 class StaticPage extends BaseStaticPage
 {
+    public function clearCache()
+    {
+      $sf_root_cache_dir = sfConfig::get('sf_root_cache_dir');
+      $cache = $sf_root_cache_dir.'/frontend/*/template/*/all/*/content/page/slug/' . $this->getSlug() . '/*';
+      sfToolkit::clearGlob($cache);
+    }
 }

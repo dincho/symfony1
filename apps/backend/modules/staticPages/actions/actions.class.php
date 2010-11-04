@@ -64,6 +64,8 @@ class staticPagesActions extends sfActions
            $page->setContent($this->getRequestParameter('html_content'));
            $page->save();
            
+           $page->getStaticPage()->clearCache();
+           
            $this->setFlash('msg_ok', 'Your changes have been saved.');
            $this->redirect('staticPages/list');
         }
