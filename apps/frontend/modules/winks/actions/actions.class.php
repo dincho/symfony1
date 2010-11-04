@@ -42,7 +42,9 @@ class winksActions extends prActions
         
         //confirm msg
         $msg_ok = sfI18N::getInstance()->__('Congratulations! You have just sent the wink. Wait and see. Or see <a href="%WINKS_URL%" class="sec_link">all your winks</a>.', 
-                array('%WINKS_URL%' => $this->getController()->genUrl('@winks')));
+                                            array('%WINKS_URL%' => $this->getController()->genUrl('@winks'),
+                                                  '%USERNAME%'  => $profile->getUsername()
+                                            ));
         $this->setFlash('msg_ok', $msg_ok, false);
         
         return $this->renderText(get_partial('content/messages'));
