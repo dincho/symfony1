@@ -403,6 +403,7 @@ class membersActions extends prActions
             }
             $this->member->save();
             $this->member->updateReverseMatches();
+            $this->member->clearCache();
             
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editSelfDescription?id=' . $this->member->getId());
