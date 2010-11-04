@@ -343,7 +343,7 @@ form fieldset br {
 
 #public_reg_form input, #public_reg_form select, 
 #self_desc_form input, #self_desc_form select, essay select, #essay input,
-#photos_registration input, #photos_registration select, #sign_in input, #sign_in select, #public_reg_form label
+#photos_registration input, #photos_registration select, #sign_in input, #sign_in select
 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
