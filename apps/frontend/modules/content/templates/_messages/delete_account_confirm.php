@@ -17,6 +17,6 @@
 
 
 <script type="text/javascript" charset="utf-8">
-  setTimeout("window.location = '<?php echo $cancel_url; ?>'", 5000);
+  setTimeout("window.location = '<?php echo $cancel_url; ?>'", 10000);
 </script>
 <?php endif; ?>
