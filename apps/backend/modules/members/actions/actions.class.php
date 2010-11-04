@@ -621,7 +621,7 @@ class membersActions extends prActions
           $c->addJoin(OpenPrivacyPeer::PROFILE_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         }
         $c->addDescendingOrderByColumn(OpenPrivacyPeer::CREATED_AT);
-        $this->open_privacy = OpenPrivacyPeer::doSelect($c);
+        $this->open_privacy_rows = OpenPrivacyPeer::doSelect($c);
     }    
 
 

@@ -20,21 +20,25 @@
 <br />
 
 <table class="zebra" style="margin-top: 18px;">
-  <tr>
-    <th>Username</th>
-    <th>Created at</th>
-  </tr>
-  <?php $cnt = count($open_privacy); ?>
-  <?php for($i=0; $i<$cnt; $i++): ?>
-      <tr>
-        <?php if ($sf_request->getParameter('received_only')): ?>
-          <td><?php echo $open_privacy[$i]->getMemberRelatedByMemberId()->getUsername() ?></td>
-        <?php else: ?>
-          <td><?php echo $open_privacy[$i]->getMemberRelatedByProfileId()->getUsername() ?></td>
-        <?php endif; ?>
-        <td><?php echo $open_privacy[$i]->getCreatedAt('m/d/Y') ?></td>
-      </tr>
-  <?php endfor; ?>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Created at</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($open_privacy_rows as $open_privacy): ?>
+            <?php $mid = ($sf_request->getParameter('received_only')) ? $open_privacy->getMemberId() : $open_privacy->getProfileId();?>
+            <tr rel="<?php echo url_for('members/edit?id=' . $mid); ?>">
+                <?php if ($sf_request->getParameter('received_only')): ?>
+                    <td><?php echo $open_privacy->getMemberRelatedByMemberId()->getUsername() ?></td>
+                <?php else: ?>
+                    <td><?php echo $open_privacy->getMemberRelatedByProfileId()->getUsername() ?></td>
+                <?php endif; ?>
+                <td><?php echo $open_privacy->getCreatedAt('m/d/Y') ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 
 <?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
