@@ -56,4 +56,6 @@
 
 <label for="member_original_last_name">Original Last Name</label>
 <var id="member_original_last_name"><?php echo $member->getOriginalLastName() ?></var><br />
-          
+
+<label for="member_private_dating">Private Dating</label>
+<var id="member_private_dating"><?php echo ($member->getPrivateDating()) ? 'ON' : 'OFF'; ?></var><br />

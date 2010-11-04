@@ -5,8 +5,10 @@
 <div class="legend">Privacy Relations</div>
 
 <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
-
 <br />
+
+<p>Private Dating: <?php echo ($member->getPrivateDating()) ? 'ON' : 'OFF'; ?></p>
+
 <div id="sub_menu">
   <span class="sub_menu_title">View:</span>
   <ul>
