@@ -30,7 +30,7 @@ function slidedown_showHide_start() {
  if(initHeight>contentHeight) {
    slidedownActive = false;
  }
- slidedownContentBox.style.height = initHeight + 20 + 'px';
+ slidedownContentBox.style.height = initHeight + 'px';
  slidedownContent.style.top = initHeight - contentHeight + 'px';
  setTimeout('slidedown_showHide_start()',slidedownTimer); // Choose a lower value than 10 to make the script move faster
 }

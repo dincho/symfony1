@@ -3350,7 +3350,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
  background-color: #363639;
  color:#D3D3D3;
  overflow:hidden;
- padding:4px;
+ padding:10px;
  width:200px;
  text-align:left; 
  left: 120px;
@@ -3368,14 +3368,25 @@ ul.rating li.five a:hover {background-position:0 -160px}
 
 #dhtmlgoodies_contentBox  ul {
   list-style-type:none;
+  padding: 0px;
+  margin: 0px;
 }
 #dhtmlgoodies_contentBox  li {
+  display:block;
   list-style-type:none;
+  height:25px;
+  line-height:25px;
 }
+
 #header #right #dhtmlgoodies_content a.sec_link, 
 #header #right #dhtmlgoodies_content a.sec_link:visited, 
 #header #right #dhtmlgoodies_content a.sec_link:active {
   color:#73A7FF;
+  text-decoration: none;
+}
+#dhtmlgoodies_contentBox  .menu_item:hover {
+  background-color: #000;
+  cursor: pointer;
 }
 
 #thread_text{
