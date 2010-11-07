@@ -3353,7 +3353,8 @@ ul.rating li.five a:hover {background-position:0 -160px}
  padding:10px;
  width:200px;
  text-align:left; 
- left: 120px;
+ right: 0px;
+ z-index: 1000;
 }
 
 #dhtmlgoodies_content {
@@ -3361,6 +3362,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
 }
 
 #dhtmlgoodies_slidedown {
+ z-index: 3000;
  position:relative;
  height:100%;
  float:right;
@@ -3378,13 +3380,21 @@ ul.rating li.five a:hover {background-position:0 -160px}
   line-height:25px;
 }
 
+.image_down {
+    margin:2px;
+    padding:4px;
+}
+
+
 #header #right #dhtmlgoodies_content a.sec_link, 
 #header #right #dhtmlgoodies_content a.sec_link:visited, 
 #header #right #dhtmlgoodies_content a.sec_link:active {
   color:#73A7FF;
   text-decoration: none;
 }
-#dhtmlgoodies_contentBox  .menu_item:hover {
+#dhtmlgoodies_contentBox  .menu_item:hover,
+#dhtmlgoodies_contentBox  .hover
+{
   background-color: #000;
   cursor: pointer;
 }

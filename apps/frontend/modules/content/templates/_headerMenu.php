@@ -1,12 +1,35 @@
 <?php use_helper('prLink', 'Javascript') ?>
 <?php $links_map = StaticPagePeer::getLinskMap($sf_user->getCatalogId()); ?>
 
-<?php echo javascript_tag('
+<?php echo javascript_tag("
     function goto_menu(menuItem)
     {
       window.location.href = menuItem.firstChild.href;
+      return false;
     }
-');?>
+    
+    
+    Event.observe(window, 'load', function(event) {
+      Event.observe(document, 'click',function(event) { 
+        if(slidedownActive == false && slidedownContentBox.style.visibility == 'visible' )
+          slidedown_showHide();return false;
+      })
+    });
+    
+    if (!window.XMLHttpRequest)
+	  {
+	    Event.observe(window, 'load', function() {
+	        $$('#dhtmlgoodies_contentBox  .menu_item').each( function(e) {
+	            Event.observe(e, 'mouseover', function() {
+	                Element.addClassName(e, 'hover');
+	            });
+	            Event.observe(e, 'mouseout', function() {
+	                Element.removeClassName(e, 'hover');
+	            });
+	        });
+	    });
+	}
+");?>
 <div id="right">
     <?php if( !$sf_user->isAuthenticated()): ?>
         <p>
@@ -22,8 +45,7 @@
             <p style="margin-bottom: 2px;">
                 <span class="username"><?php echo __('Hi %username%', array('%username%' => $sf_user->getProfile()->getUsername())) ?></span>
                 <?php echo pr_link_to(__('Dashboard'), 'dashboard/index') ?>&bull;<?php echo pr_link_to(__('Search'), 'search/index') ?>&bull;<?php echo pr_link_to(__('Messages ( %count% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount())), 'messages/index', 'class=last') ?>
-                &bull;<?php echo link_to(__('Settings'), '#', array('onclick' => 'slidedown_showHide();return false;')) ?>&bull;
-                <?php echo link_to(image_tag($sf_user->getCulture().'/sign_out.gif'), 'profile/signout') ?>
+                &bull;<?php echo link_to(__('Settings').image_tag('down.png', array('class' => 'image_down')), '#', array('onclick' => 'slidedown_showHide();return false;')) ?>
             </p>
         </div>
         <div id="dhtmlgoodies_contentBox">
@@ -56,6 +78,7 @@
                 </li>
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Privacy'), 'dashboard/privacy', array('class' => 'sec_link')) ?></li>
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Delete your account'), 'dashboard/deleteYourAccount', array('class' => 'sec_link_brown')) ?></li>
+                <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Sign out'), 'profile/signout', array('class' => 'sec_link')) ?></li>
             </ul>
             <script type="text/javascript">
             setSlideDownSpeed(5);
