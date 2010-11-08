@@ -30,6 +30,11 @@
 {
   width: 260px;
 }
+.form_fields .static_pages
+{
+  width: 260px;
+}
+
 
 .form_fields input:focus, .form_fields select:focus, .form_fields textarea:focus {
     background-color: white;
