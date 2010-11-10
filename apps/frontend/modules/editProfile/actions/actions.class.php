@@ -402,7 +402,8 @@ class editProfileActions extends BaseEditProfileActions
              $this->redirect('editProfile/photoAuthenticity');
          }
          
-        $this->photos = $this->member->getPublicMemberPhotos();
+        $this->public_photos = $this->member->getPublicMemberPhotos();
+        $this->private_photos = $this->member->getPrivateMemberPhotos();
     }
     
     public function validatePhotoAuthenticity()
