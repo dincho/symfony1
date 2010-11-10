@@ -532,5 +532,12 @@ class photosActions extends sfActions
             $bc->add(array('name' => 'Pending Verification'));
             $this->left_menu_selected = 'Pending Verification';
         }
+
+        if (isset($this->filters['status_id']))
+        {
+            $c->add(MemberPeer::MEMBER_STATUS_ID, $this->filters['status_id'], Criteria::IN);
+        }
+         sfContext::getInstance()->getLogger()->info('alabala');
+
     }
 }

@@ -229,5 +229,28 @@ class systemComponents extends sfComponents
     
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
   }
+
+  public function executePhotosSidebar()
+  {
+
+    $this->menu = $full_menu = array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
+                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&pending_verification=1&sort=no'),
+                                            array('title'   => 'Male', 'uri' => 'photos/list?filter=filter&filters[sex]=M&sort=no'),
+                                            array('title'   => 'Female', 'uri' => 'photos/list?filter=filter&filters[sex]=F&sort=no'),
+                                            array('title'   => 'Country', 'uri' => 'photos/list?filter=filter&filters[by_country]=1&sort=no'),
+                                            array('title'   => 'Popularity', 'uri' => 'photos/list?sort=MemberCounter::profile_views&type=desc&filter=filter'),
+                                            array('title'   => 'Home Page', 'uri' => 'photos/homepage?cat_id=1&sort=no&filter=filter'),
+                                            array('title'   => 'Member Stories', 'uri' => 'photos/memberStories?sort=no&filter=filter'),
+                                            array('title'   => 'Public Search', 'uri' => 'photos/list?filter=filter&filters[public_search]=1&sort=no'),
+                                            array('title'   => 'Stock Photos', 'uri' => 'photos/stockPhotos'),
+                                            array('title'   => 'All', 'uri' => 'photos/list?filter=filter&sort=no'),
+                                           );
+
+
+    $this->statuses = MemberStatusPeer::doSelect(new Criteria());
+    
+    $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
+  }
+
 }
 ?>
