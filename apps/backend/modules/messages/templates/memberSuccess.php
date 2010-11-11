@@ -1,4 +1,4 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'prProfilePhoto') ?>
 <?php include_partial('member_details', array('member' => $member)); ?>
 <?php $received_only = $sf_request->getParameter('received_only', 0); ?>
 
@@ -17,6 +17,7 @@
                  </tr>
                 <tr>
                     <th></th>
+                    <th class="firstcolumn"></th>
                     <?php if( $received_only ): ?>
                         <th>Received From</th>
                         <th>Subject</th>
@@ -32,12 +33,16 @@
         <?php foreach ($messages as $message): ?>
             <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getThreadId() . '&received_only=' . $received_only . '&member_id=' . $member->getId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
+                <?php if( $received_only ): ?>
+                  <?php $member = $message->getMemberRelatedBySenderId()?>
+                <?php else: ?>
+                  <?php $member = $message->getMemberRelatedByRecipientId()?>
+                <?php endif; ?>
                 <td>
-                    <?php if( $received_only ): ?>
-                        <?php echo $message->getMemberRelatedBySenderId()->getUsername() ?>
-                    <?php else: ?>
-                        <?php echo $message->getMemberRelatedByRecipientId()->getUsername() ?>
-                    <?php endif; ?>
+                    <?php echo unless_profile_thumbnail_photo_tag($member) ?>
+                </td>
+                <td>
+                    <?php echo $member->getUsername() ?>
                 </td>
                 
                 <td><?php echo Tools::truncate($message->getThread()->getSubject(), 100); ?></td>

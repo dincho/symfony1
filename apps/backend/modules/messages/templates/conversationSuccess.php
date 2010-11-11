@@ -1,4 +1,4 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'prProfilePhoto') ?>
 <?php include_partial('member_details', array('member' => $member)); ?>
 
 <?php echo form_tag('messages/delete', array('name' => 'messages_conversation', )) ?>
@@ -10,7 +10,8 @@
         <?php echo link_to($username ."'s messages", 'messages/member?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s BE profile", 'members/edit?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
-
+        <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
+        <?php echo  unless_profile_thumbnail_photo_tag($profile); ?>
     </div>
     <div>
         Select: <?php echo link_to_function('All', 'msg_select(document.forms.messages_conversation.elements["marked[]"], true)') ?>, 

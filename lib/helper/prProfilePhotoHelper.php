@@ -38,3 +38,9 @@ function profile_thumbnail_photo_tag($profile, $size = '50x50')
 {
   return image_tag($profile->getMainPhoto()->getImg($size));
 }
+
+function unless_profile_thumbnail_photo_tag($profile, $size = '30x30')
+{
+  if($profile->getMemberPhoto())
+    return image_tag($profile->getMemberPhoto()->getImg($size));
+}

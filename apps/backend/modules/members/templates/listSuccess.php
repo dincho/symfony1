@@ -1,4 +1,4 @@
-<?php use_helper('Number', 'xSortableTitle') ?>
+<?php use_helper('Number', 'xSortableTitle', 'prProfilePhoto') ?>
 
 <div class="filter_right">
     Total (All Members): <?php echo format_number($pager->getNbResults()) ?>
@@ -11,6 +11,7 @@
   <thead>
     <tr>
       <th></th>
+      <th class="firstcolumn"></th>
       <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
       <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
@@ -29,6 +30,7 @@
   <?php foreach ($pager->getResults() as $member): ?>
   <tr rel="<?php echo url_for('members/edit?id=' . $member->getId()); ?>">
     <td class="starred"><?php echo link_to(($member->IsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'members/star?id=' . $member->getId()) ?></td>
+    <td><?php echo unless_profile_thumbnail_photo_tag($member) ?></td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
     <td><?php echo $member->getLastName() ?></td>

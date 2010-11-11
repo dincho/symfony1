@@ -1,4 +1,4 @@
-<?php echo use_helper('Javascript', 'Number', 'xSortableTitle') ?>
+<?php echo use_helper('Javascript', 'Number', 'xSortableTitle', 'prProfilePhoto') ?>
 <?php echo form_tag('messages/list', array('method' => 'get', 'id' => 'search_filter')) ?>
 
 <?php echo javascript_include_tag('table_navigation') ?>
@@ -33,6 +33,7 @@
   <thead>
     <tr>
       <th class="firstcolumn"></th>
+      <th class="firstcolumn"></th>
       <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
       <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
@@ -43,6 +44,7 @@
       <th><?php echo sortable_title('Sent', 'Message::created_at', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
       <th></th>
+      <th class="firstcolumn"></th>
     </tr>
   </thead>
   <tbody>
@@ -50,6 +52,9 @@
   <?php $member = $message->getMemberRelatedBySenderId(); //shortcut ?>
   <tr rel="<?php echo url_for('messages/conversation?member_id='.$message->getSenderId() . '&id=' . $message->getThreadId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">
     <td class="first"></td>
+    <td>
+      <?php echo unless_profile_thumbnail_photo_tag($member) ?>
+    </td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
     <td><?php echo $member->getLastName() ?></td>
@@ -58,8 +63,12 @@
     <td><?php echo $member->getLookingFor() ?></td>
     <td><?php echo $member->getEmail() ?></td>
     <td><?php echo $message->getCreatedAt('m/d/Y H:i') ?></td>
-    <td><?php echo $message->getMemberRelatedByRecipientId()->getUsername() ?></td>
+    <?php $recipient = $message->getMemberRelatedByRecipientId(); ?>
+    <td><?php echo $recipient->getUsername() ?></td>
     <td class="profile_link"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
+    <td>
+      <?php echo unless_profile_thumbnail_photo_tag($recipient) ?>
+    </td>
     <td class="preview_button">
         <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?details=1&id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
     </td>
