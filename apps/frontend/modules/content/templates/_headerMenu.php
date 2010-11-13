@@ -5,14 +5,13 @@
     function goto_menu(menuItem)
     {
       window.location.href = menuItem.firstChild.href;
-      return false;
     }
     
     
     Event.observe(window, 'load', function(event) {
-      Event.observe(document, 'click',function(event) { 
-        if(slidedownActive == false && slidedownContentBox.style.visibility == 'visible' )
-          slidedown_showHide();return false;
+      Event.observe(document, 'click', function(event) { 
+        if(slidedownActive == false && slidedownContentBox != false && slidedownContentBox.style.visibility == 'visible' )
+          slidedown_showHide();
       })
     });
     
