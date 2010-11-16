@@ -14,6 +14,12 @@ class ajaxActions extends geoActions
   {
       $this->message = FeedbackPeer::retrieveByPK($this->getRequestParameter('id'));
   }
+
+  public function executeGetPrMailMessageById()
+  {
+      $this->message = PrMailMessagePeer::retrieveByPK($this->getRequestParameter('id'));
+  }
+
   
   public function executeGetMessageById()
   {

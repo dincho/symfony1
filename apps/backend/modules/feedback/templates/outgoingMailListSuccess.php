@@ -18,7 +18,7 @@
             </thead>
             
         <?php foreach ($pager->getResults() as $message): ?>
-            <tr>
+            <tr rel="<?php echo url_for('feedback/outgoingRead?id=' . $message->getId()) ?>" onmouseover="javascript:document.getElementById('preview_<?php echo $message->getId();?>').click()">
                 <td class="marked">
                     <?php if( in_array($message->getStatus(), array(PrMailMessagePeer::STATUS_PENDING, PrMailMessagePeer::STATUS_FAILED)) ): ?>
                         <?php echo checkbox_tag('marked[]', $message->getId(), null) ?>
@@ -30,6 +30,9 @@
                 <td><?php echo $message->getCreatedAt('m/d/Y H:i:s'); ?></td>
                 <td><?php echo $message->getUpdatedAt('m/d/Y H:i:s'); ?></td>
                 <td style="color: <?php echo status_color($message->getStatus());?>;"><?php echo $message->getStatus(); ?></td>
+                <td class="preview_button">
+                    <?php echo button_to_remote('Preview', array('url' => 'ajax/getPrMailMessageById?id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
+                </td>
             </tr>
         <?php endforeach; ?>
         
@@ -40,6 +43,7 @@
     </form>
     
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'feedback/outgoingMailList')); ?>
+    <div id="preview"></div>
 <?php else: ?>
     <p>No outgoing mail messages.</p>
 <?php endif; ?>

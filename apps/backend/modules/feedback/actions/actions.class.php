@@ -329,6 +329,17 @@ class feedbackActions extends sfActions
         
         $this->pager = $pager;
     }
+
+    public function executeOutgoingRead()
+    {
+        $this->message = PrMailMessagePeer::retrieveByPK($this->getRequestParameter('id'));
+        $this->forward404Unless($this->message);
+/*        if (! $this->message->isRead())
+        {
+            $this->message->setIsRead(true);
+            $this->message->save();
+        }
+*/    }
     
     public function executeOutgoingMailResend()
     {
