@@ -1,4 +1,14 @@
 <?php
+
+class DateTimePolish extends DateTime {
+    public function format($format) {
+      //translate only short Month names, other names sould be added if needed
+        $english = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        $polish  = array('sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz', 'paz', 'lis', 'gru');
+        return str_replace($english, $polish, parent::format($format));
+    }
+}
+
 function format_date_pr($time = null, $time_format = null, $date_format = null, $timezone = null)
 {
     sfLoader::loadHelpers(array('I18N'));
@@ -11,7 +21,7 @@ function format_date_pr($time = null, $time_format = null, $date_format = null, 
     if( is_null($time_format) ) $time_format = ($culture == 'en') ? ', h:i A' : ', H:i';
     if( is_null($date_format) ) $date_format = 'd F';
     
-    $dateTime = new DateTime("@$time");
+    $dateTime = ($culture == 'en') ? new DateTime("@$time"): new DateTimePolish("@$time");
     if( !is_null($timezone) ) $dateTime->setTimezone(new DateTimeZone($timezone));
     
     if( $dateTime->format('dmY') == date('dmY', $today) )

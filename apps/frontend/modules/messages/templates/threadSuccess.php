@@ -1,4 +1,4 @@
-<?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm', 'Window') ?>
+<?php use_helper('Javascript', 'prDate', 'prLink', 'prProfilePhoto', 'dtForm', 'Window', 'Date') ?>
 
 <?php echo javascript_tag('submitted = false;'); ?>
 
@@ -62,8 +62,7 @@
                     <?php else: ?>
                         <?php echo __('Internal System'); ?><br />
                     <?php endif; ?>
-                    <?php echo format_date_pr($message->getCreatedAt(null), null, null, $member->getTimezone()); ?>
-                </td>
+                    <?php echo format_date_pr($message->getCreatedAt(null), null, 'd-M-Y', $member->getTimezone()); ?>
                 <td  class="message_body">
                     <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>
                 </td>
