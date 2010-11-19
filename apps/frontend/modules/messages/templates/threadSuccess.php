@@ -62,7 +62,7 @@
                     <?php else: ?>
                         <?php echo __('Internal System'); ?><br />
                     <?php endif; ?>
-                    <?php echo format_date_pr($message->getCreatedAt(null), null, 'd-M-Y', $member->getTimezone()); ?>
+                    <?php echo format_date_pr($message->getCreatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?>
                 <td  class="message_body">
                     <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>
                 </td>

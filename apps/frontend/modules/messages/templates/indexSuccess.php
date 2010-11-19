@@ -50,7 +50,7 @@
                 <?php else: ?>
                     <?php echo __('Internal System'); ?><br />
                 <?php endif; ?>
-                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'd-M-Y', $member->getTimezone()); ?></a>
+                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td>
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
@@ -102,7 +102,7 @@
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($message->getMemberRelatedByRecipientId()), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername()); ?></td>
             <td class="message_from">
                 <?php echo link_to($message->getMemberRelatedByRecipientId()->getUsername(), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername(), array('class' => 'sec_link')) ?><br />
-                <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'd-M-Y', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
+                <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
             </td>
             <td>
                 <?php echo link_to($message->getSubject(), $message_form_link, array('class' => 'sec_link')) ?><br />
@@ -153,7 +153,7 @@
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' .$thread->object->getUsername()); ?></td>
             <td class="message_from">
                 <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
-                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'd-M-Y', $member->getTimezone()); ?></a>
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td>
                 <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
