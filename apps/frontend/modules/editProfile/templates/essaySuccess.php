@@ -6,14 +6,6 @@
 <span><?php echo __("Make changes and click Save.") ?></span>
 
 <?php echo form_tag('editProfile/essay', array('id' => 'essay')) ?>
-
-    <?php if( $sf_user->getCulture() == 'pl'): ?>
-      <div id="tips" style="margin-top: 87px;">
-    <?php else: ?>
-      <div id="tips">
-    <?php endif; ?>
-      <?php echo __('Essay Helpful Tips - edit'); ?>
-    </div>
     
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
@@ -33,16 +25,21 @@
         </div><br />
         <?php endif; ?>
                         
-        <?php echo pr_label_for('introduction', __('Introduction:') . '<span style="color:red;">*</span>') ?><br />
-        <?php echo object_textarea_tag($member, 'getEssayIntroduction', 
+        <?php echo pr_label_for('introduction', __('Introduction:') . '<span style="color:red;">*</span>') ?><br />  
+        <div id="intro">
+          <div id="tips">
+            <?php echo __('Essay Helpful Tips - edit'); ?>
+          </div>
+          <?php echo object_textarea_tag($member, 'getEssayIntroduction', 
                                                  array('cols'=> 60, 
                                                         'rows' => 11, 
                                                         'class' => 'essay', 
                                                         'id' => 'introduction',
                                                         'onfocus' => 'active_field = this',
                                                         'maxlength' => 2500
-                                                 )) ?><br />
-    
+                                                 )) ?>
+        </div>
+                       
     </fieldset>
     <fieldset class="actions">
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />

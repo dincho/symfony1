@@ -1202,20 +1202,21 @@ span {
     padding: 15px 0 0 0;
 }
 
-#essay #tips {
+#essay #intro #tips {
     float: right;
     width: 352px;
     padding: 15px 0 0 15px;
-    height: 218px;
+    height: 217px;
     background-color: #3d3d3d;
-    margin-top: 60px;
+    margin-bottom: 10px;
+    margin-top: 1px;
 }
 
-#essay #tips p {
+#essay #intro #tips p {
   margin: 10px 10px 10px 0;
 }
 
-#essay #tips li {
+#essay #intro #tips li {
     margin: 0 0 2px 0;
     padding: 0;
     width: 335px;
@@ -1224,14 +1225,10 @@ span {
     word-spacing: normal;
 }
 
-#essay #tips ul {
+#essay #intro #tips ul {
     margin: 0 0 2px 10px;
     padding: 0;
     list-style-type: disc;
-}
-
-#essay fieldset {
-
 }
 
 #essay label {
@@ -1245,7 +1242,7 @@ span {
     line-height: normal;
 }
 
-#essay input, #essay textarea {
+#essay input, #essay #intro textarea {
     width: 328px;
     margin: 1px 0 0 0;
 }
@@ -1254,8 +1251,14 @@ span {
     font-size: 12px;
 }
 
-#essay textarea {
+#essay #intro textarea {
+    float: left;
     height: 230px;
+}
+
+#essay #intro label.char_remaining {
+    float: left;
+    font-size: 10px;
 }
 
 label.char_remaining {
