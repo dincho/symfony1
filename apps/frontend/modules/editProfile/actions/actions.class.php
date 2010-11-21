@@ -63,6 +63,7 @@ class editProfileActions extends BaseEditProfileActions
             $this->member->setReviewedAt(null);
 
             $this->member->save();
+            $this->member->clearCache();
             if ($flash_error) $this->setFlash('msg_error', $flash_error); //password and email changes
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
             $this->redirect('dashboard/index'); //the dashboard
