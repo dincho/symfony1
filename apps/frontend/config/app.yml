@@ -76,8 +76,12 @@ all:
         priority:         0.5
   cse_id:
       en:   "014252771680410157097:dm1temprble"
-      pl:   "014252771680410157097:cjbkxr0dyga"
-      
+      pl:   "014252771680410157097:cjbkxr0dyga"          
+  sfImageTransformPlugin:
+    mime_type:
+      auto_detect: true
+      library: gd_mime_type # Fileinfo (PECL), MIME_Type (PEAR), gd_mime_type (GD)
+
 dev:
   gmaps_key:
     pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg

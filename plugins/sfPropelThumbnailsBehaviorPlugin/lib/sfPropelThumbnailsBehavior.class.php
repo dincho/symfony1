@@ -21,6 +21,7 @@ class sfPropelThumbnailsBehavior
     if($addSlash)
     {
       return get_class($object) . DIRECTORY_SEPARATOR;
+//      return get_class($object) . '/';//DIRECTORY_SEPARATOR;
     } else {
       return get_class($object);
     }
@@ -93,10 +94,56 @@ class sfPropelThumbnailsBehavior
       //max 700x700 for original image!
       $file_arr = $Request->getFile($ImageField);
       $tmp_file = $file_arr['tmp_name'];
+      
+      $exif = exif_read_data($tmp_file, 'IFD0');
+      $ort = $exif['Orientation'];
+//      sfContext::getInstance()->getLogger()->info('updateImageFromRequest ort- '.$ort);
+
+      $img = new sfImage();
+   
+      $img->load($tmp_file); 
+
+      switch($ort)
+      {
+          case 1: // nothing
+          break;
+  
+          case 2: // horizontal flip
+              $img->mirror();
+          break;
+                                 
+          case 3: // 180 rotate left
+              $img->rotate(180);
+          break;
+                     
+          case 4: // vertical flip
+              $img->flip();
+          break;
+                 
+          case 5: // vertical flip + 90 rotate right
+              $img->flip();
+              $img->rotate(-90);
+          break;
+                 
+          case 6: // 90 rotate right
+              $img->rotate(-90);
+          break;
+                 
+          case 7: // horizontal flip + 90 rotate right
+              $image->mirror();   
+              $img->rotate(-90);
+          break;
+                 
+          case 8:    // 90 rotate left
+              $img->rotate(90);
+          break;
+      }      
+
+      $img->save();
             
       $file = $Request->getFileName($ImageField);
       $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
-      $ext = $this->getFileExtension($tmp_file);
+      $ext = $this->getFileExtension($tmp_file);                         
          
       $newFile = $object->getImagesPath().$FileName.$ext;
       
