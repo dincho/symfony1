@@ -49,5 +49,4 @@
     <?php endif; ?>
     
 </ul>
-</form>
 

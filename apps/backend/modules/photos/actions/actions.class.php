@@ -31,6 +31,10 @@ class photosActions extends sfActions
         $this->left_menu_selected = "All";
         
         $c = new Criteria();
+        $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
+        $this->catalogues = array_merge(array('All'), CataloguePeer::doSelect($c));
+        
+        $c = new Criteria();
         $c->addGroupByColumn(MemberPeer::ID);
         $c->addHaving($c->getNewCriterion(MemberPhotoPeer::COUNT, 'COUNT( '.MemberPhotoPeer::ID.') > 0 ',Criteria::CUSTOM));
         $c->addJoin(MemberPeer::MEMBER_COUNTER_ID, MemberCounterPeer::ID);
@@ -537,7 +541,12 @@ class photosActions extends sfActions
         {
             $c->add(MemberPeer::MEMBER_STATUS_ID, $this->filters['status_id'], Criteria::IN);
         }
-         sfContext::getInstance()->getLogger()->info('alabala');
+        if (isset($this->filters['cat_id']) && $this->filters['cat_id'] > 0)
+        {
+            $c->add(MemberPeer::CATALOG_ID, $this->filters['cat_id']);
+        }
+
+//         sfContext::getInstance()->getLogger()->info('alabala');
 
     }
 }
