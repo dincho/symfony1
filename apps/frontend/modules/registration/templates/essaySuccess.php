@@ -4,14 +4,6 @@
 <?php echo __('Essay instructions') ?>
 <?php echo form_tag('registration/essay', array('id' => 'essay')) ?>
 
-    <?php if( $sf_user->getCulture() == 'pl'): ?>
-      <div id="tips" style="margin-top: 87px;">
-    <?php else: ?>
-      <div id="tips">
-    <?php endif; ?>
-        <?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))) ?>
-    </div>
-    
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
         <?php echo input_tag('essay_headline', strip_tags($member->getEssayHeadline(ESC_RAW)), array('class' => 'essay', 'size' => 30, 'maxlength' => 60))?><br /><br />
@@ -31,13 +23,21 @@
         <?php endif; ?>
                 
         <?php echo pr_label_for('introduction', __('Introduction:') . '<span style="color:red;">*</span>') ?><br />
-        <?php echo object_textarea_tag($member, 'getEssayIntroduction', 
-                                       array('cols'=> 60, 'rows' => 11, 'class' => 'essay', 
-                                       'id' => 'introduction', 'maxlength' => 2500,
-                                       'onfocus' => 'active_field = this',
-                                       )) ?><br />
-        <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
+        <div id="intro">
+          <div id="tips">
+            <?php echo __('Essay content', array('%URL_FOR_WRITING_TIPS%' => url_for('@page?slug=writing_tips'))); ?>
+          </div>
+          <?php echo object_textarea_tag($member, 'getEssayIntroduction', 
+                                                 array('cols'=> 60, 
+                                                        'rows' => 11, 
+                                                        'class' => 'essay', 
+                                                        'id' => 'introduction',
+                                                        'onfocus' => 'active_field = this',
+                                                        'maxlength' => 2500
+                                                 )) ?>
+        </div>
     </fieldset>
+    <?php echo submit_tag(__('Save and Continue'), array('class' => 'button')) ?>
 </form>
 <br class="clear" /><br />
 
