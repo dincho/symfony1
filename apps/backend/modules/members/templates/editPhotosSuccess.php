@@ -72,6 +72,8 @@
         }
         
         //set the image and show the crop_area
+        var elem = $('crop_area');
+        elem.innerHTML += '<img id="crop_image" />';
         $('crop_area').down('#crop_image').src = img_src;
         $('crop_area').show();
 
@@ -96,8 +98,9 @@
         cropper.remove();
         cropper = null;
         
-        if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
-        $('crop_image').src = null;
+        if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove(); 
+        $('crop_image').remove(); 
+//        $('crop_image').src = null;
         $('crop_area').hide();
     }
     
@@ -119,7 +122,6 @@
 </script>
 
 <div id="crop_area" style="display: none;">
-    <img id="crop_image" />
     <?php echo button_to_function('Cancel', 'remove_crop_area()') ?>
     <?php echo button_to_function('Crop', 'crop()') ?>
 </div>
