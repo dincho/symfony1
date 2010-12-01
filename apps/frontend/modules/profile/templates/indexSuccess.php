@@ -42,7 +42,7 @@
               <p class="private_photos_headline"><?php echo __('You already requested access to %USERNAME%\'s private photos.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php else: ?>
               <div id="private_photos" class="private_photos_headline">
-                <?php echo link_to_remote( __('%USERNAME% has private photos. Request access.', array('%USERNAME%' => $member->getUsername())), array(
+                <?php echo __('%USERNAME% has private photos.', array('%USERNAME%' => $member->getUsername()))." " . link_to_remote( __('Request access.'), array(
                                         'url' => '@send_private_photos_request?toggle_link=1&username=' . $member->getUsername(),
                                         'update' => array('success' => 'msg_container'),
                                         'script' => true, 
