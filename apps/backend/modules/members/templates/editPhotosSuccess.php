@@ -69,11 +69,15 @@
             cropper.previewWrap.removeAttribute('style');
             cropper.remove();
             cropper = null;
+            $('crop_image').remove(); 
         }
         
         //set the image and show the crop_area
-        var elem = $('crop_area');
-        elem.innerHTML += '<img id="crop_image" />';
+        if ( ! $('crop_area').down('#crop_image') )
+        {
+          var elem = $('crop_area');
+          elem.innerHTML += '<img id="crop_image" />';
+        }
         $('crop_area').down('#crop_image').src = img_src;
         $('crop_area').show();
 
