@@ -80,7 +80,7 @@
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Delete your account'), 'dashboard/deleteYourAccount', array('class' => 'sec_link_brown')) ?></li>
             </ul>
             <script type="text/javascript">
-            setSlideDownSpeed(5);
+            setSlideDownSpeed(15);
             </script>
         
           </div>
