@@ -41,6 +41,12 @@ function profile_thumbnail_photo_tag($profile, $size = '50x50')
 
 function unless_profile_thumbnail_photo_tag($profile, $size = '30x30')
 {
-  if($profile->getMemberPhoto())
+  if(!is_null($profile->getMainPhotoId()))
+  {
     return image_tag($profile->getMemberPhoto()->getImg($size));
+  }
+  else 
+  {
+    return image_tag('no_photo/' . $profile->getSex() . '/30x21.gif');
+  }
 }
