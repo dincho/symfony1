@@ -21,7 +21,7 @@
                 <?php echo image_tag( $photo->getImageUrlPath('file', $dims['w'] . 'x' . $dims['h']) ) ?>
             </div><br />
         
-            <div
+            <div>
                 <?php echo radiobutton_tag('gender', 'M', $photo->getMember()->getSex() == 'M') ?><label style="text-align: left;">Male</label><br />
                 <?php echo radiobutton_tag('gender', 'F', $photo->getMember()->getSex() == 'F') ?><label style="text-align: left;">Female</label><br /><br />
 

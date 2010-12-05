@@ -34,7 +34,7 @@
         </div>
     </div>
     
-    <br style="clear: left;">
+    <br style="clear: left;" />
     
 </body>
 </html>
