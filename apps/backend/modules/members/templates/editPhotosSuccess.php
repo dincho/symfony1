@@ -55,21 +55,22 @@
 
 <script type="text/javascript" charset="utf-8">
     var cropper = null;
-
+    
     function show_crop_area(photo_id, img_src)
     {
         var photo_el = "photo_" + photo_id;
+        var x = 100;
+        var y = 100;
         //remove old cropper if any
         if( cropper ) 
         {
             // console.log("cropper.previewWrap: ", cropper.previewWrap);
-            
-            $('imgCrop_crop_image').remove();
+            if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
             cropper.previewWrap.removeClassName( 'imgCrop_previewWrap' );
             cropper.previewWrap.removeAttribute('style');
             cropper.remove();
             cropper = null;
-            $('crop_image').remove(); 
+            if($('crop_image')) $('crop_image').remove(); 
         }
         
         //set the image and show the crop_area
@@ -78,22 +79,26 @@
           var elem = $('crop_area');
           elem.innerHTML += '<img id="crop_image" />';
         }
-        $('crop_area').down('#crop_image').src = img_src;
-        $('crop_area').show();
-
-        //this should be done after the image is loaded
-        cropper = new Cropper.ImgWithPreview( 
-              'crop_image',
-              { 
-                minWidth: 100, 
-                minHeight: 100,
-                ratioDim: { x: 100, y: 100 },
-                displayOnInit: true, 
-                previewWrap: $(photo_el).down('.img'),
-                pd_photo_id: photo_id
-              } 
-            );
+        $('crop_area').down('#crop_image').src = img_src;    
+        $('crop_area').down('#crop_image').observe('load',function()
+            {
+                $('crop_area').show();
+        
+                //this should be done after the image is loaded
+                cropper = new Cropper.ImgWithPreview( 
+                      'crop_image',
+                      { 
+                        minWidth: x, 
+                        minHeight: y,
+                        ratioDim: { x: x, y: y },
+                        displayOnInit: true, 
+                        previewWrap: $(photo_el).down('.img'),
+                        pd_photo_id: photo_id
+                      } 
+                    );   
+            });
     }
+    
         
     function remove_crop_area()
     {
@@ -103,8 +108,7 @@
         cropper = null;
         
         if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove(); 
-        $('crop_image').remove(); 
-//        $('crop_image').src = null;
+        if($('crop_image'))$('crop_image').remove(); 
         $('crop_area').hide();
     }
     
