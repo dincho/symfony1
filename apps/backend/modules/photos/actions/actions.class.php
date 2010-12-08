@@ -29,11 +29,7 @@ class photosActions extends sfActions
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
         $this->processSort();
         $this->left_menu_selected = "All";
-        
-        $c = new Criteria();
-        $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
-        $this->catalogues = array_merge(array('All'), CataloguePeer::doSelect($c));
-        
+                
         $c = new Criteria();
         $c->addGroupByColumn(MemberPeer::ID);
         $c->addHaving($c->getNewCriterion(MemberPhotoPeer::COUNT, 'COUNT( '.MemberPhotoPeer::ID.') > 0 ',Criteria::CUSTOM));

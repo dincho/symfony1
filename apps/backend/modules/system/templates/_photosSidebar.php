@@ -18,7 +18,12 @@
     <li></li> <?php //blank li for HTML validation ?>
   
       <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
-      <li>Status:</li>
+      <li>Catalog:</li>
+      <li>
+        <?php echo select_tag('filters[cat_id]', options_for_select($catalogues, $sf_params->get('filters[cat_id]',0)));?>
+      </li> 
+      <li></li> 
+     <li>Status:</li>
       <?php foreach($statuses as $status): ?>
       <li>
           <?php echo checkbox_tag('filters[status_id][]', $status->getId(), @in_array($status->getId(), $filters['status_id']) );?>

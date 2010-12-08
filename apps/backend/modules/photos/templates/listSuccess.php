@@ -1,10 +1,5 @@
 <?php use_helper('Object') ?>
 <div id="photos">
-    <fieldset class="search_catalog">
-        <label for="cat_id">Catalog:</label><br />
-        <?php echo select_tag('filters[cat_id]', options_for_select($catalogues, $sf_params->get('filters[cat_id]',0)));?> 
-    </fieldset>
-    </form>
 
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/list')); ?><br />
     

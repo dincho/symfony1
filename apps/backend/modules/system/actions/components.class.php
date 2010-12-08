@@ -247,6 +247,10 @@ class systemComponents extends sfComponents
                                            );
 
 
+    $c = new Criteria();
+    $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
+    $this->catalogues = array_merge(array('All'), CataloguePeer::doSelect($c));
+
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
     
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
