@@ -47,6 +47,6 @@ function unless_profile_thumbnail_photo_tag($profile, $size = '30x30')
   }
   else 
   {
-    return image_tag('no_photo/' . $profile->getSex() . '/30x21.gif');
+    return image_tag('no_photo/' . $profile->getSex() . (($size == '30x30') ? "/30x21.jpg" : "/$size.jpg" ));
   }
 }
