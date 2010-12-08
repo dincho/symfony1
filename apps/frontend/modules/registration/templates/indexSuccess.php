@@ -43,9 +43,6 @@
         <?php echo pr_label_for('city_id', __('City') . '<span style="color:red;">*</span>') ?>
         <?php echo pr_object_select_city_tag($member, 'getCityId', array('include_custom' => __('Please Select'))); ?><br />
         
-        <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>
-        <?php echo object_input_tag($member, 'getNationality') ?><br />
-
         <?php echo pr_label_for('orientation', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('orientation', looking_for_options($member->getOrientation()), $orientation_options) ?><br />
         

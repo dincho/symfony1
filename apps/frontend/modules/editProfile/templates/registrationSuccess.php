@@ -41,8 +41,6 @@
         <?php echo pr_label_for('city_id', __('City') . '<span style="color:red;">*</span>') ?>
         <?php echo pr_object_select_city_tag($member, 'getCityId', array('include_custom' => __('Please Select'))); ?><br />
         
-        <?php echo pr_label_for('nationality', __('Nationality') . '<span style="color:red;">*</span>') ?>
-        <?php echo object_input_tag($member, 'getNationality') ?><br />
     </fieldset>
     <fieldset class="actions">
         <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />

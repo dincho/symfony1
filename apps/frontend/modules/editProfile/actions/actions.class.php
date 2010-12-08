@@ -33,7 +33,7 @@ class editProfileActions extends BaseEditProfileActions
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
             $this->member->setCityId($this->getRequestParameter('city_id'));
             $this->member->setZip($this->getRequestParameter('zip'));
-            $this->member->setNationality($this->getRequestParameter('nationality'));
+//            $this->member->setNationality($this->getRequestParameter('nationality'));
             $this->member->setPurpose($this->getRequestParameter('purpose'));
             
             $flash_error = '';
@@ -113,13 +113,13 @@ class editProfileActions extends BaseEditProfileActions
                 $return = false;
             }            
             
-            $nationality = $this->getRequestParameter('nationality');      
+/*            $nationality = $this->getRequestParameter('nationality');      
             if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
                 $return = false;
             }
-            
+*/            
             $purpose = $this->getRequestParameter('purpose');
 
             

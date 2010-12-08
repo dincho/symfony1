@@ -145,7 +145,7 @@ class registrationActions extends BaseEditProfileActions
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
             $this->member->setCityId($this->getRequestParameter('city_id'));
             $this->member->setZip($this->getRequestParameter('zip'));
-            $this->member->setNationality($this->getRequestParameter('nationality'));
+//            $this->member->setNationality($this->getRequestParameter('nationality'));
             $this->member->setPurpose($this->getRequestParameter('purpose'));
             $this->member->setReviewedById(null);
             $this->member->setReviewedAt(null);
@@ -205,12 +205,12 @@ class registrationActions extends BaseEditProfileActions
                 $return = false;
             }
             
-            if( !$nationality )
+/*            if( !$nationality )
             {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
                 $return = false;
             }
-            
+*/            
             if( !$purpose )
             {
                 $this->getRequest()->setError('purpose', 'Please select purpose.');
