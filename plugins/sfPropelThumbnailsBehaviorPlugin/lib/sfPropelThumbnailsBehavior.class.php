@@ -20,8 +20,8 @@ class sfPropelThumbnailsBehavior
   {
     if($addSlash)
     {
-      return get_class($object) . DIRECTORY_SEPARATOR;
-//
+//      return get_class($object) . DIRECTORY_SEPARATOR;
+      return get_class($object) . '/';//DIRECTORY_SEPARATOR;
     } else {
       return get_class($object);
     }
@@ -102,8 +102,7 @@ class sfPropelThumbnailsBehavior
 
 //        sfContext::getInstance()->getLogger()->info('updateImageFromRequest ort- '.$ort);
   
-        $img = new sfImage();
-        $img->load($tmp_file); 
+        $img = new sfImage($tmp_file, 'image/jpg');
         switch($ort)
         {
             case 1: // nothing
