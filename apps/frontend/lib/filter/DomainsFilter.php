@@ -7,16 +7,17 @@ class DomainsFilter extends sfFilter
     $context = $this->getContext();
     $user = $context->getUser();
     $request = $context->getRequest();
-    
     $domain_cultures = sfConfig::get('app_domain_cultures');
     
-    if( $culture = array_search($request->getHost(), $domain_cultures) )
+    foreach($domain_cultures as $culture => $domains)
     {
-        $user->setCulture($culture);
+        if( in_array($request->getHost(), $domains) )
+        {
+            $user->setCulture($culture);
+            break;
+        }
     }
     
     $filterChain->execute();
   } 
 }
-
-?>
