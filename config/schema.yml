@@ -100,8 +100,8 @@ propel:
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
     public_search:            { type: boolean, required: true, default: false }
     private_dating:           { type: boolean, required: true, default: false }
-    registration_ip:          { type: integer, required: false }
-    last_ip:                  { type: integer, required: false }
+    registration_ip:          { type: bigint, required: false }
+    last_ip:                  { type: bigint, required: false }
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'
     last_flagged:             { type: timestamp } #timestamp of the last flag
     last_login:               { type: timestamp }
@@ -704,7 +704,7 @@ propel:
   ipn_history:
     id:
     parameters:         { type: longvarchar }
-    request_ip:         { type: integer }
+    request_ip:         { type: bigint }
     txn_type:           { type: varchar, size: 255 }
     txn_id:             { type: varchar, size: 255 }
     subscr_id:          { type: varchar, size: 255 }
@@ -725,7 +725,7 @@ propel:
     simulated:          { type: boolean, default: false }
     signature:          { type: longvarchar, required: true }
     signatureVersion:   { type: varchar, size: 2, required: true }
-    request_ip:         { type: integer }
+    request_ip:         { type: bigint }
     verified:           { type: boolean, default: false }
     created_at:
 
