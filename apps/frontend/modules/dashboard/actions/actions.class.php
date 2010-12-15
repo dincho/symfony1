@@ -572,6 +572,8 @@ class dashboardActions extends BaseSearchActions
         $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getUser()->getId());
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
         $this->my_grants = PrivatePhotoPermissionPeer::doSelectJoinMemberRelatedByProfileId($c);
         
         $c = new Criteria();
@@ -584,6 +586,8 @@ class dashboardActions extends BaseSearchActions
         $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
         
         $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
         $this->other_grants = PrivatePhotoPermissionPeer::doSelectJoinMemberRelatedByMemberId($c);
     }
 }
