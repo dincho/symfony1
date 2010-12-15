@@ -1,0 +1,1 @@
+You are in Private Dating mode. To switch to publick mode, <a href=\"%URL_FOR_PRIVACY%\" class=\"sec_link\">click  here</a>

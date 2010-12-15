@@ -20,6 +20,10 @@
               !$sf_user->getAttribute('must_confirm_email')): ?>
         <?php include_partial('content/headerCompleteRegistration'); ?>
     <?php endif; ?>
+    <?php if( $sf_user->isAuthenticated() &&
+              $sf_user->getProfile()->getPrivateDating()): ?> 
+        <?php include_partial('content/headerInPrivateDate'); ?>
+    <?php endif; ?>
     <div id="box">
         <!--- box border -->
         <div id="lb"><div id="rb">

@@ -238,7 +238,7 @@ body .sign_in {
 }
 
 /* END breadcrumb */ /*index*/
-#complete_registration, #javascript_warning {
+#complete_registration, #javascript_warning, #in_private_date {
     background-color: #000;
     color: #ff0000;
     font-size: 12px;
