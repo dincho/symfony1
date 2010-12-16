@@ -1738,6 +1738,13 @@ span.sec_link {
     height: 23px;
     line-height: 12px;
 }
+.member .member_box .profile_info p.profile_location_mini {
+    margin: 0;
+    color: #d3d3d3;
+    width: 124px;
+    height: 35px;
+    line-height: 12px;
+}
 
 .member .member_box .profile_info u {
     text-decoration: none;

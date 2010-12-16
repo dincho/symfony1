@@ -17,7 +17,7 @@
                         <div class="millionaire_mark"><?php echo __('M'); ?></div>
                     <?php endif; ?>
 
-                  <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
+                  <p class="profile_location_mini"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                   
                   
                   <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) . ' | ' ?> 
