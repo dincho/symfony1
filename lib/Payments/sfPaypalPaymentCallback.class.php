@@ -42,10 +42,12 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
     
     protected function logNotification()
     {
+        $subscriptionID = ( $this->getParam('recurring_payment_id') ) ? $this->getParam('recurring_payment_id') : $this->getParam('subscr_id');
+        
         $history = new IpnHistory();
         $history->setParameters(serialize($this->getParams()));
         $history->setTxnType($this->getParam('txn_type'));
-        $history->setSubscrId($this->getParam('subscr_id'));
+        $history->setSubscrId($subscriptionID);
         $history->setTxnId($this->getParam('txn_id'));
         $history->setPaymentStatus($this->getParam('payment_status'));
         $history->setRequestIp(ip2long($_SERVER['REMOTE_ADDR']));
@@ -141,26 +143,28 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                 break;                
                 
                 case 'subscr_failed':
-
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                     
                     if( $member_subscription )
                     {
                         if( $member_subscription->getStatus() == 'active' )
                         {
-                          $member = $member_subscription->getMember();
-                          $member->changeSubscription(SubscriptionPeer::FREE, 'system (failed payment)');
-                          
                           $member_subscription->setStatus('failed');
                           $member_subscription->save();
-                        } elseif ( $member_subscription->getStatus() == 'failed' )
-                        {
-                          //if paypal does not send subscr_cancel on second failture we need to cancel the subscription here
-                          //it would be better if paypal sends such notification, cause we will not hardcode the "cancel on second failture", but keep paypal decide that
+                        }
+                    }
+                break;
+                
+                case 'recurring_payment_suspended_due_to_max_failed_payment':
+                    $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('recurring_payment_id'));
+                    
+                    if( $member_subscription )
+                    {
+                          $member = $member_subscription->getMember();
+                          $member->changeSubscription(SubscriptionPeer::FREE, 'system (3th failed payment)');
+                          
                           $member_subscription->setStatus('canceled');
                           $member_subscription->save();
-                        }
-
                     }
                 break;
                 
