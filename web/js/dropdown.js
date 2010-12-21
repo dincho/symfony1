@@ -5,7 +5,7 @@ var slidedownContent = false;
 var slidedownActive = false;
 var contentHeight = false;
 var slidedownSpeed = 3;  // Higher value = faster script
-var slidedownTimer = 7; // Lower value = faster script
+var slidedownTimer = 3; // Lower value = faster script
 
 function slidedown_showHide() {
  if(initHeight==0)slidedown_direction=slidedownSpeed; else slidedown_direction = slidedownSpeed*-1;
@@ -15,6 +15,14 @@ function slidedown_showHide() {
    contentHeight = document.getElementById('dhtmlgoodies_content').offsetHeight;
  }
  slidedownContentBox.style.visibility='visible';
+ if(/MSIE/.test( navigator.userAgent ))
+ {
+    slidedownContentBox.style.setAttribute('top', '20px');
+    if(/MSIE 6/.test( navigator.appVersion ))
+    {
+       slidedownContentBox.style.setAttribute('right', '72px');
+    }
+ }
  slidedownActive = true;
  slidedown_showHide_start();
 }
@@ -25,9 +33,11 @@ function slidedown_showHide_start() {
  if(initHeight <= 0) {
    slidedownActive = false;
    slidedownContentBox.style.visibility='hidden';
+   $('dhtmlgoodies_menu').className = 'dhtmlgoodiesmenu' ;
    initHeight = 0;
  }
  if(initHeight>contentHeight) {
+   $('dhtmlgoodies_menu').className = 'dhtmlgoodies_menu_selected' ;
    slidedownActive = false;
  }
  slidedownContentBox.style.height = initHeight + 'px';

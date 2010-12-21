@@ -41,12 +41,18 @@
     <?php else: ?>
       <div id="dhtmlgoodies_slidedown">
          <div id="dhtmlgoodies_control">
-            <p style="margin-bottom: 2px;">
-                <span class="username"><?php echo __('Hi %username%', array('%username%' => $sf_user->getProfile()->getUsername())) ?></span>
-                <?php echo pr_link_to(__('Dashboard'), 'dashboard/index') ?>&bull;<?php echo pr_link_to(__('Search'), 'search/index') ?>&bull;<?php echo pr_link_to(__('Messages ( %count% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount())), 'messages/index', 'class=last') ?>
-                &bull;<?php echo link_to(__('Settings').image_tag('down.png', array('class' => 'image_down')), '#', array('onclick' => 'slidedown_showHide();return false;')) ?>&bull;
-                <?php echo link_to(image_tag($sf_user->getCulture().'/sign_out.gif'), 'profile/signout') ?>
-            </p>
+          <ul>
+            <li class="username"><?php echo __('Hi %username%', array('%username%' => $sf_user->getProfile()->getUsername())) ?></li>
+            <li><?php echo pr_link_to(__('Dashboard'), 'dashboard/index') ?></li>
+            <li>&bull;<li>
+            <li><?php echo pr_link_to(__('Search'), 'search/index') ?></li>
+            <li>&bull;<li>
+            <li><?php echo pr_link_to(__('Messages ( %count% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount())), 'messages/index', 'class=last') ?></li>
+            <li>&bull;<li>
+            <li id="dhtmlgoodies_menu" class="dhtmlgoodiesmenu"><?php echo link_to(__('Settings').image_tag('down.png', array('class' => 'image_down')), '#', array('onclick' => 'slidedown_showHide(); return false;')) ?></li>
+            <li>&bull;<li>
+            <li><?php echo link_to(image_tag($sf_user->getCulture().'/sign_out.gif'), 'profile/signout') ?></li>
+          </ul>
         </div>
         <div id="dhtmlgoodies_contentBox">
           <div id="dhtmlgoodies_content">

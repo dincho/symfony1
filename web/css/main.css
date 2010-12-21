@@ -3352,7 +3352,24 @@ ul.rating li.five a:hover {background-position:0 -160px}
   height:20px;
 }
 
+.dhtmlgoodies_menu_selected{
+  position: relative;
+  border-style: solid solid none;
+  border-width:1px;
+  border-color:#317082;
+  background-color: #363639;
+  color:#D3D3D3;       
+  z-index: 5000;
+}
+.dhtmlgoodiesmenu{  
+  position: relative;
+  border-style: solid solid none;
+  border-width:1px;
+  border-color:#2b2b2b;
+}
+
 #dhtmlgoodies_contentBox {
+ top:22px;
  border:1px solid #317082;
  height:0px;
  visibility:hidden;
@@ -3363,10 +3380,29 @@ ul.rating li.five a:hover {background-position:0 -160px}
  padding:10px;
  width:200px;
  text-align:left; 
- right: 70px;
- z-index: 1000;
+ right: 73px;
+ z-index: 1000;   
 }
 
+#dhtmlgoodies_control ul
+{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #92897E;
+  margin-bottom: 2px;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 1em;  
+  line-height: 1.3em;
+} 
+
+#dhtmlgoodies_control li
+{
+  height: 20px;
+  display: inline;
+  float: left;
+  font-size: 12px;
+} 
 #dhtmlgoodies_content {
  position:relative;
 }
