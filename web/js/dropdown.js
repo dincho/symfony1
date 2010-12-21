@@ -34,10 +34,12 @@ function slidedown_showHide_start() {
    slidedownActive = false;
    slidedownContentBox.style.visibility='hidden';
    $('dhtmlgoodies_menu').className = 'dhtmlgoodiesmenu' ;
+   $('dhtmlgoodies_menu').down('img').src = '/images/down.png'; 
    initHeight = 0;
  }
  if(initHeight>contentHeight) {
    $('dhtmlgoodies_menu').className = 'dhtmlgoodies_menu_selected' ;
+   $('dhtmlgoodies_menu').down('img').src = '/images/down_selected.png'; 
    slidedownActive = false;
  }
  slidedownContentBox.style.height = initHeight + 'px';
