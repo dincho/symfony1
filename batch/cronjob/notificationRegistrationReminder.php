@@ -31,6 +31,7 @@ foreach ($notifications as $notification)
     $days = (int) $notification->getDays();
     
     $c = new Criteria();
+    $c->add(MemberPeer::CATALOG_ID, $notification->getCatId());
     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ABANDONED);
     $c->add(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
     $members = MemberPeer::doSelect($c);
