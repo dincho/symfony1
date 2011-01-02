@@ -163,7 +163,7 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                           $member = $member_subscription->getMember();
                           $member->changeSubscription(SubscriptionPeer::FREE, 'system (3th failed payment)');
                           
-                          $member_subscription->setStatus('canceled');
+                          $member_subscription->setStatus('eot');
                           $member_subscription->save();
                     }
                 break;
