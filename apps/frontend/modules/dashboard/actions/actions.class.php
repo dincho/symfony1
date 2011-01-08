@@ -109,6 +109,12 @@ class dashboardActions extends BaseSearchActions
         
         $this->private_photos_profiles = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->private_photos_profiles_cnt = MemberPeer::doCount($cc);
+        
+        if($this->getUser()->getProfile()->getPrivateDating()){
+            $this->open_privacy_perms = $member->getTop5PrivacyPermsProfiles(); 
+            $this->open_privacy_perms_cnt = $member->openPrivacyPermsCount(); 
+        }
+
                 
         //blocked member count
         $c = new Criteria();

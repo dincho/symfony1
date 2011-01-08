@@ -245,7 +245,15 @@
             <?php echo __("You gave this member %NB% star", array('%NB%' => $rate)); ?>
         <?php endif; ?>
     </div>
-    <br class="clear" /><br />
+    <br class="clear" />
+    <?php if( $sf_user->getProfile()->getPrivateDating()): ?> 
+        <?php echo link_to_remote( ( $has_privacy_perm ) ? __('She (he) can see you. Do not let her') : __('She (he) can not see you. Let her'), array(
+                                    'url' => '@toggle_privacy_perm?toggle_link=1&username=' . $member->getUsername(),
+                                    'update' => array('success' => 'msg_container'),
+                                    'script' => true, 
+                            ), array('id' => 'privacy_link', 'class' => 'sec_link', )); ?><br /><br />
+    <?php endif; ?>
+
 
     <?php include_component('profile', 'descMap', array('member' => $member, 'sf_cache_key' => $member->getId())); ?>
     <?php include_partial('profile/recent_activities', array('member' => $member)); ?>

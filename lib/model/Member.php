@@ -996,7 +996,36 @@ class Member extends BaseMember
         
         return (bool) PrivatePhotoPermissionPeer::doCount($c);
     }
+
+    public function hasGrantedOpenPrivacyPermsFor(BaseMember $member)
+    {
+        $c = new Criteria();
+        $c->add(OpenPrivacyPeer::MEMBER_ID, $this->getId());
+        $c->add(OpenPrivacyPeer::PROFILE_ID, $member->getId());
+        
+        return (bool) OpenPrivacyPeer::doCount($c);
+    }
+
+    public function openPrivacyPermsCount()
+    {
+        $c = new Criteria();
+        $c->add(OpenPrivacyPeer::MEMBER_ID, $this->getId());
+        
+        return OpenPrivacyPeer::doCount($c);
+    }
     
+    public function getTop5PrivacyPermsProfiles()
+    {
+        $c = new Criteria();
+        $c->add(OpenPrivacyPeer::MEMBER_ID, $this->getId());
+        $c->addJoin(MemberPeer::ID, OpenPrivacyPeer::PROFILE_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
+        $c->addDescendingOrderByColumn(OpenPrivacyPeer::CREATED_AT);
+        $c->setLimit(5);
+
+        return MemberPeer::doSelectJoinMemberPhoto($c);
+    }
+
     public function hasGrantPrivatePhotosPermsFor(BaseMember $member)
     {
         $c = new Criteria();

@@ -120,6 +120,14 @@ winks:
     url:    /:sf_culture/winks
     param:  { module: winks, action: index, sf_culture: en  }
     
+who_can_see_you:
+    url:    /:sf_culture/who_can_see_you
+    param:  { module: whoCanSeeYou, action: index, sf_culture: en  }
+
+toggle_privacy_perm:
+    url:   /:sf_culture/privacyPerm/:username/:toggle_link
+    param: { module: whoCanSeeYou, action: togglePrivacyPerm, sf_culture: en, toggle_link: 0 }
+
 area_info:
     url:    /:sf_culture/area_information/:area_id/*
     param:  { module: content, action: areaInfo, sf_culture: en  }

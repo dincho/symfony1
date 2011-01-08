@@ -164,6 +164,9 @@ class profileActions extends prActions
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
                 $this->private_photos_request = $this->getUser()->getProfile()->hasPrivatePhotoRequestTo($this->member);
                 
+                if($this->getUser()->getProfile()->getPrivateDating()){
+                  $this->has_privacy_perm = $this->getUser()->getProfile()->hasGrantedOpenPrivacyPermsFor($this->member); 
+                }
                 $this->show_request_warning = 
                   ($this->getUser()->getProfile()->getNumberOfTodaysPrivatePhotoRequest() >=  
                     sfConfig::get('app_settings_private_photo_requests'))?true:false;

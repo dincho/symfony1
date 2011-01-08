@@ -1,4 +1,4 @@
-<?php use_helper('prProfilePhoto', 'prLink') ?>
+<?php use_helper('prProfilePhoto', 'prLink', 'Javascript') ?>
 
 <span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
 
@@ -10,7 +10,7 @@
   <?php endif; ?>
 <br class="clear" />
 <div id="dashboard-container">
-    <div class="left">
+    <div class="left<?php echo ($sf_user->getProfile()->getPrivateDating())?'_privacy':'' ?>">
         <div class="go-to"><?php echo __('Go to:') ?></div>
         <div class="dashboard-menu">
             <?php echo link_to(__('Dash - Matches'), '@matches', array('class' => 'sec_link menu_title')) ?>
@@ -54,12 +54,21 @@
             <?php foreach ($private_photos_profiles as $private_photos_profile): ?>
                 <?php echo link_to_unless(!$private_photos_profile->isActive(), profile_small_photo($private_photos_profile), '@profile?username=' . $private_photos_profile->getUsername()) ?>
             <?php endforeach; ?>
-        </div>        
+        </div>    
+        <?php if( $sf_user->getProfile()->getPrivateDating()): ?> 
+          <div class="dashboard-menu">
+              <?php echo link_to(__('Who Can See You ( %count% )', array('%count%' => $open_privacy_perms_cnt)), '@who_can_see_you', array('class' => 'sec_link menu_title')) ?>
+              <?php foreach ($open_privacy_perms as $item): ?>
+                  <?php echo link_to_unless(!$item->isActive(), profile_small_photo($item), '@profile?username=' . $item->getUsername()) ?>
+              <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+    
         <div class="dashboard-menu">
             <?php echo link_to(__('Blocked Members ( %count% )', array('%count%' => $blocked_cnt)), '@blocked_members', 'class=sec_link_brown') ?>
         </div>
     </div>
-    <div class="right">
+    <div class="right<?php echo ($sf_user->getProfile()->getPrivateDating())?'_privacy':'' ?>">
         <span class="view_profile_like_others"><?php echo link_to(__('Your Profile (View Your profile as others see it)'), '@my_profile', 'class=sec_link_brown') ?></span>
         <div class="go-to"><?php echo __('See profiles in your area:') ?></div>
         <div class="dashboard-menu">
