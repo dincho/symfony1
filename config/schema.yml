@@ -466,7 +466,7 @@ propel:
     id:
     cat_id:                 { type: integer, size: 11, required: true, default: 1, foreignTable: catalogue, foreignReference: cat_id }
     msg_collection_id:
-    source:                 { type: varchar, required: true, size: 220  }
+    source:                 { type: varbinary, required: true, size: 220  }
     target:                 { type: longvarchar, required: true  }
     comments:               { type: longvarchar }
     author:                 { type: varchar, size: 255, required: true, default: ''}
