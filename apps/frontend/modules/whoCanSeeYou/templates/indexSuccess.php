@@ -3,7 +3,7 @@
 
 <?php echo __('These users are able to see you. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
 <br />
-<br />
+<br />  
 <br />
 <div id="winks">
     <?php foreach ($privacy_list as $privacy): ?>

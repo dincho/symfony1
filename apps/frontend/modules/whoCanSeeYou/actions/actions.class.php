@@ -24,6 +24,16 @@ class whoCanSeeYouActions extends prActions
         $this->privacy_list = OpenPrivacyPeer::doSelectJoinMemberRelatedByMemberId($c);        
     }
     
+    public function validateIndex()
+    {
+      return $this->getUser()->getProfile()->getPrivateDating();
+    }
+    
+    public function handleErrorIndex()
+    {
+      $this->redirect('dashboard/index');
+    }    
+
     public function executeTogglePrivacyPerm()
     {
         $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
