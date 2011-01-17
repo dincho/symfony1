@@ -796,6 +796,10 @@ class membersActions extends prActions
             $c->add(MemberPeer::SUBSCRIPTION_ID, $this->filters['subscription_id'], Criteria::IN);
         }
         
+        if (isset($this->filters['starred']))
+        {
+            $c->add(MemberPeer::IS_STARRED, $this->filters['starred'], Criteria::IN);
+        }
         if ( isset($this->filters['countries']) )
         {
             if( in_array('THE_REST', $this->filters['countries']) )

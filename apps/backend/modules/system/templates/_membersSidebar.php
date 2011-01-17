@@ -6,6 +6,13 @@
 <ul id="left_menu">
     <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
         
+    <li>Stared:</li>
+    <?php foreach($starred_array as $key => $value): ?>
+    <li>
+        <?php echo checkbox_tag('filters[starred][]', $key, @in_array($key, $filters['starred']) );?>
+        <label><?php echo $value; ?></label>
+    </li>
+    <?php endforeach; ?>
     <li>Sex:</li>
     <?php foreach($sex_array as $key => $value): ?>
     <li>

@@ -212,11 +212,13 @@ class systemComponents extends sfComponents
   
   public function executeMessages()
   {
-
+  
   }
   
   public function executeMembersSidebar()
   {
+    $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
+
     $this->sex_array = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man',
                             'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
     
@@ -228,6 +230,17 @@ class systemComponents extends sfComponents
     
     
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
+  }
+
+  public function executeMessagesSidebar()
+  {
+    $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
+
+    $this->menu = $full_menu = array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
+                                     array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
+                              );
+    $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
+
   }
 
   public function executePhotosSidebar()

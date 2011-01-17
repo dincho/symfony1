@@ -6,6 +6,7 @@
  * @subpackage messages
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
+ALTER TABLE `message` ADD `is_starred` INT NOT NULL DEFAULT '0'
  */
 class messagesActions extends sfActions
 {
@@ -39,6 +40,17 @@ class messagesActions extends sfActions
         $this->pager = $pager;
     
     }
+    
+    public function executeStar()
+    {
+        $this->message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
+        
+        $this->message->setIsStarred(! $this->message->getIsStarred());
+        $this->message->save();
+        
+        $this->redirect($this->getUser()->getRefererUrl());
+    }
+
 
     public function executeMember()
     {
@@ -180,6 +192,11 @@ class messagesActions extends sfActions
     {
         $bc = $this->getUser()->getBC();
         
+        if (isset($this->filters['starred']))
+        {
+            $c->add(MessagePeer::IS_STARRED, $this->filters['starred'], Criteria::IN);
+        }
+
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {
