@@ -161,8 +161,8 @@ tbody tr:hover, tbody td.first:hover {
   background-color: #CDDAE6;
 }
 
-.selected {
-  background-color: yellow;
+tr.selected {
+	border: 2px solid #C3C3C3;
 }
 
 .selected td.first{
@@ -424,6 +424,12 @@ table.preview th{
 #member_notes p span {
 	font-weight: bold;
 	display: block;
+}
+
+#member_notes p span a
+{
+	right: 0px;
+	float: right; 
 }
 
 div.member_flags {
