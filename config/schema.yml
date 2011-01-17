@@ -160,6 +160,7 @@ propel:
     user_id:                  { type: integer, required: false, foreignTable: user, foreignReference: id, onDelete: setnull }
     text:                     { type: longvarchar, required: true }
     created_at:
+    updated_at:
       
   member_login_history:
     id:

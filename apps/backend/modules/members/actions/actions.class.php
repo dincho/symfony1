@@ -245,7 +245,7 @@ class membersActions extends prActions
             
             $c = new Criteria();
             $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
-            $c->addDescendingOrderByColumn(MemberNotePeer::CREATED_AT);
+            $c->addDescendingOrderByColumn(MemberNotePeer::UPDATED_AT);
             $this->notes = MemberNotePeer::doSelectJoinAll($c);
             
             $member = clone $this->member;
@@ -656,6 +656,30 @@ class membersActions extends prActions
         } else {
             $this->redirect('members/edit?id=' . $this->member->getId());
         }
+    }
+
+    public function executeDeleteNote()
+    {                       
+        $this->getUser()->checkPerm(array('members_edit'));
+        $this->forward404Unless($this->member);
+        
+        MemberNotePeer::doDelete($this->getRequestParameter('noteId'));
+        
+        $this->redirect('members/edit?id=' . $this->member->getId());
+    }
+
+    public function executeUpdateNote()
+    {                       
+        $this->getUser()->checkPerm(array('members_edit'));
+        $this->forward404Unless($this->member);
+        
+        $note = MemberNotePeer::retrieveByPK($this->getRequestParameter('noteId'));
+        $note->setUserId($this->getUser()->getId());
+        $note->setText($this->getRequestParameter('value'));
+        $note->save();
+
+        return $this->renderText($note->getText());
+        
     }
 
     public function executeConfirmEmail()
