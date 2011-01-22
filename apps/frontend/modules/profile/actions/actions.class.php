@@ -207,8 +207,10 @@ class profileActions extends prActions
                                     
             } else { //public visit
                 if( !$this->member->isActive() || $this->member->getPrivateDating()) $this->forward404();
-                
-                $this->setFlash('msg_ok', 'Sign in to see photo and more profile informmation', false);
+
+                if( !$this->hasFlash('msg_ok') ){                
+                  $this->setFlash('msg_ok', 'Sign in to see photo and more profile informmation', false);
+                }
                 $this->setTemplate('publicProfile');
             }
         } else { //viewer is admin
