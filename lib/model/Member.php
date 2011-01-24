@@ -1114,4 +1114,13 @@ class Member extends BaseMember
             $this->updateMatches();
         }
     }
+
+    public function IsFlaggedBy($flagger_id)
+    {
+        $c = new Criteria();
+        $c->add(FlagPeer::FLAGGER_ID, $flagger_id);
+        $c->add(FlagPeer::MEMBER_ID, $this->getId());
+
+        return (bool) FlagPeer::doCount($c);
+    }
 }
