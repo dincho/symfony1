@@ -55,15 +55,18 @@ class contentActions extends prActions
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
+            $is_flagged = $profile->IsFlaggedBy($this->getUser()->getId());
+        
             $flag = new Flag();
             $flag->setFlagCategoryId($this->getRequestParameter('flag_category'));
             $flag->setComment($this->getRequestParameter('comment'));
             $flag->setMemberId($profile->getId());
             $flag->setFlaggerId($this->getUser()->getId());
             $flag->save();
-            
+
+                        
             $counter = $profile->getMemberCounter();
-            $counter->setCurrentFlags($counter->getCurrentFlags() + 1);
+            if( !$is_flagged ) $counter->setCurrentFlags($counter->getCurrentFlags() + 1);
             $counter->setTotalFlags($counter->getTotalFlags() + 1);
             $counter->save();
             
@@ -107,13 +110,13 @@ class contentActions extends prActions
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
             return false;
         }
-        if( $profile->IsFlaggedBy($this->getUser()->getId()) )
+/*        if( $profile->IsFlaggedBy($this->getUser()->getId()) )
         {
             $this->setFlash('msg_error', 'You have already flagged this user');
             return false;        
         }
 
-        
+*/        
         return true;
     }
 
