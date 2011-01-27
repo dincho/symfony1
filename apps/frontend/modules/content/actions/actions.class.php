@@ -71,8 +71,9 @@ class contentActions extends prActions
             $counter->save();
             
             $profile->setLastFlagged(time());
-            
-            if ($counter->getCurrentFlags() == sfConfig::get('app_settings_flags_num_auto_suspension'))
+                       
+            if ($counter->getCurrentFlags() >= sfConfig::get('app_settings_flags_num_auto_suspension')
+                && $profile->getMemberStatusId() != MemberStatusPeer::SUSPENDED_FLAGS)
             {
                 $profile->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS);
                 $profile->save();
