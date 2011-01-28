@@ -17,7 +17,7 @@
                                          '%her_his%' => ( $member->getSex() == 'M' ) ? __('his') : __('her')
                                )); ?>
                     </span>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=photoAccess&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
                 </div>
             </div>        
         <?php endforeach; ?>
@@ -32,7 +32,7 @@
                 <h2><?php echo Tools::truncate($profile->getEssayHeadline(), 40) ?></h2><span class="number"><?php echo $profile->getAge() ?></span>
                 <div class="input">
                     <span class="public_reg_notice"><?php echo __('Access granted %date%', array('%date%' => distance_of_time_in_words($perm->getCreatedAt(null)))) ?></span>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=photoAccess&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_remote(__('Revoke Access'), array(
                                                     'url' => '@toggle_private_photos_perm?username=' . $profile->getUsername(),
                                                     'update' => array('success' => 'msg_container'),
@@ -46,7 +46,7 @@
                                                     'after' => '$("member_profile_'.$profile->getId().'").remove();'
                                             ), array('class' => 'sec_link', )); ?>
                 </div>
-                <?php echo link_to_ref(profile_photo($profile), '@profile?bc=hotlist&username=' . $profile->getUsername()) ?>
+                <?php echo link_to_ref(profile_photo($profile), '@profile?bc=photoAccess&username=' . $profile->getUsername()) ?>
             </div>        
         <?php endforeach; ?>
     </div>

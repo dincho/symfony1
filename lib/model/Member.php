@@ -14,6 +14,8 @@ class Member extends BaseMember
     //cache
     private $_unread_messages_count = null;
     
+    private $_all_messages_count = null;
+    
     private $city = null;
     
     private $_current_member_subscription = false;
@@ -760,6 +762,19 @@ class Member extends BaseMember
       BasePeer::doUpdate($c1, $c2, Propel::getConnection(ProfileViewPeer::DATABASE_NAME));
     }
     
+    public function markOldProtoFrom(BaseMember $member)
+    {
+      $c1 = new Criteria();
+      $c1->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
+      $c1->add(PrivatePhotoPermissionPeer::MEMBER_ID, $member->getId());
+      $c1->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+      $c1->add(PrivatePhotoPermissionPeer::IS_NEW, true);
+      
+      $c2 = new Criteria();
+      $c2->add(PrivatePhotoPermissionPeer::IS_NEW, false);
+      BasePeer::doUpdate($c1, $c2, Propel::getConnection(PrivatePhotoPermissionPeer::DATABASE_NAME));
+    }
+
     public function addOpenPrivacyFor($profile_id)
     {
         if( !$this->hasOpenPrivacyFor($profile_id) )
@@ -893,6 +908,29 @@ class Member extends BaseMember
         return $this->_unread_messages_count;
     }
     
+    public function getAllMessagesCriteria($crit = null)
+    {
+        $c = ( !is_null($crit) ) ? clone $crit : new Criteria();
+        
+        $c->add(MessagePeer::RECIPIENT_ID, $this->getId());
+        $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->addGroupByColumn(MessagePeer::THREAD_ID);
+        
+        return $c;
+    }
+    
+    public function getAllMessagesCount()
+    {
+        if( is_null($this->_all_messages_count) )
+        {
+            $rs = MessagePeer::doSelectRS($this->getAllMessagesCriteria());
+            $this->_all_messages_count = $rs->getRecordCount();
+        }
+        
+        return $this->_all_messages_count;
+    }
+
     public function hasAuthPhoto()
     {
          $c = new Criteria();

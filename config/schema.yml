@@ -224,6 +224,7 @@ propel:
     profile_id:               { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     type:                     { type: char, size: 1, primaryKey: true} #enum: R - request, P - Permission
     status:                   { type: char, size: 1 } #enum: A - Active, R - Revoked
+    is_new:                   { type: boolean, default: true, required: true }
     created_at:
     updated_at:
       

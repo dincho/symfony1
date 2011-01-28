@@ -43,6 +43,7 @@ class dashboardActions extends BaseSearchActions
         
         $this->messages = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->messages_cnt = $member->getUnreadMessagesCount();
+        $this->messages_all_cnt = $member->getAllMessagesCount();
         
         //winks
         $c = new Criteria();
@@ -51,6 +52,7 @@ class dashboardActions extends BaseSearchActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(WinkPeer::SENT_BOX, false);
         $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
+        $cc_all = clone $c; //count all criteria
         $c->add(WinkPeer::IS_NEW, true);
         $cc = clone $c; //count criteria
         
@@ -59,19 +61,10 @@ class dashboardActions extends BaseSearchActions
         
         $this->winks = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->winks_cnt = MemberPeer::doCount($cc);
+        $this->winks_all_cnt = MemberPeer::doCount($cc_all);
         
         //hotlist
-        $c = new Criteria();
-        $c->add(HotlistPeer::MEMBER_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, HotlistPeer::PROFILE_ID);
-        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
-        $c->add(HotlistPeer::IS_NEW, true);
-        
-        //privacy check
-        $c->addJoin(HotlistPeer::MEMBER_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. HotlistPeer::PROFILE_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
-        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
-        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
-        
+        $c = HotlistPeer::getNewHotlistCriteria($member->getId());
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(HotlistPeer::CREATED_AT);
@@ -79,9 +72,10 @@ class dashboardActions extends BaseSearchActions
         
         $this->hotlist = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->hotlist_cnt = MemberPeer::doCount($cc);
+        $this->hotlist_all_cnt = MemberPeer::doCount(HotlistPeer::getAllHotlistCriteria($member->getId()));
         
         //visitors
-        $c = ProfileViewPeer::getVisitorsCriteria($member->getId());
+        $c = ProfileViewPeer::getNewVisitorsCriteria($member->getId());
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
@@ -90,18 +84,11 @@ class dashboardActions extends BaseSearchActions
         $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
+        $cnt_all_rs = MemberPeer::doSelectRS(ProfileViewPeer::getAllVisitorsCriteria($member->getId()));
+        $this->visits_all_cnt = $cnt_all_rs->getRecordCount();
 
-        //hotlist
-        $c = new Criteria();
-        $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
-        $c->addJoin(MemberPeer::ID, PrivatePhotoPermissionPeer::MEMBER_ID);
-        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
-        
-        //privacy check
-        $c->addJoin(PrivatePhotoPermissionPeer::PROFILE_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. PrivatePhotoPermissionPeer::MEMBER_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
-        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
-        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
-        
+        //private photos
+        $c = PrivatePhotoPermissionPeer::getNewPhotoCriteria($member->getId());
         $cc = clone $c; //count criteria
         
         $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
@@ -109,6 +96,7 @@ class dashboardActions extends BaseSearchActions
         
         $this->private_photos_profiles = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->private_photos_profiles_cnt = MemberPeer::doCount($cc);
+        $this->private_photos_profiles_all_cnt = MemberPeer::doCount(PrivatePhotoPermissionPeer::getAllPhotoCriteria($member->getId()));
         
         if($this->getUser()->getProfile()->getPrivateDating()){
             $this->open_privacy_perms = $member->getTop5PrivacyPermsProfiles(); 

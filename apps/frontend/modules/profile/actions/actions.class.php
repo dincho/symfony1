@@ -201,6 +201,10 @@ class profileActions extends prActions
                   case 'blocked':
                     $bc->add(array('name' => 'Blocked Members', 'uri' => '@blocked_members'));
                     break;
+                  case 'photoAccess':
+                    $bc->add(array('name' => 'Photo Access', 'uri' => '@photo_access'));
+                    $this->getUser()->getProfile()->markOldProtoFrom($this->member);
+                    break;
                   default:
                     break;
                 }
