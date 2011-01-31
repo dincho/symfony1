@@ -3390,6 +3390,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
 
 .dhtmlgoodies_menu_selected{
   position: relative;
+  top: -2px;
   border-style: solid solid none;
   border-width:1px;
   border-color:#317082;
@@ -3399,13 +3400,14 @@ ul.rating li.five a:hover {background-position:0 -160px}
 }
 .dhtmlgoodiesmenu{  
   position: relative;
+  top: -2px;
   border-style: solid solid none;
   border-width:1px;
   border-color:#2b2b2b;
 }
 
 #dhtmlgoodies_contentBox {
- top:22px;
+ top:20px;
  border:1px solid #317082;
  height:0px;
  visibility:hidden;

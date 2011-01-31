@@ -17,7 +17,7 @@ function slidedown_showHide() {
  slidedownContentBox.style.visibility='visible';
  if(/MSIE/.test( navigator.userAgent ))
  {
-    slidedownContentBox.style.setAttribute('top', '20px');
+    slidedownContentBox.style.setAttribute('top', '18px');
     if(/MSIE 6/.test( navigator.appVersion ))
     {
        slidedownContentBox.style.setAttribute('right', '72px');
@@ -55,3 +55,12 @@ function setslidedownWidth(newWidth) {
 function setSlideDownSpeed(newSpeed) {
  slidedownSpeed = newSpeed;
 }
+
+
+Event.observe(window, 'load',function()
+{
+    if(/MSIE 6/.test( navigator.appVersion )|| /MSIE 7/.test( navigator.appVersion ))
+    {
+       $('dhtmlgoodies_menu').style.setAttribute('top', '-3px');
+    }
+});
