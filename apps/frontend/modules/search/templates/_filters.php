@@ -16,20 +16,11 @@
         </tr>
         <tr class="search_filter_middle_row">
             <td class="search_filter_row_label"><?php echo __('Location') ?></td>
-            <td><?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0), array(
-                  'onclick' => "$('filters_location').checked = true; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;", 
-                ) 
-              ) . __('Everywhere') ?>
+            <td><?php echo radiobutton_tag('filters[location]', 0, ($filters['location'] == 0), array('onchange' => "this.form.submit();show_load();")) . __('Everywhere') ?>
             </td>
-            <td><?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1), array(
-                  'onclick' => "$('filters_location_1').checked = true; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location_1').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;",
-                ) 
-              ) . __('In selected countries only') ?>
+            <td><?php echo radiobutton_tag('filters[location]', 1, ($filters['location'] == 1), array('onchange' => "this.form.submit();show_load();")) . __('In selected countries only') ?>
             </td>
-            <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array(
-                  'onclick' => "$('filters_location_2').checked = true;; new Ajax.Updater('match_results', '". url_for('search/' . sfContext::getInstance()->getActionName()) . "', {asynchronous:true, evalScripts:true, onComplete:function(request, json){hide_load(); $('filters_location_2').checked = true;}, onLoading:function(request, json){show_load();}, parameters:Form.serialize(document.getElementById('search_box'))});; return false;", 
-                )
-              ) . __('Within') ?>&nbsp;
+            <td><?php echo radiobutton_tag('filters[location]', 2, ($filters['location'] == 2), array('onchange' => "this.form.submit();show_load();")) . __('Within') ?>&nbsp;
                 <?php echo input_tag('filters[radius]', isset($filters['radius'])?$filters['radius']:sfConfig::get('app_settings_search_default_radius_distance'), array('class' => 'input_radius')) ?>
                 &nbsp;
                 <?php echo select_tag('filters[kmmils]',  options_for_select(array( 'mil' => __('mil'), 'km' => __('km')), isset($filters['kmmils'])?$filters['kmmils']:sfConfig::get('app_settings_search_default_kilometers_miles')), array('class' => 'select_radius')) ?>

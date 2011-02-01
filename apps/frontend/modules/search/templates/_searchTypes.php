@@ -1,7 +1,7 @@
 <?php $action_name = sfContext::getInstance()->getActionName(); ?>
 <div id="search_types">
-<?php $options = array('query_string' =>'filters[location]=0', 'class' => 'sec_link'); ?>
-<?php $search_options = array('query_string' =>'filters[location]=0', 'class' => 'sec_link', 'onclick' => "show_loader('match_results','".__('Updating Results...')."')"); ?>
+<?php $options = array('class' => 'sec_link'); ?>
+<?php $search_options = array('class' => 'sec_link', 'onclick' => "show_loader('match_results','".__('Updating Results...')."')"); ?>
 <?php echo link_to_unless($action_name == 'mostRecent', __('Most Recent'), 'search/mostRecent', $options ) ?>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'lastLogin', __('Last Login'), 'search/lastLogin', $action_name == 'lastLogin' ? $options : $search_options ) ?>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<?php echo link_to_unless($action_name == 'criteria', __('Custom (by Criteria)'), 'search/criteria', $action_name == 'criteria' ? $options : $search_options ) ?>

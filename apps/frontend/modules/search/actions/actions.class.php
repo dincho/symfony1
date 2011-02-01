@@ -30,8 +30,6 @@ class searchActions extends BaseSearchActions
         $filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
         if (! isset($filters['location']))
             $filters['location'] = 0;      
-        if( $this->getRequest()->hasParameter('filters[location]') )
-            $filters['location'] = $this->getRequest()->getParameter('filters[location]', 0);
         $this->filters = $filters;
         
     }
@@ -449,11 +447,8 @@ class searchActions extends BaseSearchActions
 
     protected function processFilters()
     {
-             sfLogger::getInstance()->info(" processFilters()");
-        if ($this->getRequest()->hasParameter('filter'))
+        if ($this->getRequest()->hasParameter('filters'))
         {
-             sfLogger::getInstance()->info(" getRequest()->hasParameter('filter')");
-
             $filters = $this->getRequestParameter('filters');
             $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
