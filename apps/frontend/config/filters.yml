@@ -12,6 +12,8 @@ ipblock:
     class: ipblockFilter
 status:
     class:  statusFilter
+FVrequired:
+    class:  FVrequiredFilter
 deactivation:
     class:  deactivationFilter
     enabled: <?php echo (sfConfig::get('app_settings_deactivation_counter') > 0) ? 'yes' : 'no', "\n"; ?>

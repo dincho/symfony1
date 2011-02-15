@@ -27,7 +27,7 @@
                                                   'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
 
 <p class="photo_authenticity float-right">
-    <?php echo link_to(($member->hasAuthPhoto()) ? __('Update Your Verification Photo') : __('Verify authenticity'), 'editProfile/photoAuthenticity', array('class' => 'sec_link')); ?>
+    <?php echo link_to(($member->hasAuthPhoto()) ? __('Update Your Verification Photo') : __('Verify authenticity'), '@verify_photo', array('class' => 'sec_link')); ?>
 </p>
 <br class="clear" />
 
