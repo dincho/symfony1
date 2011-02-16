@@ -10,17 +10,21 @@
         </tr>
     </thead>
     
-<?php foreach ($notifications as $notification): ?>
-      <tr rel="<?php echo url_for('notifications/edit?id=' . $notification->getId() . '&cat_id=' . $sf_request->getParameter('cat_id')) ?>">
-        <td><?php echo $notification->getName(); ?></td>
-        <td><?php echo $notification->getMailConfig(); ?></td>
-        <td><?php echo format_number($notification->getToday()); ?></td>
-        <td><?php echo boolValue($notification->getIsActive(), 'On', 'Off'); ?></td>
-    </tr>
-<?php endforeach; ?>
+<?php if ($notifications): ?>    
+  <?php foreach ($notifications as $notification): ?>
+        <tr rel="<?php echo url_for('notifications/edit?id=' . $notification->getId() . '&cat_id=' . $sf_request->getParameter('cat_id')) ?>">
+          <td><?php echo $notification->getName(); ?></td>
+          <td><?php echo $notification->getMailConfig(); ?></td>
+          <td><?php echo format_number($notification->getToday()); ?></td>
+          <td><?php echo boolValue($notification->getIsActive(), 'On', 'Off'); ?></td>
+      </tr>
+  <?php endforeach; ?>
+<?php else: ?>
+  <tr><td>No Results<td></tr>
+<?php endif; ?>
 </table>
 
-<?php include_component('content', 'bottomMenu', array('url' => 'notifications/list?to_admins=' . $sf_request->getParameter('to_admins'))); ?><br />
+<?php include_component('content', 'bottomMenu', array('url' => 'notifications/list?to_admins=' . $sf_request->getParameter('to_admins', 0))); ?><br />
 
 <div id="bottom_menu">
   <span class="bottom_menu_title">Edit:</span>
