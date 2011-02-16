@@ -11,7 +11,7 @@ class Migration056 extends sfMigration
     public function up()
     {
         $this->loadTransUnits();
-        $this->executeSQL("INSERT INTO `member_status` (`id`, `title`) VALUES (12 , 'FV required');");        
+        $this->executeSQL("INSERT INTO `member_status` (`id`, `title`) VALUES (12 , 'Suspended - FV required');");        
     }
 
     /**
