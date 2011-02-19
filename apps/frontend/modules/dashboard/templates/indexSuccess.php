@@ -51,7 +51,7 @@
         <div class="dashboard-menu">     
             <?php echo link_to(__('Private Photo Access ( %count%/%count_all% )', array('%count%' => $private_photos_profiles_cnt,'%count_all%' => $private_photos_profiles_all_cnt)), '@photo_access', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($private_photos_profiles as $private_photos_profile): ?>
-                <?php echo link_to_unless(!$private_photos_profile->isActive(), profile_small_photo($private_photos_profile), '@profile?bc=visitors&username=' . $private_photos_profile->getUsername(), array('query_string' =>'bc=photoAccess')) ?>
+                <?php echo link_to_unless(!$private_photos_profile->isActive(), profile_small_photo($private_photos_profile), '@profile?bc=photoAccess&username=' . $private_photos_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>    
         <?php if( $sf_user->getProfile()->getPrivateDating()): ?> 
