@@ -57,6 +57,7 @@ class whoCanSeeYouActions extends prActions
         if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
         
         $this->perm = $perm;
+        $this->member = $profile;
     }
     
     public function validateTogglePrivacyPerm()

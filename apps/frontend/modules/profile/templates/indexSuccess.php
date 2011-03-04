@@ -246,8 +246,11 @@
         <?php endif; ?>
     </div>
     <br class="clear" />
-    <?php if( $sf_user->getProfile()->getPrivateDating()): ?> 
-        <?php echo link_to_remote( ( $has_privacy_perm ) ? __('She (he) can see you. Do not let her') : __('She (he) can not see you. Let her'), array(
+    <?php if( $sf_user->getProfile()->getPrivateDating()): ?>
+        <?php echo link_to_remote( ( $has_privacy_perm ) ? 
+                                      __('%USERNAME% can see you. Do not let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())) : 
+                                      __('%USERNAME% cannot see you. Let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())), 
+                                  array(
                                     'url' => '@toggle_privacy_perm?toggle_link=1&username=' . $member->getUsername(),
                                     'update' => array('success' => 'msg_container'),
                                     'script' => true, 

@@ -205,6 +205,9 @@ class profileActions extends prActions
                     $bc->add(array('name' => 'Photo Access', 'uri' => '@photo_access'));
                     $this->getUser()->getProfile()->markOldProtoFrom($this->member);
                     break;
+                  case 'whoCanSeeYou':
+                    $bc->add(array('name' => 'Who Can See You', 'uri' => '@who_can_see_you'));
+                    break;
                   default:
                     break;
                 }
