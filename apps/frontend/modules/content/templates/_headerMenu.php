@@ -96,5 +96,4 @@
           &bull;<?php echo pr_link_to(__('Report a bug'), 'content/reportBug') ?>
           &bull;<?php if(array_key_exists('help', $links_map)) echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'help', $links_map['help'], '@page?slug=help', 'class=last') ?></p>
     <?php endif; ?>
-                  <?php echo sfRouting::getInstance()->getCurrentInternalUri(); ?>
 </div>
