@@ -59,7 +59,33 @@ propel:
       uniq_item_type:       [item, item_type]
     _indexes:
       item_type:            [item_type]
+
+  ipwatch:
+    id:
+    ip:                     { type: integer, required: false  }
+    created_at:
+    _uniques:
+      uniq_ip:              [ip]
+
+  ip_country:
+    id:
+    country_code:         { type: char, size: 2, required: true }
+    country_name:         { type: varchar, size: 255, required: true }
+    _uniques:
+      country_code:       [country_code]
       
+  ip_location:
+    id:                { type: integer, required: false } 
+    country_code:         { type: char, size: 2, required: true, foreignTable: ip_country, foreignReference: country_code, onDelete: restrict }
+    city_name:            { type: varchar, size: 255, required: false} 
+
+  ip_blocks:
+    id:
+    ip_poly:              { type: blob, required: true } 
+    ip_from:              { type: bigint, required: true } 
+    ip_to:                { type: bigint, required: true }
+    locid:                { type: integer, required: false, foreignTable: ip_location, foreignReference: id, onDelete: restrict }
+
   member: 
     id:
     member_status_id:         { type: integer, required: false, foreignTable: member_status, foreignReference: id, onDelete: restrict }
@@ -165,6 +191,7 @@ propel:
   member_login_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    ip:                       { type: bigint, required: false }
     last_login:               { type: timestamp }
     created_at:
 

@@ -662,3 +662,7 @@ div.member_flags table {
     min-height: 720px;
     z-index: 100;
 }
+#preview_duplicates {
+    height: 250px;
+    overflow:auto;
+}

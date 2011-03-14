@@ -48,8 +48,17 @@
 <label for="registration_ip">Registration IP</label>
 <var id="registration_ip"><?php echo $member->getRegistrationIP() ?></var><br />
 
+<label for="registration_ip">maxmind.com location</label>
+  <var id="registration_ip"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
+  </var>
+<br />
+
 <label for="last_ip">Last IP</label>
 <var id="last_ip"><?php echo $member->getLastIP() ?></var><br />
+<label for="registration_ip">maxmind.com location</label>
+  <var id="registration_ip"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
+  </var>
+<br />
 
 <label for="member_original_first_name">Original First Name</label>
 <var id="member_original_first_name"><?php echo $member->getOriginalFirstName() ?></var><br />

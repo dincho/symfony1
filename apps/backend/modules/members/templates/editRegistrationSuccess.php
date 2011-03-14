@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript', 'fillIn', 'I18N') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
@@ -45,6 +45,11 @@
                 
     <label for="city_id">City</label>
     <?php echo pr_object_select_city_tag($member, 'getCityId', array('class' => error_class('city_id', true),  'include_custom' => 'Please Select')); ?><br />                                              
+
+    <label for="registration_ip">maxmind.com location</label>
+      <var id="registration_ip"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
+      </var>
+    <br />
     
     <label for="zip">Zip Code</label>
     <?php echo object_input_tag($member, 'getZip', error_class('zip')) ?><br />

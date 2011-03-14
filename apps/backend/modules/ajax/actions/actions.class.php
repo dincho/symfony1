@@ -99,4 +99,16 @@ class ajaxActions extends geoActions
         $output = json_encode(array_values($dsgs));
         return $this->renderText($output);
     }  
+
+    public function executeGetUsersByIp()
+    {
+        $c = new Criteria();
+        $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( SELECT DISTINCT '. MemberLoginHistoryPeer::MEMBER_ID. 
+                                ' FROM ' .MemberLoginHistoryPeer::TABLE_NAME.                                 
+                                ' WHERE '. MemberLoginHistoryPeer::IP. ' = '. $this->getRequestParameter('ip') .')', 
+                  Criteria::CUSTOM);
+                                                                              
+        $this->users = MemberPeer::doSelect($c);
+    }  
+
 }
