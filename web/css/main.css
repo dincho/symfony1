@@ -863,7 +863,8 @@ form#sign_in fieldset a {
     font-size: 11px;
 }
 
-#dashboard-container a:hover img {
+#dashboard-container a:hover img,
+#dashboard-container div.right a:hover img {
     margin: 1px;
     border: 2px solid #e0b400;
 }
@@ -871,6 +872,10 @@ form#sign_in fieldset a {
 #dashboard-container img {
     margin: 1px;
     border: 2px solid #000;
+}
+
+#dashboard-container div.right img {
+    border: 2px solid #4F4F4F;
 }
 
 span.online-assistant {
