@@ -636,6 +636,11 @@ form#sign_in fieldset a {
     position:relative;
     float: right;
 }
+#winks div.member_profile div.input img{
+    position:relative;
+    float: left;
+}
+
 #winks div.privacy_profile_viewers img {
     position:relative;
     float: right;

@@ -3,7 +3,8 @@
 
 <div id="winks">
     <div class="you_recived">
-        <?php echo __('Members who granted you an access to their private photos')?><br /><br />
+        <?php echo __('Members who granted you an access to their private photos')?><br />
+        <?php include_partial('content/newProfiles') ?><br />
         <?php foreach ($other_grants as $perm): ?>
             <?php $member = $perm->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">
@@ -18,6 +19,11 @@
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=photoAccess&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php if( $perm->getIsNew() ): ?>
+                      <div>
+                        <?php echo image_tag('circle-blue.png'); ?>
+                      </div>
+                    <?php endif;?>
                 </div>
             </div>        
         <?php endforeach; ?>
@@ -25,7 +31,7 @@
     
     <div class="you_sent">
         <?php echo __('Members whom you granted an access to your private photos')?><br />
-        <span><?php echo __('Click on the "x" in the lower corner of a profile to remove it from the list.')?></span><br /><br />
+        <span><?php echo __('Click on the "x" in the lower corner of a profile to remove it from the list.')?></span><br /><br />    
         <?php foreach ($my_grants as $perm): ?>
             <?php $profile = $perm->getMemberRelatedByProfileId(); ?>
             <div class="member_profile" id="member_profile_<?php echo $profile->getId();?>">

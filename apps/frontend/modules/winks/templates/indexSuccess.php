@@ -1,6 +1,9 @@
 <?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink') ?>
 
 <?php echo __('These are the winks you received and sent. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
+
+<?php include_partial('content/newProfiles') ?>
+
 <div id="winks">
     <div class="you_recived">
         <?php echo __('Winks you received')?><br /><br />
@@ -18,6 +21,9 @@
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $received_wink->getId()) ?>
+                    <?php if( $received_wink->getIsNew() ): ?>
+                        <?php echo image_tag('circle-blue.png'); ?>
+                    <?php endif;?>
                 </div>                
                 <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $received_wink->getId()) ?>
             </div>

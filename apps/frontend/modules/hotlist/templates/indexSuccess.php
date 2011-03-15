@@ -1,8 +1,10 @@
 <?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink', 'Javascript') ?>
 
+
 <div id="winks">
     <div class="you_recived">
-        <?php echo __('You\'re on the Hotlist of these members')?><br /><br /><br />
+        <?php echo __('You\'re on the Hotlist of these members')?>  <br />
+        <?php include_partial('content/newProfiles') ?> <br /><br />
         <?php foreach ($others_hotlists as $others_hotlist_row): ?>
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">
@@ -17,6 +19,11 @@
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php if( $others_hotlist_row->getIsNew() ): ?>
+                        <div>
+                          <?php echo image_tag('circle-blue.png'); ?>
+                        </div>
+                    <?php endif;?>
                 </div>
             </div>        
         <?php endforeach; ?>
