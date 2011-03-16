@@ -20,14 +20,14 @@ class ipblockingActions extends sfActions
         }
         
         $this->left_menu_selected = 'IP Blocking';
-        $this->top_menu_selected = 'content';
+        $this->top_menu_selected = 'ipwatch';
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Content', 'uri' => 'content/list'))->add(array('name' => 'IP Blocking', 'uri' => 'ipblocking/list'));
         $this->culture = ($this->getRequestParameter('culture', 'en'));
     }
 
     public function executeList()
-    {
+    {                                  
         $c = new Criteria();
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM_TYPE);
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM);
