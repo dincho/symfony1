@@ -38,7 +38,9 @@ class myArrayPager extends sfPager
  
   public function getResults()
   {
-    return array_slice($this->resultsArray, ($this->getPage() - 1) * $this->getMaxPerPage(), $this->maxPerPage);
+    if( count($this->resultsArray) > 0 )
+      return array_slice($this->resultsArray, ($this->getPage() - 1) * $this->getMaxPerPage(), $this->maxPerPage);
+    return array();
   }
  
 }
