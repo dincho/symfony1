@@ -505,9 +505,49 @@ class messagesActions extends prActions
                         
         } else {
             /* THREAD VIEW */
+            $error = null;
             
             if( !$profile ) return true; //system message
+            if( !$profile->isActive() )
+            { 
+              switch ($profile->getMemberStatusId()) {
+                    case MemberStatusPeer::SUSPENDED:
+                        $error = 'Sorry, this profile has been suspended';
+                    break;
+                    case MemberStatusPeer::SUSPENDED_FLAGS:
+                        $error = 'Sorry, this profile has been suspended';
+                    break;
+                    case MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED:
+                        $error = 'Sorry, this profile has been canceled';
+                    break;
+                    case MemberStatusPeer::CANCELED:
+                        $error = 'Sorry, this profile has been canceled';
+                    break;
+                    case MemberStatusPeer::CANCELED_BY_MEMBER:
+                        $error = 'Sorry, this profile has been canceled by its owner';
+                    break;
+                    case MemberStatusPeer::DEACTIVATED:
+                        $error = 'Sorry, this profile has been deactivated by its owner';
+                    break;
+                    case MemberStatusPeer::DEACTIVATED_AUTO:
+                        $error = 'Sorry, this profile has been deactivated';
+                    break;                    
+                    case MemberStatusPeer::FV_REQUERED:
+                        $error = 'Sorry, this profile is being verified';
+                    break;                    
+
+                    case MemberStatusPeer::DENIED:
+                    case MemberStatusPeer::PENDING:
+                    case MemberStatusPeer::ABANDONED:
+                        $error = __('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $profile->getUsername()));
+                    break;                    
+
+                    default:
+                    break;
+                }
+            }
             if( !$profile->isActive() ) $this->setFlash('msg_error', __('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $profile->getUsername())), false);
+            $this->setFlash('msg_error', $error, false);
             
             //break/leave if there is no UNread messages
             $cnt_unread = MessagePeer::countUnreadInThreadExcludePredefined($thread->getId(), $member);
