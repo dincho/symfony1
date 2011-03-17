@@ -7,8 +7,11 @@
 <label for="email">Email</label>
 <?php echo object_input_tag($member, 'getEmail', error_class('email')) ?>
 <?php if( !$member->getHasEmailConfirmation() ): ?>
-  <?php echo link_to('Confirm', 'members/confirmEmail?id=' . $member->getId()); ?>
+  <?php echo link_to('Confirm', 'members/confirmEmail?id=' . $member->getId()); ?>&nbsp;|
 <?php endif; ?>
+<?php echo link_to('G Search', 'http://google.com/search', 
+                                    array( 'query_string' => 'q=' . urlencode($member->getEmail()),
+                                           'target' => '_blank')); ?>
 <br />
 <?php if( !$member->getHasEmailConfirmation() ): ?>
     <label></label>
