@@ -546,7 +546,6 @@ class messagesActions extends prActions
                     break;
                 }
             }
-            if( !$profile->isActive() ) $this->setFlash('msg_error', __('%USERNAME%\'s Profile is not longer available', array('%USERNAME%' => $profile->getUsername())), false);
             $this->setFlash('msg_error', $error, false);
             
             //break/leave if there is no UNread messages
