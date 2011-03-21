@@ -10,6 +10,7 @@ class Migration058 extends sfMigration
     */
     public function up()
     {
+        $this->executeSQL("ALTER TABLE `member_login_history` ADD `ip` BIGINT NOT NULL AFTER `member_id`;");                
         $this->executeSQL("CREATE TABLE IF NOT EXISTS `ipwatch` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
                             `ip` int(11) NOT NULL,
@@ -25,6 +26,7 @@ class Migration058 extends sfMigration
     */
     public function down()
     {
+        $this->executeSQL("ALTER TABLE `member_login_history` DROP `ip`;");                
         $this->executeSQL("DROP TABLE IF EXISTS `ipwatch`;");                
     }
 }
