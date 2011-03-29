@@ -10,11 +10,9 @@
 <link rel="shortcut icon" href="/favicon.ico" />
 
 </head>
-<body>
-  <div id="content">
-    <?php include_component('system', 'breadcrumb'); ?>
-    <?php include_component('system', 'messages') ?>
-    <?php echo $sf_data->getRaw('sf_content') ?>
-  </div>
+<body class="window">
+    <div id="secondary_container">
+        <?php echo $sf_data->getRaw('sf_content') ?>
+    </div>
 </body>
 </html>

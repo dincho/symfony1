@@ -86,6 +86,8 @@ class sfPropelThumbnailsBehavior
   {
     $Request = sfContext::getInstance()->getRequest();
     
+    $photo_exif_info = false; 
+    
     if ($Request->getFileSize($ImageField))
     {
      
@@ -97,13 +99,33 @@ class sfPropelThumbnailsBehavior
 
       $ext = $this->getFileExtension($tmp_file);                         
 //        sfContext::getInstance()->getLogger()->info('updateImageFromRequest $ext- '.$ext);
-      if( in_array($ext, array('.jpg', '.jpeg' )) )
+      if( in_array($ext, array('.jpg', '.jpeg')) )
       {
-        $exif = exif_read_data($tmp_file, 'IFD0');
-        if( array_key_exists('Orientation', $exif) )
+        $exif = exif_read_data($tmp_file, 'EXIF', true);
+        
+        if(!($exif===false) && array_key_exists('IFD0', $exif) && array_key_exists('Orientation', $exif['IFD0']) )
         {
-          $ort = $exif['Orientation'];
-  
+
+/*          foreach(array('FILE', 'COMPUTED', 'THUMBNAIL') as $section)
+          {
+            if(array_key_exists($section, $exif))
+                unset($exif[$section]);
+          }
+*/
+          if(array_key_exists('MakerNote', $exif['EXIF']))
+              unset($exif['EXIF']['MakerNote']);
+          
+//          $photo_exif_info = new PhotoExifInfo();
+          $photo_exif_info = serialize($exif);
+//         sfContext::getInstance()->getLogger()->info('$photo_exif_info - '.$photo_exif_info);
+         
+/*          foreach ($exif as $key => $section) {
+              foreach ($section as $name => $val) {    
+                  sfContext::getInstance()->getLogger()->info("$key.$name: " . (is_array($val) ? implode(', ', $val): $val));
+              }
+          }        
+*/
+          $ort = $exif['IFD0']['Orientation']; 
 //        sfContext::getInstance()->getLogger()->info('updateImageFromRequest $ort- '.$ort);
     
           $img = new sfImage($tmp_file, 'image/jpg');
@@ -142,8 +164,8 @@ class sfPropelThumbnailsBehavior
                   $img->rotate(90);
               break;
           }      
-          $img->save();
-        }      
+          $img->save();    
+        }               
       }// is jpg
 
       $file = $Request->getFileName($ImageField);
@@ -170,6 +192,7 @@ class sfPropelThumbnailsBehavior
       //$object->setImage($FileName.$ext);
       if( $CreateThumbnails ) $object->createThumbnails($column);
     }
+    return $photo_exif_info;
   }
   
   public function updateImageFromFile($object, $column = 'file', $ImagePath, $CreateThumbnails = true, $brand = false)

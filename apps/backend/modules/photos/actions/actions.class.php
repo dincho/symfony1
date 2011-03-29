@@ -434,6 +434,16 @@ class photosActions extends sfActions
         $this->redirect($this->getUser()->getRefererUrl());
     }
 
+    public function executeExifInfo()
+    {
+      sfConfig::set('sf_web_debug', false);
+      $this->setLayout('popup');
+      $c = new Criteria();
+      $c->add(PhotoExifInfoPeer::PHOTO_ID, $this->getRequestParameter('photoId'));
+      $photo_exif_info = PhotoExifInfoPeer::doSelectOne($c);
+      $this->exif_info = $photo_exif_info?unserialize($photo_exif_info->getExifInfo()):'';
+    }
+
     
     protected function processSort()
     {

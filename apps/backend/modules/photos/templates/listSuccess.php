@@ -1,4 +1,4 @@
-<?php use_helper('Object') ?>
+<?php use_helper('Object', 'Window') ?>
 <div id="photos">
 
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/list')); ?><br />
@@ -29,6 +29,10 @@
                 <?php echo link_to_unless($member->getPrivateDating(), 'Add to homepage', 'photos/addMemberPhotoToHomepage?photo_id=' . $photo->getId()); ?>
 
                 <?php include_partial('editProfile/photo_status', array('photo' => $photo)); ?>
+
+                <?php echo ($photo->getPhotoExifInfos())?link_to('EXIF', 'photos/exifInfo?photoId=' . $photo->getId(), 
+                        array(  'popup' => array('popupWindow', 'toolbar=no,status=no,scrollbars=yes,location=no,top=200,width=400,height=600'))):"" ?>               
+                
 
             </div>
             <?php if( $i++ % 6 == 0 && $i <= $cnt_photos): ?>

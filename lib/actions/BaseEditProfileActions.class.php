@@ -130,10 +130,19 @@ class BaseEditProfileActions extends prActions
                 
         $member_photo = new MemberPhoto();
         $member_photo->setMember($this->member);
-        $member_photo->updateImageFromRequest('file', 'Filedata', true, true);
+        $exif_info = $member_photo->updateImageFromRequest('file', 'Filedata', true, true);
         $member_photo->setIsPrivate($is_private);
         $member_photo->setSortOrder(PHP_INT_MAX);
         $member_photo->save();
+
+        if( !($exif_info === false) )
+        {
+          $photo_exif_info = new PhotoExifInfo();
+          $photo_exif_info->setPhotoId($member_photo->getId());
+          $photo_exif_info->setExifInfo($exif_info);
+          $photo_exif_info->save();
+        }
+        sfContext::getInstance()->getLogger()->info('executeUploadPhoto - $photo_exif_info - '.$exif_info);
         
         $this->member->setLastPhotoUploadAt(time());
         $this->member->setReviewedById(null);

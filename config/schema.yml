@@ -245,6 +245,12 @@ propel:
     is_private:               { type: boolean, required: true }
     sort_order:               { type: integer, required: true, default: 0 }
     auth:                     { type: char, size: 1, required: false } #S - submitted for approve, A - approved, D - Denied
+
+  photo_exif_info:
+    id:
+    photo_id:                 { type: integer, required: false, foreignTable: member_photo, foreignReference: id, onDelete: cascade }
+    exif_info:                { type: varchar, size: 4096 }
+  
   
   private_photo_permission:
     member_id:                { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
