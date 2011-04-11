@@ -29,6 +29,11 @@
           <td class="form_fields" style="padding-right: 0; padding-left: 20px; vertical-align: top;">
             <?php include_partial('members/activity_stats', array('member' => $member)); ?>
             <?php include_partial('members/photos', array('member' => $member)); ?>
+            <hr />
+            <?php $unread =  $member->getUnreadMessagesCount() == 0? $member->getUnreadMessagesCount() : '<strong>' . $member->getUnreadMessagesCount() . '</strong>' ?>
+            <?php echo link_to(__('Feedback ( %UNREAD% / %ALL% )', 
+                              array('%UNREAD%' => $unread, '%ALL%' => $member->getCounter('SentMessages') + $member->getCounter('ReceivedMessages') )),
+                            'messages/member?id=' . $member->getId())  ?>
           </td>
       </tr>
   </table>
