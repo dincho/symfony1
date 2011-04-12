@@ -30,12 +30,13 @@
             <?php include_partial('members/activity_stats', array('member' => $member)); ?>
             <?php include_partial('members/photos', array('member' => $member)); ?>
             <hr />
-            <?php $unread =  $member->getUnreadMessagesCount() == 0? $member->getUnreadMessagesCount() : '<strong>' . $member->getUnreadMessagesCount() . '</strong>' ?>
+            <?php $unread = $member->getUnreadFeedback() ?>
+            <?php $unread <> 0? '<strong>' . $member->getUnreadFeedback() . '</strong>': $unread ?>
             <?php echo link_to(__('Feedback ( %UNREAD% / %ALL% )', 
-                              array('%UNREAD%' => $unread, '%ALL%' => $member->getCounter('SentMessages') + $member->getCounter('ReceivedMessages') )),
-                            'messages/member?id=' . $member->getId())  ?>
+                              array('%UNREAD%' => $unread, '%ALL%' => $member->getAllFeedback() )),
+                            'feedback/list?filter=filter&commit=Search&filters[search_type]=username&filters[search_query]=' . $member->getUsername())  ?>
           </td>
-      </tr>
+      </tr>                  http://pr.localhost/backend_dev.php/feedback?filter=filter&filters[search_query]=asd12&filters[search_type]=username&commit=Search
   </table>
 
   <?php include_partial('flags/member_flagged', array('flags' => $flags)); ?>

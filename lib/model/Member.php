@@ -1161,4 +1161,24 @@ class Member extends BaseMember
 
         return (bool) FlagPeer::doCount($c);
     }
+
+    public function getUnreadFeedback()
+    {
+        $c = new Criteria();
+        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
+        $c->add(FeedbackPeer::IS_READ, 0);
+        $c->add(FeedbackPeer::MEMBER_ID, $this->getId());
+
+        return FeedbackPeer::doCount($c);
+    }
+    
+    public function getAllFeedback()
+    {
+        $c = new Criteria();
+        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX . ', ' . FeedbackPeer::SENT , Criteria::IN);
+        $c->add(FeedbackPeer::MEMBER_ID, $this->getId());
+
+        return FeedbackPeer::doCount($c);
+    }
+
 }
