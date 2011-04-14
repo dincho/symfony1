@@ -1,5 +1,3 @@
-<?php use_helper('Object', 'dtForm', 'Javascript', 'prDate') ?>
-
 <label for="first_name">First Name</label>
 <?php echo object_input_tag($member, 'getFirstName', error_class('first_name')) ?><br />
 
