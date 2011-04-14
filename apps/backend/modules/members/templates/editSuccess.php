@@ -1,4 +1,4 @@
-<?php use_helper('Object', 'dtForm', 'Javascript') ?>
+<?php use_helper('Object', 'dtForm', 'Javascript', 'Date') ?>
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
@@ -36,7 +36,7 @@
                               array('%UNREAD%' => $unread, '%ALL%' => $member->getAllFeedback() )),
                             'feedback/list?filter=filter&commit=Search&filters[search_type]=username&filters[search_query]=' . $member->getUsername())  ?>
           </td>
-      </tr>                  http://pr.localhost/backend_dev.php/feedback?filter=filter&filters[search_query]=asd12&filters[search_type]=username&commit=Search
+      </tr>
   </table>
 
   <?php include_partial('flags/member_flagged', array('flags' => $flags)); ?>
