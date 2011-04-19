@@ -4,7 +4,7 @@
     <fieldset class="form_fields">
     <?php $i=1; foreach($pager->getResults() as $photo): ?>
         <div class="photo_slot">
-            <?php echo image_tag( $photo->getImageUrlPath('file', '100x95') ) ?><br />
+            <?php echo image_tag( $photo->getImageUrlPath('file', '300x300'), 'size=100x100' ) ?><br />
             <?php echo (is_null($photo->getHomepages()) ? '&nbsp;&nbsp;&nbsp;' : '+&nbsp;') .  link_to('Home Page', 'photos/addToHomepage?photo_id=' . $photo->getId()) ?><br />
             <?php echo (($photo->countMemberStorys() < 1) ? '&nbsp;&nbsp;&nbsp;' : '+&nbsp;') . link_to('Member Stories', 'photos/addToMemberStories?photo_id=' . $photo->getId()) ?><br />
             <?php echo (is_null($photo->getAssistants()) ? '&nbsp;&nbsp;&nbsp;' : '+&nbsp;') .  link_to('Assistant', 'photos/addToAssistant?photo_id=' . $photo->getId()) ?><br />

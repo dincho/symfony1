@@ -263,7 +263,7 @@ class photosActions extends sfActions
             if( $this->getRequestParameter('type') == 1) //homepage
             {
                 $photo->setGender($this->getRequestParameter('gender'));
-                $photo->addEffects('file', '100x95');
+                $photo->addEffects('file', '300x300');
                 
                 
                 $namespace = 'backend/photos/addtohomepage';
@@ -312,8 +312,8 @@ class photosActions extends sfActions
         
         if( $this->getRequestParameter('type') == 1) //homepage
         {
-            $dims['w'] = 100;
-            $dims['h'] = 95;
+            $dims['w'] = 300;
+            $dims['h'] = 300;
             $this->getUser()->getBC()->add(array('name' => 'Home Page', 'uri' => 'photos/addToHomepage?photo_id=' . $photo->getId()))
             ->add(array('name' => 'Crop'));
         } elseif( $this->getRequestParameter('type') == 2) //member stories
