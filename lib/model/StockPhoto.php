@@ -49,7 +49,7 @@ class StockPhoto extends BaseStockPhoto
         $this->save();
         $this->createThumbnails('cropped');
         
-        $this->addEffects('cropped', '300x300');
+        $this->addEffects('cropped', '308x293');
     }
     
     public function addEffects($field, $size)
@@ -75,7 +75,7 @@ class StockPhoto extends BaseStockPhoto
         $cropped->save($newPath);
     }
     
-    public function getTiltImageUrlPath($size = '300x300')
+    public function getTiltImageUrlPath($size = '308x293')
     {
         $prefix = ($this->getGender() == 'F') ? 'orange_' : 'blue_'; 
         
@@ -102,7 +102,7 @@ class StockPhoto extends BaseStockPhoto
 
     public function getWebRelativePath()
     {
-        $relative_path = '/images/StockPhoto/300x300/';
+        $relative_path = '/images/StockPhoto/308x293/';
         return '/'.sfConfig::get('sf_upload_dir_name').$relative_path.$this->getFile();
     }
 
@@ -110,7 +110,7 @@ class StockPhoto extends BaseStockPhoto
 }
 
 $sizes = array(array('width' => 50, 'height' => 50),
-                array('width' => 300, 'height' => 300), //home page
+                array('width' => 308, 'height' => 293), //home page
                 array('width' => 220, 'height' => 225), //member stories
                 array('width' => 70, 'height' => 105), //assistant
                 array('width' => 350, 'height' => 350));//backend full size when cropping
