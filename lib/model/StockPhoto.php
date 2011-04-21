@@ -103,7 +103,7 @@ class StockPhoto extends BaseStockPhoto
     public function getWebRelativePath()
     {
         $relative_path = '/images/StockPhoto/308x293/';
-        return '/'.sfConfig::get('sf_upload_dir_name').$relative_path.$this->getFile();
+        return '/'.sfConfig::get('sf_upload_dir_name').$relative_path.$this->getCropped();
     }
 
 
