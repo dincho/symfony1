@@ -489,7 +489,7 @@ class messagesActions extends prActions
               $this->getRequest()->setError('subscription', sprintf('%s: In order to reply to message you need to upgrade your membership.', $subscription->getTitle()));
               return false;
             }
-            
+           
             if( $member->getCounter('ReplyMessagesDay') >= $subscription->getReplyMessagesDay() )
             {
               $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - reply to message - you have reached the daily limit up to which you can use it with your membership. In order to reply to message, please upgrade your membership.', $subscription->getTitle()));
@@ -572,6 +572,7 @@ class messagesActions extends prActions
 
         $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
         $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $member->getId(), $profile->getId(), $thread->getId());
+        $this->content = $this->getRequestParameter('content');
       
         //template varibales
         $this->thread = $thread;

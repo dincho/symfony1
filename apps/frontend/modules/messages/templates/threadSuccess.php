@@ -86,7 +86,7 @@
             <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, 
                   place of work and any other identifying information in initial messages with other members'); ?>
             </div>
-            <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?>
+            <?php echo textarea_tag('content',  isset($content)? $content : $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?>
             <br />
    
             <?php if( !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
