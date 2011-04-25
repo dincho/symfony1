@@ -3,8 +3,19 @@
 <?php $public_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
 <?php $private_photos = $member->getPrivateMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_private_photos')); ?>
 
-<div id="profile_left" style="padding-top: 14px">
+<div>
+  <div id="profile_top_left"> 
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
+  </div>
+  <div id="profile_top_right"> 
+    <div id="profile_pager">
+        <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
+    </div>
+  </div>
+</div>
+<br class="clear" />
+
+<div id="profile_left" >
     <div style="min-height: 350px">
         <?php 
               _addLbRessources();
@@ -68,11 +79,7 @@
 </div>
 
 
-<div id="profile_right">
-    <div id="profile_pager">
-        <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
-    </div>
-   
+<div id="profile_right">   
    <div id="profile_top">
         <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()) ): ?>
             <span class="sec_link"><?php echo __('Wink'); ?></span>

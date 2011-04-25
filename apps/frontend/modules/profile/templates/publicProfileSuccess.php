@@ -1,6 +1,13 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
-<div id="profile_left">
+<div>
+  <div id="profile_top_right"> 
+     <div id="profile_pager"></div>
+  </div>
+</div>
+<br class="clear" />
+
+<div id="profile_left" >
     <?php $form_style = 'background-image: url(/images/no_photo/'.$member->getSex().'/350x350.jpg);'; ?>
     <?php echo form_tag('profile/signIn', array('id' => 'sign_in', 'style' => $form_style)) ?>
         <?php echo input_hidden_tag('referer', url_for('@public_profile?username=' . $member->getUsername(), array('absolute' => true, ))) ?>
@@ -24,9 +31,7 @@
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
 
-<div id="profile_right"> 
-   <div id="profile_pager"></div>
-   
+<div id="profile_right">    
    <div id="profile_top">
         <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;

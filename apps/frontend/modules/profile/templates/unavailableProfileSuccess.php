@@ -1,16 +1,21 @@
 <?php use_helper('Javascript', 'Date', 'prDate', 'dtForm', 'Text', 'Lightbox', 'prLink') ?>
 
+<div>
+  <div id="profile_top_right"> 
+    <div id="profile_pager">
+        <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
+    </div>
+  </div>
+</div>
+<br class="clear" />
+
 <div id="profile_left">
     <div style="min-height: 350px">
         <?php echo image_tag('/images/no_photo/' .$member->getSex().'/350x350.jpg', array( 'class' => 'member_image')); ?>
     </div>
 </div>
 
-<div id="profile_right"> 
-   <div id="profile_pager">
-        <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
-   </div>
-   
+<div id="profile_right">    
    <div id="profile_top">
         <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
