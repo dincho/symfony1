@@ -12,7 +12,7 @@
     
 <?php if ($notifications): ?>    
   <?php foreach ($notifications as $notification): ?>
-        <tr rel="<?php echo url_for('notifications/edit?id=' . $notification->getId() . '&cat_id=' . $sf_request->getParameter('cat_id')) ?>">
+        <tr rel="<?php echo url_for('notifications/edit?id=' . $notification->getId() . '&cat_id=' . $sf_request->getParameter('cat_id',1)) ?>">
           <td><?php echo $notification->getName(); ?></td>
           <td><?php echo $notification->getMailConfig(); ?></td>
           <td><?php echo format_number($notification->getToday()); ?></td>

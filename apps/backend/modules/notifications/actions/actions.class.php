@@ -15,10 +15,13 @@ class notificationsActions extends sfActions
     {
         $this->top_menu_selected = 'content';
         $this->left_menu_selected = 'System Notifications';
+        $this->getUser()->getBC()->clear()->add(array('name' => 'Notifications', 'uri' => 'notifications/list?cat_id='.$this->getRequestParameter('cat_id', 1)));
     }
     
     public function executeList()
     {
+        $this->getUser()->getBC()->add(array('name' => 'List', 'uri' => ''));
+
         $customObject = new CustomQueryObject();
         
         $sql = 'SELECT n.name, n.mail_config, n.is_active, n.id, IF(m.today IS NULL, 0, m.today) as today
@@ -33,14 +36,16 @@ class notificationsActions extends sfActions
              
         $sql = strtr($sql, array(
             '%TO_ADMIN%' => $this->getRequestParameter('to_admins', 0),
-            '%CAT_ID%'   => $this->getRequestParameter('cat_id')));
+            '%CAT_ID%'   => $this->getRequestParameter('cat_id', 1)));
             
         $this->notifications = $customObject->query($sql);
     }
 
     public function executeEdit()
     {
-        $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'), $this->getRequestParameter('cat_id'));
+        $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => ''));
+        
+        $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'), $this->getRequestParameter('cat_id', 1));
         $this->forward404Unless($notification);
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
