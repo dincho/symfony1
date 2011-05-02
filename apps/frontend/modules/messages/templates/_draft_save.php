@@ -19,25 +19,39 @@
         '. remote_function($remote_options) .'
     }
     
-    function save_complete()
-    {
-        $("save_to_draft_btn").blur(); 
-        $("save_to_draft_btn").value = "'. __('Saved') .'";
-        $("save_to_draft_btn").disable(); 
-        save_condition = false;
-        if( last_focused_field ) last_focused_field.focus();
-    }
-    
-    function enable_saving()
-    {
-        $("save_to_draft_btn").value = "'. __('Save Now') .'";
-        $("save_to_draft_btn").enable();
-        save_condition = true;
-    }
+   function disable_button(button)
+   {
+     $(button).className = "button_disabled";
+     $(button).onclick = function(){return false;};
+   }
+
+   function enable_button(button)
+   {
+     $(button).className = "button";
+     $(button).onclick = function(){ save_draft(); return false;};
+   }
+
+   function save_complete()
+   {
+       $("save_to_draft_btn").blur();
+       $("save_to_draft_btn").value = "'. __('Saved') .'";
+       disable_button("save_to_draft_btn");
+       save_condition = false;
+       if( last_focused_field ) last_focused_field.focus();
+   }
+
+   function enable_saving()
+   {
+       $("save_to_draft_btn").value = "'. __('Save Now') .'";
+       enable_button("save_to_draft_btn");
+       save_condition = true;
+   }
     
     Event.observe("title", "keypress", function(event){ enable_saving(); $("title").focus(); });
     Event.observe("title", "focus", function(event){ last_focused_field = $("title"); });
     
     Event.observe("your_story", "keypress", function(event){ enable_saving(); $("your_story").focus(); });
     Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
+    
+    Event.observe(window, "load", function(){ disable_button("save_to_draft_btn"); });
 ');?>

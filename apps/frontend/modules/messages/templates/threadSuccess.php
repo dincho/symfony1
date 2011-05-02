@@ -101,7 +101,7 @@
         <fieldset class="background_000">
             <label></label>
             <?php echo submit_tag(__('Send'), array('class' => 'button', 'onClick' => "if(submitted) return false; messagebar_message('".__('Sending message...')."'); submitted = true; return true;") ) ?>
-            <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn', 'disabled' => 'disabled')) ?>
+            <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn')) ?>
             <?php echo button_to(__('Discard'), 'messages/discard?draft_id=' . $draft->getId(), array('class' => 'button', )) ?>
             <br />
         </fieldset>

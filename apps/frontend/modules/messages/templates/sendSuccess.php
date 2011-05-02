@@ -59,7 +59,7 @@
     <fieldset class="actions">
         <label></label>
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
-        <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn', 'disabled' => 'disabled')) ?>
+        <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn')) ?>
         <?php echo button_to_remote(__('Discard'), array('url'      => 'messages/discard?draft_id=' . $draft->getId(),
                                                          'complete' => 'draft_complete(request)',
                                                          'with'     => "'layout=' + $('layout').value",
