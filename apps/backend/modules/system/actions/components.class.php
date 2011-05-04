@@ -102,7 +102,7 @@ class systemComponents extends sfComponents
                                            array('title' => 'Clear Global Cache', 'uri' => 'system/clearGlobalCache'),
                                            ),
                         'photos'    => array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
-                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&pending_verification=1&sort=no'),
+                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&filters[pending_verification]=1&sort=no'),
                                             array('title'   => 'Male', 'uri' => 'photos/list?filter=filter&filters[sex]=M&sort=no'),
                                             array('title'   => 'Female', 'uri' => 'photos/list?filter=filter&filters[sex]=F&sort=no'),
                                             array('title'   => 'Country', 'uri' => 'photos/list?filter=filter&filters[by_country]=1&sort=no'),
@@ -253,7 +253,7 @@ class systemComponents extends sfComponents
   {
 
     $this->menu = $full_menu = array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
-                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&pending_verification=1&sort=no'),
+                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&filters[pending_verification]=1&sort=no'),
                                             array('title'   => 'Male', 'uri' => 'photos/list?filter=filter&filters[sex]=M&sort=no'),
                                             array('title'   => 'Female', 'uri' => 'photos/list?filter=filter&filters[sex]=F&sort=no'),
                                             array('title'   => 'Country', 'uri' => 'photos/list?filter=filter&filters[by_country]=1&sort=no'),

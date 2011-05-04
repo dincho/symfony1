@@ -37,7 +37,16 @@ class photosActions extends sfActions
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
         
-        $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        if ( ! isset($this->filters['is_list']) ) 
+            $this->filters['is_list'] = $this->getRequestParameter('filters[is_list]', 1);
+        
+        if( $this->filters['is_list'] == 1 ){ 
+            $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
+        }
+        else{
+            $this->grid_per_row = 9;
+            $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page')*$this->grid_per_row);
+        }        
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
         
@@ -506,6 +515,13 @@ class photosActions extends sfActions
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/photos/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/photos/filters');
         }
+        if ($this->getRequest()->hasParameter('filters[is_list]'))
+        {
+          $filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
+          $filters['is_list'] = $this->getRequestParameter('filters[is_list]');
+          $this->getUser()->getAttributeHolder()->removeNamespace('backend/photos/filters');
+          $this->getUser()->getAttributeHolder()->add($filters, 'backend/photos/filters');
+        }
     }
 
     protected function addFiltersCriteria($c)
@@ -535,7 +551,7 @@ class photosActions extends sfActions
             $bc->add(array('name' =>  $this->filters['country']));
             $this->left_menu_selected = 'Country';
         }            
-        if ($this->getRequestParameter('pending_verification', 0) == 1)
+        if (isset($this->filters['pending_verification']) && $this->filters['pending_verification'] == 1)
         {
             $custom_sql = MemberPeer::ID." in (select ".MemberPhotoPeer::MEMBER_ID." from ".MemberPhotoPeer::TABLE_NAME." where ".MemberPhotoPeer::AUTH." = 'S')";
             $c->add(MemberPeer::ID, $custom_sql,  Criteria::CUSTOM);
@@ -551,8 +567,6 @@ class photosActions extends sfActions
         {
             $c->add(MemberPeer::CATALOG_ID, $this->filters['cat_id']);
         }
-
-//         sfContext::getInstance()->getLogger()->info('alabala');
 
     }
 }
