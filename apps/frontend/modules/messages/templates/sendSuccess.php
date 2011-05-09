@@ -42,6 +42,9 @@
     </fieldset>
 
     <fieldset class="background_f4">
+        <div id="send_text" class="new_message_notice"><span><?php echo __('Never include your last name, e-mail address, home address, phone number, 
+              place of work and any other identifying information in initial messages with other members'); ?></span>
+        </div>
         <?php echo pr_label_for('content', __('Message:')) ?>
         <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 
                                                                         'rows' => 10, 'cols' => 30)) ?>
@@ -68,6 +71,7 @@
                                                    array('class' => 'button', )) ?>
         <br />
     </fieldset>
+    <br />
   
 </form>
 

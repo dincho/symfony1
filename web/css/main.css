@@ -1064,6 +1064,12 @@ table.threaded_message .profile_photo {
     margin: 10px;
 }
 
+.new_message_notice {
+    width: 90px;
+    float: right; 
+    clear: left; 
+    margin: 5px;
+}
 
 table.threaded_message .message_info {
     width: 140px;
