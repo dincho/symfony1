@@ -1,4 +1,4 @@
-<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail(), 'class=float-right') ?>
+<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername(), 'class=float-right') ?>
 <?php include_partial('members/profile_pager', array('member' => $member)); ?>
 <br /><br />
 
