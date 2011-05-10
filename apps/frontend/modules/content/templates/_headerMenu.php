@@ -58,6 +58,7 @@
           <div id="dhtmlgoodies_content">
             <ul>
                 <li><strong><?php echo __('Your Profile') ?></strong></li>
+                <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Your Profile (View Your profile as others see it)'), '@my_profile', 'class=sec_link') ?></li>
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Registration'), 'editProfile/registration', array('class' => 'sec_link')) ?> <span><?php echo __('(email, etc.)') ?></span></li>
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Self-description'), 'editProfile/selfDescription', array('class' => 'sec_link')) ?></li>
                 <li class="menu_item" onclick="goto_menu(this);"><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria', array('class' => 'sec_link')) ?></li>
