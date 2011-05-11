@@ -1,5 +1,5 @@
 <?php slot('header_title') ?>
-<?php echo __('Delete Your Account') ?>
+<?php echo __('Delete your account headline') ?>
 <?php end_slot(); ?>
 
 <?php echo __('Your account has been deleted.') ?>

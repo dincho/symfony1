@@ -316,7 +316,7 @@ class dashboardActions extends BaseSearchActions
     public function executeDeleteConfirmation()
     {
         $this->getUser()->getBC()->removeFirst()
-        ->addFirst(array('name' => 'Delete Your Account', 'uri' => 'dashboard/deleteYourAccount'))
+        ->addFirst(array('name' => 'Delete your account headline', 'uri' => 'dashboard/deleteYourAccount'))
         ->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
 
         $member = MemberPeer::retrieveByPK($this->getUser()->getid());
