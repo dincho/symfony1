@@ -131,7 +131,7 @@ dev:
     use_queue:        no
     error_exception:  yes
   matches:
-    use_queue:        yes
+    use_queue:        no
     error_exception:  yes
 stag:
     mail:
