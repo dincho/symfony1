@@ -1423,7 +1423,7 @@ form#edit_photos fieldset {
     font-style: italic;
     font-size: 12px;
     padding: 1px 0;
-    float: left;
+    float: right;
 }
 
 .upload_photos {
@@ -2525,14 +2525,7 @@ div.best_video div.right img {
     text-align: left;
     font-size: 11px;
     color: #d3d3d3;
-    float: left;
-}
-
-#profile_top_left { 
-    width:350px;
-    text-align: left;
-    font-size: 11px;
-    color: #d3d3d3;
+    padding-top: 31px;
     float: left;
 }
 
@@ -2592,21 +2585,13 @@ div.best_video div.right img {
     text-align: left;
 }
 
-#profile_top_right {
-    float: right;
-    font-size: 11px;
-    width: 340px;
-    color: #d3d3d3;
-    text-align: left;
-}
-
 /* Profile Pager */
 #profile_pager {
     height: 21px;
     line-height: 21px;
     text-align: center;
     vertical-align: middle;
-    padding: 8px 0;
+    padding: 5px 0;
 }
 
 #profile_pager .next a, #profile_pager .prev a, #profile_pager span {
