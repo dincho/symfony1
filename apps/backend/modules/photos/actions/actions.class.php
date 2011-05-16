@@ -29,6 +29,11 @@ class photosActions extends sfActions
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
         $this->processSort();
         $this->left_menu_selected = "All";
+        
+        $this->query_string="";
+        foreach ($this->filters as $key => $value)
+          if ($key != 'is_list')
+            $this->query_string .="&filters[$key]=$value";
                 
         $c = new Criteria();
         $c->addGroupByColumn(MemberPeer::ID);
@@ -514,13 +519,6 @@ class photosActions extends sfActions
             $filters = $this->getRequestParameter('filters');
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/photos/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/photos/filters');
-        }
-        if ($this->getRequest()->hasParameter('filters[is_list]'))
-        {
-          $filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
-          $filters['is_list'] = $this->getRequestParameter('filters[is_list]');
-          $this->getUser()->getAttributeHolder()->removeNamespace('backend/photos/filters');
-          $this->getUser()->getAttributeHolder()->add($filters, 'backend/photos/filters');
         }
     }
 
