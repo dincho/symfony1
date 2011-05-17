@@ -8,3 +8,5 @@
 /data/fixtures/images/*
 /web/uploads/*
 /web/cache/*
+/apps/frontend/config/i18n.yml
+/config/databases.yml
