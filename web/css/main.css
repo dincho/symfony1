@@ -3388,7 +3388,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
   top:0px;
   left:40px;
   height:20px;
-  z-index: 10000;
+  z-index: 10;
   background-color: #363639;
   height:20px;
   padding:2px;
@@ -3412,7 +3412,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
   border-color:#317082;
   background-color: #363639;
   color:#D3D3D3;       
-  z-index: 5000;
+  z-index: 6;
 }
 .dhtmlgoodiesmenu{  
   position: relative;
@@ -3435,7 +3435,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
  width:200px;
  text-align:left; 
  right: 73px;
- z-index: 1000;   
+ z-index: 3;   
 }
 
 #dhtmlgoodies_control ul
@@ -3462,7 +3462,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
 }
 
 #dhtmlgoodies_slidedown {
- z-index: 3000;
+ z-index: 5;
  position:relative;
  height:100%;
  float:right;
