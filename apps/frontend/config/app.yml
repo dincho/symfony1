@@ -84,13 +84,13 @@ all:
 
 dev:
   gmaps_key:
-    pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    pr_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pd_dincho_bonex_us:         ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pl_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pr_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    devel_pd_dincho_bonex_us:   ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     branch_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    ec_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    mm_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    ec_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    mm_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
@@ -114,17 +114,16 @@ dev:
     
 stag:
   gmaps_key:
-    pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    pl_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    devel_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    ec_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
-    mm_pd_dincho_bonex_us:  ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    polishdate_bonex_us:          ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
+    pl_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
+    ec_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
+    mm_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
     url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
     cert_id:              KRHQZEWMCEYVL
-    notify_url:           http://pd.dincho.bonex.us/callbacks/paypal.html
+    notify_url:           http://polishdate.bonex.us/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
     cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
@@ -142,10 +141,10 @@ stag:
       
 prod:
   gmaps_key:
-    www_polishdate_com:     ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
-    www_szukammilionera_com:ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
-    www_expatcalling_com:   ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTVq_jkNdk7c3EunQ0bhNQklpYTghRhnRWLGHE9840MvMDdJmIAGaAaLw
-    www_meskamilosc_pl:     ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhSTx2cZH2anLpRmckr8Ru6pruWHXRRRc6-x87-_nzejI15G2wtjIwlGfg
+    www_polishdate_com:       ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
+    www_szukammilionera_com:  ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
+    www_expatcalling_com:     ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTVq_jkNdk7c3EunQ0bhNQklpYTghRhnRWLGHE9840MvMDdJmIAGaAaLw
+    www_meskamilosc_pl:       ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhSTx2cZH2anLpRmckr8Ru6pruWHXRRRc6-x87-_nzejI15G2wtjIwlGfg
   recaptcha:
     www_polishdate_com:
       publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"

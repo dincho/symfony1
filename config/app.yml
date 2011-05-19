@@ -1,17 +1,17 @@
 all:
     .domains:
         domain_cultures:   #do not have :sf_culture in the routes
-            pl:             [pl.pd.dincho.bonex.us, mm.pd.dincho.bonex.us]
-            en:             [pd.dincho.bonex.us, du.dincho.bonex.us]
+            pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
+            en:             [polishdate.bonex.us, du.polishdate.bonex.us]
         catalog_domains:
+            "polishdate.bonex.us":          www.polishdate.com
             "pd.dincho.bonex.us":           www.polishdate.com
-            "devel.pd.dincho.bonex.us":     www.polishdate.com
             "branch.pd.dincho.bonex.us":    www.polishdate.com
+            "pl.polishdate.bonex.us":       www.szukammilionera.com
             "pl.pd.dincho.bonex.us":        www.szukammilionera.com
-            "pl.devel.pd.dincho.bonex.us":  www.szukammilionera.com
-            "du.dincho.bonex.us":           www.dyskretnyuklad.com
-            "ec.pd.dincho.bonex.us":        www.expatcalling.com
-            "mm.pd.dincho.bonex.us":        www.meskamilosc.pl
+            "du.polishdate.bonex.us":       www.dyskretnyuklad.com
+            "ec.polishdate.bonex.us":       www.expatcalling.com
+            "mm.polishdate.bonex.us":       www.meskamilosc.pl
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
