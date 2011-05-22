@@ -3,7 +3,9 @@
 
 <?php if( $member_subscription ): ?>
     <?php if( $member_subscription->getStatus() == 'canceled' ): ?>
-        <?php echo __('Manage subscription - subscription canceled', array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(null), $date_format))); ?>
+        <?php echo __('Manage subscription - subscription canceled', 
+            array('%SUBSCRIPTION_TYPE%' => ($member_subscription) ? $member_subscription->getSubscription()->getTitle() : $member->getSubscription()->getTitle(),
+                  '%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(null), $date_format))); ?>
     <?php else: ?>
         <?php if( $last_payment->getPaymentProcessor() == 'paypal' ): ?>
             <?php echo __('Manage subscription - paypal', 
