@@ -61,7 +61,7 @@ class Notification extends BaseNotification
             $message->addRecipient($this->getSendTo());
         } else {
             $message->addRecipients(array($addresses));
-            $message->createWebCopy($catalog);
+//            $message->createWebCopy($catalog);
         }
         
         if( $this->getBcc() ) $message->addBcc($this->getBcc());

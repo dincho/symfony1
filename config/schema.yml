@@ -621,16 +621,10 @@ propel:
     status_message: { type: longvarchar, required: false }
     notification_id:  { type: integer }
     notification_cat: { type: integer } 
-    created_at:
-    updated_at:
-      
-  web_email:
-    id:
-    subject:        { type: varchar, size: 255 }
-    body:           { type: longvarchar }
     hash:           { type: char, size: 40, required: true } #sha1
     created_at:
-      
+    updated_at:
+            
   member_match:
     #member1_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     #member2_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }    

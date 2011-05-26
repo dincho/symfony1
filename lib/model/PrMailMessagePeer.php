@@ -14,4 +14,14 @@ class PrMailMessagePeer extends BasePrMailMessagePeer
     const STATUS_SENDING    = 'sending'; //message is in the state of connecting to SMTP and trying to delivery to it
     const STATUS_SENT       = 'sent'; //message was successifuly delivered to the STMP
     const STATUS_FAILED     = 'failed'; //message was NOT delivered to the SMTP    
+
+
+    public static function retrieveByHash($hash)
+    {
+        $c = new Criteria();
+        $c->add(PrMailMessagePeer::HASH, $hash);
+        $c->setLimit(1);
+        
+        return self::doSelectOne($c);
+    }
 }

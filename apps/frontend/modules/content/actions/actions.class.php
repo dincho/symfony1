@@ -242,7 +242,7 @@ class contentActions extends prActions
 
     public function executeEmails()
     {
-        $email = WebEmailPeer::retrieveByHash($this->getRequestParameter('hash'));
+        $email = PrMailMessagePeer::retrieveByHash($this->getRequestParameter('hash'));
         $this->forward404Unless($email);
         
         $this->setLayout('simple_small');
