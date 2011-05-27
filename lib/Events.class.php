@@ -106,7 +106,7 @@ class Events
     {
         sfLoader::loadHelpers(array('Url'));
         
-        $confirmation_url = url_for('@confirm_new_email?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getTmpEmail() . SALT ), array('absolute' => true));
+        $confirmation_url = LinkPeer::create('@confirm_new_email?username=' . $member->getUsername() . '&hash=' . sha1(SALT . $member->getTmpEmail() . SALT ), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
         return self::executeNotifications(self::NEW_EMAIL_CONFIRM, $global_vars, $member->getTmpEmail(), $member);
