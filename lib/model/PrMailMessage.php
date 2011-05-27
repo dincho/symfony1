@@ -154,7 +154,7 @@ class PrMailMessage extends BasePrMailMessage
 
     public function save($con = null)
     {
-        if( $this->isNew() && !$this->getHash())
+        if( !$this->getHash())
         {
             $this->generateHash();
         }
