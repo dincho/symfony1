@@ -11,7 +11,7 @@ class Migration064 extends sfMigration
     public function up()
     {
         $this->executeSQL("DROP TABLE IF EXISTS `web_email`;");
-//        $this->executeSQL("ALTER TABLE `pr_mail_message` ADD COLUMN `hash` CHAR(40) NOT NULL AFTER `notification_cat`;");
+        $this->executeSQL("ALTER TABLE `pr_mail_message` ADD COLUMN `hash` CHAR(40) NOT NULL AFTER `notification_cat`;");
     }
 
     /**
