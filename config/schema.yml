@@ -621,7 +621,7 @@ propel:
     status_message: { type: longvarchar, required: false }
     notification_id:  { type: integer }
     notification_cat: { type: integer } 
-    hash:           { type: char, size: 40, required: true } #sha1
+    hash:           { type: char, size: 40 } #sha1
     created_at:
     updated_at:
             

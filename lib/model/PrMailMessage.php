@@ -152,14 +152,18 @@ class PrMailMessage extends BasePrMailMessage
         return $status;
     }
 
-    public function save($con = null)
+    public function createWebCopy(Catalogue $catalog)
     {
-        if( !$this->getHash())
-        {
-            $this->generateHash();
-        }
+        $hash = $this->generateHash(); //both body and subject are used in hash generation
+    
+        $webemail_url  = LinkPeer::create('@web_email?hash=' . $hash)->getUrl($catalog);
+        $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
+        $new_body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
         
-        return parent::save($con);
+        //re-set parsed body
+        $this->setBody($new_body);
+        
+        $this->save();
     }
     
     public function generateHash()
