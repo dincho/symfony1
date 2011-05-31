@@ -105,7 +105,7 @@ class profileActions extends prActions
                     case MemberStatusPeer::DEACTIVATED_AUTO:
                         $error = 'Sorry, this profile has been deactivated';
                     break;                    
-                    case MemberStatusPeer::FV_REQUERED:
+                    case MemberStatusPeer::FV_REQUIRED:
                         $error = 'Sorry, this profile is being verified';
                     break;                    
 

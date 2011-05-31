@@ -18,12 +18,12 @@ class FVrequiredFilter extends sfFilter
         $action = $context->getActionName();
         $module_action = $module . '/' . $action;
 
-        sfLogger::GetInstance()->info('FVrequiredFilter: module/action - ' . $module_action . ', member: ' . $user->getUsername());
+//        sfLogger::GetInstance()->info('FVrequiredFilter: module/action - ' . $module_action . ', member: ' . $user->getUsername());
          
-        if ($user->isAuthenticated() && $user->getAttribute('status_id') == MemberStatusPeer::FV_REQUERED && 
+        if ($user->isAuthenticated() && $user->getAttribute('status_id') == MemberStatusPeer::FV_REQUIRED && 
             !in_array($module_action, self::$skip_actions) && $module != 'ajax' )
         {
-            sfLogger::getInstance()->info('FVrequiredFilter: jailing member - ' . $user->getUsername());
+//            sfLogger::getInstance()->info('FVrequiredFilter: jailing member - ' . $user->getUsername());
             $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
             $AI->message('photo_verification_required');
             $AI->redirect('@verify_photo');

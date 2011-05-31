@@ -20,5 +20,5 @@ class MemberStatusPeer extends BaseMemberStatusPeer
     const DENIED                        = 9;
     const SUSPENDED_FLAGS_CONFIRMED     = 10;
     const DEACTIVATED_AUTO              = 11;
-    const FV_REQUERED                   = 12;
+    const FV_REQUIRED                   = 12;
 }
