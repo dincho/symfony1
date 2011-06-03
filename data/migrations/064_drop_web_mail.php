@@ -12,6 +12,12 @@ class Migration064 extends sfMigration
     {
         $this->executeSQL("DROP TABLE IF EXISTS `web_email`;");
         $this->executeSQL("ALTER TABLE `pr_mail_message` ADD COLUMN `hash` CHAR(40) NULL AFTER `notification_cat`;");
+        $this->executeSQL("CREATE TABLE `pr_mail_sum` (
+            	`mail_config` VARCHAR(255) NOT NULL,
+            	`cnt` INT(11) NOT NULL,
+            	`at` DATE NOT NULL
+            )
+            ENGINE=InnoDB;");
     }
 
     /**
@@ -28,5 +34,6 @@ class Migration064 extends sfMigration
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;");
         $this->executeSQL("ALTER TABLE `pr_mail_message` DROP COLUMN `hash`;");
+        $this->executeSQL("DROP TABLE `pr_mail_sum`;");
     }
 }

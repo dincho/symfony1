@@ -318,14 +318,21 @@ class Reports
     {
         $customObject = new CustomQueryObject();
         
-        $sql = 'SELECT  `mail_config` as email, 
-                	SUM(IF( DATE(`created_at`) = CURDATE(), 1, 0 )) AS today, 
-                	SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 1 DAY), 1, 0 )) AS yesterday, 
-                	SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 2 DAY), 1, 0 )) AS two_days_ago, 
-                	count(*) as all_time, DATEDIFF(max(`created_at`),min(`created_at`))+1 as all_days, 
-                	count(*)/(DATEDIFF(max(`created_at`),min(`created_at`))+1) as average_day 
-                FROM `pr_mail_message` 
-                WHERE status = "sent" group by `email` order by `email`';
+        $sql = 'SELECT `mail_config` as email, 
+                  SUM(IF( DATE(`at`) = CURDATE(), cnt, 0 )) AS today, 
+                  SUM(IF( DATE(`at`) = (CURDATE() - INTERVAL 1 DAY), cnt, 0 )) AS yesterday, 
+                  SUM(IF( DATE(`at`) = (CURDATE() - INTERVAL 2 DAY), cnt, 0 )) AS two_days_ago, 
+                  sum(cnt) as all_time, 
+                  DATEDIFF(max(`at`),min(`at`))+1 as all_days, 
+                  sum(cnt)/(DATEDIFF(max(`at`),min(`at`))+1) as average_day 
+                  FROM
+                    ( SELECT `mail_config` , DATE(`created_at`) as at,
+                        count(*) as cnt
+                        FROM `pr_mail_message` WHERE status = "sent"  
+                        group by `mail_config`,`at` 
+                      union 
+                      SELECT `mail_config` , `at`, `cnt` FROM `pr_mail_sum`) t
+                  group by `email` order by `email`';
              
         $objects = $customObject->query($sql);
         return $objects;        
@@ -386,3 +393,34 @@ class Reports
         return strtr($sql, array('%PERIODS_SQL%' => $periods_sql));
     }
 }
+/*
+SELECT `mail_config` , DATE(`created_at`) as at,
+count(*) as cnt
+FROM `pr_mail_message` WHERE status = "sent" and DATE(`created_at`) > (CURDATE() - INTERVAL 1 MONTH) 
+group by `email`,`at` order by `email`,`at`
+
+SELECT `mail_config` as email, 
+SUM(IF( DATE(`created_at`) = CURDATE(), 1, 0 )) AS today, 
+SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 1 DAY), 1, 0 )) AS yesterday, 
+SUM(IF( DATE(`created_at`) = (CURDATE() - INTERVAL 2 DAY), 1, 0 )) AS two_days_ago, 
+count(*) as all_time, 
+DATEDIFF(max(`created_at`),min(`created_at`))+1 as all_days, 
+count(*)/(DATEDIFF(max(`created_at`),min(`created_at`))+1) as average_day 
+FROM `pr_mail_message` WHERE status = "sent" group by `email` order by `email`
+
+SELECT `mail_config` as email, 
+SUM(IF( DATE(`at`) = CURDATE(), cnt, 0 )) AS today, 
+SUM(IF( DATE(`at`) = (CURDATE() - INTERVAL 1 DAY), cnt, 0 )) AS yesterday, 
+SUM(IF( DATE(`at`) = (CURDATE() - INTERVAL 2 DAY), cnt, 0 )) AS two_days_ago, 
+sum(cnt) as all_time, 
+DATEDIFF(max(`at`),min(`at`))+1 as all_days, 
+sum(cnt)/(DATEDIFF(max(`at`),min(`at`))+1) as average_day 
+FROM
+(SELECT `mail_config` , DATE(`created_at`) as at,
+count(*) as cnt
+FROM `pr_mail_message` WHERE status = "sent"  
+group by `mail_config`,`at` 
+union 
+SELECT `mail_config` , `at`, `cnt` FROM `pr_mail_sum`) t
+group by `email` order by `email`
+*/
