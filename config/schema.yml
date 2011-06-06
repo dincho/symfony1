@@ -628,7 +628,7 @@ propel:
   pr_mail_sum:
     mail_config:    { type: varchar, size: 255 }
     cnt:            { type: integer }
-    at:             { date: }
+    at:             { type: date }
 
             
   member_match:
