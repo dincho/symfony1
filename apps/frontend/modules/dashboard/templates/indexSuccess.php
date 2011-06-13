@@ -71,42 +71,42 @@
         <span class="view_profile_like_others"><?php echo link_to(__('Your Profile (View Your profile as others see it)'), '@my_profile', 'class=sec_link_brown') ?></span>
         <div class="go-to"><?php echo __('See profiles in your area:') ?></div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Newly registered ( %count% )', array('%count%' => $newly_registered_cnt)), 'search/mostRecent', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('Newly registered ( %count% )', array('%count%' => $newly_registered_cnt)), 'search/mostRecent?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($newly_registered as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Most recent visitors ( %count% )', array('%count%' => $most_recent_visitors_cnt)), 'search/lastLogin', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('Most recent visitors ( %count% )', array('%count%' => $most_recent_visitors_cnt)), 'search/lastLogin?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($most_recent_visitors as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Best matching you ( %count% )', array('%count%' => $best_matching_you_cnt)), 'search/criteria', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('Best matching you ( %count% )', array('%count%' => $best_matching_you_cnt)), 'search/criteria?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($best_matching_you as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('You match them best ( %count% )', array('%count%' => $you_match_them_best_cnt)), 'search/reverse', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('You match them best ( %count% )', array('%count%' => $you_match_them_best_cnt)), 'search/reverse?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($you_match_them_best as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Best mutual matches ( %count% )', array('%count%' => $best_mutual_matches_cnt)), 'search/matches', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('Best mutual matches ( %count% )', array('%count%' => $best_mutual_matches_cnt)), 'search/matches?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($best_mutual_matches as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Per your own rating ( %count% )', array('%count%' => $per_your_own_rating_cnt)), 'search/byRate', array('class' => 'sec_link menu_title', 'query_string' =>'filters[location]=1')) ?>
+            <?php echo link_to(__('Per your own rating ( %count% )', array('%count%' => $per_your_own_rating_cnt)), 'search/byRate?filters[location]=1', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($per_your_own_rating as $item): ?>
                 <?php $profile = $item->getMemberRelatedByMember2Id(); ?>
                 <?php echo link_to_unless(!$profile->isActive(), profile_small_photo($profile), '@profile?username=' . $profile->getUsername()) ?>
