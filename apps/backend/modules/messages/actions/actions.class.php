@@ -73,7 +73,14 @@ class messagesActions extends sfActions
             $c->add(MessagePeer::SENDER_ID, $this->member->getId());
         }
         
-        $this->messages = MessagePeer::doSelectJoinMemberRelatedBySenderId($c);
+
+        $pager = new sfPropelPager('Message', $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page')));
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->setPeerMethod('doSelectJoinMemberRelatedBySenderId');
+        $pager->setPeerCountMethod('doCount');
+        $pager->init();
+        $this->pager = $pager;
     }
 
     public function executeDelete()

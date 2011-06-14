@@ -4,9 +4,11 @@
 
 <?php echo form_tag('messages/delete', array('name' => 'member_messages')) ?>
 <?php echo input_hidden_tag('received_only', $received_only, 'class=hidden') ?>
+<?php $member_id = $member->getId(); ?>
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
 
     <div class="scrollable normal_scrollable" style="margin-top: 20px;">
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member_id)); ?>
         <table class="zebra">
             <thead>
                  <tr>
@@ -30,7 +32,7 @@
                 </tr>
             </thead>
  
-        <?php foreach ($messages as $message): ?>
+        <?php foreach ($pager->getResults() as $message): ?>
             <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getThreadId() . '&received_only=' . $received_only . '&member_id=' . $member->getId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
                 <?php if( $received_only ): ?>
@@ -54,6 +56,7 @@
         <?php endforeach; ?>
         
         </table>
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member_id)); ?>
     </div>
 
     <div class="text-left">
