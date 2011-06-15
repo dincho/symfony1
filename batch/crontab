@@ -12,5 +12,6 @@ MAILTO=dincho.todorov@bonex.us
 20      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearDeletedWinks.php
 30      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/deactivateUnusedProfiles.php
 40      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearLinks.php
+45      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/clearMemberNotification.php
 50      00     *     *     *         /usr/bin/php /home/dincho/sfProjects/pr/batch/cronjob/compactPrMailMessage.php
 13      00     *     *     *         /home/polishdate/bin/backup.sh
