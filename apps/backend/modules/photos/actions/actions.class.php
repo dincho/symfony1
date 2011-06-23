@@ -33,7 +33,14 @@ class photosActions extends sfActions
         $this->query_string="";
         foreach ($this->filters as $key => $value)
           if ($key != 'is_list')
-            $this->query_string .="&filters[$key]=$value";
+            if (!is_array($value))
+              $this->query_string .="&filters[$key]=$value";
+            else
+            {
+              foreach ($value as $v) {
+                $this->query_string .="&filters[$key][]=$v";
+              }
+            }
                 
         $c = new Criteria();
         $c->addGroupByColumn(MemberPeer::ID);

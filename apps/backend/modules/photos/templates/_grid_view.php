@@ -1,4 +1,4 @@
-<?php echo link_to(hover_image_tag('list.png','list_over.png'), 'photos/list?filter=filter&filters[is_list]=1&page='.$sf_params->get('page',1) . $query_string); ?> 
+<?php echo link_to(hover_image_tag('list.png','list_over.png'), 'photos/list', array('query_string' => 'filter=filter&filters[is_list]=1&page='.$sf_params->get('page',1) . $query_string)); ?> 
 <?php echo image_tag('grid_sel.png') ?>
 
 <?php $i=0; ?>

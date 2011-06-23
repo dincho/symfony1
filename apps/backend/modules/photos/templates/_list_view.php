@@ -1,5 +1,5 @@
 <?php echo image_tag('list_sel.png')?>
-<?php echo link_to(hover_image_tag('grid.png','grid_over.png'), 'photos/list?filter=filter&filters[is_list]=0&page='.$sf_params->get('page',1) . $query_string); ?> 
+<?php echo link_to(hover_image_tag('grid.png','grid_over.png'), 'photos/list', array('query_string' => 'filter=filter&filters[is_list]=0&page='.$sf_params->get('page',1) . $query_string)) ?> 
 
 <?php foreach($pager->getResults() as $member): ?>
     <div class="photos_headline"><b><?php echo $member->getUsername() ?></b>
