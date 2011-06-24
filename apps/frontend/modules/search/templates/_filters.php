@@ -47,7 +47,7 @@
         </tr>
         <tr class="actions">
             <td colspan="5">
-              <?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results','".__('Updating Results...')."')")) ?>
+              <?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "submit_filter(this);")) ?>
             </td>
         </tr>
       </tbody>
