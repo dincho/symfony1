@@ -5,6 +5,7 @@
 
   <?php echo form_tag($context->getModuleName() . '/' . $context->getActionName(), array('method' => 'get'));?>
     <?php echo input_hidden_tag('filter', 'filter'); ?>
+    <?php echo input_hidden_tag('id', $sf_request->getParameter('id') ); ?>
     <ul id="left_menu">
   
     <?php foreach ($menu as $key => $item): ?>

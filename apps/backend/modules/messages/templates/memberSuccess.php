@@ -20,6 +20,7 @@
                 <tr>
                     <th></th>
                     <th class="firstcolumn"></th>
+                    <th class="firstcolumn"></th>
                     <?php if( $received_only ): ?>
                         <th>Received From</th>
                         <th>Subject</th>
@@ -40,13 +41,9 @@
                 <?php else: ?>
                   <?php $member = $message->getMemberRelatedByRecipientId()?>
                 <?php endif; ?>
-                <td>
-                    <?php echo unless_profile_thumbnail_photo_tag($member) ?>
-                </td>
-                <td>
-                    <?php echo $member->getUsername() ?>
-                </td>
-                
+                <td class="starred"><?php echo link_to(($message->getIsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'messages/star?id=' . $message->getId()) ?></td>
+                <td><?php echo unless_profile_thumbnail_photo_tag($member) ?></td>
+                <td><?php echo $member->getUsername() ?></td>
                 <td><?php echo Tools::truncate($message->getThread()->getSubject(), 100); ?></td>
                 <td><?php echo $message->getCreatedAt('m/d/Y'); ?></td>
                 <td class="preview_button">
