@@ -4,11 +4,10 @@
 
 <?php echo form_tag('messages/delete', array('name' => 'member_messages')) ?>
 <?php echo input_hidden_tag('received_only', $received_only, 'class=hidden') ?>
-<?php $member_id = $member->getId(); ?>
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
 
     <div class="scrollable normal_scrollable" style="margin-top: 20px;">
-      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member_id)); ?>
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId())); ?>
         <table class="zebra">
             <thead>
                  <tr>
@@ -37,13 +36,13 @@
             <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getThreadId() . '&received_only=' . $received_only . '&member_id=' . $member->getId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear()">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
                 <?php if( $received_only ): ?>
-                  <?php $member = $message->getMemberRelatedBySenderId()?>
+                  <?php $profile = $message->getMemberRelatedBySenderId()?>
                 <?php else: ?>
-                  <?php $member = $message->getMemberRelatedByRecipientId()?>
+                  <?php $profile = $message->getMemberRelatedByRecipientId()?>
                 <?php endif; ?>
                 <td class="starred"><?php echo link_to(($message->getIsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'messages/star?id=' . $message->getId()) ?></td>
-                <td><?php echo unless_profile_thumbnail_photo_tag($member) ?></td>
-                <td><?php echo $member->getUsername() ?></td>
+                <td><?php echo unless_profile_thumbnail_photo_tag($profile) ?></td>
+                <td><?php echo $profile->getUsername() ?></td>
                 <td><?php echo Tools::truncate($message->getThread()->getSubject(), 100); ?></td>
                 <td><?php echo $message->getCreatedAt('m/d/Y'); ?></td>
                 <td class="preview_button">
@@ -53,7 +52,7 @@
         <?php endforeach; ?>
         
         </table>
-      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member_id)); ?>
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId())); ?>
     </div>
 
     <div class="text-left">

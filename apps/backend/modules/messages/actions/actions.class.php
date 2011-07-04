@@ -6,7 +6,6 @@
  * @subpackage messages
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
-ALTER TABLE `message` ADD `is_starred` INT NOT NULL DEFAULT '0'
  */
 class messagesActions extends sfActions
 {
@@ -110,14 +109,11 @@ class messagesActions extends sfActions
         $c = new Criteria();
         $c->add(MessagePeer::THREAD_ID, $this->getRequestParameter('id'));
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
-
-        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $member->getId());
-        $crit->addOr($c->getNewCriterion(MessagePeer::SENDER_ID, $member->getId()));
-        
-        $c->addAnd($crit);
         $c->addAscendingOrderByColumn(MessagePeer::CREATED_AT);
-        $messages = MessagePeer::doSelect($c);  
-
+        $messages = MessagePeer::doSelect($c);
+        
+        $this->forward404Unless($messages); //empty thread ?
+        
         $message_sample = $messages[0];
         $profile  = ( $message_sample->getSenderId() == $member->getId() ) ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
         

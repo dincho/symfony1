@@ -45,6 +45,7 @@
       <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
       <th></th>
       <th class="firstcolumn"></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>

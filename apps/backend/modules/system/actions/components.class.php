@@ -242,9 +242,10 @@ class systemComponents extends sfComponents
   {
     $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
 
-    $this->menu = $full_menu = array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
-                                     array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
-                              );
+    $this->menu = array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
+                        array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
+    );
+    
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
 
   }
