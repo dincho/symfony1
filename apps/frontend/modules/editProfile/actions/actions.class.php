@@ -363,6 +363,28 @@ class editProfileActions extends BaseEditProfileActions
         return parent::executePhotos();
     }
 
+    public function executeTestUploadPhoto()
+    {
+        $this->forward404Unless(SF_ENVIRONMENT == 'dev');  //this is test action
+        
+        $this->forward404Unless($this->member);
+        
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $member_photo = new MemberPhoto();
+            $member_photo->setMember($this->member);
+            $member_photo->updateImageFromRequest('file', 'Filedata', true, true);
+            $member_photo->setIsPrivate(true);
+            $member_photo->setSortOrder(PHP_INT_MAX);
+            $member_photo->save();
+        
+            $this->member->setLastPhotoUploadAt(time());
+            $this->member->setReviewedById(null);
+            $this->member->setReviewedAt(null);
+            $this->member->save();
+        }
+    }
+    
     public function validateDeletePhoto()
     {
         $this->setMember();
