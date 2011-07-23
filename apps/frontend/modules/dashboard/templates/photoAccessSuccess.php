@@ -7,7 +7,7 @@
         <?php include_partial('content/newProfiles') ?><br />
         <?php foreach ($other_grants as $perm): ?>
             <?php $member = $perm->getMemberRelatedByMemberId(); ?>
-            <div class="member_profile">
+            <div class="member_profile<?php echo ($perm->getIsNew())?" member_profile_new":""; ?>">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to_ref(profile_photo($member), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
@@ -19,11 +19,6 @@
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=photoAccess&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
-                    <?php if( $perm->getIsNew() ): ?>
-                      <div>
-                        <?php echo image_tag('circle-blue.png'); ?>
-                      </div>
-                    <?php endif;?>
                 </div>
             </div>        
         <?php endforeach; ?>

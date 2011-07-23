@@ -575,8 +575,8 @@ form#sign_in fieldset a {
     background-color: #3d3d3d;
     margin-left: 0px;
     margin-bottom: 25px;
+    border: 1px solid #2d2d2d;
 }     
-
 
 #winks div.member_profile_viewers,
 #winks div.privacy_profile_viewers {
@@ -587,6 +587,11 @@ form#sign_in fieldset a {
     margin-left: 0px;
     margin-bottom: 25px;
     margin-right: 15px;
+    border: 1px solid #2d2d2d;
+}
+
+#winks div.member_profile_new {
+    border: 1px solid #00f;
 }
 
 #winks div.member_profile_viewers img {

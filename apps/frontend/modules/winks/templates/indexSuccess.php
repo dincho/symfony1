@@ -9,7 +9,7 @@
         <?php echo __('Winks you received')?><br /><br />
         <?php foreach ($received_winks as $received_wink): ?>
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
-            <div class="member_profile">
+            <div class="member_profile<?php echo ($received_wink->getIsNew())?" member_profile_new":""; ?>">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to_ref(profile_photo($member), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
@@ -21,9 +21,6 @@
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $received_wink->getId()) ?>
-                    <?php if( $received_wink->getIsNew() ): ?>
-                        <?php echo image_tag('circle-blue.png'); ?>
-                    <?php endif;?>
                 </div>                
                 <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $received_wink->getId()) ?>
             </div>
