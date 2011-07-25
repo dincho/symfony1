@@ -15,6 +15,7 @@
             <div class="input">
                 <span class="public_reg_notice"><?php echo __('Viewed you %date%', array('%date%' => distance_of_time_in_words($visit->getUpdatedAt(null)))) ?></span>
                 <?php echo link_to_unless_ref(!$member->isActive(), __('View Profile'), '@profile?bc=visitors&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                <?php include_partial('content/onlineProfile', array('member' => $member)) ?>
             </div>
         </div>        
     <?php endforeach; ?>

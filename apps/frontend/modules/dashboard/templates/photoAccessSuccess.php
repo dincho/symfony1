@@ -19,6 +19,7 @@
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=photoAccess&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php include_partial('content/onlineProfile', array('member' => $member)) ?>
                 </div>
             </div>        
         <?php endforeach; ?>
@@ -41,6 +42,7 @@
                                                     'script' => true, 
                                                     'after' => '$("member_profile_'.$profile->getId().'").remove();'
                                             ), array('class' => 'sec_link', )); ?>
+                    <?php include_partial('content/onlineProfile', array('member' => $member)) ?>
                 </div>
                   <?php echo link_to_remote(image_tag('butt_x.gif', 'class=x'), array(
                                                   'url' => '@toggle_private_photos_perm?username=' . $profile->getUsername(),

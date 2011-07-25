@@ -19,6 +19,7 @@
                                )); ?>
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php include_partial('content/onlineProfile', array('member' => $member)) ?> 
                 </div>
             </div>        
         <?php endforeach; ?>

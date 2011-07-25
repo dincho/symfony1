@@ -15,6 +15,7 @@
                                         'script'  => true
                                       )
                     ); ?>
+                    <?php include_partial('content/onlineProfile', array('member' => $profile)) ?>
     </div>
     <?php echo link_to_remote(image_tag('butt_x.gif', 'class=x'),
                               array('url'     => 'hotlist/toggle?profile_id=' . $profile->getId() . '&show_element=member_' . $profile->getId(),
