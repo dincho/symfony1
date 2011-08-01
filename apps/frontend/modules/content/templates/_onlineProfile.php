@@ -1,5 +1,5 @@
 <?php if( $member->isLoggedIn() ): ?>
     <div>
-      <?php echo image_tag('circle-blue.png'); ?>
+      <?php echo image_tag('circle-online.png'); ?>
     </div>
 <?php endif;?>
