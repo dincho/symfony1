@@ -238,6 +238,7 @@ class systemComponents extends sfComponents
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
   }
 
+  /*
   public function executeMessagesSidebar()
   {
     $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
@@ -249,7 +250,7 @@ class systemComponents extends sfComponents
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
 
   }
-
+  */
   public function executePhotosSidebar()
   {
 

@@ -41,7 +41,7 @@ class messagesActions extends sfActions
     
     }
     
-    public function executeStar()
+/*    public function executeStar()
     {
         $this->message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
         
@@ -50,7 +50,7 @@ class messagesActions extends sfActions
         
         $this->redirect($this->getUser()->getRefererUrl());
     }
-
+ */
 
     public function executeMember()
     {
@@ -197,11 +197,11 @@ class messagesActions extends sfActions
     {
         $bc = $this->getUser()->getBC();
         
-        if (isset($this->filters['starred']))
+/*        if (isset($this->filters['starred']))
         {
             $c->add(MessagePeer::IS_STARRED, $this->filters['starred'], Criteria::IN);
         }
-
+*/
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {

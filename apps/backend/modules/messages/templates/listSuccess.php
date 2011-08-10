@@ -53,7 +53,6 @@
   <?php $member = $message->getMemberRelatedBySenderId(); //shortcut ?>
   <tr rel="<?php echo url_for('messages/conversation?member_id='.$message->getSenderId() . '&id=' . $message->getThreadId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">
     <td class="first"></td>
-    <td class="starred"><?php echo link_to(($message->getIsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'messages/star?id=' . $message->getId()) ?></td>
     <td>
       <?php echo unless_profile_thumbnail_photo_tag($member) ?>
     </td>
