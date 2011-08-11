@@ -411,7 +411,6 @@ propel:
     predefined_id:            { type: integer, required: false }
     sender_deleted_at:        { type: timestamp }
     recipient_deleted_at:     { type: timestamp }
-    is_starred:               { type: boolean, default: false, required: true }
     created_at:
     updated_at:               #currently used only for drafts
     _indexes:
