@@ -9,7 +9,7 @@
         <?php echo __('Winks you received')?><br /><br />
         <?php foreach ($received_winks as $received_wink): ?>
             <?php $member = $received_wink->getMemberRelatedByMemberId(); ?>        
-            <div class="member_profile<?php echo ($received_wink->getIsNew())?" member_profile_new":""; ?>">
+            <div class="member_profile">
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to_ref(profile_photo($member), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
@@ -19,7 +19,7 @@
                                          '%she_he%' => ( $member->getSex() == 'M' ) ? 'He' : 'She',
                                )); ?>
                     </span>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => 'sec_link')) ?><br />
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $member->getUsername(), array('class' => $received_wink->getIsNew()?'sec_link':'last')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $received_wink->getId()) ?>
                     <?php include_partial('content/onlineProfile', array('member' => $member)) ?> 
                 </div>                

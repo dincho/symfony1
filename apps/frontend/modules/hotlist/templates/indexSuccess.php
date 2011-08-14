@@ -1,13 +1,12 @@
 <?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink', 'Javascript') ?>
 
-
 <div id="winks">
     <div class="you_recived">
         <?php echo __('You\'re on the Hotlist of these members')?>  <br />
         <?php include_partial('content/newProfiles') ?> <br /><br />
         <?php foreach ($others_hotlists as $others_hotlist_row): ?>
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
-            <div class="member_profile<?php echo ($others_hotlist_row->getIsNew())?" member_profile_new":""; ?>" >
+            <div class="member_profile" >
                 <h2><?php echo Tools::truncate($member->getEssayHeadline(), 40) ?></h2> <span class="number"><?php echo $member->getAge() ?></span>
                 <?php echo link_to_ref(profile_photo($member), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'photo_link', )) ?>
                 <div class="input">
@@ -18,7 +17,7 @@
                                          '%her_his%' => ( $member->getSex() == 'M' ) ? 'his' : 'her'
                                )); ?>
                     </span>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=hotlist&username=' . $member->getUsername(), array('class' => $others_hotlist_row->getIsNew()?'sec_link':'last')) ?>
                     <?php include_partial('content/onlineProfile', array('member' => $member)) ?> 
                 </div>
             </div>        

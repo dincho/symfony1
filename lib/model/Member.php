@@ -767,7 +767,8 @@ class Member extends BaseMember
       $c1 = new Criteria();
       $c1->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
       $c1->add(PrivatePhotoPermissionPeer::MEMBER_ID, $member->getId());
-      $c1->add(PrivatePhotoPermissionPeer::TYPE, 'P');
+      $c1->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+      $c1->add(PrivatePhotoPermissionPeer::TYPE, 'R');
       $c1->add(PrivatePhotoPermissionPeer::IS_NEW, true);
       
       $c2 = new Criteria();
