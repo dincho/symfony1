@@ -896,55 +896,82 @@ span.online-assistant {
     background-color: #000000;
     padding: 12px;
 }
+#dashboard-container div.left_privacy,
+#dashboard-container div.right_privacy {
+    float: left;
+    width: 325px;
+    height: 291px;
+    background-color: #000000;
+    padding: 12px;
+}
 
-#dashboard-container div.left div.go-to {
+#dashboard-container div.left div.go-to,
+#dashboard-container div.right div.go-to,
+#dashboard-container div.left_privacy div.go-to,
+#dashboard-container div.right_privacy div.go-to {
     display: block;
     color: #d3d3d3;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-#dashboard-container div.right {
+#dashboard-container div.right,
+#dashboard-container div.right_privacy {
+    background-color: #4f4f4f;
     float: right;
 }
 
-#dashboard-container div.left div.dashboard-menu {
+#dashboard-container div.left div.dashboard-menu,
+#dashboard-container div.right div.dashboard-menu,
+#dashboard-container div.left_privacy div.dashboard-menu,
+#dashboard-container div.right_privacy div.dashboard-menu {
     clear: left;
     height: 36px;
     /* thumnails height 30px + border 2*2px + margin 2*1px */
     line-height: 36px;
 }
 
-#dashboard-container div.left img {
+#dashboard-container div.left img,
+#dashboard-container div.right img,
+#dashboard-container div.left_privacy img,
+#dashboard-container div.right_privacy img{
     float: left;
 }
 
-#dashboard-container div.left a.menu_title {
+#dashboard-container div.left a.menu_title,
+#dashboard-container div.right a.menu_title, 
+#dashboard-container div.left_privacy a.menu_title,
+#dashboard-container div.right_privacy a.menu_title{
     display: block;
     float: left;
     width: 140px;
     color: #73a7ff;
 }
 
-#dashboard-container div.right ul {
+#dashboard-container div.right ul,
+#dashboard-container div.right_privacy ul {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
 }
 
-#dashboard-container div.right span.view_profile_like_others {
+#dashboard-container div.right span.view_profile_like_others,
+#dashboard-container div.right_privacy span.view_profile_like_others {
     float: right;
 }
 
-#dashboard-container div.right ul.top {
+#dashboard-container div.right ul.top, 
+#dashboard-container div.right_privacy ul.top{
     margin-bottom: 20px;
 }
 
-#dashboard-container div.right ul.left {
+#dashboard-container div.right ul.left,
+#dashboard-container div.right_privacy ul.left{
     float: left;
 }
 
-#dashboard-container div.right ul.right {
+#dashboard-container div.right ul.right,
+#dashboard-container div.right_privacy ul.right{
     float: left;
     margin-left: 20px;
 }
