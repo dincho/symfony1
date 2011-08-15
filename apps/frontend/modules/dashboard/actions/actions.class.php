@@ -7,7 +7,7 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
  */
-class dashboardActions extends BaseSearchActions
+class dashboardActions extends prActions
 {
 
     public function preExecute()
@@ -119,78 +119,6 @@ class dashboardActions extends BaseSearchActions
         $c->setLimit(7);
         
         $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
-
-        
-        //Newly registered
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $sort_by_subscription = sprintf("FIELD(%s,%s)", MemberPeer::SUBSCRIPTION_ID, implode(',', array(SubscriptionPeer::VIP, SubscriptionPeer::PREMIUM, SubscriptionPeer::FREE)) );
-        $c->addAscendingOrderByColumn( $sort_by_subscription );
-        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-        $cc = clone $c; //count criteria        
-        $c->setLimit(5);
-
-        $this->newly_registered = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->newly_registered_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2Id($cc);
-        
-        //Most recent visitors
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $cc = clone $c; //count criteria        
-        $c->addDescendingOrderByColumn(MemberPeer::LAST_LOGIN);
-        $c->setLimit(5);
-
-        $this->most_recent_visitors = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->most_recent_visitors_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2Id($cc);
-        
-        //Best matching you
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $cc = clone $c; //count criteria        
-        $c->addDescendingOrderByColumn(MemberMatchPeer::PCT);
-        $c->setLimit(5);
-
-        $this->best_matching_you = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->best_matching_you_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2Id($cc);
-        
-        //You match them best
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $c->addHaving($c->getNewCriterion(MemberMatchPeer::ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
-        $cc = clone $c; //count criteria        
-        $c->addDescendingOrderByColumn('reverse_pct');
-        $c->setLimit(5);
-
-        $this->you_match_them_best = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->you_match_them_best_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2IdReverse($cc);
-        
-        //Best mutual matches
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $cc = clone $c; //count criteria        
-        $c->addDescendingOrderByColumn('(pct+reverse_pct)');
-        $c->setLimit(5);
-
-        $this->best_mutual_matches = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->best_mutual_matches_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2Id($cc);
-        
-        //Per your own rating
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addSelectedCountriesCriteria($c);        
-        $c->addJoin(MemberMatchPeer::MEMBER1_ID, MemberRatePeer::RATER_ID.' AND '.MemberMatchPeer::MEMBER2_ID.' = '.MemberRatePeer::MEMBER_ID, Criteria::LEFT_JOIN);
-        $cc = clone $c; //count criteria        
-        $c->addDescendingOrderByColumn(MemberRatePeer::RATE);
-        $c->setLimit(5);
-
-        $this->per_your_own_rating = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($c);
-        $this->per_your_own_rating_cnt = MemberMatchPeer::doCountJoinMemberRelatedByMember2Id($cc);
-        
         
         if( $member->getDashboardMsg() == 0 && !$this->hasFlash('msg_ok') ) //not hidden and has no other message
         {
