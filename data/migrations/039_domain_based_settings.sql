@@ -17,7 +17,5 @@ INSERT INTO `sf_setting` (`cat_id`, `env`, `name`, `value`, `description`, `crea
     
 INSERT INTO `sf_setting` (`cat_id`, `env`, `name`, `value`, `description`, `created_user_id`, `updated_user_id`, `created_at`, `updated_at`, `var_type`)
     SELECT 16, `env`, `name`, `value`, `description`, `created_user_id`, `updated_user_id`, `created_at`, `updated_at`, `var_type` FROM `sf_setting` WHERE `cat_id` = 1;
-    
-INSERT INTO `sf_setting` (`cat_id`, `env`, `name`, `value`, `description`, `created_user_id`, `updated_user_id`, `created_at`, `updated_at`, `var_type`)
-    SELECT 17, `env`, `name`, `value`, `description`, `created_user_id`, `updated_user_id`, `created_at`, `updated_at`, `var_type` FROM `sf_setting` WHERE `cat_id` = 1;
+
 
