@@ -10,3 +10,4 @@
 /web/cache/*
 /apps/frontend/config/i18n.yml
 /config/databases.yml
+/config/propel.ini
