@@ -6,8 +6,4 @@ _breadcrumb:
 _footer_links:
     enabled: on
     contextual: true
-_footer_menu:
-    enabled: on
-    contextual: true
-
     

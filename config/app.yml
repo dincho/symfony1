@@ -1,17 +1,4 @@
 all:
-    .domains:
-        domain_cultures:   #do not have :sf_culture in the routes
-            pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-            en:             [polishdate.bonex.us, du.polishdate.bonex.us]
-        catalog_domains:
-            "polishdate.bonex.us":          www.polishdate.com
-            "pd.dincho.bonex.us":           www.polishdate.com
-            "branch.pd.dincho.bonex.us":    www.polishdate.com
-            "pl.polishdate.bonex.us":       www.szukammilionera.com
-            "pl.pd.dincho.bonex.us":        www.szukammilionera.com
-            "du.polishdate.bonex.us":       www.dyskretnyuklad.com
-            "ec.polishdate.bonex.us":       www.expatcalling.com
-            "mm.polishdate.bonex.us":       www.meskamilosc.pl
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
@@ -126,6 +113,19 @@ all:
       use_queue:        no
       error_exception:  no
 dev:
+  .domains:
+      domain_cultures:   #do not have :sf_culture in the routes
+          pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
+          en:             [polishdate.bonex.us, du.polishdate.bonex.us]
+      catalog_domains:
+          "polishdate.bonex.us":          www.polishdate.com
+          "pd.dincho.bonex.us":           www.polishdate.com
+          "branch.pd.dincho.bonex.us":    www.polishdate.com
+          "pl.polishdate.bonex.us":       www.szukammilionera.com
+          "pl.pd.dincho.bonex.us":        www.szukammilionera.com
+          "du.polishdate.bonex.us":       www.dyskretnyuklad.com
+          "ec.polishdate.bonex.us":       www.expatcalling.com
+          "mm.polishdate.bonex.us":       www.meskamilosc.pl
   mail:
     enabled:          no
     use_queue:        no
@@ -134,6 +134,19 @@ dev:
     use_queue:        no
     error_exception:  yes
 stag:
+  .domains:
+      domain_cultures:   #do not have :sf_culture in the routes
+          pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
+          en:             [polishdate.bonex.us, du.polishdate.bonex.us]
+      catalog_domains:
+          "polishdate.bonex.us":          www.polishdate.com
+          "pd.dincho.bonex.us":           www.polishdate.com
+          "branch.pd.dincho.bonex.us":    www.polishdate.com
+          "pl.polishdate.bonex.us":       www.szukammilionera.com
+          "pl.pd.dincho.bonex.us":        www.szukammilionera.com
+          "du.polishdate.bonex.us":       www.dyskretnyuklad.com
+          "ec.polishdate.bonex.us":       www.expatcalling.com
+          "mm.polishdate.bonex.us":       www.meskamilosc.pl
     mail:
       enabled:          yes
       use_queue:        yes
@@ -144,6 +157,7 @@ prod:
         domain_cultures:   #do not have :sf_culture in the routes
             pl:             [www.szukammilionera.com, www.meskamilosc.pl]
             en:             [www.polishdate.com, www.dyskretnyuklad.com, www.expatcalling.com]
+        catalog_domains:    [] #no trasforms
     mail:
       enabled:          yes
       use_queue:        yes
