@@ -8,6 +8,7 @@ all:
      enabled:           no
      use_queue:         no
      error_exception:   no
+     smtp_debug:        0
      incoming:
         host:           imap.gmail.com
         port:           993
@@ -127,9 +128,10 @@ dev:
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
   mail:
-    enabled:          no
+    enabled:          yes
     use_queue:        no
     error_exception:  yes
+    smtp_debug:       5
   matches:
     use_queue:        no
     error_exception:  yes

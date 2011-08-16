@@ -35,7 +35,7 @@ class prMail extends sfMail
         }
         
         $this->mailer = new PHPMailer(true);
-        $this->mailer->SMTPDebug = $mail_config['smtp_debug'];
+        $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', 0);
         $this->mailer->Host = $mail_config['smtp_host'];
         $this->mailer->Port = $mail_config['smtp_port'];
         $this->mailer->SMTPSecure = $mail_config['smtp_security'];
@@ -69,18 +69,34 @@ class prMail extends sfMail
     
     public function send()
     {
-        if( sfConfig::get('app_mail_enabled') )
-        {
-          try
-          {
-              $this->mailer->Send();
-              return true;
-          } catch ( Exception $e )
-          {
-              if( sfConfig::get('app_mail_error_exception') ) throw new sfException($e->getMessage(), $e->getCode());
-          }
-        }
+        if( !sfConfig::get('app_mail_enabled', false) ) return false;
         
-        return false;
+        try
+        {
+            if( $this->mailer->SMTPDebug > 0 ) 
+            {
+                ob_start();
+
+                $this->mailer->Send();
+                if (sfConfig::get('sf_web_debug'))
+                    sfWebDebug::getInstance()->logShortMessage(ob_get_contents());
+
+                ob_end_clean();
+            } else {
+                $this->mailer->Send();
+            }
+
+            return true;
+        } catch ( Exception $e )
+        {
+            if( sfConfig::get('app_mail_error_exception') )
+            {
+                throw $e;
+            } else {
+                sfContext::getInstance()->getLogger()->err(sprintf('PrMail: [%s] - %s', $e->getCode(), $e->getMessage()));
+            }
+
+            return false;
+        }
     }
 }
