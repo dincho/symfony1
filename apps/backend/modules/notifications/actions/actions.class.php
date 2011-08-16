@@ -71,7 +71,7 @@ class notificationsActions extends sfActions
         
         $this->notification = $notification;
         
-        $mail_options = array();
+        $mail_options = array('' => 'Round Robin (Random)');
         foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
         {
             $mail_options[$mail] = $mail;

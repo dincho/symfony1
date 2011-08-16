@@ -87,7 +87,7 @@ all:
             smtp_username:  witamy2@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy2@szukammilionera.pl
-        - hello@expatcalling.com
+        - hello@expatcalling.com:
             mailer:         smtp
             smtp_host:      "sslv3://smtp.gmail.com"
             smtp_port:      465
@@ -96,7 +96,7 @@ all:
             smtp_username:  hello@expatcalling.com
             smtp_password:  EC11837
             from:           hello@expatcalling.com
-        - hello@meskamilosc.pl
+        - hello@meskamilosc.pl:
             mailer:         smtp
             smtp_host:      "sslv3://smtp.gmail.com"
             smtp_port:      465

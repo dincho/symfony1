@@ -116,7 +116,7 @@ class PrMailMessage extends BasePrMailMessage
 
 //        sfContext::getInstance()->getLogger()->info('$mail_config_key - '. $mail_config_key);
 
-        $mail_config = ( '1' === $mail_config_key || '0' === $mail_config_key ) ? $mail_configs[array_rand($mail_configs)]['smtp_username'] : $mail_config_key;
+        $mail_config = ( (bool) $mail_config_key === false ) ? $mail_configs[array_rand($mail_configs)]['smtp_username'] : $mail_config_key;
 
 //        sfContext::getInstance()->getLogger()->info('$mail_config - '. $mail_config);
 

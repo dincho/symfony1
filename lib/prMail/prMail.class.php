@@ -93,7 +93,8 @@ class prMail extends sfMail
             {
                 throw $e;
             } else {
-                sfContext::getInstance()->getLogger()->err(sprintf('PrMail: [%s] - %s', $e->getCode(), $e->getMessage()));
+                sfContext::getInstance()->getLogger()->err(sprintf('PrMail (%s|%s) : [%s] - %s', $this->getUsername(), 
+                                                                    $this->getPassword(), $e->getCode(), $e->getMessage()));
             }
 
             return false;
