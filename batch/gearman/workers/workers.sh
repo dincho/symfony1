@@ -38,7 +38,7 @@ function start()
 
 function stop()
 {
-    `/bin/ps -e | egrep "MailQueue_Send.php|MatchQueue_Straight.php|MatchQueue_Reverse.php" | grep -v "grep" | awk '{print $1}' | xargs kill -15`
+    `/bin/ps xa | egrep "MailQueue_Send.php|MatchQueue_Straight.php|MatchQueue_Reverse.php" | grep -v "grep" | awk '{print $1}' | xargs kill -15`
 }
 
 
