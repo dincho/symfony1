@@ -768,7 +768,7 @@ class Member extends BaseMember
       $c1->add(PrivatePhotoPermissionPeer::PROFILE_ID, $this->getId());
       $c1->add(PrivatePhotoPermissionPeer::MEMBER_ID, $member->getId());
       $c1->add(PrivatePhotoPermissionPeer::STATUS, 'A');
-      $c1->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+      $c1->add(PrivatePhotoPermissionPeer::TYPE, 'P');
       $c1->add(PrivatePhotoPermissionPeer::IS_NEW, true);
       
       $c2 = new Criteria();
@@ -1082,7 +1082,7 @@ class Member extends BaseMember
         $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
         $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member->getId());
         $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
-        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'R');
         
         return (bool) PrivatePhotoPermissionPeer::doCount($c);
     }
@@ -1092,7 +1092,7 @@ class Member extends BaseMember
         $c = new Criteria();
         $c->add(PrivatePhotoPermissionPeer::MEMBER_ID, $this->getId());
         $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
-        $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
+        $c->add(PrivatePhotoPermissionPeer::STATUS, 'R');
         $c->add(PrivatePhotoPermissionPeer::UPDATED_AT, 'DATE('.PrivatePhotoPermissionPeer::UPDATED_AT.') = DATE(CURDATE())', Criteria::CUSTOM) ;
         
         return PrivatePhotoPermissionPeer::doCount($c);

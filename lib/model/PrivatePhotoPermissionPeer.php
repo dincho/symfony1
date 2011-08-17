@@ -15,7 +15,7 @@ class PrivatePhotoPermissionPeer extends BasePrivatePhotoPermissionPeer
         $c->add(PrivatePhotoPermissionPeer::PROFILE_ID, $member_id);
         $c->addJoin(MemberPeer::ID, PrivatePhotoPermissionPeer::MEMBER_ID);
         $c->add(PrivatePhotoPermissionPeer::STATUS, 'A'); 
-        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R'); 
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P'); 
         $c->add(PrivatePhotoPermissionPeer::IS_NEW, true);
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //do not show unavailable profiles
         

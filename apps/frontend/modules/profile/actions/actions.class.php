@@ -648,9 +648,9 @@ class profileActions extends prActions
             $perm->setMemberRelatedByMemberId($this->getUser()->getProfile());
             $perm->setMemberRelatedByProfileId($profile);
             $perm->setType('R');
+            $perm->setStatus('R');
         }
         
-        $perm->setStatus('A');
         $this->setFlash('msg_ok', 'Private photos request sent.', false);
         $perm->save();
         

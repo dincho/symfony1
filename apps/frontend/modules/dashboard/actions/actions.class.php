@@ -509,7 +509,7 @@ class dashboardActions extends prActions
         
         $c->addDescendingOrderByColumn(PrivatePhotoPermissionPeer::CREATED_AT);
         $c->add(PrivatePhotoPermissionPeer::STATUS, 'A');
-        $c->add(PrivatePhotoPermissionPeer::TYPE, 'R');
+        $c->add(PrivatePhotoPermissionPeer::TYPE, 'P');
         $this->other_grants = PrivatePhotoPermissionPeer::doSelectJoinMemberRelatedByMemberId($c);
     }
 }
