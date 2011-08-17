@@ -43,7 +43,7 @@
                                                           'photos' => $private_photos, 
                                                           'num_containers' => $member->getSubscriptionDetails()->getPostPrivatePhotos(), 
                                                           'member' => $member,
-                                                          'upload_button_title' => 'Upload getSubscriptionDetails Photos',
+                                                          'upload_button_title' => 'Upload Photos',
                                                           'file_upload_limit' => ($member->getSubscriptionDetails()->getPostPrivatePhotos() - count($private_photos)), 
                                                           'container_bg_image' => '/images/no_photo/'. $member->getSex() . '/x100x100.jpg', )); ?>
                                                           
