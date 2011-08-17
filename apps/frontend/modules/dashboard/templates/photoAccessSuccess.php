@@ -4,7 +4,6 @@
 <div id="winks">
     <div class="you_recived">
         <?php echo __('Members who granted you an access to their private photos')?><br />
-        <?php include_partial('content/newProfiles') ?><br />
         <?php foreach ($other_grants as $perm): ?>
             <?php $member = $perm->getMemberRelatedByMemberId(); ?>
             <div class="member_profile">

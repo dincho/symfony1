@@ -1,7 +1,6 @@
 <?php use_helper('prDate', 'prProfilePhoto', 'Date', 'prLink') ?>
 
 <p><?php echo __('To get new match results, change your <a href="%URL_FOR_SEARCH_CRITERIA%" class="sec_link">Search Criteria</a>') ?></p>
-<?php include_partial('content/newProfiles') ?>
 <br />
 <br />
 

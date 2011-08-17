@@ -3,7 +3,6 @@
 <div id="winks">
     <div class="you_recived">
         <?php echo __('You\'re on the Hotlist of these members')?>  <br />
-        <?php include_partial('content/newProfiles') ?> <br /><br />
         <?php foreach ($others_hotlists as $others_hotlist_row): ?>
             <?php $member = $others_hotlist_row->getMemberRelatedByMemberId(); ?>
             <div class="member_profile" >

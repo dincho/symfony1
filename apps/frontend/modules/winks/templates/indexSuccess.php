@@ -2,8 +2,6 @@
 
 <?php echo __('These are the winks you received and sent. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
 
-<?php include_partial('content/newProfiles') ?>
-
 <div id="winks">
     <div class="you_recived">
         <?php echo __('Winks you received')?><br /><br />
