@@ -56,6 +56,18 @@ class PrMailMessage extends BasePrMailMessage
             return array();
         }
     }
+    
+    public function setMailConfig($value)
+    {
+         //let's go random ( Round Robin )
+        if( (bool) $value === false )
+        {
+            $mail_configs = sfConfig::get('app_mail_outgoing');
+            $value = array_rand($mail_configs);
+        }
+        
+        parent::setMailConfig($value);
+    }
 
     public function addRecipient($address)
     {
@@ -111,26 +123,12 @@ class PrMailMessage extends BasePrMailMessage
     
     public function sendMail()
     {
-        $mail_configs = sfConfig::get('app_mail_outgoing');
-        $mail_config_key = $this->getMailConfig();
-
-//        sfContext::getInstance()->getLogger()->info('$mail_config_key - '. $mail_config_key);
-
-        $mail_config = ( (bool) $mail_config_key === false ) ? $mail_configs[array_rand($mail_configs)]['smtp_username'] : $mail_config_key;
-
-//        sfContext::getInstance()->getLogger()->info('$mail_config - '. $mail_config);
-
-        $this->setMailConfig($mail_config);
-        
         $this->setStatus(PrMailMessagePeer::STATUS_SENDING);
         $this->save();
         
-
         $mailer_class = sfConfig::get('app_mail_class');
         
-        $mailer = new $mailer_class;
-//        $mailer->initialize($this->getMailConfig()); 
-        $mailer->initialize($mail_config); 
+        $mailer = new $mailer_class($this->getMailConfig());
         $mailer->setSubject($this->getSubject());
         $mailer->setBody($this->getBody());
         $mailer->setFrom($this->getMailFrom());

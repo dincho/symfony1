@@ -27,8 +27,9 @@ class prMail extends sfMail
             throw new sfException('Outgoing mail configuration is not set or it\'s not array');
         }
         
-        $mail_config = ( isset($mail_configs[$mail_config_key]) ) ? $mail_configs[$mail_config_key] : array_shift($mail_configs);
-        
+        //don't do magic shits
+        $mail_config = ( isset($mail_configs[$mail_config_key]) ) ? $mail_configs[$mail_config_key] : null;
+
         if( !is_array($mail_config) )
         {
             throw new sfException('Outgoing mail configuration cannot be obtained or it is not an array');
