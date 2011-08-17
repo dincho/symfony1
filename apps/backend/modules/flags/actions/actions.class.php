@@ -89,7 +89,6 @@ class flagsActions extends sfActions
         $c->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
         $c->add(FlagPeer::IS_HISTORY, false);
         $c->addGroupByColumn(FlagPeer::FLAGGER_ID);
-        $c->addAsColumn('num_members', 'COUNT(' . FlagPeer::MEMBER_ID . ')');
 
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
@@ -99,7 +98,7 @@ class flagsActions extends sfActions
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod('doSelectJoinAllCustom');
+        $pager->setPeerMethod('doSelectJoinAll');
         $pager->setPeerCountMethod('doCount');
         $pager->init();
         $this->pager = $pager;
