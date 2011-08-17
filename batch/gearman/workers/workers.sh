@@ -24,6 +24,8 @@ run_in_background()
 
 function start()
 {
+    echo "Starting workers..."
+    
     for (( i=1; i<=$NUM_MAIL_INSTANCES; i++))
     do
         run_in_background $MAIL_QUEUE
@@ -34,11 +36,15 @@ function start()
         run_in_background $MATCH_STRAIGHT
         run_in_background $MATCH_REVERSE
     done
+    
+    echo "done."
 }
 
 function stop()
 {
+    echo  "Stopping workers"
     `/bin/ps xa | egrep "MailQueue_Send.php|MatchQueue_Straight.php|MatchQueue_Reverse.php" | grep -v "grep" | awk '{print $1}' | xargs kill -15`
+    echo "done."
 }
 
 
@@ -51,13 +57,15 @@ if [ $# -lt 1 ]
 fi
 
 case "$1" in
-    start)  echo "Starting workers..."
+    start)  
         start
-        echo "done."
         ;;
-    stop)  echo  "Stopping workers"
+    stop)  
         stop
-        echo "done."
+        ;;
+    restart)
+        stop
+        start
         ;;
     *) echo "Unknown command: $1"
        ;;
