@@ -27,7 +27,7 @@
                                           )); ?>
               </div>
               <?php echo link_to_ref(profile_photo($profile), '@profile?bc=whoCanSeeYou&username=' . $profile->getUsername()) ?>
-              <?php include_partial('content/onlineProfile', array('member' => $member)) ?>
+              <?php include_partial('content/onlineProfile', array('member' => $profile)) ?>
           </div>        
     <?php endforeach; ?>
 </div>
