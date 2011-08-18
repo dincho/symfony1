@@ -87,24 +87,24 @@ all:
             smtp_username:  witamy2@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy2@szukammilionera.pl
-        - hello@expatcalling.com:
-            mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  hello@expatcalling.com
-            smtp_password:  EC11837
-            from:           hello@expatcalling.com
-        - hello@meskamilosc.pl:
-            mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  hello@meskamilosc.pl
-            smtp_password:  MM11837
-            from:           hello@meskamilosc.pl
+        # - hello@expatcalling.com:
+        #     mailer:         smtp
+        #     smtp_host:      "sslv3://smtp.gmail.com"
+        #     smtp_port:      465
+        #     smtp_security:  off #security is set via host address socket transport
+        #     smtp_debug:     0 #integer greather value more debug
+        #     smtp_username:  hello@expatcalling.com
+        #     smtp_password:  EC11837
+        #     from:           hello@expatcalling.com
+        # - hello@meskamilosc.pl:
+        #     mailer:         smtp
+        #     smtp_host:      "sslv3://smtp.gmail.com"
+        #     smtp_port:      465
+        #     smtp_security:  off #security is set via host address socket transport
+        #     smtp_debug:     0 #integer greather value more debug
+        #     smtp_username:  hello@meskamilosc.pl
+        #     smtp_password:  MM11837
+        #     from:           hello@meskamilosc.pl
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
