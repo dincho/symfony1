@@ -110,5 +110,6 @@ class ajaxActions extends geoActions
                   Criteria::CUSTOM);
                                                                               
         $this->users = MemberPeer::doSelect($c);
+        $this->ip = $this->getRequestParameter('ip'); 
     }  
 }
