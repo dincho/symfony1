@@ -40,7 +40,7 @@ class ipwatchActions extends sfActions
 
         $customObject = new CustomQueryObject();
         
-        $sql = 'SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
+        $sql = 'SELECT t.ip, count(t.member_id) as count 
                 FROM ( SELECT DISTINCT ip as ip, member_id FROM `member_login_history` 
                         WHERE ip!=0
 	                      GROUP by ip, member_id) t 

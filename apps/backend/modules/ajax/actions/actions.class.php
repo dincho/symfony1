@@ -103,12 +103,12 @@ class ajaxActions extends geoActions
     public function executeGetUsersByIp()
     {
         $c = new Criteria();
-        $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( SELECT DISTINCT '. MemberLoginHistoryPeer::MEMBER_ID. 
-                                ' FROM ' .MemberLoginHistoryPeer::TABLE_NAME.                                 
-                                ' WHERE '. MemberLoginHistoryPeer::IP. ' = '. $this->getRequestParameter('ip') .')', 
+        $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( SELECT DISTINCT t.MEMBER_ID'. 
+                                ' FROM (SELECT '. MemberLoginHistoryPeer::MEMBER_ID. ' FROM ' .MemberLoginHistoryPeer::TABLE_NAME.                                 
+                                          ' WHERE '. MemberLoginHistoryPeer::IP. ' = '. $this->getRequestParameter('ip') .
+                                        ') t )', 
                   Criteria::CUSTOM);
                                                                               
         $this->users = MemberPeer::doSelect($c);
     }  
-
 }

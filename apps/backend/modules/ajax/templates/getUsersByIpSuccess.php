@@ -1,4 +1,8 @@
 <?php use_helper('prProfilePhoto') ?>
+<?php if (count($users)>0): ?>
+  <?php echo 'maxmind.com location - ' . Maxmind::getMaxmindLocation($users[0]->getRegistrationIP()); ?>
+<?php endif; ?>
+<br />
 <table class="zebra">
   <thead>
     <tr>
