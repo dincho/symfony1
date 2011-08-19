@@ -62,8 +62,8 @@ class contentComponents extends sfComponents
         $c->add(StockPhotoPeer::HOMEPAGES, null, Criteria::ISNOTNULL);
         $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET("' . $catalog_id .'", ' . StockPhotoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
         $c->add(StockPhotoPeer::HOMEPAGES_SET, $this->homepage_set);
-        $c->addGroupByColumn(StockPhotoPeer::HOMEPAGES_POS);
-        //$c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        //$c->addGroupByColumn(StockPhotoPeer::HOMEPAGES_POS);
+        $c->addDescendingOrderByColumn(StockPhotoPeer::UPDATED_AT);
         $c->setLimit(1);
         $photos = StockPhotoPeer::doSelect($c);
         
