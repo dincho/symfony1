@@ -8,7 +8,8 @@
  */
 class FVrequiredFilter extends sfFilter
 {
-    static private $skip_actions = array('content/message', 'editProfile/photoAuthenticity', 'content/page', 'profile/signIn', 'profile/signout');
+    static private $skip_actions = array('content/message', 'editProfile/photoAuthenticity', 'editProfile/photos',
+                                          'content/page', 'profile/signIn', 'profile/signout');
 
     public function execute($filterChain)
     {
