@@ -37,7 +37,7 @@
 <var id="created_at"><?php echo $member->getCreatedAt('M d, Y') ?></var><br />
 
 <label for="last_visit">Last Visit</label>
-<var id="last_visit"><?php echo $member->isLoggedIn()? 'Currently Online' :  time_ago_in_words($member->getLastLogin(null)) ?></var><br />
+<var id="last_visit"><?php echo $member->isLoggedIn()? 'Currently Online' :  is_null($member->getLastLogin(null))?'never': time_ago_in_words($member->getLastLogin(null)) ?></var><br />
 
 <label for="current_flags">Current Flags</label>
 <var id="current_flags"><?php echo $member->getCounter('CurrentFlags'); ?></var><br />
