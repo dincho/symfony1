@@ -52,17 +52,21 @@
 <var id="reviewed"><?php if($member->getReviewedById() ) echo $member->getReviewedBy() . '&nbsp;' . $member->getReviewedAt('m/d/Y')?></var><br />
 
 <label for="registration_ip">Registration IP</label>
-<var id="registration_ip"><?php echo $member->getRegistrationIP() ?></var><br />
+<var id="registration_ip"><?php echo $member->getRegistrationIP() ?>
+  <?php include_partial('members/member_IP_menu', array('member' => $member, 'ip' => $member->getRegistrationIP())); ?>
+</var><br />
 
-<label for="registration_ip">maxmind.com location</label>
-  <var id="registration_ip"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
-  </var>
+<label for="registration_ip_mm">maxmind.com location</label>
+  <var id="registration_ip_mm"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
+   </var>
 <br />
 
 <label for="last_ip">Last IP</label>
-<var id="last_ip"><?php echo $member->getLastIP() ?></var><br />
-<label for="registration_ip">maxmind.com location</label>
-  <var id="registration_ip"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
+<var id="last_ip"><?php echo $member->getLastIP() ?>
+  <?php include_partial('members/member_IP_menu', array('member' => $member, 'ip' => $member->getLastIP())); ?>
+</var><br />
+<label for="last_ip_mm">maxmind.com location</label>
+  <var id="last_ip_mm"><?php echo Maxmind::getMaxmindLocation($member->getLastIP()); ?>
   </var>
 <br />
 

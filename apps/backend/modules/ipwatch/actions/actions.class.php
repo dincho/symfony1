@@ -90,7 +90,7 @@ class ipwatchActions extends sfActions
         $bc = $this->getUser()->getBC()->add(array('name' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'))
             ->add(array('name' => 'New IP', 'uri' => 'ipwatch/addWatch'));
         
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        if ($this->getRequestParameter('ip'))
         {
             $ipblock = new Ipwatch();
             $ipblock->setIP(ip2long($this->getRequestParameter('ip')));
