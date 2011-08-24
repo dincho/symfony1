@@ -102,12 +102,25 @@ class ajaxActions extends geoActions
 
     public function executeGetUsersByIp()
     {
+        $customObject = new CustomQueryObject();
+        
+        $sql = 'SELECT GROUP_CONCAT(t.MEMBER_ID) as in_clause 
+                FROM (
+                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
+                  union
+                  select m.last_ip , m.id from  member m
+                  union
+                  select m.registration_ip, m.id from  member m                                   
+                  ) t                                   
+                  WHERE t.ip = ' . $this->getRequestParameter('ip') . '
+                  group by t.ip;';
+               
+        $res = $customObject->query($sql);
+//        sfLogger::GetInstance()->info('executeGetUsersByIp: ' . $res[0]->getInClause() );
+
+
         $c = new Criteria();
-        $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( SELECT DISTINCT t.MEMBER_ID'. 
-                                ' FROM (SELECT '. MemberLoginHistoryPeer::MEMBER_ID. ' FROM ' .MemberLoginHistoryPeer::TABLE_NAME.                                 
-                                          ' WHERE '. MemberLoginHistoryPeer::IP. ' = '. $this->getRequestParameter('ip') .
-                                        ') t )', 
-                  Criteria::CUSTOM);
+        $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( ' . $res[0]->getInClause() .' )', Criteria::CUSTOM);
                                                                               
         $this->users = MemberPeer::doSelect($c);
         $this->ip = $this->getRequestParameter('ip'); 

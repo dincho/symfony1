@@ -41,9 +41,13 @@ class ipwatchActions extends sfActions
         $customObject = new CustomQueryObject();
         
         $sql = 'SELECT t.ip, count(t.member_id) as count 
-                FROM ( SELECT DISTINCT ip as ip, member_id FROM `member_login_history` 
-                        WHERE ip!=0
-	                      GROUP by ip, member_id) t 
+                FROM (
+                	SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
+                	union
+                	select m.last_ip , m.id from  member m 
+                	union
+                	select m.registration_ip, m.id from  member m 
+                ) t 
                 GROUP by t.ip
                 HAVING count(t.member_id) > 1;';
                
