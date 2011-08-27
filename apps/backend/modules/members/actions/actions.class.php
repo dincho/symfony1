@@ -294,7 +294,6 @@ class membersActions extends prActions
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
             $this->member->setCityId($this->getRequestParameter('city_id'));
             $this->member->setZip($this->getRequestParameter('zip'));
-            $this->member->setNationality($this->getRequestParameter('nationality'));
             if ($this->getRequestParameter('password')) //password changed
             {
                 $this->member->setPassword($this->getRequestParameter('password'));
@@ -317,8 +316,6 @@ class membersActions extends prActions
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
             
-            $nationality = $this->getRequestParameter('nationality');
-
             $value = $error = null;
             if( !$geoValidator->execute(&$value, &$error) )
             {
@@ -326,11 +323,6 @@ class membersActions extends prActions
                 $return = false;
             } 
             
-            if( !$nationality )
-            {
-                $this->getRequest()->setError('nationality', 'Please provide your nationality.');
-                $return = false;
-            }           
         }
         
         return $return;
@@ -342,6 +334,7 @@ class membersActions extends prActions
         $this->forward404Unless($this->member); //just in case
         
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
+        $this->purpose = $this->getRequestParameter('purpose');
         
         if( $this->getRequestParameter('adm1_id') && 
             $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))

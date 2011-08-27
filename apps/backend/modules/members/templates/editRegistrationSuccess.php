@@ -23,9 +23,9 @@
     <?php echo pr_label_for('repeat_password', 'Repeat Password', array('id' => 'labels_160')) ?>
     <?php echo input_password_tag('repeat_password') ?><br />
     
-    <label for="purpose">Purpose</label>
-    <?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>
-      <?php echo checkbox_tag('purpose[]', $key, fillIn('purpose['.$key.']', 'r', false, in_array($key, $member->getPurpose(ESC_RAW)))); ?>
+    <label for="purpose">Purpose</label>     
+    <?php $pIndex = 1; foreach( _purpose_array($member->getOrientationKey()) as $key => $value ): ?>   
+      <?php echo checkbox_tag('purpose[]', $key, in_array($key, isset($purpose)?$purpose:$member->getPurpose(ESC_RAW))); ?>
       <var><?php echo format_purpose($key, $member->getOrientationKey()); ?>&nbsp;</var>
       <?php if($pIndex % 2 == 0) echo '<br /><label />' ?>
     <?php $pIndex++; endforeach; ?><br />
@@ -53,10 +53,7 @@
     
     <label for="zip">Zip Code</label>
     <?php echo object_input_tag($member, 'getZip', error_class('zip')) ?><br />
-    
-    <label for="nationality">Nationality</label>
-    <?php echo object_input_tag($member, 'getNationality', error_class('nationality')) ?><br />
-    
+        
     <label for="timezone">Timezone</label>
     <var><?php echo $member->getTimezone(); ?></var><br />
         
