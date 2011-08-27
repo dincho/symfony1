@@ -83,8 +83,7 @@
             <?php echo pr_label_for('predefined_message', __('Template:')); ?>
             <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => '', 'body_field_id' => 'your_story', )); ?><br />
             <?php echo pr_label_for('your_story', __('Message:')) ?>
-            <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, 
-                  place of work and any other identifying information in initial messages with other members'); ?>
+            <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?>
             </div>
             <?php echo textarea_tag('content',  isset($content)? $content : $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?>
             <br />
