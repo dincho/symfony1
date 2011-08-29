@@ -10,7 +10,6 @@
         <?php echo link_to($username ."'s messages", 'messages/member?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s BE profile", 'members/edit?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
-        <?php echo link_to("see " . $username ."'s FE profile", $profile->getFrontendProfileUrl(), array('popup' => true)); ?>
         <?php echo  unless_profile_thumbnail_photo_tag($profile); ?>
     </div>
     <div>
