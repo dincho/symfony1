@@ -323,8 +323,10 @@ class contentActions extends prActions
         } elseif(!$this->getUser()->isAuthenticated() && !$link->isExpiredLogin() )
         {
           $member = MemberPeer::retrieveByPK($link->getLoginAs());
-          if( !$member ) $this->message('expired_link');
-  
+          
+          if( !$member || $member->getMemberStatusId() == MemberStatusPeer::CANCELED_BY_MEMBER )
+              $this->message('expired_link');
+            
           $this->getUser()->SignIn($member);
         } elseif( !$this->getUser()->isAuthenticated() )
         {
