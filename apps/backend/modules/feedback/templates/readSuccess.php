@@ -1,4 +1,4 @@
-<?php use_helper('Javascript') ?>
+<?php use_helper('Javascript', 'Date') ?>
 
 <div class="legend">Email from <?php echo $message->getFrom() ?></div>
 <div id="container">
@@ -27,6 +27,10 @@
         <tr>
             <th>To</th>
             <td><?php echo $message->getTo() ?></td>
+        </tr>
+        <tr>
+            <th>Sent</th>
+            <td><?php echo time_ago_in_words($message->getCreatedAt(null)) ?></td>
         </tr>
         
     </table>
