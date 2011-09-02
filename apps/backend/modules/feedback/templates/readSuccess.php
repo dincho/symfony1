@@ -29,7 +29,7 @@
             <td><?php echo $message->getTo() ?></td>
         </tr>
         <tr>
-            <th>Sent</th>
+            <th>Received</th>
             <td><?php echo time_ago_in_words($message->getCreatedAt(null)) ?></td>
         </tr>
         
