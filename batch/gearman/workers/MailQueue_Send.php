@@ -12,12 +12,14 @@
 
 require_once(realpath(dirname(__FILE__).'/../../config.php'));
 
-// initialize database manager
-$databaseManager = new sfDatabaseManager();
-$databaseManager->initialize();
+
 
 function send_mail($job)
 {
+    // initialize database manager
+    $databaseManager = new sfDatabaseManager();
+    $databaseManager->initialize();
+
     $message_id = $job->workload();
     
     //get the queued message and try to send it, setting correct statuses
@@ -33,6 +35,8 @@ function send_mail($job)
 
     // echo ($status) ? "Success" : "Failed!";
     // echo "\n";
+    
+    $databaseManager->shutdown();
     
     // print("JOB DONE!\n");
     return $status;

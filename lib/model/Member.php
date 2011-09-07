@@ -170,7 +170,6 @@ class Member extends BaseMember
                 //non active members are excluded from matches
                 //so regenerate the results
                 $this->updateMatches();
-                $this->updateReverseMatches();
             }
             
             $old_status_id = $this->getMemberStatusId();
@@ -401,7 +400,7 @@ class Member extends BaseMember
         {
             $gmc = new GearmanClient();
             $gmc->addServer('127.0.0.1', 4730);
-            $handle = @$gmc->doBackground('MatchQueue_Straight', $this->getId());
+            $handle = @$gmc->doBackground('MatchQueue_Straight', $this->getId(), $uniq = $this->getId());
             
             if ( $gmc->returnCode() == GEARMAN_SUCCESS )
             {
@@ -428,7 +427,7 @@ class Member extends BaseMember
         {
             $gmc = new GearmanClient();
             $gmc->addServer('127.0.0.1', 4730);
-            $handle = @$gmc->doBackground('MatchQueue_Reverse', $this->getId());
+            $handle = @$gmc->doBackground('MatchQueue_Reverse', $this->getId(), $uniq = $this->getId());
             
             if ( $gmc->returnCode() == GEARMAN_SUCCESS )
             {

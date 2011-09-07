@@ -12,25 +12,40 @@
 
 require_once(realpath(dirname(__FILE__).'/../../config.php'));
 
-// initialize database manager
-$databaseManager = new sfDatabaseManager();
-$databaseManager->initialize();
+$logger = new sfFileLogger();
+$logger->initialize(array('file' => SF_ROOT_DIR . '/log/workers/MatchQueue_Reverse.log'));
 
 function update_reverse_matches($job)
 {
-    $member_id = $job->workload();
+    global $logger;
     
+    // initialize database manager
+    $databaseManager = new sfDatabaseManager();
+    $databaseManager->initialize();
     $connection = Propel::getConnection();
-    $query = 'CALL update_reverse_matches(%d, %d)';
-    $query = sprintf($query, $member_id, sfConfig::get('app_matches_max_weight'));
-    $statement = $connection->prepareStatement($query);
-    $statement->executeQuery();
-        
-    return true;
+    
+    $query = sprintf('CALL update_reverse_matches(%d, %d)', 
+                     $job->workload(), sfConfig::get('app_matches_max_weight'));
+    
+    try {
+        $statement = $connection->prepareStatement($query)
+                                ->executeQuery();
+        $job->sendComplete(null);
+    } catch (SQLException $e) {
+        $logger->log($e->getMessage(), 0, 'Err');
+        $job->sendException($e->getMessage());
+        $job->sendFail();
+    }
+    
+    $databaseManager->shutdown();
 }
 
 $worker= new GearmanWorker();
 $worker->addServer('127.0.0.1', 4730);
 $worker->addFunction("MatchQueue_Reverse", "update_reverse_matches");
-while ($worker->work());
- 
+// while ($worker->work());
+while ($worker->work())
+{
+    if (GEARMAN_SUCCESS != $worker->returnCode())
+        echo "Worker failed: " . $worker->error() . "\n";
+}
