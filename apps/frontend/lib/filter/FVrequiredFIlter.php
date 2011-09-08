@@ -8,8 +8,11 @@
  */
 class FVrequiredFilter extends sfFilter
 {
-    static private $skip_actions = array('content/message', 'editProfile/photoAuthenticity', 'editProfile/photos',
-                                          'content/page', 'profile/signIn', 'profile/signout');
+    static private $skip_actions = array('content/message', 'content/page',
+                                          'profile/signIn', 'profile/signout',
+                                          'editProfile/photoAuthenticity', 'editProfile/photos', 'editProfile/uploadPhoto',
+                                          'editProfile/deletePhoto', 'editProfile/confirmDeletePhoto', 
+                                        );
 
     public function execute($filterChain)
     {
@@ -19,7 +22,7 @@ class FVrequiredFilter extends sfFilter
         $action = $context->getActionName();
         $module_action = $module . '/' . $action;
 
-//        sfLogger::GetInstance()->info('FVrequiredFilter: module/action - ' . $module_action . ', member: ' . $user->getUsername());
+       // sfLogger::GetInstance()->info('FVrequiredFilter: module/action - ' . $module_action . ', member: ' . $user->getUsername());
          
         if ($user->isAuthenticated() && $user->getAttribute('status_id') == MemberStatusPeer::FV_REQUIRED && 
             !in_array($module_action, self::$skip_actions) && $module != 'ajax' )
