@@ -15,13 +15,18 @@ require_once(realpath(dirname(__FILE__).'/../../config.php'));
 $logger = new sfFileLogger();
 $logger->initialize(array('file' => SF_ROOT_DIR . '/log/workers/MatchQueue_Straight.log'));
 
+$databaseManager = new sfDatabaseManager();
+$databaseManager->initialize();
+
 function update_straight_matches($job)
 {
     global $logger;
     
-    // initialize database manager
-    $databaseManager = new sfDatabaseManager();
-    $databaseManager->initialize();
+    //due to bad implementation getConnection just check if conn isset in connMap
+    //however the close() does not unset the connection, thus makes Propel shitty
+    //and we need explicitly to initialize this shit.
+    Propel::initialize();
+    
     $connection = Propel::getConnection();
     
     $query = sprintf('CALL update_straight_matches(%d, %d)', 
@@ -37,7 +42,7 @@ function update_straight_matches($job)
         $job->sendFail();
     }
     
-    $databaseManager->shutdown();
+    Propel::close();
 }
 
 $worker= new GearmanWorker();

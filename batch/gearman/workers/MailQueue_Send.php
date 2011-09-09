@@ -12,14 +12,17 @@
 
 require_once(realpath(dirname(__FILE__).'/../../config.php'));
 
-
+// initialize database manager
+$databaseManager = new sfDatabaseManager();
+$databaseManager->initialize();
 
 function send_mail($job)
 {
-    // initialize database manager
-    $databaseManager = new sfDatabaseManager();
-    $databaseManager->initialize();
-
+    //due to bad implementation getConnection just check if conn isset in connMap
+    //however the close() does not unset the connection, thus makes Propel shitty
+    //and we need explicitly to initialize this shit.
+    Propel::initialize();
+    
     $message_id = $job->workload();
     
     //get the queued message and try to send it, setting correct statuses
@@ -36,7 +39,7 @@ function send_mail($job)
     // echo ($status) ? "Success" : "Failed!";
     // echo "\n";
     
-    $databaseManager->shutdown();
+    Propel::close();
     
     // print("JOB DONE!\n");
     return $status;
