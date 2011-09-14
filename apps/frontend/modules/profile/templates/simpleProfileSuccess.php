@@ -28,7 +28,7 @@
 
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
-        <p class="private_photos_headline"><?php echo  __('%USERNAME% has private photos. Request access.', array('%USERNAME%' => $member->getUsername())); ?></p>
+        <p class="private_photos_headline"><?php echo  __('%USERNAME% has private photos.', array('%USERNAME%' => $member->getUsername())); ?></p>
         <?php for($i=0; $i<count($private_photos); $i++): ?>
             <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
         <?php endfor; ?>
