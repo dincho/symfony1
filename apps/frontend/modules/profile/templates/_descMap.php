@@ -2,11 +2,11 @@
 
 <div id="desc_map_container">
     <div id="profile_desc">
-        <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch') ?>
+        <?php echo link_to_function(__('Description'), '', 'class=switch') ?>
         <?php $area_info = addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getCityId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))); ?>
         <?php echo link_to_function(__('Map'), 
                     'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")', 
-                    'class=switch inactive');
+                    'class=inactive switch');
          ?>
         <br class="clear" />
         <dl>
@@ -95,8 +95,8 @@
         </dl>
     </div>
     <div id="profile_map" style="display: none;">
-        <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=switch inactive') ?>
-        <?php echo link_to_function(__('Map'), 'show_profile_map()', 'class=switch') ?>
+        <?php echo link_to_function(__('Description'), 'show_profile_desc()', 'class=inactive switch') ?>
+        <?php echo link_to_function(__('Map'), '', 'class=switch') ?>
         <br class="clear" />
         <div id="gmap"></div>
     </div>
