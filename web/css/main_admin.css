@@ -168,7 +168,7 @@ tr.selected {
 .selected td.first{
   background-repeat: no-repeat ;
   background-image:url('/images/tarrow.png');
-  background-position: left;
+  background-position: center;
 }
 
 #messages {
