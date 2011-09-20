@@ -48,13 +48,13 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody>              
   <?php foreach ($pager->getResults() as $message): ?>
   <?php $member = $message->getMemberRelatedBySenderId(); //shortcut ?>
   <tr rel="<?php echo url_for('messages/conversation?member_id='.$message->getSenderId() . '&id=' . $message->getThreadId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">
     <td class="first"></td>
-    <td>
-      <?php echo unless_profile_thumbnail_photo_tag($member) ?>
+    <td class="skip_me">
+      <?php echo link_to(unless_profile_thumbnail_photo_tag($member), $member->getFrontendProfileUrl(), array('popup' => true)) ?>
     </td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
@@ -66,9 +66,8 @@
     <td><?php echo $message->getCreatedAt('m/d/Y H:i') ?></td>
     <?php $recipient = $message->getMemberRelatedByRecipientId(); ?>
     <td><?php echo $recipient->getUsername() ?></td>
-    <td class="profile_link"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
-    <td>
-      <?php echo unless_profile_thumbnail_photo_tag($recipient) ?>
+    <td class="skip_me">
+      <?php echo link_to(unless_profile_thumbnail_photo_tag($recipient),$recipient->getFrontendProfileUrl(), array('popup' => true)) ?>
     </td>
     <td class="preview_button">
         <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?details=1&id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>
