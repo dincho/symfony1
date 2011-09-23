@@ -36,42 +36,42 @@ class subscriptionsActions extends sfActions
         $req_subs = $this->getRequestParameter('subs');
         foreach ($subscriptions as $subscription)
         {
-            if( array_key_exists($subscription->getId(), $req_subs) )
+            if( array_key_exists($subscription->getSubscriptionId(), $req_subs) )
             {
-                $subscription->setCanCreateProfile($req_subs[$subscription->getId()]['can_create_profile']);
-                $subscription->setCreateProfiles($req_subs[$subscription->getId()]['create_profiles']);
-                $subscription->setCanPostPhoto($req_subs[$subscription->getId()]['can_post_photo']);
-                $subscription->setPostPhotos($req_subs[$subscription->getId()]['post_photos']);
-                $subscription->setCanPostPrivatePhoto($req_subs[$subscription->getId()]['can_post_private_photo']);
-                $subscription->setPostPrivatePhotos($req_subs[$subscription->getId()]['post_private_photos']);
-                $subscription->setCanWink($req_subs[$subscription->getId()]['can_wink']);
-                $subscription->setWinks($req_subs[$subscription->getId()]['winks']);
-                $subscription->setWinksDay($req_subs[$subscription->getId()]['winks_day']);
-                $subscription->setCanReadMessages($req_subs[$subscription->getId()]['can_read_messages']);
-                $subscription->setReadMessages($req_subs[$subscription->getId()]['read_messages']);
-                $subscription->setReadMessagesDay($req_subs[$subscription->getId()]['read_messages_day']);
-                $subscription->setCanReplyMessages($req_subs[$subscription->getId()]['can_reply_messages']);
-                $subscription->setReplyMessages($req_subs[$subscription->getId()]['reply_messages']);
-                $subscription->setReplyMessagesDay($req_subs[$subscription->getId()]['reply_messages_day']);
-                $subscription->setCanSendMessages($req_subs[$subscription->getId()]['can_send_messages']);
-                $subscription->setSendMessages($req_subs[$subscription->getId()]['send_messages']);
-                $subscription->setSendMessagesDay($req_subs[$subscription->getId()]['send_messages_day']);
-                $subscription->setCanSeeViewed($req_subs[$subscription->getId()]['can_see_viewed']);
-                $subscription->setSeeViewed($req_subs[$subscription->getId()]['see_viewed']);
-                $subscription->setCanContactAssistant($req_subs[$subscription->getId()]['can_contact_assistant']);
-                $subscription->setContactAssistant($req_subs[$subscription->getId()]['contact_assistant']);
-                $subscription->setContactAssistantDay($req_subs[$subscription->getId()]['contact_assistant_day']);
-                $subscription->setPreApprove(@$req_subs[$subscription->getId()]['pre_approve']);
+                $subscription->setCanCreateProfile($req_subs[$subscription->getSubscriptionId()]['can_create_profile']);
+                $subscription->setCreateProfiles($req_subs[$subscription->getSubscriptionId()]['create_profiles']);
+                $subscription->setCanPostPhoto($req_subs[$subscription->getSubscriptionId()]['can_post_photo']);
+                $subscription->setPostPhotos($req_subs[$subscription->getSubscriptionId()]['post_photos']);
+                $subscription->setCanPostPrivatePhoto($req_subs[$subscription->getSubscriptionId()]['can_post_private_photo']);
+                $subscription->setPostPrivatePhotos($req_subs[$subscription->getSubscriptionId()]['post_private_photos']);
+                $subscription->setCanWink($req_subs[$subscription->getSubscriptionId()]['can_wink']);
+                $subscription->setWinks($req_subs[$subscription->getSubscriptionId()]['winks']);
+                $subscription->setWinksDay($req_subs[$subscription->getSubscriptionId()]['winks_day']);
+                $subscription->setCanReadMessages($req_subs[$subscription->getSubscriptionId()]['can_read_messages']);
+                $subscription->setReadMessages($req_subs[$subscription->getSubscriptionId()]['read_messages']);
+                $subscription->setReadMessagesDay($req_subs[$subscription->getSubscriptionId()]['read_messages_day']);
+                $subscription->setCanReplyMessages($req_subs[$subscription->getSubscriptionId()]['can_reply_messages']);
+                $subscription->setReplyMessages($req_subs[$subscription->getSubscriptionId()]['reply_messages']);
+                $subscription->setReplyMessagesDay($req_subs[$subscription->getSubscriptionId()]['reply_messages_day']);
+                $subscription->setCanSendMessages($req_subs[$subscription->getSubscriptionId()]['can_send_messages']);
+                $subscription->setSendMessages($req_subs[$subscription->getSubscriptionId()]['send_messages']);
+                $subscription->setSendMessagesDay($req_subs[$subscription->getSubscriptionId()]['send_messages_day']);
+                $subscription->setCanSeeViewed($req_subs[$subscription->getSubscriptionId()]['can_see_viewed']);
+                $subscription->setSeeViewed($req_subs[$subscription->getSubscriptionId()]['see_viewed']);
+                $subscription->setCanContactAssistant($req_subs[$subscription->getSubscriptionId()]['can_contact_assistant']);
+                $subscription->setContactAssistant($req_subs[$subscription->getSubscriptionId()]['contact_assistant']);
+                $subscription->setContactAssistantDay($req_subs[$subscription->getSubscriptionId()]['contact_assistant_day']);
+                $subscription->setPreApprove(@$req_subs[$subscription->getSubscriptionId()]['pre_approve']);
                 
-                if( isset($req_subs[$subscription->getId()]['period']) )
+                if( isset($req_subs[$subscription->getSubscriptionId()]['period']) )
                 {
-                    $subscription->setPeriod($req_subs[$subscription->getId()]['period']);
-                    $subscription->setPeriodType($req_subs[$subscription->getId()]['period_type']);
-                    $subscription->setAmount($req_subs[$subscription->getId()]['amount']);
-                    $subscription->setCurrency($req_subs[$subscription->getId()]['currency']);
+                    $subscription->setPeriod($req_subs[$subscription->getSubscriptionId()]['period']);
+                    $subscription->setPeriodType($req_subs[$subscription->getSubscriptionId()]['period_type']);
+                    $subscription->setAmount($req_subs[$subscription->getSubscriptionId()]['amount']);
+                    $subscription->setCurrency($req_subs[$subscription->getSubscriptionId()]['currency']);
                 }
                 
-                $subscription->setImbraAmount($req_subs[$subscription->getId()]['imbra_amount']);
+                $subscription->setImbraAmount($req_subs[$subscription->getSubscriptionId()]['imbra_amount']);
                 $subscription->save();
             }
         }
