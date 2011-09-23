@@ -20,9 +20,9 @@
       <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Joined', 'Member::created_at', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Sub', 'Subscription::title', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Reviewed', 'User::username', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Status', 'MemberStatus::title', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Sub', 'Member::subscription_id', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Reviewed', 'Member::reviewed_by_id', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Status', 'Member::member_status_id', $sort_namespace) ?></th>
       <th></th>
     </tr>
   </thead>
