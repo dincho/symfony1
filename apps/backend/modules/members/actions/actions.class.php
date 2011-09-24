@@ -66,22 +66,7 @@ class membersActions extends prActions
         $this->pager = $pager;
     
         if( $this->getRequestParameter('page', 1)  == 1 )
-        {   
-            $pc = clone $c;
-            $pc->setLimit(null);
-            $pc->addJoin(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ID);
-            $pc->addJoin(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::ID);
-            $pc->addJoin(MemberPeer::REVIEWED_BY_ID, UserPeer::ID);
-            $rs = MemberPeer::doSelectRS($pc);
-            $profile_pager_members = array();
-
-            while($rs->next()) {
-                $profile_pager_members[] = $rs->getInt(1);
-            }
-        
-            $this->getUser()->getAttributeHolder()->removeNamespace('backend/members/profile_pager');
-            $this->getUser()->getAttributeHolder()->add($profile_pager_members, 'backend/members/profile_pager');
-        }
+            $this->getUser()->setAttribute('criteria', $c, 'backend/members/profile_pager');
     }
 
     public function executeCreate()
@@ -247,6 +232,10 @@ class membersActions extends prActions
             $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
             $c->addDescendingOrderByColumn(MemberNotePeer::UPDATED_AT);
             $this->notes = MemberNotePeer::doSelectJoinAll($c);
+            
+            $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/members/profile_pager');
+            $this->pager = new ProfilePager($pager_crit, $this->member->getId());
+            $this->pager->init();
             
             $member = clone $this->member;
             $member->setReviewedById($this->getUser()->getId());

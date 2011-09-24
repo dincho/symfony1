@@ -1,8 +1,6 @@
 <?php use_helper('Object', 'dtForm', 'I18N', 'Catalog') ?>
 <?php include_component('system', 'formErrors') ?>
 
-<?php $pager = new TUPager($sf_user->getAttributeHolder()->getAll('backend/transUnits/pager_tu'), $trans_unit->getId()); ?>
-
 <?php if( $pager->hasResults() ): ?>
     <div id="profile_pager">
         <?php echo link_to_unless(is_null($pager->getPrevious()), '&lt;&lt;&nbsp;Previous', 'transUnits/edit?id=' . $pager->getPrevious(), array()) ?>

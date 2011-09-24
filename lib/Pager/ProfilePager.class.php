@@ -9,5 +9,8 @@
 
 class ProfilePager extends prBasePager
 {
-
+    public function __construct(Criteria $crit, $currentID)
+    {
+        parent::__construct('MemberPeer', $crit, $currentID);
+    }
 }

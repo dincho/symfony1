@@ -7,7 +7,7 @@
  * 
  */
 
-class prBasePager
+class FrontendProfilePager
 {
     private $members = array();
     private $cursor = 0;

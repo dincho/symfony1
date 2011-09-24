@@ -44,22 +44,9 @@ class transUnitsActions extends sfActions
         $pager->setPeerCountMethod('doCountJoinAllExceptMsgCollection');
         $pager->init();
         $this->pager = $pager;  
-
-        if( $this->getRequestParameter('page', 1)  == 1 )
-        {   
-            $pc = clone $c;
-            $pc->setLimit(null);
-            $c->addJoin(TransUnitPeer::CAT_ID, CataloguePeer::CAT_ID);
-            $rs = TransUnitPeer::doSelectRS($pc);
-            $pager_tu = array();
-
-            while($rs->next()) {
-                $pager_tu[] = $rs->getInt(1);
-            }
         
-            $this->getUser()->getAttributeHolder()->removeNamespace('backend/transUnits/pager_tu');
-            $this->getUser()->getAttributeHolder()->add($pager_tu, 'backend/transUnits/pager_tu');
-        }
+        if( $this->getRequestParameter('page', 1)  == 1 )
+            $this->getUser()->setAttribute('criteria', $c, 'backend/transUnits/pager');
         
         $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
@@ -152,6 +139,10 @@ class transUnitsActions extends sfActions
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect($this->getUser()->getRefererUrl());                
         }
+        
+        $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/transUnits/pager');
+        $this->pager = new TUPager($pager_crit, $this->trans_unit->getId());
+        $this->pager->init();
     }
 
     public function handleErrorEdit()
@@ -220,9 +211,14 @@ class transUnitsActions extends sfActions
             if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
             {
                 $c->addAscendingOrderByColumn($sort_column);
+                 //add extra sorting field if there is duplicates
+                 //otherwise MySQL add such field on strange conditions
+                 // ( e.g. if trans_unit.target is selected or not)
+                $c->addAscendingOrderByColumn(TransUnitPeer::ID);
             } else
             {
                 $c->addDescendingOrderByColumn($sort_column);
+                $c->addDescendingOrderByColumn(TransUnitPeer::ID);
             }
         }
     }
