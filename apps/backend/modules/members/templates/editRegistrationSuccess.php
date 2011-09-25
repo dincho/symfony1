@@ -9,7 +9,7 @@
 
 <?php echo form_tag('members/editRegistration', 'class=form id=member_registration_form') ?>
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+  <?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
   
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/editRegistration?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>
@@ -64,5 +64,5 @@
   </fieldset>
 </form>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>
 <?php include_partial('members/geo_fields_js'); ?>

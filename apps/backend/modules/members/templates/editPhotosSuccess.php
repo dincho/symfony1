@@ -13,7 +13,7 @@
 
 
 <div class="legend">Photos</div>
-<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+<?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
 
 
 

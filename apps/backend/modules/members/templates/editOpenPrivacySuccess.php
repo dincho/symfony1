@@ -4,7 +4,7 @@
 
 <div class="legend">Privacy Relations</div>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+<?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
 <br />
 
 <p>Private Dating: <?php echo ($member->getPrivateDating()) ? 'ON' : 'OFF'; ?></p>
@@ -41,4 +41,4 @@
     </tbody>
 </table>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>

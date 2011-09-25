@@ -4,7 +4,7 @@
 
 <div class="legend">Subscription History</div>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+<?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
 
 <table class="zebra" style="margin-top: 18px;">
     <tr>
@@ -28,4 +28,4 @@
     <?php endfor; ?>
 </table>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>

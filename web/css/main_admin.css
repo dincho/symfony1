@@ -205,6 +205,9 @@ tr.selected {
 #sub_menu.top {
     border-width: 0 0 2px 0;
 }
+.red{
+  color: red;
+}
 
 #sub_menu span.sub_menu_title, #bottom_menu span.bottom_menu_title {
   float: left;

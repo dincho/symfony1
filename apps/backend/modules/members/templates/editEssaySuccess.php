@@ -10,7 +10,7 @@
 <?php echo form_tag('members/editEssay', array('class' => 'form', 'onsubmit' => 'return check_essay_fields("Some of the essay fields are empty, are you sure you want to save it anyway?");')) ?>
 
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+  <?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
 
   
   <fieldset class="actions">
@@ -43,4 +43,4 @@
       return true;
     }
 '); ?>
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>

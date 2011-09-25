@@ -5,7 +5,7 @@
 
 <div class="legend">Member Subscriptions</div>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+<?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
 
 <table class="zebra" style="margin-top: 18px;">
     <thead>
@@ -39,4 +39,4 @@
   
 </table>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>

@@ -19,7 +19,7 @@
   
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
   
-  <?php include_partial('members/subMenu', array('member_id' => $member->getId(), 'class' => 'top')); ?>
+  <?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/edit?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button name=submit_save') ?>
   </fieldset>
@@ -53,4 +53,4 @@
   </fieldset>
 </form>
 
-<?php include_partial('members/subMenu', array('member_id' => $member->getId())); ?>
+<?php include_partial('members/subMenu', array('member' => $member)); ?>
