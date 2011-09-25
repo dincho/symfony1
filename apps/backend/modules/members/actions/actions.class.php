@@ -233,10 +233,6 @@ class membersActions extends prActions
             $c->addDescendingOrderByColumn(MemberNotePeer::UPDATED_AT);
             $this->notes = MemberNotePeer::doSelectJoinAll($c);
             
-            $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/members/profile_pager');
-            $this->pager = new ProfilePager($pager_crit, $this->member->getId());
-            $this->pager->init();
-            
             $member = clone $this->member;
             $member->setReviewedById($this->getUser()->getId());
             $member->setReviewedAt(time());
