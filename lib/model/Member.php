@@ -1208,13 +1208,4 @@ class Member extends BaseMember
         return IpwatchPeer::doCount($c);
     }
     
-    public function IsEssayInRed()
-    {
-      if( $this->getMemberStatusId() == MemberStatusPeer::ABANDONED && (! $this->getEssayHeadline() && ! $this->getEssayIntroduction()))
-      {
-        return true;
-      }
-      return false;
-    }
-
 }
