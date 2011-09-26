@@ -60,22 +60,10 @@
 <label for="member_private_dating">Private Dating</label>
 <var id="member_private_dating"><?php echo ($member->getPrivateDating()) ? 'ON' : 'OFF'; ?></var><br />
 
-<label for="registration_ip">Registration IP</label>
-<var id="registration_ip"><?php echo $member->getRegistrationIP() ?>
-  <?php include_partial('members/member_IP_menu', array('member' => $member, 'ip' => $member->getRegistrationIP())); ?>
-</var><br />
 
-<label for="registration_ip_mm">MM location</label>
-  <var id="registration_ip_mm"><?php echo Maxmind::getMaxmindLocation($member->getRegistrationIP()); ?>
-   </var>
-<br />
+<?php include_component('members', 'MemberIpBlock', 
+    array('label' => "Registration IP", 'ip' => $member->getRegistrationIP())); ?>
 
-<label for="last_ip">Last IP</label>
-<var id="last_ip"><?php echo $member->getLastIP() ?>
-  <?php include_partial('members/member_IP_menu', array('member' => $member, 'ip' => $member->getLastIP())); ?>
-</var><br />
-<label for="last_ip_mm">MM location</label>
-  <var id="last_ip_mm"><?php echo Maxmind::getMaxmindLocation($member->getLastIP()); ?>
-  </var>
-<br />
+<?php include_component('members', 'MemberIpBlock', 
+    array('label' => "Last IP", 'ip' => $member->getLastIP())); ?>
 

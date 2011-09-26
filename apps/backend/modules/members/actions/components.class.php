@@ -7,4 +7,12 @@ class MembersComponents extends sfComponents
         $this->pager = new ProfilePager($pager_crit, $this->member->getId());
         $this->pager->init();
     }
+
+    public function executeMemberIpBlock()
+    {
+        $this->isIpDublicatedIp = MemberPeer::isIpDublicated($this->ip);
+        $this->isIpBlacklistedIp = MemberPeer::isIpBlacklisted($this->ip);
+        $this->ipLocation = Maxmind::getMaxmindLocation($this->ip);        
+    }
+
 }

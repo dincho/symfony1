@@ -1180,32 +1180,5 @@ class Member extends BaseMember
 
         return FeedbackPeer::doCount($c);
     }
-    
-    public function isIpDublicated($ip)
-    {
-        $customObject = new CustomQueryObject();
         
-        $sql = 'SELECT count(t.MEMBER_ID) as count 
-                FROM (
-                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip='.ip2long($ip).'
-                  union
-                  select m.last_ip , m.id from  `member` m  WHERE last_ip='.ip2long($ip).'
-                  union
-                  select m.registration_ip, m.id from  `member` m  WHERE registration_ip='.ip2long($ip).'                                  
-                  ) t                                   
-                  WHERE t.ip = '.ip2long($ip).'
-                  group by t.ip;';
-               
-        $res = $customObject->query($sql);
-        return ($res[0]->getCount()>1)?true:false;
-    }
-    
-    public function isIpBlacklisted($ip)
-    {
-        $c = new Criteria();
-        $c->add(IpwatchPeer::IP, ip2long($ip));
-
-        return IpwatchPeer::doCount($c);
-    }
-    
 }
