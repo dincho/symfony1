@@ -1187,11 +1187,11 @@ class Member extends BaseMember
         
         $sql = 'SELECT count(t.MEMBER_ID) as count 
                 FROM (
-                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
+                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip='.ip2long($ip).'
                   union
-                  select m.last_ip , m.id from  `member` m
+                  select m.last_ip , m.id from  `member` m  WHERE last_ip='.ip2long($ip).'
                   union
-                  select m.registration_ip, m.id from  `member` m                                   
+                  select m.registration_ip, m.id from  `member` m  WHERE registration_ip='.ip2long($ip).'                                  
                   ) t                                   
                   WHERE t.ip = '.ip2long($ip).'
                   group by t.ip;';
