@@ -7,7 +7,7 @@
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
 
     <div class="scrollable normal_scrollable" style="margin-top: 20px;">
-      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId())); ?>
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId().'&received_only=' . $received_only)); ?>
         <table class="zebra">
             <thead>
                  <tr>
@@ -50,7 +50,7 @@
         <?php endforeach; ?>
         
         </table>
-      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId())); ?>
+      <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'messages/member', 'query_string' => '&id='.$member->getId().'&received_only=' . $received_only)); ?>
     </div>
 
     <div class="text-left">
