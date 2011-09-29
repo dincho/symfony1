@@ -31,7 +31,7 @@
 
         <?php if( $show_request_warning ): ?>
             <?php echo javascript_include_tag('messagebar') ?>
-            <?php echo javascript_tag('messagebar_message("' . __('You can\'t make more private photo access requests today.') . '");' ); ?>
+            <?php echo javascript_tag('messagebar_message("' . $request_warning . '");' ); ?>
         <?php endif; ?>
 
         <?php if( $private_photos_perm ): ?>
