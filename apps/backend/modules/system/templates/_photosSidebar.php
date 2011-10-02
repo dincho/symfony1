@@ -52,6 +52,7 @@
       <?php if($sf_params->has('filters[country]')): ?>
         <?php echo input_hidden_tag('filters[country]', $sf_params->get('filters[country]')) ?>
       <?php endif; ?>
+      <li><?php echo link_to('Upload Photo', 'photos/upload') ?></li>
       
       </ul>
     </form>
