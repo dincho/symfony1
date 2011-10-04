@@ -40,7 +40,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
         $startcol = (MemberMatchPeer::NUM_COLUMNS - MemberMatchPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
         MemberPeer::addSelectColumns($c);
 
-        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
@@ -90,7 +90,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
                 
         $c->addSelectColumn(MemberPeer::USERNAME);
 
-        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
+        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
@@ -122,7 +122,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
                                               FROM member_match AS m2
                                               WHERE m2.member1_id = member_match.member2_id
                                               AND m2.member2_id = member_match.member1_id) > 0', Criteria::CUSTOM);
-        $criteria->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);                                    
+        $criteria->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);                                    
         $rs = MemberMatchPeer::doSelectRS($criteria, $con);
         return ($rs->next()) ? $rs->getInt(1) : 0;
     }        
