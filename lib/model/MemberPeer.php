@@ -444,7 +444,6 @@ class MemberPeer extends BaseMemberPeer
                   union
                   select m.registration_ip, m.id from  `member` m  WHERE registration_ip='.ip2long($ip).'                                  
                   ) t                                   
-                  WHERE t.ip = '.ip2long($ip).'
                   group by t.ip;';
                
         $res = $customObject->query($sql);
