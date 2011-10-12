@@ -12,11 +12,13 @@ class MemberPayment extends BaseMemberPayment
     public function applyToSubscription()
     {
         $member_subscription = $this->getMemberSubscription();
+        $member_subscription->setNextAmount($this->getAmount());
+        $member_subscription->setNextCurrentcy($this->getCurrency());
         
         //confirm the subscription on the first payment
         //this is used for payment processors that does not send subscription confirmation/notification ( like zong )
         if( $member_subscription->getStatus() == 'pending' ) $member_subscription->setStatus('confirmed');
-    
+        
         //calculate EOT
         $period_types_map = array('D' => 3, 'W' => 4, 'M' => 5, 'Y' => 7);
         $period_type = $period_types_map[$member_subscription->getPeriodType()];

@@ -717,6 +717,8 @@ propel:
     eot_at:                 { type: timestamp }
     pp_ref:                 { type: varchar, size: 255, requred: false } #payment processor reference ( PP subscription_id ID or similar )    
     details:                { type: longvarchar, required: false } #full details of the transaction
+    next_amount:            { type: decimal, size: 7, scale: 2, required: true }
+    next_currency:          { type: varchar, size: 5 } #ISO
     created_at:
     updated_at:
 

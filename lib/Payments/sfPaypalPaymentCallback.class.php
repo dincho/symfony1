@@ -135,7 +135,8 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         $member_subscription->setDetails($this->getParams());
                         $member_subscription->setUpdatedAt(strtotime($this->getParam('subscr_date')));
                         $member_subscription->setSubscriptionId($this->getParam('item_number'));
-                        
+                        $member_subscription->setNextAmount($this->getParam('mc_amount'));
+                        $member_subscription->setNextCurrency($this->getParam('mc_currency'));
                         $member_subscription->getMember()->changeSubscription($member_subscription->getSubscriptionId(), 'system (modify)');
                         
                         $member_subscription->save();

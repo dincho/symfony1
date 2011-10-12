@@ -34,6 +34,7 @@ class subscriptionActions extends prActions
         
         $this->member_subscription = $this->member->getCurrentMemberSubscription();
         $this->next_member_subscription = $this->member->getNextMemberSubscription();
+        //@todo when all subscription without "next_amount", gets EOTS, we'll not need this anymore
         $this->last_payment = ( $this->member_subscription ) ? $this->member_subscription->getLastCompletedPayment() : null;
         $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
         

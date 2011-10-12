@@ -8,10 +8,16 @@
                   '%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(null), $date_format))); ?>
     <?php else: ?>
         <?php if( $last_payment->getPaymentProcessor() == 'paypal' ): ?>
+            <?php if( $member_subscription->getNextAmount() ): ?>
+                <?php $next_payment_amount = format_currency($member_subscription->getNextAmount(), $member_subscription->getNextCurrency()); ?>
+            <?php else: ?>
+                <?php $next_payment_amount = format_currency($last_payment->getAmount(), $last_payment->getCurrency()); ?>
+            <?php endif; ?>
+            
             <?php echo __('Manage subscription - paypal', 
                           array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(), $date_format),
                                 '%NEXT_PAYMENT_DATE%' => format_date($member_subscription->getEotAt(null), $date_format),
-                                '%NEXT_PAYMENT_AMOUNT%' => format_currency($last_payment->getAmount(), $last_payment->getCurrency()),
+                                '%NEXT_PAYMENT_AMOUNT%' => $next_payment_amount,
                           )); ?>
             <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), 
                                     array('popup' => true, 'class' => 'button')) ?>

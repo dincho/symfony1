@@ -13,6 +13,8 @@ class callbacksActions extends sfActions
 
   public function executeZong()
   {   
+      sfConfig::set('sf_web_debug', false);
+      
       $zong = new sfZongPaymentCallback();
       $zong->initialize($this->getRequest(), $this->getRequestParams());
       $zong->handle();
@@ -25,6 +27,8 @@ class callbacksActions extends sfActions
   
   public function executePaypal()
   {
+        sfConfig::set('sf_web_debug', false);
+      
         $ipn = new sfPaypalPaymentCallback();
         $ipn->initialize($this->getRequest(), $this->getRequestParams());
         $ipn->handle();
