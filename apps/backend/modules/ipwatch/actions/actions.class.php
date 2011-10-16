@@ -69,7 +69,15 @@ class ipwatchActions extends sfActions
                         WHERE ip!=0 and ip in ( SELECT ip FROM ipwatch )
 	                      GROUP by ip, member_id) t 
                 GROUP by t.ip;';
-               
+        $sql = 'SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
+                FROM ( SELECT ip as ip, member_id FROM `member_login_history` WHERE ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.last_ip , m.id from  member m  WHERE last_ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.registration_ip, m.id from  member m   WHERE registration_ip in ( SELECT ip FROM ipwatch )                                  
+                  ) t 
+                GROUP by t.ip;';
+                              
         $this->pager = new myArrayPager(null, $this->getRequestParameter('per_page',15));
         $this->pager->setResultArray( $customObject->query($sql) );
         $this->pager->setPage($this->getRequestParameter('page',1));

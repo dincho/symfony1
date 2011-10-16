@@ -106,13 +106,12 @@ class ajaxActions extends geoActions
         
         $sql = 'SELECT GROUP_CONCAT(t.MEMBER_ID) as in_clause 
                 FROM (
-                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
+                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip= ' . $this->getRequestParameter('ip') . '
                   union
-                  select m.last_ip , m.id from  member m
+                  select m.last_ip , m.id from  member m  WHERE last_ip= ' . $this->getRequestParameter('ip') . '
                   union
-                  select m.registration_ip, m.id from  member m                                   
+                  select m.registration_ip, m.id from  member m   WHERE registration_ip= ' . $this->getRequestParameter('ip') . '                                  
                   ) t                                   
-                  WHERE t.ip = ' . $this->getRequestParameter('ip') . '
                   group by t.ip;';
                
         $res = $customObject->query($sql);
