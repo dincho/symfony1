@@ -22,7 +22,7 @@
     <?php endforeach; ?>
   </tbody>
 </table>
-<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'ipwatch/duplicates')); ?>
+<?php include_partial('system/pager', array('pager' => $pager, 'route' => 'ipwatch/blacklisted')); ?>
 <br /><br />
 <div id='preview_duplicates'>
 </div>

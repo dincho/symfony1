@@ -14,19 +14,20 @@
             </tr>
         </thead>
         
-    <?php foreach ($ipblocks as $block): ?>
-        <tr rel="<?php echo url_for('ipblocking/edit?id=' . $block->getId()) ?>">
-            <td class="marked"><?php echo checkbox_tag('marked[]', $block->getId(), null) ?></td>
-            <td><?php echo $block->getItem(); ?>
-        	    <?php if ($block->getItemType() == 3):?>
-        	    /<?php echo $block->getNetmask();?>
+    <?php foreach ($pager->getResults() as $object): ?>
+        <tr rel="<?php echo url_for('ipblocking/edit?id=' . $object->getId()) ?>">
+            <td class="marked"><?php echo checkbox_tag('marked[]', $object->getId(), null) ?></td>
+            <td><?php echo $object->getItem(); ?>
+        	    <?php if ($object->getItemType() == 3):?>
+        	    /<?php echo $object->getNetmask();?>
         	    <?php endif;?>
 	        </td>
-            <td><?php echo $block->getCreatedAt('d.m.Y H:i'); ?></td>
+            <td><?php echo $object->getCreatedAt('d.m.Y H:i'); ?></td>
         </tr>
     <?php endforeach; ?>
     
     </table>
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'ipblocking/list')); ?>
 
     <div class="actions">
         <?php echo submit_tag('Delete', 'id=delete name=delete confirm=Are you sure you want to delete selected blocks?') ?>

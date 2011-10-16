@@ -13,15 +13,17 @@
             </tr>
         </thead>
         
-    <?php foreach ($ipwatch as $ip): ?>
-        <tr rel="<?php echo url_for('ipwatch/editWatch?id=' . $ip->getId()) ?>">
-            <td class="marked"><?php echo checkbox_tag('marked[]', $ip->getId(), null) ?></td>
-            <td><?php echo long2ip($ip->getIp()); ?></td>
-            <td><?php echo $ip->getCreatedAt('d.m.Y H:i'); ?></td>
+    <?php foreach ($pager->getResults() as $object): ?>
+        <tr rel="<?php echo url_for('ipwatch/editWatch?id=' . $object->getId()) ?>">
+            <td class="marked"><?php echo checkbox_tag('marked[]', $object->getId(), null) ?></td>
+            <td><?php echo long2ip($object->getIp()); ?></td>
+            <td><?php echo $object->getCreatedAt('d.m.Y H:i'); ?></td>
         </tr>
     <?php endforeach; ?>
     
     </table>
+    <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'ipwatch/blacklist')); ?>
+
     <div class="actions">
         <?php echo submit_tag('Delete', 'id=delete name=delete confirm=Are you sure you want to delete selected IP?') ?>
     </div>    

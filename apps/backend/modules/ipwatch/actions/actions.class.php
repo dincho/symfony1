@@ -65,11 +65,6 @@ class ipwatchActions extends sfActions
         $customObject = new CustomQueryObject();
         
         $sql = 'SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
-                FROM ( SELECT DISTINCT ip as ip, member_id FROM `member_login_history` 
-                        WHERE ip!=0 and ip in ( SELECT ip FROM ipwatch )
-	                      GROUP by ip, member_id) t 
-                GROUP by t.ip;';
-        $sql = 'SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
                 FROM ( SELECT ip as ip, member_id FROM `member_login_history` WHERE ip in ( SELECT ip FROM ipwatch )
                   union
                   select m.last_ip , m.id from  member m  WHERE last_ip in ( SELECT ip FROM ipwatch )
@@ -88,8 +83,11 @@ class ipwatchActions extends sfActions
     {
         $bc = $this->getUser()->getBC()->add(array('name' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'));
 
-        $this->ipwatch = IpwatchPeer::doSelect(new Criteria());
-
+        $pager = new sfPropelPager('Ipwatch', $this->getRequestParameter('per_page',15));
+        $pager->setCriteria(new Criteria());
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->init();
+        $this->pager = $pager;
     }
 
     public function executeAddWatch()

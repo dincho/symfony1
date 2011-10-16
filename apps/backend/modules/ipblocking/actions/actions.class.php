@@ -31,7 +31,13 @@ class ipblockingActions extends sfActions
         $c = new Criteria();
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM_TYPE);
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM);
-        $this->ipblocks = IpblockPeer::doSelect($c);
+        
+        $pager = new sfPropelPager('Ipblock', $this->getRequestParameter('per_page',15));
+        $pager->setCriteria($c);
+        $pager->setPage($this->getRequestParameter('page', 1));
+        $pager->init();
+        $this->pager = $pager;
+
     }
 
     public function executeEdit()
