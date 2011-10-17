@@ -35,7 +35,7 @@ class messagesActions extends sfActions
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod('doSelectJoinMemberRelatedBySenderId');
-        $pager->setPeerCountMethod('doCount');
+        $pager->setPeerCountMethod('doCountJoinMemberRelatedBySenderId');
         $pager->init();
         $this->pager = $pager;
     
