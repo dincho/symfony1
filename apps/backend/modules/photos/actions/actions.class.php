@@ -113,10 +113,10 @@ class photosActions extends sfActions
         $this->left_menu_selected = 'Home Page';
         
         $c = new Criteria();
-        $c->add(HomepageMemberPhotoPeer::HOMEPAGES, 'FIND_IN_SET(' . $this->getRequestParameter('cat_id', 0) . ', ' . HomepageMemberPhotoPeer::HOMEPAGES .')', Criteria::CUSTOM);
-        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_SET);
-        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
-        $this->photos = HomepageMemberPhotoPeer::doSelectJoinMember($c);
+        $c->add(StockPhotoPeer::HOMEPAGES, 'FIND_IN_SET(' . $this->getRequestParameter('cat_id', 0) . ', ' . StockPhotoPeer::HOMEPAGES .')', Criteria::CUSTOM);
+        $c->addAscendingOrderByColumn(StockPhotoPeer::HOMEPAGES_SET);
+//        $c->addAscendingOrderByColumn(HomepageMemberPhotoPeer::HOMEPAGES_POS);
+        $this->photos = StockPhotoPeer::doSelect($c);
     }
     
     public function executeMemberStories()
@@ -446,7 +446,7 @@ class photosActions extends sfActions
     {
         $this->getUser()->checkPerm(array('content_edit'));
         
-        $photo = HomepageMemberPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
+        $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($photo);
         
         $photo->delete();

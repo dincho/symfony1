@@ -4,10 +4,8 @@
 <div class="homepage_set">
     <?php foreach($photos as $photo): ?>
             <div class="photo_slot">
-                <?php echo image_tag($photo->getWebRelativePath(), array('size' => '100x95')); ?><br />
+                <?php echo image_tag($photo->getImageUrlPath('cropped','308x293'),array('size' => '308x293')); ?><br />
                 S: <?php echo $photo->getHomepagesSet(); ?>
-                P: <?php echo $photo->getHomepagesPos(); ?><br />
-                Status: <?php echo $photo->getMember()->getMemberStatus(); ?><br />
                 <?php echo link_to('Delete', 'photos/deleteHomepagePhoto?id=' . $photo->getId()); ?>
             </div>
     <?php endforeach; ?>
