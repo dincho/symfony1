@@ -449,7 +449,9 @@ class photosActions extends sfActions
         $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($photo);
         
-        $photo->delete();
+        $photo->setHomepages(NULL);
+        $photo->setHomepagesSet(NULL);
+        $photo->save();
         
         $this->setFlash('msg_error', 'Homepage photo has been deleted.');
         $this->redirect($this->getUser()->getRefererUrl());
