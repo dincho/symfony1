@@ -16,12 +16,12 @@
   </thead>
   <tbody>
     <?php foreach ($pager->getResults() as $object): ?>
-      <tr onclick="preview_click('<?php echo $object->getIp(); ?>')"  >
-          <td class="marked"><?php echo checkbox_tag('marked[]', $object->getIp(), null) ?></td>
-          <td><?php echo long2ip($object->getIp()) ?></td>
-          <td><?php echo number_format($object->getCount(), 0, '.', ',') ?></td>
+      <tr onclick="preview_click('<?php echo $object['ip']; ?>')"  >
+          <td class="marked"><?php echo checkbox_tag('marked[]', $object['ip'], null) ?></td>
+          <td><?php echo long2ip($object['ip']) ?></td>
+          <td><?php echo number_format($object['count'], 0, '.', ',') ?></td>
           <td class="preview_button">
-              <?php echo button_to_remote('Preview', array('url' => 'ajax/getUsersByIp?ip=' . $object->getIp(), 'update' => 'preview_duplicates'), 'id=preview_' . $object->getIp()) ?>
+              <?php echo button_to_remote('Preview', array('url' => 'ajax/getUsersByIp?ip=' . $object['ip'], 'update' => 'preview_duplicates'), 'id=preview_' . $object['ip']) ?>
           </td>
       </tr>
     <?php endforeach; ?>

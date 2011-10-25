@@ -458,4 +458,61 @@ class MemberPeer extends BaseMemberPeer
         return IpwatchPeer::doCount($c);
     }
  
+    
+    public static function getDuplicatesWithPager($params)
+    {
+       $SQL ="SELECT t.ip, count(t.member_id) as count 
+            FROM (
+            	SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
+            	union
+            	select m.last_ip , m.id from  member m 
+            	union
+            	select m.registration_ip, m.id from  member m 
+            ) t 
+            GROUP by t.ip
+            HAVING count(t.member_id) > 1";    
+      $cSQL = "select count(t.count) as count from ( 
+            SELECT t.ip, count(t.member_id) as count 
+              FROM (
+              	SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0 and ip is not null
+              	union
+              	select m.last_ip , m.id from  member m 
+              	union
+              	select m.registration_ip, m.id from  member m 
+              ) t 
+              GROUP by t.ip
+              HAVING count(t.member_id) > 1) t"; 
+
+       $pager = new myCustomPager($cSQL, $SQL, $params['maxpage']);
+       $pager->setPage($params['page']);
+
+       $pager->init();
+       return $pager;          
+    }
+    public static function getBlacklistedWithPager($params)
+    {
+       $SQL ="SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
+                FROM ( SELECT ip as ip, member_id FROM `member_login_history` WHERE ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.last_ip , m.id from  member m  WHERE last_ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.registration_ip, m.id from  member m   WHERE registration_ip in ( SELECT ip FROM ipwatch )                                  
+                  ) t 
+                GROUP by t.ip";    
+      $cSQL = "select count(t1.count) as count from ( 
+            SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
+                FROM ( SELECT ip as ip, member_id FROM `member_login_history` WHERE ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.last_ip , m.id from  member m  WHERE last_ip in ( SELECT ip FROM ipwatch )
+                  union
+                  select m.registration_ip, m.id from  member m   WHERE registration_ip in ( SELECT ip FROM ipwatch )                                  
+                  ) t 
+                GROUP by t.ip) t1"; 
+
+       $pager = new myCustomPager($cSQL, $SQL, $params['maxpage']);
+       $pager->setPage($params['page']);
+
+       $pager->init();
+       return $pager;          
+   }
 }

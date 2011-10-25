@@ -38,45 +38,19 @@ class ipwatchActions extends sfActions
         
         $this->getResponse()->addJavascript('preview.js');
 
-        $customObject = new CustomQueryObject();
-        
-        $sql = 'SELECT t.ip, count(t.member_id) as count 
-                FROM (
-                	SELECT ip as ip, member_id FROM `member_login_history` WHERE ip!=0
-                	union
-                	select m.last_ip , m.id from  member m 
-                	union
-                	select m.registration_ip, m.id from  member m 
-                ) t 
-                GROUP by t.ip
-                HAVING count(t.member_id) > 1;';
-               
-        $this->pager = new myArrayPager(null, $this->getRequestParameter('per_page',15));
-        $this->pager->setResultArray( $customObject->query($sql) );
-        $this->pager->setPage($this->getRequestParameter('page',1));
-        $this->pager->init();
+        $params['page'] = $this->getRequestParameter('page',1);
+        $params['maxpage'] = $this->getRequestParameter('per_page',15);
+        $this->pager = MemberPeer::getDuplicatesWithPager($params);
     }
 
     public function executeBlacklisted()
     {
         $this->getUser()->getBC()->add(array('name' => 'IP Blacklisted', 'uri' => 'ipwatch/blacklisted'));
         $this->getResponse()->addJavascript('preview.js');
-
-        $customObject = new CustomQueryObject();
-        
-        $sql = 'SELECT t.ip, count(t.member_id) as count, get_maxmind_location(t.ip) as location 
-                FROM ( SELECT ip as ip, member_id FROM `member_login_history` WHERE ip in ( SELECT ip FROM ipwatch )
-                  union
-                  select m.last_ip , m.id from  member m  WHERE last_ip in ( SELECT ip FROM ipwatch )
-                  union
-                  select m.registration_ip, m.id from  member m   WHERE registration_ip in ( SELECT ip FROM ipwatch )                                  
-                  ) t 
-                GROUP by t.ip;';
                               
-        $this->pager = new myArrayPager(null, $this->getRequestParameter('per_page',15));
-        $this->pager->setResultArray( $customObject->query($sql) );
-        $this->pager->setPage($this->getRequestParameter('page',1));
-        $this->pager->init();
+        $params['page'] = $this->getRequestParameter('page',1);
+        $params['maxpage'] = $this->getRequestParameter('per_page',15);
+        $this->pager = MemberPeer::getBlacklistedWithPager($params);
     }
 
     public function executeBlacklist()
