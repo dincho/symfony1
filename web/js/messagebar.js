@@ -27,5 +27,9 @@ function messagebar_message(message, to_append)
 
 Event.observe(window, 'unload', function()
 {
-  $('messageBar').hide();
+  var obj = $('messageBar');
+  if(obj)
+  {
+    obj.hide();
+  }
 });

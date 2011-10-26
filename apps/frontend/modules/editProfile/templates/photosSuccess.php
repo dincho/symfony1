@@ -50,3 +50,26 @@
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
+
+<script type="text/javascript" charset="utf-8">
+Event.observe( 
+  window, 
+  'load', 
+  function() { 
+     if(/MSIE/.test( navigator.userAgent ))
+     {
+        var arr = document.cookie.split(';');
+        for(var i=0; i<arr.length; i++) {
+//        alert(arr[i]);
+        	if (arr[i] == 'IsIe=1')
+        	{
+             document.cookie = 'IsIe=';
+        	   return;
+        	}
+        }
+        document.cookie = 'IsIe=1';
+        window.location.reload();
+     }
+  }
+);
+</script>
