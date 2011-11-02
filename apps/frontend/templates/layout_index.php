@@ -29,7 +29,7 @@
         <!-- -->
     </div>
     <div id="footer">
-        <?php include_partial('content/footer_links', array('auth' => $sf_user->isAuthenticated())); ?>
+        <?php include_partial('content/footer_links'); ?>
         <?php include_partial('content/footer_copyright');?>
     </div>
     <div id="footer_articles">

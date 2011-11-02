@@ -3,7 +3,4 @@ _homepagePhotoSet:
 _breadcrumb:
     enabled: on
     contextual: true
-_footer_links:
-    enabled: on
-    contextual: true
     
