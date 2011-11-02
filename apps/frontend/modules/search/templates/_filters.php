@@ -3,7 +3,6 @@
     <?php echo javascript_tag("
       function submit_filter(obj)
       {
-        obj.form.method='post';
         obj.form.submit();
         show_load();
       }
