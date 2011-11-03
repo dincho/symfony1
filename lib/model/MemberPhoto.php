@@ -26,6 +26,7 @@ class MemberPhoto extends BaseMemberPhoto
     $cropped->save($newPath);
     
     $this->setCropped($newName);
+    $this->setCroppedAt(time());
     $this->save();
     $this->createThumbnails('cropped');
   }
@@ -64,7 +65,8 @@ class MemberPhoto extends BaseMemberPhoto
       {
           return 'no_photo/' . $this->getMember()->getSex() . '/'. $size . '.jpg';
       } else {
-          return $this->getImageUrlPath($column, $size);
+          
+          return ($column == 'cropped') ? ($this->getImageUrlPath($column, $size).'?'.$this->getCroppedAt(null)) : $this->getImageUrlPath($column, $size);
       }
       
   }

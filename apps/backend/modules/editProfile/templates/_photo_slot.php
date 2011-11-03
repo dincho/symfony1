@@ -11,8 +11,7 @@
                                                            array('class' => 'delete_button', )) ?>                                                           
     </div>                                
     <div class="img">
-        <?php $photo_img = ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100').'?'.time() : $photo->getImageUrlPath('file', '100x100'); ?>
-        <?php echo image_tag( $photo_img ) ?>
+        <?php echo image_tag( $photo->getImg('100x100') ) ?>
     </div>
     
     <?php include_partial('editProfile/photo_status', array('photo' => $photo)); ?>
