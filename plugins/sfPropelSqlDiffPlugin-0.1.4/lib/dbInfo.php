@@ -56,6 +56,10 @@ class dbInfo {
 
   public function getInfoFromPart($table, $part) {
     //get fields codes
+    
+    if( false !== strpos($part, 'SPATIAL KEY') )
+        return;
+        
     if(preg_match("/^`(\w+)`\s+(.*)$/m", $part, $matches)) {
       $fieldname = $matches[1];
       $code = $matches[2];
