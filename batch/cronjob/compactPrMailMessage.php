@@ -15,11 +15,20 @@ require_once(realpath(dirname(__FILE__).'/../config.php'));
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
 
-$customObject = new CustomQueryObject();
+$connection = Propel::getConnection();
+$connection->setAutoCommit(false);
 
-$sql = 'CALL `compact_pr_mail`()';
-             
-$conn = Propel::getConnection();
-$stmt = $conn->createStatement();
-$rs = $stmt->executeQuery($sql, ResultSet::FETCHMODE_NUM);
-$stmt->close();
+$sql = "LOCK TABLE pr_mail_message WRITE"; 
+$statement = $connection->prepareStatement($sql); 
+$resultset = $statement->executeQuery(); 
+
+//compact procedure
+$statement = $connection->createStatement();
+$statement->executeUpdate('CALL `compact_pr_mail`()', ResultSet::FETCHMODE_NUM);
+
+$statement = $connection->createStatement();
+$statement->executeUpdate("COMMIT");
+
+//Unlock table
+$statement = $connection->createStatement();
+$statement->executeUpdate("UNLOCK TABLES");
