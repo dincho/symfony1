@@ -392,8 +392,6 @@ class Member extends BaseMember
         return ThreadPeer::doCount($c);
     }
     
-    // straight
-    
     public function updateStraightMatches()
     {
         if( sfConfig::get('app_matches_use_queue') )
@@ -411,14 +409,30 @@ class Member extends BaseMember
             }
             
         } else {
-            $connection = Propel::getConnection();
-            $query = 'CALL update_straight_matches(%d, %d)';
-            $query = sprintf($query, $this->getId(), sfConfig::get('app_matches_max_weight'));
-            $statement = $connection->prepareStatement($query);
-            $statement->executeQuery();
+            $this->doUpdateStraightMatches();
         }
         
         return true;
+    }
+    
+    public function doUpdateStraightMatches()
+    {
+        $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'straight_matches_'.$this->getId().'.txt';
+        $connection = Propel::getConnection();
+        
+        @unlink($tmp_file); //make sure it does not exists
+        $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
+        $query = sprintf('CALL generate_straight_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
+        $statement = $connection->prepareStatement($query);
+        $statement->executeQuery();
+        
+        $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member1_id = %d', $this->getId()));
+        $statement->executeQuery();
+        
+        $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match', $tmp_file));
+        $statement->executeQuery();
+        
+        @unlink($tmp_file); //cleanup
     }
     
     public function updateReverseMatches()
@@ -438,14 +452,30 @@ class Member extends BaseMember
             }
             
         } else {
-            $connection = Propel::getConnection();
-            $query = 'CALL update_reverse_matches(%d, %d)';
-            $query = sprintf($query, $this->getId(), sfConfig::get('app_matches_max_weight'));
-            $statement = $connection->prepareStatement($query);
-            $statement->executeQuery();
+            $this->doUpdateReverseMatches();
         }
 
         return true;
+    }
+    
+    public function doUpdateReverseMatches()
+    {
+        $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'reverse_matches_'.$this->getId().'.txt';
+        $connection = Propel::getConnection();
+        
+        @unlink($tmp_file); //make sure it does not exists
+        $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
+        $query = sprintf('CALL generate_reverse_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
+        $statement = $connection->prepareStatement($query);
+        $statement->executeQuery();
+        
+        $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member2_id = %d', $this->getId()));
+        $statement->executeQuery();
+        
+        $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match', $tmp_file));
+        $statement->executeQuery();
+        
+        @unlink($tmp_file); //cleanup
     }
     
     public function updateMatches()
@@ -453,17 +483,6 @@ class Member extends BaseMember
         $this->updateStraightMatches();
         $this->updateReverseMatches();
     }
-    
-    // public function updateMatches()
-    // {
-    //     $connection = Propel::getConnection();
-    //     $query = 'CALL update_matches(%d, %d)';
-    //     $query = sprintf($query, $this->getId(), 21);
-    //     $statement = $connection->prepareStatement($query);
-    //     $statement->executeQuery();
-    //     
-    //     return true;
-    // }
     
     public function isLoggedIn()
     {

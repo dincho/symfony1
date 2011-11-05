@@ -27,14 +27,10 @@ function update_straight_matches($job)
     //and we need explicitly to initialize this shit.
     Propel::initialize();
     
-    $connection = Propel::getConnection();
-    
-    $query = sprintf('CALL update_straight_matches(%d, %d)', 
-                     $job->workload(), sfConfig::get('app_matches_max_weight'));
-    
     try {
-        $statement = $connection->prepareStatement($query)
-                                ->executeQuery();
+        $member = MemberPeer::retrieveByPk($job->workload());
+        $member->doUpdateStraightMatches();
+        
         $job->sendComplete(null);
     } catch (SQLException $e) {
         $logger->log($e->getMessage(), 0, 'Err');
@@ -48,7 +44,7 @@ function update_straight_matches($job)
 $worker= new GearmanWorker();
 $worker->addServer('127.0.0.1', 4730);
 $worker->addFunction("MatchQueue_Straight", "update_straight_matches");
-// while ($worker->work());
+
 while ($worker->work())
 {
     if (GEARMAN_SUCCESS != $worker->returnCode())
