@@ -1,5 +1,5 @@
 <label><?php echo $label;?></label>
-<var><?php echo $ip ?>
+<var><?php echo long2ip($ip) ?>
   <?php echo " "; ?>
   <?php echo ($isIpDublicatedIp)?link_to('DD', 'ipwatch/duplicates'):""; ?>
   <?php echo " "; ?>
