@@ -447,7 +447,10 @@ class MemberPeer extends BaseMemberPeer
                   group by t.ip';
                
         $res = $customObject->query($sql);
-        return ($res[0]->getCount()>1)?true:false;
+        
+        if( !isset($res[0]) ) return false;
+        
+        return ($res[0]->getCount()>1) ? true : false;
     }
     
     public static function isIpBlacklisted($ip)
