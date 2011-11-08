@@ -12,7 +12,7 @@ class MembersComponents extends sfComponents
     {
         $this->isIpDublicatedIp = MemberPeer::isIpDublicated($this->ip);
         $this->isIpBlacklistedIp = MemberPeer::isIpBlacklisted($this->ip);
-        $this->ipLocation = Maxmind::getMaxmindLocation($this->ip);        
+        $this->ipLocation = Maxmind::getMaxmindLocation($this->ip);
     }
 
 }
