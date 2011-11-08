@@ -178,10 +178,8 @@ class photosActions extends sfActions
     public function executeAddToMemberStories()
     {
         $this->getUser()->checkPerm(array('content_edit'));
-        
         $this->getUser()->getBC()->add(array('name' => 'Member Stories'));
         
-        $this->culture = ($this->getRequestParameter('culture', 'en'));
         $photo = StockPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
         $this->forward404Unless($photo);
                     
@@ -210,9 +208,12 @@ class photosActions extends sfActions
             $this->redirect('photos/crop?type=2&photo_id=' . $photo->getId());
         }
         
+        $this->culture = $this->getRequestParameter('culture', 'en');
+        $catalog = CataloguePeer::getByTargetLang($this->culture);
+        
         $c = new Criteria();
         $c->addAscendingOrderByColumn(MemberStoryPeer::SORT_ORDER);
-        $c->add(MemberStoryPeer::CULTURE, $this->culture); 
+        $c->add(MemberStoryPeer::CAT_ID, $catalog->getCatId()); 
         $this->stories = MemberStoryPeer::doSelect($c);
         $this->photo = $photo;
     }

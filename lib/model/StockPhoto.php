@@ -106,6 +106,7 @@ $sizes = array(array('width' => 50, 'height' => 50),
                 array('width' => 308, 'height' => 293), //home page
                 array('width' => 220, 'height' => 225), //member stories
                 array('width' => 70, 'height' => 105), //assistant
+                array('width' => 100, 'height' => 95), //backend
                 array('width' => 350, 'height' => 350));//backend full size when cropping
                 
 sfPropelBehavior::add('StockPhoto', array('thumbnails' => array('file' => array('thumbSizes' => $sizes), 'cropped' => array('thumbSizes' => $sizes))));
