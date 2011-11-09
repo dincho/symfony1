@@ -88,17 +88,38 @@
                         ); ?>
         <?php endif; ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
-        <?php echo link_to_remote(__('Send Mail'), array('url'    => 'messages/openSendMessage?recipient_id=' . $member->getId(),
-                                                         'update' => 'msg_container',
-                                                         'script' => 'true',
-                                                         'before' => '$("send_message_link").hide(); $("send_message_span").show();'
-                                                    ), 
-                                                    array('class' => 'sec_link', 
-                                                          'id'    => 'send_message_link',
-                                                          )) ?>
-        <?php //used when the popup window is shown, so user can't click again on the below links ?>
-        <span class="sec_link" id="send_message_span" style="display: none;"><?php echo __('Send Mail'); ?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         
+        <?php if( $messageThread ): ?>
+            <?php echo link_to(__('Send Mail'), 'messages/thread?id=' . $messageThread->getId(), array('class' => 'sec_link')); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php else: ?>
+            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title'        => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
+                                                            'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
+                                                            'id'             => '"send_message_window"', 
+                                                            'width'          => '550', 
+                                                            'height'         => '460',
+                                                            'center'         => 'true', 
+                                                            'minimizable'    => 'false',
+                                                            'maximizable'    => 'false',
+                                                            'closable'       => 'true', 
+                                                            'destroyOnClose' => "true",
+                                                            'onBeforeShow'   => 'function() {
+                                                                $("send_message_link").hide();
+                                                                $("send_message_span").show();
+                                                            }', 
+                                                            'onClose'        => 'function() { 
+                                                                    if($("send_message_span")) $("send_message_span").hide();
+                                                                    if($("send_message_link")) $("send_message_link").show();
+                                                                 }',
+                                                            'className'      => 'polishdate',
+                                                        ), array('class' => 'sec_link', 
+                                                                 'id'    => 'send_message_link'
+                                                        )); ?>
+                                                
+                                                          
+            <?php //used when the popup window is shown, so user can't click again on the below links ?>
+            <span class="sec_link" id="send_message_span" style="display: none;"><?php echo __('Send Mail'); ?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
+        <?php endif; ?>
+         
         <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
         <?php echo link_to_remote($hotlist_link_title,
                                   array('url'     => 'hotlist/toggle?update_selector=hotlist_link&profile_id=' . $member->getId(),

@@ -149,6 +149,8 @@ class profileActions extends prActions
                       $this->setFlash('msg_ok', $msg, false);
                     }
                     
+                    $this->messageThread = ThreadPeer::getOldThread($this->getUser()->getProfile(), $this->member);
+                    
                 } else {
                     $this->setTemplate('unavailableProfile');
                     $this->setFlash('msg_error', $error, false);
