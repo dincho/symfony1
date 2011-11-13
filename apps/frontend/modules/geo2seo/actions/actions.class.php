@@ -29,7 +29,8 @@ class geo2seoActions extends sfActions
         
         if( $page = StaticPagePeer::getBySlug('seo_countries') )
         {
-            $this->getResponse()->setTitle($page->getTitle());
+            $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
+            $this->getResponse()->setTitle($prefix.$page->getTitle());
             $this->getResponse()->addMeta('description', $page->getDescription());
             $this->getResponse()->addMeta('keywords', $page->getKeywords());
         }        
@@ -41,9 +42,13 @@ class geo2seoActions extends sfActions
         $this->country = GeoPeer::retrieveCountryByISO($this->getRequestParameter('country_iso'));
         $this->forward404Unless($this->country);
 
-        $this->getUser()->getBC()->replaceLast(array('name' => $this->getRequestParameter('country_name'), 
-                                                    'uri' => '@country_info?country_iso=' . $this->country->getCountry() . '&name='. $this->getRequestParameter('country_name')));  
-                                                            
+        $name = $this->getRequestParameter('country_name');
+        $this->getUser()->getBC()->replaceLast(array('name' => $name, 
+                                                    'uri' => '@country_info?country_iso=' . $this->country->getCountry() . '&name='. $name));  
+        
+        $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        $this->getResponse()->setTitle($prefix.$name);
+        
         $c = new Criteria();
         $c->add(GeoPeer::COUNTRY, $this->country->getCountry());
         $c->add(GeoPeer::DSG, 'ADM1');
@@ -63,10 +68,11 @@ class geo2seoActions extends sfActions
         $bc = $this->getUser()->getBC();
         $uri = $this->getController()->genUrl('@country_info?country_iso=' . $this->getRequestParameter('country_iso') . 
                                                                             '&country_name='. $this->getRequestParameter('country_name'), true);
-        $bc->replaceLast(array('name' => $this->getRequestParameter('country_name'), 
-                                                    'uri' => $uri));
-
+        $bc->replaceLast(array('name' => $this->getRequestParameter('country_name'), 'uri' => $uri));
         $bc->add(array('name' => $adm1->getName()));
+        
+        $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        $this->getResponse()->setTitle($prefix.$this->getRequestParameter('country_name').', '.$adm1->getName());
         
         $this->adm1 = $adm1;
         $details = $adm1->getDetails($this->getUser()->getCatalogId());
