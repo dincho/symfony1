@@ -31,7 +31,7 @@ all:
       db_table: session_storage
 
   view_cache:
-    class: sfFileCache
+    class: sfSQLiteCache
     param:
       automaticCleaningFactor: 0
-      cacheDir:                %SF_TEMPLATE_CACHE_DIR%
+      database:                %SF_TEMPLATE_CACHE_DIR%/cache.db
