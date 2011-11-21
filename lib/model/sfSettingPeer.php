@@ -9,6 +9,14 @@
  */ 
 class sfSettingPeer extends BasesfSettingPeer
 {
+    public static function getByCatalog(Catalogue $catalog)
+    {
+        $c = new Criteria();
+        $c->add(self::CAT_ID, $catalog->getCatId());
+        
+        return self::doSelect($c);
+    }
+    
     public static function retrieveByCatalogAndName($catalog, $name)
     {
         $c = new Criteria();

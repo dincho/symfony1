@@ -47,6 +47,7 @@
                     // Event Handler Settings
                     swfupload_loaded_handler : swfUploadLoaded,
                     file_queue_error_handler : fileQueueError,
+                    file_dialog_start_handler : fileDialogStart,
                     file_dialog_complete_handler : fileDialogComplete,
                     upload_progress_handler : uploadProgress,
                     upload_error_handler : uploadError,

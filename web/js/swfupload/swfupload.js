@@ -834,8 +834,6 @@ SWFUpload.prototype.cleanUp = function (movieElement) {
 
 /* This is a chance to do something before the browse window opens */
 SWFUpload.prototype.fileDialogStart = function () { 
-    $('messageBar').hide();
-
 	this.queueEvent("file_dialog_start_handler");
 };
 

@@ -25,6 +25,9 @@ function fileQueueError(file, errorCode, message) {
 }
 
 function fileDialogComplete(numFilesSelected, numFilesQueued) {
+    
+    DISABLE_TIMEOUT_WARNING = false;
+    
     try {
         if (numFilesQueued > 0) {
            $("msg_container").update(); //clear messages
@@ -148,4 +151,13 @@ function swfUploadLoaded() {
 
 function swfuploadLoadFailed() {
     show_error(this.customSettings.errors.load);
+}
+
+function fileDialogStart()
+{
+    if($('messageBar')) {
+        $('messageBar').hide();
+    }
+    
+    DISABLE_TIMEOUT_WARNING = true;
 }

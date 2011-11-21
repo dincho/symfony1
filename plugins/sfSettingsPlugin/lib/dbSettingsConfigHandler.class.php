@@ -20,8 +20,8 @@ class dbSettingsConfigHandler
         
         foreach($catalogs as $catalog)
         {
-            $settings = sfSettingPeer::doSelect(new Criteria());
-        
+            $settings = sfSettingPeer::getByCatalog($catalog);
+            
             $data = '';
             foreach ($settings as $p)
             {
