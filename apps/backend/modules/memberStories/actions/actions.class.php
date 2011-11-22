@@ -65,6 +65,7 @@ class memberStoriesActions extends sfActions
         $this->forward404Unless($story);
         
         //$story->setCulture($this->getRequestParameter('culture', 'en'));
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Member Stories', 'uri' => 'memberStories/list?cat_id=' . $story->getCatId()));
         $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => 'memberStories/edit'));
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
