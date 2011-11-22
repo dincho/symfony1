@@ -1,15 +1,12 @@
 <?php use_helper('dtForm', 'Javascript', 'prProfilePhoto'); ?>
 
 <?php echo form_remote_tag(array('url'    => 'content/flag', 
-                                 'complete' => 'flag_request_complete(request)',
-                            ), 
-                           array('id' => 'flag',
-                            )
-        ); ?>
+                                 'complete' => 'flag_request_complete(request)'), 
+                           array('id' => 'flag')); ?>
         
     <?php echo input_hidden_tag('username', $profile->getUsername(), array('class' => 'hidden')) ?>
     <?php echo input_hidden_tag('layout', $sf_params->get('layout'), array('class' => 'hidden')) ?>
-
+    
     <div class="photo">
         <?php echo profile_thumbnail_photo_tag($profile); ?><br />
                                                     
@@ -28,8 +25,6 @@
                 <?php echo textarea_tag('comment', null, array('rows' => 4, 'cols' => '65', 'class' => 'text_area')) ?>
                 <br /><br /><br />
             <?php endif; ?>
-            
-            
             
             <?php echo submit_tag(__('Submit'), array('class' => 'button' )); ?>
             <?php echo button_to_function(__('Cancel'), 'parent.Windows.close("flag_profile_window");', array('class' => 'button')); ?>

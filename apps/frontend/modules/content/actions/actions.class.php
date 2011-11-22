@@ -111,27 +111,14 @@ class contentActions extends prActions
             $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
             return false;
         }
-/*        if( $profile->IsFlaggedBy($this->getUser()->getId()) )
-        {
-            $this->setFlash('msg_error', 'You have already flagged this user');
-            return false;        
-        }
-
-*/        
+        
         return true;
     }
 
     public function handleErrorFlag()
     {
-        $profile = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
-        $this->forward404Unless($profile);
-        $this->profile = $profile;
-
-        if( $this->getRequestParameter('layout') == 'window' )
-        {
-            sfConfig::set('sf_web_debug', false);
-            $this->setLayout('window');
-        }
+        $this->getResponse()->setStatusCode(400);
+        return $this->renderText(get_partial('content/formErrors'));
     }
 
     public function executePage()
