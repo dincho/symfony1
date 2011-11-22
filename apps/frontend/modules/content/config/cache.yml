@@ -1,6 +1,6 @@
 _homepagePhotoSet:
     enabled: on    
 _breadcrumb:
-    enabled: on
+    enabled: off
     contextual: true
     
