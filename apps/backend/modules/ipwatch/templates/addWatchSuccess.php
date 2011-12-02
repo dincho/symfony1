@@ -5,7 +5,7 @@
 <?php echo form_tag('ipwatch/addWatch') ?>
 <div class="legend">New IP Watch</div>
     <fieldset class="form_fields">
-        <label for="item">IP:</label>
+        <label for="ip">IP:</label>
         <?php echo input_tag('ip', null, error_class('ip')) ?>
     </fieldset>
 

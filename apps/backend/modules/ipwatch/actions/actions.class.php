@@ -70,20 +70,38 @@ class ipwatchActions extends sfActions
         $bc = $this->getUser()->getBC()->add(array('name' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'))
             ->add(array('name' => 'New IP', 'uri' => 'ipwatch/addWatch'));
         
-        if ($this->getRequestParameter('ip'))
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $ipblock = new Ipwatch();
             $ipblock->setIP(ip2long($this->getRequestParameter('ip')));
             $ipblock->save();
             $this->redirect('ipwatch/blacklist');
         }
-
     }
     
     
     public function validateAddWatch()
     {
-        return $this->_validateIP();
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            if( $this->_validateIP() )
+            {
+                $c = new Criteria();
+                $c->add(IpwatchPeer::IP, ip2long($this->getRequestParameter('ip')));
+                $cnt = IpwatchPeer::doCount($c);
+                
+                if( $cnt > 0 )
+                {
+                    $this->getRequest()->setError('ip', 'This IP address already exists.');
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        
+        return true;
+        
     }
 
     private function _validateIP()
