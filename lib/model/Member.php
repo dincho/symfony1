@@ -418,19 +418,25 @@ class Member extends BaseMember
     public function doUpdateStraightMatches()
     {
         $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'straight_matches_'.$this->getId().'.txt';
-        $connection = Propel::getConnection();
+        if( file_exists($tmp_file) ) return; //don't run twise
         
-        @unlink($tmp_file); //make sure it does not exists
-        $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
-        $query = sprintf('CALL generate_straight_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
-        $statement = $connection->prepareStatement($query);
-        $statement->executeQuery();
+        try {
+            $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
+            $query = sprintf('CALL generate_straight_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
         
-        $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member1_id = %d', $this->getId()));
-        $statement->executeQuery();
+            $connection = Propel::getConnection();
+            $statement = $connection->prepareStatement($query);
+            $statement->executeQuery();
         
-        $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match', $tmp_file));
-        $statement->executeQuery();
+            $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member1_id = %d', $this->getId()));
+            $statement->executeQuery();
+        
+            $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match (member1_id, member2_id, pct)', $tmp_file));
+            $statement->executeQuery();
+        } catch (Exception $e) {
+            @unlink($tmp_file); //cleanup
+            throw $e;
+        }
         
         @unlink($tmp_file); //cleanup
     }
@@ -461,19 +467,25 @@ class Member extends BaseMember
     public function doUpdateReverseMatches()
     {
         $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'reverse_matches_'.$this->getId().'.txt';
-        $connection = Propel::getConnection();
+        if( file_exists($tmp_file) ) return; //don't run twise
         
-        @unlink($tmp_file); //make sure it does not exists
-        $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
-        $query = sprintf('CALL generate_reverse_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
-        $statement = $connection->prepareStatement($query);
-        $statement->executeQuery();
+        try {
+            $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
+            $query = sprintf('CALL generate_reverse_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
         
-        $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member2_id = %d', $this->getId()));
-        $statement->executeQuery();
+            $connection = Propel::getConnection();
+            $statement = $connection->prepareStatement($query);
+            $statement->executeQuery();
         
-        $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match', $tmp_file));
-        $statement->executeQuery();
+            $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member2_id = %d', $this->getId()));
+            $statement->executeQuery();
+        
+            $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match (member1_id, member2_id, pct)', $tmp_file));
+            $statement->executeQuery();
+        } catch (Exception $e) {
+            @unlink($tmp_file); //cleanup
+            throw $e;
+        }
         
         @unlink($tmp_file); //cleanup
     }
