@@ -13,7 +13,7 @@ class MemberPayment extends BaseMemberPayment
     {
         $member_subscription = $this->getMemberSubscription();
         $member_subscription->setNextAmount($this->getAmount());
-        $member_subscription->setNextCurrentcy($this->getCurrency());
+        $member_subscription->setNextCurrency($this->getCurrency());
         
         //confirm the subscription on the first payment
         //this is used for payment processors that does not send subscription confirmation/notification ( like zong )
