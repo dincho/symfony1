@@ -13,7 +13,11 @@ class MemberSubscription extends BaseMemberSubscription
     {
         $c = new Criteria();
         $c->add(MemberPaymentPeer::MEMBER_SUBSCRIPTION_ID, $this->getId());
-        $c->add(MemberPaymentPeer::STATUS, 'completed');
+        
+        $crit = $c->getNewCriterion(MemberPaymentPeer::STATUS, 'completed');
+        $crit->addOr($c->getNewCriterion(MemberPaymentPeer::STATUS, 'done'));
+        $c->add($crit);
+        
         $c->addDescendingOrderByColumn(MemberPaymentPeer::CREATED_AT);
         
         return MemberPaymentPeer::doSelectOne($c);

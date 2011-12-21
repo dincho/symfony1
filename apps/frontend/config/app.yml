@@ -81,6 +81,11 @@ all:
     mime_type:
       auto_detect: true
       library: gd_mime_type # Fileinfo (PECL), MIME_Type (PEAR), gd_mime_type (GD)
+  dotpay:
+    account_id: 44199
+    url:        https://ssl.dotpay.pl/
+    secret:     RilS480Z1rqLF3Ee
+    ip_address: "195.150.9.37"
 
 dev:
   gmaps_key:
@@ -104,6 +109,10 @@ dev:
       customer_key:         polishdev
       supported_countries:  [PL, US]
       accept_simulated:     yes
+  dotpay:
+    callback_url:         http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/dotpay.html
+    test_mode:            yes
+    
   title_prefix:
     pd_dincho_bonex_us:     "PolishDate (dev) - "
     pl_pd_dincho_bonex_us:  "SzukamMilionera.com (dev) - "
@@ -131,6 +140,9 @@ stag:
       customer_key:         polishdev
       supported_countries:  [PL, US]
       accept_simulated:     yes
+  dotpay:
+    callback_url:         http://polishdate.bonex.us/callbacks/dotpay.html
+    test_mode:            yes
   title_prefix:
     pd_dincho_bonex_us:     "PolishDate (stag) - "
     pl_pd_dincho_bonex_us:  "SzukamMilionera.com (stag) - "
@@ -170,6 +182,8 @@ prod:
       customer_key:         polish
       supported_countries:  [US]
       accept_simulated:     no
+  dotpay:
+    callback_url:         http://polishdate.com/callbacks/dotpay.html
   title_prefix:
     www_polishdate_com:       "PolishDate - "
     www_szukammilionera_com:  "SzukamMilionera.com - "

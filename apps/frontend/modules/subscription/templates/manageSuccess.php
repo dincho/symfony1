@@ -41,8 +41,17 @@
                     }
                 </script>
             <?php endif; ?>
+            
+        <?php elseif( $last_payment->getPaymentProcessor() == 'dotpay' ): ?>
+            
+            <?php echo __('Manage subscription - dotpay', array('%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(), $date_format))); ?>
+            
+            <?php echo form_tag($sf_data->getRaw('dotpayURL'), array('method' => 'post', 'id' => 'dotpay_form')) ?>
+                <?php echo submit_tag(__('Pay with DotPay'), array('class' => 'button', 'id' => 'dotpay_button')); ?>
+            </form>
+            
         <?php endif; ?>
-
+        
     <?php endif; ?>
     
 <?php else: ?>

@@ -32,5 +32,10 @@
     </script>
 <?php endif; ?>
 
+<?php echo form_tag($sf_data->getRaw('dotpayURL'), array('method' => 'post', 'id' => 'dotpay_form')) ?>
+    <?php echo submit_tag(__('Pay with DotPay'), array('class' => 'button', 'id' => 'dotpay_button')); ?>
+</form>
+<?php echo __('Payment description - dotpay'); ?>
+
 <br />
 <?php echo link_to(__('Cancel and return to subscription'), 'subscription/index', array('class' => 'sec_link_small')) ?>

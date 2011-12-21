@@ -36,6 +36,20 @@ class callbacksActions extends sfActions
         return sfView::NONE;
   }
   
+  public function executeDotpay()
+  {   
+      sfConfig::set('sf_web_debug', false);
+      
+      $zong = new sfDotPayPaymentCallback();
+      $zong->initialize($this->getRequest(), $this->getRequestParams());
+      $zong->handle();
+      
+      $this->getResponse()->setContentType('text/plain');
+      $this->renderText('OK');
+      
+      return sfView::NONE;
+  }
+  
   public function getRequestParams()
   {
         $params_by_ref = $this->request->getParameterHolder()->getAll();

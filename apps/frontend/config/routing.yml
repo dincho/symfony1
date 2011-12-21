@@ -163,6 +163,10 @@ callback_paypal:
 callback_zong:
     url: /callbacks/zong/*
     param: { module: callbacks, action: zong, sf_culture: en }
+    
+callback_dotpay:
+    url: /callbacks/dotpay/*
+    param: { module: callbacks, action: dotpay, sf_culture: en }
 
 error404:
     url: /error404

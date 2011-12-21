@@ -766,5 +766,22 @@ propel:
     request_ip:         { type: bigint }
     verified:           { type: boolean, default: false }
     created_at:
-
+      
+  dotpay_history:
+    id:
+    account_id:         { type: integer, required: true }
+    transaction_id:     { type: varchar, size: 255, required: true }
+    status:             { type: varchar, size: 10, required: true } #OK or FAIL
+    control:            { type: varchar, size: 128, required: true }
+    amount:             { type: decimal, size: 7, scale: 2, required: true }
+    original_amount:    { type: varchar, size: 255, required: true }
+    email:              { type: varchar, size: 255, required: true }
+    t_status:           { type: varchar, size: 255, required: true } #2 - DONE, 3 - REJECTED, 4 - REFUND, 5 - COMPLAINT
+    description:        { type: varchar, size: 255 }
+    checksum:           { type: varchar, size: 32, required: true } #md5
+    p_info:             { type: varchar, size: 255 }
+    p_email:            { type: varchar, size: 255 }
+    t_date:             { type: timestamp, required: true }
+    request_ip:         { type: bigint }
+    created_at:
     

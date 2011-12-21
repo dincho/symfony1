@@ -38,13 +38,30 @@ class subscriptionActions extends prActions
         $this->last_payment = ( $this->member_subscription ) ? $this->member_subscription->getLastCompletedPayment() : null;
         $this->date_format = ( $this->getUser()->getCulture() == 'pl' ) ? 'dd MMM yyyy' : 'MMM dd, yyyy';
         
-        if( $this->last_payment && $this->last_payment->getPaymentProcessor() == 'zong' )
+        if( $this->last_payment )
         {
             $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->member_subscription->getSubscriptionId(), $this->member->getCatalogId());
-            $zong = new prZong($this->member->getCountry(), $subscription->getCurrency());
-            $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
-        
-            $this->zongAvailable = (bool) $zongItem;
+            
+            if( $this->last_payment->getPaymentProcessor() == 'zong' )
+            {
+                $zong = new prZong($this->member->getCountry(), $subscription->getCurrency());
+                $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
+                $this->zongAvailable = (bool) $zongItem;
+                
+            } elseif ( $this->last_payment->getPaymentProcessor() == 'dotpay' )
+            {
+                  $dotpay = new DotPay(sfConfig::get('app_dotpay_account_id'), $this->getUser()->getCulture());
+                  $dotpay->setAmount($subscription->getAmount());
+                  $dotpay->setCurrency($subscription->getCurrency());
+                  $dotpay->setDescription($subscription->getTitle() . ' Membership');
+                  $dotpay->setReturnURL($this->getController()->genUrl('subscription/thankyou', true));
+                  $dotpay->setCallbackURL($this->getController()->genUrl(sfConfig::get('app_dotpay_callback_url'), true));
+                  $dotpay->setData($this->member_subscription->getId());
+                  $dotpay->setFirstname($this->member->getFirstName());
+                  $dotpay->setLastname($this->member->getLastName());
+                  $dotpay->setEmail($this->member->getEmail());
+                  $this->dotpayURL = $dotpay->generateURL(sfConfig::get('app_dotpay_url'));
+            }
         }
     }
     
@@ -106,6 +123,18 @@ class subscriptionActions extends prActions
           $zong = new prZong($member->getCountry(), $subscription->getCurrency());
           $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
           $this->zongAvailable = (bool) $zongItem;
+          
+          $dotpay = new DotPay(sfConfig::get('app_dotpay_account_id'), $this->getUser()->getCulture());
+          $dotpay->setAmount($subscription->getAmount());
+          $dotpay->setCurrency($subscription->getCurrency());
+          $dotpay->setDescription($subscription->getTitle() . ' Membership');
+          $dotpay->setReturnURL($this->getController()->genUrl('subscription/thankyou', true));
+          $dotpay->setCallbackURL($this->getController()->genUrl(sfConfig::get('app_dotpay_callback_url'), true));
+          $dotpay->setData($member_subscription->getId());
+          $dotpay->setFirstname($member->getFirstName());
+          $dotpay->setLastname($member->getLastName());
+          $dotpay->setEmail($member->getEmail());
+          $this->dotpayURL = $dotpay->generateURL(sfConfig::get('app_dotpay_url'));
         
         } else {
           $member_subscription = $current_member_subscription;
