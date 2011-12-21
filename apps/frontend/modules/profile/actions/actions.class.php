@@ -602,6 +602,7 @@ class profileActions extends prActions
         if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
         
         $this->perm = $perm;
+        $this->profile = $profile;
     }
     
     public function validateTogglePrivatePhotosPerm()

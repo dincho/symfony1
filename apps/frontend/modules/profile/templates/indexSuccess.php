@@ -206,7 +206,7 @@
         </div>
     </div>
     <br />
-    <?php echo link_to_remote( ( $grant_private_photos_perm ) ? __('Revoke private photos view permissions') : __('Grant private photos view permissions'), array(
+    <?php echo link_to_remote( ( $grant_private_photos_perm ) ? __('Revoke private photos view permissions', array('%USERNAME%' => $member->getUsername())) : __('Grant private photos view permissions', array('%USERNAME%' => $member->getUsername())), array(
                                     'url' => '@toggle_private_photos_perm?toggle_link=1&username=' . $member->getUsername(),
                                     'update' => array('success' => 'msg_container'),
                                     'script' => true, 
