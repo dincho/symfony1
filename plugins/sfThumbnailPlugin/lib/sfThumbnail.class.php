@@ -359,9 +359,11 @@ class sfThumbnail
     $this->thumb = $effect->setHueSaturation($hue, $saturation)->process()->getImg();
   }
   
-  public function prBrand($text = '', $font_size = 18)
+  public function prBrand($brandName)
   {
-    $watermark_src = imagecreatefrompng(sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR .'brand.png');
+      $watermark_path = sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . $brandName.'_brand.png';
+      
+    $watermark_src = imagecreatefrompng($watermark_path);
     //keep the transparency
     imagealphablending($watermark_src, false);
     imagesavealpha($watermark_src, true);

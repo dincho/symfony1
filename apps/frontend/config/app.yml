@@ -77,10 +77,7 @@ all:
   cse_id:
       en:   "014252771680410157097:dm1temprble"
       pl:   "014252771680410157097:cjbkxr0dyga"          
-  sfImageTransformPlugin:
-    mime_type:
-      auto_detect: true
-      library: gd_mime_type # Fileinfo (PECL), MIME_Type (PEAR), gd_mime_type (GD)
+    
   dotpay:
     account_id: 44199
     url:        https://ssl.dotpay.pl/

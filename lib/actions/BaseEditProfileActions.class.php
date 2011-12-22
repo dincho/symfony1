@@ -127,10 +127,14 @@ class BaseEditProfileActions extends prActions
         
         $block_id = $this->getRequestParameter('block_id');
         $is_private = ($block_id == 'private_photos');
-                
+
+        $domain = $this->getUser()->getCatalog()->getDomain();
+        $catalog_domains = sfConfig::get('app_catalog_domains');
+        if( isset($catalog_domains[$domain]) ) $domain = $catalog_domains[$domain];
+        
         $member_photo = new MemberPhoto();
         $member_photo->setMember($this->member);
-        $exif_info = $member_photo->updateImageFromRequest('file', 'Filedata', true, true);
+        $exif_info = $member_photo->updateImageFromRequest('file', 'Filedata', true, $brandName = $domain);
         $member_photo->setIsPrivate($is_private);
         $member_photo->setSortOrder(PHP_INT_MAX);
         $member_photo->save();

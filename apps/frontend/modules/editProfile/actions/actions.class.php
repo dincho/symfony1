@@ -369,11 +369,15 @@ class editProfileActions extends BaseEditProfileActions
         
         $this->forward404Unless($this->member);
         
+        $domain = $this->getUser()->getCatalog()->getDomain();
+        $catalog_domains = sfConfig::get('app_catalog_domains');
+        if( isset($catalog_domains[$domain]) ) $domain = $catalog_domains[$domain];
+        
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $member_photo = new MemberPhoto();
             $member_photo->setMember($this->member);
-            $member_photo->updateImageFromRequest('file', 'Filedata', true, true);
+            $member_photo->updateImageFromRequest('file', 'Filedata', true, $brandName = $domain);
             $member_photo->setIsPrivate(true);
             $member_photo->setSortOrder(PHP_INT_MAX);
             $member_photo->save();
