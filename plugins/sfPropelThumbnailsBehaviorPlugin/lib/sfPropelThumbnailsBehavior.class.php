@@ -98,35 +98,18 @@ class sfPropelThumbnailsBehavior
       $tmp_file = $file_arr['tmp_name'];
 
       $ext = $this->getFileExtension($tmp_file);                         
-//        sfContext::getInstance()->getLogger()->info('updateImageFromRequest $ext- '.$ext);
+
       if( in_array($ext, array('.jpg', '.jpeg')) )
       {
         $exif = exif_read_data($tmp_file, 'EXIF', true);
         
         if(!($exif===false) && array_key_exists('IFD0', $exif) && array_key_exists('Orientation', $exif['IFD0']) )
         {
-
-/*          foreach(array('FILE', 'COMPUTED', 'THUMBNAIL') as $section)
-          {
-            if(array_key_exists($section, $exif))
-                unset($exif[$section]);
-          }
-*/
           if(array_key_exists('MakerNote', $exif['EXIF']))
               unset($exif['EXIF']['MakerNote']);
           
-//          $photo_exif_info = new PhotoExifInfo();
           $photo_exif_info = serialize($exif);
-//         sfContext::getInstance()->getLogger()->info('$photo_exif_info - '.$photo_exif_info);
-         
-/*          foreach ($exif as $key => $section) {
-              foreach ($section as $name => $val) {    
-                  sfContext::getInstance()->getLogger()->info("$key.$name: " . (is_array($val) ? implode(', ', $val): $val));
-              }
-          }        
-*/
           $ort = $exif['IFD0']['Orientation']; 
-//        sfContext::getInstance()->getLogger()->info('updateImageFromRequest $ort- '.$ort);
     
           $img = new sfImage($tmp_file, 'image/jpg');
           switch($ort)
@@ -169,8 +152,7 @@ class sfPropelThumbnailsBehavior
       }// is jpg
 
       $file = $Request->getFileName($ImageField);
-      $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));
-//      $ext = $this->getFileExtension($tmp_file);                         
+      $FileName = time().'_'.Tools::escapeFileName(substr($file, 0, strrpos($file, '.')));                  
          
       $newFile = $object->getImagesPath().$FileName.$ext;
       
