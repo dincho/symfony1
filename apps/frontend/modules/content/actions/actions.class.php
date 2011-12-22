@@ -14,6 +14,7 @@ class contentActions extends prActions
         $c = new Criteria;
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
         $c->add(MemberPeer::PRIVATE_DATING, false);
+        $c->add(MemberPeer::CATALOG_ID, $this->getUser()->getCatalogId());
         $c->addAscendingOrderByColumn(MemberPeer::ID);
     
         $this->pager = new sfPropelPager('Member', 15);
