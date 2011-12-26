@@ -12,6 +12,9 @@
 
 require_once(realpath(dirname(__FILE__).'/../../config.php'));
 
+$logger = new sfFileLogger();
+$logger->initialize(array('file' => SF_ROOT_DIR . '/log/workers/MailQueue_Send.log'));
+
 // initialize database manager
 $databaseManager = new sfDatabaseManager();
 $databaseManager->initialize();
@@ -23,26 +26,21 @@ function send_mail($job)
     //and we need explicitly to initialize this shit.
     Propel::initialize();
     
-    $message_id = $job->workload();
-    
-    //get the queued message and try to send it, setting correct statuses
-    $message = PrMailMessagePeer::retrieveByPK($message_id);
-    if( !$message ) 
-    {
-        // printf("Queued Mail Message with ID %d was not found! Quitting ..\n", $message_id);
-        return false;
+    try {
+        //get the queued message and try to send it, setting correct statuses
+        if( $message = PrMailMessagePeer::retrieveByPK($job->workload()) )
+        {
+            $message->sendMail();
+        }
+        
+        $job->sendComplete(null);
+    } catch (SQLException $e) {
+        $logger->log($e->getMessage(), 0, 'Err');
+        $job->sendException($e->getMessage());
+        $job->sendFail();
     }
     
-    // print("Trying to send the email message ...");
-    $status = $message->sendMail();
-
-    // echo ($status) ? "Success" : "Failed!";
-    // echo "\n";
-    
     Propel::close();
-    
-    // print("JOB DONE!\n");
-    return $status;
 }
 
 $worker= new GearmanWorker();
