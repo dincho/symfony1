@@ -285,8 +285,6 @@ class photosActions extends sfActions
             if( $this->getRequestParameter('type') == 1) //homepage
             {
                 $photo->setGender($this->getRequestParameter('gender'));
-                $photo->addEffects('file', '308x293');
-                
                 
                 $namespace = 'backend/photos/addtohomepage';
                 $photo->setHomepagesArray($user->getAttribute('catalogs', array(), $namespace));
