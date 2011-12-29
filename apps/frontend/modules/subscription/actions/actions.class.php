@@ -127,7 +127,7 @@ class subscriptionActions extends prActions
           $dotpay = new DotPay(sfConfig::get('app_dotpay_account_id'), $this->getUser()->getCulture());
           $dotpay->setAmount($subscription->getAmount());
           $dotpay->setCurrency($subscription->getCurrency());
-          $dotpay->setDescription($subscription->getTitle() . ' Membership');
+          $dotpay->setDescription($subscription->getTitle() . ' Membership ' . $member->getUsername());
           $dotpay->setReturnURL($this->getController()->genUrl('subscription/thankyou', true));
           $dotpay->setCallbackURL($this->getController()->genUrl(sfConfig::get('app_dotpay_callback_url'), true));
           $dotpay->setData($member_subscription->getId());
@@ -145,7 +145,7 @@ class subscriptionActions extends prActions
         $EWP = new sfEWP();
         $parameters = array("cmd" => "_xclick-subscriptions",
                             "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => $subscription->getTitle() . ' Membership',
+                            "item_name" => $subscription->getTitle() . ' Membership ' . $member->getUsername(),
                             'item_number' => $subscription->getSubscriptionId(),
                             'lc' => $member->getCountry(),
                             'no_note' => 1,
