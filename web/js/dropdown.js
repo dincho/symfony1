@@ -4,7 +4,7 @@ var slidedownContentBox = false;
 var slidedownContent = false;
 var slidedownActive = false;
 var contentHeight = false;
-var slidedownSpeed = 3;  // Higher value = faster script
+var slidedownSpeed = 15;  // Higher value = faster script
 var slidedownTimer = 3; // Lower value = faster script
 
 function slidedown_showHide() {
@@ -56,11 +56,24 @@ function setSlideDownSpeed(newSpeed) {
  slidedownSpeed = newSpeed;
 }
 
-
 Event.observe(window, 'load',function()
 {
     if(/MSIE 6/.test( navigator.appVersion )|| /MSIE 7/.test( navigator.appVersion ))
     {
        $('dhtmlgoodies_menu').style.setAttribute('top', '-3px');
     }
+    
+    Event.observe(document, 'click', function(event) { 
+        if(slidedownActive == false && slidedownContentBox != false && slidedownContentBox.style.visibility == 'visible' )
+        {
+            slidedown_showHide();
+        }
+    });
+
+    $('header_menu_drop').observe('click', function(){
+        slidedown_showHide();
+        return false;
+    });
 });
+
+
