@@ -49,7 +49,7 @@ class MemberMatch extends BaseMemberMatch
             
             $this->reverse_pct = $rs->getInt($startcol + 4 + $offset);
             
-            $this->last_action = $rs->getString($startcol + 5 + $offset);
+            //$this->last_action = $rs->getString($startcol + 5 + $offset);
             
 
             $this->resetModified();

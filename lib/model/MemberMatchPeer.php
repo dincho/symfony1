@@ -25,7 +25,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
                                                     WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
                                                     )');
 
-        $criteria->addAsColumn('last_action', 'last_action(member_match.member1_id, member_match.member2_id)');
+        //$criteria->addAsColumn('last_action', 'last_action(member_match.member1_id, member_match.member2_id)');
     }
     
     public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
