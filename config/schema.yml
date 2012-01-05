@@ -250,7 +250,7 @@ propel:
   photo_exif_info:
     id:
     photo_id:                 { type: integer, required: false, foreignTable: member_photo, foreignReference: id, onDelete: cascade }
-    exif_info:                { type: varchar, size: 4096 }
+    exif_info:                { type: longvarchar }
   
   
   private_photo_permission:
