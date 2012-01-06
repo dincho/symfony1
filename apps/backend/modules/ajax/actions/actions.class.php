@@ -102,26 +102,25 @@ class ajaxActions extends geoActions
 
     public function executeGetUsersByIp()
     {
-        $customObject = new CustomQueryObject();
+        $ip = $this->getRequestParameter('ip');
         
-        $sql = 'SELECT GROUP_CONCAT(t.MEMBER_ID) as in_clause 
+        $sql = sprintf('SELECT GROUP_CONCAT(t.MEMBER_ID) as in_clause 
                 FROM (
-                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip= ' . $this->getRequestParameter('ip') . '
-                  union
-                  select m.last_ip , m.id from  member m  WHERE last_ip= ' . $this->getRequestParameter('ip') . '
-                  union
-                  select m.registration_ip, m.id from  member m   WHERE registration_ip= ' . $this->getRequestParameter('ip') . '                                  
+                  SELECT ip as ip, member_id FROM `member_login_history` WHERE ip = %d
+                  UNION
+                  SELECT m.last_ip , m.id FROM member m WHERE last_ip = %d
+                  UNION
+                  SELECT m.registration_ip, m.id FROM member m WHERE registration_ip = %d                               
                   ) t                                   
-                  group by t.ip;';
-               
+                GROUP by t.ip', $ip, $ip, $ip);
+                  
+        $customObject = new CustomQueryObject();
         $res = $customObject->query($sql);
-//        sfLogger::GetInstance()->info('executeGetUsersByIp: ' . $res[0]->getInClause() );
-
 
         $c = new Criteria();
         $c->add(MemberPeer::ID, MemberPeer::ID. ' IN ( ' . $res[0]->getInClause() .' )', Criteria::CUSTOM);
                                                                               
         $this->users = MemberPeer::doSelect($c);
-        $this->ip = $this->getRequestParameter('ip'); 
+        $this->location = Maxmind::getMaxmindLocation($ip);
     }  
 }

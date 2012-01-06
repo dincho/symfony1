@@ -14,14 +14,14 @@ class Maxmind
         $c = new Criteria();
         $c->addJoin(IpCountryPeer::COUNTRY_CODE, IpLocationPeer::COUNTRY_CODE);
         $c->addJoin(IpLocationPeer::ID, IpBlocksPeer::LOCID);
-        $c->add(IpBlocksPeer::IP_POLY, 'MBRCONTAINS('.IpBlocksPeer::IP_POLY.', POINTFROMWKB(POINT(INET_ATON("'.$ip.'"), 0)))',  Criteria::CUSTOM);
+        $c->add(IpBlocksPeer::IP_POLY, 'MBRCONTAINS('.IpBlocksPeer::IP_POLY.', POINTFROMWKB(POINT('.$ip.', 0)))',  Criteria::CUSTOM);
         $c->setLimit(1);
-        $reg_location =  IpLocationPeer::doSelectJoinAll($c);
-        if (count($reg_location))
+        
+        if ($res =  IpLocationPeer::doSelectJoinAll($c))
         {
-          return  $reg_location[0]->getCityName() . ', ' . $reg_location[0]->getIpCountry()->getCountryName();
-        } 
-        return ''; 
+            return  $res[0]->getCityName() . ', ' . $res[0]->getIpCountry()->getCountryName();
+        } else {
+            return 'unknown';
+        }
     }
-
 }

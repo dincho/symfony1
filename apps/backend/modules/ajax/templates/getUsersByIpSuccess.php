@@ -1,6 +1,6 @@
 <?php use_helper('prProfilePhoto') ?>
-<?php echo 'maxmind.com location - ' . Maxmind::getMaxmindLocation(long2ip($ip)); ?>
-<br />
+<strong><?php echo 'maxmind.com location - ' . $location; ?></strong><br />
+
 <table class="zebra">
   <thead>
     <tr>

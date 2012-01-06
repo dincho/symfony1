@@ -62,8 +62,8 @@
 
 
 <?php include_component('members', 'MemberIpBlock', 
-    array('label' => "Registration IP", 'ip' => $member->getRegistrationIP($long = true))); ?>
+    array('label' => "Registration IP", 'ip' => $member->getRegistrationIP())); ?>
 
 <?php include_component('members', 'MemberIpBlock', 
-    array('label' => "Last IP", 'ip' => $member->getLastIP($long = true))); ?>
+    array('label' => "Last IP", 'ip' => $member->getLastIP())); ?>
 

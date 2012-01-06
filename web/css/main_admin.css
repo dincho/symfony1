@@ -435,6 +435,10 @@ table.preview th{
 	float: right; 
 }
 
+#ip_duplicates {
+    margin-top: 40px;
+}
+
 div.member_flags {
 	margin-top: 20px;
 }

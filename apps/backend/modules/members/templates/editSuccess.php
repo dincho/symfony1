@@ -47,3 +47,5 @@
 </form>
 
 <?php include_partial('members/subMenu', array('member' => $member)); ?>
+
+<div id="ip_duplicates"></div>
