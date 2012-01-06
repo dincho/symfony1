@@ -228,6 +228,8 @@ propel:
     desc_answer_id:           { type: integer, required: false, default: null }
     other:                    { type: varchar, size: 255 }
     custom:                   { type: longvarchar } #some custom answers depending from type, e.g. serialized array
+    _uniques:        
+      member_answer:          [ member_id, desc_question_id ]
     
   search_crit_desc:
     id:
@@ -235,6 +237,8 @@ propel:
     desc_question_id:         { type: integer, required: true, foreignTable: desc_question, foreignReference: id, onDelete: cascade }
     desc_answers:             { type: longvarchar, required: false }
     match_weight:             { type: tinyint, required: true }
+    _uniques:        
+      member_answer:          [ member_id, desc_question_id ]
     
   member_photo:
     id:
