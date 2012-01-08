@@ -633,8 +633,8 @@ class Member extends BaseMember
         } elseif ( $this->mustPayIMBRA()) //Step 6 - IMBRA payment (if US citizen)
         {
             $url = 'IMBRA/payment';
-        } else {
-            throw new sfException('Unknown registration step');
+        } else { //default, go to step 1 ( unknown step )
+            $url = 'registration/index';
         }
 
         return $url;
