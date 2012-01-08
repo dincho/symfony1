@@ -139,7 +139,7 @@ dev:
     error_exception:  yes
     smtp_debug:       5
   matches:
-    use_queue:        no
+    use_queue:        yes
     error_exception:  yes
 stag:
   .domains:
