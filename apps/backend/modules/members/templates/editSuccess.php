@@ -2,7 +2,7 @@
 <?php include_component('system', 'formErrors') ?>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername() , 'class=float-right') ?>
-<?php include_component('members', 'profilePager', array('member' => $member)); ?>
+<?php include_partial('members/profilePager', array('pager' => $pager)); ?>
 
 <br /><br />
 
