@@ -41,17 +41,6 @@ class messagesActions extends sfActions
     
     }
     
-/*    public function executeStar()
-    {
-        $this->message = MessagePeer::retrieveByPK($this->getRequestParameter('id'));
-        
-        $this->message->setIsStarred(! $this->message->getIsStarred());
-        $this->message->save();
-        
-        $this->redirect($this->getUser()->getRefererUrl());
-    }
- */
-
     public function executeMember()
     {
         $this->member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
