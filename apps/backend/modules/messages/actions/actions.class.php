@@ -17,7 +17,6 @@ class messagesActions extends sfActions
         
         $this->processFilters();
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
-
     }
 
     public function executeList()
@@ -62,7 +61,6 @@ class messagesActions extends sfActions
         {
             $c->add(MessagePeer::SENDER_ID, $this->member->getId());
         }
-        
 
         $pager = new sfPropelPager('Message', $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page')));
         $pager->setCriteria($c);
@@ -165,7 +163,7 @@ class messagesActions extends sfActions
         if ($this->getRequest()->hasParameter('filter'))
         {
             $filters = $this->getRequestParameter('filters');
-            //print_r($filters);exit();
+            
             if (isset($filters['date_from']) && $filters['date_from'] !== '')
             {
                 list($m, $d, $y) = explode('/', $filters['date_from']);
@@ -186,11 +184,6 @@ class messagesActions extends sfActions
     {
         $bc = $this->getUser()->getBC();
         
-/*        if (isset($this->filters['starred']))
-        {
-            $c->add(MessagePeer::IS_STARRED, $this->filters['starred'], Criteria::IN);
-        }
-*/
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {
