@@ -50,7 +50,6 @@ class messagesActions extends sfActions
         
         $c = new Criteria();
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
-        $this->addFiltersCriteria($c);
         $c->addDescendingOrderByColumn(MessagePeer::CREATED_AT);
         
         //sent or received messages ( defaults to sent )
