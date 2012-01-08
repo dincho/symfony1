@@ -11,7 +11,7 @@ class MemberDescAnswer extends BaseMemberDescAnswer
 {
     public function setOtherLangs($values)
     {
-        $values = array_filter($values);
+        $values = array_filter(array_unique($values));
         
         $val_arr = array();
         for($i=0; $i<5; $i++)
