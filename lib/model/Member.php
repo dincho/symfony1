@@ -654,6 +654,11 @@ class Member extends BaseMember
         return $orientation;
     }
     
+    public function getRegistrationIpString()
+    {
+        return long2ip($this->getRegistrationIp());
+    }
+    
     /* Subscription shortcuts */
     public function isSubscriptionFree()
     {
