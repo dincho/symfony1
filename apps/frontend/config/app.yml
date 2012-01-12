@@ -180,7 +180,7 @@ prod:
       supported_countries:  [US]
       accept_simulated:     no
   dotpay:
-    callback_url:         http://polishdate.com/callbacks/dotpay.html
+    callback_url:         http://www.polishdate.com/callbacks/dotpay.html
   title_prefix:
     www_polishdate_com:       "PolishDate - "
     www_szukammilionera_com:  "SzukamMilionera.com - "
