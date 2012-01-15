@@ -456,7 +456,7 @@ class MemberPeer extends BaseMemberPeer
     public static function isIpBlacklisted($ip)
     {
         $c = new Criteria();
-        $c->add(IpwatchPeer::IP, ip2long($ip));
+        $c->add(IpwatchPeer::IP, $ip);
 
         return IpwatchPeer::doCount($c);
     }
