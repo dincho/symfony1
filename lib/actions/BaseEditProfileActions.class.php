@@ -128,7 +128,7 @@ class BaseEditProfileActions extends prActions
         $block_id = $this->getRequestParameter('block_id');
         $is_private = ($block_id == 'private_photos');
 
-        $domain = $this->getUser()->getCatalog()->getDomain();
+        $domain = $this->member->getCatalogue()->getDomain();
         $catalog_domains = sfConfig::get('app_catalog_domains');
         if( isset($catalog_domains[$domain]) ) $domain = $catalog_domains[$domain];
         
