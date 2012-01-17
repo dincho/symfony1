@@ -17,6 +17,8 @@ class blockActions extends prActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addDescendingOrderByColumn(BlockPeer::CREATED_AT);
         $this->blocks = BlockPeer::doSelectJoinMemberRelatedByProfileId($c);
+        
+        $this->getUser()->getBC()->replaceLast(array('name' => 'Blocked members headline'));
     }
     
     public function executeToggle()
