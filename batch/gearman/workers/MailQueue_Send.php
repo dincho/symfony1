@@ -21,6 +21,8 @@ $databaseManager->initialize();
 
 function send_mail($job)
 {
+    global $logger;
+    
     //due to bad implementation getConnection just check if conn isset in connMap
     //however the close() does not unset the connection, thus makes Propel shitty
     //and we need explicitly to initialize this shit.
@@ -34,7 +36,7 @@ function send_mail($job)
         }
         
         $job->sendComplete(null);
-    } catch (SQLException $e) {
+    } catch (Exception $e) {
         $logger->log($e->getMessage(), 0, 'Err');
         $job->sendException($e->getMessage());
         $job->sendFail();
