@@ -70,7 +70,12 @@ class prMail extends sfMail
     
     public function send()
     {
-        if( !sfConfig::get('app_mail_enabled', false) ) return false;
+        if( !sfConfig::get('app_mail_enabled', false) )
+        {
+            sfContext::getInstance()->getLogger()->err(sprintf('PrMail (%s|%s) : %s', $this->getUsername(), 
+                                                                $this->getPassword(), "Mail not enabled"));
+            return false;
+        }
         
         try
         {
