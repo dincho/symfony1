@@ -21,7 +21,7 @@
             <?php echo profile_photo($member, 'float-left') ?>            
             <div class="profile_info">
                 <p class="profile_location"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
-                <p><?php echo link_to_ref('View Profile', '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
+                <p><?php echo link_to_ref(__('View Profile'), '@profile?username=' . $member->getUsername(), array('class' => 'sec_link')) ?></p>
                 <p>
                 <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
                 <?php echo link_to_remote($hotlist_link_title,
@@ -36,7 +36,7 @@
                 </p>
                 <p></p>
                 <?php $when =  ($member->isLoggedIn()) ? __('Online') : distance_of_time_in_words($member->getLastLogin(null)); ?>
-                <p><?php echo __('Last seen: %WHEN%', array('%WHEN%' => $when)) ?></p>
+                <p><?php echo __('last log in: %WHEN%', array('%WHEN%' => $when)) ?></p>
             </div>
         </div>
 </div>
