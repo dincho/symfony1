@@ -92,7 +92,7 @@
         <?php if( $messageThread ): ?>
             <?php echo link_to(__('Send Mail'), 'messages/thread?id=' . $messageThread->getId(), array('class' => 'sec_link')); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php else: ?>
-            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title'        => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
+            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title' => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
                                                             'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
                                                             'id'             => '"send_message_window"', 
                                                             'width'          => '550', 
@@ -102,7 +102,8 @@
                                                             'maximizable'    => 'false',
                                                             'closable'       => 'true', 
                                                             'destroyOnClose' => "true",
-                                                            'onBeforeShow'   => 'function() {
+                                                            'showEffect'     => 'Element.show',
+                                                            'onBeforeShow'   => 'function(event) {
                                                                 $("send_message_link").hide();
                                                                 $("send_message_span").show();
                                                             }', 

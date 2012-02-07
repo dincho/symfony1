@@ -89,6 +89,12 @@ class messagesActions extends prActions
         
         $this->sender = $this->getUser()->getProfile();
         
+        if( $this->getRequestParameter('layout') == 'window' )
+        {
+            sfConfig::set('sf_web_debug', false);
+            $this->setLayout('window');
+        }
+        
         //execution stops here with redirect if there is an old thread already
         if($ret = $this->needsToforceOneThread($this->sender, $this->recipient)) return $ret;
         
@@ -107,93 +113,89 @@ class messagesActions extends prActions
         }
         
         $this->draft = MessagePeer::retrieveOrCreateDraft($this->getRequestParameter('draft_id'), $this->sender->getId(), $this->recipient->getId() );
-
-        if( $this->getRequestParameter('layout') == 'window' )
-        {
-            sfConfig::set('sf_web_debug', false);
-            $this->setLayout('window');
-        }
-
     }
 
     public function validateSend()
     {
-            $recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
-            $this->forward404Unless($recipient);
-            $sender = $this->getUser()->getProfile();
-            
-            if( $sender->getId() == $recipient->getId() )
-            {
-                $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-                return false;
-            }
-                    
-            //1. is the other member active ?
-            if ( $recipient->getmemberStatusId() != MemberStatusPeer::ACTIVE )
-            {
-                $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
-                return false;
-            }
-            
-            //2. Privacy
-            $prPrivavyValidator = new prPrivacyValidator();
-            $prPrivavyValidator->setProfiles($sender, $recipient);
-            $prPrivavyValidator->initialize($this->getContext(), array(
-                'block_error' => 'You can not send message to this member!',
-                'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
-                'onlyfull_error' => 'This member accept messages only from paid members!',
-            ));
-
-            $error = '';
-            if( !$prPrivavyValidator->execute(&$value, &$error) )
-            {
-                $this->getRequest()->setError('privacy', $error);
-                return false;
-            }
-      
-            if( $this->getRequest()->getMethod() == sfRequest::POST )
-            {
-                if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) )
-                {
-                    $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
-                    return false;                
-                }
-                
-                $predefinedMessage = PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'));
-                if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
-                
-                //3. subscription limits/restrictions ?
-                $subscription = $sender->getSubscriptionDetails();
-
-                //we don't need to check the looking for field since privacy validator is already applied.
-                if( sfConfig::get('app_settings_man_should_pay') && 
-                    $sender->getSex() == 'M' && $sender->isFree() &&
-                    $recipient->getSex() == 'F' && $recipient->isFree()
-                  )
-                {
-                    $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
-                    return false;
-                }
-            
-                if( !$subscription->getCanSendMessages() && !$sender->isFree() )
-                {
-                    $this->getRequest()->setError('subscription', sprintf('%s: In order to send message you need to upgrade your membership.', $subscription->getTitle()));
-                    return false;
-                }
-            
-                if( $sender->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
-                {
-                  $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
-                  return false;
-                }
-            
-                if( $sender->getCounter('SentMessages') >= $subscription->getSendMessages() )
-                {
-                  $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
-                  return false;
-                }
-            }
+        //validate only on form submition
+        if( $this->getRequest()->getMethod() != sfRequest::POST )
+            return true;
         
+        $recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
+        $this->forward404Unless($recipient);
+        $sender = $this->getUser()->getProfile();
+    
+        if( $sender->getId() == $recipient->getId() )
+        {
+            $this->getRequest()->setError('message', 'You can\'t use this function on your own profile');
+            return false;
+        }
+            
+        //1. is the other member active ?
+        if ( $recipient->getmemberStatusId() != MemberStatusPeer::ACTIVE )
+        {
+            $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
+            return false;
+        }
+    
+        //2. Privacy
+        $prPrivavyValidator = new prPrivacyValidator();
+        $prPrivavyValidator->setProfiles($sender, $recipient);
+        $prPrivavyValidator->initialize($this->getContext(), array(
+            'block_error' => 'You can not send message to this member!',
+            'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
+            'onlyfull_error' => 'This member accept messages only from paid members!',
+        ));
+
+        $error = '';
+        if( !$prPrivavyValidator->execute(&$value, &$error) )
+        {
+            $this->getRequest()->setError('privacy', $error);
+            return false;
+        }
+    
+    
+        if( !sfConfig::get('app_settings_imbra_disable') && $this->getRequestParameter('tos', 0) != 1 && !$sender->getLastImbra(true) && $recipient->getLastImbra(true) )
+        {
+            $this->getRequest()->setError('message', 'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. ');
+            return false;                
+        }
+        
+        $predefinedMessage = PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'));
+        if( $predefinedMessage ) return true; //subscription limits ( below ) does not apply to predefined messages.
+        
+        //3. subscription limits/restrictions ?
+        $subscription = $sender->getSubscriptionDetails();
+
+        //we don't need to check the looking for field since privacy validator is already applied.
+        if( sfConfig::get('app_settings_man_should_pay') && 
+            $sender->getSex() == 'M' && $sender->isFree() &&
+            $recipient->getSex() == 'F' && $recipient->isFree()
+          )
+        {
+            $this->getRequest()->setError('subscription', 'M4F: In order to send message you need to upgrade your membership.');
+            return false;
+        }
+    
+        if( !$subscription->getCanSendMessages() && !$sender->isFree() )
+        {
+            $this->getRequest()->setError('subscription', sprintf('%s: In order to send message you need to upgrade your membership.', $subscription->getTitle()));
+            return false;
+        }
+    
+        if( $sender->getCounter('SentMessagesDay') >= $subscription->getSendMessagesDay() )
+        {
+          $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the daily limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
+          return false;
+        }
+    
+        if( $sender->getCounter('SentMessages') >= $subscription->getSendMessages() )
+        {
+          $this->getRequest()->setError('subscription', sprintf('%s: For the feature that you want to use - send message - you have reached the limit up to which you can use it with your membership. In order to send message, please upgrade your membership.', $subscription->getTitle()));
+          return false;
+        }
+        
+        //all passed
         return true;
     }
     

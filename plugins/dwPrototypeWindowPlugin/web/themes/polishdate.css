@@ -105,6 +105,11 @@
 
 .dialog {
     border: 3px solid black;
+    background-color: #2B2B2B;
+}
+
+.dialog .mid {
+    background: #2B2B2B url(/images/loading.gif) no-repeat center center;
 }
 
 .polishdate_content {
