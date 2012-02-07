@@ -41,7 +41,7 @@
                     </span>
                     <?php echo link_to_ref(__('View Profile'), '@profile?bc=winks&username=' . $profile->getUsername(), array('class' => 'sec_link')) ?><br />
                     <?php echo link_to_ref(__('Remove from Winks'), 'winks/delete?id=' . $sent_wink->getId()) ?>
-                    <?php include_partial('content/onlineProfile', array('member' => $member)) ?> 
+                    <?php include_partial('content/onlineProfile', array('member' => $profile)) ?> 
                 </div>
                 <?php echo link_to_ref(image_tag('butt_x.gif', 'class=x'), 'winks/delete?id=' . $sent_wink->getId()) ?>
             </div>
