@@ -134,8 +134,8 @@ dev:
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
   mail:
-    enabled:          yes
-    use_queue:        yes
+    enabled:          no
+    use_queue:        no
     error_exception:  yes
     smtp_debug:       5
   matches:
