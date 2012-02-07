@@ -371,7 +371,6 @@ class profileActions extends prActions
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Home', 'uri' => '@homepage'))->addBeforeLast(array('name' => 'Sign In', 'uri' => '@signin'));
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
-            //$member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
             $c = new Criteria();
             $c->add(MemberPeer::EMAIL, $this->getRequestParameter('email'));
             $c->add(MemberPeer::MEMBER_STATUS_ID, array(MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED, MemberStatusPeer::SUSPENDED_FLAGS, MemberStatusPeer::SUSPENDED,MemberStatusPeer::CANCELED, MemberStatusPeer::CANCELED_BY_MEMBER), Criteria::NOT_IN);
@@ -380,11 +379,7 @@ class profileActions extends prActions
             
             if ( $member )
             {
-                //set temp pass
-                $new_pass = Tools::generateString(8);
-                $member->setNewPassword($new_pass);
                 Events::triggerForgotPassword($member);
-                $member->save();
             }
             
             $this->redirect('@forgotten_password_info');
@@ -406,22 +401,12 @@ class profileActions extends prActions
 
     public function executeForgotPasswordConfirm()
     {
-        $hash = $this->getRequestParameter('hash');
-        $username = $this->getRequestParameter('username');
-        $this->forward404Unless($hash && $username);
+        $member = $this->getUser()->getProfile();
         
-        $member = MemberPeer::retrieveByUsername($username);
-        $this->forward404Unless($member);
-        
-        $pass_hash = sha1(SALT . $member->getNewPassword() . SALT);
-        $this->forward404Unless($hash == $pass_hash);
-
-        $member->setPassword($member->getNewPassword(), false);
-        $member->setNewPassword(NULL, false);
+        //force password change
+        $this->getUser()->setAttribute('must_change_pwd', true);
         $member->setMustChangePwd(true);
         $member->save();
-        
-        $this->getUser()->SignIn($member);
         
         if( $member->isActive() ) //one redirect less if it's active ( do not apply the filter )
         {

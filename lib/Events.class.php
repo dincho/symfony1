@@ -88,7 +88,7 @@ class Events
     /* EMAIL & PASSOWRD EVENTS */
     public static function triggerForgotPassword($member)
     {   
-        $confirmation_url  = LinkPeer::create('@forgotten_password_confirm?username='. $member->getUsername() .'&hash=' . sha1(SALT . $member->getNewPassword() . SALT), $member->getId())->getUrl($member->getCatalogue());
+        $confirmation_url  = LinkPeer::create('@forgotten_password_confirm?username='. $member->getUsername(), $member->getId())->getUrl($member->getCatalogue());
         $global_vars = array('{CONFIRMATION_URL}' => $confirmation_url);
         
         return self::executeNotifications(self::FORGOT_PASSWORD, $global_vars, $member->getEmail(), $member);

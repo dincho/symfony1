@@ -2,8 +2,6 @@ forgotYourPassword:
     is_secure:  off
 forgotPasswordInfo:
     is_secure: off
-forgotPasswordConfirm:
-    is_secure:  off
 confirmNewPassword:
     is_secure: off
 indexse:
