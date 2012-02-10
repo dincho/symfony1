@@ -2,7 +2,7 @@ all:
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    version:            "v1.7.4"
+    version:            "v1.7.3"
     sfImageTransformPlugin:
       mime_type:
         auto_detect: true
@@ -22,90 +22,90 @@ all:
      outgoing:
         - admin@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  admin@szukammilionera.pl
             smtp_password:  SM11837
             from:           admin@szukammilionera.pl
         - hello@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  hello@szukammilionera.pl
             smtp_password:  SM11837
             from:           hello@szukammilionera.pl
         - witaj@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  witaj@szukammilionera.pl
             smtp_password:  SM11837
             from:           witaj@szukammilionera.pl
         - admin2@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  admin2@szukammilionera.pl
             smtp_password:  SM11837
             from:           admin2@szukammilionera.pl
         - hello2@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  hello2@szukammilionera.pl
             smtp_password:  SM11837
             from:           hello2@szukammilionera.pl
         - witaj2@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  witaj2@szukammilionera.pl
             smtp_password:  SM11837
             from:           witaj2@szukammilionera.pl
         - witamy@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  witamy@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy@szukammilionera.pl
         - witamy2@szukammilionera.pl:
             mailer:         smtp
-            smtp_host:      "sslv3://smtp.gmail.com"
-            smtp_port:      465
-            smtp_security:  off #security is set via host address socket transport
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
             smtp_username:  witamy2@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy2@szukammilionera.pl
         # - hello@expatcalling.com:
         #     mailer:         smtp
-        #     smtp_host:      "sslv3://smtp.gmail.com"
-        #     smtp_port:      465
-        #     smtp_security:  off #security is set via host address socket transport
+        #     smtp_host:      "smtp.gmail.com"
+        #     smtp_port:      587
+        #     smtp_security:  tls
         #     smtp_debug:     0 #integer greather value more debug
         #     smtp_username:  hello@expatcalling.com
         #     smtp_password:  EC11837
         #     from:           hello@expatcalling.com
         # - hello@meskamilosc.pl:
         #     mailer:         smtp
-        #     smtp_host:      "sslv3://smtp.gmail.com"
-        #     smtp_port:      465
-        #     smtp_security:  off #security is set via host address socket transport
+        #     smtp_host:      "smtp.gmail.com"
+        #     smtp_port:      587
+        #     smtp_security:  tls
         #     smtp_debug:     0 #integer greather value more debug
         #     smtp_username:  hello@meskamilosc.pl
         #     smtp_password:  MM11837
@@ -118,7 +118,8 @@ all:
       max_weight:        21
       nb_desc_quesitons: 18
       use_queue:         no
-      error_exception:   no
+      phpmailer_exceptions:   yes
+      rethrow_exception:      no
 dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
@@ -134,9 +135,10 @@ dev:
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
   mail:
-    enabled:          no
-    use_queue:        no
-    error_exception:  yes
+    enabled:                yes
+    use_queue:              no
+    phpmailer_exceptions:   no
+    rethrow_exception:      no
     smtp_debug:       5
   matches:
     use_queue:        yes

@@ -35,7 +35,7 @@ class prMail extends sfMail
             throw new sfException('Outgoing mail configuration cannot be obtained or it is not an array');
         }
         
-        $this->mailer = new PHPMailer(true);
+        $this->mailer = new PHPMailer(sfConfig::get('app_mail_phpmailer_exceptions'));
         $this->mailer->SMTPDebug = sfConfig::get('app_mail_smtp_debug', 0);
         $this->mailer->Host = $mail_config['smtp_host'];
         $this->mailer->Port = $mail_config['smtp_port'];
@@ -95,7 +95,7 @@ class prMail extends sfMail
             return true;
         } catch ( Exception $e )
         {
-            if( sfConfig::get('app_mail_error_exception') )
+            if( sfConfig::get('app_mail_rethrow_exception') )
             {
                 throw $e;
             } else {
