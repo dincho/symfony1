@@ -104,9 +104,9 @@ propel:
     reviewed_at:              { type: timestamp, required: false }
     is_starred:               { type: boolean, default: false, required: true }
     country:                  { type: varchar, size: 4, required: true }
-    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
-    adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
-    city_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
+    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
+    adm2_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
+    city_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: setnull }
     zip:                      { type: varchar, size: 20, required: true }
     nationality:              { type: varchar, size: 255, required: true }
     language:                 { type: varchar, size: 3, required: true } #this filed is currently used for match engine and notifications
