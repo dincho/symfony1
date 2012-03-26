@@ -9,7 +9,6 @@
         
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler'); ?>';
-    var move_photo_error_url = '<?php echo url_for('editProfile/movePhotoError'); ?>';
 </script>
 
 <?php $subscription = $member->getSubscriptionDetails(); ?>

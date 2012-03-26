@@ -4,17 +4,6 @@ function moveElement(draggable, droparea, event)
 {
     draggable_parent = draggable.parentNode;
     if( draggable_parent ===  droparea ) return; //droped in the same parent
-
-    
-    //validation - at least one public photo
-    if( draggable_parent.parentNode.id == "public_photos" && 
-        droparea.parentNode.id == "private_photos" && 
-        draggable_parent.parentNode.getElementsBySelector('.photo').length == 1 )
-    {
-        
-        new Ajax.Updater('msg_container', move_photo_error_url, {asynchronous:true, evalScripts:true});
-        return;
-    }
     
     revert = false; //turn off revert effect, if everething goes OK
 

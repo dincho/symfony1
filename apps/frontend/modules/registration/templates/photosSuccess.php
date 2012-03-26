@@ -2,7 +2,6 @@
 
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('registration/ajaxPhotoHandler'); ?>';
-    var move_photo_error_url = '<?php echo url_for('registration/movePhotoError'); ?>';
 </script>
 
 <?php echo __('Photos instructions') ?>

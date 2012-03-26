@@ -489,13 +489,6 @@ class registrationActions extends BaseEditProfileActions
         return parent::executePhotos();
     }
     
-    
-    public function validateDeletePhoto()
-    {
-        $this->setMember();
-        return parent::validateDeletePhoto();
-    }
-
     public function validateUploadPhoto()
     {
         $this->setMember();

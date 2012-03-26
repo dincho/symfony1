@@ -58,25 +58,6 @@ class BaseEditProfileActions extends prActions
         return $this->renderText(get_partial('editProfile/delete_photo'));
     }
 
-    public function validateDeletePhoto()
-    {
-        
-        $this->forward404Unless($this->member);
-        
-        $c = new Criteria();
-        $c->add(MemberPhotoPeer::MEMBER_ID, $this->member->getId());
-        $c->add(MemberPhotoPeer::ID, $this->getRequestParameter('id'));
-        $photo = MemberPhotoPeer::doSelectOne($c);
-        $this->forward404Unless($photo);
-                
-        if (!$photo->getIsPrivate() && $photo->getMember()->countPublicMemberPhotos() == 1)
-        {
-            $this->getRequest()->setError('photo', 'You must have at least one public photo.');
-            return false;
-        }
-        return true;
-    }
-
     public function handleErrorDeletePhoto()
     {
         sfLoader::loadHelpers(array('Partial'));

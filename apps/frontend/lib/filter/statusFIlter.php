@@ -11,7 +11,7 @@ class statusFilter extends sfFilter
 
     static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 
                                          'profile/signout', 'memberStories/index', 'memberStories/read', 'dashboard/deactivate',
-                                         'registration/movePhotoError', 'registration/confirmDeletePhoto', 'registration/deletePhoto', 'registration/ajaxPhotoHandler',
+                                         'registration/confirmDeletePhoto', 'registration/deletePhoto', 'registration/ajaxPhotoHandler',
                                          'registration/uploadPhoto');
     
     public function execute($filterChain)

@@ -389,12 +389,6 @@ class editProfileActions extends BaseEditProfileActions
         }
     }
     
-    public function validateDeletePhoto()
-    {
-        $this->setMember();
-        return parent::validateDeletePhoto();
-    }
-
     public function validateUploadPhoto()
     {
         $this->setMember();

@@ -80,6 +80,7 @@ class MemberPhoto extends BaseMemberPhoto
             $c = new Criteria();
             $c->add(MemberPhotoPeer::MEMBER_ID, $member->getId());
             $c->add(MemberPhotoPeer::ID, $this->getId(), Criteria::NOT_EQUAL);
+            $c->add(MemberPhotoPeer::IS_PRIVATE, false);
             $new_main = MemberPhotoPeer::doSelectOne($c);
             if( $new_main )
             {

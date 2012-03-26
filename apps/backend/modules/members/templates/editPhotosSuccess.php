@@ -3,7 +3,6 @@
 
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler?member_id=' . $member->getId()); ?>';
-    var move_photo_error_url = '<?php echo url_for('editProfile/movePhotoError?member_id=' . $member->getId()); ?>';
     var photo_crop_url = '<?php echo url_for('editProfile/cropPhoto?member_id=' . $member->getId()); ?>';
 </script>
 
