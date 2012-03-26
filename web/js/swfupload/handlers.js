@@ -115,25 +115,49 @@ function uploadError(file, errorCode, message) {
     var progress;
     try {
         switch (errorCode) {
-        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-            try {
-
-            }
-            catch (ex1) {
-                this.debug(ex1);
-            }
+            
+        case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+            show_error(this.customSettings.errors.http_error);
             break;
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-            try {
-
-            }
-            catch (ex2) {
-                this.debug(ex2);
-            }
+            
+        case SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL:
+            show_error(this.customSettings.errors.missing_upload_url);
+            break;
+            
+        case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+            show_error(this.customSettings.errors.io_error);
+            break;
+            
+        case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+            show_error(this.customSettings.errors.security_error);
+            break;
+            
         case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+            show_error(this.customSettings.errors.upload_limit_exceeded);
             break;
+            
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+            show_error(this.customSettings.errors.upload_failed);
+            break;
+
+        case SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND:
+            show_error(this.customSettings.errors.specified_file_id_not_found);
+            break;
+            
+        case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+            show_error(this.customSettings.errors.file_validation_failed);
+            break;
+            
+        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+            show_error(this.customSettings.errors.file_cancelled);
+            break;
+            
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+            show_error(this.customSettings.errors.upload_stopped);
+            break;
+            
         default:
-            show_error(this.customSettings.errors.file_transfer_error);
+            show_error(this.customSettings.errors.unknown_error);
             break;
         }
 

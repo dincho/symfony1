@@ -70,9 +70,24 @@
                         upload_target : "<?php echo $id; ?>_fileProgressContainer",
                         block : $("<?php echo $id; ?>"),
                         errors: {
+                            //queue errors
                             queued_too_many_files: "<?php echo __('You have attempted to queue too many photos.'); ?>",
                             file_is_too_big: "<?php echo __('Max image size is 3MB'); ?>",
-                            file_transfer_error: "<?php echo __('File transfer error'); ?>",
+                            
+                            //upload errors
+                            http_error: "<?php echo __('The file upload was attempted but the server failed to handle it'); ?>",
+                            missing_upload_url: "<?php echo __('Missing upload URL setting'); ?>",
+                            io_error: "<?php echo __('Some kind of error occurred while reading or transmitting the file'); ?>",
+                            security_error: "<?php echo __('The upload violates a security restriction'); ?>",
+                            upload_limit_exceeded: "<?php echo __('You are trying to upload too many files'); ?>",
+                            upload_failed: "<?php echo __('Error while trying to initiate the upload'); ?>",
+                            specified_file_id_not_found: "<?php echo __('File ID cannot be found'); ?>",
+                            file_validation_failed: "<?php echo __('Validation failed'); ?>",
+                            file_cancelled: "<?php echo __('File upload canceled'); ?>",
+                            upload_stopped: "<?php echo __('File upload stopped'); ?>",
+                            unknown_error: "<?php echo __('Upload photos - Unknown error'); ?>",
+                            
+                            //file_transfer_error: "<?php echo __('File transfer error'); ?>",
                             load: "<?php echo __('You need Flash plugin installed to upload photos.'); ?>"
                         }
                         
