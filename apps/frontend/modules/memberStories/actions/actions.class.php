@@ -25,6 +25,7 @@ class memberStoriesActions extends prActions
     {
         $c = new Criteria();
         $c->add(MemberStoryPeer::SLUG, $this->getRequestParameter('slug'));
+        $c->add(MemberStoryPeer::CAT_ID, $this->getUser()->getCatalogId());
         //$c->add(MemberStoryPeer::CULTURE, $this->getUser()->getCulture());
         $c->setLimit(1);
         
