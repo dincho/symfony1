@@ -78,8 +78,11 @@ class feedbackActions extends sfActions
             $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
             
             $mail_options = array();
-            foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
-            {
+            foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
+                $mail_options[$group] = $values['title'];
+            }
+        
+            foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
                 $mail_options[$mail] = $mail;
             }
         
@@ -95,8 +98,11 @@ class feedbackActions extends sfActions
         $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
         
         $mail_options = array();
-        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail)
-        {
+        foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
+            $mail_options[$group] = $values['title'];
+        }
+        
+        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
             $mail_options[$mail] = $mail;
         }
     

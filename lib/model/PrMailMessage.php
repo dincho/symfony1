@@ -59,16 +59,23 @@ class PrMailMessage extends BasePrMailMessage
     
     public function setMailConfig($value)
     {
-         //let's go random ( Round Robin )
-        if( (bool) $value === false )
+        $groups = sfConfig::get('app_mail_rr_groups');
+        
+        //let's go random ( Round Robin )
+        if( isset($groups[$value]) )
         {
-            $mail_configs = sfConfig::get('app_mail_outgoing');
-            $value = array_rand($mail_configs);
+            $idx = array_rand($groups[$value]['values']);
+            $value = $groups[$value]['values'][$idx];
+        } elseif( (bool) $value === false ) //backward compatibility
+        {
+            $group = array_shift($groups); //get the first one
+            $idx = array_rand($group['values']);
+            $value = $group['values'][$idx];
         }
         
         parent::setMailConfig($value);
     }
-
+    
     public function addRecipient($address)
     {
         $recipients = $this->getRecipients();
