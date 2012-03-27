@@ -449,9 +449,9 @@ class editProfileActions extends BaseEditProfileActions
         ->add(array('name' => 'Photo Authenticity'));
         
         $this->setMember();
-        $this->setMember();
-
-        $this->photos = $this->member->getPublicMemberPhotos();
+        
+        $this->public_photos = $this->member->getPublicMemberPhotos();
+        $this->private_photos = $this->member->getPrivateMemberPhotos();
         
         return sfView::SUCCESS;
     }
