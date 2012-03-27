@@ -123,7 +123,7 @@ all:
 dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
-          pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
+          pl:             [pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us]
           en:             [polishdate.bonex.us, du.polishdate.bonex.us]
       catalog_domains:
           "pd.dincho.bonex.us":           www.polishdate.com
