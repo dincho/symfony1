@@ -161,12 +161,12 @@ prod:
     www_szukammilionera_com:
       publickey:            "6LepC7wSAAAAAOhZJiIVZmqC-wyANP63_5jEwyzM"
       privatekey:           "6LepC7wSAAAAAE5UWS9O2KZHy8Q3REx9ICvid2rq"
-    www_szukammilionera_com:
-      publickey:            "6Lf26bwSAAAAAEDae5UVuOwzRSmx7rJZpIizO0i2"
-      privatekey:           "6Lf26bwSAAAAALF-dabveoS-4vpq8F8pZq0j0Zz6"
     www_meskamilosc_pl:
       publickey:            "6LeQ8bwSAAAAAKFI1hfhketTw3fK2GuJ9ZQvHlmN"
       privatekey:           "6LeQ8bwSAAAAADjGUNiAG9IAsnWQmgpwWjnTiP-D"
+    www_expatcalling_com:
+      publickey:            "6Lf26bwSAAAAAEDae5UVuOwzRSmx7rJZpIizO0i2"
+      privatekey:           "6Lf26bwSAAAAALF-dabveoS-4vpq8F8pZq0j0Zz6"
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
