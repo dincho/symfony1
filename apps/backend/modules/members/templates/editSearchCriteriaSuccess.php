@@ -32,7 +32,7 @@
                                      ($question->getSelectGreather()) ? array('onchange' => 'SC_select_greather(document.forms.self_desc_form.elements["answers[" + '. $question->getId().' +"][]"], this)') : array()) ?>
           <label><?php echo html_entity_decode($answer->getSearchTitle(), null, 'utf-8') ?></label><br />
         <?php endforeach; ?>
-        <label><?php echo link_to_function('Select All', 'SC_select_all(document.forms.self_description_form.elements["answers[" + '. $question->getId().' +"][]"])'); ?> - any option is fine</label><br />
+        <label><?php echo link_to_function('Select All', 'SC_select_all(document.forms.self_description_form.elements["answers[" + '. $question->getId().' +"][]"], true)'); ?> - any option is fine</label><br />
         <label for="weights_<?php echo $question->getId() ?>"><?php echo $question->getFactorTitle() ?></label>
         <?php echo pr_select_match_weight('weights[' . $question->getId() .']', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getMatchWeight() : 21, array('class' => 'fieldweight')) ?><br />
         
