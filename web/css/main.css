@@ -859,9 +859,6 @@ form#sign_in fieldset a {
 /* END Subscription */
 
 /* Dashboard */
-#secondary_container #deactivate {
-    padding-top: 30px;
-}
 
 #dashboard-container {
     font-size: 11px;

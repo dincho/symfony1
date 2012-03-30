@@ -2,8 +2,6 @@
 
 <?php echo javascript_include_tag('save_changes') ?>
 
-<?php echo __('Here you may change the way you receive notifications from our website.') ?><br />
-<span><?php echo __('Make changes and click Save.') ?></span>
 <?php echo form_tag('dashboard/emailNotifications', array('id' => 'deactivate')) ?>
     <?php echo __('Please send me an email:') ?><br />
     
