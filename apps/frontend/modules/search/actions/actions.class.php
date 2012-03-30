@@ -29,7 +29,7 @@ class searchActions extends prActions
         $this->processFilters();
         $filters = $this->getUser()->getAttributeHolder()->getAll('frontend/search/filters');
         if (! isset($filters['location']))
-            $filters['location'] = 0;      
+            $filters['location'] = 0;
         $this->filters = $filters;
         
     }
@@ -57,12 +57,7 @@ class searchActions extends prActions
     }
 
     public function executeIndex()
-    {     
-        // set location =0 for @matches              
-        $filters['location']= 0; 
-        $this->getUser()->getAttributeHolder()->removeNamespace('frontend/search/filters');
-        $this->getUser()->getAttributeHolder()->add($filters, 'frontend/search/filters');
-
+    {
         $this->forward($this->getModuleName(), 'mostRecent');
     }
 
