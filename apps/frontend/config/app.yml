@@ -79,9 +79,7 @@ all:
       pl:   "014252771680410157097:cjbkxr0dyga"          
     
   dotpay:
-    account_id: 44199
     url:        https://ssl.dotpay.pl/
-    secret:     RilS480Z1rqLF3Ee
     ip_address: "195.150.9.37"
 
 dev:
@@ -107,6 +105,8 @@ dev:
       supported_countries:  [PL, US]
       accept_simulated:     yes
   dotpay:
+    account_id:           20767
+    secret:               I92JsuHT04r6fZNl
     callback_url:         http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/dotpay.html
     test_mode:            yes
     
@@ -138,6 +138,8 @@ stag:
       supported_countries:  [PL, US]
       accept_simulated:     yes
   dotpay:
+    account_id:           20767
+    secret:               I92JsuHT04r6fZNl
     callback_url:         http://polishdate.bonex.us/callbacks/dotpay.html
     test_mode:            yes
   title_prefix:
@@ -180,6 +182,8 @@ prod:
       supported_countries:  [US]
       accept_simulated:     no
   dotpay:
+    account_id: 44199
+    secret:     RilS480Z1rqLF3Ee
     callback_url:         http://www.polishdate.com/callbacks/dotpay.html
   title_prefix:
     www_polishdate_com:       "PolishDate - "

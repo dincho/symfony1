@@ -112,14 +112,9 @@ class subscriptionActions extends prActions
               $member_subscription->setSubscriptionId($subscription->getSubscriptionId());
               $member_subscription->setPeriod($subscription->getPeriod());
               $member_subscription->setPeriodType($subscription->getPeriodType());
+              $member_subscription->save();
           }
-          
-          
-          //if effective subscription look for last subscription EOT
-          $effective_date = ( sfConfig::get('app_settings_immediately_subscription_upgrade') || !$current_member_subscription ) ? time() : $member->getLastEotAt();
-          $member_subscription->setEffectiveDate( $effective_date );
-          $member_subscription->save();
-          
+
           $zong = new prZong($member->getCountry(), $subscription->getCurrency());
           $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
           $this->zongAvailable = (bool) $zongItem;

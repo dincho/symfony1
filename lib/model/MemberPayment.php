@@ -16,11 +16,20 @@ class MemberPayment extends BaseMemberPayment
         $member_subscription->setNextCurrency($this->getCurrency());
         $member = $member_subscription->getMember();
         $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($member_subscription->getSubscriptionId(), $member->getCatalogId());
+        $curr_subscription = $member->getCurrentMemberSubscription();
         
         //confirm the subscription on the first payment
         //this is used for payment processors that does not send subscription confirmation/notification ( like zong )
         if( $member_subscription->getStatus() == 'pending' ) $member_subscription->setStatus('confirmed');
         
+        //set effective date on first payment
+        if( is_null($member_subscription->getEffectiveDate()) )
+        {
+            //if effective subscription look for last subscription EOT
+            $effective_date = ( sfConfig::get('app_settings_immediately_subscription_upgrade') || !$curr_subscription ) ? time() : $member->getLastEotAt();
+            $member_subscription->setEffectiveDate( $effective_date );
+        }
+          
         //calculate EOT
         $type = $subscription->getPeriodType();
         $period_types_map = array('D' => 3, 'W' => 4, 'M' => 5, 'Y' => 7);
@@ -34,7 +43,6 @@ class MemberPayment extends BaseMemberPayment
         if( $member_subscription->getEffectiveDate(null) <= time() && //effective date is today or in the past ( e.g. pending payment )
             $member->getSubscriptionId() != $member_subscription->getSubscriptionId() ) //in other words, this means first payment to this subscription
         {
-           $curr_subscription = $member->getCurrentMemberSubscription();
            if( $curr_subscription && 
                //failed subscription detection, because failed subscription is also returned as "current", to prevent double subscribes
                $curr_subscription->getId() != $member_subscription->getId() ) 
