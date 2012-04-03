@@ -36,6 +36,7 @@ all:
              title: "Round Robin (Random) - Group 2"
              values:
                - hello@meskamilosc.pl
+               - admin@meskamilosc.pl
      outgoing:
         - admin@szukammilionera.pl:
             mailer:         smtp
@@ -118,6 +119,15 @@ all:
             smtp_username:  hello@meskamilosc.pl
             smtp_password:  MM11837
             from:           hello@meskamilosc.pl
+        - admin@meskamilosc.pl:
+            mailer:         smtp
+            smtp_host:      "smtp.gmail.com"
+            smtp_port:      587
+            smtp_security:  tls
+            smtp_debug:     0 #integer greather value more debug
+            smtp_username:  admin@meskamilosc.pl
+            smtp_password:  MM11837
+            from:           admin@meskamilosc.pl
         # - hello@expatcalling.com:
         #     mailer:         smtp
         #     smtp_host:      "smtp.gmail.com"
