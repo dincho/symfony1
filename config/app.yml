@@ -83,15 +83,6 @@ all:
             smtp_username:  hello2@szukammilionera.pl
             smtp_password:  SM11837
             from:           hello2@szukammilionera.pl
-        - witaj2@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  witaj2@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           witaj2@szukammilionera.pl
         - witamy@szukammilionera.pl:
             mailer:         smtp
             smtp_host:      "smtp.gmail.com"
@@ -101,15 +92,6 @@ all:
             smtp_username:  witamy@szukammilionera.pl
             smtp_password:  SM11837
             from:           witamy@szukammilionera.pl
-        - witamy2@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  witamy2@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           witamy2@szukammilionera.pl
         - hello@meskamilosc.pl:
             mailer:         smtp
             smtp_host:      "smtp.gmail.com"
