@@ -6,6 +6,12 @@ class editProfileActions extends BaseEditProfileActions
         $this->member = MemberPeer::retrieveByPK($this->getRequestParameter('member_id'));
     }
 
+    public function validateUploadPhoto()
+    {
+            $this->preExecute();
+            return parent::validateUploadPhoto();
+    }
+    
     public function validateDeletePhoto()
     {
         return true; //administrator always can delete photos
