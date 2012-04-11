@@ -47,6 +47,7 @@
                     // Event Handler Settings
                     swfupload_loaded_handler : swfUploadLoaded,
                     file_queue_error_handler : fileQueueError,
+                    file_dialog_start_handler : fileDialogStart,
                     file_dialog_complete_handler : fileDialogComplete,
                     upload_progress_handler : uploadProgress,
                     upload_error_handler : uploadError,
@@ -69,9 +70,24 @@
                         upload_target : "<?php echo $id; ?>_fileProgressContainer",
                         block : $("<?php echo $id; ?>"),
                         errors: {
+                            //queue errors
                             queued_too_many_files: "You have attempted to queue too many photos.",
                             file_is_too_big: "Max image size is 3MB",
-                            file_transfer_error: "File transfer error",
+                            
+                            //upload errors
+                            http_error: "The file upload was attempted but the server failed to handle it",
+                            missing_upload_url: "Missing upload URL setting",
+                            io_error: "Some kind of error occurred while reading or transmitting the file",
+                            security_error: "The upload violates a security restriction",
+                            upload_limit_exceeded: "You are trying to upload too many files",
+                            upload_failed: "Error while trying to initiate the upload",
+                            specified_file_id_not_found: "File ID cannot be found",
+                            file_validation_failed: "Validation failed",
+                            file_cancelled: "File upload canceled",
+                            upload_stopped: "File upload stopped",
+                            unknown_error: "Upload photos - Unknown error",
+                            
+                            //file_transfer_error: "File transfer error",
                             load: "You need Flash plugin installed to upload photos."
                         }
                         
