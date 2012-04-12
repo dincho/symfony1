@@ -983,6 +983,7 @@ class Member extends BaseMember
     public function getLastEotAt()
     {
       $c = new Criteria();
+      $c->add(MemberSubscriptionPeer::STATUS, array('active', 'confirmed'), Criteria::IN);
       $c->addDescendingOrderByColumn(MemberSubscriptionPeer::EOT_AT);
       $ms =  MemberSubscriptionPeer::doSelectOne($c);
       
