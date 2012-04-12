@@ -37,7 +37,19 @@ class prPrivacyValidator extends sfValidator
        {
            $error = $this->getParameter('onlyfull_error');
            return false;
-       }       
+       }
+       
+       if ($this->getParameter('check_catalog'))
+       {
+           $sharedCatalogs = explode(',', $this->sender->getCatalogue()->getSharedCatalogs());
+           
+           if( !($this->sender->getCatalogId() == $this->receiver->getCatalogId()
+               || in_array($this->receiver->getCatalogId(), $sharedCatalogs))
+           ) {
+               $error = $this->getParameter('catalog_error');
+               return false;
+           }
+       }
                     
         return true;
     }
@@ -51,11 +63,13 @@ class prPrivacyValidator extends sfValidator
         $this->setParameter('check_sex', true);
         $this->setParameter('check_onlyfull', true);
         $this->setParameter('check_open_privacy', true);
+        $this->setParameter('check_catalog', true);
         
         $this->setParameter('block_error', 'This member has blocked you');
         $this->setParameter('sex_error', 'Due to privacy restrictions you cannot interact with this profile');
         $this->setParameter('onlyfull_error', 'Due to privacy restrictions you cannot interact with this profile');
         $this->setParameter('open_privacy_error', 'Due to privacy restrictions you cannot interact with this profile');
+        $this->setParameter('catalog_error', 'Due to privacy restrictions you cannot interact with this profile - catalog');
         
         // Set parameters
         $this->getParameterHolder ()->add($parameters);
