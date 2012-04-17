@@ -38,7 +38,7 @@ function send_mail($job)
         $job->sendComplete(null);
     } catch (Exception $e) {
         $logger->log($e->getMessage(), 0, 'Err');
-        $job->sendException($e->getMessage());
+        // $job->sendException($e->getMessage());
         $job->sendFail();
     }
     
