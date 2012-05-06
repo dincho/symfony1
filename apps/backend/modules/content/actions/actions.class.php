@@ -420,7 +420,6 @@ class contentActions extends sfActions
         $this->left_menu_selected = 'System Messages';
         $bc = $this->getUser()->getBC();
         $bc->replaceLast(array('name' => 'System Messages', 'uri' => 'content/systemMessages'));
-        $bc->add(array('name' => 'Edit System Messages'));
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
@@ -431,6 +430,40 @@ class contentActions extends sfActions
         }
         
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SYSTEM_MESSAGES, $this->catalog);
+    }
+    
+    public function executeSystemMessage()
+    {
+        $this->left_menu_selected = 'System Messages';
+        $bc = $this->getUser()->getBC();
+        $bc->replaceLast(array('name' => 'System Messages', 'uri' => 'content/systemMessages?cat_id=' . $this->catalog->getCatId()));
+        
+        $headline = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('headline_id'), $this->catalog);
+        $content = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('content_id'), $this->catalog);
+        $this->forward404Unless($headline && $content);
+        
+        $bc->add(array('name' => $headline->getSource()));
+        
+        $this->uri = 'content/systemMessage?cat_id=' . $this->catalog->getCatId() 
+                            . '&headline_id=' . $headline->getId() 
+                            . '&content_id=' . $content->getId();
+                            
+        if( $this->getRequest()->getMethod() == sfRequest::POST )
+        {
+            $this->getUser()->checkPerm(array('content_edit'));
+
+            $headline->setTarget($this->getRequestParameter('headline'));
+            $headline->save();
+            
+            $content->setTarget($this->getRequestParameter('content'));
+            $content->save();
+            
+            $this->setFlash('msg_ok', 'Your changes has been saved.');
+            $this->redirect($this->uri);
+        }
+        
+        $this->headline = $headline;
+        $this->content = $content;
     }
     
     public function executeAssistant()

@@ -673,3 +673,7 @@ div.member_flags table {
     height: 250px;
     overflow:auto;
 }
+
+#tu_headline {
+    width: 400px;
+}
