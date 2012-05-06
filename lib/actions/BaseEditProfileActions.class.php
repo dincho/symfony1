@@ -82,14 +82,26 @@ class BaseEditProfileActions extends prActions
             $c->add(MemberPhotoPeer::ID, $photos[$i]);
             $photo = MemberPhotoPeer::doSelectOne($c);
             
-            if( $photo )
+            if( !$photo )
             {
-                $photo->setSortOrder($i+1);
-                $photo->setIsPrivate($is_private);
-                $photo->save();
+                continue;
             }
             
-            if( $i == 0 && !$is_private ) $photo->setAsMainPhoto(); //main photo is always the first public photo
+            $photo->setSortOrder($i+1);
+            $photo->setIsPrivate($is_private);
+            $photo->save();
+
+            if( $is_private )
+            {
+                if( $photo->isMain() ) //main photo moved to private photos
+                {
+                    $this->member->setMainPhotoId(null);
+                }
+            } elseif( $i == 0 ) //main photo is always the first public photo
+            {
+                $photo->setAsMainPhoto();
+            }
+
         }
         
         $this->member->setLastPhotoUploadAt(time());

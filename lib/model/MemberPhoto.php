@@ -33,9 +33,9 @@ class MemberPhoto extends BaseMemberPhoto
   
   public function setAsMainPhoto($save_member = true)
   {
-        $member = $this->getMember();
-        if ( $this->getId() != $member->getMainPhotoId() )
+        if ( !$this->isMain() )
         {
+            $member = $this->getMember();
             $member->setMemberPhoto($this);
             if($save_member) $member->save();
         }
@@ -96,7 +96,11 @@ class MemberPhoto extends BaseMemberPhoto
       parent::save($con);
       
       $member = $this->getMember();
-      if ($member->countMemberPhotos() == 1) $member->setMemberPhoto($this);
+      if (!$this->getIsPrivate() && $member->countMemberPhotos() == 1)
+      {
+          $member->setMemberPhoto($this);
+          $member->save();
+      }
   }
 }
 

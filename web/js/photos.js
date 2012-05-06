@@ -31,8 +31,9 @@ function moveElement(draggable, droparea, event)
     draggable.style.top = "0px";
     
     //re-order/fill empty containers to the right
-    if(draggable_parent.parentNode !== droparea.parentNode)  reorder_photo_block(draggable_parent.parentNode);
     reorder_photo_block(droparea.parentNode);
+    if(draggable_parent.parentNode !== droparea.parentNode)  reorder_photo_block(draggable_parent.parentNode);
+    
 }
 
 function revertEffect (element, top_offset, left_offset) {
