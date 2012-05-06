@@ -6,22 +6,28 @@
 <div id="profile_left" style="padding-top: 9px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
     <div style="min-height: 350px">
-        <?php 
-              _addLbRessources();
+        <?php _addLbRessources(); ?>
               
-              if( !is_null($member->getMainPhotoId()) ): //has main photo
+        <?php if( !is_null($member->getMainPhotoId()) ): //has main photo ?>
                 
-                echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
+               <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
                                     array('href' => $member->getMainPhoto()->getImageUrlPath('file'),
                                           'rel' => 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
-                                ));
+                                )); ?>
                 
-              else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
-                echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'));
-              endif; 
-        ?>
+        <?php elseif( count($private_photos) > 0 && $private_photos_perm ):?>
+                <?php $mainPhoto = $private_photos[0]; ?>
+                <?php echo content_tag('a', image_tag($mainPhoto->getImg('350x350', 'file'), array('id' => 'member_image')), 
+                                    array('href' => $mainPhoto->getImageUrlPath('file'),
+                                          'rel' => 'lightbox[private_photos]',
+                                          'title' => $member->getUsername(),
+                                          'id' => 'member_image_link'
+                                )); ?>
+        <?php else : ?>
+            <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file')); ?>
+        <?php endif; ?>
     </div>
     
     <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
