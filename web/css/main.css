@@ -3393,7 +3393,7 @@ ul.rating li.five a:hover {background-position:0 -160px}
   left:40px;
   height:20px;
   z-index: 10;
-  background-color: #363639;
+  background-color: /*#363639*/ #000000;
   height:20px;
   padding:2px;
   text-align: center;
