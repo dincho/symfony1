@@ -252,12 +252,15 @@ class photosActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $user->setAttribute('catalog', $this->getRequestParameter('catalog'), $namespace);
+           // $user->setAttribute('catalog', $this->getRequestParameter('catalog'), $namespace);
+            $user->setAttribute('catalogs', array_values($this->getRequestParameter('catalogs', array())), $namespace);
             $this->redirect('photos/crop?type=4&photo_id=' . $photo->getId());
         }
         
         $this->photo = $photo;
-        $this->catalog = ( $user->hasAttribute('catalog', $namespace) ) ? $user->getAttribute('catalog', array(), $namespace) : $photo->getJoinNow();
+        //$this->catalog = ( $user->hasAttribute('catalog', $namespace) ) ? $user->getAttribute('catalog', array(), $namespace) : $photo->getJoinNow();
+        $this->joinNow = ( $user->hasAttribute('catalogs', $namespace) ) ? $user->getAttribute('catalogs', array(), $namespace) : $photo->getJoinNowArray();
+        $this->catalogs = CataloguePeer::doSelect(new Criteria());
     }
         
     public function executeCrop()
@@ -313,7 +316,7 @@ class photosActions extends sfActions
             } elseif( $this->getRequestParameter('type') == 4) //join now
             {
                 $namespace = 'backend/photos/addtojoinnow';
-                $catalog = $user->getAttribute('catalog', null, $namespace);
+               /* $catalog = $user->getAttribute('catalog', null, $namespace);
                 
                 $select = new Criteria();
                 $select->add(StockPhotoPeer::JOIN_NOW, $catalog);
@@ -322,7 +325,9 @@ class photosActions extends sfActions
                 BasePeer::doUpdate($select, $update, Propel::getConnection());
                                 
                 $photo->setJoinNow($catalog);
-                $user->setAttribute('catalog', null, $namespace);
+                $user->setAttribute('catalog', null, $namespace);*/
+                $photo->setJoinNowArray($user->getAttribute('catalogs', array(), $namespace));
+                $user->setAttribute('catalogs', null, $namespace);
             }
             
             $photo->save();

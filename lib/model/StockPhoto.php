@@ -31,6 +31,27 @@ class StockPhoto extends BaseStockPhoto
         return array();
     }
 
+    public function setJoinNowArray($array)
+    {
+        if (! is_array($array) || count($array) == 0)
+        {
+            $this->setJoinNow(null);
+        } else
+        {
+            $this->setJoinNow(implode(',', $array));
+        }
+    }
+
+    public function getJoinNowArray()
+    {
+        if (! is_null($this->getJoinNow()))
+        {
+            return explode(',', $this->getJoinNow());
+        }
+        
+        return array();
+    }
+    
     public function updateCroppedImage($sizes)
     {
         //delete old image
