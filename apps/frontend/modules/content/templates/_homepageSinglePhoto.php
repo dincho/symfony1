@@ -4,7 +4,10 @@
     <?php else: ?>
         <?php $looking_for = ( $photo->getGender() == 'M') ? 'F_M' : 'M_F'; ?>
         
-        <?php echo link_to(image_tag($photo->getImageUrlPath('cropped', '308x293'), array('size' => '308x293')), 
-                          'search/public?filter=filter&filters[looking_for]=' . $looking_for, array( 'class' => 'highlighted_link')) ?>
+        <?php /*echo link_to(image_tag($photo->getImageUrlPath('cropped', '308x293'), array('size' => '308x293')), 
+                          'search/public?filter=filter&filters[looking_for]=' . $looking_for, array( 'class' => 'highlighted_link'))*/ ?>
+        
+        <?php echo link_to(image_tag($photo->getImageUrlPath('cropped', '308x293'), array('size' => '308x293')), 'registration/joinNow', array( 'class' => 'highlighted_link')) ?>
+                          
     <?php endif; ?>
 <?php endforeach; ?>
