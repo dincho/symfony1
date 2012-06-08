@@ -56,7 +56,7 @@ class Events
         
         $activation_url = LinkPeer::create('registration/activate?username=' . $member->getUsername() . '&hash=' . $hash)->getUrl($member->getCatalogue());
         
-        $global_vars = array('{ACTIVATION_URL}' => $activation_url);
+        $global_vars = array('{ACTIVATION_URL}' => $activation_url, '{REGISTRATION_IP}' => long2ip($member->getRegistrationIp()));
         
         return self::executeNotifications(self::JOIN, $global_vars, $member->getEmail(), $member);
     }
