@@ -111,6 +111,7 @@ class systemComponents extends sfComponents
                                             array('title'   => 'Member Stories', 'uri' => 'photos/memberStories?sort=no&filter=filter'),
                                             array('title'   => 'Public Search', 'uri' => 'photos/list?filter=filter&filters[public_search]=1&sort=no'),
                                             array('title'   => 'Stock Photos', 'uri' => 'photos/stockPhotos'),
+                                            array('title'   => 'As Seen On Logos', 'uri' => 'photos/asSeenOnLogos'),
                                             array('title'   => 'All', 'uri' => 'photos/list?filter=filter&sort=no'),
                                            ),                                                                 
                         'geo'       => array(array('title' => 'Recent sign up cities w/out coord.', 'uri' => 'geo/citiesWithoutCoordinates'),
@@ -264,6 +265,7 @@ class systemComponents extends sfComponents
                                             array('title'   => 'Member Stories', 'uri' => 'photos/memberStories?sort=no&filter=filter'),
                                             array('title'   => 'Public Search', 'uri' => 'photos/list?filter=filter&filters[public_search]=1&sort=no'),
                                             array('title'   => 'Stock Photos', 'uri' => 'photos/stockPhotos'),
+                                            array('title'   => 'As Seen On Logos', 'uri' => 'photos/asSeenOnLogos'),
                                             array('title'   => 'All', 'uri' => 'photos/list?filter=filter&sort=no'),
                                            );
 
