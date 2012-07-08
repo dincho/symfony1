@@ -9,7 +9,9 @@ class messagesActions extends prActions
     
     public function executeIndex()
     {
-        $this->getResponse()->addJavascript('show_hide_tick');
+        //$this->getResponse()->addJavascript('show_hide_tick');
+        $this->getResponse()->addJavascript('jquery.min.js');
+        $this->getResponse()->addJavascript('messages_tabs.js');
         
         $c = new Criteria();
         $c->add(MessagePeer::RECIPIENT_ID, $this->getUser()->getId());

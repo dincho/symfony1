@@ -3519,3 +3519,13 @@ ul.rating li.five a:hover {background-position:0 -160px}
 {
   padding: 10px;
 }
+
+#messages_group {
+    margin-bottom: 25px;
+}
+#messages_group  .active_group{
+color:#D3D3D3;
+}
+#messages_group a {
+color:#7CAEE7;
+}
