@@ -15,8 +15,8 @@ dev:
 prod:
   propel:
     param:
-      dsn:          mysql://pd_dev:polish_dev@127.0.0.1/polishdate_dev
-      #dsn:          mysql://pd_prod:polish_prod@127.0.0.1/polishdate_prod
+      #dsn:          mysql://pd_dev:polish_dev@127.0.0.1/polishdate_dev
+      dsn:          mysql://pd_prod:polish_prod@127.0.0.1/polishdate_prod
 
 stag:
   propel:

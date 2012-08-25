@@ -42,14 +42,4 @@ class contentComponents extends sfComponents
       $response->addJavascript(sfConfig::get('sf_prototype_web_dir').'/js/controls');
       $response->addJavascript('notifications.js');
     }
-    
-    public function executeAsSeenOn()
-    {
-    	$catalog_id = $this->getUser()->getCatalogId();
-    	$c = new Criteria();
-    	$c->add(AsSeenOnLogoPeer::HOMEPAGES, 'FIND_IN_SET("' . $catalog_id .'", ' . AsSeenOnLogoPeer::HOMEPAGES . ') != 0', Criteria::CUSTOM);
-    	$this->asSeenOnLogos = AsSeenOnLogoPeer::doSelect($c);
-    	
-    	
-    }
 }
