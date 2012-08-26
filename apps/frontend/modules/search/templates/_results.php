@@ -9,7 +9,7 @@
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">  
                 <div class="header">
                     <div class="age"><?php echo $member->getAge() ?></div>
-                    <div class="headline"><?php echo $member->getUsername() ?></div>
+                    <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 35) ?></div>
                 </div>
                 <?php $ppo = ($pager->getPage()-1)*$pager->getMaxPerPage() + $i-2; ?>
               <?php echo link_to_ref( profile_photo($member, 'float-left'), '@profile?bc=search&username=' . $member->getUsername() . '&ppo=' . $ppo) ?>
