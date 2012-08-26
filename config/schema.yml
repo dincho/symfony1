@@ -789,3 +789,10 @@ propel:
     request_ip:         { type: bigint }
     created_at:
     
+  as_seen_on_logo:
+    id:
+    file:            { type: varchar, size: 255 }
+    url:             { type: varchar, size: 255 }
+    homepages:       { type: varchar, size: 255 }
+    is_online:       { type: boolean, required: false, default: true }
+    created_at:
