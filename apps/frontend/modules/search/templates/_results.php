@@ -9,9 +9,10 @@
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">  
                 <div class="header">
                     <div class="age"><?php echo $member->getAge() ?></div>
-                    <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 35) ?></div>
+                    <div class="headline"><?php echo $member->getUsername() ?></div>
                 </div>
-              <?php echo link_to_ref( profile_photo($member, 'float-left'), '@profile?pager=1&bc=search&username=' . $member->getUsername() ) ?>
+                <?php $ppo = ($pager->getPage()-1)*$pager->getMaxPerPage() + $i-2; ?>
+              <?php echo link_to_ref( profile_photo($member, 'float-left'), '@profile?bc=search&username=' . $member->getUsername() . '&ppo=' . $ppo) ?>
               <div class="profile_info">
                     <?php if( $member->getMillionaire() ): ?>
                         <div class="millionaire_mark"><?php echo __('M'); ?></div>
@@ -20,8 +21,8 @@
                   <p class="profile_location_mini"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
                   
                   
-                  <p><?php echo link_to_ref(__('View Profile'), '@profile?pager=1&bc=search&username=' . $member->getUsername(), array('class' => 'sec_link')) . ' | ' ?> 
-                  
+                  <p>
+                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=search&username=' . $member->getUsername() . '&ppo=' . $ppo, array('class' => 'sec_link')) . ' | ' ?> 
                     <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
                     <?php echo link_to_remote($hotlist_link_title,
                                               array('url'     => 'hotlist/toggle?update_selector=hotlist_link_'.$member->getId().'&profile_id=' . $member->getId(),

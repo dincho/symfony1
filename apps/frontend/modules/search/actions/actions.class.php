@@ -414,13 +414,8 @@ class searchActions extends prActions
         //this is some kind of optimization and also allows to not pass the pp_no_update parameter all over the pager
         if( $this->getRequestParameter('page', 1)  == 1 && !$this->getRequestParameter('pp_no_update') )
         {
-            $profile_pager_members = MemberMatchPeer::doSelectJoinMemberRelatedByMember2IdRS($c);
-            $pager_cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'search_profile_pager';
-            $pager_cache = new sfFileCache($pager_cache_dir);
-            $pager_cache->set($this->getUser()->getId(), null, serialize($profile_pager_members));
-            $this->debugMessage('Created search profile pager file: ' . $pager_cache_dir);
+            FrontendProfilePager::storeCriteria($this->getUser()->getId(), $c);
         }
-        
 
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
