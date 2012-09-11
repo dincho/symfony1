@@ -58,6 +58,20 @@ class profileActions extends prActions
         $this->setTemplate('simpleProfile');
     }
     
+    public function executePager()
+    {
+        $pager = FrontendProfilePager::init(
+            $this->getUser()->getId(), 
+            $this->getRequestParameter('offset')
+        );
+        
+        if ($member = $pager->getCurrentMember()) {
+            $this->getRequest()->setParameter('username', $member->getUsername());
+            $this->getRequest()->setParameter('offset', $pager->getOffset());
+            $this->forward('profile', 'index');
+        }
+    }
+    
     public function executeIndex()
     { 
         $this->profilePreExecute();
@@ -161,9 +175,10 @@ class profileActions extends prActions
                 //since we just show an unavailable profile template
                 $this->profile_pager = FrontendProfilePager::init(
                     $this->getUser()->getId(), 
-                    $this->getRequestParameter('ppo'),
-                    $this->member->getUsername()
+                    $this->getRequestParameter('offset')
                 );
+                
+                // var_dump($this->profile_pager);exit();
                 
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);

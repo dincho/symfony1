@@ -12,7 +12,7 @@
                     <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 35) ?></div>
                 </div>
                 <?php $ppo = ($pager->getPage()-1)*$pager->getMaxPerPage() + $i-2; ?>
-              <?php echo link_to_ref( profile_photo($member, 'float-left'), '@profile?bc=search&username=' . $member->getUsername() . '&ppo=' . $ppo) ?>
+              <?php echo link_to_ref( profile_photo($member, 'float-left'), '@profile_pager?offset=' . $ppo) ?>
               <div class="profile_info">
                     <?php if( $member->getMillionaire() ): ?>
                         <div class="millionaire_mark"><?php echo __('M'); ?></div>
@@ -22,7 +22,7 @@
                   
                   
                   <p>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?bc=search&username=' . $member->getUsername() . '&ppo=' . $ppo, array('class' => 'sec_link')) . ' | ' ?> 
+                    <?php echo link_to_ref(__('View Profile'), '@profile_pager?offset=' . $ppo, array('class' => 'sec_link')) . ' | ' ?> 
                     <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
                     <?php echo link_to_remote($hotlist_link_title,
                                               array('url'     => 'hotlist/toggle?update_selector=hotlist_link_'.$member->getId().'&profile_id=' . $member->getId(),

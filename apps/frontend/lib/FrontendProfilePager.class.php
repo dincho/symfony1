@@ -9,11 +9,12 @@
 
 class FrontendProfilePager
 {
-    private $members = array();
-    private $cursor = 0;
-    private $index = 0;
+    private $offset = 0;
+    private $prev = null;
+    private $next = null;
+    private $currentMember = null;
     
-    public static function init($userId, $ppo, $current_member)
+    public static function init($userId, $offset)
     {
         $cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'last_search_criteria';
         $search_crit_cache = new sfFileCache($cache_dir);
@@ -21,14 +22,14 @@ class FrontendProfilePager
         
         if ($crit_data) {
             $criteria = unserialize($crit_data);
-            $criteria->setOffset($ppo);
+            $criteria->setOffset($offset);
             $criteria->setLimit(3);
             $matches = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($criteria);
         } else {
             $matches = array();
         }
         
-        return new self($matches, $ppo, $current_member);
+        return new self($matches, $offset);
     }
     
     public static function storeCriteria($userId, Criteria $c)
@@ -38,45 +39,74 @@ class FrontendProfilePager
         $search_crit_cache->set($userId, null, serialize($c));
     }
     
-    public function __construct(array $matches, $ppo, $current_member)
+    public function __construct(array $matches, $offset)
     {
+        $this->offset = $offset;
         $this->setMatches($matches);
-        $this->index  = $ppo;
-        $this->setCursor($current_member);
     }
     
     protected function setMatches($matches)
     {
-        foreach($matches as $match)
-        {
-            $member = $match->getMemberRelatedByMember2Id();
-            $this->members[] = $member->getUsername();
+        $match = null;
+        $cnt = count($matches);
+        
+        switch ($cnt) {
+            case 3: //full set of 3 results
+                $this->currentMember = $matches[1]->getMemberRelatedByMember2Id(); //middle
+                $this->prev = $this->offset - 1;
+                $this->next = $this->offset + 1;
+                
+                //first record
+                if ($this->prev < -1) {
+                    $this->prev = null;
+                    $this->currentMember = $matches[0]->getMemberRelatedByMember2Id(); //middle
+                }
+                break;
+                
+            case 2: //partial set of 2 results - last page/record
+                $this->currentMember = $matches[1]->getMemberRelatedByMember2Id();
+                $this->prev = $this->offset - 1;
+                $this->next = null;
+                break;
+                
+            case 1: //there should not be only 1 result, something is broken
+            case 0: //no results - something broken
+            default:
+                $this->currentMember = null;
+                $this->prev = null;
+                $this->next = null;
+                break;
         }
+        
     }
-
-    protected function setCursor($current_member)
+    
+    public function getOffset()
     {
-        //cast to int to set cursor = 0 if not member found
-        $this->cursor = (int) array_search($current_member, $this->members);
+        return $this->offset;
+    }
+    
+    public function getCurrentMember()
+    {
+        return $this->currentMember;
     }
     
     public function getIndex()
     {
-        return $this->index;
+        return $this->offset;
     }
     
     public function getNext()
     {
-        return (isset($this->members[$this->cursor+1])) ? $this->members[$this->cursor+1] : null;
+        return $this->next;
     }
 
     public function getPrevious()
     {
-        return (isset($this->members[$this->cursor-1])) ? $this->members[$this->cursor-1] : null;
+        return $this->prev;
     }
     
     public function hasResults()
     {
-        return (count($this->members) > 0) ? true : false;
+        return (null !== $this->currentMember);
     }
 }
