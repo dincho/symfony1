@@ -24,6 +24,8 @@ class FrontendProfilePager
             $criteria = unserialize($crit_data);
             $criteria->setOffset($offset);
             $criteria->setLimit(3);
+            
+            MemberRatePeer::getMapBuilder(); //force manual map loading because of serialized criteria
             $matches = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($criteria);
         } else {
             $matches = array();
@@ -69,7 +71,13 @@ class FrontendProfilePager
                 $this->next = null;
                 break;
                 
-            case 1: //there should not be only 1 result, something is broken
+            case 1: //only one result
+                $this->currentMember = $matches[0]->getMemberRelatedByMember2Id(); //the only result
+                //no paging
+                $this->prev = null;
+                $this->next = null;
+                break;
+                
             case 0: //no results - something broken
             default:
                 $this->currentMember = null;

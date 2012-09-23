@@ -410,12 +410,7 @@ class searchActions extends prActions
 
     protected function initPager(Criteria $c, $per_page = 12, $peerMethod = 'doSelectJoinMemberRelatedByMember2Id', $peerCountMethod = 'doCountJoinMemberRelatedByMember2Id')
     {
-        //update profile pager only on first page 
-        //this is some kind of optimization and also allows to not pass the pp_no_update parameter all over the pager
-        if( $this->getRequestParameter('page', 1)  == 1 && !$this->getRequestParameter('pp_no_update') )
-        {
-            FrontendProfilePager::storeCriteria($this->getUser()->getId(), $c);
-        }
+
 
         $pager = new sfPropelPager('MemberMatch', $per_page);
         $pager->setCriteria($c);
@@ -433,6 +428,14 @@ class searchActions extends prActions
         
         $pager->init();
         $this->pager = $pager;
+        
+        //update profile pager only on first page 
+        //this is some kind of optimization and also allows to not pass the pp_no_update parameter all over the pager
+        if ($this->getRequestParameter('page', 1)  == 1 
+            && !$this->getRequestParameter('pp_no_update')
+        ) {
+            FrontendProfilePager::storeCriteria($this->getUser()->getId(), $c);
+        }
     }
 
     protected function processFilters()

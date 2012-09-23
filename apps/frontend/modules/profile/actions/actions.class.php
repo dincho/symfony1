@@ -70,6 +70,9 @@ class profileActions extends prActions
             $this->getRequest()->setParameter('offset', $pager->getOffset());
             $this->forward('profile', 'index');
         }
+        
+        $this->setFlash('msg_error', 'Unable to configure your profile pager please try again.');
+        $this->redirect('@matches');
     }
     
     public function executeIndex()
@@ -170,16 +173,19 @@ class profileActions extends prActions
                     $this->setFlash('msg_error', $error, false);
                 }
                 
-                
+
+                    
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
-                $this->profile_pager = FrontendProfilePager::init(
-                    $this->getUser()->getId(), 
-                    $this->getRequestParameter('offset')
-                );
-                
-                // var_dump($this->profile_pager);exit();
-                
+                if ($this->getRequest()->hasParameter('offset')) {
+                    $this->profile_pager = FrontendProfilePager::init(
+                        $this->getUser()->getId(),
+                        $this->getRequestParameter('offset')
+                    );
+                } else {
+                    $this->profile_pager = null;
+                }
+
                 $this->grant_private_photos_perm = $this->getUser()->getProfile()->hasGrantPrivatePhotosPermsFor($this->member);
                 $this->private_photos_perm = $this->getUser()->getProfile()->hasPrivatePhotosPermsFor($this->member);
                 $this->private_photos_request = $this->getUser()->getProfile()->hasPrivatePhotoRequestTo($this->member);

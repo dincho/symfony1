@@ -1,4 +1,4 @@
-<?php if($sf_user->getAttribute('last_search_url') && $pager->hasResults()): ?>
+<?php if($pager && $sf_user->getAttribute('last_search_url') && $pager->hasResults()): ?>
     <div class="prev">
         <?php echo link_to_unless(is_null($pager->getPrevious()), image_tag('prev.gif'), '@profile_pager?offset=' .$pager->getPrevious(), 'class=float-left') ?>
         <?php echo link_to_unless(is_null($pager->getPrevious()), __('Previous'), '@profile_pager?offset=' .  $pager->getPrevious(), array('class' => 'float-left', 'style' => 'padding: 0 20px;')) ?>
