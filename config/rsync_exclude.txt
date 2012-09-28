@@ -1,6 +1,7 @@
 .svn
 /cache/*
 /log/*
+/tmp/*
 .DS_Store
 .project
 .cache
