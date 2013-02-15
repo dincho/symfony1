@@ -1,4 +1,4 @@
-polishdate
+Polishdate
 ==========
 
 Polishdate Project
