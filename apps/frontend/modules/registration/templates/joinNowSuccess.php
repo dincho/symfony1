@@ -1,6 +1,5 @@
 <?php use_helper('dtForm', 'Javascript'); ?>
 
-
 <div>
     <?php if ($photo) : ?>
         <?php echo image_tag(($photo->getImageFilename('cropped') ? $photo->getImageUrlPath('cropped', '220x225') : $photo->getImageUrlPath('file', '220x225')), array('id' => 'join_now_photo')); ?>
@@ -53,22 +52,3 @@ Event.observe(window, "load", function() {
     setTimeout("$(\"registration_box_complete_page\").findFirstElement().focus();",1);
 });
 ');?>
-
-<!-- Google Code for LoveStreet Conversion Page -->
-<script type="text/javascript">
-<!--
-var google_conversion_id = 1064048011;
-var google_conversion_language = "pl";
-var google_conversion_format = "1";
-var google_conversion_color = "333333";
-var google_conversion_label = "nuahCKWStgEQi6uw-wM";
-var google_conversion_value = 0;
-//-->
-</script>
-<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1064048011/?label=nuahCKWStgEQi6uw-wM&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
