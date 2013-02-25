@@ -8,38 +8,47 @@
  */
 class Member extends BaseMember
 {
-  
     private $subscription_info = null;
-    
+
     //cache
     private $_unread_messages_count = null;
-    
+
     private $_all_messages_count = null;
-    
+
     private $city = null;
-    
+
     private $_current_member_subscription = false;
-    
+
     private $subscriptionDetails = null;
-    
+
     public function setPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
         parent::setPassword($new_val);
     }
-    
+
     public function setNewPassword($v, $hash_it = true)
     {
         $new_val = ($hash_it) ? sha1(SALT . $v . SALT) : $v;
         parent::setNewPassword($new_val);
     }
-    
+
+    public function refreshAge( )
+    {
+      $this->setAge(Tools::getAgeFromDateString($this->getBirthday()));
+    }
+
     public function setBirthday($val)
     {
-        if( $val != $this->getBirthday() ) $this->setAge(Tools::getAgeFromDateString($val));
-        return parent::setBirthday($val);
+        $result = parent::setBirthday($val);
+        if( $val != $this->getBirthday() )
+        {
+          $this->refreshAge();
+        }
+
+        return $result;
     }
-    
+
     public function getFullName()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
