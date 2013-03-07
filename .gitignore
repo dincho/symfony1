@@ -14,3 +14,7 @@ lib/model/om/*
 lib/model/map/*
 web/*Plugin/*
 web/*.php
+vendor/*
+generated-schema-transformed.xml
+generated-sfSettingsPlugin-schema-transformed.xml
+composer.lock

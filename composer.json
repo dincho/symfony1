@@ -1,0 +1,19 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "dincho/symfony1",
+                "version" : "1.0",
+                "source": {
+                    "url": "https://github.com/dincho/symfony1.git",
+                    "type": "git",
+                    "reference": "1.0"
+                }
+            }
+        }
+    ],
+    "require": {
+        "dincho/symfony1": "1.0.*"
+    }
+}

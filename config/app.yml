@@ -134,7 +134,7 @@ dev:
           pl:             [pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us]
           en:             [polishdate.bonex.us, du.polishdate.bonex.us]
       catalog_domains:
-          "pd.dincho.bonex.us":           www.polishdate.com
+          "polishdate.localhost":         www.polishdate.com
           "polishdate.bonex.us":          www.polishdate.com
           "branch.pd.dincho.bonex.us":    www.polishdate.com
           "pl.polishdate.bonex.us":       www.szukammilionera.com
