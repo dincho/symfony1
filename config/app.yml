@@ -127,6 +127,11 @@ all:
       max_weight:        21
       nb_desc_quesitons: 18
       use_queue:         no
+    .domains:
+      domain_cultures:
+        pl: []
+        en: []
+      catalog_domains:  []
 
 dev:
   .domains:
