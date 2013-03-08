@@ -3,14 +3,14 @@ PHP=`/usr/bin/which php`
 GIT=`/usr/bin/which git`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SYMFONY=$DIR/symfony
-ENV="stag"
 
-die () {
+function die () {
     echo >&2 "$@"
     exit 1
 }
 
-update () {
+function update () {
+    ENV=$1 #better naming
     echo -e "Updating...\n"
 
     cd $DIR
@@ -27,4 +27,4 @@ update () {
 }
 
 [ "$#" -eq 1 ] || die "Please provide environment as argument"
-update #all fine, let's update
+update $1 #all fine, let's update
