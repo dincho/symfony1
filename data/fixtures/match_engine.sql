@@ -71,3 +71,72 @@ BEGIN
   END;
 END//
 delimiter ;
+
+
+DELIMITER ;;
+CREATE PROCEDURE `generate_straight_matches`(IN member_id_param INT, IN max_score_param INT, IN file_name CHAR(200))
+BEGIN
+    SET @member_id = member_id_param;
+    SET @max_score = max_score_param;
+
+    SET @sql = CONCAT('SELECT ?, m2.id AS member2_id, 
+              ROUND(SUM(
+                    CASE dq.type
+                        WHEN "radio" THEN IF( FIND_IN_SET(da.desc_answer_id, crit_desc.desc_answers), crit_desc.match_weight, 0)
+                          WHEN "other_langs" THEN IF(ISNULL(da.custom), 0, crit_desc.match_weight)
+                          WHEN "native_lang" THEN IF(m1.language = m2.language, match_weight, 0)
+                          WHEN "select" THEN IF( da.desc_answer_id BETWEEN SUBSTRING_INDEX(crit_desc.desc_answers, ",", 1) AND SUBSTRING_INDEX(crit_desc.desc_answers, ",", -1), crit_desc.match_weight, 0)
+                          WHEN "age" THEN IF(m2.age BETWEEN SUBSTRING_INDEX(crit_desc.desc_answers, ",", 1) AND SUBSTRING_INDEX(crit_desc.desc_answers, ",", -1), crit_desc.match_weight, 0)
+                          ELSE 0
+                      END
+                      ) / ? * 100) AS pct
+        INTO OUTFILE ', '"', file_name, '"', 
+        ' FROM member AS m1 
+        JOIN desc_question AS dq 
+        CROSS JOIN member AS m2 ON ( m2.id != m1.id AND m1.looking_for = m2.sex AND m2.looking_for = m1.sex AND m2.member_status_id = 1 AND m1.id = ? )
+        LEFT JOIN member_desc_answer AS da ON (da.member_id = m2.id AND da.desc_question_id = dq.id )
+        LEFT JOIN search_crit_desc AS crit_desc ON (dq.id = crit_desc.desc_question_id AND m1.id = crit_desc.member_id )
+        LEFT JOIN catalogue AS m1_catalog ON (m1.catalog_id = m1_catalog.cat_id )
+        WHERE m2.catalog_id IN (m1_catalog.shared_catalogs) OR m1.catalog_id = m2.catalog_id
+        GROUP BY m2.id');
+
+    PREPARE stmt1 FROM @sql; 
+    EXECUTE stmt1 USING @member_id, @max_score, @member_id;
+    DEALLOCATE PREPARE stmt1;
+
+END;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `generate_reverse_matches`(IN member_id_param INT, IN max_score_param INT, IN file_name CHAR(200))
+BEGIN
+    SET @member_id = member_id_param;
+    SET @max_score = max_score_param;
+
+    SET @sql = CONCAT('SELECT m1.id AS member1_id, ?, 
+              ROUND(SUM(
+                    CASE dq.type
+                        WHEN "radio" THEN IF( FIND_IN_SET(da.desc_answer_id, crit_desc.desc_answers), crit_desc.match_weight, 0)
+                          WHEN "other_langs" THEN IF(ISNULL(da.custom), 0, crit_desc.match_weight)
+                          WHEN "native_lang" THEN IF(m1.language = m2.language, match_weight, 0)
+                          WHEN "SELECT" THEN IF( da.desc_answer_id BETWEEN SUBSTRING_INDEX(crit_desc.desc_answers, ",", 1) AND SUBSTRING_INDEX(crit_desc.desc_answers, ",", -1), crit_desc.match_weight, 0)
+                          WHEN "age" THEN IF(m2.age BETWEEN SUBSTRING_INDEX(crit_desc.desc_answers, ",", 1) AND SUBSTRING_INDEX(crit_desc.desc_answers, ",", -1), crit_desc.match_weight, 0)
+                          ELSE 0
+                      END
+                      ) / ? * 100) AS pct 
+        INTO OUTFILE ', '"', file_name, '"', 
+        ' FROM member AS m1 
+        JOIN desc_question AS dq 
+        CROSS JOIN member AS m2 ON ( m2.id = ? AND m2.id != m1.id AND m1.looking_for = m2.sex AND m2.looking_for = m1.sex AND m1.member_status_id = 1 )
+        LEFT JOIN member_desc_answer AS da ON (da.member_id = m2.id AND da.desc_question_id = dq.id )
+        LEFT JOIN search_crit_desc AS crit_desc ON (dq.id = crit_desc.desc_question_id AND m1.id = crit_desc.member_id )
+        LEFT JOIN catalogue AS m1_catalog ON (m1.catalog_id = m1_catalog.cat_id )
+        WHERE m2.catalog_id IN (m1_catalog.shared_catalogs) OR m1.catalog_id = m2.catalog_id
+        GROUP BY m1.id');
+
+    PREPARE stmt1 FROM @sql; 
+    EXECUTE stmt1 USING @member_id, @max_score, @member_id;
+    DEALLOCATE PREPARE stmt1;
+
+END;;
+DELIMITER ;
