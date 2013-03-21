@@ -137,7 +137,7 @@ dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
           pl:             [pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-          en:             [polishdate.bonex.us, du.polishdate.bonex.us]
+          en:             [polishdate.localhost, polishdate.bonex.us, du.polishdate.bonex.us]
       catalog_domains:
           "polishdate.localhost":         www.polishdate.com
           "polishdate.bonex.us":          www.polishdate.com
@@ -148,7 +148,7 @@ dev:
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
   mail:
-    enabled:                yes
+    enabled:                no
     use_queue:              no
     phpmailer_exceptions:   no
     rethrow_exception:      no
