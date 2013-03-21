@@ -176,10 +176,12 @@ class myUser extends sfBasicSecurityUser
         if( is_null($this->catalog) )
         {
             $domain = strtolower($_SERVER['HTTP_HOST']);
+
+            //strip the port
             if (false !== ($pos = strpos($domain, ':'))) {
                 $domain = substr($domain, 0, $pos);
             }
-            
+
             $catalog_domains = sfConfig::get('app_catalog_domains');
             $catalog_domain = isset($catalog_domains[$domain]) ? $catalog_domains[$domain] : $domain;
 

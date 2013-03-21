@@ -10,6 +10,7 @@ class DomainsFilter extends sfFilter
     $host = $request->getHost();
     $domain_cultures = sfConfig::get('app_domain_cultures');
     
+    //strip the port
     if (false !== ($pos = strpos($host, ':'))) {
         $host = substr($host, 0, $pos);
     }
