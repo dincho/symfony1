@@ -154,7 +154,7 @@ class searchActions extends prActions
         $this->addGlobalCriteria($c);
         $this->addFiltersCriteria($c);
         
-        $c->addHaving($c->getNewCriterion(MemberMatchPeer::ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
+        $c->addHaving($c->getNewCriterion(MemberMatchPeer::MEMBER1_ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
         $c->addDescendingOrderByColumn('reverse_pct');
         $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
         $per_page = $rows * 3; //3 boxes/profiles per row        

@@ -12,8 +12,6 @@ class MemberMatchPeer extends BaseMemberMatchPeer
     public static function addSelectColumns(Criteria $criteria)
     {
 
-        $criteria->addSelectColumn(MemberMatchPeer::ID);
-
         $criteria->addSelectColumn(MemberMatchPeer::MEMBER1_ID);
 
         $criteria->addSelectColumn(MemberMatchPeer::MEMBER2_ID);
@@ -24,8 +22,6 @@ class MemberMatchPeer extends BaseMemberMatchPeer
                                                     FROM member_match AS m2 
                                                     WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
                                                     )');
-
-        //$criteria->addAsColumn('last_action', 'last_action(member_match.member1_id, member_match.member2_id)');
     }
     
     public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
@@ -118,7 +114,7 @@ class MemberMatchPeer extends BaseMemberMatchPeer
         }
 
         
-        $criteria->add(MemberMatchPeer::ID, '(SELECT m2.pct
+        $criteria->add(MemberMatchPeer::MEMBER2_ID, '(SELECT m2.pct
                                               FROM member_match AS m2
                                               WHERE m2.member1_id = member_match.member2_id
                                               AND m2.member2_id = member_match.member1_id) > 0', Criteria::CUSTOM);

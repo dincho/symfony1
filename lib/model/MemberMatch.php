@@ -39,15 +39,15 @@ class MemberMatch extends BaseMemberMatch
     {
         try {
 
-            $this->id = $rs->getInt($startcol + 0);
+            // $this->id = $rs->getInt($startcol + 0);
 
-            $this->member1_id = $rs->getInt($startcol + 1);
+            $this->member1_id = $rs->getInt($startcol + 0);
 
-            $this->member2_id = $rs->getInt($startcol + 2);
+            $this->member2_id = $rs->getInt($startcol + 1);
 
-            $this->pct = $rs->getInt($startcol + 3);
+            $this->pct = $rs->getInt($startcol + 2);
             
-            $this->reverse_pct = $rs->getInt($startcol + 4 + $offset);
+            $this->reverse_pct = $rs->getInt($startcol + 3 + $offset);
             
             //$this->last_action = $rs->getString($startcol + 5 + $offset);
             
@@ -56,7 +56,7 @@ class MemberMatch extends BaseMemberMatch
 
             $this->setNew(false);
 
-            return $startcol + 3; 
+            return $startcol + 2; 
         } catch (Exception $e) {
             throw new PropelException("Error populating MemberMatch object", $e);
         }
