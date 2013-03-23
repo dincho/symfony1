@@ -1,6 +1,7 @@
 cache/*
 log/*
 web/uploads/*
+web/cache/*
 config/databases.yml
 config/propel.ini
 data/sql/*
