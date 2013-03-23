@@ -29,9 +29,7 @@ all:
               - witaj@szukammilionera.pl
               - admin2@szukammilionera.pl
               - hello2@szukammilionera.pl
-              - witaj2@szukammilionera.pl
               - witamy@szukammilionera.pl
-              - witamy2@szukammilionera.pl
          - GR2:
              title: "Round Robin (Random) - Group 2"
              values:
@@ -110,15 +108,6 @@ all:
             smtp_username:  admin@meskamilosc.pl
             smtp_password:  MM11837
             from:           admin@meskamilosc.pl
-        # - hello@expatcalling.com:
-        #     mailer:         smtp
-        #     smtp_host:      "smtp.gmail.com"
-        #     smtp_port:      587
-        #     smtp_security:  tls
-        #     smtp_debug:     0 #integer greather value more debug
-        #     smtp_username:  hello@expatcalling.com
-        #     smtp_password:  EC11837
-        #     from:           hello@expatcalling.com
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
