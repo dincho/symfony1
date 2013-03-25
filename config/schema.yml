@@ -634,16 +634,17 @@ propel:
     cnt:            { type: integer }
     at:             { type: date }
 
+            
   member_match:
-    member1_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    member2_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    #id:
-    #member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    #member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    #member1_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    #member2_id:     { type: integer, required: true, primaryKey: true, foreignTable: member, foreignReference: id, onDelete: cascade }    
+    id:
+    member1_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    member2_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     pct:            { type: tinyint, required: true, default: 0 }
-    #_uniques:
-    #  member_match: [member1_id, member2_id]
-
+    _uniques:
+      member_match: [member1_id, member2_id]
+      
   geo:
     id:
     name:                     { type: varchar, size: 100 }
