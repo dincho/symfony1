@@ -5,6 +5,9 @@ web/cache/*
 config/databases.yml
 config/propel.ini
 data/sql/*
+data/paypal/*
+tmp/*
+batch/gearman/workers/nohup.out
 lib/filter/doctrine/base/Base*
 lib/filter/doctrine/*Plugin/base/Base*
 lib/form/doctrine/base/Base*
