@@ -24,90 +24,21 @@ all:
          - GR1:
              title: "Round Robin (Random) - Group 1"
              values:
-              - admin@szukammilionera.pl
-              - hello@szukammilionera.pl
-              - witaj@szukammilionera.pl
-              - admin2@szukammilionera.pl
-              - hello2@szukammilionera.pl
-              - witamy@szukammilionera.pl
+              - mandrill
          - GR2:
              title: "Round Robin (Random) - Group 2"
              values:
-               - hello@meskamilosc.pl
-               - admin@meskamilosc.pl
+              - mandrill
      outgoing:
-        - admin@szukammilionera.pl:
+        - mandrill:
             mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
+            smtp_host:      "smtp.mandrillapp.com"
             smtp_port:      587
             smtp_security:  tls
             smtp_debug:     0 #integer greather value more debug
-            smtp_username:  admin@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           admin@szukammilionera.pl
-        - hello@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  hello@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           hello@szukammilionera.pl
-        - witaj@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  witaj@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           witaj@szukammilionera.pl
-        - admin2@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  admin2@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           admin2@szukammilionera.pl
-        - hello2@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  hello2@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           hello2@szukammilionera.pl
-        - witamy@szukammilionera.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  witamy@szukammilionera.pl
-            smtp_password:  SM11837
-            from:           witamy@szukammilionera.pl
-        - hello@meskamilosc.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  hello@meskamilosc.pl
-            smtp_password:  MM11837
-            from:           hello@meskamilosc.pl
-        - admin@meskamilosc.pl:
-            mailer:         smtp
-            smtp_host:      "smtp.gmail.com"
-            smtp_port:      587
-            smtp_security:  tls
-            smtp_debug:     0 #integer greather value more debug
-            smtp_username:  admin@meskamilosc.pl
-            smtp_password:  MM11837
-            from:           admin@meskamilosc.pl
+            smtp_username:  polishdate@gmail.com
+            smtp_password:  64Ga3K8alLDa-w6mSGVl6w
+            from:           polishdate@gmail.com
     links:
       default_login_expire_period:  172800 #in seconds - 2 days
       default_expire_period:        604800 #in seconds - 7 days
