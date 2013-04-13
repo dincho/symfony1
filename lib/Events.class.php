@@ -240,7 +240,7 @@ class Events
         return self::executeNotifications(self::REGISTRATION_REMINDER, $global_vars, $member->getEmail(), $member);
     }
     
-    public static function triggerLoginReminder($member)
+    public static function triggerLoginReminder($member, $deactivationDays)
     {
         sfLoader::loadHelpers(array('Url'));
         
@@ -248,7 +248,7 @@ class Events
         $dashboard_url  = LinkPeer::create('@dashboard', $member->getId())->getUrl($member->getCatalogue());
         
         $global_vars = array('{LOGIN_URL}' => $login_url, 
-                             '{DEACTIVATION_DAYS}' => sfConfig::get('app_settings_deactivation_days',0),
+                             '{DEACTIVATION_DAYS}' => $deactivationDays,
                              '{INSTANT_LOGIN_URL}' => $dashboard_url,
                              );
         return self::executeNotifications(self::LOGIN_REMINDER, $global_vars, $member->getEmail(), $member);

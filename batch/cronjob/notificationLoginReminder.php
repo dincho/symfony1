@@ -37,5 +37,5 @@ foreach ($notifications as $notification)
     $c->add(MemberPeer::LAST_LOGIN, 'DATE('. MemberPeer::LAST_LOGIN .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
     $members = MemberPeer::doSelect($c);
     
-    foreach ($members as $member) Events::triggerLoginReminder($member);
+    foreach ($members as $member) Events::triggerLoginReminder($member, $days);
 }
