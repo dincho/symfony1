@@ -23,7 +23,9 @@ class PrivatePhotoPermission extends BasePrivatePhotoPermission
         else if ($this->getType() == 'R') // requesrt permission
         {
           $request_to = $this->getMemberRelatedByProfileId();
-          Events::triggerAccountActivityPrivatePhotosRequest($request_to, $this->getMemberRelatedByMemberId());
+          if( $request_to->getEmailNotifications() === 0 ) {
+            Events::triggerAccountActivityPrivatePhotosRequest($request_to, $this->getMemberRelatedByMemberId());
+          }
         }
         return $ret;
     }
