@@ -33,7 +33,7 @@ class dbSettingsConfigHandler
             $key = array_search($domain, $catalog_domains);
             if( $key !== FALSE) $domain = $key;
 
-            $retval .= sprintf("if(\$_SERVER['HTTP_HOST'] == '%s') sfConfig::add(array(\n%s));\n", $domain, $data);
+            $retval .= sprintf("if(@\$_SERVER['HTTP_HOST'] == '%s') sfConfig::add(array(\n%s));\n", $domain, $data);
         }
         
 
