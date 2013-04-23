@@ -70,10 +70,13 @@ Event.observe(window, 'load',function()
         }
     });
 
-    $('header_menu_drop').observe('click', function(){
-        slidedown_showHide();
-        return false;
-    });
+    var menu = $('header_menu_drop');
+    if (menu) {
+      $('header_menu_drop').observe('click', function(){
+          slidedown_showHide();
+          return false;
+      });
+    }
 });
 
 
