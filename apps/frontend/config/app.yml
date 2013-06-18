@@ -124,6 +124,7 @@ stag:
     pl_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
     ec_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
     mm_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
+    cs_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
@@ -147,15 +148,17 @@ stag:
     pl_pd_dincho_bonex_us:  "SzukamMilionera.com (stag) - "
     ec_pd_dincho_bonex_us:  "ExpatCalling.com (stag) - "
     mm_pd_dincho_bonex_us:  "MeskaMilosc.pl (stag) - "
+    cs_polishdate_bonex_us: "CafeSayang.com (stag) - "
   sf_google_analytics_plugin:
     enabled:                no  
-      
+
 prod:
   gmaps_key:
-    www_polishdate_com:       ABQIAAAAOxJQPDtbbVztfX1WpxwrshQaophwVwW_eBIBsKwHigAlAJr07BQan0Q--w8XgzEZJixvvisTR8s4RQ
-    www_szukammilionera_com:  ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTZijEIVzSftDK0MzXXzUJavTzaphT1XeeYNHbUE4T-nno3v2PWQpKoSQ
-    www_expatcalling_com:     ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhTVq_jkNdk7c3EunQ0bhNQklpYTghRhnRWLGHE9840MvMDdJmIAGaAaLw
-    www_meskamilosc_pl:       ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhSTx2cZH2anLpRmckr8Ru6pruWHXRRRc6-x87-_nzejI15G2wtjIwlGfg
+    www_polishdate_com:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
+    www_szukammilionera_com:  AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
+    www_expatcalling_com:     AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
+    www_meskamilosc_pl:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
+    www_cafesayang_com:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
   recaptcha:
     www_polishdate_com:
       publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"
@@ -169,6 +172,9 @@ prod:
     www_expatcalling_com:
       publickey:            "6Lf26bwSAAAAAEDae5UVuOwzRSmx7rJZpIizO0i2"
       privatekey:           "6Lf26bwSAAAAALF-dabveoS-4vpq8F8pZq0j0Zz6"
+    www_cafesayang_com:
+      publickey:            "6LdaA-MSAAAAAFz99ljfuKZWWIMK4Rc3UH1nLt40"
+      privatekey:           "6LdaA-MSAAAAAOtmUDdz7Vk7DvAK7PVteXXlOrLv"
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
@@ -182,14 +188,15 @@ prod:
       supported_countries:  [US]
       accept_simulated:     no
   dotpay:
-    account_id: 44199
-    secret:     RilS480Z1rqLF3Ee
+    account_id:           44199
+    secret:               RilS480Z1rqLF3Ee
     callback_url:         http://www.polishdate.com/callbacks/dotpay.html
   title_prefix:
     www_polishdate_com:       "PolishDate - "
     www_szukammilionera_com:  "SzukamMilionera.com - "
     www_expatcalling_com:     "ExpatCalling.com - "
     www_meskamilosc_pl:       "MeskaMilosc.pl - "
+    www_cafesayang_com:       "CafeSayang.com - "
   sf_google_analytics_plugin:
     enabled:      yes
     profile_id:   UA-11123315-1
