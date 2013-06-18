@@ -3,6 +3,8 @@ PHP=`/usr/bin/which php`
 GIT=`/usr/bin/which git`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SYMFONY=$DIR/symfony
+DEFAULT_BRANCH="origin/master1"
+BRANCH=${2:-$DEFAULT_BRANCH}
 
 function die () {
     echo >&2 "$@"
@@ -14,7 +16,8 @@ function update () {
     echo -e "Updating...\n"
 
     cd $DIR
-    $GIT pull
+    $GIT fetch --all
+    $GIT reset --hard $BRANCH
 
     $SYMFONY disable frontend $ENV
     $SYMFONY disable backend $ENV
@@ -26,5 +29,5 @@ function update () {
     $SYMFONY enable backend $ENV
 }
 
-[ "$#" -eq 1 ] || die "Please provide environment as argument"
+[ "$#" -gt 0 ] || die "Please provide environment as argument"
 update $1 #all fine, let's update
