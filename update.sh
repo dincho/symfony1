@@ -3,7 +3,7 @@ PHP=`/usr/bin/which php`
 GIT=`/usr/bin/which git`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SYMFONY=$DIR/symfony
-DEFAULT_BRANCH="origin/master1"
+DEFAULT_BRANCH="origin/master"
 BRANCH=${2:-$DEFAULT_BRANCH}
 
 function die () {
