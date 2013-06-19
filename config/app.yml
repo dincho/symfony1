@@ -67,6 +67,7 @@ dev:
           "du.polishdate.bonex.us":       www.dyskretnyuklad.com
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
+          "cs.polishdate.bonex.us":       www.cafesayang.com
           "cafesayang.localhost":         www.cafesayang.com
   mail:
     enabled:                no
