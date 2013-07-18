@@ -16,8 +16,9 @@ function update () {
     echo -e "Updating...\n"
 
     cd $DIR
-    $GIT remote update
+    
     $GIT reset --hard $BRANCH
+    $GIT pull
 
     $SYMFONY disable frontend $ENV
     $SYMFONY disable backend $ENV
