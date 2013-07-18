@@ -77,7 +77,10 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     $db_user_id_col = $this->getParameterHolder()->get('db_user_id_col', 'user_id');
 
     $user_id = sfContext::getInstance()->getUser()->getId();
-    
+    if (!$user_id) {
+      $user_id = "NULL"; //SQL NULL
+    }
+
     // cleanup the session id and data, just in case
     $id   = mysql_real_escape_string($id, $this->resource);
     $data = mysql_real_escape_string($data, $this->resource);
@@ -85,7 +88,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     // delete the record associated with this id
     $sql = 'UPDATE '.$db_table.' ' .
            'SET '.$db_data_col.' = \''.$data.'\', ' .
-           $db_user_id_col.' = \''.$user_id.'\', ' .
+           $db_user_id_col.' = '.$user_id.', ' .
            $db_time_col.' = NOW() ' .
            'WHERE '.$db_id_col.' = \''.$id.'\'';
 
