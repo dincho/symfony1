@@ -445,8 +445,8 @@ class contentActions extends sfActions
         $bc->add(array('name' => $headline->getSource()));
         
         $this->uri = 'content/systemMessage?cat_id=' . $this->catalog->getCatId() 
-                            . '&headline_id=' . $headline->getId() 
-                            . '&content_id=' . $content->getId();
+                            . '&headline_id=' . $headline->getMsgCollectionId() 
+                            . '&content_id=' . $content->getMsgCollectionId();
                             
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
