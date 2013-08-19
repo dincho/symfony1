@@ -57,7 +57,7 @@ dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
           pl:             [pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-          en:             [polishdate.localhost, polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us]
+          en:             [polishdate.localhost, polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us]
       catalog_domains:
           "polishdate.localhost":         www.polishdate.com
           "polishdate.bonex.us":          www.polishdate.com
@@ -69,8 +69,10 @@ dev:
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
           "cs.polishdate.bonex.us":       www.cafesayang.com
           "cafesayang.localhost":         www.cafesayang.com
+          "db.polishdate.bonex.us":       www.datingbistro.com
+          "datingbistro.localhost":       www.datingbistro.com
   mail:
-    enabled:                no
+    enabled:                yes
     use_queue:              no
     phpmailer_exceptions:   no
     rethrow_exception:      no
@@ -82,7 +84,7 @@ stag:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
           pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-          en:             [polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us]
+          en:             [polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us]
       catalog_domains:
           "polishdate.bonex.us":          www.polishdate.com
           "pd.dincho.bonex.us":           www.polishdate.com
@@ -93,6 +95,7 @@ stag:
           "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
           "cs.polishdate.bonex.us":       www.cafesayang.com
+          "db.polishdate.bonex.us":       www.datingbistro.com
   mail:
     enabled:          yes
     use_queue:        yes
@@ -102,7 +105,7 @@ prod:
     .domains:
         domain_cultures:   #do not have :sf_culture in the routes
             pl:             [www.szukammilionera.com, www.meskamilosc.pl]
-            en:             [www.polishdate.com, www.dyskretnyuklad.com, www.expatcalling.com, www.cafesayang.com]
+            en:             [www.polishdate.com, www.dyskretnyuklad.com, www.expatcalling.com, www.cafesayang.com, www.datingbistro.com]
         catalog_domains:    [] #no trasforms
     mail:
       enabled:          yes
