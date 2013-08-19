@@ -360,6 +360,10 @@ class editProfileActions extends BaseEditProfileActions
 
     public function executePhotos()
     {
+        $this->getUser()->getBC()->clear()
+        ->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'))
+        ->add(array('name' => 'Photos'));
+
         return parent::executePhotos();
     }
 
