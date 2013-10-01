@@ -72,7 +72,7 @@
             <th class="right_column"><?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?></th>
         </tr>
         <tr>
-            <td colspan="3" class="color-gray">&nbsp;</th>
+            <td colspan="3" class="color-gray">&nbsp;</td>
         </tr>
     </table>
 </div>
