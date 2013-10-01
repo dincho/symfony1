@@ -116,7 +116,7 @@ class membersActions extends prActions
             $username = $this->getRequestParameter('username');
 
             $value = $error = null;
-            if( !$geoValidator->execute(&$value, &$error) )
+            if( !$geoValidator->execute($value, $error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
                 $return = false;
@@ -306,7 +306,7 @@ class membersActions extends prActions
             $geoValidator->initialize($this->getContext());
             
             $value = $error = null;
-            if( !$geoValidator->execute(&$value, &$error) )
+            if( !$geoValidator->execute($value, $error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
                 $return = false;

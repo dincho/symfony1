@@ -150,7 +150,7 @@ class messagesActions extends prActions
         ));
 
         $error = '';
-        if( !$prPrivavyValidator->execute(&$value, &$error) )
+        if( !$prPrivavyValidator->execute($value, $error) )
         {
             $this->getRequest()->setError('privacy', $error);
             return false;
@@ -406,7 +406,7 @@ class messagesActions extends prActions
             ));
             
             $error = '';
-            if( !$prPrivavyValidator->execute(&$value, &$error) )
+            if( !$prPrivavyValidator->execute($value, $error) )
             {
                 $this->getRequest()->setError('privacy', $error);
                 return false;

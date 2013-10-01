@@ -199,7 +199,7 @@ class registrationActions extends BaseEditProfileActions
             
             $value = $error = null;
             
-            if( !$validator->execute(&$value, &$error) )
+            if( !$validator->execute($value, $error) )
             {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
                 $return = false;

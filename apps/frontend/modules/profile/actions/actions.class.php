@@ -146,7 +146,7 @@ class profileActions extends prActions
                     'check_onlyfull' => false,
                     ));
 
-                    $prPrivavyValidator->execute(&$value, &$error);
+                    $prPrivavyValidator->execute($value, $error);
                 }
                 
                 if( !$error )
