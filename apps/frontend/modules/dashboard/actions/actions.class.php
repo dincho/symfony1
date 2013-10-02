@@ -148,7 +148,7 @@ class dashboardActions extends prActions
         $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
                 
         $c->addGroupByColumn(ProfileViewPeer::MEMBER_ID);
-        $c->addDescendingOrderByColumn(ProfileViewPeer::CREATED_AT);
+        $c->addDescendingOrderByColumn(ProfileViewPeer::UPDATED_AT);
         $c->setLimit($this->getUser()->getProfile()->getSubscriptionDetails()->getSeeViewed());
                 
         $this->visits = ProfileViewPeer::doSelectJoinMemberRelatedByMemberId($c);
