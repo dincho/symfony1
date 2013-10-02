@@ -237,12 +237,6 @@ class feedbackActions extends sfActions
 
         if (isset($this->send_to_members) && $this->send_to_members)
         {
-            if( MemberPeer::doCount($c) > 100 )
-            {
-                $this->setFlash('msg_error', 'Too many emails ( max 100 ), please be more specific in your criteria! This restriction to be removed after #1754');
-                $this->redirect('feedback/list');
-            }
-            
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member)
             {
