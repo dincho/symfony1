@@ -1292,6 +1292,7 @@ span {
 
 #essay input, #essay #intro textarea {
     width: 328px;
+    max-width: 328px;
     margin: 1px 0 0 0;
 }
 
@@ -1302,11 +1303,12 @@ span {
 #essay #intro textarea {
     float: left;
     height: 230px;
+    min-height: 230px;
+    max-height: 65em;
 }
 
 #essay #intro label.char_remaining {
-    float: left;
-    font-size: 10px;
+    width: 100%;
 }
 
 label.char_remaining {
