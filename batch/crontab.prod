@@ -1,17 +1,17 @@
-MAILTO=dincho.todorov@bonex.us
-*/5     *      *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/mailbox_import.php
-01      *      *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/notificationAbandoned.php
-01      08     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/notificationAccountActivity.php
-01      09     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/notificationLoginReminder.php
-01      10     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/notificationRegistrationReminder.php
-01      11     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/notificationEOT.php
-50      23     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/subscriptionsEOT.php
-01      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/subscriptionsActivation.php
-01      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/clearDailyMembersCounters.php
-02      00     1     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/clearMonthlyMembersCounters.php
-20      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/clearDeletedWinks.php
-30      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/deactivateUnusedProfiles.php
-40      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/clearLinks.php
-45      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/clearMemberNotification.php
-50      00     *     *     *         /usr/bin/php /home/polishdate/pd/batch/cronjob/compactPrMailMessage.php
-13      00     *     *     *         /home/polishdate/bin/backup.sh
+MAILTO=dincho@me.com
+*/5     *      *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/mailbox_import.php
+01      *      *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/notificationAbandoned.php
+01      08     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/notificationAccountActivity.php
+01      09     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/notificationLoginReminder.php
+01      10     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/notificationRegistrationReminder.php
+01      11     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/notificationEOT.php
+50      23     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/subscriptionsEOT.php
+01      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/subscriptionsActivation.php
+01      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearDailyMembersCounters.php
+02      00     1     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearMonthlyMembersCounters.php
+20      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearDeletedWinks.php
+30      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/deactivateUnusedProfiles.php
+40      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearLinks.php
+45      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearMemberNotification.php
+#50      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/compactPrMailMessage.php
+#13      00     *     *     *         /home/polishdate/bin/backup.sh
