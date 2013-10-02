@@ -36,7 +36,7 @@ class Zodiac
                 break;
             case 2:
                 $this->error = ($day > 29) ? "February has less than " . $day . " days" : "";
-                $this->sign = ($day <= 18) ? "Aquarius" : "Pisces";
+                $this->sign = ($day <= 19) ? "Aquarius" : "Pisces";
                 break;
             case 3:
                 $this->sign = ($day <= 20) ? "Pisces" : "Aries";
@@ -50,13 +50,13 @@ class Zodiac
                 break;
             case 6:
                 $this->error = ($day > 30) ? "June has less than " . $day . " days" : "";
-                $this->sign = ($day <= 22) ? "Gemini" : "Cancer";
+                $this->sign = ($day <= 21) ? "Gemini" : "Cancer";
                 break;
             case 7:
                 $this->sign = ($day <= 22) ? "Cancer" : "Leo";
                 break;
             case 8:
-                $this->sign = ($day <= 21) ? "Leo" : "Virgo";
+                $this->sign = ($day <= 22) ? "Leo" : "Virgo";
                 break;
             case 9:
                 $this->error = ($day > 30) ? "September has less than " . $day . " days" : "";
@@ -67,10 +67,10 @@ class Zodiac
                 break;
             case 11:
                 $this->error = ($day > 30) ? "November has less than " . $day . " days" : "";
-                $this->sign = ($day <= 21) ? "Scorpio" : "Sagittarius";
+                $this->sign = ($day <= 22) ? "Scorpio" : "Sagittarius";
                 break;
             case 12:
-                $this->sign = ($day <= 22) ? "Sagittarius" : "Capricorn";
+                $this->sign = ($day <= 21) ? "Sagittarius" : "Capricorn";
                 break;
         }
     }
