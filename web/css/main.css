@@ -2936,40 +2936,32 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:f
     height: 1%;
 }
 
-#tlc, #trc, #blc, #brc {
-    background: transparent no-repeat;
-}
-
 #tlc {
-    background: url(/images/box_corners/tlc.gif) 0 0;
+    background: url(/images/box_corners/tlc.gif) transparent no-repeat 0 0;
 }
 
 #trc {
-    background: url(/images/box_corners/trc.gif) 100% 0;
+    background: url(/images/box_corners/trc.gif) transparent no-repeat 100% 0;
 }
 
 #blc {
-    background: url(/images/box_corners/blc.gif) 0 100%;
+    background: url(/images/box_corners/blc.gif) transparent no-repeat 0 100%;
 }
 
 #brc {
-    background: url(/images/box_corners/brc.gif) 100% 100%;
-}
-
-#tb, #bb {
-    background: transparent repeat-x;
+    background: url(/images/box_corners/brc.gif) transparent no-repeat 100% 100%;
 }
 
 #tb {
-    background: url(/images/box_corners/tb.gif) 0 0;
+    background: url(/images/box_corners/tb.gif) transparent repeat-x 0 0;
 }
 
 #bb {
-    background: url(/images/box_corners/bb.gif) 50% 100%;
+    background: url(/images/box_corners/bb.gif) transparent repeat-x 50% 100%;
 }
 
 #rb {
-    background: url(/images/box_corners/r.gif) repeat-y 100% 0;
+    background: url(/images/box_corners/r.gif) transparent repeat-y 100% 0;
 }
 
 #lb {
