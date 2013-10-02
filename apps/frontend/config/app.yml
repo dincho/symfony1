@@ -194,8 +194,8 @@ prod:
       supported_countries:  [US]
       accept_simulated:     no
   dotpay:
-    account_id:           44199
-    secret:               RilS480Z1rqLF3Ee
+    account_id:           60847
+    secret:               gooTh2pouNg4neif
     callback_url:         http://www.polishdate.com/callbacks/dotpay.html
   title_prefix:
     www_polishdate_com:       "PolishDate - "
