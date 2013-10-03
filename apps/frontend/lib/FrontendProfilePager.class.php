@@ -65,10 +65,18 @@ class FrontendProfilePager
                 }
                 break;
                 
-            case 2: //partial set of 2 results - last page/record
+            case 2: //partial set of 2 results
+                //second record
                 $this->currentMember = $matches[1]->getMemberRelatedByMember2Id();
                 $this->prev = $this->offset - 1;
                 $this->next = null;
+
+                //first record
+                if ($this->prev < -1) {
+                    $this->prev = null;
+                    $this->next = $this->offset + 1;
+                    $this->currentMember = $matches[0]->getMemberRelatedByMember2Id();
+                }
                 break;
                 
             case 1: //only one result
