@@ -1018,12 +1018,10 @@ span.online-assistant {
     background-color: #4F4F4F;
 }
 
-.messages tr td {
+.messages td {
     border-bottom: 1px solid #2B2B2B;
     padding: 5px 0 5px 5px;
     word-wrap: break-word;
-    max-width: 530px;
-    width: 530px;
 }
 
 .messages tr.delete td {
@@ -1037,11 +1035,18 @@ span.online-assistant {
 
 .messages .message_from {
     width: 140px;
+    max-width: 140px;
 }
 
 .messages .profile_image {
     width: 55px;
     text-align: center;
+}
+
+.messages .message_body {
+    padding: 5px;
+    max-width: 485px;
+    width: 485px;
 }
 
 #messages_form .unread_circle img {
@@ -1079,7 +1084,9 @@ table.threaded_message .profile_photo {
 }
 
 table.threaded_message .message_info {
-    width: 140px;
+    width: 90px;
+    max-width: 90px;
+    word-wrap: break-word;
 }
 
 table.threaded_message .message_body {
