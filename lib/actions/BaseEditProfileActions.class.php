@@ -144,6 +144,11 @@ class BaseEditProfileActions extends prActions
         $this->member->setLastPhotoUploadAt(time());
         $this->member->setReviewedById(null);
         $this->member->setReviewedAt(null);
+        // try to set the photo as main
+        if(is_null($this->member->getMainPhotoId()) && !$is_private)
+        {
+            $this->member->setMainPhotoId($member_photo->getId());
+        }
         $this->member->save();
         
 
