@@ -1021,6 +1021,9 @@ span.online-assistant {
 .messages tr td {
     border-bottom: 1px solid #2B2B2B;
     padding: 5px 0 5px 5px;
+    word-wrap: break-word;
+    max-width: 530px;
+    width: 530px;
 }
 
 .messages tr.delete td {
@@ -1082,6 +1085,9 @@ table.threaded_message .message_info {
 table.threaded_message .message_body {
     background-color: #4f4f4f;
     padding: 5px;
+    max-width: 530px;
+    width: 530px;
+    word-wrap: break-word;
 }
 
 #messages_form {
@@ -1105,6 +1111,7 @@ table.threaded_message .message_body {
 .thread_headline {
     color: #E0B400;
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 .thread_actions {
