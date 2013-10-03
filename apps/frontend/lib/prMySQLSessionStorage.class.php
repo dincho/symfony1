@@ -104,4 +104,28 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
 
     throw new sfDatabaseException($error);
   }
+
+  public function sessionGC($lifetime)
+  {
+    // get table/column
+    $db_table    = $this->getParameterHolder()->get('db_table');
+    $db_time_col = $this->getParameterHolder()->get('db_time_col', 'sess_time');
+
+    // delete the record associated with this id
+    $date = new DateTime();
+    $date->sub(new DateInterval(sprintf('PT%dS', $lifetime)));
+
+    $sql = 'DELETE FROM '.$db_table.' '.
+           'WHERE '.$db_time_col.' < ' . $date->getTimestamp();
+
+    if (@mysql_query($sql, $this->resource))
+    {
+      return true;
+    }
+
+    // failed to cleanup old sessions
+    $error = 'MySQLSessionStorage cannot delete old sessions';
+
+    throw new sfDatabaseException($error);
+  }
 }
