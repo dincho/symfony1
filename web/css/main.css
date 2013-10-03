@@ -225,6 +225,9 @@ body .sign_in {
     font-weight: normal;
     height: 22px;
     background-color: #3d3d3d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #header_text #header_title span {
@@ -3551,5 +3554,5 @@ ul.rating li.five a:hover {
 }
 
 #messages_group a {
-    color: #7CAEE7;
+    color:#7CAEE7;
 }

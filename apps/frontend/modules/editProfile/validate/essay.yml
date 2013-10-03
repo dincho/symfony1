@@ -9,8 +9,8 @@ fields:
     sfStringValidator:
       min:          3
       min_error:    Headline must contain minimum 3 characters.
-      max:          60
-      max_error:    Headline may contain maximum 60 characters.     
+      max:          40
+      max_error:    Headline may contain maximum 40 characters.     
   essay_introduction:
     required:
         msg:    You must provide a description (essay's body).
