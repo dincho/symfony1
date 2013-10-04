@@ -73,7 +73,7 @@ dev:
           "db.polishdate.bonex.us":       www.datingbistro.com
           "datingbistro.localhost":       www.datingbistro.com
   mail:
-    enabled:                yes
+    enabled:                no
     use_queue:              no
     phpmailer_exceptions:   no
     rethrow_exception:      no
