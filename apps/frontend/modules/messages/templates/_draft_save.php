@@ -46,11 +46,21 @@
        enable_button("save_to_draft_btn");
        save_condition = true;
    }
+
+   function updateState(event)
+   {
+      if ($("your_story").value.length > 0) {
+          enable_saving();
+      } else {
+          disable_button("save_to_draft_btn");
+          save_condition = false;
+      }
+
+      $("your_story").focus();
+   }
     
-    Event.observe("title", "keypress", function(event){ enable_saving(); $("title").focus(); });
     Event.observe("title", "focus", function(event){ last_focused_field = $("title"); });
-    
-    Event.observe("your_story", "keypress", function(event){ enable_saving(); $("your_story").focus(); });
+    Event.observe("your_story", "keyup", updateState);
     Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
     
     Event.observe(window, "load", function(){ disable_button("save_to_draft_btn"); });
