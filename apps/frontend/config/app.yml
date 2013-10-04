@@ -184,7 +184,7 @@ prod:
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
-    cert_id:              DE5CSXE4MBPYJ
+    cert_id:              D42ZPBNWRC4MG
     notify_url:           http://PolishDate.com/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/polishdate-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/polishdate-prvkey.pem
