@@ -422,10 +422,17 @@ class Member extends BaseMember
         
         try {
             $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
-            $query = sprintf('CALL generate_straight_matches(%d, %d, "%s")', $this->getId(), $max_score, $tmp_file);
-        
+
+            // replace Windows separator with Unix one,
+            // because MySQL have problems with it
+            // http://dev.mysql.com/doc/refman/5.0/en/limits-windows.html
+            $tmp_file = str_replace('\\','/', $tmp_file);  
+            
             $connection = Propel::getConnection();
-            $statement = $connection->prepareStatement($query);
+            $statement = $connection->prepareStatement('CALL generate_straight_matches(?, ?, ?)');
+            $statement->set(1, $this->getId());
+            $statement->set(2, $max_score);
+            $statement->set(3, $tmp_file);
             $statement->executeQuery();
         
             $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member1_id = %d', $this->getId()));
