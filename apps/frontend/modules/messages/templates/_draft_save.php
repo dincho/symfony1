@@ -46,11 +46,45 @@
        enable_button("save_to_draft_btn");
        save_condition = true;
    }
-    
-    Event.observe("title", "keypress", function(event){ enable_saving(); $("title").focus(); });
-    Event.observe("title", "focus", function(event){ last_focused_field = $("title"); });
-    
-    Event.observe("your_story", "keypress", function(event){ enable_saving(); $("your_story").focus(); });
+
+   function isCharacterKeyPress(evt) {
+        if (typeof evt.which == "undefined") {
+            // This is IE, which only fires keypress events for printable keys
+            return true;
+        } else if (typeof evt.which == "number" && evt.which > 0) {
+            // Filter out backspace and ctrl/alt/meta key combinations
+            return !evt.ctrlKey && !evt.metaKey && !evt.altKey && evt.which != 8;
+        }
+        return false;
+   }
+
+   function isMessageBodyEmpty(event){
+        if ($("your_story").value.length < 2){
+             // check for Delete & Backspace
+             if ((event.which == 8) || (event.which == 46)) {
+                return true;
+             } else {
+                return false;
+             }
+        } else if (isCharacterKeyPress(event)){
+             return false;
+        } else if ($("your_story").value.length < 1){
+             return true;
+        }
+   }
+
+    Event.observe("your_story",
+                  "keypress",
+                  function(event){
+                      if (isMessageBodyEmpty(event)){
+                          disable_button("save_to_draft_btn");
+                          save_condition = false;
+                      } else {
+                          enable_saving();
+                      }
+                      $("your_story").focus();
+                  });
+
     Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
     
     Event.observe(window, "load", function(){ disable_button("save_to_draft_btn"); });
