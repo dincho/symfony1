@@ -2689,6 +2689,7 @@ div.best_video div.right img {
     width: 340px;
     border-top: 1px solid #4f4f4f;
     background-color: #4f4f4f;
+    float: left;
 }
 
 #profile_right a.switch {
