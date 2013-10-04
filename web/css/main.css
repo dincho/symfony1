@@ -1005,7 +1005,7 @@ span.online-assistant {
 #dashboard-container div.bottom div.photo {
     text-align: center;
     margin: 5px 2px;
-    width: 90px;
+    width: 96px;
     float: left;
 }
 
@@ -1013,6 +1013,30 @@ span.online-assistant {
     margin-bottom: 0;
 }
 
+#dashboard-container div.bottom .prev span{
+    visibility: hidden;
+}
+
+#dashboard-container div.bottom .next span{
+    visibility: hidden;
+}
+
+#dashboard-container div.bottom .prev{
+    float: left;
+    margin-top: 43px;
+}
+#dashboard-container div.bottom .next{
+    float: right;
+    margin-top: 43px;
+}
+
+#dashboard-container .prev a:hover img{
+    border-color: #000;
+}
+
+#dashboard-container .next a:hover img{
+    border-color: #000;
+}
 /* END Dashboard */
 
 /* Member Messages */

@@ -90,15 +90,27 @@
         </div>
         
     </div>
+    <?php $recent_visits = $recent_visits_pager->getResults(); ?>
     <?php if( count($recent_visits) > 0 ): ?>
         <div class="bottom">
             <strong style="float: left;"><?php echo __('Recently viewed profiles:') ?></strong><br class="clear" />
+            <div class="prev">
+                <?php echo link_to_unless(($recent_visits_pager->getPreviousPage() ==  $recent_visits_pager->getPage()),
+                    image_tag('prev.gif'), 
+                    '@dashboard?page=' . $recent_visits_pager->getPreviousPage(), ''); ?>
+            </div>
+            <div class="next">
+                <?php echo link_to_unless(($recent_visits_pager->getNextPage() == $recent_visits_pager->getPage()),
+                    image_tag('next.gif'),
+                    '@dashboard?page=' . $recent_visits_pager->getNextPage(), ''); ?>
+            </div>
             <?php foreach ($recent_visits as $profile): ?>
                 <div class="photo">
                     <?php echo profile_photo_dash_visitors($profile, 'profile_not_available_dash'); ?>
                     <p><?php echo link_to_unless_ref(!$profile->isActive(), $profile->getUsername(), '@profile?username=' . $profile->getUsername(), array('class' => 'sec_link')) ?></p>
                 </div>            
             <?php endforeach; ?>
+            
         </div>
     <?php endif; ?>
 </div>
