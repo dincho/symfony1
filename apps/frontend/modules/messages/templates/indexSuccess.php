@@ -70,7 +70,7 @@ jQuery(document).ready(function(){
                 <?php endif; ?>
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
-            <td>
+            <td class="message_body">
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
                 <?php echo Tools::truncate($thread->getSnippet(), $received_messages_truncate_limit) ?>
             </td>
@@ -116,7 +116,7 @@ jQuery(document).ready(function(){
                 <?php echo link_to($message->getMemberRelatedByRecipientId()->getUsername(), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername(), array('class' => 'sec_link')) ?><br />
                 <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
             </td>
-            <td>
+            <td class="message_body">
                 <?php echo link_to($message->getSubject(), $message_form_link, array('class' => 'sec_link')) ?><br />
                 <?php echo Tools::truncate($message->getBody(), 80) ?>
             </td>
@@ -162,7 +162,7 @@ jQuery(document).ready(function(){
                 <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
                 <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
-            <td>
+            <td class="message_body">
                 <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
                 <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
             </td>
