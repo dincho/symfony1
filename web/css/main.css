@@ -1034,8 +1034,8 @@ span.online-assistant {
 }
 
 .messages .message_from {
-    width: 140px;
-    max-width: 140px;
+    width: 90px;
+    max-width: 90px;
 }
 
 .messages .profile_image {
