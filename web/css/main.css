@@ -610,6 +610,9 @@ form#sign_in fieldset a {
     line-height: 20px;
     padding-left: 4px;
     background-color: #000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #winks div.member_profile_viewers div.input {
@@ -673,9 +676,9 @@ form#sign_in fieldset a {
     line-height: 20px;
     padding-left: 4px;
     background-color: #000;
-}
-
-#winks div.member_profile img.x {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #winks div.privacy_profile_viewers img.x {
@@ -1750,6 +1753,13 @@ span.sec_link {
     background-color: #000;
     height: 20px;
     line-height: 20px;
+}
+
+.member .member_box .header .headline{
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .member .member_box span.sec_link {
