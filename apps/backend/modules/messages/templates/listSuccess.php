@@ -21,7 +21,7 @@
     </fieldset>
     <fieldset class="search_fields">
         <label for="search_type">Search by:</label><br />
-        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'Email', ), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>       
+        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'subject' => 'Subject', 'email' => 'Email', ), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>       
     </fieldset>
     <fieldset>
         <label for="search">&nbsp;</label><br />
@@ -36,8 +36,7 @@
       <th class="firstcolumn"></th>
       <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
       <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Subject', 'Message::subject', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
       <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
@@ -45,7 +44,6 @@
       <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
       <th></th>
       <th class="firstcolumn"></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>              
@@ -58,8 +56,7 @@
     </td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
-    <td><?php echo $member->getLastName() ?></td>
-    <td><?php echo $member->getFirstName() ?></td>
+    <td><?php echo substr($message->getSubject(), 0, 12) ?></td>
     <td><?php echo $member->getSex() ?></td>
     <td><?php echo $member->getLookingFor() ?></td>
     <td><?php echo $member->getEmail() ?></td>
