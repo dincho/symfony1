@@ -7,10 +7,10 @@
 <?php echo __('Here you may change your registration information.') ?><br />
 <span><?php echo __('Make changes and click save.') ?></span><br />
 <br style="line-height:10px;" />
-<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg')) ?>
+<?php echo form_tag('editProfile/registration', array('id' => 'public_reg_form', 'class' => 'member_reg', 'autocomplete' => 'off')) ?>
     <fieldset>
         <?php echo pr_label_for('email', __('Your email address') . '<span style="color:red;">*</span>') ?>
-        <?php echo object_input_tag($member, 'getEmail') ?><br />    
+        <?php echo object_input_tag($member, 'getEmail') ?><br />
         
         <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('password') ?><br />
@@ -52,22 +52,6 @@
 
 <?php include_partial('content/footer_menu') ?>
 <?php include_partial('editProfile/geo_fields_js'); ?>
-
-
-<?php echo javascript_tag("
-if (document.getElementsByTagName) 
-{ 
-    var inputElements = document.getElementsByTagName('input'); 
-    for (i=0; inputElements[i]; i++) 
-    { 
-        if (inputElements[i].id && (inputElements[i].id.indexOf('password') != -1)) 
-        { 
-            inputElements[i].setAttribute('autocomplete','off'); 
-        } 
-    } 
-}
-") ?>
-
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
