@@ -279,9 +279,9 @@ class profileActions extends prActions
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
         
-        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
+        if ($this->getRequest()->getMethod() == sfRequest::POST && $this->hasRequestParameter('signin_email') && $this->hasRequestParameter('signin_password'))
         {
-            $member = MemberPeer::retrieveByEmail($this->getRequestParameter('email'));
+            $member = MemberPeer::retrieveByEmail($this->getRequestParameter('signin_email'));
             $this->forward404Unless($member);
             $this->getUser()->SignIn($member);
 
@@ -319,10 +319,10 @@ class profileActions extends prActions
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'))->add(array('name' => 'Sign In', 'uri' => '@signin'));
         
         if ( $this->getRequest()->getMethod() == sfRequest::POST 
-             && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
+             && $this->hasRequestParameter('signin_email') && $this->hasRequestParameter('signin_password'))
         {
-            $email = $this->getRequestParameter('email');
-            $password = sha1(SALT . $this->getRequestParameter('password') . SALT);
+            $email = $this->getRequestParameter('signin_email');
+            $password = sha1(SALT . $this->getRequestParameter('signin_password') . SALT);
             $c = new Criteria();
             $c->add(MemberPeer::EMAIL, $email);
             $c->add(MemberPeer::PASSWORD, $password);
