@@ -10,8 +10,12 @@
     <fieldset class="form_fields">
         
         <label for="name">Name:</label>
-        <?php echo object_input_tag($geo, 'getName', array('size' => 50, 'maxlength' => 100, 'class' => error_class('name', true))) ?><br />
-        
+        <?php echo object_input_tag($geo, 'getName', array('size' => 50, 'maxlength' => 100, 'class' => error_class('name', true))) ?>
+        <?php echo link_to('Google Search', 'http://google.com/search', 
+                                    array( 'query_string' => 'q=' . urlencode($geo_string),
+                                           'target' => '_blank',
+                                           'style' => 'float: left;')); ?><br />
+
         <label for="country">Country:</label>
         <?php echo pr_select_country_tag('country', $geo->getCountry(), array('class' => error_class('country', true))) ?><br />
         
