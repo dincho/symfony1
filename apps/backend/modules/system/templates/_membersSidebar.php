@@ -5,7 +5,10 @@
 
 <ul id="left_menu">
     <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
-        
+    <li>Catalog:</li>
+    <li>
+        <?php echo select_tag('filters[cat_id]', options_for_select($catalogues, isset($filters['cat_id']) ? $filters['cat_id'] : null)); ?>
+    </li> 
     <li>Stared:</li>
     <?php foreach($starred_array as $key => $value): ?>
     <li>
