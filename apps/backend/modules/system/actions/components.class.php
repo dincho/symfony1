@@ -23,189 +23,229 @@ class systemComponents extends sfComponents
   
   public function executeLeftMenu()
   {
-    //counters
-    $imbra_cnt_pending = $imbra_cnt_approved = $imbra_cnt_denied = $feedback_cnt_all = $feedback_cnt_paid = $feedback_cnt_bugs = $feedback_cnt_external = 0;
-    if( $this->getContext()->getModuleName() == 'feedback' )
-    {
-        $c = new Criteria();
-        //$c->add(FeedbackPeer::IS_READ, false);
-        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
-        $feedback_cnt_all = FeedbackPeer::doCount($c);
-        
-        $c1 = clone $c;
-        $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
-        $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
-        $c1->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
-        $feedback_cnt_paid = FeedbackPeer::doCount($c1);
-    
-        $c2 = clone $c;
-        $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
-        $feedback_cnt_external = FeedbackPeer::doCount($c2);
-    
-        $c3 = clone $c;
-        $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
-        $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+    if (isset($this->top_menu_selected)) {
+      $module = $this->top_menu_selected;
+    } else {
+      $module = $this->getContext()->getModuleName();;
     }
 
-    if( $this->getContext()->getModuleName() == 'imbra' || $this->getContext()->getModuleName() == 'imbraReplyTemplates')
-    {
-        $c4 = new Criteria();
-        $c4->add(MemberPeer::IMBRA_PAYMENT, 'completed');
-        $c4->addJoin(MemberImbraPeer::MEMBER_ID, MemberPeer::ID);
-        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
-        $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
-        
-        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
-        $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
-        
-        $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
-        $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
-    }
-    if( $this->getContext()->getModuleName() == 'feedback' || $this->getContext()->getModuleName() == 'feedbackTemplates')
-    {        
-        $c = new Criteria();
-        $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
-        $feedback_cnt_all = FeedbackPeer::doCount($c);
-        
-        $c1 = clone $c;
-        $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
-        $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
-        $c1->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
-        $feedback_cnt_paid = FeedbackPeer::doCount($c1);
-    
-        $c2 = clone $c;
-        $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
-        $feedback_cnt_external = FeedbackPeer::doCount($c2);
-    
-        $c3 = clone $c;
-        $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
-        $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+    if (!isset($this->left_menu_selected)) {
+      $this->left_menu_selected = null;
     }
     
-    $this->menu = array();
-    $full_menu = array('content'  => array(array('title' => 'Catalogs', 'uri' => 'catalogue/list'),
-                                           array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
-                                           array('title' => 'Home Pages', 'uri' => 'content/homepages?cat_id=1'),
-                                           array('title' => 'Profile Pages', 'uri' => 'content/profilepages?cat_id=1'),
-                                           array('title' => 'Search Pages', 'uri' => 'content/searchpages'),
-                                           array('title' => 'Reg/Sign Up Pages', 'uri' => 'content/regpages?cat_id=1'),
-                                           array('title' => 'System Messages', 'uri' => 'content/systemMessages?cat_id=1'),
-                                           array('title' => 'Member Stories', 'uri' => 'memberStories/list?cat_id=1'),
-                                           array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
-                                           array('title' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=1'),
-                                           array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
-                                           array('title' => 'Assistant', 'uri' => 'content/assistant?cat_id=1'),
-                                           array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
-                                           array('title' => 'System Notifications', 'uri' => 'notifications/list?cat_id=1'),
-                                           array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
-                                           array('title' => 'Settings', 'uri' => 'settings/list'),
-                                           array('title' => 'Clear Global Cache', 'uri' => 'system/clearGlobalCache'),
-                                           ),
-                        'photos'    => array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
-                                            array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&filters[pending_verification]=1&sort=no'),
-                                            array('title'   => 'Male', 'uri' => 'photos/list?filter=filter&filters[sex]=M&sort=no'),
-                                            array('title'   => 'Female', 'uri' => 'photos/list?filter=filter&filters[sex]=F&sort=no'),
-                                            array('title'   => 'Country', 'uri' => 'photos/list?filter=filter&filters[by_country]=1&sort=no'),
-                                            array('title'   => 'Popularity', 'uri' => 'photos/list?sort=MemberCounter::profile_views&type=desc&filter=filter'),
-                                            array('title'   => 'Home Page', 'uri' => 'photos/homepage?cat_id=1&sort=no&filter=filter'),
-                                            array('title'   => 'Member Stories', 'uri' => 'photos/memberStories?sort=no&filter=filter'),
-                                            array('title'   => 'Public Search', 'uri' => 'photos/list?filter=filter&filters[public_search]=1&sort=no'),
-                                            array('title'   => 'Stock Photos', 'uri' => 'photos/stockPhotos'),
-                                            array('title'   => 'As Seen On Logos', 'uri' => 'photos/asSeenOnLogos'),
-                                            array('title'   => 'All', 'uri' => 'photos/list?filter=filter&sort=no'),
-                                           ),                                                                 
-                        'geo'       => array(array('title' => 'Recent sign up cities w/out coord.', 'uri' => 'geo/citiesWithoutCoordinates'),
-                                            array('title' => 'Empty Countries', 'uri' => 'geo/emptyCountries'),
-                                            array('title' => 'Empty Admin1\'s', 'uri' => 'geo/emptyAdm1'),
-                                            array('title' => 'Empty Admin2\'s', 'uri' => 'geo/emptyAdm2'),
-                                           ),
-                        'users'     => array(array('title' => 'Users', 'uri' => 'users/list'),
-                                           ),
-                        'imbra'     => array(array('title' => 'Pending (' . $imbra_cnt_pending . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
-                                           array('title' => 'Approved (' . $imbra_cnt_approved . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),
-                                           array('title' => 'Denied (' . $imbra_cnt_denied . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'),
-                                           array('title' => 'Reply Templates', 'uri' => 'imbraReplyTemplates/list'),
-                                           ),
-                        'reports'   => array(array('title' => 'Daily Sales', 'uri' => 'reports/dailySales'),
-                                           array('title' => 'Member Activity', 'uri' => 'reports/memberActivity'),
-                                           array('title' => 'Active Members', 'uri' => 'reports/activeMembers'),
-                                           array('title' => 'Flags/ Suspensions', 'uri' => 'reports/flagsSuspensions'),
-                                           array('title' => 'IMBRA', 'uri' => 'reports/imbra'),
-                                           array('title' => 'Registration', 'uri' => 'reports/registration'),
-                                           array('title' => 'Outgoing Emails', 'uri' => 'reports/outgoingEmails'),
-                                           ),
-                        'feedback'  => array(array('title' => 'All Messages (' . $feedback_cnt_all . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'),
-                                           array('title' => 'From Paid Members (' . $feedback_cnt_paid . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[paid]=1'),
-                                           array('title' => 'Reported Bug/Ideas (' . $feedback_cnt_bugs . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[bugs]=1'),
-                                           array('title' => 'External Messages (' . $feedback_cnt_external . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[external]=1'),
-                                           array('title' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'),
-                                           array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
-                                           array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),
-                                           array('title' => 'Templates', 'uri' => 'feedbackTemplates/'),
-                                           array('title' => 'All Outgoing Emails', 'uri' => 'feedback/outgoingMailList'),
-                                           ),
-                        'messages' => array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
-                                            array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
-                                           ),
-                        'flags'    => array(array('title' => 'New Susp. by Flagging', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=0'),
-                                           array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
-                                           array('title' => 'Flags', 'uri' => 'flags/list?filter=filter&filters[history]=0'),
-                                           array('title' => 'Flaggers', 'uri' => 'flags/flaggers'),
-                                           array('title' => 'Flag Rules', 'uri' => 'flagCategories/edit'),
-                                           array('title' => 'Flag History', 'uri' => 'flags/list?filter=filter&filters[history]=1'),
-                                           ),                                           
-                        'ipwatch'  => array(array('title' => 'IP vs. Residence', 'uri' => 'ipwatch/residence'),
-                                            array('title' => 'IP Duplicates', 'uri' => 'ipwatch/duplicates'),
-                                            array('title' => 'IP Blacklisted', 'uri' => 'ipwatch/blacklisted'),
-                                            array('title' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'),
-                                            array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
-                                           ),
-                        'members'  => array(array('title' => 'All Members', 'uri' => 'members/list?filter=filter'),
-                                           array('title' => 'Male Members', 'uri' => 'members/list?filter=filter&filters[sex]=m'),
-                                           array('title' => 'Female Members', 'uri' => 'members/list?filter=filter&filters[sex]=f'),
-                                           array('title' => 'Standard Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::FREE),
-                                           array('title' => 'Premium Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::PREMIUM),
-                                           array('title' => 'VIP Members', 'uri' => 'members/list?filter=filter&filters[subscription_id]=' . SubscriptionPeer::VIP),
-                                           array('title' => 'Polish Members', 'uri' => 'members/list?filter=filter&filters[country]=PL'),
-                                           array('title' => 'Foreign (US) Members', 'uri' => 'members/list?filter=filter&filters[country]=US'),
-                                           array('title' => 'Foreign (Non-US) Members', 'uri' => 'members/list?filter=filter&filters[country]=NON-US'),
-                                           array('title' => 'Suspended Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::SUSPENDED),
-                                           array('title' => 'Flagged Members', 'uri' => 'members/list?filter=filter&filters[flagged]=1'),
-                                           array('title' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[canceled]=1'),
-                                           array('title' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'),
-                                           array('title' => 'Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED),
-                                           array('title' => 'Auto Deactivated Members', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DEACTIVATED_AUTO),
-                                           array('title' => 'Abandoned Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::ABANDONED),
-                                           array('title' => 'Pending Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::PENDING),
-                                           array('title' => 'Denied Registration', 'uri' => 'members/list?filter=filter&filters[status_id]=' . MemberStatusPeer::DENIED),
-                                           array('title' => 'Not activated yet', 'uri' => 'members/list?filter=filter&filters[no_email_confirmation]=1'),
-                                           ),
-                      );
-    //duplicates                  
-    $full_menu['imbraReplyTemplates'] = $full_menu['imbra'];
-    $full_menu['catalogue'] = $full_menu['content'];
-    $full_menu['transUnits'] = $full_menu['content'];
-    $full_menu['staticPages'] = $full_menu['content'];
-    $full_menu['memberStories'] = $full_menu['content'];
-    $full_menu['states'] = $full_menu['content'];
-    $full_menu['notifications'] = $full_menu['content'];
-    $full_menu['descQuestions'] = $full_menu['content'];
-    $full_menu['descAnswers'] = $full_menu['content'];
-    $full_menu['settings'] = $full_menu['content'];
-    $full_menu['feedbackTemplates'] = $full_menu['feedback'];
-    $full_menu['flagCategories'] = $full_menu['flags'];
-    $full_menu['predefinedMessages'] = $full_menu['messages'];
-    
-
-    $module = ( isset($this->top_menu_selected )) ? $this->top_menu_selected : $this->getContext()->getModuleName();
-    if( !isset($this->left_menu_selected) ) $this->left_menu_selected = null;
-    
-    if(array_key_exists($module, $full_menu))
-    {
-      $this->menu = $full_menu[$module];
+    $submenuMethod = 'get' . ucfirst($module) . 'Submenu';
+    if (method_exists($this, $submenuMethod)) {
+      $this->menu = call_user_func(array($this, $submenuMethod));
+    } else {
+      $this->menu = array();
     }
   }
-  
+
+  protected function getContentSubmenu()
+  {
+    return array(
+      array('title' => 'Catalogs', 'uri' => 'catalogue/list'),
+      array('title' => 'Translation Units', 'uri' => 'transUnits/list'),
+      array('title' => 'Home Pages', 'uri' => 'content/homepages?cat_id=1'),
+      array('title' => 'Profile Pages', 'uri' => 'content/profilepages?cat_id=1'),
+      array('title' => 'Search Pages', 'uri' => 'content/searchpages'),
+      array('title' => 'Reg/Sign Up Pages', 'uri' => 'content/regpages?cat_id=1'),
+      array('title' => 'System Messages', 'uri' => 'content/systemMessages?cat_id=1'),
+      array('title' => 'Member Stories', 'uri' => 'memberStories/list?cat_id=1'),
+      array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
+      array('title' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=1'),
+      array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
+      array('title' => 'Assistant', 'uri' => 'content/assistant?cat_id=1'),
+      array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
+      array('title' => 'System Notifications', 'uri' => 'notifications/list?cat_id=1'),
+      array('title' => 'Desc. Questions', 'uri' => 'descQuestions/list'),
+      array('title' => 'Settings', 'uri' => 'settings/list'),
+      array('title' => 'Clear Global Cache', 'uri' => 'system/clearGlobalCache'),
+    );
+  }
+
+  protected function getGeoSubmenu()
+  {
+    return array(
+      array('title' => 'Recent sign up cities w/out coord.', 'uri' => 'geo/citiesWithoutCoordinates'),
+      array('title' => 'Empty Countries', 'uri' => 'geo/emptyCountries'),
+      array('title' => 'Empty Admin1\'s', 'uri' => 'geo/emptyAdm1'),
+      array('title' => 'Empty Admin2\'s', 'uri' => 'geo/emptyAdm2'),
+    );
+  }
+
+  protected function getUsersSubmenu()
+  {
+    return array(
+      array('title' => 'Users', 'uri' => 'users/list'),
+    );
+  }
+
+  protected function getImbraSubmenu()
+  {
+    $c4 = new Criteria();
+    $c4->add(MemberPeer::IMBRA_PAYMENT, 'completed');
+    $c4->addJoin(MemberImbraPeer::MEMBER_ID, MemberPeer::ID);
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
+    $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
+    
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
+    $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
+    
+    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
+    $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
+
+    return array(
+      array('title' => 'Pending (' . $imbra_cnt_pending . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
+      array('title' => 'Approved (' . $imbra_cnt_approved . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),
+      array('title' => 'Denied (' . $imbra_cnt_denied . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'),
+      array('title' => 'Reply Templates', 'uri' => 'imbraReplyTemplates/list'),
+    );
+  }
+
+  protected function getReportsSubmenu()
+  {
+    return array(
+      array('title' => 'Daily Sales', 'uri' => 'reports/dailySales'),
+      array('title' => 'Member Activity', 'uri' => 'reports/memberActivity'),
+      array('title' => 'Active Members', 'uri' => 'reports/activeMembers'),
+      array('title' => 'Flags/ Suspensions', 'uri' => 'reports/flagsSuspensions'),
+      array('title' => 'IMBRA', 'uri' => 'reports/imbra'),
+      array('title' => 'Registration', 'uri' => 'reports/registration'),
+      array('title' => 'Outgoing Emails', 'uri' => 'reports/outgoingEmails'),
+    );
+  }
+
+  protected function getFeedbackSubmenu()
+  {
+    $c = new Criteria();
+    //$c->add(FeedbackPeer::IS_READ, false);
+    $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
+    $feedback_cnt_all = FeedbackPeer::doCount($c);
+    
+    $c1 = clone $c;
+    $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
+    $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
+    $c1->add(MemberPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
+    $feedback_cnt_paid = FeedbackPeer::doCount($c1);
+
+    $c2 = clone $c;
+    $c2->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNULL);
+    $feedback_cnt_external = FeedbackPeer::doCount($c2);
+
+    $c3 = clone $c;
+    $c3->add(FeedbackPeer::MAIL_TO, FeedbackPeer::BUGS_SUGGESIONS_ADDRESS);
+    $feedback_cnt_bugs = FeedbackPeer::doCount($c3);
+
+    return array(
+      array('title' => 'All Messages (' . $feedback_cnt_all . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1'),
+      array('title' => 'From Paid Members (' . $feedback_cnt_paid . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[paid]=1'),
+      array('title' => 'Reported Bug/Ideas (' . $feedback_cnt_bugs . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[bugs]=1'),
+      array('title' => 'External Messages (' . $feedback_cnt_external . ')', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=1&filters[external]=1'),
+      array('title' => 'Sent', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=2'),
+      array('title' => 'Drafts', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=3'),
+      array('title' => 'Trash', 'uri' => 'feedback/list?filter=filter&filters[mailbox]=4'),
+      array('title' => 'Templates', 'uri' => 'feedbackTemplates/'),
+      array('title' => 'All Outgoing Emails', 'uri' => 'feedback/outgoingMailList'),
+    );
+  }
+
+  protected function getMessagesSubmenu()
+  {
+    return array(
+      array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
+      array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
+    );
+  }
+
+  protected function getFlagsSubmenu()
+  {
+    return array(
+      array('title' => 'New Susp. by Flagging', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=0'),
+      array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
+      array('title' => 'Flags', 'uri' => 'flags/list?filter=filter&filters[history]=0'),
+      array('title' => 'Flaggers', 'uri' => 'flags/flaggers'),
+      array('title' => 'Flag Rules', 'uri' => 'flagCategories/edit'),
+      array('title' => 'Flag History', 'uri' => 'flags/list?filter=filter&filters[history]=1'),
+    );
+  }
+
+  protected function getIpwatchSubmenu()
+  {
+    return array(
+      array('title' => 'IP vs. Residence', 'uri' => 'ipwatch/residence'),
+      array('title' => 'IP Duplicates', 'uri' => 'ipwatch/duplicates'),
+      array('title' => 'IP Blacklisted', 'uri' => 'ipwatch/blacklisted'),
+      array('title' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'),
+      array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
+    );
+  }
+
+  public function getImbraReplyTemplates()
+  {
+    return $this->getImbraSubmenu();
+  }
+
+  public function getCatalogueSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getTransUnitsSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getStaticPagesSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getMemberStoriesSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getStatesSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getNotificationsSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getDescQuestionsSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getDescAnswersSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getSettingsSubmenu()
+  {
+    return $this->getContentSubmenu();
+  }
+
+  public function getFeedbackTemplatesSubmenu()
+  {
+    return $this->getFeedbackSubmenu();
+  }
+
+  public function getFlagCategoriesSubmenu()
+  {
+    return $this->getFlagsSubmenu();
+  }
+
+  public function getPredefinedMessagesSubmenu()
+  {
+    return $this->getMessagesSubmenu();
+  }
+
   public function executeBreadcrumb()
   {
   }
@@ -219,7 +259,10 @@ class systemComponents extends sfComponents
   
   public function executeMessages()
   {
-  
+    return array(
+      array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
+      array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
+    );
   }
   
   public function executeMembersSidebar()
@@ -235,27 +278,12 @@ class systemComponents extends sfComponents
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
     $this->languages = array('en', 'pl', 'ar', 'zh', 'fr', 'de', 'he', 'it', 'pt', 'ru', 'es', 'sv', 'tr');
     
-    
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
   }
 
-  /*
-  public function executeMessagesSidebar()
-  {
-    $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
-
-    $this->menu = array(array('title' => 'Messages', 'uri' => 'messages/list?filter=filter'),
-                        array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
-    );
-    
-    $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/messages/filters');
-
-  }
-  */
   public function executePhotosSidebar()
   {
-
-    $this->menu = $full_menu = array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
+    $this->menu = array(array('title'  => 'Most Recent', 'uri' => 'photos/list?sort=Member::last_photo_upload_at&type=desc&filter=filter'),
                                             array('title'   => 'Pending Verification', 'uri' => 'photos/list?filter=filter&filters[pending_verification]=1&sort=no'),
                                             array('title'   => 'Male', 'uri' => 'photos/list?filter=filter&filters[sex]=M&sort=no'),
                                             array('title'   => 'Female', 'uri' => 'photos/list?filter=filter&filters[sex]=F&sort=no'),
@@ -269,15 +297,10 @@ class systemComponents extends sfComponents
                                             array('title'   => 'All', 'uri' => 'photos/list?filter=filter&sort=no'),
                                            );
 
-
     $c = new Criteria();
     $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
     $this->catalogues = array_merge(array('All'), CataloguePeer::doSelect($c));
-
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
-    
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/photos/filters');
   }
-
 }
-?>
