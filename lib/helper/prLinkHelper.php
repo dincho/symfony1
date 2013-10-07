@@ -128,8 +128,8 @@ function js_for_activity($activity, $user)
     {
         if (!$activity->getActionId())
         {
-            $text =  __('"You have deleted your conversation with %username%."', array('%username%' => $user));
-            $jsVar = 'if(event.preventDefault) event.preventDefault(); else event.returnValue = false;RA_balloon.showTooltip(event, '.$text.', 0, 250);';
+            $text =  __('You have deleted your conversation with %username%.', array('%username%' => $user));
+            $jsVar = 'if(event.preventDefault) event.preventDefault(); else event.returnValue = false;RA_balloon.showTooltip(event, "'.$text.'", 0, 250);';
         }
     }
     return $jsVar;
