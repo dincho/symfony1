@@ -1,5 +1,5 @@
 <?php $remote_options = array('url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
-                            'with'      => "'content=' + escape(\$F('your_story')) + '&subject=' + escape(\$F('title'))",
+                            'with'      => "'content=' + encodeURIComponent(\$F('your_story')) + '&subject=' + encodeURIComponent(\$F('title'))",
                             'update'    => 'feedback',
                             'complete'  => 'save_complete(); ',
                             'condition' => 'save_condition',
