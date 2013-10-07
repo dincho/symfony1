@@ -213,13 +213,29 @@
         </div>
     </div>
     <br />
-    <?php echo link_to_remote( ( $grant_private_photos_perm ) ? __('Revoke private photos view permissions', array('%USERNAME%' => $member->getUsername())) : __('Grant private photos view permissions', array('%USERNAME%' => $member->getUsername())), array(
-                                    'url' => '@toggle_private_photos_perm?toggle_link=1&username=' . $member->getUsername(),
-                                    'update' => array('success' => 'msg_container'),
-                                    'script' => true, 
-                            ), array('id' => 'photo_perm_link', 'class' => 'sec_link', )); ?><br /><br />
+    <?php echo link_to_remote(
+        ($grant_private_photos_perm) ?
+            __(
+                'Revoke private photos view permissions',
+                array('%USERNAME%' => $member->getUsername())
+            ) :
+            __(
+                'Grant private photos view permissions',
+                array('%USERNAME%' => $member->getUsername())
+            ),
+        array(
+            'url' => '@toggle_private_photos_perm?toggle_link=1&username=' . $member->getUsername(),
+            'update' => array('success' => 'msg_container'),
+            'script' => true,
+        ),
+        array(
+            'id' => 'photo_perm_link',
+            'class' => 'sec_link' . ($grant_private_photos_perm ? ' red' : ''
+            )
+        )
+    ); ?><br/><br/>
 
-      <ul id="currentRatingStars" class="rating star<?php echo $rate; ?>">
+    <ul id="currentRatingStars" class="rating star<?php echo $rate; ?>">
       <li class="one">
         <?php echo link_to_remote('1',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=1',
