@@ -74,6 +74,7 @@
           <th><?php echo sortable_title('DSG', 'Geo::dsg', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Lat', 'Geo::latitude', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Long', 'Geo::longitude', $sort_namespace) ?></th>
+          <th><?php echo sortable_title('Pop', 'Geo::population', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Timezone', 'Geo::timezone', $sort_namespace) ?></th>
           <th><?php echo sortable_title('Details', 'Geo::geo_details_id', $sort_namespace) ?></th>
         </tr>
@@ -92,6 +93,7 @@
             <td><?php echo $geo->getDsg() ?></td>
             <td><?php echo $geo->getLatitude() ?></td>
             <td><?php echo $geo->getLongitude() ?></td>
+            <td><?php echo $geo->getPopulation() ?></td>
             <td><?php echo $geo->getTimezone(); ?></td>
             <td class="skip"><?php echo link_to('edit', 'geo/editDetails?cat_id=1&id=' . $geo->getId()); ?></td>
           </tr>
