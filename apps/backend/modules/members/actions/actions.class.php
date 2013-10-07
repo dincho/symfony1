@@ -762,6 +762,11 @@ class membersActions extends prActions
     {
         $bc = $this->getUser()->getBC();
         
+        if (isset($this->filters['cat_id']) && $this->filters['cat_id'] > 0)
+        {
+            $c->add(MemberPeer::CATALOG_ID, $this->filters['cat_id']);
+        }
+        
         if (isset($this->filters['sex']))
         {
             foreach($this->filters['sex'] as $orientation)
