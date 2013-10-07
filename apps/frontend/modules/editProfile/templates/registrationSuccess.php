@@ -11,6 +11,7 @@
     <fieldset>
         <?php echo pr_label_for('email', __('Your email address') . '<span style="color:red;">*</span>') ?>
         <?php echo object_input_tag($member, 'getEmail') ?><br />
+        <?php echo input_password_tag('prevent_autofill', null, array('style' => "display:none")) ?>
         
         <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('password') ?><br />
