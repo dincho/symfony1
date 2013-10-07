@@ -994,6 +994,7 @@ span.online-assistant {
     background-color: #000;
     border-top: 1px solid #4F4F4F;
     padding: 10px;
+    position: relative;
 }
 
 #dashboard-container div.bottom span {
@@ -1005,7 +1006,7 @@ span.online-assistant {
 #dashboard-container div.bottom div.photo {
     text-align: center;
     margin: 5px 2px;
-    width: 96px;
+    width: 93px;
     float: left;
 }
 
@@ -1013,21 +1014,33 @@ span.online-assistant {
     margin-bottom: 0;
 }
 
-#dashboard-container div.bottom .prev span{
-    visibility: hidden;
-}
-
-#dashboard-container div.bottom .next span{
-    visibility: hidden;
-}
-
 #dashboard-container div.bottom .prev{
     float: left;
-    margin-top: 43px;
+    height: 137px;
+    width: 37px;
+    position: absolute;
 }
+
 #dashboard-container div.bottom .next{
     float: right;
-    margin-top: 43px;
+    height: 137px;
+    position: absolute;
+    width: 37px;
+    right: 0;
+}
+
+#dashboard-container div.bottom .prev a,
+#dashboard-container div.bottom .next a
+{
+    display: block;
+    height: 100%;
+}
+
+#dashboard-container div.bottom .prev img,
+#dashboard-container div.bottom .next img
+{
+    margin-top: 46px;
+    border: none;
 }
 
 #dashboard-container .prev a:hover img{
