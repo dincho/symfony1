@@ -73,7 +73,7 @@ function link_for_extra_activity_field($activity, $member)
     
     switch ($activity->getActivity()) {
         case 'mailed':
-                return link_to(__('see all'), 'messages/index', array('class' => 'sec_link') );
+                return link_to(__('see all'), 'messages/index', array('class' => 'sec_link', 'onclick' => js_for_activity($activity, $member->getUsername())));
             break;        
             
             case 'winked':
@@ -119,4 +119,18 @@ function link_for_extra_activity_field($activity, $member)
     }
     
     return null;
+}
+
+function js_for_activity($activity, $user)
+{
+    $jsVar = '';
+    if ($activity->getActivity() == 'mailed')
+    {
+        if (!$activity->getActionId())
+        {
+            $text =  __('"You have deleted your conversation with %username%."', array('%username%' => $user));
+            $jsVar = 'if(event.preventDefault) event.preventDefault(); else event.returnValue = false;RA_balloon.showTooltip(event, '.$text.', 0, 250);';
+        }
+    }
+    return $jsVar;
 }
