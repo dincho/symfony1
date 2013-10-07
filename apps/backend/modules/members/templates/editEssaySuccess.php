@@ -19,7 +19,7 @@
     
   <fieldset class="form_fields">
     <label for="essay_headline">Headline</label>
-    <?php echo object_input_tag($member, 'getEssayHeadline') ?><br />
+    <?php echo object_input_tag($member, 'getEssayHeadline', array('maxlength' => 40)) ?><br />
     
     <label for="essay_introduction">Introduction</label>
     <?php echo object_textarea_tag($member, 'getEssayIntroduction', array('rows' => 10, 'cols' => 80)) ?><br />  
