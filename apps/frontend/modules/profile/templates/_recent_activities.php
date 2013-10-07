@@ -15,15 +15,15 @@
         <?php foreach ($recent_activities as $activity): ?>
             <?php $user = ($activity->getMemberId() == $member->getId() ) ? $member->getUsername() : __('You'); ?>
             <tr>
-                <td><?php echo link_to($user, url_for_activity($activity), array('class' => 'sec_link')); ?></td>
-                <td><?php echo link_to(__($activity->getActivity()), url_for_activity($activity), array('class' => 'sec_link')); ?></td>
-                <td><?php echo link_to(format_date_pr($activity->getDtime(), null, null, $sf_user->getProfile()->getTimezone()), url_for_activity($activity), 'class=sec_link') ?></td>
+                <td><?php echo link_to($user, url_for_activity($activity), array('class' => 'sec_link', 'onclick' => js_for_activity($activity, $member->getUsername()))); ?></td>
+                <td><?php echo link_to(__($activity->getActivity()), url_for_activity($activity), array('class' => 'sec_link','onclick' => js_for_activity($activity, $member->getUsername()))); ?></td>
+                <td><?php echo link_to(format_date_pr($activity->getDtime(), null, null, $sf_user->getProfile()->getTimezone()), url_for_activity($activity), array('class'=>'sec_link', 'onclick' => js_for_activity($activity, $member->getUsername()))) ?></td>
                 <td><?php echo link_for_extra_activity_field($activity, $member); ?></td>
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
     <tr>
-        <td colspan="3" class="color-gray"><?php echo __('You don\'t have any activities with %username% yet.', array('%username%' => $member->getUsername())) ?></th>
+        <td colspan="3" class="color-gray"><?php echo __('You don\'t have any activities with %username% yet.', array('%username%' => $member->getUsername())) ?></td>
     </tr>
     <?php endif; ?>
 </table>
