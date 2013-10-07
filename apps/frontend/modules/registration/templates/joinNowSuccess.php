@@ -8,7 +8,6 @@
 <?php echo __('JoinNow instructions') ?>
 <?php echo form_tag('registration/joinNow', array('id' => 'registration_box_complete_page', 'autocomplete' => 'off')) ?>
 
-
     <fieldset>
         <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
