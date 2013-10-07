@@ -18,7 +18,7 @@ var subject_field = null;
 
 function init_predefined_messages()
 {
-    predefined_messages = <?php echo $js_options; ?>;
+    predefined_messages = <?php echo $sf_data->get('js_options', ESC_RAW); ?>;
     body_field = $('<?php echo $body_field_id; ?>');
     subject_field = $('<?php echo $subject_field_id; ?>');
 }
