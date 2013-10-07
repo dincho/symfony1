@@ -2673,11 +2673,11 @@ div.best_video div.right img {
 
 #profile_right #photo_perm_link {
     font-size: 11px;
-    color: limegreen;
+    color: #61D76C;
 }
 
 #profile_right #photo_perm_link.red {
-    color: red;
+    color: #ff0000;
 }
 
 #profile_double_box {
