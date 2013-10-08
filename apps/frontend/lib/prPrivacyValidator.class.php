@@ -50,6 +50,12 @@ class prPrivacyValidator extends sfValidator
                return false;
            }
        }
+
+       if ( $this->getParameter('check_blocked') && $this->sender->hasBlockFor($this->receiver->getId()) )
+       {
+           $error = $this->getParameter('blocked_error');
+           return false;
+       }
                     
         return true;
     }
@@ -64,12 +70,14 @@ class prPrivacyValidator extends sfValidator
         $this->setParameter('check_onlyfull', true);
         $this->setParameter('check_open_privacy', true);
         $this->setParameter('check_catalog', true);
+        $this->setParameter('check_blocked', true);
         
         $this->setParameter('block_error', 'This member has blocked you');
         $this->setParameter('sex_error', 'Due to privacy restrictions you cannot interact with this profile');
         $this->setParameter('onlyfull_error', 'Due to privacy restrictions you cannot interact with this profile');
         $this->setParameter('open_privacy_error', 'Due to privacy restrictions you cannot interact with this profile');
         $this->setParameter('catalog_error', 'Due to privacy restrictions you cannot interact with this profile - catalog');
+        $this->setParameter('blocked_error', 'You have blocked profile and cannot interact with it.');
         
         // Set parameters
         $this->getParameterHolder ()->add($parameters);
