@@ -4,6 +4,7 @@
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler?member_id=' . $member->getId()); ?>';
     var photo_crop_url = '<?php echo url_for('editProfile/cropPhoto?member_id=' . $member->getId()); ?>';
+    var photo_rotate_url = '<?php echo url_for('editProfile/rotatePhoto?member_id=' . $member->getId()); ?>';
 </script>
 
 <?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername(), 'class=float-right') ?>
@@ -120,6 +121,14 @@
         photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
         new Ajax.Updater(photo_container, photo_crop_url, {asynchronous:true, evalScripts:true, parameters:params});
         remove_crop_area();
+    }
+
+    function rotate(photo_id, deg)
+    {
+        var params = 'deg=' + deg + '&photo_id=' + photo_id;
+        var photo_container = $('photo_' + photo_id).parentNode;
+        photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
+        new Ajax.Updater(photo_container, photo_rotate_url, {asynchronous:true, evalScripts:true, parameters:params});
     }
     
     Event.observe(window, 'load', function() {
