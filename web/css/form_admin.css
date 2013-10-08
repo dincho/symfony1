@@ -46,7 +46,7 @@
 
 .form_fields textarea {
   float: left;
-  margin-bottom: 5px;
+  margin: 0 5px 5px 0;
   font-size: 13px;
   font-family: Ariel, Helvetica, sans-serif;
 }
