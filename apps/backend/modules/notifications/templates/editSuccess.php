@@ -21,13 +21,16 @@
       <var><?php echo $notification->getCatalogue(); ?></var><br />
       
       <label for="name">Name:</label>
-      <?php echo object_input_tag($notification, 'getName', error_class('name')) ?><br />
+      <?php echo object_input_tag($notification, 'getName', array('class' => 'wide ' . error_class('name', 
+              true))) ?><br />
 
       <label for="send_from">Send from address:</label>
-      <?php echo object_input_tag($notification, 'getSendFrom', error_class('send_from')) ?>
+      <?php echo object_input_tag($notification, 'getSendFrom', array('class' => 'wide ' . error_class('send_from',
+              true))) ?>
       
       <label for="mail_config">Mail Config:</label>
-      <?php echo select_tag('mail_config', options_for_select($mail_options, $notification->getMailConfig())); ?>
+      <?php echo select_tag('mail_config', options_for_select($mail_options, $notification->getMailConfig()), 
+                                        array('class' => 'wide ' . error_class('mail_config', true))); ?>
       <br />
       
       <?php if( $notification->getToAdmins() ): ?>
@@ -36,10 +39,12 @@
       <?php endif; ?>
       
       <label for="bcc">Bcc:</label>
-      <?php echo object_input_tag($notification, 'getBcc', error_class('bcc')) ?><br />
+      <?php echo object_input_tag($notification, 'getBcc', array('class' => 'wide ' . error_class('bcc',
+              true))) ?><br />
       
       <label for="subject">Subject:</label>
-      <?php echo object_input_tag($notification, 'getSubject', error_class('subject')) ?><br />
+      <?php echo object_input_tag($notification, 'getSubject', array('class' => 'wide ' . error_class('subject',
+              true))) ?><br />
       
       <hr />
           
