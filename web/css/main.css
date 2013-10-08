@@ -3070,6 +3070,23 @@ button, .button, form .button {
     margin-top: 5px !important;
 }
 
+
+#self_desc_form  .button:hover, 
+				.button:hover 
+{
+	background: #00CCFF;
+}
+
+.button_save_and_cont:hover{
+	background: #00CCFF !important;
+}
+
+
+#self_desc_form .button_disabled:hover{
+	background: #363639;
+}
+
+
 form .button_disabled {
     height: 28px !important;
     width: auto !important;
