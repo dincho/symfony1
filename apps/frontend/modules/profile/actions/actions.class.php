@@ -159,14 +159,21 @@ class profileActions extends prActions
                     $unread_c->add(MessagePeer::SENDER_ID, $this->member->getId());
                     $c = $this->getUser()->getProfile()->getUnreadMessagesCriteria($unread_c);
                     $unread_msg_cnt = MessagePeer::doCount($c);
+                    $msgThread = ThreadPeer::getOldThread($this->getUser()->getProfile(), $this->member);
+                    
                     if( $unread_msg_cnt > 0 )
                     {
                       $msg = __('You have %CNT_UNREAD% unread message(s) from %USERNAME%', 
-                                          array('%USERNAME%' => $this->member->getUsername(), '%CNT_UNREAD%' => $unread_msg_cnt));
+                                          array(
+                                              '%USERNAME%' => $this->member->getUsername(),
+                                              '%CNT_UNREAD%' => $unread_msg_cnt,
+                                              '%THREAD_URL%' => $this->getController()->genUrl('messages/thread?id=' . $msgThread->getId(), true)
+                                             
+                                          ));
                       $this->setFlash('msg_ok', $msg, false);
                     }
                     
-                    $this->messageThread = ThreadPeer::getOldThread($this->getUser()->getProfile(), $this->member);
+                    $this->messageThread = $msgThread;
                     
                 } else {
                     $this->setTemplate('unavailableProfile');
