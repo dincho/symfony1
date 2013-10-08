@@ -80,7 +80,7 @@
                         <?php if( is_null($member_answer->getOther()) ): ?>
                             <?php foreach ($member_answer->getOtherLangs() as $lang_answer): ?>
                                 <?php if( $lang_answer['lang'] ): ?>
-                                        <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level']) ?>)</dd>
+                                        <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level'] ? $lang_answer['level'] : 3) //default to basic (id: 3) ?>)</dd>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         <?php else: ?>
