@@ -37,6 +37,10 @@ class geoActions extends sfActions
         $pager->init();
         $this->pager = $pager;
 
+        if ($this->getRequestParameter('page', 1) == 1) {
+            $this->getUser()->setAttribute('criteria', $c, 'backend/geo/pager');
+        }
+
         //var_dump($this->filters);
         $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->filters['country']);
@@ -398,6 +402,10 @@ class geoActions extends sfActions
             $redir = ( $this->getRequest()->hasParameter('ret_uri') ) ? base64_decode($this->getRequestParameter('ret_uri')) : 'geo/list';
             $this->redirect($redir);
         }
+
+        $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/geo/pager');
+        $this->pager = new GeoPager($pager_crit, $this->geo->getId());
+        $this->pager->init();
 
         $this->adm1s = GeoPeer::getAllByCountry($geo->getCountry());
         $this->adm2s = GeoPeer::getAllByAdm1Id($geo->getCountry(), $geo->getAdm1Id());

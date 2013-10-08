@@ -1,6 +1,15 @@
 <?php use_helper('Object', 'dtForm', 'Javascript') ?>
 <?php include_component('system', 'formErrors') ?>
 
+<?php if( $pager->hasResults() ): ?>
+    <div id="profile_pager">
+        <?php echo link_to_unless(is_null($pager->getPrevious()), '&lt;&lt;&nbsp;Previous', 'geo/edit?id=' . $pager->getPrevious(), array()) ?>
+        <?php echo link_to("Back to List", 'geo/list', array('class' => 'sec_link')) ?>
+        <?php echo link_to_unless(is_null($pager->getNext()), 'Next&nbsp;&gt;&gt;', 'geo/edit?id=' . $pager->getNext(), array()) ?>
+    </div>
+    <br />
+<?php endif; ?>
+
 <?php echo form_tag('geo/edit', 'class=form') ?>
     <?php echo object_input_hidden_tag($geo, 'getId', 'class=hidden') ?>
     <?php if( $sf_request->hasParameter('ret_uri') ): ?>
