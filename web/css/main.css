@@ -3071,8 +3071,14 @@ button, .button, form .button {
 }
 
 
-#self_desc_form  .button:hover, form .button:hover {
+#self_desc_form  .button:hover, 
+				.button:hover 
+{
 	background: #00CCFF;
+}
+
+.button_save_and_cont:hover{
+	background: #00CCFF !important;
 }
 
 
