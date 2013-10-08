@@ -40,7 +40,7 @@ class geoActions extends sfActions
         if ($this->getRequestParameter('page', 1) == 1) {
             $this->getUser()->setAttribute('criteria', $c, 'backend/geo/pager');
         }
-            
+
         //var_dump($this->filters);
         $this->countries = GeoPeer::getCountriesArray();
         $this->adm1s = GeoPeer::getAllByCountry($this->filters['country']);
@@ -403,13 +403,37 @@ class geoActions extends sfActions
             $this->redirect($redir);
         }
 
-        $this->adm1s = GeoPeer::getAllByCountry($geo->getCountry());
-        $this->adm2s = GeoPeer::getAllByAdm1Id($geo->getCountry(), $geo->getAdm1Id());
-        $this->geo = $geo;
-
         $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/geo/pager');
         $this->pager = new GeoPager($pager_crit, $this->geo->getId());
         $this->pager->init();
+
+        $this->adm1s = GeoPeer::getAllByCountry($geo->getCountry());
+        $this->adm2s = GeoPeer::getAllByAdm1Id($geo->getCountry(), $geo->getAdm1Id());
+        $this->geo = $geo;
+        $this->geo_string = $this->getGeoString($geo);
+    }
+
+    private function getGeoString(Geo $geo)
+    {
+        $geo_tree = array();
+        $c = new sfCultureInfo('en');
+        $countries = $c->getCountries();
+
+        if (isset($countries[$geo->getCountry()])) {
+            $geo_tree[] = $countries[$geo->getCountry()];
+        }
+        
+        if ($geo->getDsg() == 'PPL' && $geo->getAdm2Id()) {
+            $geo_tree[] = $geo->getAdm2();
+        } elseif ($geo->getDsg() == 'ADM2') {
+            $geo_tree[] = $geo->getAdm1();
+        }
+        
+        if ($geo->getDSG() != 'PCL') {
+            $geo_tree[] = $geo->getName();
+        }
+        
+        return implode(' ', array_reverse($geo_tree));
     }
     
     public function validateEdit()

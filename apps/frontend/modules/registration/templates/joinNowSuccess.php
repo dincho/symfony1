@@ -22,7 +22,7 @@
         <?php echo select_tag('looking_for', looking_for_options()) ?><br />
 
         <?php echo pr_label_for('username', __('Username') . '<span style="color:red;">*</span>'); ?>
-        <?php echo input_tag('username') ?>
+        <?php echo input_tag('username', null, array('maxlength' => 20)) ?>
         <div class="check_available">
         <?php echo button_to_remote(__('Check Availability'), array(
             'update' => 'ajax_response',
