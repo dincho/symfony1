@@ -606,6 +606,24 @@ class membersActions extends prActions
         $this->open_privacy_rows = OpenPrivacyPeer::doSelect($c);
     }    
 
+    public function executeEditNotifications()
+    {
+        $this->getUser()->getBC()->add(array('name' => 'Notifications', 'uri' => 'members/editNotifications?id=' . $this->member->getId()));
+        if ($this->getRequest()->getMethod() == sfRequest::POST)
+        {
+            $this->getUser()->checkPerm(array('members_edit'));
+            if ($this->getRequestParameter('email_notifications') == 'no')
+            {
+                $this->member->setEmailNotifications(NULL);
+            } else {
+                $this->member->setEmailNotifications($this->getRequestParameter('email_notifications', 0));
+            }
+            
+            $this->member->save();
+            $this->setFlash('msg_ok', 'Your changes have been saved');
+            $this->redirect('members/editNotifications?id=' . $this->member->getId());
+        }
+    }
 
     public function executeStar()
     {
