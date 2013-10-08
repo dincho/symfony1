@@ -1055,6 +1055,15 @@ span.online-assistant {
     width: 485px;
 }
 
+.messages .draft {
+    color: #e0b400;
+}
+
+.messages .message_count {
+    color: #73a7ff;
+    font-size: 11px;
+}
+
 #messages_form .unread_circle img {
     margin-top: 2px;
 }

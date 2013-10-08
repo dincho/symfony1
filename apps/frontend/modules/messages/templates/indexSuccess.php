@@ -64,14 +64,18 @@ jQuery(document).ready(function(){
             <td class="message_from">
                 <?php //var_dump($thread->object);exit(); ?>
                 <?php if( $thread->object ): ?>
-                    <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
+                    <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?>
+                    <?php if ($thread->getCntMessages() > 1): ?>
+                        <span class="message_count">(<?php echo $thread->getCntMessages(); ?>)</span>
+                    <?php endif; ?>
+                    <br />
                 <?php else: ?>
                     <?php echo __('Internal System'); ?><br />
                 <?php endif; ?>
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
+                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?><br />
                 <?php echo Tools::truncate($thread->getSnippet(), $received_messages_truncate_limit) ?>
             </td>
         </tr>
@@ -159,11 +163,16 @@ jQuery(document).ready(function(){
           
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' .$thread->object->getUsername()); ?></td>
             <td class="message_from">
-                <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?><br />
+                <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?>
+                <?php if ($thread->getCntMessages() > 1): ?>
+                    <span class="message_count">(<?php echo $thread->getCntMessages(); ?>)</span>
+                <?php endif; ?>
+                <br />
                 <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><br />
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
+                <br />
                 <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
             </td>
         </tr>

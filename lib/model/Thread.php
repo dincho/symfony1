@@ -9,6 +9,9 @@
  */ 
 class Thread extends BaseThread
 {
+    protected $cntMessages = 0;
+    protected $cntDrafts = 0;
+
     public function isRead()
     {
         return ($this->unread == 0);
@@ -23,6 +26,24 @@ class Thread extends BaseThread
         
         return $r+1;
     }
-    
-    
+
+    public function setCntMessages($cnt)
+    {
+        $this->cntMessages = $cnt;
+    }
+
+    public function getCntMessages()
+    {
+        return $this->cntMessages;
+    }
+
+    public function setCntDrafts($cnt)
+    {
+        $this->cntDrafts = $cnt;
+    }
+
+    public function getCntDrafts()
+    {
+        return $this->cntDrafts;
+    }
 }
