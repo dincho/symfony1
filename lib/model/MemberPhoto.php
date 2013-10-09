@@ -30,7 +30,29 @@ class MemberPhoto extends BaseMemberPhoto
     $this->save();
     $this->createThumbnails('cropped');
   }
-  
+    
+    public function updateRotatedImage($deg)
+    {
+        $originalPath = $this->getImagePath('file'); // location of image to be rotated
+    
+        $rotated = new sfThumbnail();
+        $rotated->loadFile($originalPath);
+        $rotated->rotate($deg);
+        $rotated->save($originalPath);
+        $this->save();
+        $this->createThumbnails('file');
+        
+        if($this->getCropped()) {
+            $originalPath = $this->getImagePath('cropped'); // location of image to be rotated
+            $rotated = new sfThumbnail();
+            $rotated->loadFile($originalPath);
+            $rotated->rotate($deg);
+            $rotated->save($originalPath);
+            $this->save();
+            $this->createThumbnails('cropped');
+        }
+    }
+    
   public function setAsMainPhoto($save_member = true)
   {
         if ( !$this->isMain() )

@@ -7,9 +7,13 @@
                                                                  'after'   => 'scroll(0,0)',
                                                                 ),
                                                            array('class' => 'button_mini delete_button')) ?>
+        <?php echo button_to_function('↶', 'rotate(' . $photo->getId() . ', 90)' ,
+            array('class' => 'button_mini delete_button')) ?>
+        <?php echo button_to_function('↷', 'rotate(' . $photo->getId() . ', -90)' ,
+            array('class' => 'button_mini delete_button')) ?>
     </div>                                
     <div class="img">
-        <?php echo image_tag( $photo->getImg('100x100') ) ?>
+        <?php echo image_tag( $photo->getImg('100x100') . '?' .rand() ) ?>
     </div>
 
     <?php echo draggable_element("photo_" . $photo->getId(), array(

@@ -459,4 +459,17 @@ class editProfileActions extends BaseEditProfileActions
         
         return sfView::SUCCESS;
     }
+
+    public function executeRotatePhoto()
+    {
+        sfLoader::loadHelpers(array('Partial'));
+
+        if ($this->getRequestParameter('photo_id') && $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id')))
+        {
+            $photo->updateRotatedImage($this->getRequestParameter('deg'));
+            return $this->renderText( get_partial('editProfile/photo_slot', array('photo' => $photo)) );
+        }
+
+        return sfView::NONE;
+    }
 }

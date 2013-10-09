@@ -59,7 +59,6 @@ Event.observe(
      {
         var arr = document.cookie.split(';');
         for(var i=0; i<arr.length; i++) {
-//        alert(arr[i]);
         	if (arr[i] == 'IsIe=1')
         	{
              document.cookie = 'IsIe=';
@@ -71,4 +70,15 @@ Event.observe(
      }
   }
 );
+</script>
+
+<script type="text/javascript" charset="utf-8">
+    var photo_rotate_url = '<?php echo url_for('editProfile/rotatePhoto?member_id=' . $member->getId()); ?>';
+    function rotate(photo_id, deg)
+    {
+        var params = 'deg=' + deg + '&photo_id=' + photo_id;
+        var photo_container = $('photo_' + photo_id).parentNode;
+        photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
+        new Ajax.Updater(photo_container, photo_rotate_url, {asynchronous:true, evalScripts:true, parameters:params});
+    }
 </script>
