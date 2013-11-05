@@ -1,4 +1,4 @@
-<?php use_helper('I18N'); ?>
+<?php use_helper('I18N', 'Object'); ?>
 
 <?php echo form_tag('members/list', array('method' => 'get'));?>
 <?php echo input_hidden_tag('filter', 'filter'); ?>
@@ -7,7 +7,8 @@
     <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
     <li>Catalog:</li>
     <li>
-        <?php echo select_tag('filters[cat_id]', options_for_select($catalogues, isset($filters['cat_id']) ? $filters['cat_id'] : null)); ?>
+        <?php echo select_tag('filters[cat_id]', objects_for_select($catalogues, 'getCatId', '__toString',
+                isset($filters['cat_id']) ? $filters['cat_id'] : null, array('include_custom' => 'All'))); ?>
     </li> 
     <li>Stared:</li>
     <?php foreach($starred_array as $key => $value): ?>
