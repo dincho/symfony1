@@ -1317,7 +1317,7 @@ span {
     float: right;
     width: 352px;
     padding: 15px 0 0 15px;
-    height: 217px;
+    height: 237px;
     background-color: #3d3d3d;
     margin-bottom: 10px;
     margin-top: 1px;
@@ -1365,7 +1365,7 @@ span {
 
 #essay #intro textarea {
     float: left;
-    height: 230px;
+    height: 248px;
     min-height: 230px;
     max-height: 65em;
 }

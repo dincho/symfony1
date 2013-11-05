@@ -26,6 +26,7 @@ class registrationActions extends BaseEditProfileActions
     }    
   
     /* Step 1 - the sign up .. */
+
     public function executeJoinNow()
     {
         if( $this->getUser()->isAuthenticated() )
@@ -98,6 +99,7 @@ class registrationActions extends BaseEditProfileActions
     }
     
     /* Step 2 - email confirmation */
+
     public function executeActivate()
     {
         $this->setLayout('simple');
@@ -130,6 +132,7 @@ class registrationActions extends BaseEditProfileActions
     }
 
     /* Step 3 - registration coutry, zip, names .. */
+
     public function executeIndex()
     {
         $this->setLayout('simple');
@@ -224,7 +227,6 @@ class registrationActions extends BaseEditProfileActions
         
         return $return;
     }
-    
     
     public function handleErrorIndex()
     {
@@ -493,6 +495,19 @@ class registrationActions extends BaseEditProfileActions
     {
         $this->setMember();
         return parent::validateUploadPhoto();
-    }    
+    }
 
+    public function executeRotatePhoto()
+    {
+        sfLoader::loadHelpers(array('Partial'));
+
+        if ($this->getRequestParameter('photo_id') 
+            && $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id')))
+        {
+            $photo->updateRotatedImage($this->getRequestParameter('deg'));
+            return $this->renderText( get_partial('editProfile/photo_slot', array('photo' => $photo)) );
+        }
+
+        return sfView::NONE;
+    }
 }
