@@ -404,7 +404,7 @@ class geoActions extends sfActions
         }
 
         $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/geo/pager');
-        $this->pager = new GeoPager($pager_crit, $this->geo->getId());
+        $this->pager = new GeoPager($pager_crit, $geo->getId());
         $this->pager->init();
 
         $this->adm1s = GeoPeer::getAllByCountry($geo->getCountry());
