@@ -113,7 +113,7 @@ web_email:
     param: { module: content, action: emails, sf_culture: en  }
 
 dashboard:
-    url:   /:sf_culture/dashboard/*
+    url:   /:sf_culture/dashboard
     param: { module: dashboard, action: index, sf_culture: en  }
                     
 matches:

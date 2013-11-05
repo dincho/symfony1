@@ -116,13 +116,9 @@ class dashboardActions extends prActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->addGroupByColumn(ProfileViewPeer::PROFILE_ID);
         $c->addDescendingOrderByColumn(ProfileViewPeer::UPDATED_AT);
-        $pager = new sfPropelPager('Member', 7);
-        $pager->setCriteria($c);
-        $pager->setPage($this->getRequestParameter('page', 1));
-        $pager->setPeerMethod('doSelectJoinMemberPhoto');
-        $pager->setPeerCountMethod('doCountJoinMemberPhoto');
-        $pager->init();
-        $this->recent_visits_pager = $pager;
+        $c->setLimit(7);
+        
+        $this->recent_visits = MemberPeer::doSelectJoinMemberPhoto($c);
         
         $prefix = $this->member->getSex().'_'.$this->member->getLookingFor().' ';
         

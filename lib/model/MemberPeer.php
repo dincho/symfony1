@@ -265,32 +265,6 @@ class MemberPeer extends BaseMemberPeer
         }
     }
 
-    public static function doCountJoinMemberPhoto(Criteria $criteria, $distinct = false, $con = null)
-    {
-        $criteria = clone $criteria;
-
-        $criteria->clearSelectColumns()->clearOrderByColumns();
-        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->addSelectColumn(MemberPeer::COUNT_DISTINCT);
-        } else {
-            $criteria->addSelectColumn(MemberPeer::COUNT);
-        }
-
-        foreach($criteria->getGroupByColumns() as $column)
-        {
-            $criteria->addSelectColumn($column);
-        }
-
-        $criteria->addJoin(MemberPeer::MAIN_PHOTO_ID, MemberPhotoPeer::ID, Criteria::LEFT_JOIN);
-
-        $rs = MemberPeer::doSelectRS($criteria, $con);
-        if ($rs->next()) {
-            return $rs->getInt(1);
-        } else {
-            return 0;
-        }
-    }
-
     public static function doSelectJoinMemberPhoto(Criteria $c, $con = null)
     {
         $c = clone $c;
