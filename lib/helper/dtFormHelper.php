@@ -121,7 +121,6 @@ function looking_for_options_admin($sex, $lookingfor, $html_options = array())
 
 function pr_select_country_tag($name, $selected = null, $options = array())
 {
-    //$countries = Tools::getSfCountries();
     $countries = GeoPeer::getCountriesArray();
     
     if ($country_option = _get_option($options, 'countries'))
@@ -134,8 +133,10 @@ function pr_select_country_tag($name, $selected = null, $options = array())
             }        
         }
     }
+
+    $user = sfContext::getInstance()->getUser();
+    collator_asort(collator_create($user->getLocale()), $countries);
     
-    asort($countries);
     $new_countries = array();
     
     $last_char = '';
@@ -172,8 +173,9 @@ function pr_select_language_tag($name, $selected = null, $options = array())
     unset($options['include_blank'], $options['include_custom']);
     $enabled_languages = array("ab", "ace", "ach", "ada", "ady", "aa", "af", "ak", "sq", "ale", "alg", "am", "ar", "an", "arc", "arn", "hy", "as", "ast", "av", "awa", "ay", "az", "ban", "bal", "bm", "bad", "bas", "ba", "eu", "btk", "bej", "be", "bem", "bn", "ber", "bho", "bik", "bin", "bi", "bs", "br", "bug", "bg", "bua", "my", "ca", "ceb", "ch", "ce", "chr", "zh", "cho", "chk", "cv", "cop", "kw", "co", "cr", "crh", "hr", "cs", "da", "dar", "din", "dv", "doi", "dua", "nl", "dyu", "dz", "efi", "en", "myv", "eo", "et", "ee", "ewo", "fan", "fat", "fo", "fj", "fi", "fon", "fr", "fy", "fur", "ff", "gaa", "gl", "lg", "gay", "gba", "ka", "de", "gil", "gon", "gor", "el", "gn", "gu", "ht", "ha", "haw", "he", "hz", "hil", "him", "hi", "ho", "hmn", "hu", "iba", "is", "ig", "ijo", "ilo", "id", "inh", "iu", "ik", "ga", "it", "ja", "jv", "jrb", "jpr", "kbd", "kab", "kac", "kl", "xal", "kam", "kn", "kr", "kaa", "krc", "kar", "ks", "csb", "kk", "kha", "km", "ki", "kmb", "rw", "ky", "kv", "kg", "kok", "ko", "kpe", "kj", "kum", "ku", "kru", "lad", "lah", "lam", "lo", "la", "lv", "lez", "li", "ln", "lt", "nds", "dsb", "loz", "lu", "lua", "lun", "luo", "lus", "lb", "mk", "mad", "mag", "mai", "mak", "mg", "ms", "ml", "mt", "mnc", "mni", "gv", "mi", "mr", "chm", "mh", "mwr", "mas", "myn", "men", "min", "mdf", "mo", "lol", "mn", "mos", "nah", "na", "nv", "nd", "nr", "ng", "nap", "ne", "new", "nia", "nog", "se", "no", "nb", "nn", "nym", "ny", "nyn", "nyo", "nzi", "oc", "oj", "or", "om", "os", "pau", "pam", "pag", "pap", "ps", "fa", "pl", "pt", "pa", "qu", "raj", "rar", "roa", "ro", "rom", "rn", "ru", "sm", "sg", "sa", "sat", "sc", "sas", "sco", "gd", "sr", "srr", "shn", "sn", "ii", "sid", "sd", "si", "sk", "sl", "so", "son", "snk", "nso", "st", "sma", "es", "suk", "su", "sus", "sw", "ss", "sv", "syr", "tl", "ty", "tg", "tmh", "ta", "tt", "te", "tet", "th", "bo", "tig", "ti", "tem", "tiv", "tpi", "tkl", "tog", "to", "ts", "tn", "tum", "tr", "tk", "tvl", "tyv", "tw", "udm", "ug", "uk", "umb", "hsb", "ur", "uz", "vai", "ve", "vi", "wal", "wa", "war", "cy", "wo", "xh", "sah", "yao", "yi", "yo", "znd", "za", "zu");
     
-    //$c = new sfCultureInfo('en'); //other language list than english are not full
-    $c = new sfCultureInfo(sfContext::getInstance()->getUser()->getCulture());
+    $user = sfContext::getInstance()->getUser();
+    
+    $c = new sfCultureInfo($user->getCulture());
     $languages = $c->getLanguages();
     
     foreach ($languages as $key => $value)
@@ -183,8 +185,9 @@ function pr_select_language_tag($name, $selected = null, $options = array())
             unset($languages[$key]);
         }
     }
+
+    collator_asort(collator_create($user->getLocale()), $languages);
     
-    asort($languages);
     $new_languages = array();
     
     foreach ($languages as $key => $value)
@@ -522,7 +525,7 @@ function format_purpose($purpose_key, $orientation_key)
 }
 
 
-function _purpose_array($orientation_key)
+function _purpose_array($orientation_key = null)
 {
     $options = MemberPeer::$purposes;
     
