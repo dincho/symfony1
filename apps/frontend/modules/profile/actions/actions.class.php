@@ -202,7 +202,7 @@ class profileActions extends prActions
                 }
                 $this->show_request_warning = 
                   ($this->getUser()->getProfile()->getNumberOfTodaysPrivatePhotoRequest() >=  
-                    sfConfig::get('app_settings_private_photo_requests'))?true:false;
+                    sfConfig::get('app_settings_private_photo_requests', 5))?true:false;
 
                 $this->request_warning =__('You already have %REQUESTS_NUMBER% private photo requests today.', 
                     array('%REQUESTS_NUMBER%' => sfConfig::get('app_settings_private_photo_requests', 5)));
