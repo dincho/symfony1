@@ -17,7 +17,8 @@
       
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)) . '<span> ' .$required_title. '</span>'; ?>
-        <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
+        <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers_' . $question->getId()
+                    . '_div')) ?>
         <div class="<?php echo $divstyle ?>">
         <?php foreach ($answers[$question->getId()] as $answer): ?>
           <?php echo checkbox_tag('answers['. $question->getid() .'][]', 
@@ -33,7 +34,8 @@
         
         <?php $required_title = ($question->getIsRequired()) ? __('(select one or more, as needed)') : __('(optional, select one or more, as needed)'); ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)) . '<span> ' .$required_title. '</span>'; ?>
-        <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers[' . $question->getId() . ']')) ?>
+        <?php echo content_tag('div', $label_title, array('class' => 'title', 'id' => 'answers_' . $question->getId()
+                    . '_div')) ?>
         <div class="<?php echo $divstyle ?>">
         <?php echo select_tag('answers['. $question->getid() .'][from]',
                               objects_for_select($answers[$question->getId()],
@@ -58,7 +60,8 @@
       
       <?php elseif( $question->getType() == 'age'): ?>
         <?php $label_title =  ++$i .'. '. __($question->getSearchTitle(ESC_RAW)); ?>
-        <?php echo content_tag('div', $label_title, array('class' => 'title_first', 'id' => 'answers[' . $question->getId() . ']')) ?>
+        <?php echo content_tag('div', $label_title, array('class' => 'title_first', 
+                    'id' => 'answers_' . $question->getId() . '_div')) ?>
         <div class="<?php echo $divstyle ?>">
         <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(0) : 18, array('class' => 'age', 'id' => 'answers_1_1')) ?><?php echo __('&nbsp;to&nbsp;') ?>
         <?php echo input_tag('answers['. $question->getid() .'][]', ( isset($member_crit_desc[$question->getId()]) ) ? $member_crit_desc[$question->getId()]->getAgeValue(1) : 100, array('class' => 'age', 'id' => 'answers_1_2')) ?><br />
