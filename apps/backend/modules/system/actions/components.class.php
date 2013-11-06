@@ -274,7 +274,7 @@ class systemComponents extends sfComponents
     
     $c = new Criteria();
     $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
-    $this->catalogues = array_merge(array('All'), CataloguePeer::doSelect($c));
+    $this->catalogues = CataloguePeer::doSelect($c);
     $this->subscriptions = SubscriptionPeer::doSelect(new Criteria());
     $this->countries = array('PL', 'US', 'CA', 'GB', 'IE');
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
