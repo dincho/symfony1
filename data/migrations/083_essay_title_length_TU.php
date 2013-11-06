@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Migrations between versions 081 and 082.
+ * Migrations between versions 082 and 083.
  */
-class Migration082 extends sfMigration
+class Migration083 extends sfMigration
 {
     /**
-    * Migrate up to version 082.
+    * Migrate up to version 083.
     */
     public function up()
     {
@@ -14,7 +14,7 @@ class Migration082 extends sfMigration
     }
 
     /**
-    * Migrate down to version 081.
+    * Migrate down to version 082.
     */
     public function down()
     {
