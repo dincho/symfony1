@@ -16,13 +16,13 @@
           <ul>
             <li class="username"><?php echo __('Hi %username%', array('%username%' => $sf_user->getProfile()->getUsername())) ?></li>
             <li><?php echo pr_link_to(__('Dashboard'), 'dashboard/index') ?></li>
-            <li>&bull;<li>
+            <li>&bull;</li>
             <li><?php echo pr_link_to(__('Search'), 'search/index') ?></li>
-            <li>&bull;<li>
+            <li>&bull;</li>
             <li><?php echo pr_link_to(__('Messages ( %count%/%count_all% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount(), '%count_all%' => $sf_user->getProfile()->getAllMessagesCount())), 'messages/index', 'class=last') ?></li>
-            <li>&bull;<li>
+            <li>&bull;</li>
             <li id="dhtmlgoodies_menu" class="dhtmlgoodiesmenu"><?php echo link_to(__('Settings').image_tag('down.png', array('class' => 'image_down')), '#', array('id' => 'header_menu_drop')); ?></li>
-            <li>&nbsp;<li>
+            <li>&nbsp;</li>
             <li><?php echo link_to(image_tag($sf_user->getCulture().'/sign_out.gif'), 'profile/signout') ?></li>
           </ul>
         </div>
@@ -31,7 +31,11 @@
             <ul>
                 <li><strong><?php echo __('Your Profile') ?></strong></li>
                 <li class="menu_item"><?php echo link_to(__('Your Profile (View Your profile as others see it)'), '@my_profile') ?></li>
-                <li class="menu_item"><?php echo link_to(__('Registration'), 'editProfile/registration') ?> <span><?php echo __('(email, etc.)') ?></span></li>
+                <li class="menu_item">
+                    <a href="<?php echo url_for('editProfile/registration') ?>">
+                        <?php echo __('Registration') ?> <span><?php echo __('(email, etc.)') ?></span>
+                    </a>
+                </li>
                 <li class="menu_item"><?php echo link_to(__('Self-description'), 'editProfile/selfDescription') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Posing/Essay'), 'editProfile/essay') ?></li>
