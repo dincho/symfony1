@@ -31,7 +31,11 @@
             <ul>
                 <li><strong><?php echo __('Your Profile') ?></strong></li>
                 <li class="menu_item"><?php echo link_to(__('Your Profile (View Your profile as others see it)'), '@my_profile') ?></li>
-                <li class="menu_item"><?php echo link_to(__('Registration'), 'editProfile/registration') ?> <span><?php echo __('(email, etc.)') ?></span></li>
+                <li class="menu_item">
+                    <a href="<?php echo url_for('editProfile/registration') ?>">
+                        <?php echo __('Registration') ?> <span><?php echo __('(email, etc.)') ?></span>
+                    </a>
+                </li>
                 <li class="menu_item"><?php echo link_to(__('Self-description'), 'editProfile/selfDescription') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Posing/Essay'), 'editProfile/essay') ?></li>
