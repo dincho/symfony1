@@ -107,6 +107,9 @@ class dashboardActions extends prActions
         //blocked member count
         $c = new Criteria();
         $c->add(BlockPeer::MEMBER_ID, $member->getId());
+        // Make sure we get only blocked members that are ACTIVE
+        $c->addJoin(MemberPeer::ID, BlockPeer::PROFILE_ID);
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
         $this->blocked_cnt = BlockPeer::doCount($c);
         
         //recent visits
