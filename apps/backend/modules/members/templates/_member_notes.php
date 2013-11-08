@@ -4,7 +4,8 @@
             <div id="member_notes" class="scrollable">
                 <?php $i=0;foreach ($notes as $note): ?>
                 <p <?php if($i%2 == 0) echo 'class="odd"' ?>>
-                    <span><?php echo $note->getCreatedAt('m/d/Y') . '&nbsp;by&nbsp;' . $note->getUser() ?> 
+                    <span><?php echo $note->getCreatedAt('m/d/Y') . '&nbsp;by&nbsp;' .
+                            ($note->getUser() ? $note->getUser() : 'SYSTEM') ?> 
                       <?php echo link_to('delete', 'members/deleteNote?noteId='.$note->getId().'&id='.$member->getId(), 
                           array('confirm' => 'Delete the Note.\nAre you sure?', 'class'=>'delete',)
                       ) ?>

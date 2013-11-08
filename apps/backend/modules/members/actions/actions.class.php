@@ -229,9 +229,10 @@ class membersActions extends prActions
             $this->flags = FlagPeer::doSelectJoinAll($c);
             
             $c = new Criteria();
+            $c->addJoin(MemberNotePeer::USER_ID, UserPeer::ID, Criteria::LEFT_JOIN);
             $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
             $c->addDescendingOrderByColumn(MemberNotePeer::UPDATED_AT);
-            $this->notes = MemberNotePeer::doSelectJoinAll($c);
+            $this->notes = MemberNotePeer::doSelect($c);
             
             $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/members/profile_pager');
             $this->pager = new ProfilePager($pager_crit, $this->member->getId());
