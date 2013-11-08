@@ -187,9 +187,8 @@ function pr_select_language_tag($name, $selected = null, $options = array())
     }
 
     collator_asort(collator_create($user->getLocale()), $languages);
-    
+
     $new_languages = array();
-    
     foreach ($languages as $key => $value)
     {
         $value = mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
@@ -199,9 +198,6 @@ function pr_select_language_tag($name, $selected = null, $options = array())
         $new_languages[$opt_key][$key] = $value;
         $languages[$key] = $value; //save the new ucfirst value
     }
-    
-    ksort($new_languages);
-
     
     $option_tags = options_for_select($new_languages, $selected, $options);
     $option_tags = content_tag('option', $languages['en'], array('value' => 'en'))."\n" . $option_tags;
