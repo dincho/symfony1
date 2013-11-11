@@ -1180,16 +1180,6 @@ class Member extends BaseMember
         
         return $this->subscriptionDetails;
     }
-    
-    public function changeCatalog($catalog_id)
-    {
-        if( $this->getCatalogId() != $catalog_id )
-        {
-            $this->setCatalogId($catalog_id);
-            $this->killSession();
-            $this->updateMatches();
-        }
-    }
 
     public function IsFlaggedBy($flagger_id)
     {
