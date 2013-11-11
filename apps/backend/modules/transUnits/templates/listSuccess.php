@@ -53,11 +53,13 @@
         <td class="skip_me">
             <?php $tagStr = array(); ?>
             <?php foreach (explode(',', $trans_unit->getTags()) as $tag) : ?>
-                <?php $tagStr[] = link_to(
-                    Tools::truncate($tag, 110),
-                    'transUnits/list?filter=filter',
-                    array('query_string' => 'filters[tags]=' . urlencode($tag))
-                ); ?>
+                <?php if($tag) {
+                    $tagStr[] = link_to(
+                        Tools::truncate($tag, 110),
+                        'transUnits/list?filter=filter',
+                        array('query_string' => 'filters[tags]=' . urlencode($tag))
+                    );
+                } ?>
             <?php endforeach ?>
             <?php echo implode(', ', $tagStr); ?>
         </td>
