@@ -1,8 +1,4 @@
-<?php if( isset($class) ): ?>
-<div id="sub_menu" class="<?php echo $class; ?>">
-<?php else: ?>
-<div id="sub_menu">
-<?php endif; ?>
+<div id="sub_menu" <?php echo isset($class) ? 'class="' . $class . '"' : '' ?>>
   <span class="sub_menu_title">Edit:</span>
   <ul>
     <li><?php echo link_to('Overview', 'members/edit?id=' . $member->getId()) ?>&nbsp;|</li>

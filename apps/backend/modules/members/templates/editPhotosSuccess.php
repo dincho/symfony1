@@ -1,5 +1,6 @@
 <?php use_helper('Javascript'); ?>
 <?php include_component('system', 'formErrors') ?>
+<?php include_component('members', 'profilePager', array('member' => $member)); ?>
 
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('editProfile/ajaxPhotoHandler?member_id=' . $member->getId()); ?>';
@@ -7,15 +8,8 @@
     var photo_rotate_url = '<?php echo url_for('editProfile/rotatePhoto?member_id=' . $member->getId()); ?>';
 </script>
 
-<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername(), 'class=float-right') ?>
-<?php include_component('members', 'profilePager', array('member' => $member)); ?>
-<br /><br />
-
-
 <div class="legend">Photos</div>
 <?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
-
-
 
 <br />
 <div>

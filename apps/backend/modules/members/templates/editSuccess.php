@@ -1,10 +1,6 @@
 <?php use_helper('Object', 'dtForm', 'Javascript', 'Date') ?>
 <?php include_component('system', 'formErrors') ?>
-
-<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername() , 'class=float-right') ?>
-<?php include_partial('members/profilePager', array('pager' => $pager)); ?>
-
-<br /><br />
+<?php include_component('members', 'profilePager', array('member' => $member)); ?>
 
 <div class="legend">Member Information</div>
 
@@ -31,7 +27,7 @@
             <?php include_partial('members/photos', array('member' => $member)); ?>
             <hr />
             <?php $unread = $member->getUnreadFeedback() ?>
-            <?php $unread <> 0? '<strong>' . $member->getUnreadFeedback() . '</strong>': $unread ?>
+            <?php $unread = $unread ? '<strong>' . $unread . '</strong>' : $unread ?>
             <?php echo link_to(__('Feedback ( %UNREAD% / %ALL% )', 
                               array('%UNREAD%' => $unread, '%ALL%' => $member->getAllFeedback() )),
                             'feedback/list?filter=filter&commit=Search&filters[search_type]=username&filters[search_query]=' . $member->getUsername())  ?>
