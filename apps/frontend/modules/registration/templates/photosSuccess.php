@@ -3,24 +3,19 @@
 <script type="text/javascript" charset="utf-8">
     var photo_handler_url = '<?php echo url_for('registration/ajaxPhotoHandler'); ?>';
 </script>
-<div class="registration_notes">
-    <?php echo __('Photos instructions') ?>
-    <?php echo __('Photos note') ?>
-    <?php $subscription = $member->getSubscriptionDetails(); ?>
-    <p class="note float-right"><?php echo __(
-            'Note: You can upload up to %MAX_PHOTOS% public photos',
-            array('%MAX_PHOTOS%' => $subscription->getPostPhotos())
-        ) ?></p>
-</div>
 
-<div class="registration_finish">
-    <?php echo link_to(__('Finish registration'), 'registration/photos?skip=1', array('class' => 'button')) ?>
-</div>
+<?php echo __('Photos instructions') ?>
+<?php echo __('Photos note') ?>
+<?php $subscription = $member->getSubscriptionDetails(); ?>
+<p class="note float-right"><?php echo __(
+        'Note: You can upload up to %MAX_PHOTOS% public photos',
+        array('%MAX_PHOTOS%' => $subscription->getPostPhotos())
+    ) ?></p>
 
 <div class="registration_photos">
     <h3><?php echo __('Public Photos'); ?></h3>
-    <hr/>
 </div>
+<hr/>
 
 <?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
                                                   'upload_url' => url_for('registration/uploadPhoto?block_id=public_photos'),
