@@ -63,7 +63,8 @@
                         <?php echo __('Internal System'); ?><br />
                     <?php endif; ?>
                     <?php echo format_date_pr($message->getCreatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?>
-                <td  class="message_body">
+                </td>
+                <td class="message_body">
                     <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>
                 </td>
             </tr>
@@ -99,7 +100,7 @@
     
         <fieldset class="background_000">
             <label></label>
-            <?php echo submit_tag(__('Send'), array('class' => 'button', 'onClick' => "if(submitted) return false; messagebar_message('".__('Sending message...')."'); submitted = true; return true;") ) ?>
+            <?php echo submit_tag(__('Send'), array('class' => 'button', 'onclick' => "if(submitted) return false; messagebar_message('".__('Sending message...')."'); submitted = true; return true;") ) ?>
             <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn')) ?>
             <?php echo button_to(__('Discard'), 'messages/discard?draft_id=' . $draft->getId(), array('class' => 'button', )) ?>
             <br />
