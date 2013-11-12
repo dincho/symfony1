@@ -38,14 +38,14 @@ jQuery(document).ready(function(){
     <?php include_partial('actions', array('form_name' => 'messages_form', 'cnt_unread' => $cnt_unread)); ?>
     <table cellspacing="0" cellpadding="0" class="messages"> 
     <?php foreach ($threads_received as $thread): ?>
-        <?php unset($class); ?>
+        <?php $class = ''; ?>
         <?php $is_selected = in_array($thread->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-        <?php if( !$thread->isRead() ) $class = 'bold' ?>
+        <?php if( !$thread->isRead() ) $class .= 'bold' ?>
         <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?> 
-            <?php $class = ( isset($class) ) ? 'delete bold' : 'delete'; ?>
+            <?php $class .= 'delete'; ?>
         <?php endif; ?>
     
-        <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
+        <tr class="<?php echo $class ?>">
             <td class="unread_circle">
                 <?php if( !$thread->isRead() ): ?>
                     <?php echo image_tag('circle-blue.png'); ?>
@@ -62,7 +62,6 @@ jQuery(document).ready(function(){
                 <?php endif; ?>
             </td>
             <td class="message_from">
-                <?php //var_dump($thread->object);exit(); ?>
                 <?php if( $thread->object ): ?>
                     <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?>
                     <?php if ($thread->getCntMessages() > 1): ?>
@@ -75,7 +74,9 @@ jQuery(document).ready(function(){
                 <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?><br />
+                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a>
+                <?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
+                <br />
                 <?php echo Tools::truncate($thread->getSnippet(), $received_messages_truncate_limit) ?>
             </td>
         </tr>
@@ -145,14 +146,13 @@ jQuery(document).ready(function(){
     <?php include_partial('actions', array('form_name' => 'messages_form_sent', 'no_read_unread' => true)); ?>
     <table cellspacing="0" cellpadding="0" class="messages" id="sent_messages"> 
     <?php foreach ($sent_threads as $thread): ?>
-        
-        <?php unset($class); ?>
+        <?php $class = ''; ?>
         <?php $is_selected = in_array($thread->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-        <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?> 
-            <?php $class = 'delete'; ?>
+        <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?>
+            <?php $class .= 'delete'; ?>
         <?php endif; ?>
-        
-        <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
+
+        <tr class="<?php echo $class ?>">
             <td class="unread_circle">
                 <?php if( $thread->getSnippetMemberId() == $sf_user->getId() ): ?>
                     <?php echo image_tag('reply_left_arrow.png'); ?>
@@ -171,7 +171,8 @@ jQuery(document).ready(function(){
                 <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
             </td>
             <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a>
+                <?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
                 <br />
                 <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
             </td>
