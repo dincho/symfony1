@@ -209,12 +209,11 @@ body .sign_in {
     text-decoration: none;
 }
 
-
 #header_text a:hover {
     text-decoration: underline;
 }
 
-a.button:hover{
+a.button:hover {
     text-decoration: none;
 }
 
@@ -2177,16 +2176,17 @@ div.best_video div.right img {
     background: url(/images/pl/go_over.gif) no-repeat;
 }
 
-.registration_notes{
-    width: 520px;
-    float: left;
+.registration_notes {
+    width: 100%;
+    clear: both;
 }
 
-.registration_finish{
-    float:right;
+.registration_finish {
+    float: right;
+    padding-right: 16px;
 }
 
-.registration_photos{
+.registration_photos {
     clear: both;
 }
 
