@@ -2,6 +2,7 @@ cache/*
 log/*
 web/uploads/*
 web/cache/*
+web/robots.txt
 config/databases.yml
 config/propel.ini
 data/sql/*
