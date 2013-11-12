@@ -51,17 +51,17 @@
         <td><?php echo Tools::truncate($trans_unit->getSource(), 110) ?></td>
         <td><?php echo Tools::truncate($trans_unit->getTarget(), 110) ?></td>
         <td class="skip_me">
-            <?php $tagStr = array(); ?>
-            <?php foreach (explode(',', $trans_unit->getTags()) as $tag) : ?>
-                <?php if($tag) {
-                    $tagStr[] = link_to(
-                        Tools::truncate($tag, 110),
-                        'transUnits/list?filter=filter',
-                        array('query_string' => 'filters[tags]=' . urlencode($tag))
-                    );
-                } ?>
-            <?php endforeach ?>
-            <?php echo implode(', ', $tagStr); ?>
+            <?php if ($trans_unit->getTags()) : ?>
+                <?php $tagStr = array(); ?>
+                <?php foreach (explode(',', $trans_unit->getTags()) as $tag) : ?>
+                    <?php $tagStr[] = link_to(
+                            Tools::truncate($tag, 110),
+                            'transUnits/list?filter=filter',
+                            array('query_string' => 'filters[tags]=' . urlencode($tag))
+                        ); ?>
+                <?php endforeach; ?>
+                <?php echo implode(', ', $tagStr); ?>
+            <?php endif; ?>
         </td>
         <td><?php echo date('m/d/Y', $trans_unit->getDateAdded()); ?></td>
         <td><?php echo date('m/d/Y', $trans_unit->getDateModified()); ?></td>
