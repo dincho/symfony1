@@ -89,7 +89,7 @@ class transUnitsActions extends sfActions
         {
             $this->redirect('transUnits/edit?id=' . $unit->getId());
         } else {
-            $this->setFlash('Selected TU does not exists in selected catalog!');
+            $this->setFlash('msg_error', 'Selected TU does not exist in the selected catalog!');
             $this->redirect('transUnits/edit?id=' . $trans_unit->getId());
         }
     }
