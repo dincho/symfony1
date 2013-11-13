@@ -533,6 +533,10 @@ div.member_flags table {
 
 #profile_pager {
     text-align: center;
+    float: left;
+    height: 30px;
+    line-height: 27px;
+    margin-left: 150px;
 }
 
 #profile_pager a, #profile_pager span {
@@ -689,4 +693,5 @@ div.member_flags table {
 
 .view_profile {
     float: left;
+    margin-left: 285px;
 }
