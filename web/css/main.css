@@ -213,6 +213,10 @@ body .sign_in {
     text-decoration: underline;
 }
 
+a.button:hover {
+    text-decoration: none;
+}
+
 #header_text #header_title {
     margin: 3px 0 0 0;
 }
@@ -1730,7 +1734,6 @@ span.sec_link {
     color: #d3d3d3;
     background-color: #3d3d3d;
     margin: 0 10px 0 0;
-    color: #d3d3d3;
 }
 
 .member .last_box {
@@ -1755,7 +1758,7 @@ span.sec_link {
     line-height: 20px;
 }
 
-.member .member_box .header .headline{
+.member .member_box .header .headline {
     width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2171,6 +2174,20 @@ div.best_video div.right img {
 
 #register #reg_submit_pl:hover {
     background: url(/images/pl/go_over.gif) no-repeat;
+}
+
+.registration_notes {
+    width: 100%;
+    clear: both;
+}
+
+.registration_finish {
+    float: right;
+    padding-right: 16px;
+}
+
+.registration_photos {
+    clear: both;
 }
 
 /* END register */
@@ -3070,22 +3087,18 @@ button, .button, form .button {
     margin-top: 5px !important;
 }
 
-
-#self_desc_form  .button:hover, 
-				.button:hover 
-{
-	background: #00CCFF;
+#self_desc_form .button:hover,
+.button:hover {
+    background: #00CCFF;
 }
 
-.button_save_and_cont:hover{
-	background: #00CCFF !important;
+.button_save_and_cont:hover {
+    background: #00CCFF !important;
 }
 
-
-#self_desc_form .button_disabled:hover{
-	background: #363639;
+#self_desc_form .button_disabled:hover {
+    background: #363639;
 }
-
 
 form .button_disabled {
     height: 28px !important;
@@ -3456,10 +3469,8 @@ ul.rating li.five a:hover {
     position: fixed;
     top: 0;
     left: 40px;
-    height: 20px;
     z-index: 10;
     background-color: /*#363639*/ #000000;
-    height: 20px;
     padding: 4px;
     text-align: center;
     opacity: 0.8;
@@ -3468,9 +3479,6 @@ ul.rating li.five a:hover {
     color: #ff0000;
     font-size: 12px;
     font-weight: bold;
-    position: fixed;
-    top: 0;
-    height: 20px;
 }
 
 .dhtmlgoodies_menu_selected {
@@ -3534,13 +3542,13 @@ ul.rating li.five a:hover {
     float: right;
 }
 
-#dhtmlgoodies_contentBox  ul {
+#dhtmlgoodies_contentBox ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-#dhtmlgoodies_contentBox  li {
+#dhtmlgoodies_contentBox li {
     display: block;
     list-style-type: none;
     height: 25px;
@@ -3585,10 +3593,10 @@ ul.rating li.five a:hover {
     margin-bottom: 25px;
 }
 
-#messages_group  .active_group {
+#messages_group .active_group {
     color: #D3D3D3;
 }
 
 #messages_group a {
-    color:#7CAEE7;
+    color: #7CAEE7;
 }

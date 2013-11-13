@@ -6,11 +6,16 @@
 
 <?php echo __('Photos instructions') ?>
 <?php echo __('Photos note') ?>
-
 <?php $subscription = $member->getSubscriptionDetails(); ?>
+<p class="note float-right"><?php echo __(
+        'Note: You can upload up to %MAX_PHOTOS% public photos',
+        array('%MAX_PHOTOS%' => $subscription->getPostPhotos())
+    ) ?></p>
 
-<p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $subscription->getPostPhotos())) ?></p>
-<h3><?php echo __('Public Photos'); ?></h3><hr />
+<div class="registration_photos">
+    <h3><?php echo __('Public Photos'); ?></h3>
+</div>
+<hr/>
 
 <?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
                                                   'upload_url' => url_for('registration/uploadPhoto?block_id=public_photos'),
@@ -37,10 +42,15 @@
     <br class="clear" />
 <?php endif; ?>
 
-<?php echo __('Photos note') ?>
+<div class="registration_notes">
+    <?php echo __('Photos note') ?>
+</div>
 
-<br /><br /><?php echo link_to(__('Finish registration'), 'registration/photos?skip=1', array('class' => 'sec_link_small')) ?><br />
+<div class="registration_finish">
+    <?php echo link_to(__('Finish registration'), 'registration/photos?skip=1', array('class' => 'button')) ?>
+</div>
 
+<br class="clear" />
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
