@@ -216,10 +216,16 @@ class dashboardActions extends prActions
             
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {   
+            $reason = nl2br(strip_tags($this->getRequestParameter('delete_reason')));
             $member->changeStatus(MemberStatusPeer::CANCELED_BY_MEMBER, false);
             $member->save();
+            $memberNote = new MemberNote();
+            $memberNote->setText('User has closed his/ her profile due to the following reason: <br/>' . 
+                $reason);
+            $memberNote->setMember($member);
+            $memberNote->save();
             
-            Events::triggerAccountDeleteByMember($member, nl2br(strip_tags($this->getRequestParameter('delete_reason'))));
+            Events::triggerAccountDeleteByMember($member, $reason);
             
             $this->getUser()->signOut();
             $this->getUser()->setAttribute('member_id', $member->getId()); //we need this to receive member's profile in the confirmation message page
