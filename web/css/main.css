@@ -2135,7 +2135,7 @@ div.best_video div.right img {
 #register .tos label {
     width: auto;
     float: left;
-    padding: 0;
+    padding: 0 0 0 25px;
     margin: 0;
     height: auto;
     line-height: 13px;
