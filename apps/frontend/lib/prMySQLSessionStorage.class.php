@@ -116,7 +116,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     $date->sub(new DateInterval(sprintf('PT%dS', $lifetime)));
 
     $sql = 'DELETE FROM '.$db_table.' '.
-           'WHERE '.$db_time_col.' < ' . $date->getTimestamp();
+           'WHERE UNIX_TIMESTAMP('.$db_time_col.') < ' . $date->getTimestamp();
 
     if (@mysql_query($sql, $this->resource))
     {
