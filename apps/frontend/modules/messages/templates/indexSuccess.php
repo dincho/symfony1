@@ -33,7 +33,6 @@ jQuery(document).ready(function(){
     <?php $action = 'messages/index?confirm_delete=1&form_id=messages_form'; ?>
 <?php endif; ?>
 
-<?php //$style = ($sf_request->hasParameter('expand')) ? 'display: none;' : ''; ?>
 <?php echo form_tag($action, array('id' => 'messages_form', 'name' => 'messages_form', 'style' => '')) ?>
     <?php include_partial('actions', array('form_name' => 'messages_form', 'cnt_unread' => $cnt_unread)); ?>
     <table cellspacing="0" cellpadding="0" class="messages"> 
@@ -122,7 +121,12 @@ jQuery(document).ready(function(){
                 <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
             </td>
             <td class="message_body">
-                <?php echo link_to($message->getSubject(), $message_form_link, array('class' => 'sec_link')) ?><br />
+                <?php if ($message->getSubject()) : ?>
+                    <?php $draft_subject = $message->getSubject() ?>
+                <?php else: ?>
+                    <?php $draft_subject = __('No subject') ?>
+                <?php endif; ?>
+                <?php echo link_to($draft_subject, $message_form_link, array('class' => 'sec_link')) ?><br />
                 <?php echo Tools::truncate($message->getBody(), 80) ?>
             </td>
         </tr>

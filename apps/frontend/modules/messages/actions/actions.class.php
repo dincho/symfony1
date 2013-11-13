@@ -113,13 +113,18 @@ class messagesActions extends prActions
             return $ret;
         }
 
+        $this->draft = MessagePeer::retrieveOrCreateDraft(
+            $this->sender->getId(),
+            $this->recipient->getId()
+        );
+        
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $send_msg = MessagePeer::send(
                 $this->sender,
                 $this->recipient,
                 $this->getRequestParameter('subject'),
                 $this->getRequestParameter('content'),
-                $this->getRequestParameter('draft_id'),
+                $this->draft->getId(),
                 null, //thread
                 PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'))
             );
@@ -128,11 +133,7 @@ class messagesActions extends prActions
             return $this->renderText(get_partial('content/messages'));
         }
 
-        $this->draft = MessagePeer::retrieveOrCreateDraft(
-            $this->getRequestParameter('draft_id'),
-            $this->sender->getId(),
-            $this->recipient->getId()
-        );
+        
     }
 
     protected function needsToforceOneThread($sender, $recipient)
@@ -293,7 +294,6 @@ class messagesActions extends prActions
         $this->recipient = MemberPeer::retrieveByPK($this->getRequestParameter('recipient_id'));
         $this->sender = $this->getUser()->getProfile();
         $this->draft = MessagePeer::retrieveOrCreateDraft(
-            $this->getRequestParameter('draft_id'),
             $this->sender->getId(),
             $this->recipient->getId()
         );
@@ -418,7 +418,6 @@ class messagesActions extends prActions
         MessagePeer::markAsReadInThread($thread->getId(), $member);
         if ($profile) {
             $this->draft = MessagePeer::retrieveOrCreateDraft(
-                $this->getRequestParameter('draft_id'),
                 $member->getId(),
                 $profile->getId(),
                 $thread->getId()
@@ -645,14 +644,13 @@ class messagesActions extends prActions
         $profile = ($message_sample->getSenderId() == $member->getId())
             ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
         $this->draft = MessagePeer::retrieveOrCreateDraft(
-            $this->getRequestParameter('draft_id'),
             $member->getId(),
             $profile->getId(),
             $thread->getId()
         );
         $this->content = $this->getRequestParameter('content');
 
-        //template varibales
+        //template variables
         $this->thread = $thread;
         $this->member = $member;
         $this->profile = $profile;
