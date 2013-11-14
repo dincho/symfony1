@@ -114,9 +114,10 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     // delete the record associated with this id
     $date = new DateTime();
     $date->sub(new DateInterval(sprintf('PT%dS', $lifetime)));
+    $mysql_date = date("Y-m-d H:i:s", $date->getTimestamp());
 
     $sql = 'DELETE FROM '.$db_table.' '.
-           'WHERE UNIX_TIMESTAMP('.$db_time_col.') < FROM_UNIXTIME(' . $date->getTimestamp().')';
+           'WHERE '.$db_time_col.' < "' .$mysql_date.'"';
 
     if (@mysql_query($sql, $this->resource))
     {
