@@ -4,74 +4,73 @@
 }
 
 #top_menu {
-  height: 50px;
-  background-color: #3D3D3D;
-  color: white;
-  font-weight: bold;
-  padding: 0;
-  margin: 0;
+    height: 50px;
+    background-color: #3D3D3D;
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
 }
 
 #top_menu li {
-  float: left;
-  padding: 10px;
-  margin-top: 13px;
+    float: left;
+    padding: 10px;
+    margin-top: 13px;
 }
 
 #top_menu li a {
-  color: white;
+    color: white;
 }
 
 #top_menu li a:hover {
-  text-decoration: underline;
-  color: #73A7FF;
+    text-decoration: underline;
+    color: #73A7FF;
 }
 
 #top_menu li.selected {
-  background-color: black;
-  border: 1px solid #999;
-  border-bottom: none;
-  color: #73A7FF;
+    background-color: black;
+    border: 1px solid #999;
+    border-bottom: none;
+    color: #73A7FF;
 }
 
 #left {
-  float: left;
-  background-color: black;
-  color: white;
-  margin: 0;
-  width: 18%;
-  height: 100%;
+    float: left;
+    background-color: black;
+    color: white;
+    margin: 0;
+    width: 18%;
+    height: 100%;
 }
 
 #left_menu {
-  background-color: #3D3D3D;
-  margin: 0 0 0 10px;
-  padding: 100px 0 0 0;
-  font-size: 1em;
-  min-height:580px;
-  height:auto !important;
-  height:580px;
-  background: #3D3D3D url(/images/logo_backend.jpg) 0 0 no-repeat;
+    margin: 0 0 0 10px;
+    padding: 100px 0 0 0;
+    font-size: 1em;
+    min-height: 580px;
+    height: auto !important;
+    height: 580px;
+    background: #3D3D3D url(/images/logo_backend.jpg) no-repeat 0 0;
 }
 
 #left_menu li {
-  padding: 5px 10px;	
+    padding: 5px 10px;
 }
 
 #left_menu li a {
-  color: white;
+    color: white;
 }
 
 #left_menu li a:hover {
-  background-color: #3D3D3D;
-  color: #73A7FF;
-  margin: 0;
-  padding: 0;	
+    background-color: #3D3D3D;
+    color: #73A7FF;
+    margin: 0;
+    padding: 0;
 }
 
 #left_menu li.selected {
-  background-color: black;
-  color: #73A7FF;
+    background-color: black;
+    color: #73A7FF;
 }
 
 form #left_menu li {
@@ -90,143 +89,143 @@ form #left_menu li {
 }
 
 #content {
-/*  margin-left: 250px;*/
-  padding: 10px;
-  float: left;
-  width: 80%;
+    /*  margin-left: 250px;*/
+    padding: 10px;
+    float: left;
+    width: 80%;
 }
 
 #breadcrumb {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #breadcrumb a {
-  text-decoration: underline;
-  color: #909090;
+    text-decoration: underline;
+    color: #909090;
 }
 
 #breadcrumb a:hover {
-  text-decoration: none;
-  color: #909090;
+    text-decoration: none;
+    color: #909090;
 }
 
 #login_info {
-	background-color: #3D3D3D;
-	margin: 0 0 0 10px;
-	color: #999;
-	font-size: 0.7em;
-	padding-left: 10px;
+    background-color: #3D3D3D;
+    margin: 0 0 0 10px;
+    color: #999;
+    font-size: 0.7em;
+    padding-left: 10px;
 }
 
 #login_info a {
-	color: #999;
-	text-decoration: underline;
+    color: #999;
+    text-decoration: underline;
 }
 
-#logout_button{
-	background-color: black;
-	color: yellow;
-	border: 1px solid #999;
-	font-size: 1.1em;
-	text-transform: uppercase;
-	padding: 5px;
-	margin: 0 0 10px 0;
-	cursor: pointer;
+#logout_button {
+    background-color: black;
+    color: yellow;
+    border: 1px solid #999;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 0 0 10px 0;
+    cursor: pointer;
 }
 
 table {
-  border-collapse: collapse;
-  text-align: left;
+    border-collapse: collapse;
+    text-align: left;
 }
 
 table tr th {
-  background-color: #C3C3C3;
-  font-weight: bold;
-  padding-right: 30px;
+    background-color: #C3C3C3;
+    font-weight: bold;
+    padding-right: 30px;
 }
 
 table tr td {
-  padding-right: 30px;
+    padding-right: 30px;
 }
 
 tbody tr {
-  cursor: pointer;	
+    cursor: pointer;
 }
 
 tbody tr.even {
-  background-color: #eee;
+    background-color: #eee;
 }
 
 tbody tr:hover, tbody td.first:hover {
-  background-color: #CDDAE6;
+    background-color: #CDDAE6;
 }
 
 tr.selected {
-	border: 2px solid #C3C3C3;
+    border: 2px solid #C3C3C3;
 }
 
-.selected td.first{
-  background-repeat: no-repeat ;
-  background-image:url('/images/tarrow.png');
-  background-position: center;
+.selected td.first {
+    background: url('/images/tarrow.png') no-repeat center;
 }
 
 #messages {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 
 #messages div {
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 1em;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 1em;
 }
 
 .msg_info {
-  background: #608CB3 url(/images/dialog-information.png) 5px 5px no-repeat;
+    background: #608CB3 5px 5px no-repeat;
 }
 
 .msg_ok, .true_value {
-  color: #008C00;
+    color: #008C00;
 }
 
 .msg_warning {
-   background: #FF7400 url(/images/dialog-warning.png) 5px 5px no-repeat;
+    background: #FF7400 5px 5px no-repeat;
 }
 
 .msg_error {
-	color: #C00;
+    color: #C00;
 }
 
 #sub_menu, #bottom_menu {
-	border: 2px solid #C3C3C3;
+	border-color: #C3C3C3;
+    border-style: solid;
 	border-width: 2px 0 0 0;
 }
 
 #sub_menu.top {
     border-width: 0 0 2px 0;
 }
-.red{
-  color: red;
+
+.red {
+    color: red;
 }
 
 #sub_menu span.sub_menu_title, #bottom_menu span.bottom_menu_title {
-  float: left;
-  background-color: #C3C3C3;
-  margin-right: 5px;
-  padding: 3px;
+    float: left;
+    background-color: #C3C3C3;
+    margin-right: 5px;
+    padding: 3px;
 }
 
 #sub_menu ul, #bottom_menu ul {
-  padding: 3px;
+    padding: 3px;
 }
 
 #sub_menu ul li, #bottom_menu ul li {
-  display: inline;
-  padding: 0 2px;
+    display: inline;
+    padding: 0 2px;
 }
 
 #inner_content {
-  padding: 0.5em;	
+    padding: 0.5em;
 }
 
 form table.details {
@@ -238,70 +237,74 @@ form table.details {
     margin-bottom: 45px;
 }
 
-
 .form_fields table.details th {
     width: 170px;
     text-align: left;
 }
 
 table.details tr {
-  cursor: auto;
+    cursor: auto;
 }
 
 table.details th {
-  background-color: white;
-  font-weight: normal;
-  padding-right: 10px;
-  color: #9F9F9F;
-  text-align: right;
-  width: 200px;
+    background-color: white;
+    font-weight: normal;
+    padding-right: 10px;
+    color: #9F9F9F;
+    text-align: right;
+    width: 200px;
 }
 
 table.details td {
 }
 
 table.compose_options td {
-	text-align: right;
-	padding: 0 0 5px 5px;
-	line-height: 13px;
+    text-align: right;
+    padding: 0 0 5px 5px;
+    line-height: 13px;
 }
+
 table.compose_options td input {
-	float: none;
+    float: none;
 }
 
 table.compose_options th {
-	text-align: left;
-	width: auto;
+    text-align: left;
+    width: auto;
 }
 
 table.compose_options td select {
-	 margin: 0;
-	 padding: 0;
-}
-.imbra_alert, .false_value {
-	color: #C00;
+    margin: 0;
+    padding: 0;
 }
 
-.imbra_alert p { margin: 0; padding: 0;}
+.imbra_alert, .false_value {
+    color: #C00;
+}
+
+.imbra_alert p {
+    margin: 0;
+    padding: 0;
+}
 
 table.details tbody tr:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 dl.imbra_answers {
-	
+
 }
 
 dl.imbra_answers dt {
-	background-color: #EFEFEF;
-	padding: 2px;
-	border-top: 1px solid #CCC;
+    background-color: #EFEFEF;
+    padding: 2px;
+    border-top: 1px solid #CCC;
 }
 
 dl.imbra_answers dd {
-	font-weight: bold;
-	padding: 2px;
-	margin: 0 0 10px 0;
+    font-weight: bold;
+    padding: 2px;
+    margin: 0 0 10px 0;
 }
 
 dl.imbra_answers dd span {
@@ -309,48 +312,48 @@ dl.imbra_answers dd span {
 }
 
 dl.imbra_answers {
-	
+
 }
 
 .scrollable {
-	overflow: auto;	
+    overflow: auto;
 }
 
 .big_scrollable {
-	height:  540px;
+    height: 540px;
 }
 
 .medium_scrollable {
-	height:  440px;
+    height: 440px;
 }
 
 .normal_scrollable {
-	height:  270px;
+    height: 270px;
 }
 
 .small_scrollable {
-	height: 160px;
+    height: 160px;
 }
 
 .mini_scrollable {
-	height: 90px;
+    height: 90px;
 }
 
 .unread {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #preview {
-	background-color: #EAEAEA;
-	margin-top:  10px;
-	padding:  10px;
-	min-height:100px;
-	height:auto !important;
-	height:100px;
+    background-color: #EAEAEA;
+    margin-top: 10px;
+    padding: 10px;
+    min-height: 100px;
+    height: auto !important;
+    height: 100px;
 }
 
 .zebra {
-	width: 100%;
+    width: 100%;
 }
 
 .zebra th a {
@@ -361,7 +364,7 @@ dl.imbra_answers {
     color: #1646CB;
 }
 
-.zebra .firstcolumn{
+.zebra .firstcolumn {
     width: 1px;
 }
 
@@ -374,65 +377,65 @@ dl.imbra_answers {
 }
 
 .preview_button {
-	display:  none;
+    display: none;
 }
 
 .conversation_box {
-	border: 1px solid #90a6bb;
-	margin-bottom: 5px;
+    border: 1px solid #90a6bb;
+    margin-bottom: 5px;
 }
+
 .conversation_box h4 {
-	background-color: #f6f6f6;
-	padding-bottom: 5px;
+    background-color: #f6f6f6;
+    padding-bottom: 5px;
 }
 
 .conversation_box p {
-	padding: 10px;
+    padding: 10px;
 }
 
 .conversation_box .conv_date {
-	float: right;
-	color: #909090;
-	padding: 5px 15px 0 10px;
+    float: right;
+    color: #909090;
+    padding: 5px 15px 0 10px;
 }
 
 .conversation_box .conv_username {
-	padding-right: 10px;
+    padding-right: 10px;
 }
 
-table.preview th{
-	background-color: transparent;
+table.preview th {
+    background-color: transparent;
 }
 
 #content_flags {
-	height: 470px;
+    height: 470px;
 }
 
 #member_notes {
-	border: 1px solid #90a6bb;
-	width: 400px;
-	height: 200px;
-	text-align: left;
+    border: 1px solid #90a6bb;
+    width: 400px;
+    height: 200px;
+    text-align: left;
 }
 
 #member_notes p {
-	border-bottom: 1px solid #e5e5e5;
-	padding: 5px;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px;
 }
 
 #member_notes p.odd {
-	background-color: #f6f6f6;
+    background-color: #f6f6f6;
 }
 
 #member_notes p span {
-	font-weight: bold;
-	display: block;
+    font-weight: bold;
+    display: block;
 }
 
-#member_notes p span a
-{
-	right: 0px;
-	float: right; 
+#member_notes p span a {
+    right: 0px;
+    float: right;
 }
 
 #ip_duplicates {
@@ -440,33 +443,33 @@ table.preview th{
 }
 
 div.member_flags {
-	margin-top: 20px;
+    margin-top: 20px;
 }
+
 div.member_flags table {
-	width: 100%;
+    width: 100%;
 }
 
 .member_status .active {
-	color: #008146;
+    color: #008146;
 }
 
 .member_status .suspended {
-	color: #676b00;
+    color: #676b00;
 }
 
 .member_status .canceled {
-	color: #c00005;
+    color: #c00005;
 }
 
 #pager {
-	text-align: right;
-	margin-top: 10px;
+    text-align: right;
+    margin-top: 10px;
 }
 
 #pager a:visited {
-	color: #0000EE;
+    color: #0000EE;
 }
-
 
 #filters_date_from, #filters_date_to {
     border: 0;
@@ -481,15 +484,16 @@ div.member_flags table {
 .reports #filters_date_from, .reports #filters_date_to {
     background-color: transparent;
 }
-    
 
-#trigger_filters_date_from, #trigger_filters_date_to { display: none; }
+#trigger_filters_date_from, #trigger_filters_date_to {
+    display: none;
+}
 
 .photos_headline {
-  background-color: #EAEAEA;
-  text-align: left;
-  padding: 0 5px;
-  margin-bottom: 5px;
+    background-color: #EAEAEA;
+    text-align: left;
+    padding: 0 5px;
+    margin-bottom: 5px;
 }
 
 .photos_headline span {
@@ -502,22 +506,21 @@ div.member_flags table {
 }
 
 .subscription_container .form_fields label {
-  height: 17px;
-  margin-bottom: 6px;
+    height: 17px;
+    margin-bottom: 6px;
 }
 
 .subscription_container .form_fields var {
-  padding: 2px 0;
+    padding: 2px 0;
 }
 
 .subscription_container .form_fields .checkbox {
-  height: 16px;
-  margin: 0 0 6px 0;
+    height: 16px;
+    margin: 0 0 6px 0;
 }
 
- 
 .subscription_container .form_fields select {
- height: 18px;
+    height: 18px;
 }
 
 .float-left {
@@ -530,6 +533,10 @@ div.member_flags table {
 
 #profile_pager {
     text-align: center;
+    float: left;
+    height: 30px;
+    line-height: 27px;
+    margin-left: 150px;
 }
 
 #profile_pager a, #profile_pager span {
@@ -560,17 +567,14 @@ div.member_flags table {
     height: 150px; /* min 138px */
     text-align: center;
     border: 1px solid #2B2B2B;
-    
-    background-color: #3D3D3D; 
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    
+    background: #3D3D3D no-repeat center bottom;
+    border-top-right-radius: 16px;
     -webkit-border-top-right-radius: 16px;
-    -moz-border-radius-topright: 16px;    
+    -moz-border-radius-topright: 16px;
 }
 
 .photos .drop_hover {
-/*    background-color: yellow;*/
+    /*    background-color: yellow;*/
     border: 1px solid #E0B400;
 }
 
@@ -581,6 +585,7 @@ div.member_flags table {
 .photos div.photo {
     background-color: #3d3d3d;
     text-align: center;
+    border-top-right-radius: 16px;
     -webkit-border-top-right-radius: 16px;
     -moz-border-radius-topright: 16px;
     cursor: move;
@@ -601,6 +606,7 @@ div.member_flags table {
     height: 20px;
     margin: 0 auto;
     padding: 0 0 5px 0;
+    border-top-right-radius: 15px;
     -webkit-border-top-right-radius: 15px;
     -moz-border-radius-topright: 15px;
 }
@@ -637,6 +643,7 @@ div.member_flags table {
 .photos .photo_container .status a {
     color: #E0B400;
 }
+
 .upload_photos {
     position: relative;
 }
@@ -657,7 +664,6 @@ div.member_flags table {
     margin-bottom: 50px;
 }
 
-
 #crop_area {
     position: absolute;
     top: 15%;
@@ -669,11 +675,23 @@ div.member_flags table {
     min-height: 720px;
     z-index: 100;
 }
+
 #preview_duplicates {
     height: 250px;
-    overflow:auto;
+    overflow: auto;
 }
 
 #tu_headline {
     width: 400px;
+}
+
+.members_header {
+    height: 40px;
+    width: 100%;
+    clear: both;
+}
+
+.view_profile {
+    float: left;
+    margin-left: 285px;
 }

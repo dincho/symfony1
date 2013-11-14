@@ -1,7 +1,5 @@
 <?php use_helper('Number'); ?>
-<?php echo button_to('Send Email', 'feedback/compose?mail_to=' . $member->getEmail() . '&username=' . $member->getUsername(), 'class=float-right') ?>
 <?php include_component('members', 'profilePager', array('member' => $member)); ?>
-<br /><br />
 
 <div class="legend">Payments</div>
 
