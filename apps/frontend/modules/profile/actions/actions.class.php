@@ -25,13 +25,17 @@ class profileActions extends prActions
         
         $this->getUser()->getBC()->clear();
         
+        $title_prefix = sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
+        
         if( $this->getUser()->getCulture() == 'en' )
         {
-            $title = sprintf('PolishDate.com: %s %s - %s, %d: %s', 
+            $title = sprintf('%s %s %s - %s, %d: %s',
+                            $title_prefix,
                             format_language($this->member->getLanguage()), __($this->member->getOrientationString()), 
                             $this->member->getUsername(), $this->member->getAge(), $this->member->getEssayHeadline());
         } else {
-            $title = sprintf('SzukamMilionera.com: %s - %s, %d: %s', 
+            $title = sprintf('%s %s - %s, %d: %s',
+                $title_prefix,
                 __($this->member->getOrientationString()), 
                 $this->member->getUsername(), $this->member->getAge(), $this->member->getEssayHeadline());
         }
