@@ -201,37 +201,34 @@ class MessagePeer extends BaseMessagePeer
         }
 
     }
-    
+
     /**
-    * Looks for existing draft or create new one
-    *
-    * @param int $id
-    * @param int $from_member_id
-    * @param int $to_member_id
-    * @return MessageDraft
-    */
-    public static function retrieveOrCreateDraft($id, $sender_id, $recipient_id, $thread_id = null)
+     * Looks for existing draft or create new one
+     *
+     * @param $sender_id
+     * @param $recipient_id
+     * @param null $thread_id
+     * @return MessageDraft
+     */
+    public static function retrieveOrCreateDraft($sender_id, $recipient_id, $thread_id = null)
     {
         $c = new Criteria();
-        $c->add(self::ID, $id);
         $c->add(self::SENDER_ID, $sender_id);
         $c->add(self::RECIPIENT_ID, $recipient_id);
         $c->add(self::TYPE, self::TYPE_DRAFT);
-        if( !is_null($thread_id) ) $c->add(self::THREAD_ID, $thread_id);
-        
+
         $draft = self::doSelectOne($c);
-    
-        if( !$draft )
-        {
-          $draft = new Message();
-          $draft->setThreadId($thread_id);
-          $draft->setType(self::TYPE_DRAFT);
-          $draft->setUnread(false);
-          $draft->setSenderId($sender_id);
-          $draft->setRecipientId($recipient_id);
-          $draft->save();
+
+        if (!$draft) {
+            $draft = new Message();
+            $draft->setThreadId($thread_id);
+            $draft->setType(self::TYPE_DRAFT);
+            $draft->setUnread(false);
+            $draft->setSenderId($sender_id);
+            $draft->setRecipientId($recipient_id);
+            $draft->save();
         }
-    
+
         return $draft;
     }
     
