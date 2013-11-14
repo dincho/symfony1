@@ -202,7 +202,8 @@ class membersActions extends prActions
                 $this->member->setEmail($this->getRequestParameter('email'));
                 $this->member->changeStatus($this->getRequestParameter('member_status_id'));
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
-                $this->member->changeCatalog($this->getRequestParameter('catalog_id'));
+                $catalogChanged = $this->getRequestParameter('catalog_id') != $this->member->getCatalogId();
+                $this->member->setCatalogId($this->getRequestParameter('catalog_id'));
                 
                 //change the subscription and clear the last subscription item
                 $subscription_id = $this->getRequestParameter('subscription_id');
@@ -210,8 +211,13 @@ class membersActions extends prActions
                 {
                   $this->member->changeSubscription($subscription_id, $this->getUser()->getUsername() . ' (edit)');
                 }
-                
+
                 $this->member->save();
+                if ($catalogChanged ) {
+                    $this->member->killSession();
+                    $this->member->updateMatches();
+                }
+
                 $this->setFlash('msg_ok', 'Your changes have been saved');
                 $this->redirect('members/edit?id=' . $this->member->getId());
             } elseif ($this->getRequestParameter('add_note'))
