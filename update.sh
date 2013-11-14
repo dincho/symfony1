@@ -17,8 +17,9 @@ function update () {
 
     cd $DIR
     
-    $GIT reset --hard $BRANCH
-    $GIT pull
+    $GIT fetch
+    $GIT reset --hard HEAD
+    $GIT checkout $BRANCH
 
     $SYMFONY disable frontend $ENV
     $SYMFONY disable backend $ENV
