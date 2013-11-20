@@ -1,82 +1,49 @@
 var static_markers = new Array();
+var areas_map;
+var g_marker;
+var geocoder;
 
-function init_area_map()
-{
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("areas_map"), { size: new GSize(420,360) } );
-        geocoder = new GClientGeocoder();
-        
-        geocoder.getLatLng(
-            country,
-            function(point) {
-                if (point) {
-                    map.setCenter(point, 3);
-                    var prIcon = new GIcon(G_DEFAULT_ICON);
-                    prIcon.shadow = false;
-                    prIcon.image = "/images/heart.gif";
-                    prIcon.iconSize = new GSize(23,21);
-                    prIcon.iconAnchor = new GPoint(11, 10); //center the icon over the city
-                    g_marker = new GMarker(point, prIcon);
-                }
-            }
-        );
-    }
+function init_area_map() {
+    areas_map = new google.maps.Map(document.getElementById("areas_map"), {zoom: 3});
+    geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': country}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            areas_map.setCenter(results[0].geometry.location, 3); //the second parameter is the zoom
+            var icon = {
+                url: '/images/heart.gif',
+                // This marker is 20 pixels wide by 32 pixels tall.
+                size: new google.maps.Size(23, 21),
+                // The origin for this image is 0,0.
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at 0,32.
+                anchor: new google.maps.Point(11, 10)
+            };
+
+            g_marker = new google.maps.Marker({
+                icon: icon,
+                position: results[0].geometry.location
+            });
+        }
+    });
 }
 
-function show_area(area)
-{
-    if (GBrowserIsCompatible()) {
-        address = country + ', ' + area;
-        
-        geocoder.getLatLng(
-            address,
-            function(point) {
-                if (point) {
-                    if( map.getZoom() != 5 ) //full country view
-                    {
-                        map.setCenter(point, 5);
-                    } else {  //already zoomed 
-                        map.panTo(point);
-                    }
-                    map.addOverlay(g_marker);
-                    g_marker.setLatLng(point);
-                }
+function show_area(area) {
+    var address = country + ', ' + area;
+
+    geocoder.geocode({ 'address': address}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var point = results[0].geometry.location;
+            areas_map.setCenter(point, 3); //the second parameter is the zoom
+
+            if (areas_map.getZoom() != 5) //full country view
+            {
+                areas_map.setCenter(point, 5);
+            } else {  //already zoomed 
+                areas_map.panTo(point);
             }
-        );
-    }
+            g_marker.setMap(areas_map);
+            g_marker.setPosition(point);
+        }
+    });
 }
-/*
-function changeMarker(oChk, area)
-{
-    if (GBrowserIsCompatible()) {
-        address = country + ', ' + area;
-        
-        geocoder.getLatLng(
-            address,
-            function(point) {
-                if (point) {
-                    if( map.getZoom() != 5 ) //full country view
-                    {
-                        map.setCenter(point, 5);
-                    } else {  //already zoomed 
-                        map.panTo(point);
-                    }
-                    if( oChk.checked )
-                    {
-	                    var prIcon = new GIcon(G_DEFAULT_ICON);
-	                    prIcon.shadow = false;
-	                    prIcon.image = "/images/gmaps_static_heart.gif";
-	                    prIcon.iconSize = new GSize(23,21);
-	                    prIcon.iconAnchor = new GPoint(11, 10); //center the icon over the city
-	                    static_markers[oChk.value] = new GMarker(point, prIcon);
-	                    map.addOverlay(static_markers[oChk.value]);
-	                    static_markers[oChk.value].setLatLng(point);
-	                 } else {
-	                   map.removeOverlay(static_markers[oChk.value]);
-	                 }
-                }
-            }
-        );
-    }
-}
-*/

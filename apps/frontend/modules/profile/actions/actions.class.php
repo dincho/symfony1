@@ -20,8 +20,7 @@ class profileActions extends prActions
         $this->member = MemberPeer::retrieveByUsername($this->getRequestParameter('username'));
         $this->forward404Unless($this->member);
         
-        $key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
-        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
+        $this->getResponse()->addJavascript('http://maps.googleapis.com/maps/api/js?sensor=false');
         
         $this->getUser()->getBC()->clear();
         

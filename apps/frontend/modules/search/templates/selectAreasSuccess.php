@@ -23,7 +23,9 @@
     <fieldset>
         <?php foreach ($sf_data->getRaw('areas') as $area): ?>
             <?php echo checkbox_tag('areas[]', $area->getId(), (in_array($area->getId(), $sf_data->getRaw('selected_areas')) || $sf_request->hasParameter('select_all')) ) ?>
-            <label for="areas_<?php echo $area->getId() ?>" class="slf" onmouseover="show_area('<?php echo $area->getName(); ?>')" onmouseout="map.removeOverlay(g_marker)">
+            <label for="areas_<?php echo $area->getId() ?>" class="slf" 
+                   onmouseover="show_area('<?php echo $area->getName(); ?>')"
+                   onmouseout="g_marker.setMap(null);">
               <?php echo $area->getName(ESC_RAW); ?>
             </label><br />
         <?php endforeach; ?>

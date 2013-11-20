@@ -405,7 +405,8 @@ form fieldset br {
 }
 
 #areas_map {
-    width: 450px;
+    width: 420px;
+    height: 360px;
     overflow: hidden;
     position: absolute;
 }
@@ -2791,6 +2792,8 @@ div.best_video div.right img {
     text-align: center;
     margin: 10px auto;
     overflow: hidden;
+    height: 320px;
+    width: 320px;
 }
 
 /* END Profile description and map */

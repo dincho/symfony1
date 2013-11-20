@@ -272,8 +272,7 @@ class searchActions extends prActions
 
     public function executeSelectAreas()
     {
-			  $key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
-        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
+        $this->getResponse()->addJavascript('http://maps.googleapis.com/maps/api/js?sensor=false');
         $this->getResponse()->addJavascript('areas_map.js');
         $country = $this->getRequestParameter('country');
         $polish_cities = $this->getRequestParameter('polish_cities');
@@ -323,8 +322,7 @@ class searchActions extends prActions
     
     public function handleErrorSelectAreas()
     {
-				$key =  sfConfig::get('app_gmaps_key_' . str_replace('.', '_', $this->getRequest()->getHost()));
-        $this->getResponse()->addJavascript('http://maps.google.com/maps?file=api&v=2&key=' . $key);
+        $this->getResponse()->addJavascript('//maps.googleapis.com/maps/api/js?sensor=false');
         $this->getResponse()->addJavascript('areas_map.js');
         $country = $this->getRequestParameter('country');
         $polish_cities = $this->getRequestParameter('polish_cities');
