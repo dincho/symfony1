@@ -29,15 +29,27 @@ class Tools
 
     public static function truncate($text, $numb, $etc = '...', $plain = true)
     {
+        $oldEncoding = mb_internal_encoding();
+        mb_internal_encoding("UTF-8");
+
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-        if($plain) $text = strip_tags($text);
-        if(strlen($text) > $numb)
-        {
-            $text = substr($text, 0, $numb);
-            if(strrpos($text, " ")) $text = substr($text, 0, strrpos($text, " "));
+        if ($plain) {
+            $text = strip_tags($text);
+        }
+
+        if (mb_strlen($text) > $numb) {
+            $text = mb_substr($text, 0, $numb);
+            if (mb_strrpos($text, " ")) {
+                $text = mb_substr($text, 0, mb_strrpos($text, " "));
+            }
             $text = $text . $etc;
         }
-        if($plain) $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+
+        if ($plain) {
+            $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+        }
+        
+        mb_internal_encoding($oldEncoding);
         return $text;
     }
 
