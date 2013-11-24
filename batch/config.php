@@ -1,7 +1,7 @@
 <?php
 define('SF_ROOT_DIR',    realpath(dirname(__file__).'/..'));
 define('SF_APP',         'backend');
-define('SF_ENVIRONMENT', 'dev');
+define('SF_ENVIRONMENT', 'prod');
 define('SF_DEBUG',       1);
 
 $lock_file = SF_ROOT_DIR.DIRECTORY_SEPARATOR.SF_APP.'_'.SF_ENVIRONMENT.'.lck';
