@@ -2140,15 +2140,15 @@ div.best_video div.right img {
     width: 12px;
     height: 12px;
     display: block;
-    float: left;
-    margin: 7px 15px 0 10px;
+    float: right;
+    margin: 7px 12px 0 0px;
     border: none;
 }
 
 #register .tos label {
     width: auto;
     float: left;
-    padding: 0 0 0 25px;
+    padding: 0 0 0 23px;
     margin: 0;
     height: auto;
     line-height: 13px;
