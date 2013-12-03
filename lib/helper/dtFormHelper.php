@@ -191,7 +191,7 @@ function pr_select_language_tag($name, $selected = null, $options = array())
     $new_languages = array();
     foreach ($languages as $key => $value)
     {
-        $value = mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
+        $value = mb_strtoupper(mb_substr($value, 0, 1, 'utf-8'), 'utf-8') . mb_substr($value, 1, null, 'utf-8');
         $char = mb_substr($value, 0, 1, 'utf-8');
         $opt_key = '------' . $char . '---------';
         
