@@ -328,7 +328,7 @@ form fieldset label {
     background-color: #363639;
 }
 
-form fieldset select, form fieldset input, form fieldset textarea {
+form fieldset select, form fieldset input[type=text], form fieldset textarea {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
@@ -2108,7 +2108,7 @@ div.best_video div.right img {
     float: right;
 }
 
-#register input, #register select {
+#register input[type=text], #register select {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     border: 1px solid #7995ae;
@@ -2264,7 +2264,7 @@ div.best_video div.right img {
     text-decoration: underline;
 }
 
-#registration_box_complete_page input, #registration_box_complete_page select {
+#registration_box_complete_page input[type=text], #registration_box_complete_page select {
     width: 146px;
     font-size: 12px;
     border: 1px solid #7995ae;
