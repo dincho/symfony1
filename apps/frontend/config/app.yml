@@ -111,10 +111,10 @@ dev:
     test_mode:            yes
     
   title_prefix:
-    pd_dincho_bonex_us:     "PolishDate (dev) - "
-    pl_pd_dincho_bonex_us:  "SzukamMilionera.com (dev) - "
-    ec_pd_dincho_bonex_us:  "ExpatCalling.com (dev) - "
-    mm_pd_dincho_bonex_us:  "MeskaMilosc.pl (dev) - "
+    polishdate_bonex_us:     "PolishDate (dev) - "
+    pl_polishdate_bonex_us:  "SzukamMilionera.com (dev) - "
+    ec_polishdate_bonex_us:  "ExpatCalling.com (dev) - "
+    mm_polishdate_bonex_us:  "MeskaMilosc.pl (dev) - "
   sf_google_analytics_plugin:
     enabled:                no
     
@@ -145,10 +145,10 @@ stag:
     callback_url:         http://polishdate.bonex.us/callbacks/dotpay.html
     test_mode:            yes
   title_prefix:
-    pd_dincho_bonex_us:     "PolishDate (stag) - "
-    pl_pd_dincho_bonex_us:  "SzukamMilionera.com (stag) - "
-    ec_pd_dincho_bonex_us:  "ExpatCalling.com (stag) - "
-    mm_pd_dincho_bonex_us:  "MeskaMilosc.pl (stag) - "
+    polishdate_bonex_us:     "PolishDate (stag) - "
+    pl_polishdate_bonex_us:  "SzukamMilionera.com (stag) - "
+    ec_polishdate_bonex_us:  "ExpatCalling.com (stag) - "
+    mm_polishdate_bonex_us:  "MeskaMilosc.pl (stag) - "
     cs_polishdate_bonex_us: "CafeSayang.com (stag) - "
     db_polishdate_bonex_us: "DatingBistro.com (stag) - "
   sf_google_analytics_plugin:
