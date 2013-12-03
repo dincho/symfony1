@@ -2187,8 +2187,8 @@ div.best_video div.right img {
 }
 
 .registration_notes {
-    width: 100%;
-    clear: both;
+    width: 520px;
+    float: left;
 }
 
 .registration_finish {
