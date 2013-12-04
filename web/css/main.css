@@ -328,7 +328,10 @@ form fieldset label {
     background-color: #363639;
 }
 
-form fieldset select, form fieldset input[type=text], form fieldset textarea {
+form fieldset select,
+form fieldset input[type=text],
+form fieldset input[type=password],
+form fieldset textarea {
     background-color: #363639;
     border: 1px solid #7995ae;
     color: #aca49c;
@@ -2108,7 +2111,9 @@ div.best_video div.right img {
     float: right;
 }
 
-#register input[type=text], #register select {
+#register input[type=text],
+#register input[type=password],
+#register select {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     border: 1px solid #7995ae;
@@ -2244,8 +2249,9 @@ div.best_video div.right img {
 
 #registration_box_complete_page #tos_container label {
     color: #92897e;
-    float: none;
-    display: inline;
+    float: left;
+    line-height: 15px;
+    height: 15px;
     width: auto;
     padding: 0;
 }
@@ -2254,8 +2260,8 @@ div.best_video div.right img {
     width: 15px;
     height: 15px;
     border: 0;
-    margin: 0;
-    float: none;
+    margin: 2px 0 0 5px;
+    float: left;
     display: inline;
 }
 
@@ -2264,7 +2270,9 @@ div.best_video div.right img {
     text-decoration: underline;
 }
 
-#registration_box_complete_page input[type=text], #registration_box_complete_page select {
+#registration_box_complete_page input[type=text],
+#registration_box_complete_page input[type=password],
+#registration_box_complete_page select {
     width: 146px;
     font-size: 12px;
     border: 1px solid #7995ae;
@@ -2275,6 +2283,11 @@ div.best_video div.right img {
     margin: 2px 2px;
     padding-right: 1px;
     padding-left: 1px;
+    height: 15px;
+}
+
+#registration_box_complete_page select {
+    padding: 0;
 }
 
 /* this does not apply to IE6 */
@@ -3165,6 +3178,7 @@ button[disabled], .button[disabled], form .button[disabled] {
     border-bottom-color: #171717;
     cursor: pointer;
     margin-top: 5px !important;
+    padding: 0 3px;
 }
 
 /* END New buttons */
