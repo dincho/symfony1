@@ -87,11 +87,11 @@ class ThreadPeer extends BaseThreadPeer
                 WHERE m2.thread_id = thread.id 
                 AND m2.type = ' . MessagePeer::TYPE_DRAFT .
                 ' AND NOT (m2.subject IS NULL OR m2.body IS NULL)';
-        
-        if ($c->containsKey(MessagePeer::RECIPIENT_ID)) {
+
+        if ($c->containsKey(MessagePeer::SENDER_ID)) {  // sent_messages
+            $sql .= ' AND m2.sender_id = ' . $c->getValue(MessagePeer::SENDER_ID);
+        } elseif ($c->containsKey(MessagePeer::RECIPIENT_ID)) { // received_messages
             $sql .= ' AND m2.sender_id = ' . $c->getValue(MessagePeer::RECIPIENT_ID);
-        } elseif ($c->containsKey(MessagePeer::SENDER_ID)) {
-            $sql .= ' AND m2.recipient_id = ' . $c->getValue(MessagePeer::SENDER_ID);
         } else {
             throw new Exception("Unsuppoted query");
         }
