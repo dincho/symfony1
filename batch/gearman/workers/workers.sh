@@ -1,12 +1,9 @@
 #!/bin/bash
 NUM_MAIL_INSTANCES=5
-NUM_MATCH_INSTANCES=5
 
 MY_DIR=`dirname "$0"`
 SCRIPTS_PATH="$MY_DIR"
 MAIL_QUEUE="$SCRIPTS_PATH/MailQueue_Send.php"
-MATCH_STRAIGHT="$SCRIPTS_PATH/MatchQueue_Straight.php"
-MATCH_REVERSE="$SCRIPTS_PATH/MatchQueue_Reverse.php"
 
 PHP=`which php`
 NOHUP=`which nohup`
@@ -30,12 +27,6 @@ function start()
     do
         run_in_background $MAIL_QUEUE
     done
-
-    for (( i=1; i<=$NUM_MATCH_INSTANCES; i++))
-    do
-        run_in_background $MATCH_STRAIGHT
-        run_in_background $MATCH_REVERSE
-    done
     
     echo "done."
 }
@@ -43,7 +34,7 @@ function start()
 function stop()
 {
     echo  "Stopping workers"
-    `/bin/ps xa | egrep "MailQueue_Send.php|MatchQueue_Straight.php|MatchQueue_Reverse.php" | grep -v "grep" | awk '{print $1}' | xargs kill -15`
+    `/bin/ps xa | egrep "MailQueue_Send.php" | grep -v "grep" | awk '{print $1}' | xargs kill -15`
     echo "done."
 }
 

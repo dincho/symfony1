@@ -53,7 +53,8 @@ class whoCanSeeYouActions extends prActions
           $perm->save();
           $this->setFlash('msg_ok', 'User can see you now.', false);
         }
-                
+        
+        MemberMatchPeer::updateMemberIndex($this->getUser()->getProfile());
         if( !$this->getRequest()->isXmlHttpRequest() ) $this->redirectToReferer();
         
         $this->perm = $perm;

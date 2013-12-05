@@ -7,122 +7,129 @@
  * 
  */
 
-class FrontendProfilePager
+class FrontendProfilePager extends sfPager
 {
     private $offset = 0;
-    private $prev = null;
-    private $next = null;
-    private $currentMember = null;
-    
-    public static function init($userId, $offset)
+    private $members = array();
+    private $userId = null;
+    private $firstResult = false;
+
+    public function __construct($userId)
     {
-        $cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'last_search_criteria';
-        $search_crit_cache = new sfFileCache($cache_dir);
-        $crit_data = $search_crit_cache->get($userId, null);
-        
-        if ($crit_data) {
-            $criteria = unserialize($crit_data);
-            $criteria->setOffset($offset);
-            $criteria->setLimit(3);
-            
-            MemberRatePeer::getMapBuilder(); //force manual map loading because of serialized criteria
-            $matches = MemberMatchPeer::doSelectJoinMemberRelatedByMember2Id($criteria);
-        } else {
-            $matches = array();
-        }
-        
-        return new self($matches, $offset);
+        $this->userId = $userId;
+        parent::__construct('Member', $maxPerPage = 1);
     }
     
-    public static function storeCriteria($userId, Criteria $c)
+    public static function storeCriteria($userId, $c)
     {
         $cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'last_search_criteria';
         $search_crit_cache = new sfFileCache($cache_dir);
         $search_crit_cache->set($userId, null, serialize($c));
     }
-    
-    public function __construct(array $matches, $offset)
-    {
-        $this->offset = $offset;
-        $this->setMatches($matches);
-    }
-    
-    protected function setMatches($matches)
-    {
-        $match = null;
-        $cnt = count($matches);
-        
-        switch ($cnt) {
-            case 3: //full set of 3 results
-                $this->currentMember = $matches[1]->getMemberRelatedByMember2Id(); //middle
-                $this->prev = $this->offset - 1;
-                $this->next = $this->offset + 1;
-                
-                //first record
-                if ($this->prev < -1) {
-                    $this->prev = null;
-                    $this->currentMember = $matches[0]->getMemberRelatedByMember2Id(); //middle
-                }
-                break;
-                
-            case 2: //partial set of 2 results
-                //second record
-                $this->currentMember = $matches[1]->getMemberRelatedByMember2Id();
-                $this->prev = $this->offset - 1;
-                $this->next = null;
 
-                //first record
-                if ($this->prev < -1) {
-                    $this->prev = null;
-                    $this->next = $this->offset + 1;
-                    $this->currentMember = $matches[0]->getMemberRelatedByMember2Id();
-                }
-                break;
-                
-            case 1: //only one result
-                $this->currentMember = $matches[0]->getMemberRelatedByMember2Id(); //the only result
-                //no paging
-                $this->prev = null;
-                $this->next = null;
-                break;
-                
-            case 0: //no results - something broken
-            default:
-                $this->currentMember = null;
-                $this->prev = null;
-                $this->next = null;
-                break;
+    // function to be called after parameters have been set
+    public function init()
+    {
+        $hasMaxRecordLimit = ($this->getMaxRecordLimit() !== false);
+        $maxRecordLimit = $this->getMaxRecordLimit();
+
+        if (($this->getPage() == 0 || $this->getMaxPerPage() == 0)) {
+            $this->setLastPage(0);
+        } else {
+            $offset = ($this->getPage() - 1) * $this->getMaxPerPage() - 1;
+            $this->firstResult = (-1 == $offset);
+            $this->offset = max(0, $offset);
         }
-        
+
+        $this->initResults();
+
+        $maxRecordLimit = $this->getMaxRecordLimit();
+        $this->setNbResults(count($this->getResults()));
+
+        //if there are more than one result speculate with last page
+        if (count($this->getResults()) > 1) {
+            $this->setLastPage($this->getPage() + 1);
+        }
+
+        if (!$this->firstResult && count($this->getResults()) != 3) {
+            $this->setLastPage($this->getPage()); //hide the links
+        }
+
+        if ($maxRecordLimit) {
+            $resultsTillNow = ($this->getPage() - 1) * $this->getMaxPerPage() + 1;
+            if ($resultsTillNow >= $maxRecordLimit) {
+                $this->setLastPage($this->getPage()); //hide the links
+            }
+        }
     }
-    
-    public function getOffset()
+
+    protected function initResults()
     {
-        return $this->offset;
+        $cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'last_search_criteria';
+        $cache = new sfFileCache($cache_dir);
+        $cacheData = $cache->get($this->userId, null);
+
+        if ($cacheData) {
+            $obj = unserialize($cacheData);
+
+            if ($obj instanceof Criteria) {
+                $obj->setOffset($this->offset);
+                $obj->setLimit(3);
+                
+                MemberRatePeer::getMapBuilder(); //force manual map loading because of serialized criteria
+                $this->members = MemberPeer::doSelect($obj);
+            } elseif ($obj instanceof prSearchQueryBuilder) {
+                $query = $obj->getMatchesQuery($this->offset, 3);
+                list($this->members, $total) = MemberMatchPeer::getMatches($obj->getMember(), $query);
+            }
+        }
     }
-    
-    public function getCurrentMember()
+
+    // main method: returns an array of result on the given page
+    public function getResults()
     {
-        return $this->currentMember;
+        return $this->members;
     }
-    
-    public function getIndex()
+
+    // used internally by getCurrent()
+    protected function retrieveObject($offset)
     {
-        return $this->offset;
+        $results = $this->getResults();
+        return (isset($results[$offset])) ? $results[$offset] : null;
     }
-    
+
+    public function getCurrent()
+    {
+        return $this->retrieveObject(1);
+    }
+
     public function getNext()
     {
-        return $this->next;
+        if ($this->firstResult) {
+            return $this->retrieveObject(1);
+        }
+
+        switch (count($this->getResults())) {
+            case 3:
+                return $this->retrieveObject(2);
+                break;
+
+            case 2:
+                return $this->retrieveObject(1);
+                break;
+
+            default:
+                return null;
+                break;
+        }
     }
 
     public function getPrevious()
     {
-        return $this->prev;
-    }
-    
-    public function hasResults()
-    {
-        return (null !== $this->currentMember);
+        if ($this->firstResult) {
+            return null;
+        }
+
+        return $this->retrieveObject(0);
     }
 }

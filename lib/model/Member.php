@@ -21,6 +21,8 @@ class Member extends BaseMember
     private $_current_member_subscription = false;
     
     private $subscriptionDetails = null;
+
+    private $memberMatch = null;
     
     public function setPassword($v, $hash_it = true)
     {
@@ -104,6 +106,16 @@ class Member extends BaseMember
         
         parent::setLanguage($v);
     }
+
+    public function setMemberMatch(MemberMatch $match)
+    {
+        $this->memberMatch = $match;
+    }
+
+    public function getMemberMatch()
+    {
+        return $this->memberMatch;
+    }
     
     public function clearDescAnswers()
     {
@@ -137,6 +149,11 @@ class Member extends BaseMember
     {
         return $this->getSex() . '_' . $this->getLookingFor();
     }
+
+    public function getOpositeOrientation()
+    {
+        return $this->getLookingfor(). '4' .$this->getSex();
+    }
     
     /*
    * @return MemberImbra
@@ -163,13 +180,10 @@ class Member extends BaseMember
     {
         if ($this->getMemberStatusId() != $StatusId )
         {
-            if( $StatusId == MemberStatusPeer::ACTIVE )
-            {
-                if( $this->getMemberStatusId() == MemberStatusPeer::PENDING ) Events::triggerWelcomeApproved($this);
-                
-                //non active members are excluded from matches
-                //so regenerate the results
-                $this->updateMatches();
+            if ($StatusId == MemberStatusPeer::ACTIVE
+                && $this->getMemberStatusId() == MemberStatusPeer::PENDING
+            ) {
+                Events::triggerWelcomeApproved($this);
             }
             
             $old_status_id = $this->getMemberStatusId();
@@ -390,123 +404,6 @@ class Member extends BaseMember
         $c->addGroupByColumn(ThreadPeer::ID);
         
         return ThreadPeer::doCount($c);
-    }
-    
-    public function updateStraightMatches()
-    {
-        if( sfConfig::get('app_matches_use_queue') )
-        {
-            $gmc = new GearmanClient();
-            $gmc->addServer('127.0.0.1', 4730);
-            $handle = @$gmc->doBackground('MatchQueue_Straight', $this->getId(), $uniq = $this->getId());
-            
-            if ( $gmc->returnCode() == GEARMAN_SUCCESS )
-            {
-                return true;
-            } else {
-                if( sfConfig::get('app_matches_error_exception') ) throw new sfException("(MatchQueue_Straight) Unable to schedule gearman job!", $gmc->returnCode());
-                return false;
-            }
-            
-        } else {
-            $this->doUpdateStraightMatches();
-        }
-        
-        return true;
-    }
-    
-    public function doUpdateStraightMatches()
-    {
-        $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'straight_matches_'.$this->getId().'.txt';
-        if( file_exists($tmp_file) ) return; //don't run twise
-        
-        try {
-            $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
-
-            // replace Windows separator with Unix one,
-            // because MySQL have problems with it
-            // http://dev.mysql.com/doc/refman/5.0/en/limits-windows.html
-            $tmp_file = str_replace('\\','/', $tmp_file);  
-            
-            $connection = Propel::getConnection();
-            $statement = $connection->prepareStatement('CALL generate_straight_matches(?, ?, ?)');
-            $statement->set(1, $this->getId());
-            $statement->set(2, $max_score);
-            $statement->set(3, $tmp_file);
-            $statement->executeQuery();
-        
-            $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member1_id = %d', $this->getId()));
-            $statement->executeQuery();
-        
-            $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match (member1_id, member2_id, pct)', $tmp_file));
-            $statement->executeQuery();
-        } catch (Exception $e) {
-            @unlink($tmp_file); //cleanup
-            throw $e;
-        }
-        
-        @unlink($tmp_file); //cleanup
-    }
-    
-    public function updateReverseMatches()
-    {
-        if( sfConfig::get('app_matches_use_queue') )
-        {
-            $gmc = new GearmanClient();
-            $gmc->addServer('127.0.0.1', 4730);
-            $handle = @$gmc->doBackground('MatchQueue_Reverse', $this->getId(), $uniq = $this->getId());
-            
-            if ( $gmc->returnCode() == GEARMAN_SUCCESS )
-            {
-                return true;
-            } else {
-                if( sfConfig::get('app_matches_error_exception') ) throw new sfException("(MatchQueue_Reverse) Unable to schedule gearman job!", $gmc->returnCode());
-                return false;
-            }
-            
-        } else {
-            $this->doUpdateReverseMatches();
-        }
-
-        return true;
-    }
-    
-    public function doUpdateReverseMatches()
-    {
-        $tmp_file = sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'reverse_matches_'.$this->getId().'.txt';
-        if( file_exists($tmp_file) ) return; //don't run twise
-        
-        try {
-            $max_score = sfConfig::get('app_matches_max_weight')*sfConfig::get('app_matches_nb_desc_quesitons');
-            // replace Windows separator with Unix one,
-            // because MySQL have problems with it
-            // http://dev.mysql.com/doc/refman/5.0/en/limits-windows.html
-            $tmp_file = str_replace('\\','/', $tmp_file);
-
-            $connection = Propel::getConnection();
-            $statement = $connection->prepareStatement('CALL generate_reverse_matches(?, ?, ?)');
-            $statement->set(1, $this->getId());
-            $statement->set(2, $max_score);
-            $statement->set(3, $tmp_file);
-            $statement->executeQuery();
-        
-            $statement = $connection->prepareStatement(sprintf('DELETE FROM member_match WHERE member2_id = %d', $this->getId()));
-            $statement->executeQuery();
-        
-            $statement = $connection->prepareStatement(sprintf('LOAD DATA INFILE "%s" INTO TABLE member_match (member1_id, member2_id, pct)', $tmp_file));
-            $statement->executeQuery();
-        } catch (Exception $e) {
-            @unlink($tmp_file); //cleanup
-            throw $e;
-        }
-        
-        @unlink($tmp_file); //cleanup
-    }
-    
-    public function updateMatches()
-    {
-        $this->updateStraightMatches();
-        $this->updateReverseMatches();
     }
     
     public function isLoggedIn()
@@ -821,6 +718,7 @@ class Member extends BaseMember
             $open->setProfileId($profile_id);
             $open->save();
             
+            MemberMatchPeer::updateMemberIndex($this);
             return true;
         }
         
@@ -1242,5 +1140,27 @@ class Member extends BaseMember
 
         return FeedbackPeer::doCount($c);
     }
-        
+
+    public function save($con = null)
+    {
+        $updateIndex = false;
+        if ($this->isColumnModified(MemberPeer::CATALOG_ID)
+            || $this->isColumnModified(MemberPeer::MEMBER_STATUS_ID)
+            || $this->isColumnModified(MemberPeer::SEX)
+            || $this->isColumnModified(MemberPeer::LOOKING_FOR)
+            || $this->isColumnModified(MemberPeer::COUNTRY)
+            || $this->isColumnModified(MemberPeer::CITY_ID)
+            || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
+        ) {
+            $updateIndex = true;
+        }
+
+        $ret = parent::save($con);
+
+        if ($updateIndex) {
+            MemberMatchPeer::updateMemberIndex($this);
+        }
+
+        return $ret;
+    }
 }

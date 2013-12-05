@@ -61,23 +61,6 @@ class profileActions extends prActions
         $this->setTemplate('simpleProfile');
     }
     
-    public function executePager()
-    {
-        $pager = FrontendProfilePager::init(
-            $this->getUser()->getId(), 
-            $this->getRequestParameter('offset')
-        );
-        
-        if ($member = $pager->getCurrentMember()) {
-            $this->getRequest()->setParameter('username', $member->getUsername());
-            $this->getRequest()->setParameter('offset', $pager->getOffset());
-            $this->forward('profile', 'index');
-        }
-        
-        $this->setFlash('msg_error', 'Unable to configure your profile pager please try again.');
-        $this->redirect('@matches');
-    }
-    
     public function executeIndex()
     { 
         $this->profilePreExecute();
@@ -155,7 +138,10 @@ class profileActions extends prActions
                 if( !$error )
                 {
                     $this->getUser()->viewProfile($this->member);
-                    $this->match = $this->member->getMatchWith($this->getUser()->getProfile());
+                    $this->match = MemberMatchPeer::getMatch(
+                        $this->getUser()->getProfile(),
+                        $this->member
+                    );
                     
                     //unread messages flash message
                     $unread_c = new Criteria();
@@ -183,15 +169,22 @@ class profileActions extends prActions
                     $this->setFlash('msg_error', $error, false);
                 }
                 
-
-                    
                 //we need profile pager and correct BC regardless of the error, 
                 //since we just show an unavailable profile template
-                if ($this->getRequest()->hasParameter('offset')) {
-                    $this->profile_pager = FrontendProfilePager::init(
-                        $this->getUser()->getId(),
-                        $this->getRequestParameter('offset')
-                    );
+                if ($this->getRequest()->hasParameter('page')) {
+                    $profile = $this->getUser()->getProfile();
+                    $this->profile_pager = new FrontendProfilePager($profile->getId());
+                    $this->profile_pager->setPage($this->getRequestParameter('page'));
+                    
+                    if (sfConfig::get('app_settings_man_should_pay') 
+                        && $profile->isFree()
+                        && $profile->getSex() == 'M' 
+                        && $profile->getLookingFor() == 'F'
+                    ) {
+                        $this->profile_pager->setMaxRecordLimit(600);
+                    }
+
+                    $this->profile_pager->init();
                 } else {
                     $this->profile_pager = null;
                 }
