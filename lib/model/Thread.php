@@ -46,4 +46,9 @@ class Thread extends BaseThread
     {
         return $this->cntDrafts;
     }
+
+    public function getCntAll()
+    {
+        return $this->cntMessages + $this->cntDrafts;
+    }
 }

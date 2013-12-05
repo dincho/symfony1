@@ -65,9 +65,9 @@ jQuery(document).ready(function(){
             <td class="message_from">
                 <?php if( $thread->object ): ?>
                     <?php echo link_to($thread->object->getUsername(), '@profile?username=' . $thread->object->getUsername(), array('class' => 'sec_link')) ?>
-                    <?php if ($thread->getCntMessages() > 1): ?>
-                        <span class="message_count">(<?php echo $thread->getCntMessages(); ?>)</span>
-                        <?php $msgCountByThread[$thread->getId()] =  $thread->getCntMessages() ?>
+                    <?php if ($thread->getCntAll() > 1): ?>
+                        <span class="message_count">(<?php echo $thread->getCntAll(); ?>)</span>
+                        <?php $msgCountByThread[$thread->getId()] =  $thread->getCntAll() ?>
                     <?php endif; ?>
                     <br />
                 <?php else: ?>
@@ -118,10 +118,10 @@ jQuery(document).ready(function(){
         <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($thread->object), '@profile?username=' .$thread->object->getUsername()); ?></td>
         <td class="message_from">
             <?php echo link_to($thread->object->getUsername(), '@profile?username=' .$thread->object->getUsername(), array('class' => 'sec_link')) ?>
-            <?php if ($thread->getCntMessages() > 1): ?>
-            <span class="message_count">(<?php echo $thread->getCntMessages(); ?>)</span>
-            <?php if (!array_key_exists($thread->getId(), $msgCountByThread)):?>
-                <?php $msgCountByThread[$thread->getId()] =  $thread->getCntMessages(); ?>
+            <?php if ($thread->getCntAll() > 1): ?>
+                <span class="message_count">(<?php echo $thread->getCntAll(); ?>)</span>
+                <?php if (!array_key_exists($thread->getId(), $msgCountByThread)):?>
+                    <?php $msgCountByThread[$thread->getId()] =  $thread->getCntAll(); ?>
                 <?php endif;?>
             <?php endif; ?>
             <br />
@@ -176,8 +176,8 @@ jQuery(document).ready(function(){
             <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($message->getMemberRelatedByRecipientId()), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername()); ?></td>
             <td class="message_from">
             <?php echo link_to($message->getMemberRelatedByRecipientId()->getUsername(), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername(), array('class' => 'sec_link')) ?>
-            <?php if ($message->getThreadId() && $message->getThread()->getCntMessages() > 1): ?>
-            <span class="message_count">(<?php echo $message->getThread()->getCntMessages(); ?>)</span>
+            <?php if ($message->getThreadId() && $message->getThread()->getCntAll() > 1): ?>
+                <span class="message_count">(<?php echo $message->getThread()->getCntAll(); ?>)</span>
             <?php endif; ?>
             <br />
                 <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
