@@ -7,7 +7,7 @@
                                                                 ),
                                                            array('class' => 'delete_button')) ?>
                                                            
-        <?php echo button_to_function('crop', strtr('show_crop_area("%ID%", "%ORIGINAL_PHOTO%")', array('%ID%' => $photo->getId(), '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file'), ) ),
+        <?php echo button_to_function('crop', strtr('show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)', array('%ID%' => $photo->getId(), '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file'), ) ),
                                                            array('class' => 'delete_button', )) ?>
         <?php echo button_to_function('↶', 'rotate(' . $photo->getId() . ', 90)' ,
             array('class' => 'button_mini delete_button')) ?>

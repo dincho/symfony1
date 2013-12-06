@@ -49,17 +49,38 @@
 
 <script type="text/javascript" charset="utf-8">
     var cropper = null;
-    
-    function show_crop_area(photo_id, img_src)
+    window.activeCropButton = null;
+
+    function show_crop_area(photo_id, img_src, btn)
     {
+        // manually clean previously unsuccessful loading of #crop_image src
+        if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
+        $$('div.imgCrop_wrap')
+                .forEach(
+                    function(el)
+                    {
+                        if(!el.down('img')){
+                            el.remove();
+                        }
+                    }
+                );
+
+        // enable previously pressed "Crop" button if any
+        if (window.activeCropButton){
+            window.activeCropButton.disabled = false;
+        }
+
+        // disable currently pressed "Crop" button till img loads
+        window.activeCropButton = btn;
+        window.activeCropButton.disabled = true;
+
         var photo_el = "photo_" + photo_id;
         var x = 100;
         var y = 100;
+
         //remove old cropper if any
-        if( cropper ) 
+        if( cropper )
         {
-            // console.log("cropper.previewWrap: ", cropper.previewWrap);
-            if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
             cropper.previewWrap.removeClassName( 'imgCrop_previewWrap' );
             cropper.previewWrap.removeAttribute('style');
             cropper.remove();
@@ -76,6 +97,8 @@
         $('crop_area').down('#crop_image').src = img_src;    
         $('crop_area').down('#crop_image').observe('load',function()
             {
+                window.activeCropButton.disabled = false;
+                window.activeCropButton = null;
                 $('crop_area').show();
         
                 //this should be done after the image is loaded
