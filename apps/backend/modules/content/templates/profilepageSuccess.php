@@ -33,21 +33,21 @@
         <label></label><?php echo input_tag('trans[135]', (isset($trans[135])) ? $trans[135]->getTarget() : null) ?><br />
 
         <br /><label style="width: 120px;">To Standard members</label><br />
-        <label>upg. to use</label><?php echo input_tag('trans[137]', (isset($trans[137])) ? $trans[137]->getTarget() : null) ?><br />
-        <label>upg. to send</label><?php echo input_tag('trans[86]', (isset($trans[86])) ? $trans[86]->getTarget() : null) ?><br />
-        <label>send limit</label><?php echo input_tag('trans[124]', (isset($trans[124])) ? $trans[124]->getTarget() : null) ?><br />
-        <label>upg. to read</label><?php echo input_tag('trans[125]', (isset($trans[125])) ? $trans[125]->getTarget() : null) ?><br />        
-        <label>read limit</label><?php echo input_tag('trans[77]', (isset($trans[77])) ? $trans[77]->getTarget() : null) ?><br />
-        <label>upg. to reply</label><?php echo input_tag('trans[78]', (isset($trans[78])) ? $trans[78]->getTarget() : null) ?><br />
-        <label>reply limit</label><?php echo input_tag('trans[81]', (isset($trans[81])) ? $trans[81]->getTarget() : null) ?><br />
-        <label>upg. to post upl.</label><?php echo input_tag('trans[82]', (isset($trans[82])) ? $trans[82]->getTarget() : null) ?><br />        
-        <label>post photo limit</label><?php echo input_tag('trans[115]', (isset($trans[115])) ? $trans[115]->getTarget() : null) ?><br />
-        <label>upg. to see view.</label><?php echo input_tag('trans[116]', (isset($trans[116])) ? $trans[116]->getTarget() : null) ?><br />
-        <label>upg. to cont. assist.</label><?php echo input_tag('trans[84]', (isset($trans[84])) ? $trans[84]->getTarget() : null) ?><br />
-        <label>cont. assist. limit</label><?php echo input_tag('trans[87]', (isset($trans[87])) ? $trans[87]->getTarget() : null) ?><br />
-        <label>upg. to wink</label><?php echo input_tag('trans[88]', (isset($trans[88])) ? $trans[88]->getTarget() : null) ?><br />
-        <label>wink limit</label><?php echo input_tag('trans[117]', (isset($trans[117])) ? $trans[117]->getTarget() : null) ?><br />
-        <label></label><?php echo input_tag('trans[118]', (isset($trans[118])) ? $trans[118]->getTarget() : null) ?><br />
+        <label></label><?php echo input_tag('trans[137]', (isset($trans[137])) ? $trans[137]->getTarget() : null) ?><br />
+        <label>upg. to use</label><?php echo input_tag('trans[86]', (isset($trans[86])) ? $trans[86]->getTarget() : null) ?><br />
+        <label>upg. to send</label><?php echo input_tag('trans[124]', (isset($trans[124])) ? $trans[124]->getTarget() : null) ?><br />
+        <label>send limit</label><?php echo input_tag('trans[125]', (isset($trans[125])) ? $trans[125]->getTarget() : null) ?><br />
+        <label>upg. to read</label><?php echo input_tag('trans[77]', (isset($trans[77])) ? $trans[77]->getTarget() : null) ?><br />
+        <label>read limit</label><?php echo input_tag('trans[78]', (isset($trans[78])) ? $trans[78]->getTarget() : null) ?><br />
+        <label>upg. to reply</label><?php echo input_tag('trans[81]', (isset($trans[81])) ? $trans[81]->getTarget() : null) ?><br />
+        <label>reply limit</label><?php echo input_tag('trans[82]', (isset($trans[82])) ? $trans[82]->getTarget() : null) ?><br />
+        <label>upg. to post upl.</label><?php echo input_tag('trans[115]', (isset($trans[115])) ? $trans[115]->getTarget() : null) ?><br />
+        <label>post photo limit</label><?php echo input_tag('trans[116]', (isset($trans[116])) ? $trans[116]->getTarget() : null) ?><br />
+        <label>upg. to see view.</label><?php echo input_tag('trans[84]', (isset($trans[84])) ? $trans[84]->getTarget() : null) ?><br />
+        <label>upg. to cont. assist.</label><?php echo input_tag('trans[87]', (isset($trans[87])) ? $trans[87]->getTarget() : null) ?><br />
+        <label>cont. assist. limit</label><?php echo input_tag('trans[88]', (isset($trans[88])) ? $trans[88]->getTarget() : null) ?><br />
+        <label>upg. to wink</label><?php echo input_tag('trans[117]', (isset($trans[117])) ? $trans[117]->getTarget() : null) ?><br />
+        <label>wink limit</label><?php echo input_tag('trans[118]', (isset($trans[118])) ? $trans[118]->getTarget() : null) ?><br />
 
         <br /><label style="width: 120px;">To Premium members</label><br />
         <label>upg. to send</label><?php echo input_tag('trans[157]', (isset($trans[157])) ? $trans[157]->getTarget() : null) ?><br />
