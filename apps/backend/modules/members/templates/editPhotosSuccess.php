@@ -55,20 +55,14 @@
     {
         // manually clean previously unsuccessful loading of #crop_image src
         if($('imgCrop_crop_image')) $('imgCrop_crop_image').remove();
-        $$('div.imgCrop_wrap')
-                .forEach(
-                    function(el)
-                    {
-                        if(!el.down('img')){
-                            el.remove();
-                        }
-                    }
-                );
+
+        $$('div.imgCrop_wrap').forEach(function(el)
+            {
+                if(!el.down('img')) el.remove();
+            });
 
         // enable previously pressed "Crop" button if any
-        if (window.activeCropButton){
-            window.activeCropButton.disabled = false;
-        }
+        if (window.activeCropButton) window.activeCropButton.disabled = false;
 
         // disable currently pressed "Crop" button till img loads
         window.activeCropButton = btn;
@@ -85,7 +79,7 @@
             cropper.previewWrap.removeAttribute('style');
             cropper.remove();
             cropper = null;
-            if($('crop_image')) $('crop_image').remove(); 
+            if($('crop_image')) $('crop_image').remove();
         }
         
         //set the image and show the crop_area
