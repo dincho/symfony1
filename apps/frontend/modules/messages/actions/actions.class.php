@@ -9,10 +9,6 @@ class messagesActions extends prActions
 
     public function executeIndex()
     {
-        //$this->getResponse()->addJavascript('show_hide_tick');
-        $this->getResponse()->addJavascript('jquery.min.js');
-        $this->getResponse()->addJavascript('messages_tabs.js');
-
         $c = new Criteria();
         $c->add(MessagePeer::RECIPIENT_ID, $this->getUser()->getId());
         $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
@@ -23,43 +19,96 @@ class messagesActions extends prActions
         $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
         $c->addJoin(MessagePeer::SENDER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         $c->addDescendingOrderByColumn(ThreadPeer::UPDATED_AT);
-        $this->threads_received = ThreadPeer::doSelectHydrateObject($c);
+
+        $this->pager = new prPropelPager('Thread', 5);
+        $this->pager->setCriteria($c);
+        $this->pager->setPage($this->getRequestParameter('page', 1));
+        $this->pager->setPeerMethod('doSelectHydrateObject');
+        $this->pager->init();
 
         $cc->add(MessagePeer::UNREAD, true);
         $cc->addGroupByColumn(MessagePeer::THREAD_ID);
         $rs = MessagePeer::doSelectRS($cc);
         $this->cnt_unread = $rs->getRecordCount();
 
+        $profile = $this->member = $this->getUser()->getProfile();
+        $this->truncateLimit = ($profile->getSex() == 'M'
+                                && $profile->isFree()
+                                && $profile->hasUnreadMessagesFromFreeFemales()) ? 12 : 80;
+
+        $this->showDeleteConfirmation();
+    }
+
+    public function validateIndex()
+    {
+        return $this->validateDeleteMessages();
+    }
+
+    public function executeDrafts()
+    {
+        $this->getUser()->getBC()
+             ->removeLast()->removeLast()
+             ->add(array('name' => __('Draft Messages')));
+
+        $c = new Criteria();
+        $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
+        $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
+        $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
+
+        $crit = $c->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
+        $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
+        $c->add($crit);
+
+        $this->pager = new prPropelPager('Message', 5);
+        $this->pager->setCriteria($c);
+        $this->pager->setPage($this->getRequestParameter('page', 1));
+        $this->pager->setPeerMethod('doSelectJoinMemberRelatedByRecipientId');
+        $this->pager->init();
+
+        $this->showDeleteConfirmation();
+        $this->member = $this->getUser()->getProfile();
+    }
+
+    public function validateDrafts()
+    {
+        return $this->validateDeleteMessages();
+    }
+
+    public function executeSent()
+    {
+        $this->getUser()->getBC()
+             ->removeLast()->removeLast()
+             ->add(array('name' => __('Sent Messages')));
+
         $c = new Criteria();
         $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
         $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_NORMAL);
+        $c->addJoin(MessagePeer::RECIPIENT_ID, MemberPeer::ID);
         $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
         $c->addGroupByColumn(ThreadPeer::ID);
         $c->addDescendingOrderByColumn(ThreadPeer::UPDATED_AT);
-        $c->addJoin(MessagePeer::RECIPIENT_ID, MemberPeer::ID);
-        $this->sent_threads = ThreadPeer::doSelectHydrateObject($c);
 
-        $c1 = new Criteria();
-        $c1->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
-        $c1->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
-        $c1->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
-        $c1->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
+        $this->pager = new prPropelPager('Thread', 5);
+        $this->pager->setCriteria($c);
+        $this->pager->setPage($this->getRequestParameter('page', 1));
+        $this->pager->setPeerMethod('doSelectHydrateObject');
+        $this->pager->init();
 
-        $crit = $c1->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
-        $crit->addOr($c1->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
-        $c1->add($crit);
-        $this->draft_messages = MessagePeer::doSelectJoinMemberRelatedByRecipientId($c1);
+        $this->showDeleteConfirmation();
+        $this->member = $this->getUser()->getProfile();
+    }
 
-        $profile = $this->getUser()->getProfile();
-        $this->received_messages_truncate_limit = ($profile->getSex() == 'M'
-                                                   && $profile->isFree()
-                                                   && $profile->hasUnreadMessagesFromFreeFemales()) ? 12 : 80;
+    public function validateSent()
+    {
+        return $this->validateDeleteMessages();
+    }
 
-        //message deletion confirmation
+    protected function showDeleteConfirmation()
+    {
         if (($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft'))
-            && count($this->getRequestParameter('selected', array()))
-               > 0
+            && count($this->getRequestParameter('selected', array())) > 0
         ) {
             $i18n = $this->getContext()->getI18N();
             $i18n_options = array(
@@ -73,11 +122,9 @@ class messagesActions extends prActions
             );
             $this->setFlash('msg_error', $del_msg, false);
         }
-
-        $this->member = $profile;
     }
 
-    public function validateIndex()
+    protected function validateDeleteMessages()
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST
             && ($this->getRequestParameter('confirm_delete')
@@ -338,7 +385,7 @@ class messagesActions extends prActions
         if (!empty($marked)) {
             $c = new Criteria();
             $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
-            $c->add(MessagePeer::ID, $marked, Criteria::IN);
+            $c->add(MessagePeer::THREAD_ID, $marked, Criteria::IN);
             $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
             MessagePeer::doDelete($c);
         }
