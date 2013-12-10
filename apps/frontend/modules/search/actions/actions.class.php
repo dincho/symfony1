@@ -110,95 +110,95 @@ class searchActions extends prActions
     
     public function executeCriteria()
     {
-        $this->has_criteria = true;
-        if (! $this->getUser()->getProfile()->hasSearchCriteria())
-        {
-            $this->has_criteria = false;
-            $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
-            return sfView::SUCCESS;
-        }
+        // $this->has_criteria = true;
+        // if (! $this->getUser()->getProfile()->hasSearchCriteria())
+        // {
+        //     $this->has_criteria = false;
+        //     $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
+        //     return sfView::SUCCESS;
+        // }
         
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
+        // $c = new Criteria();
+        // $this->addGlobalCriteria($c);
+        // $this->addFiltersCriteria($c);
         
-        $c->addDescendingOrderByColumn(MemberMatchPeer::PCT);
-        $rows = sfConfig::get('app_settings_search_rows_custom', 4);
-        $per_page = $rows * 3; //3 boxes/profiles per row
-        $this->initPager($c, $per_page);
+        // $c->addDescendingOrderByColumn(MemberMatchPeer::PCT);
+        // $rows = sfConfig::get('app_settings_search_rows_custom', 4);
+        // $per_page = $rows * 3; //3 boxes/profiles per row
+        // $this->initPager($c, $per_page);
         
-        $this->getUser()->setAttribute('last_search_url', 'search/criteria?page=' . $this->pager->getPage());
+        // $this->getUser()->setAttribute('last_search_url', 'search/criteria?page=' . $this->pager->getPage());
 
-        //add ajax support
-        if($this->getRequest()->isXmlHttpRequest())
-        {
-          sfLogger::getInstance()->info(" isXmlHttpRequest ");
-          $this->setLayout(false);
-          return 'Ajax';
-        }
+        // //add ajax support
+        // if($this->getRequest()->isXmlHttpRequest())
+        // {
+        //   sfLogger::getInstance()->info(" isXmlHttpRequest ");
+        //   $this->setLayout(false);
+        //   return 'Ajax';
+        // }
     }
 
     public function executeReverse()
     {
-        $c = new Criteria();
-        $c->add(MemberMatchPeer::MEMBER2_ID, $this->getUser()->getId());
-        $this->reverse_cnt = MemberMatchPeer::doCount($c);
+        // $c = new Criteria();
+        // $c->add(MemberMatchPeer::MEMBER2_ID, $this->getUser()->getId());
+        // $this->reverse_cnt = MemberMatchPeer::doCount($c);
         
-        if( $this->reverse_cnt == 0 )
-        {
-            $this->setFlash('msg_ok', 'The results are calculated during the night, you will see them tomorrow', false);
-            return sfView::SUCCESS;
-        }
+        // if( $this->reverse_cnt == 0 )
+        // {
+        //     $this->setFlash('msg_ok', 'The results are calculated during the night, you will see them tomorrow', false);
+        //     return sfView::SUCCESS;
+        // }
         
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
+        // $c = new Criteria();
+        // $this->addGlobalCriteria($c);
+        // $this->addFiltersCriteria($c);
         
-        $c->addHaving($c->getNewCriterion(MemberMatchPeer::ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
-        $c->addDescendingOrderByColumn('reverse_pct');
-        $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
-        $per_page = $rows * 3; //3 boxes/profiles per row        
-        $this->initPager($c, $per_page, 'doSelectJoinMemberRelatedByMember2Id', 'doCountJoinMemberRelatedByMember2IdReverse');
+        // $c->addHaving($c->getNewCriterion(MemberMatchPeer::ID, 'reverse_pct > 0' ,Criteria::CUSTOM));
+        // $c->addDescendingOrderByColumn('reverse_pct');
+        // $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
+        // $per_page = $rows * 3; //3 boxes/profiles per row        
+        // $this->initPager($c, $per_page, 'doSelectJoinMemberRelatedByMember2Id', 'doCountJoinMemberRelatedByMember2IdReverse');
         
-        $this->getUser()->setAttribute('last_search_url', 'search/reverse?page=' . $this->pager->getPage());
+        // $this->getUser()->setAttribute('last_search_url', 'search/reverse?page=' . $this->pager->getPage());
 
-        //add ajax support
-        if($this->getRequest()->isXmlHttpRequest())
-        {
-          sfLogger::getInstance()->info(" isXmlHttpRequest ");
-          $this->setLayout(false);
-          return 'Ajax';
-        }
+        // //add ajax support
+        // if($this->getRequest()->isXmlHttpRequest())
+        // {
+        //   sfLogger::getInstance()->info(" isXmlHttpRequest ");
+        //   $this->setLayout(false);
+        //   return 'Ajax';
+        // }
     }
 
     public function executeMatches()
     {
-        $this->has_criteria = true;
-        if (! $this->getUser()->getProfile()->hasSearchCriteria())
-        {
-            $this->has_criteria = false;
-            $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
-            return sfView::SUCCESS;
-        }
+        // $this->has_criteria = true;
+        // if (! $this->getUser()->getProfile()->hasSearchCriteria())
+        // {
+        //     $this->has_criteria = false;
+        //     $this->setFlash('msg_ok', 'To see search results, please set up your search criteria', false);
+        //     return sfView::SUCCESS;
+        // }
         
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
+        // $c = new Criteria();
+        // $this->addGlobalCriteria($c);
+        // $this->addFiltersCriteria($c);
         
-        $c->addDescendingOrderByColumn('(pct+reverse_pct)');
-        $rows = sfConfig::get('app_settings_search_rows_matches', 4);
-        $per_page = $rows * 3; //3 boxes/profiles per row        
-        $this->initPager($c, $per_page);
+        // $c->addDescendingOrderByColumn('(pct+reverse_pct)');
+        // $rows = sfConfig::get('app_settings_search_rows_matches', 4);
+        // $per_page = $rows * 3; //3 boxes/profiles per row        
+        // $this->initPager($c, $per_page);
         
-        $this->getUser()->setAttribute('last_search_url', 'search/matches?page=' . $this->pager->getPage());
+        // $this->getUser()->setAttribute('last_search_url', 'search/matches?page=' . $this->pager->getPage());
 
-        //add ajax support
-        if($this->getRequest()->isXmlHttpRequest())
-        {
-          sfLogger::getInstance()->info(" isXmlHttpRequest ");
-          $this->setLayout(false);
-          return 'Ajax';
-        }
+        // //add ajax support
+        // if($this->getRequest()->isXmlHttpRequest())
+        // {
+        //   sfLogger::getInstance()->info(" isXmlHttpRequest ");
+        //   $this->setLayout(false);
+        //   return 'Ajax';
+        // }
     }
 
     public function executeByKeyword()
