@@ -20,7 +20,7 @@ class messagesActions extends prActions
         $c->addJoin(MessagePeer::SENDER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         $c->addDescendingOrderByColumn(ThreadPeer::UPDATED_AT);
 
-        $this->pager = new prPropelPager('Thread', 5);
+        $this->pager = new prPropelPager('Thread', 10);
         $this->pager->setCriteria($c);
         $this->pager->setPage($this->getRequestParameter('page', 1));
         $this->pager->setPeerMethod('doSelectHydrateObject');
@@ -60,7 +60,7 @@ class messagesActions extends prActions
         $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
         $c->add($crit);
 
-        $this->pager = new prPropelPager('Message', 5);
+        $this->pager = new prPropelPager('Message', 10);
         $this->pager->setCriteria($c);
         $this->pager->setPage($this->getRequestParameter('page', 1));
         $this->pager->setPeerMethod('doSelectJoinMemberRelatedByRecipientId');
@@ -90,7 +90,7 @@ class messagesActions extends prActions
         $c->addGroupByColumn(ThreadPeer::ID);
         $c->addDescendingOrderByColumn(ThreadPeer::UPDATED_AT);
 
-        $this->pager = new prPropelPager('Thread', 5);
+        $this->pager = new prPropelPager('Thread', 10);
         $this->pager->setCriteria($c);
         $this->pager->setPage($this->getRequestParameter('page', 1));
         $this->pager->setPeerMethod('doSelectHydrateObject');
