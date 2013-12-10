@@ -26,4 +26,29 @@ class messagesComponents extends sfComponents
         
         $this->js_options = json_encode($js_options);
     }
+
+    public function executeNavigation()
+    {
+        $c = new Criteria();
+        $c->add(MessagePeer::RECIPIENT_ID, $this->getUser()->getId());
+        $c->add(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+        $c->add(MessagePeer::UNREAD, true);
+        $c->addGroupByColumn(MessagePeer::THREAD_ID);
+        $rs = MessagePeer::doSelectRS($c);
+        $this->cntUnread = $rs->getRecordCount();
+
+        $c = new Criteria();
+        $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
+        $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
+        $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
+
+        $crit = $c->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
+        $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
+        $c->add($crit);
+
+        $rs = MessagePeer::doSelectRS($c);
+        $this->cntDrafts = $rs->getRecordCount();
+    }
 }
