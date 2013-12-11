@@ -2426,6 +2426,10 @@ div.best_video div.right img {
     background-color: #4f4f4f;
 }
 
+.msg_form fieldset.thread_msg {
+    padding-top: 24px;
+}
+
 .msg_form span.msg_to {
     margin-top: 4px;
     font-size: 11px;
