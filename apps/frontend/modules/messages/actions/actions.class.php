@@ -385,7 +385,7 @@ class messagesActions extends prActions
         if (!empty($marked)) {
             $c = new Criteria();
             $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
-            $c->add(MessagePeer::THREAD_ID, $marked, Criteria::IN);
+            $c->add(MessagePeer::ID, $marked, Criteria::IN);
             $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
             MessagePeer::doDelete($c);
         }
