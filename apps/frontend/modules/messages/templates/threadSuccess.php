@@ -45,33 +45,26 @@
 </div>
 <br />
 <p class="thread_headline"><?php echo $thread->getSubject(); ?></p>
-
-<?php foreach($messages as $message): ?>
-<?php $sender = ( $message->getSenderId() == $member->getId()) ?  $member : $profile; ?>
-    <a name="message_<?php echo $message->getId();?>"></a>
-    <table class="threaded_message">  
-            <tr>
-                <td class="profile_photo">
-                    <?php if( $sender ): ?>
-                        <?php echo link_to_unless(!$sender->isActive(), profile_thumbnail_photo_tag($sender), '@profile?username=' . $sender->getUsername()); ?>
-                    <?php endif; ?>
-                </td>
-                <td class="message_info">
-                    <?php if( $sender ): ?>
-                        <?php echo link_to_unless(!$sender->isActive(), $sender->getUsername(), '@profile?username=' . $sender->getUsername(), array('class' => 'sec_link'));?><br />
-                    <?php else: ?>
-                        <?php echo __('Internal System'); ?><br />
-                    <?php endif; ?>
-                    <?php echo format_date_pr($message->getCreatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?>
-                </td>
-                <td class="message_body">
-                    <?php echo strip_tags($message->getBody(ESC_RAW), '<br><a>'); ?>
-                </td>
-            </tr>
-    </table>
-    
-<?php endforeach; ?>
-
+<div id="loader" class="center_text">
+        <?php echo link_to_remote(__('View older messages'), array(
+                'update' => 'messages',
+                'position' => 'top',
+                'url' => 'messages/getMoreMessages?id='.$thread->getId(),
+                'method' => 'GET',
+                'with' => "'offset=' + this.getAttribute('data-offset')",
+                'loading' => 'showLoading()',
+                'success' => 'read(request)',
+            ), array(
+                'id' => 'fetch_link',
+                'data-offset' => count($messages),
+                'data-limit' => $limit,
+                'style' => ($displayFetchLink) ? "display: block" : "display: none",
+            )
+        ); ?>
+</div>
+<div id="messages">
+    <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
+</div>
 <?php if( $profile && $profile->isActive() ): ?>
     <span id="feedback">&nbsp;</span>
 
@@ -119,6 +112,27 @@ Event.observe(window, "load", function() {
     setTimeout("$(\"your_story\").focus();",1);
 });
 ');?>
+
+<?php echo javascript_tag('
+    var temp = "";
+    function read(ajax){
+        document.getElementById("loader").innerHTML = temp;
+        var el = document.getElementById("fetch_link");
+        var currentOffset = parseInt(el.getAttribute("data-offset"), 10);
+        if (ajax.getResponseHeader("displayFetchLink")){
+            el.setAttribute("data-offset", parseInt(el.getAttribute("data-limit"), 10) + currentOffset);
+            el.style.display = "block";
+        } else {
+            el.style.display = "none";
+        }
+    }
+    function showLoading(){
+        var el = document.getElementById("loader");
+        temp = el.innerHTML;
+        el.innerHTML = "<img src=\"/images/ajax-loader-bg-2B2B2B.gif\" alt=\"Loading...\" />";
+    }
+')
+?>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
