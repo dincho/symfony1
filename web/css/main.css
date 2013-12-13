@@ -2191,6 +2191,11 @@ div.best_video div.right img {
     background: url(/images/pl/go_over.gif) no-repeat;
 }
 
+.registration_continue {
+    text-align: center;
+    padding-top: 24px;
+}
+
 .registration_notes {
     width: 520px;
     float: left;
