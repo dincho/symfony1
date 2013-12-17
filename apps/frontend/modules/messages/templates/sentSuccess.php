@@ -49,8 +49,6 @@
     </table>
     <?php include_partial('actions', array('form_name' => 'messages_form_sent', 'no_read_unread' => true)); ?>
     </form>
-<?php else: ?>
-    <p><?php echo __('You currently have no messages'); ?></p>
 <?php endif; ?>
 
 <br />

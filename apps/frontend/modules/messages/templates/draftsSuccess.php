@@ -62,8 +62,6 @@
             )
         ); ?>
     </form>
-<?php else: ?>
-    <p><?php echo __('You currently have no messages'); ?></p>
 <?php endif; ?>
 
 <br />
