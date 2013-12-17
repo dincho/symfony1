@@ -89,7 +89,7 @@ class editProfileActions extends BaseEditProfileActions
             {
                 $myValidator = new sfPropelUniqueValidator();
                 $myValidator->initialize($this->getContext(), 
-                        array('class' => 'Member', 'column' => 'email', 'unique_error' => 'For some reason the system does not accept this email address. Please use another one.'));
+                        array('class' => 'Member', 'column' => 'email', 'unique_error' => 'The system does not accept this email address. Please enter a different one.'));
                 if (! $myValidator->execute($mail, $error))
                 {
                     $this->getRequest()->setError('email', $error);
