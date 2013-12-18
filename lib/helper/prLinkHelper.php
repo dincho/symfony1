@@ -120,17 +120,3 @@ function link_for_extra_activity_field($activity, $member)
     
     return null;
 }
-
-function js_for_activity($activity, $user)
-{
-    $jsVar = '';
-    if ($activity->getActivity() == 'mailed')
-    {
-        if (!$activity->getActionId())
-        {
-            $text =  __('You have deleted your conversation with this user.');
-            $jsVar = 'if(event.preventDefault) event.preventDefault(); else event.returnValue = false;RA_balloon.showTooltip(event, "'.$text.'", 0, 250);';
-        }
-    }
-    return $jsVar;
-}

@@ -856,16 +856,50 @@ class Member extends BaseMember
         
         $customObject = new CustomQueryObject();
         
-        $sql = '(SELECT ms.sender_id AS member_id, "mailed" AS activity, UNIX_TIMESTAMP(ms.created_at) AS dtime, IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
-                UNION
-                (SELECT ms.sender_id, "mailed", UNIX_TIMESTAMP(ms.created_at), IF(ms.recipient_deleted_at, NULL, ms.thread_id) FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %PROFILE_ID% AND ms.recipient_id = %MEMBER_ID% )
-                UNION
-                (SELECT w.member_id, "winked", UNIX_TIMESTAMP(w.created_at), NULL FROM wink AS w WHERE ((w.member_id = %MEMBER_ID% AND w.profile_id = %PROFILE_ID%) OR (w.member_id = %PROFILE_ID% AND w.profile_id = %MEMBER_ID% )) AND w.sent_box = 1 )
-                UNION
-                (SELECT h.member_id, "hotlisted", UNIX_TIMESTAMP(h.created_at), NULL FROM hotlist AS h WHERE (h.member_id = %MEMBER_ID% AND h.profile_id = %PROFILE_ID%) OR (h.member_id = %PROFILE_ID% AND h.profile_id = %MEMBER_ID%) )
-                UNION
-                (SELECT v.member_id, "visited", UNIX_TIMESTAMP(v.updated_at), NULL FROM profile_view AS v WHERE (v.member_id = %MEMBER_ID% AND v.profile_id = %PROFILE_ID%) OR (v.member_id = %PROFILE_ID% AND v.profile_id = %MEMBER_ID%) )
-                ORDER BY dtime DESC LIMIT %LIMIT%';
+        $sql = '(SELECT 
+                        ms.sender_id AS member_id,
+                        "mailed" AS activity,
+                        IF(ms.sender_deleted_at, UNIX_TIMESTAMP(ms.sender_deleted_at), UNIX_TIMESTAMP(ms.created_at)) AS dtime,
+                        IF(ms.sender_deleted_at, NULL, ms.thread_id) AS action_id
+                    FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %MEMBER_ID% AND ms.recipient_id = %PROFILE_ID% )
+                UNION ALL
+                (SELECT 
+                        ms.sender_id,
+                        "mailed",
+                        IF(ms.recipient_deleted_at, UNIX_TIMESTAMP(ms.recipient_deleted_at), UNIX_TIMESTAMP(ms.created_at)),
+                        IF(ms.recipient_deleted_at, NULL, ms.thread_id)
+                    FROM message AS ms WHERE ms.type = 1 AND ms.sender_id = %PROFILE_ID% AND ms.recipient_id = %MEMBER_ID%
+                )
+                UNION ALL
+                (SELECT 
+                        w.member_id,
+                        "winked",
+                        UNIX_TIMESTAMP(w.created_at),
+                        NULL
+                    FROM wink AS w WHERE (
+                        (w.member_id = %MEMBER_ID% AND w.profile_id = %PROFILE_ID%)
+                            OR (w.member_id = %PROFILE_ID% AND w.profile_id = %MEMBER_ID%)
+                        )
+                        AND w.sent_box = 1
+                )
+                UNION ALL
+                (SELECT
+                        h.member_id,
+                        "hotlisted",
+                        UNIX_TIMESTAMP(h.created_at),
+                        NULL
+                    FROM hotlist AS h WHERE (h.member_id = %MEMBER_ID% AND h.profile_id = %PROFILE_ID%) OR (h.member_id = %PROFILE_ID% AND h.profile_id = %MEMBER_ID%)
+                )
+                UNION ALL
+                (SELECT
+                        v.member_id,
+                        "visited",
+                        UNIX_TIMESTAMP(v.updated_at),
+                        NULL
+                    FROM profile_view AS v WHERE (v.member_id = %MEMBER_ID% AND v.profile_id = %PROFILE_ID%) OR (v.member_id = %PROFILE_ID% AND v.profile_id = %MEMBER_ID%)
+                )
+                ORDER BY dtime DESC
+                LIMIT %LIMIT%';
                 
         $sql = strtr($sql, array('%MEMBER_ID%' => $member_id, '%PROFILE_ID%' => $this->getId(), '%LIMIT%' =>  sfConfig::get('app_settings_profile_num_recent_activities', 5))); 
                                 
