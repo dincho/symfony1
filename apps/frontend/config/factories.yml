@@ -29,9 +29,3 @@ all:
       session_name: PDSSID
       database: propel
       db_table: session_storage
-
-  view_cache:
-    class: sfSQLiteCache
-    param:
-      automaticCleaningFactor: 0
-      database:                %SF_TEMPLATE_CACHE_DIR%/cache.db
