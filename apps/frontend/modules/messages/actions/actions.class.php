@@ -1,6 +1,7 @@
 <?php
 class messagesActions extends prActions
 {
+
     public function preExecute()
     {
         $bc = $this->getUser()->getBC();
@@ -423,16 +424,26 @@ class messagesActions extends prActions
 
     public function executeThread()
     {
+        $limit = 7;
         $member = $this->getUser()->getProfile();
         $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
         $this->forward404Unless($thread);
 
         $c = new Criteria();
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
-        $messages = $thread->getMessages($c);
+        $c->addDescendingOrderByColumn(MessagePeer::ID);
+        $c->setOffset(0);
+        $c->setLimit($limit+1);
+        $messages = array_reverse($thread->getMessages($c));
+        if (count($messages) > $limit){
+            array_shift($messages);
+            $displayFetchLink = true;
+        } else {
+            $displayFetchLink = false;
+        }
+
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
-
 
         $profile = ($message_sample->getSenderId() == $member->getId())
             ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
@@ -476,7 +487,8 @@ class messagesActions extends prActions
         $this->member = $member;
         $this->profile = $profile;
         $this->messages = $messages;
-
+        $this->limit = $limit;
+        $this->displayFetchLink = $displayFetchLink;
     }
 
     public function validateThread()
@@ -704,5 +716,41 @@ class messagesActions extends prActions
         $this->messages = $messages;
 
         return sfView::SUCCESS;
+    }
+
+    public function executeGetMoreMessages()
+    {
+        $limit = 7;
+        $member = $this->getUser()->getProfile();
+        $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
+
+        $offset = $this->getRequest()->getParameter('offset', 0);
+        $c = new Criteria();
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+        $c->addDescendingOrderByColumn(MessagePeer::ID);
+        $c->setOffset(intval($offset));
+        $c->setLimit($limit+1);
+        $messages = array_reverse($thread->getMessages($c));
+
+        if (count($messages) > $limit){
+            array_shift($messages);
+            $displayFetchLink = true;
+        } else {
+            $displayFetchLink = false;
+        }
+
+        $message_sample = $messages[0];
+        $profile = ($message_sample->getSenderId() == $member->getId())
+            ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
+        $this->messages = $messages;
+        $this->member = $member;
+        $this->profile = $profile;
+        $this->getResponse()->setHttpHeader('displayFetchLink', $displayFetchLink);
+
+        return $this->renderText(
+            get_partial(
+                'get_messages',
+                array('messages' => $messages, 'member' => $member, 'profile' => $profile)
+            ));
     }
 }
