@@ -284,20 +284,9 @@ class sfOptimizeStyleAndScript extends sfFilter
    * @param  array   $files  list of all file path
    * @return string
    */
-  private function makeMd5($files){
-    $name = '';
-
-    if(!is_array($files))
-    {
-      $files = array($files);
-    }
-
-    foreach($files as $file)
-    {
-      $name .= $file;
-    }
-
-    return md5($name);
+  private function makeMd5($files)
+  {
+    return md5(serialize($files));
   }
 
   
