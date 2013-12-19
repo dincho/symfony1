@@ -2,7 +2,7 @@ all:
     beta_period:        off
     brand_text:         SzukamMilionera.com
     admin_user_salt:    wPIXsALxMa6SPLWnh5dyMQ3J4ERjsmBA
-    version:            "v1.7.9.1"
+    version:            "v1.8
     sfImageTransformPlugin:
       mime_type:
         auto_detect: true
