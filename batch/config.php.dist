@@ -2,7 +2,7 @@
 define('SF_ROOT_DIR',    realpath(dirname(__file__).'/..'));
 define('SF_APP',         'backend');
 define('SF_ENVIRONMENT', 'prod');
-define('SF_DEBUG',       1);
+define('SF_DEBUG',       false);
 
 $lock_file = SF_ROOT_DIR.DIRECTORY_SEPARATOR.SF_APP.'_'.SF_ENVIRONMENT.'.lck';
 if( is_readable($lock_file) ) die(1);

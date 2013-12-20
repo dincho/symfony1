@@ -1,0 +1,26 @@
+all:
+  default_culture:     en
+  source:              pdMySQL
+  database:            mysql://127.0.0.1/NO_SUCH_DATABASE
+  debug:               off
+  cache:               on
+  untranslated_prefix: "[T]"
+  untranslated_suffix: "[/T]"
+  
+trans:
+    database:          mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+    debug:             on
+    cache:             off
+    
+dev:
+    database:          mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+    cache:             off
+    
+stag:
+    database:          mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+    
+prod:
+    database:          mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+    
+test:
+  source:              XLIFF
