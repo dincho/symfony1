@@ -34,6 +34,8 @@ if (file_exists('config/config.php') && !isset($sf_symfony_lib_dir))
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeFunction.php');
 require_once($sf_symfony_lib_dir.'/vendor/pake/pakeGetopt.class.php');
 
+spl_autoload_register(array('simpleAutoloader', '__autoload'), true, true);
+
 // autoloading for pake tasks
 class simpleAutoloader
 {
@@ -54,6 +56,14 @@ class simpleAutoloader
 
   static public function __autoload($class)
   {
+    static $initialized = false;
+
+    if (!$initialized)
+    {
+      self::initialize(sfConfig::get('sf_symfony_lib_dir'));
+      $initialized = true;
+    }
+
     if (!isset(self::$class_paths[$class]))
     {
       foreach ((array) self::$autoload_callables as $callable)
@@ -104,19 +114,6 @@ class simpleAutoloader
 
     self::$autoload_callables[] = $callable;
   }
-}
-
-function __autoload($class)
-{
-  static $initialized = false;
-
-  if (!$initialized)
-  {
-    simpleAutoloader::initialize(sfConfig::get('sf_symfony_lib_dir'));
-    $initialized = true;
-  }
-
-  return simpleAutoloader::__autoload($class);
 }
 
 // trap -V before pake
