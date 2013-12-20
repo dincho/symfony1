@@ -161,16 +161,18 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                     
                     if( $member_subscription )
                     {
-                          $member = $member_subscription->getMember();
-                          $currentSubscription = $member->getCurrentMemberSubscription();
-                          
-                          $member_subscription->setStatus('eot');
-                          $member_subscription->save();
+                        $member = $member_subscription->getMember();
+                        $currentSubscription = $member->getCurrentMemberSubscription();
 
-                          //downgrade only if notification is about current subscription
-                          if ($currentSubscription->getId() == $member_subscription->getId()) {
+                        $member_subscription->setStatus('eot');
+                        $member_subscription->save();
+
+                        //downgrade only if notification is about current subscription
+                        if ($currentSubscription 
+                            && $currentSubscription->getId() == $member_subscription->getId()
+                        ) {
                             $member->changeSubscription(SubscriptionPeer::FREE, 'system (3th failed payment)');
-                          }
+                        }
                     }
                 break;
                 
