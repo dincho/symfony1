@@ -1144,13 +1144,15 @@ class Member extends BaseMember
     public function save($con = null)
     {
         $updateIndex = false;
-        if ($this->isColumnModified(MemberPeer::CATALOG_ID)
-            || $this->isColumnModified(MemberPeer::MEMBER_STATUS_ID)
-            || $this->isColumnModified(MemberPeer::SEX)
-            || $this->isColumnModified(MemberPeer::LOOKING_FOR)
-            || $this->isColumnModified(MemberPeer::COUNTRY)
-            || $this->isColumnModified(MemberPeer::CITY_ID)
-            || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
+        if ($this->getMemberStatusId() == MemberStatusPeer::ACTIVE
+            && ($this->isColumnModified(MemberPeer::CATALOG_ID)
+                || $this->isColumnModified(MemberPeer::MEMBER_STATUS_ID)
+                || $this->isColumnModified(MemberPeer::SEX)
+                || $this->isColumnModified(MemberPeer::LOOKING_FOR)
+                || $this->isColumnModified(MemberPeer::COUNTRY)
+                || $this->isColumnModified(MemberPeer::CITY_ID)
+                || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
+            )
         ) {
             $updateIndex = true;
         }
