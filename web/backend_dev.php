@@ -1,6 +1,7 @@
 <?php
 if (!in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1', 
-        '46.10.100.36' //VMLabs office
+        '46.10.100.36', //VMLabs office
+        '176.12.56.76', //Dincho's Home
     )))
 {
   die('You are not allowed to access this file.');
