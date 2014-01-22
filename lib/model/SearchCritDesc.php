@@ -26,5 +26,10 @@ class SearchCritDesc extends BaseSearchCritDesc
     {
         $ages = explode(',',$this->getDescAnswers());
         return ( !empty($ages) && array_key_exists($key, $ages)) ? $ages[$key] : false;
-    }     
+    }
+
+    public function getDescAnswersArray()
+    {
+        return array_map('intval', explode(',',$this->getDescAnswers()));
+    }
 }

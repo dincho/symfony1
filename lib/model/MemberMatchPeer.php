@@ -1,129 +1,116 @@
 <?php
 
 /**
- * Subclass for performing query and update operations on the 'member_match' table.
  *
  * 
  *
  * @package lib.model
  */ 
-class MemberMatchPeer extends BaseMemberMatchPeer
+class MemberMatchPeer
 {
-    public static function addSelectColumns(Criteria $criteria)
+    const SORT_SCORE = 1;
+    const SORT_REVERSE_SCORE = 2;
+    const SORT_COMBINED = 3;
+
+    public static function updateMemberIndex(Member $memberObj, Elasticsearch\Client $client = null)
     {
-
-        $criteria->addSelectColumn(MemberMatchPeer::ID);
-
-        $criteria->addSelectColumn(MemberMatchPeer::MEMBER1_ID);
-
-        $criteria->addSelectColumn(MemberMatchPeer::MEMBER2_ID);
-
-        $criteria->addSelectColumn(MemberMatchPeer::PCT);
+        if (!$client) {
+            $client = new Elasticsearch\Client();
+        }
         
-        $criteria->addAsColumn('reverse_pct', '(SELECT m2.pct
-                                                    FROM member_match AS m2 
-                                                    WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
-                                                    )');
-
-        //$criteria->addAsColumn('last_action', 'last_action(member_match.member1_id, member_match.member2_id)');
+        $index = new prSearchIndex($client);
+        $index->updateIndex($memberObj);
     }
-    
-    public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
-    {
-        $c = clone $c;
 
-                if ($c->getDbName() == Propel::getDefaultDB()) {
-            $c->setDbName(self::DATABASE_NAME);
+    public static function getMatches(Member $member, $query)
+    {
+        $index = new prSearchIndex(new Elasticsearch\Client());
+        list($matchDocuments, $total) = $index->search($query);
+
+        if (0 == count($matchDocuments)) {
+            return array(array(), 0);
+        }
+        
+        //pluck by ID property of all members
+        $memberIds = array();
+        foreach ($matchDocuments as $doc) {
+            $memberIds[] = $doc['_id'];
         }
 
-        MemberMatchPeer::addSelectColumns($c);
-        $startcol = (MemberMatchPeer::NUM_COLUMNS - MemberMatchPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-        MemberPeer::addSelectColumns($c);
+        //get the member objects order by original match order
+        $fields = $memberIds;
+        array_unshift($fields, MemberPeer::ID);
 
-        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
-        $rs = BasePeer::doSelect($c, $con);
-        $results = array();
+        $c = new Criteria();
+        $c->add(MemberPeer::ID, $memberIds, Criteria::IN);
+        $c->addAscendingOrderByColumn('FIELD(' . implode(',', $fields) . ')');
+        $members = MemberPeer::doSelect($c);
 
-        while($rs->next()) {
+        return array(
+            self::populateMemberMatches($member, $members),
+            $total
+        );
+    }
 
-            $omClass = MemberMatchPeer::getOMClass();
+    public static function populateMemberMatches(Member $memberObj, array $members)
+    {
+        $index = new prSearchIndex(new Elasticsearch\Client());
 
-            $cls = Propel::import($omClass);
-            $obj1 = new $cls();
-            $obj1->hydrate($rs, 1, MemberPeer::NUM_COLUMNS);
+        $builder = new prReverseQueryBuilder($memberObj);
+        $query = $builder->getQueryForMembers($members);
+        list($reverseMatches, ) = $index->search($query);
 
-            $omClass = MemberPeer::getOMClass();
+        $builder = new prStraightQueryBuilder($memberObj);
+        $query = $builder->getQueryForMembers($members);
+        list($straightMatches, ) = $index->search($query);
 
-            $cls = Propel::import($omClass);
-            $obj2 = new $cls();
-            $obj2->hydrate($rs, $startcol);
-
-            $newObject = true;
-            foreach($results as $temp_obj1) {
-                $temp_obj2 = $temp_obj1->getMemberRelatedByMember2Id();                 if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-                    $newObject = false;
-                                        $temp_obj2->addMemberMatchRelatedByMember2Id($obj1);                    break;
-                }
+        foreach ($members as $member) {
+            $match = new MemberMatch();
+            if (isset($straightMatches[$member->getId()])) {
+                $match->setScore($straightMatches[$member->getId()]['_score']);
             }
-            if ($newObject) {
-                $obj2->initMemberMatchsRelatedByMember2Id();
-                $obj2->addMemberMatchRelatedByMember2Id($obj1);             }
-            $results[] = $obj1;
-        }
-        return $results;
-    }   
-     
-    public static function doSelectJoinMemberRelatedByMember2IdRS(Criteria $c, $con = null)
-    {
-        $c = clone $c;
 
-        if ($c->getDbName() == Propel::getDefaultDB()) {
-            $c->setDbName(self::DATABASE_NAME);
+            if (isset($reverseMatches[$member->getId()])) {
+                $match->setReverseScore($reverseMatches[$member->getId()]['_score']);
+            }
+
+            $member->setMemberMatch($match);
         }
 
-        MemberMatchPeer::addSelectColumns($c);
-        
-        $c->clearSelectColumns()->addAsColumn('reverse_pct', '(SELECT m2.pct
-                                                    FROM member_match AS m2 
-                                                    WHERE m2.member1_id = member_match.member2_id AND m2.member2_id = member_match.member1_id 
-                                                    )');
-                
-        $c->addSelectColumn(MemberPeer::USERNAME);
-
-        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
-        $rs = BasePeer::doSelect($c, $con);
-        $results = array();
-
-        while($rs->next()) {
-            $results[] = $rs->getString(1);
-        }
-        return $results;
+        return $members;
     }
-    
-    
-    public static function doCountJoinMemberRelatedByMember2IdReverse(Criteria $crit, $distinct = false, $con = null)
+
+    public static function getMatch(Member $memberObj, Member $matchingMember)
     {
-        $criteria = new Criteria();
-        $criteria->add(MemberMatchPeer::MEMBER1_ID, $crit->get(MemberMatchPeer::MEMBER1_ID));
-        
-        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-          $criteria->addSelectColumn(MemberMatchPeer::COUNT_DISTINCT);
-        } else {
-          $criteria->addSelectColumn(MemberMatchPeer::COUNT);
-        }
+        $members = self::populateMemberMatches($memberObj, array($matchingMember));
+        return $members[0]->getMemberMatch();
+    }
 
-        foreach($criteria->getGroupByColumns() as $column)
-        {
-          $criteria->addSelectColumn($column);
-        }
-
+    public static function addGlobalCriteria(Criteria $c, Member $member)
+    {
+        //don not show unavailable profiles
+        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+        //only oposite orientation
+        $c->add(MemberPeer::SEX, $member->getLookingFor());
+        $c->add(MemberPeer::LOOKING_FOR, $member->getSex());
         
-        $criteria->add(MemberMatchPeer::ID, '(SELECT m2.pct
-                                              FROM member_match AS m2
-                                              WHERE m2.member1_id = member_match.member2_id
-                                              AND m2.member2_id = member_match.member1_id) > 0', Criteria::CUSTOM);
-        $criteria->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID, Criteria::LEFT_JOIN);                                    
-        $rs = MemberMatchPeer::doSelectRS($criteria, $con);
-        return ($rs->next()) ? $rs->getInt(1) : 0;
-    }        
+        //filter only visible catalogs
+        $catalog = $member->getCatalogue();
+        $c->add(MemberPeer::CATALOG_ID, $catalog->getVisibleCatalogs(), Criteria::IN);
+
+        // does not seems to work
+        $privacyJoin = sprintf('%s AND %s = %d', 
+            OpenPrivacyPeer::PROFILE_ID,
+            OpenPrivacyPeer::MEMBER_ID,
+            $member->getId()
+        );
+
+        $privacyCheck = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", 
+            MemberPeer::PRIVATE_DATING,
+            OpenPrivacyPeer::ID
+        );
+
+        $c->addJoin(MemberPeer::ID, $privacyJoin, Criteria::LEFT_JOIN);
+        $c->add(OpenPrivacyPeer::ID, $privacyCheck, Criteria::CUSTOM);
+    }
 }

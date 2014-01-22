@@ -30,4 +30,11 @@ class Catalogue extends BaseCatalogue
         
         return CataloguePeer::doSelectOne($c);
     }
+
+    public function getVisibleCatalogs()
+    {
+        $shared = array_map('intval', explode(',', $this->getSharedCatalogs()));
+        $shared[] = $this->getCatId();
+        return $shared;
+    }
 }

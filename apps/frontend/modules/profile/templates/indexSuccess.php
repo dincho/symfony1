@@ -192,8 +192,8 @@
                         <?php echo __('You match %her_him%: (no result)', array('%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?><br />
                     <?php endif; ?>
                     
-                    <?php if( $match->getCombinedMatch() > 0 ): ?>
-                        <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedMatch()) ) ?><br />
+                    <?php if( $match->getCombinedPct() > 0 ): ?>
+                        <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedPct()) ) ?><br />
                     <?php endif; ?> 
                 <?php endif; ?>
             </div>

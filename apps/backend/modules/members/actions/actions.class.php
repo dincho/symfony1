@@ -215,7 +215,6 @@ class membersActions extends prActions
                 $this->member->save();
                 if ($catalogChanged ) {
                     $this->member->killSession();
-                    $this->member->updateMatches();
                 }
 
                 $this->setFlash('msg_ok', 'Your changes have been saved');
@@ -391,8 +390,8 @@ class membersActions extends prActions
                 if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) );                 
             }
             $this->member->save();
-            $this->member->updateReverseMatches();
             $this->member->clearCache();
+            MemberMatchPeer::updateMemberIndex($this->member);
             
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editSelfDescription?id=' . $this->member->getId());
@@ -488,7 +487,7 @@ class membersActions extends prActions
                 }
             }
             
-            $this->member->updateStraightMatches();
+            MemberMatchPeer::updateMemberIndex($this->member);
             $this->setFlash('msg_ok', 'Your changes have been saved');
         }
         

@@ -23,15 +23,7 @@ class dashboardActions extends prActions
         
         //matches
         $c = new Criteria();
-        $c->add(MemberMatchPeer::MEMBER1_ID, $member->getId());        
-        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-        $c->addJoin(MemberMatchPeer::MEMBER2_ID, MemberPeer::ID);
-        $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
-
-        $c->addJoin(MemberMatchPeer::MEMBER1_ID, OpenPrivacyPeer::MEMBER_ID.' AND '. MemberMatchPeer::MEMBER2_ID .' = '. OpenPrivacyPeer::PROFILE_ID, Criteria::LEFT_JOIN);
-        $open_privacy_check = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", MemberPeer::PRIVATE_DATING, OpenPrivacyPeer::ID);
-        $c->add(OpenPrivacyPeer::ID, $open_privacy_check, Criteria::CUSTOM);
-                
+        MemberMatchPeer::addGlobalCriteria($c, $member);
         $c->setLimit(5);
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
         
@@ -383,7 +375,7 @@ class dashboardActions extends prActions
                 }
             }
             
-            $member->updateStraightMatches();
+            MemberMatchPeer::updateMemberIndex($member);
             $msg = ($hasSearchCriteria) ? 'Your Match Criteria have been updated' : 'You have just set up your search criteria';
             $this->setFlash('msg_ok', $msg);
             $this->redirect('dashboard/index');

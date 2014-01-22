@@ -199,10 +199,11 @@ class editProfileActions extends BaseEditProfileActions
             
             $this->member->setReviewedById(null);  
             $this->member->setReviewedAt(null);
-
             $this->member->save();
-            $this->member->updateReverseMatches();
             $this->member->clearCache();
+
+            MemberMatchPeer::updateMemberIndex($this->member);
+
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
         }

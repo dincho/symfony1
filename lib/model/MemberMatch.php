@@ -1,64 +1,57 @@
 <?php
 
 /**
- * Subclass for representing a row from the 'member_match' table.
  *
  * 
  *
  * @package lib.model
  */ 
-class MemberMatch extends BaseMemberMatch
+class MemberMatch
 {
-    protected $reverse_pct = 0;
-    public $last_action = null;
-    
-    
+    protected $score;
+    protected $reverseScore;
+
+    public static function getMaxScore()
+    {
+        return sfConfig::get('app_matches_max_weight')
+               *
+               sfConfig::get('app_matches_nb_desc_quesitons');
+    }
+
+    public function setScore($score)
+    {
+        $this->score = (int) $score;
+    }
+
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    public function getPct()
+    {
+        return (int) round($this->getScore() / self::getMaxScore() * 100);
+    }
+
+    public function setReverseScore($score)
+    {
+        $this->reverseScore = (int) $score;
+    }
+
+    public function getReverseScore()
+    {
+        return $this->reverseScore;
+    }
+
     public function getReversePct()
     {
-        return $this->reverse_pct;
+        return (int) round($this->getReverseScore() / self::getMaxScore() * 100);
     }
 
-    public function setReversePct($v)
-    {
-        if ($v !== null && !is_int($v) && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->reverse_pct !== $v || $v === 0) {
-            $this->reverse_pct = $v;
-            $this->modifiedColumns[] = MemberMatchPeer::REVERSE_PCT;
-        }
-    }
-     
-    public function getCombinedMatch()
+    public function getCombinedPct()
     {
         return round(($this->getPct() + $this->getReversePct()) / 2);
     }
-    
-    public function hydrate(ResultSet $rs, $startcol = 1, $offset = 0)
-    {
-        try {
-
-            $this->id = $rs->getInt($startcol + 0);
-
-            $this->member1_id = $rs->getInt($startcol + 1);
-
-            $this->member2_id = $rs->getInt($startcol + 2);
-
-            $this->pct = $rs->getInt($startcol + 3);
-            
-            $this->reverse_pct = $rs->getInt($startcol + 4 + $offset);
-            
-            //$this->last_action = $rs->getString($startcol + 5 + $offset);
-            
-
-            $this->resetModified();
-
-            $this->setNew(false);
-
-            return $startcol + 3; 
-        } catch (Exception $e) {
-            throw new PropelException("Error populating MemberMatch object", $e);
-        }
-    }
 }
+
+

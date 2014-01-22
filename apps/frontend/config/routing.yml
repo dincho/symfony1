@@ -74,10 +74,6 @@ send_private_photos_request:
 profile:
     url:   /:sf_culture/:bc/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }
-
-profile_pager:
-    url:   /:sf_culture/matches/pager/:offset/*
-    param: { module: profile, action: pager, sf_culture: en }
     
 profiles_feed:
     url:  /profiles/feed
