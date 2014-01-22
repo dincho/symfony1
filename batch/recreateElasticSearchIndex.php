@@ -18,7 +18,6 @@ $memberMapping = array(
     ),
     'properties' => array(
         'orientation' => array(
-          'index_options' => 'docs',
           'omit_norms' => true,
           'type' => 'string',
           'index' => 'not_analyzed',
@@ -82,7 +81,6 @@ $memberMapping = array(
             ),
             'q16' => 
             array(
-              'index_options' => 'docs',
               'omit_norms' => true,
               'type' => 'string',
               'index' => 'not_analyzed',
