@@ -63,7 +63,7 @@ Event.observe(window, 'load',function()
      hash.push( new checked_item([fields[i].id], fields[i].type,
 fields[i].value, fields[i].checked));
 
-     fields[i].observe('keypress', validate_save_btn);
+     fields[i].observe('keyup', validate_save_btn);
      fields[i].observe('click', validate_save_btn);
      fields[i].observe('blur', validate_save_btn);
      fields[i].observe('change', validate_save_btn);
