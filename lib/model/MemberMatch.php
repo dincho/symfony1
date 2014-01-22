@@ -48,11 +48,6 @@ class MemberMatch
         return (int) round($this->getReverseScore() / self::getMaxScore() * 100);
     }
 
-    public function getCompinedScore()
-    {
-        return $this->getScore() + $this->getReverseScore();
-    }
-
     public function getCombinedPct()
     {
         return round(($this->getPct() + $this->getReversePct()) / 2);
