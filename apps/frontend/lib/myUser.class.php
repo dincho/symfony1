@@ -175,7 +175,7 @@ class myUser extends sfBasicSecurityUser
     {
         if( is_null($this->catalog) )
         {
-            $domain = strtolower($_SERVER['HTTP_HOST']);
+            $domain = isset($_SERVER['HTTP_HOST']) ? strtolower($_SERVER['HTTP_HOST']) : 'localhost';
 
             //strip the port
             if (false !== ($pos = strpos($domain, ':'))) {

@@ -45,7 +45,7 @@ $r = Events::triggerTellFriend($name = "Some Name", $email = "mail@localhost", $
 $t->is($r, true, 'triggerTellFriend event executed successful');
 $t->is(Events::triggerGiftReceived($member1, $member2), true, 'triggerGiftReceived event executed successful');
 $t->is(Events::triggerRegistrationReminder($member1), true, 'triggerRegistrationReminder event executed successful');
-$t->is(Events::triggerLoginReminder($member1), true, 'triggerLoginReminder event executed successful');
+$t->is(Events::triggerLoginReminder($member1, 10), true, 'triggerLoginReminder event executed successful');
 $t->is(Events::triggerAccountActivity($member1), true, 'triggerAccountActivity event executed successful');
 $t->is(Events::triggerAccountActivityMessage($member1, $member2, $message), true, 'triggerAccountActivityMessage event executed successful');
 $t->is(Events::triggerAccountActivitySystemMessage($member1, $message), true, 'triggerAccountActivitySystemMessage event executed successful');
