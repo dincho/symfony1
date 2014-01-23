@@ -380,10 +380,6 @@ class dashboardActions extends prActions
             $this->setFlash('msg_ok', $msg);
             $this->redirect('dashboard/index');
         }
-        else
-        {
-          $this->warningTimeout();
-        }
         
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_crit_desc = $member->getSearchCritDescsArray();
@@ -431,8 +427,6 @@ class dashboardActions extends prActions
         $this->forward404Unless($member);
         $this->getUser()->getBC()->clear()->add(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         
-        $this->warningTimeout();
-
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_crit_desc = $member->getSearchCritDescsArray();

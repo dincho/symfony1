@@ -68,7 +68,6 @@ class editProfileActions extends BaseEditProfileActions
             $this->setFlash('msg_ok', 'Your Registration Information has been updated');
             $this->redirect('dashboard/index'); //the dashboard
         } else {
-          $this->warningTimeout();
           $this->has_adm1 = ( !is_null($this->member->getAdm1Id()) ) ? true : false;
           $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;
         }
@@ -137,8 +136,6 @@ class editProfileActions extends BaseEditProfileActions
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
 
-        $this->warningTimeout();
-    
         if( $this->getRequestParameter('adm1_id') && 
             $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
           )
@@ -207,10 +204,7 @@ class editProfileActions extends BaseEditProfileActions
             $this->setFlash('msg_ok', 'Your Self-Description has been updated');
             $this->redirect('dashboard/index');
         }
-        else
-        {
-          $this->warningTimeout();        
-        }
+        
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
@@ -314,8 +308,6 @@ class editProfileActions extends BaseEditProfileActions
     {
         $this->setMember();
         
-        $this->warningTimeout();
-
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
@@ -343,18 +335,12 @@ class editProfileActions extends BaseEditProfileActions
             $this->setFlash('msg_ok', 'Your Posting have been updated');
             $this->redirect('dashboard/index');
         }
-        else
-        {
-          $this->warningTimeout();
-        }
     }
 
     public function handleErrorEssay()
     {
         $this->setMember();
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
-
-        $this->warningTimeout();
 
         return sfView::SUCCESS;
     }
