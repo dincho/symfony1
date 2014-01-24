@@ -2,7 +2,6 @@
 
 abstract class sfPaymentCallback
 {
-    protected $request = null;
     private $params = array();
     protected $shouldValidate = true;
     protected $shouldLogNotification = true;
@@ -12,9 +11,8 @@ abstract class sfPaymentCallback
 
     }
     
-    final public function initialize(sfRequest $request, array $params)
+    final public function initialize(array $params)
     {
-        $this->request = $request;
         $this->setParams($params);
     }
     

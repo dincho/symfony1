@@ -16,7 +16,7 @@ class callbacksActions extends sfActions
       sfConfig::set('sf_web_debug', false);
       
       $zong = new sfZongPaymentCallback();
-      $zong->initialize($this->getRequest(), $this->getRequestParams());
+      $zong->initialize($this->getRequestParams());
       $zong->handle();
       
       $this->getResponse()->setContentType('text/plain');
@@ -30,7 +30,7 @@ class callbacksActions extends sfActions
         sfConfig::set('sf_web_debug', false);
       
         $ipn = new sfPaypalPaymentCallback();
-        $ipn->initialize($this->getRequest(), $this->getRequestParams());
+        $ipn->initialize($this->getRequestParams());
         $ipn->handle();
 
         return sfView::NONE;
@@ -41,7 +41,7 @@ class callbacksActions extends sfActions
       sfConfig::set('sf_web_debug', false);
       
       $zong = new sfDotPayPaymentCallback();
-      $zong->initialize($this->getRequest(), $this->getRequestParams());
+      $zong->initialize($this->getRequestParams());
       $zong->handle();
       
       $this->getResponse()->setContentType('text/plain');
