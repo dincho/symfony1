@@ -166,7 +166,6 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         $currentSubscription = $member->getCurrentMemberSubscription();
 
                         $member_subscription->setStatus('eot');
-                        $member_subscription->save();
 
                         //downgrade only if notification is about current subscription
                         if ($currentSubscription 
@@ -174,6 +173,8 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         ) {
                             $member->changeSubscription(SubscriptionPeer::FREE, 'system (3th failed payment)');
                         }
+                        
+                        $member_subscription->save();
                     }
                 break;
                 
