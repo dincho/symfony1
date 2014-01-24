@@ -499,6 +499,7 @@ class messagesActions extends prActions
 
         $c = new Criteria();
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+        $c->addDescendingOrderByColumn(MessagePeer::ID);
         $messages = $thread->getMessages($c);
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
@@ -508,6 +509,8 @@ class messagesActions extends prActions
         $subscription = $member->getSubscriptionDetails();
 
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
+            $this->limit = $this->getRequestParameter('limit');
+            $this->displayFetchLink = $this->getRequestParameter('displayFetchLink');
             /* REPLYING TO THREAD */
             //1. is the other member active ?
             if ($profile->getMemberStatusId() != MemberStatusPeer::ACTIVE) {
@@ -694,7 +697,14 @@ class messagesActions extends prActions
 
         $c = new Criteria();
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
-        $messages = $thread->getMessages($c);
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+            $c->addDescendingOrderByColumn(MessagePeer::ID);
+            $c->setLimit($this->getRequestParameter('numberOfMessages'));
+            $messages = array_reverse($thread->getMessages($c));
+        }
+        else {
+            $messages = array_reverse($thread->getMessages($c));
+        }
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
 
@@ -746,6 +756,7 @@ class messagesActions extends prActions
         $this->member = $member;
         $this->profile = $profile;
         $this->getResponse()->setHttpHeader('displayFetchLink', $displayFetchLink);
+        $this->getResponse()->setHttpHeader('numberOfMessages', count($messages));
 
         return $this->renderText(
             get_partial(
