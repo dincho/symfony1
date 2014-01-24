@@ -44,13 +44,14 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
     {
         $subscriptionID = ( $this->getParam('recurring_payment_id') ) ? $this->getParam('recurring_payment_id') : $this->getParam('subscr_id');
         
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? ip2long($_SERVER['REMOTE_ADDR']) : null;
         $history = new IpnHistory();
         $history->setParameters(serialize($this->getParams()));
         $history->setTxnType($this->getParam('txn_type'));
         $history->setSubscrId($subscriptionID);
         $history->setTxnId($this->getParam('txn_id'));
         $history->setPaymentStatus($this->getParam('payment_status'));
-        $history->setRequestIp(ip2long($_SERVER['REMOTE_ADDR']));
+        $history->setRequestIp($ip);
         $history->setPaypalResponse($this->paypal_response);
         $history->save();
     }
