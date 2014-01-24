@@ -105,9 +105,13 @@ class sfPropelThumbnailsBehavior
         
         if(!($exif===false) && array_key_exists('IFD0', $exif) && array_key_exists('Orientation', $exif['IFD0']) )
         {
-          if(array_key_exists('MakerNote', $exif['EXIF']))
+          if (array_key_exists('MakerNote', $exif['EXIF'])) {
               unset($exif['EXIF']['MakerNote']);
-          
+          }
+          $exif = array_map(function ($value) {
+            return preg_replace('/(?>[\x00-\x1F]|\xC2[\x80-\x9F]|\xE2[\x80-\x8F]{2}|\xE2\x80[\xA4-\xA8]|\xE2\x81[\x9F-\xAF])/ui', '', $value);
+          }, $exif);
+
           $photo_exif_info = serialize($exif);
           $ort = $exif['IFD0']['Orientation']; 
     
