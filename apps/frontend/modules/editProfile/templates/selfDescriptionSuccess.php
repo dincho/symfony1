@@ -35,8 +35,6 @@
 </form>
 <br /><br /><br />
 
-<?php include_partial('content/timeout_countdown'); ?>
-
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
