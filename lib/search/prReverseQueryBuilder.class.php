@@ -18,7 +18,7 @@ class prReverseQueryBuilder extends prSearchQueryBuilder
                 continue;
             }
 
-            if (16 === $idx) { //native lang
+            if (16 === $idx && $answer->getCustom()) { //native lang
                 $functions[] = $this->getTermFunction($idx, $answer->getCustom());
                 continue;
             }
