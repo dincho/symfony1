@@ -110,15 +110,6 @@ Subscription:
     period3_to: 999
     period3_price: 99999.99
     pre_approve: 0
-FlagCategory: 
-  FlagCategory_1: 
-    title: Inappropriate Content
-  FlagCategory_2: 
-    title: Spam
-  FlagCategory_3: 
-    title: Scam
-  FlagCategory_4: 
-    title: Other
 ImbraStatus: 
   ImbraStatus_1: 
     title: Approved

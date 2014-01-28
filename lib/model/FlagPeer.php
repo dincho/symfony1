@@ -28,13 +28,7 @@ class FlagPeer extends BaseFlagPeer
         MemberPeer::addSelectColumns($c);
         $startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-
-        FlagCategoryPeer::addSelectColumns($c);
-        $startcol4 = $startcol3 + FlagCategoryPeer::NUM_COLUMNS;
-
         $c->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
-
-        $c->addJoin(FlagPeer::FLAG_CATEGORY_ID, FlagCategoryPeer::ID);
 
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
@@ -65,26 +59,6 @@ class FlagPeer extends BaseFlagPeer
                 $obj3->addFlagRelatedByFlaggerId($obj1);
             }
 
-                    
-            $omClass = FlagCategoryPeer::getOMClass();
-            $cls = Propel::import($omClass);
-            $obj4 = new $cls();
-            $obj4->hydrate($rs, $startcol3);
-
-            $newObject = true;
-            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-                $temp_obj1 = $results[$j];
-                $temp_obj4 = $temp_obj1->getFlagCategory();                 if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-                    $newObject = false;
-                    $temp_obj4->addFlag($obj1);                     break;
-                }
-            }
-
-            if ($newObject) {
-                $obj4->initFlags();
-                $obj4->addFlag($obj1);
-            }
-
             $results[] = $obj1;
         }
         return $results;
@@ -104,13 +78,7 @@ class FlagPeer extends BaseFlagPeer
         MemberPeer::addSelectColumns($c);
         $startcol3 = $startcol2 + MemberPeer::NUM_COLUMNS;
 
-        FlagCategoryPeer::addSelectColumns($c);
-        $startcol4 = $startcol3 + FlagCategoryPeer::NUM_COLUMNS;
-
         $c->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
-
-
-        $c->addJoin(FlagPeer::FLAG_CATEGORY_ID, FlagCategoryPeer::ID);
 
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
@@ -138,25 +106,6 @@ class FlagPeer extends BaseFlagPeer
             if ($newObject) {
                 $obj2->initFlagsRelatedByMemberId();
                 $obj2->addFlagRelatedByMemberId($obj1);
-            }
-                    
-            $omClass = FlagCategoryPeer::getOMClass();
-            $cls = Propel::import($omClass);
-            $obj4 = new $cls();
-            $obj4->hydrate($rs, $startcol3);
-
-            $newObject = true;
-            for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-                $temp_obj1 = $results[$j];
-                $temp_obj4 = $temp_obj1->getFlagCategory();                 if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-                    $newObject = false;
-                    $temp_obj4->addFlag($obj1);                     break;
-                }
-            }
-
-            if ($newObject) {
-                $obj4->initFlags();
-                $obj4->addFlag($obj1);
             }
 
             $results[] = $obj1;
@@ -199,8 +148,6 @@ class FlagPeer extends BaseFlagPeer
         $criteria->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
 
         $criteria->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
-
-        $criteria->addJoin(FlagPeer::FLAG_CATEGORY_ID, FlagCategoryPeer::ID);
 
         $rs = FlagPeer::doSelectRS($criteria, $con);
         if ($rs->next()) {

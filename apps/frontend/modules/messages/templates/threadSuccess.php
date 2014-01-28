@@ -13,7 +13,7 @@
                                                                                     'url'            => 'content/flag?layout=window&username=' . $profile->getUsername(), 
                                                                                     'id'             => '"flag_profile_window"', 
                                                                                     'width'          => '550', 
-                                                                                    'height'         => '340',
+                                                                                    'height'         => '200',
                                                                                     'center'         => 'true', 
                                                                                     'minimizable'    => 'false',
                                                                                     'maximizable'    => 'false',
