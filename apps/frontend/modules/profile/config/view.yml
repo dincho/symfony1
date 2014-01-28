@@ -1,11 +1,11 @@
 indexSuccess:
-    javascripts: [profile_desc_map, show_hide_tick, profile_image, gmap_elabel, balloons/balloon.config.js, balloons/balloon.js, "balloons/yahoo-dom-event.js"]
+    javascripts: [profile_desc_map, show_hide_tick, profile_image, balloons/balloon.config.js, balloons/balloon.js, "balloons/yahoo-dom-event.js"]
     stylesheets: [sec_container_no_padding]
 simpleProfileSuccess:
-    javascripts: [profile_desc_map, show_hide_tick, profile_image, gmap_elabel]
+    javascripts: [profile_desc_map, show_hide_tick, profile_image]
     stylesheets: [sec_container_no_padding]
 publicProfileSuccess:
-    javascripts: [profile_desc_map, show_hide_tick, profile_image, gmap_elabel]
+    javascripts: [profile_desc_map, show_hide_tick, profile_image]
     stylesheets: [sec_container_no_padding]
 unavailableProfileSuccess:
     javascripts: [balloons/balloon.config.js, balloons/balloon.js, "balloons/yahoo-dom-event.js"]
