@@ -167,7 +167,6 @@ class messagesActions extends prActions
         );
         
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
-            sleep(5);
             $send_msg = MessagePeer::send(
                 $this->sender,
                 $this->recipient,
@@ -460,7 +459,6 @@ class messagesActions extends prActions
         }
 
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
-            sleep(5);
             $send_msg = MessagePeer::send(
                 $member,
                 $profile,
