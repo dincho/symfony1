@@ -26,7 +26,7 @@ class MemberPhoto extends BaseMemberPhoto
     $cropped->save($newPath);
     
     $this->setCropped($newName);
-    $this->setCroppedAt(time());
+    $this->setUpdatedAt(time());
     $this->save();
     $this->createThumbnails('cropped');
   }
@@ -39,6 +39,7 @@ class MemberPhoto extends BaseMemberPhoto
         $rotated->loadFile($originalPath);
         $rotated->rotate($deg);
         $rotated->save($originalPath);
+        $this->setUpdatedAt(time());
         $this->save();
         $this->createThumbnails('file');
         
@@ -83,14 +84,11 @@ class MemberPhoto extends BaseMemberPhoto
      */
   public function getImg($size = null, $column = 'cropped')
   {
-      if( $this->no_photo )
-      {
-          return 'no_photo/' . $this->getMember()->getSex() . '/'. $size . '.jpg';
-      } else {
-          
-          return ($column == 'cropped') ? ($this->getImageUrlPath($column, $size).'?'.$this->getCroppedAt(null)) : $this->getImageUrlPath($column, $size);
+      if ($this->no_photo) {
+          return 'no_photo/' . $this->getMember()->getSex() . '/' . $size . '.jpg';
       }
-      
+
+      return $this->getImageUrlPath($column, $size) . '?' . $this->getUpdatedAt(null);
   }
   
   public function delete($con = null)

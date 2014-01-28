@@ -245,7 +245,7 @@ propel:
     member_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade }
     file:                     { type: varchar, size: 255 }
     cropped:                  { type: varchar, size: 255 }
-    cropped_at:               { type: timestamp }
+    updated_at:               { type: timestamp }
     is_main:                  { type: boolean, required: true, default: false }
     is_private:               { type: boolean, required: true }
     sort_order:               { type: integer, required: true, default: 0 }

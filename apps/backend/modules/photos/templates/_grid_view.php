@@ -11,7 +11,7 @@
             <div class="photo_headline"><b><?php echo $member->getUsername() ?></b>
             </div>
             <div >
-                <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
+                <?php echo link_to(image_tag( $photo->getImg('100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
             </div>
         </div>
             
