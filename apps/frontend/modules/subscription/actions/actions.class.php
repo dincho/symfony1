@@ -53,7 +53,7 @@ class subscriptionActions extends prActions
                   $dotpay = new DotPay(sfConfig::get('app_dotpay_account_id'), $this->getUser()->getCulture());
                   $dotpay->setAmount($subscription->getAmount());
                   $dotpay->setCurrency($subscription->getCurrency());
-                  $dotpay->setDescription($subscription->getTitle() . ' Membership');
+                  $dotpay->setDescription($subscription->getTitle() . ' Membership ' . $this->member->getUsername());
                   $dotpay->setReturnURL($this->getController()->genUrl('subscription/thankyou', true));
                   $dotpay->setCallbackURL($this->getController()->genUrl(sfConfig::get('app_dotpay_callback_url'), true));
                   $dotpay->setData($this->member_subscription->getId());
