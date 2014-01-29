@@ -121,7 +121,29 @@ class transUnitsActions extends sfActions
             $trans_unit->setTags($this->getRequestParameter('tags'));
             $trans_unit->setLink($this->getRequestParameter('link'));
             $trans_unit->save();
-            
+
+            // save cat related urls
+            $criteria = new Criteria();
+            $criteria->clearSelectColumns();
+            $criteria->addSelectColumn(CataloguePeer::CAT_ID);
+            $criteria->setDistinct();
+            $rs = CataloguePeer::doSelectRS($criteria);
+            $cat_ids = array();
+
+            while($rs->next()) {
+                if (($val = $rs->getInt(1)) != $trans_unit->getCatId()){
+                    $cat_ids[] = $val;
+                }
+            }
+
+            $c = new Criteria();
+            $c->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+            $c->add(TransUnitPeer::CAT_ID, $cat_ids, Criteria::IN);
+            $units = TransUnitPeer::doSelect($c);
+            foreach ($units as $unit){
+                $unit->setLink($this->getRequestParameter('link'));
+                $unit->save();
+            }
             if( $catalogue->getTargetLang() != 'en' && $en_trans_unit)
             {
                 $en_trans_unit->setTarget($this->getRequestParameter('en_target'));
