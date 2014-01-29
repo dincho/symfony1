@@ -15,7 +15,7 @@
             array('class' => 'button_mini delete_button')) ?>
     </div>                                
     <div class="img">
-        <?php echo image_tag( $photo->getImg('100x100') . '?' .rand() ) ?>
+        <?php echo image_tag( $photo->getImg('100x100') ) ?>
     </div>
     
     <?php include_partial('editProfile/photo_status', array('photo' => $photo)); ?>

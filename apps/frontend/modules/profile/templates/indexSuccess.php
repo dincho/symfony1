@@ -11,7 +11,7 @@
         <?php if( !is_null($member->getMainPhotoId()) ): //has main photo ?>
                 
                <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
-                                    array('href' => $member->getMainPhoto()->getImageUrlPath('file'),
+                                    array('href' => $member->getMainPhoto()->getImg(null, 'file'),
                                           'rel' => 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
@@ -20,7 +20,7 @@
         <?php elseif( count($private_photos) > 0 && $private_photos_perm ):?>
                 <?php $mainPhoto = $private_photos[0]; ?>
                 <?php echo content_tag('a', image_tag($mainPhoto->getImg('350x350', 'file'), array('id' => 'member_image')), 
-                                    array('href' => $mainPhoto->getImageUrlPath('file'),
+                                    array('href' => $mainPhoto->getImg(null, 'file'),
                                           'rel' => 'lightbox[private_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'

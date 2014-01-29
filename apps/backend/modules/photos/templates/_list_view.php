@@ -17,7 +17,7 @@
     <?php $i=1; foreach($photos as $photo): ?>
         <div class="photo_slot" id="<?php echo 'photo_' . $photo->getId(); ?>">
             <div <?php if( $photo->isMain() ) echo 'class="selected_photo"'; ?>>
-                <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
+                <?php echo link_to(image_tag($photo->getImg('100x100')), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
             </div>
             
             <?php echo link_to_remote('Delete Photo', array('url' => 'editProfile/confirmDeletePhoto?simple_delete=1&id=' . $photo->getId() . '&member_id=' . $member->getId(),
@@ -42,7 +42,7 @@
     <?php $i=1; foreach($photos as $photo): ?>
         <div class="private_photo_slot" id="<?php echo 'photo_' . $photo->getId(); ?>">
             <div <?php if( $photo->isMain() ) echo 'class="selected_photo"'; ?>>
-                <?php echo link_to(image_tag( ($photo->getImageFilename('cropped')) ? $photo->getImageUrlPath('cropped', '100x100') : $photo->getImageUrlPath('file', '100x100') ), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
+                <?php echo link_to(image_tag($photo->getImg('100x100')), 'members/editPhotos?id=' . $member->getId() . '&photo_id=' . $photo->getId()) ?><br />
             </div>
             
             <?php echo link_to_remote('Delete Photo', array('url' => 'editProfile/confirmDeletePhoto?simple_delete=1&id=' . $photo->getId() . '&member_id=' . $member->getId(),
