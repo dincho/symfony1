@@ -6,8 +6,8 @@
 # http://code.google.com/p/sequel-pro/
 #
 # Host: 127.0.0.1 (MySQL 5.5.29-log)
-# Database: polishdate_dev
-# Generation Time: 2014-01-22 16:53:36 +0000
+# Database: polishdate_test
+# Generation Time: 2014-01-29 10:10:18 +0000
 # ************************************************************
 
 
@@ -860,7 +860,6 @@ CREATE TABLE `member` (
   `public_search` int(11) NOT NULL DEFAULT '0',
   `last_ip` bigint(20) DEFAULT NULL,
   `dashboard_msg` int(1) DEFAULT '0',
-  `imbra_payment` varchar(100) DEFAULT NULL,
   `original_first_name` varchar(80) DEFAULT NULL,
   `original_last_name` varchar(80) NOT NULL,
   `last_subscription_change` datetime DEFAULT NULL,
@@ -1079,7 +1078,7 @@ CREATE TABLE `member_photo` (
   `auth` char(1) DEFAULT NULL,
   `is_private` int(11) NOT NULL DEFAULT '0',
   `sort_order` int(11) NOT NULL DEFAULT '0',
-  `cropped_at` datetime DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `member_photo_FI_1` (`member_id`),
   CONSTRAINT `member_photo_FK_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE CASCADE
@@ -1138,7 +1137,6 @@ VALUES
 
 /*!40000 ALTER TABLE `member_status` ENABLE KEYS */;
 UNLOCK TABLES;
-
 
 
 # Dump of table member_status_history
@@ -1460,6 +1458,15 @@ CREATE TABLE `schema_info` (
   PRIMARY KEY (`version`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+LOCK TABLES `schema_info` WRITE;
+/*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
+
+INSERT INTO `schema_info` (`version`)
+VALUES
+	(86);
+
+/*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table search_crit_desc
@@ -1851,6 +1858,7 @@ VALUES
 /*!40000 ALTER TABLE `subscription` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
 # Dump of table subscription_details
 # ------------------------------------------------------------
 
@@ -1889,7 +1897,6 @@ CREATE TABLE `subscription_details` (
   `currency` char(3) NOT NULL DEFAULT '',
   `period` int(11) NOT NULL,
   `period_type` char(1) NOT NULL,
-  `imbra_amount` decimal(7,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `subscription_details_FI_1` (`subscription_id`),
   KEY `subscription_details_FI_2` (`cat_id`),
@@ -1900,32 +1907,33 @@ CREATE TABLE `subscription_details` (
 LOCK TABLES `subscription_details` WRITE;
 /*!40000 ALTER TABLE `subscription_details` DISABLE KEYS */;
 
-INSERT INTO `subscription_details` (`id`, `subscription_id`, `cat_id`, `can_create_profile`, `create_profiles`, `can_post_photo`, `post_photos`, `can_post_private_photo`, `post_private_photos`, `can_wink`, `winks`, `winks_day`, `can_read_messages`, `read_messages`, `read_messages_day`, `can_reply_messages`, `reply_messages`, `reply_messages_day`, `can_send_messages`, `send_messages`, `send_messages_day`, `can_see_viewed`, `see_viewed`, `can_contact_assistant`, `contact_assistant`, `contact_assistant_day`, `private_dating`, `pre_approve`, `amount`, `currency`, `period`, `period_type`, `imbra_amount`)
+INSERT INTO `subscription_details` (`id`, `subscription_id`, `cat_id`, `can_create_profile`, `create_profiles`, `can_post_photo`, `post_photos`, `can_post_private_photo`, `post_private_photos`, `can_wink`, `winks`, `winks_day`, `can_read_messages`, `read_messages`, `read_messages_day`, `can_reply_messages`, `reply_messages`, `reply_messages_day`, `can_send_messages`, `send_messages`, `send_messages_day`, `can_see_viewed`, `see_viewed`, `can_contact_assistant`, `contact_assistant`, `contact_assistant_day`, `private_dating`, `pre_approve`, `amount`, `currency`, `period`, `period_type`)
 VALUES
-	(1,1,1,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(2,2,1,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,29.00,'USD',1,'M',0.00),
-	(3,3,1,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,24.00,'USD',1,'M',0.00),
-	(4,1,2,1,1,1,5,1,5,1,36000,3600,1,36000,3600,1,36000,3600,1,36000,3600,1,73200,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(5,2,2,1,1,1,5,1,5,1,132000,3600,1,132000,3600,1,132000,3600,1,132000,3600,1,132000,1,12000,100,1,0,99.00,'PLN',1,'M',0.00),
-	(6,3,2,1,1,1,5,1,5,1,36000,3600,1,36000,3600,1,36000,3600,1,36000,3600,1,100000,1,10000,100,0,0,85.00,'PLN',1,'M',0.00),
-	(10,1,14,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(11,2,14,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,99.00,'PLN',1,'M',0.00),
-	(12,3,14,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,85.00,'PLN',1,'M',0.00),
-	(13,1,15,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(14,2,15,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,10.00,'USD',1,'M',0.00),
-	(15,3,15,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,5.00,'USD',1,'M',0.00),
-	(16,1,16,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(17,2,16,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,10.00,'PLN',1,'M',0.00),
-	(18,3,16,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,5.00,'PLN',1,'M',0.00),
-	(19,1,17,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(20,2,17,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,2.00,'USD',1,'M',0.00),
-	(21,3,17,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,1.00,'USD',1,'M',0.00),
-	(22,1,18,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M',0.00),
-	(23,2,18,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,29.00,'USD',1,'M',0.00),
-	(24,3,18,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,24.00,'USD',1,'M',0.00);
+	(1,1,1,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(2,2,1,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,29.00,'USD',1,'M'),
+	(3,3,1,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,24.00,'USD',1,'M'),
+	(4,1,2,1,1,1,5,1,5,1,36000,3600,1,36000,3600,1,36000,3600,1,36000,3600,1,73200,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(5,2,2,1,1,1,5,1,5,1,132000,3600,1,132000,3600,1,132000,3600,1,132000,3600,1,132000,1,12000,100,1,0,99.00,'PLN',1,'M'),
+	(6,3,2,1,1,1,5,1,5,1,36000,3600,1,36000,3600,1,36000,3600,1,36000,3600,1,100000,1,10000,100,0,0,85.00,'PLN',1,'M'),
+	(10,1,14,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(11,2,14,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,99.00,'PLN',1,'M'),
+	(12,3,14,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,85.00,'PLN',1,'M'),
+	(13,1,15,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(14,2,15,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,10.00,'USD',1,'M'),
+	(15,3,15,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,5.00,'USD',1,'M'),
+	(16,1,16,1,1,1,5,1,5,1,3660,360,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(17,2,16,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,10.00,'PLN',1,'M'),
+	(18,3,16,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,5.00,'PLN',1,'M'),
+	(19,1,17,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(20,2,17,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,2.00,'USD',1,'M'),
+	(21,3,17,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,1.00,'USD',1,'M'),
+	(22,1,18,1,1,1,5,1,5,1,3660,760,1,3600,360,1,3660,300,1,3660,350,1,3660,0,36,3,0,1,0.00,'PLN',1,'M'),
+	(23,2,18,1,1,1,5,1,5,1,12000,390,1,12000,390,1,12000,390,1,12000,390,1,12000,1,12000,100,1,0,29.00,'USD',1,'M'),
+	(24,3,18,1,1,1,5,1,5,1,10000,360,1,10000,360,1,10000,360,1,10000,360,1,10000,1,10000,100,0,0,24.00,'USD',1,'M');
 
 /*!40000 ALTER TABLE `subscription_details` ENABLE KEYS */;
 UNLOCK TABLES;
+
 
 # Dump of table subscription_history
 # ------------------------------------------------------------
@@ -2089,8 +2097,6 @@ CREATE TABLE `user` (
   `messages_mod_type` char(1) NOT NULL DEFAULT 'V',
   `flags_mod` int(11) NOT NULL DEFAULT '0',
   `flags_mod_type` char(1) NOT NULL DEFAULT 'V',
-  `imbra_mod` int(11) NOT NULL DEFAULT '0',
-  `imbra_mod_type` char(1) NOT NULL DEFAULT 'V',
   `reports_mod` int(11) NOT NULL DEFAULT '0',
   `reports_mod_type` char(1) NOT NULL DEFAULT 'V',
   `users_mod` int(11) NOT NULL DEFAULT '0',
