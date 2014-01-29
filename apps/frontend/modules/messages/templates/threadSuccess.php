@@ -78,7 +78,7 @@
         <?php if( $displayFetchLink ): ?>
             <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
         <?php endif; ?>
-        <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden')) ?>
+        <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden', 'id' => 'numberOfMessages')) ?>
         <fieldset class="background_f4 thread_msg">
             <?php echo pr_label_for('your_story', __('Message:')) ?>
             <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?>
@@ -132,8 +132,8 @@ Event.observe(window, "load", function() {
             el.style.display = "none";
             document.forms[0].displayFetchLink.value = 0;
         }
-        var currentMessNum = parseInt(document.forms[0].numberOfMessages.value);
-        document.forms[0].numberOfMessages.value = currentMessNum + parseInt(ajax.getResponseHeader("numberOfMessages"));
+        var currentMessNum = parseInt(document.getElementById("numberOfMessages").value);
+        document.getElementById("numberOfMessages").value = currentMessNum + parseInt(ajax.getResponseHeader("numberOfMessages"));
     }
     function showLoading(){
         var el = document.getElementById("loader");

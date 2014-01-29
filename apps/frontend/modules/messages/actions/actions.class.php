@@ -701,9 +701,8 @@ class messagesActions extends prActions
             $c->addDescendingOrderByColumn(MessagePeer::ID);
             $c->setLimit($this->getRequestParameter('numberOfMessages'));
             $messages = array_reverse($thread->getMessages($c));
-        }
-        else {
-            $messages = array_reverse($thread->getMessages($c));
+        } else {
+            $messages = $thread->getMessages($c);
         }
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
