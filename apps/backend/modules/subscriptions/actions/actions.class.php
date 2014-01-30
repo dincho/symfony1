@@ -71,7 +71,6 @@ class subscriptionsActions extends sfActions
                     $subscription->setCurrency($req_subs[$subscription->getSubscriptionId()]['currency']);
                 }
                 
-                $subscription->setImbraAmount($req_subs[$subscription->getSubscriptionId()]['imbra_amount']);
                 $subscription->save();
             }
         }

@@ -1,3 +1,0 @@
-<?php echo __('US Law requires US citizen to provide certain background information prior to contacting non-US person on a dating website. Ignoring this requirement, even if you live outside the United States, may make it impossible for you to live with you spouse in the US in the future. ') ?><br /><br />
-<?php echo link_to(__('I am NOT US citizen, please take me back to dashboard'), 'IMBRA/confirmImbraStatus?US_citizen=0', array('class' => 'sec_link')) ?><br /><br />
-<?php echo link_to(__('I AM US citizen - I am ready to provide certain background information'), 'IMBRA/confirmImbraStatus?US_citizen=1', array('class' => 'sec_link')) ?>

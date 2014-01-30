@@ -132,8 +132,6 @@ class usersActions extends sfActions
         $user->setFeedbackModType($this->getRequestParameter('feedback_mod_type', 'V'));
         $user->setFlagsMod($this->getRequestParameter('flags_mod', false));
         $user->setFlagsModType($this->getRequestParameter('flags_mod_type', 'V'));
-        $user->setImbraMod($this->getRequestParameter('imbra_mod', false));
-        $user->setImbraModType($this->getRequestParameter('imbra_mod_type', 'V'));
         $user->setReportsMod($this->getRequestParameter('reports_mod', false));
         $user->setReportsModType($this->getRequestParameter('reports_mod_type', 'V'));
         $user->setUsersMod($this->getRequestParameter('users_mod', false));

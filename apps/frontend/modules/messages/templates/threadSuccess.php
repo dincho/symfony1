@@ -85,14 +85,6 @@
             </div>
             <?php echo textarea_tag('content',  isset($content)? $content : $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?>
             <br />
-   
-            <?php if( !$member->getLastImbra(true) && $profile->getLastImbra(true) ): ?>
-              <label><?php echo checkbox_tag('tos', 1, false, array('id' => 'tos', 'class' => 'tos')) ?></label>
-              <label class="imbra_tos">
-                  <?php echo __('I am familiar with this member IMBRA and I accept the TOS', 
-                  array('%URL_FOR_PROFILE_IMBRA%' => url_for('@profile?username=' . $profile->getUsername() . '#profile_imbra_info'), '%URL_FOR_IMMIGRANT_RIGHTS%' => url_for('@page?slug=immigrant_rights'))) ?>
-              </label>
-            <?php endif; ?>
         </fieldset>
     
         <fieldset class="background_000">

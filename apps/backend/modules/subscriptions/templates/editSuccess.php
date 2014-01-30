@@ -35,10 +35,6 @@
         
         <label>Price:&nbsp;</label><br />
         
-        <hr style="width: auto;" />
-        
-        <!-- IMBRA -->
-        <label class="period_label" style="width:60px; float: right;">IMBRA&nbsp;</label>
         <br /><br /><br />
 
       </fieldset>
@@ -93,11 +89,6 @@
             <?php echo pr_select_payment_period_type('subs['. $sub->getSubscriptionId() .'][period_type]', $sub->getPeriodType(), array('style' => 'width: 80px')) ?>
         <?php endif; ?>
         <br />
-        
-        <hr style="width: 140px;" />
-        
-        <?php echo input_tag('subs['. $sub->getSubscriptionId() .'][imbra_amount]', format_currency($sub->getImbraAmount()), array('class' => 'limit_input', 'style' => 'float: left')) ?>
-        <label class="period_label"></label><br />
         
     </fieldset>
   </div>

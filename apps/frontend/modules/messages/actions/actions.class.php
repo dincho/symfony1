@@ -260,19 +260,6 @@ class messagesActions extends prActions
             return false;
         }
 
-
-        if (!sfConfig::get('app_settings_imbra_disable')
-            && $this->getRequestParameter('tos', 0) != 1
-            && !$sender->getLastImbra(true)
-            && $recipient->getLastImbra(true)
-        ) {
-            $this->getRequest()->setError(
-                'message',
-                'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user. '
-            );
-            return false;
-        }
-
         $predefinedMessage = PredefinedMessagePeer::retrieveByPK($this->getRequestParameter('predefined_message_id'));
         if ($predefinedMessage) {
             return true;
@@ -536,18 +523,6 @@ class messagesActions extends prActions
             $error = '';
             if (!$prPrivacyValidator->execute($value, $error)) {
                 $this->getRequest()->setError('privacy', $error);
-                return false;
-            }
-
-
-            if ($this->getRequestParameter('tos', 0) != 1
-                && !$member->getLastImbra(true)
-                && $profile->getLastImbra(true)
-            ) {
-                $this->getRequest()->setError(
-                    'message',
-                    'The box has to be checked in order for non-IMBRA user to send a message to IMBRA approved user.'
-                );
                 return false;
             }
 

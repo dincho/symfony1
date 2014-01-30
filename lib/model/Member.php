@@ -154,27 +154,6 @@ class Member extends BaseMember
     {
         return $this->getLookingfor(). '4' .$this->getSex();
     }
-    
-    /*
-   * @return MemberImbra
-   */
-    public function getLastImbra($approved = false)
-    {
-        $c = new Criteria();
-        $c->add(MemberImbraPeer::MEMBER_ID, $this->getId());
-        $c->addDescendingOrderByColumn(MemberImbraPeer::CREATED_AT);
-        if( $approved ) $c->add(MemberImbraPeer::IMBRA_STATUS_ID, ImbraStatusPeer::APPROVED);
-        $c->setLimit(1);
-        
-        return MemberImbraPeer::doSelectOne($c);
-    }
-
-    public function getMemberImbras($crit = null, $con = null)
-    {
-        $c = (is_null($crit)) ? new Criteria() : $crit;
-        $c->addDescendingOrderByColumn(MemberImbraPeer::CREATED_AT);
-        return parent::getMemberImbras($c, $con);
-    }
 
     public function changeStatus($StatusId, $kill_session = true)
     {
@@ -373,16 +352,6 @@ class Member extends BaseMember
         
         return ( $cnt > 0) ? true : false;
     }
-        
-    public function mustFillIMBRA()
-    {
-        return ( !sfConfig::get('app_settings_imbra_disable') && is_null($this->getUsCitizen()) && $this->getCountry() == 'US' && !$this->getLastImbra() );
-    }
-    
-    public function mustPayIMBRA()
-    {
-        return ( $this->getImbraPayment() != 'completed' && $this->getLastImbra() );
-    }
     
     public function getNbSentMessages()
     {
@@ -537,12 +506,6 @@ class Member extends BaseMember
         } elseif ( is_null($this->getYoutubeVid()) ) //Step 4 - Photos
         {
             $url = 'registration/photos';
-        }elseif ( $this->mustFillIMBRA() ) //Step 5 - IMBRA (if US citizen)
-        {
-            $url = 'IMBRA/index';
-        } elseif ( $this->mustPayIMBRA()) //Step 6 - IMBRA payment (if US citizen)
-        {
-            $url = 'IMBRA/payment';
         } else { //default, go to step 1 ( unknown step )
             $url = 'registration/index';
         }

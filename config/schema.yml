@@ -36,8 +36,6 @@ propel:
     feedback_mod_type:        { type: char, size: 1, default: "V", required: true }
     flags_mod:                { type: boolean, default: false, required: true }
     flags_mod_type:           { type: char, size: 1, default: "V", required: true }
-    imbra_mod:                { type: boolean, default: false, required: true }
-    imbra_mod_type:           { type: char, size: 1, default: "V", required: true }
     reports_mod:              { type: boolean, default: false, required: true }
     reports_mod_type:         { type: char, size: 1, default: "V", required: true }
     users_mod:                { type: boolean, default: false, required: true }
@@ -134,8 +132,7 @@ propel:
     last_activity_notification:        { type: timestamp }
     created_at:
     dashboard_msg:            { type: integer, size: 1, required: false, default: 0 }
-    imbra_payment:            { type: varchar, size: 100, required: false }
-    original_first_name:      { type: varchar, size: 80, required: false }  
+    original_first_name:      { type: varchar, size: 80, required: false }
     original_last_name:       { type: varchar, size: 80, required: true }
     last_subscription_change: { type: timestamp }
     last_photo_upload_at:     { type: timestamp }
@@ -277,55 +274,7 @@ propel:
     assistants:               { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG)
     join_now:                 { type: varchar, size: 255 } #will be used like array with comma separator (EN, PL, BG)     
     updated_at:
-      
-  imbra_question:
-    id:                       { type: INTEGER, required: true, primaryKey: true }
-    cat_id:                   { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
-    title:                    { type: longvarchar, required: false }
-    explain_title:            { type: longvarchar, required: false }
-    positive_answer:          { type: longvarchar, required: false }
-    negative_answer:          { type: longvarchar, required: false }
-    only_explain:             { type: boolean, required: true, default: false }
-    
-  imbra_status:
-    id:
-    title:                    { type: varchar, size: 80 }
-    
-  imbra_reply_template:
-    id:
-    user_id:
-    title:                    { type: varchar, size: 255 }
-    subject:                  { type: varchar, size: 255 }
-    body:                     { type: longvarchar }
-    footer:                   { type: longvarchar }
-    mail_from:                { type: varchar, size: 255 }
-    reply_to:                 { type: varchar, size: 255 }
-    bcc:                      { type: varchar, size: 255 }
-    created_at:
-      
-  member_imbra:
-    id:
-    member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    imbra_status_id:          { type: integer, required: true, foreignTable: imbra_status, foreignReference: id, onDelete: restrict }
-    name:                     { type: varchar, size: 100 }
-    dob:                      { type: varchar, size: 100 }
-    address:                  { type: varchar, size: 255 }
-    city:                     { type: varchar, size: 100 }
-    adm1_id:                  { type: integer, required: false, foreignTable: geo, foreignReference: id, onDelete: restrict }
-    zip:                      { type: varchar, size: 20 }
-    phone:                    { type: varchar, size: 30 }
-    created_at:
-      
-  member_imbra_i18n:
-    text:                     { type: longvarchar }
-    
-  member_imbra_answer:
-    id:
-    member_imbra_id:          { type: integer, required: true, foreignTable: member_imbra, foreignReference: id, onDelete: cascade }
-    imbra_question_id:        { type: integer, required: true, foreignTable: imbra_question, foreignReference: id, onDelete: cascade }
-    answer:                   { type: boolean, default: false, required: true }
-    explanation:              { type: longvarchar }
-    
+
   profile_view:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
@@ -377,7 +326,6 @@ propel:
     currency:                 { type: char, size: 3, required: true }
     period:                   { type: integer, required: true }
     period_type:              { type: char, size: 1, required: true, required: true }
-    imbra_amount:             { type: decimal, size: 7, scale: 2, required: true }    
   subscription_history:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }

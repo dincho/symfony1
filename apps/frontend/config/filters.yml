@@ -17,10 +17,6 @@ FVrequired:
 deactivation:
     class:  deactivationFilter
     enabled: <?php echo (sfConfig::get('app_settings_deactivation_counter') > 0) ? 'yes' : 'no', "\n"; ?>
-imbraPayment:
-    class:  imbraPaymentFilter
-    enabled: <?php echo (sfConfig::get('app_settings_imbra_disable')) ? 'no' : 'yes', "\n"; ?>
-    
 mustChangePwd:
     enabled: yes
     class:  mustChangePwdFilter

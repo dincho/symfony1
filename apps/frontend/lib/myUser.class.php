@@ -94,35 +94,25 @@ class myUser extends sfBasicSecurityUser
         
         if($member->getMemberStatusId() == MemberStatusPeer::ABANDONED)
         {
-            if($member->mustFillIMBRA())
+            if($member->getSubscriptionDetails()->getPreApprove())
             {
-                $action->redirect('IMBRA/index');
-            } elseif($member->mustPayIMBRA())
-            {
-                $action->redirect('IMBRA/payment');
+                $member->changeStatus(MemberStatusPeer::PENDING, false);
             } else
             {
-                if($member->getSubscriptionDetails()->getPreApprove())
-                {
-                    $member->changeStatus(MemberStatusPeer::PENDING, false);
-                } else
-                {
-                    $member->changeStatus(MemberStatusPeer::ACTIVE, false);
-                    Events::triggerWelcome($member, $_SERVER['REMOTE_ADDR']);
-                }
-                
-                $member->save();
-                $this->setAttribute('status_id', $member->getMemberStatusId());
+                $member->changeStatus(MemberStatusPeer::ACTIVE, false);
+                Events::triggerWelcome($member, $_SERVER['REMOTE_ADDR']);
+            }
+            
+            $member->save();
+            $this->setAttribute('status_id', $member->getMemberStatusId());
 
-                //show congratulation message only if pre approve is OFF
-                if( $member->getSubscriptionDetails()->getPreApprove() ) 
-                {
-                  $action->message('status_pending');
-                } else {
-                  $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
-                  $action->redirect('@my_profile');
-                }
-                
+            //show congratulation message only if pre approve is OFF
+            if( $member->getSubscriptionDetails()->getPreApprove() ) 
+            {
+              $action->message('status_pending');
+            } else {
+              $action->setFlash('msg_ok', 'Congratulations, your registration is complete.');
+              $action->redirect('@my_profile');
             }
         }
     }

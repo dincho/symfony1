@@ -39,7 +39,7 @@ class statusFilter extends sfFilter
                               $AI->redirect('registration/requestNewActivationEmail');
                             }
 
-                            if ( $module != 'registration' && $module != 'IMBRA' )
+                            if ( $module != 'registration' )
                             {
                               $AI->message('complete_registration');
                             }

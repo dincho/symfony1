@@ -40,9 +40,6 @@
                 <li class="menu_item"><?php echo link_to(__('Search Criteria (preferences)'), 'dashboard/searchCriteria') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Posing/Essay'), 'editProfile/essay') ?></li>
                 <li class="menu_item"><?php echo link_to(__('Photos'), 'editProfile/photos') ?></li>
-                  <?php if( !sfConfig::get('app_settings_imbra_disable') && $sf_user->getProfile()->getUsCitizen() == 1 ): ?>
-                      <li class="menu_item"><?php echo link_to(__('IMBRA Information'), 'IMBRA/index') ?></li>
-                  <?php endif; ?>
                 <?php if( in_array($sf_user->getProfile()->getMemberStatusId(), array(MemberStatusPeer::DEACTIVATED, MemberStatusPeer::DEACTIVATED_AUTO)) ): ?>
                     <li class="menu_item"><?php echo link_to(__('Activate profile (show)'), 'dashboard/deactivate') ?></li>
                 <?php elseif( $sf_user->getProfile()->getMemberStatusId() == MemberStatusPeer::ACTIVE ): ?>

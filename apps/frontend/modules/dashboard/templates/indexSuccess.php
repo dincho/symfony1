@@ -4,9 +4,7 @@
 <?php if( $member->isFree() ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />
 <?php endif; ?>
-  <?php if( !sfConfig::get('app_settings_imbra_disable') && is_null($member->getUsCitizen()) ): ?>
-      <?php echo link_to(__('Are you a US citizen?'), 'IMBRA/confirmImbraStatus', array('class' => 'sec_link')) ?><br />
-  <?php endif; ?>
+
 <br class="clear" />
 <div id="dashboard-container">
     <div class="left<?php echo ($sf_user->getProfile()->getPrivateDating())?'_privacy':'' ?>">

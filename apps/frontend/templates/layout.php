@@ -15,7 +15,6 @@
     </noscript>
     <?php if( $sf_user->isAuthenticated() && 
               $sf_user->getAttribute('status_id') == MemberStatusPeer::ABANDONED && 
-              $sf_context->getModuleName() != 'IMBRA' && 
               !$sf_user->getAttribute('must_confirm_email')): ?>
         <?php include_partial('content/headerCompleteRegistration'); ?>
     <?php endif; ?>

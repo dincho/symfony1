@@ -178,12 +178,6 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                     }
                 break;
                 
-                //IMBRA payments
-                case 'web_accept':
-                    //create payment_transaction and just record it
-                    //also we need to put some flag on the member object that he/she is already paid for the imbra, or we should check this on the fly ?!
-                break;
-                                
                 default:
                     sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->getParam('txn_type'));
                 break;

@@ -39,11 +39,6 @@
     <?php echo radiobutton_tag('flags_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('flags_mod_type', 'E', false, array('class' => 'radio')) ?><var>Edit</var><br />
     
-    <label for="imbra_mod">IMBRA:</label>
-    <?php echo checkbox_tag('imbra_mod', 1, false, array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
-    <?php echo radiobutton_tag('imbra_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
-    <?php echo radiobutton_tag('imbra_mod_type', 'E', false, array('class' => 'radio')) ?><var>Edit</var><br />
-    
     <label for="reports_mod">Reports:</label>
     <?php echo checkbox_tag('reports_mod', 1, false, array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('reports_mod_type', 'V', true, array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>

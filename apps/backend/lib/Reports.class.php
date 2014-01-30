@@ -9,30 +9,6 @@
  
 class Reports
 {
-    public static function getImbra($filters)
-    {
-        $customObject = new CustomQueryObject();
-        
-        $sql = strtr('SELECT %TITLE_FIELD%,
-            SUM(IF( DATE(%DATE_FIELD%) = CURDATE(), 1, 0 )) AS today,
-            SUM(IF( DATE(%DATE_FIELD%) = (CURDATE() - INTERVAL 1 YEAR), 1, 0 )) AS today_ly,
-            SUM(IF( YEAR(%DATE_FIELD%) = YEAR(CURDATE()) AND MONTH(%DATE_FIELD%) = MONTH(CURDATE()), 1, 0 )) AS mtd,
-            SUM(IF( YEAR(%DATE_FIELD%) = YEAR(CURDATE() - INTERVAL 1 YEAR) AND MONTH(%DATE_FIELD%) = MONTH(CURDATE()) AND DAY(%DATE_FIELD%) <= DAY(CURDATE()), 1, 0 )) AS mtd_ly,
-            SUM(IF( YEAR(%DATE_FIELD%) = YEAR(CURDATE()), 1, 0 )) AS ytd,
-            SUM(IF( YEAR(%DATE_FIELD%) = YEAR(CURDATE() - INTERVAL 1 YEAR) AND MONTH(%DATE_FIELD%) <= MONTH(CURDATE()) AND DAY(%DATE_FIELD%) <= DAY(CURDATE()), 1, 0 )) AS ytd_ly,
-            COUNT(*) AS to_date,
-            SUM(IF( UNIX_TIMESTAMP(%DATE_FIELD%) BETWEEN %DF% AND %DT%, 1, 0 )) AS period
-        FROM member_imbra AS t1
-        LEFT JOIN imbra_status imbra_s ON t1.imbra_status_id = imbra_s.id
-        LEFT JOIN member AS t3 ON t1.member_id = t3.id
-        GROUP BY t1.imbra_status_id WITH ROLLUP', 
-        array('%TITLE_FIELD%' => 'imbra_s.title', '%DATE_FIELD%' => 't1.created_at', 
-              '%DF%' => $filters['date_from'], '%DT%' => $filters['date_to']));
-
-        $objects = $customObject->query($sql);
-        return $objects;
-    }
-    
     public static function getRegistration($filters)
     {
         $customObject = new CustomQueryObject();
@@ -45,7 +21,7 @@ class Reports
                 GROUP BY title';
         
         $sql = self::addPeriods($sql);
-        $sql = strtr($sql, array('%TITLE_FIELD%' => 'imbra_s.title', '%DATE_FIELD%' => 'IF(ISNULL(t2.member_status_id), t1.created_at, t2.created_at)', 
+        $sql = strtr($sql, array('%DATE_FIELD%' => 'IF(ISNULL(t2.member_status_id), t1.created_at, t2.created_at)', 
               '%DF%' => $filters['date_from'], '%DT%' => $filters['date_to'], '%STATUS_ACTIVE%' => MemberStatusPeer::ACTIVE, '%STATUS_ABANDONED%' => MemberStatusPeer::ABANDONED));
         
         $objects = $customObject->query($sql);

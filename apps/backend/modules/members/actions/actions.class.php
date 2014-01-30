@@ -451,12 +451,6 @@ class membersActions extends prActions
         return sfView::SUCCESS; 
     }
 
-    public function executeEditIMBRA()
-    {
-        $this->getUser()->getBC()->add(array('name' => 'IMBRA', 'uri' => 'members/editIMBRA?id=' . $this->member->getId()));
-        $this->imbra = $this->member->getLastImbra();
-    }
-
     public function executeEditSearchCriteria()
     {
         $this->getUser()->getBC()->add(array('name' => 'Search Criteria', 'uri' => 'members/editSearchCriteria?id=' . $this->member->getId()));
