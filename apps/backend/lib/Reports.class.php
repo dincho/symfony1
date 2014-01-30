@@ -32,13 +32,11 @@ class Reports
     {
         $customObject = new CustomQueryObject();
         
-        $sql = 'SELECT %TITLE_FIELD%, %PERIODS_SQL%
-                FROM flag AS t1
-                LEFT JOIN flag_category AS t2 ON t1.flag_category_id = t2.id
-                GROUP BY t1.flag_category_id WITH ROLLUP';
+        $sql = 'SELECT %PERIODS_SQL%
+                FROM flag AS t1';
         
         $sql = self::addPeriods($sql);
-        $sql = strtr($sql, array('%TITLE_FIELD%' => 't2.title', '%DATE_FIELD%' => 't1.created_at', 
+        $sql = strtr($sql, array('%DATE_FIELD%' => 't1.created_at', 
                                 '%DF%' => $filters['date_from'], '%DT%' => $filters['date_to'])); 
         
         $objects = $customObject->query($sql);
@@ -68,10 +66,6 @@ class Reports
         $customObject = new CustomQueryObject();
         
         $sql = 'SELECT %TITLE_FIELD%,
-                SUM(IF( t1.flag_category_id = 1, 1, 0 )) AS inappropriate,
-                SUM(IF( t1.flag_category_id = 2, 1, 0 )) AS spam,
-                SUM(IF( t1.flag_category_id = 3, 1, 0 )) AS scam,
-                SUM(IF( t1.flag_category_id = 4, 1, 0 )) AS other,
                 COUNT(t1.id) AS total
                 FROM flag AS t1
                 LEFT JOIN member AS t2 ON (t1.flagger_id = t2.id)

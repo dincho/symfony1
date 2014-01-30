@@ -140,7 +140,6 @@ class systemComponents extends sfComponents
       array('title' => 'Susp. By Flagging Confirmed', 'uri' => 'flags/suspended?filter=filter&filters[confirmed]=1'),
       array('title' => 'Flags', 'uri' => 'flags/list?filter=filter&filters[history]=0'),
       array('title' => 'Flaggers', 'uri' => 'flags/flaggers'),
-      array('title' => 'Flag Rules', 'uri' => 'flagCategories/edit'),
       array('title' => 'Flag History', 'uri' => 'flags/list?filter=filter&filters[history]=1'),
     );
   }
@@ -204,11 +203,6 @@ class systemComponents extends sfComponents
   public function getFeedbackTemplatesSubmenu()
   {
     return $this->getFeedbackSubmenu();
-  }
-
-  public function getFlagCategoriesSubmenu()
-  {
-    return $this->getFlagsSubmenu();
   }
 
   public function getPredefinedMessagesSubmenu()

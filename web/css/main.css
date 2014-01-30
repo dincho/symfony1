@@ -295,9 +295,9 @@ p {
     margin: 0 auto;
     text-align: left;
     font-size: 11px;
-    min-height: 377px;
+    min-height: 277px;
     height: auto !important;
-    height: 377px;
+    height: 277px;
     color: #d3d3d3;
 }
 
@@ -2539,29 +2539,22 @@ div.best_video div.right img {
 
 /* Flagging */
 #flag {
-    height: 240px;
     width: 490px;
-    margin: 20px auto;
-}
-
-#flag .left {
-    float: left;
-    margin-left: 20px;
-}
-
-#flag .photo {
-    float: left;
-    text-align: center;
+    margin: 15px auto auto;
 }
 
 #flag label {
     background-color: transparent;
     float: none;
     padding-left: 0;
+    margin: 3px;
 }
 
 #flag #comment {
-    width: 400px;
+    width: 482px;
+    height: 75px;
+    max-width: 482px;
+    max-height: 75px;
 }
 
 /* END flaggind */
@@ -3281,7 +3274,7 @@ a.inactive_link:hover {
 .window #secondary_container {
     padding-top: 0;
     width: auto;
-    min-height: 200px;
+    min-height: 140px;
 }
 
 .window #send_message_form {

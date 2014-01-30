@@ -417,15 +417,10 @@ propel:
     body:                     longvarchar
     footer:                   longvarchar
     
-  flag_category:
-    id:
-    title:                    { type: varchar, size: 255 }
-    
   flag:
     id:
     member_id:                { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     flagger_id:               { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    flag_category_id:         { type: integer, required: true, foreignTable: flag_category, foreignReference: id, onDelete: restrict }
     comment:                  { type: varchar, size: 255 }
     is_history:               { type: boolean, required: true, default: false }
     created_at:

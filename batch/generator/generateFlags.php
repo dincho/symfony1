@@ -36,7 +36,6 @@ for($i=0; $i<$cnt; $i++)
         $rand_member = $members[rand(0, $cnt-1)];
         
         $flag = new Flag();
-        $flag->setFlagCategoryId(rand(1,4));
         $flag->setMemberRelatedByMemberId($member);
         $flag->setFlaggerId($rand_member->getId());
         $flag->setComment(RandomGenerator::getSentence());

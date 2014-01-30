@@ -1,6 +1,11 @@
 fillin:
-  enabled: false
+  enabled: true
 fields:
-  flag_category:
+  comment:
     required:
-        msg:    Please select flag caetgory.
+        msg:    Reason for flagging is required.
+    sfStringValidator:
+        min:          3
+        min_error:    Reason must contain minimum 3 characters.
+        max:          255
+        max_error:    Reason may contain maximum 255 characters.

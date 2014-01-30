@@ -59,7 +59,6 @@ class contentActions extends prActions
             $is_flagged = $profile->IsFlaggedBy($this->getUser()->getId());
         
             $flag = new Flag();
-            $flag->setFlagCategoryId($this->getRequestParameter('flag_category'));
             $flag->setComment($this->getRequestParameter('comment'));
             $flag->setMemberId($profile->getId());
             $flag->setFlaggerId($this->getUser()->getId());
@@ -93,7 +92,6 @@ class contentActions extends prActions
         }
         
         $this->profile = $profile;
-        $this->flag_categories = FlagCategoryPeer::doSelect(new Criteria());
         
         if( $this->getRequestParameter('layout') == 'window' )
         {
