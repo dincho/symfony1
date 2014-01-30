@@ -11,7 +11,7 @@
     <table border="0" cellpadding="0" cellspacing="0" class="search_filter">
       <tbody>                                                                                                                                                                                                                
         <tr class="search_filter_top_row">
-            <td colspan="4"><?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo'])) . __('Show only profiles with photo') ?></td>
+            <td colspan="4"><?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo']), array('onchange' => "submit_filter(this);")) . __('Show only profiles with photo') ?></td>
             <td></td>
         </tr>
         <tr class="search_filter_bottom_row">
