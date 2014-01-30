@@ -14,8 +14,7 @@
       <th class="firstcolumn"></th>
       <th><?php echo sortable_title('Username', 'Member::username', $sort_namespace) ?></th>
       <th><?php echo sortable_title('ID', 'Member::id', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Last name', 'Member::last_name', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('First name', 'Member::first_name', $sort_namespace) ?></th>
+      <th><?php echo sortable_title('Domain', 'Member::catalog_id', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sex', 'Member::sex', $sort_namespace) ?></th>
       <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
@@ -33,8 +32,7 @@
     <td class="skip_me"><?php echo link_to(unless_profile_thumbnail_photo_tag($member), $member->getFrontendProfileUrl(), array('popup' => true) ) ?></td>
     <td><?php echo $member->getUsername() ?></td>
     <td><?php echo $member->getId() ?></td>
-    <td><?php echo $member->getLastName() ?></td>
-    <td><?php echo $member->getFirstName() ?></td>
+    <td><?php if ($member->getCatalogue()) echo $member->getCatalogue()->getDomain() ?></td>
     <td><?php echo $member->getSex() ?></td>
     <td><?php echo $member->getLookingFor() ?></td>
     <td><?php echo $member->getEmail() ?></td>
