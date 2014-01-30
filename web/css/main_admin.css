@@ -278,41 +278,8 @@ table.compose_options td select {
     padding: 0;
 }
 
-.imbra_alert, .false_value {
-    color: #C00;
-}
-
-.imbra_alert p {
-    margin: 0;
-    padding: 0;
-}
-
 table.details tbody tr:hover {
     background-color: transparent;
-}
-
-dl.imbra_answers {
-
-}
-
-dl.imbra_answers dt {
-    background-color: #EFEFEF;
-    padding: 2px;
-    border-top: 1px solid #CCC;
-}
-
-dl.imbra_answers dd {
-    font-weight: bold;
-    padding: 2px;
-    margin: 0 0 10px 0;
-}
-
-dl.imbra_answers dd span {
-    font-weight: normal;
-}
-
-dl.imbra_answers {
-
 }
 
 .scrollable {

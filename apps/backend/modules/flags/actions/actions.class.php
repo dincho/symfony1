@@ -234,7 +234,7 @@ class flagsActions extends sfActions
                     $this->left_menu_selected = 'Flags';
                     break;
                 case 1:
-                    $bc->add(array('name' => 'History', 'uri' => 'imbra/list?filter=filter&filters[history]=1'));
+                    $bc->add(array('name' => 'History', 'uri' => 'flags/list?filter=filter&filters[history]=1'));
                     $this->left_menu_selected = 'Flag History';
                     break;
                 default:
@@ -254,7 +254,7 @@ class flagsActions extends sfActions
                     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::SUSPENDED_FLAGS);
                     break;
                 case 1:
-                    $bc->add(array('name' => 'Confirmed Suspensions', 'uri' => 'imbra/list?filter=filter&filters[confirmed]=1'));
+                    $bc->add(array('name' => 'Confirmed Suspensions', 'uri' => 'flags/list?filter=filter&filters[confirmed]=1'));
                     $this->left_menu_selected = 'Susp. By Flagging Confirmed';
                     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED);
                     break;

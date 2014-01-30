@@ -13,7 +13,6 @@ class systemComponents extends sfComponents
                          array('title' => 'Messages', 'uri' => 'messages/list'),
                          array('title' => 'Feedback', 'uri' => 'feedback/list'),
                          array('title' => 'Flags', 'uri' => 'flags/suspended'),
-                         array('title' => 'IMBRA', 'uri' => 'imbra/list'),
                          array('title' => 'Reports', 'uri' => 'reports/list'),
                          array('title' => 'Users', 'uri' => 'users/list'),
                       );
@@ -54,7 +53,6 @@ class systemComponents extends sfComponents
       array('title' => 'Member Stories', 'uri' => 'memberStories/list?cat_id=1'),
       array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
       array('title' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=1'),
-      array('title' => 'IMBRA Pages', 'uri' => 'content/imbrapages'),
       array('title' => 'Assistant', 'uri' => 'content/assistant?cat_id=1'),
       array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
       array('title' => 'System Notifications', 'uri' => 'notifications/list?cat_id=1'),
@@ -81,28 +79,6 @@ class systemComponents extends sfComponents
     );
   }
 
-  protected function getImbraSubmenu()
-  {
-    $c4 = new Criteria();
-    $c4->add(MemberPeer::IMBRA_PAYMENT, 'completed');
-    $c4->addJoin(MemberImbraPeer::MEMBER_ID, MemberPeer::ID);
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 1);
-    $imbra_cnt_approved = MemberImbraPeer::doCount($c4);
-    
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 2);
-    $imbra_cnt_pending = MemberImbraPeer::doCount($c4);
-    
-    $c4->add(MemberImbraPeer::IMBRA_STATUS_ID, 3);
-    $imbra_cnt_denied = MemberImbraPeer::doCount($c4);
-
-    return array(
-      array('title' => 'Pending (' . $imbra_cnt_pending . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=2'),
-      array('title' => 'Approved (' . $imbra_cnt_approved . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=1'),
-      array('title' => 'Denied (' . $imbra_cnt_denied . ')', 'uri' => 'imbra/list?filter=filter&filters[imbra_status_id]=3'),
-      array('title' => 'Reply Templates', 'uri' => 'imbraReplyTemplates/list'),
-    );
-  }
-
   protected function getReportsSubmenu()
   {
     return array(
@@ -110,7 +86,6 @@ class systemComponents extends sfComponents
       array('title' => 'Member Activity', 'uri' => 'reports/memberActivity'),
       array('title' => 'Active Members', 'uri' => 'reports/activeMembers'),
       array('title' => 'Flags/ Suspensions', 'uri' => 'reports/flagsSuspensions'),
-      array('title' => 'IMBRA', 'uri' => 'reports/imbra'),
       array('title' => 'Registration', 'uri' => 'reports/registration'),
       array('title' => 'Outgoing Emails', 'uri' => 'reports/outgoingEmails'),
     );
@@ -179,11 +154,6 @@ class systemComponents extends sfComponents
       array('title' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'),
       array('title' => 'IP Blocking', 'uri' => 'ipblocking/list'),
     );
-  }
-
-  public function getImbraReplyTemplates()
-  {
-    return $this->getImbraSubmenu();
   }
 
   public function getCatalogueSubmenu()

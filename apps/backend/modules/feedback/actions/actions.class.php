@@ -410,20 +410,6 @@ class feedbackActions extends sfActions
             $has_second_crit = true;
         }
         
-        if (isset($send_filter['imbra_us']))
-        {
-            $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US'));
-            $has_second_crit = true;
-        }
-        
-        if (isset($send_filter['imbra_non_us']))
-        {
-            $crit->addAnd($c->getNewCriterion(MemberPeer::COUNTRY, 'US', Criteria::NOT_EQUAL));
-            
-            //OR i`m not US citizen == true
-            $has_second_crit = true;
-        }
-        
         if (isset($send_filter['sex']) && is_array($send_filter['sex']))
         {
             foreach ($send_filter['sex'] as $sex)

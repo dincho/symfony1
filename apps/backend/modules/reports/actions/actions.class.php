@@ -106,13 +106,6 @@ class reportsActions extends sfActions
         $this->mostActiveFlaggers = Reports::getMostActiveFlaggers();
     }
 
-    public function executeImbra()
-    {
-        $this->getUser()->getBC()->replaceLast(array('name' => 'IMBRA'));
-        
-        $this->objects = Reports::getImbra($this->filters);
-    }
-
     public function executeRegistration()
     {
         $this->objects = Reports::getRegistration($this->filters);

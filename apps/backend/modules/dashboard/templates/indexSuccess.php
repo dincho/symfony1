@@ -20,12 +20,6 @@
         <td><?php echo intval($members_pending_review->get8days()) ?></td>
     </tr>
     <tr>
-        <td>New IMBRA applications for approval (IMBRA)</td>
-        <td><?php echo intval($pending_imbras->get2days()) ?></td>
-        <td><?php echo intval($pending_imbras->get3days()) ?></td>
-        <td><?php echo intval($pending_imbras->get8days()) ?></td>
-    </tr>
-    <tr>
         <td>New Flags pending review (flags)</td>
         <td><?php echo intval($flags_pending_review->get2days()) ?></td>
         <td><?php echo intval($flags_pending_review->get3days()) ?></td>

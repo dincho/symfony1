@@ -262,19 +262,6 @@ class profileActions extends prActions
     
     public function profilePostExecute()
     {
-        //IMBRA
-        if( !sfConfig::get('app_settings_imbra_disable') )
-        {
-          $this->imbra = $this->member->getLastImbra($approved = true);
-          if ($this->imbra)
-          {
-              $imbra_culture =  ($this->getUser()->getCulture() == 'pl') ? 'pl' : 'en'; //we have only pl/en imbras
-              $this->imbra->setCulture($imbra_culture);
-              $this->imbra_questions = ImbraQuestionPeer::doSelectWithI18n(new Criteria());
-              $this->imbra_answers = $this->imbra->getImbraAnswersArray();
-          }
-        }
-        
         $this->getUser()->getBC()->add(array('name' =>  $this->member->getUsername() . ',  ' . $this->member->getAge() . ': ' . $this->member->getEssayHeadline()));
     }
 

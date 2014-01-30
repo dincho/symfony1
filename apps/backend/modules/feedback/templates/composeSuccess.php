@@ -67,19 +67,6 @@
         <th>Abandoned Registration</th>        
       </tr>
       <tr>
-        <th>IMBRA Category:</th>
-        <td><?php echo checkbox_tag('send_filter[imbra_us]', 1, null, array('class' => 'checkbox')) ?></td>
-        <th>US</th>
-        <td><?php echo checkbox_tag('send_filter[imbra_non_us]', 1, null, array('class' => 'checkbox')) ?></td>
-        <th>Non-US</th>        
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
         <th>Sex:</th>
         <td><?php echo checkbox_tag('send_filter[sex][]', 'M', null, array('class' => 'checkbox')) ?></td>
         <th>Men</th>

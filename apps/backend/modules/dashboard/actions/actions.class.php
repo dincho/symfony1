@@ -33,7 +33,6 @@ class dashboardActions extends sfActions
         $this->females_online = ($rs->next()) ? $rs->getInt(1) : 0;
 
         $this->members_pending_review = Dashboard::getMembersPendingReview();
-        $this->pending_imbras = Dashboard::getPendingImbras();
         $this->flags_pending_review = Dashboard::getFlagsPendingReview();
         $this->member_feedback_for_reply = Dashboard::getMemberFeedbackForReply();
         $this->external_feedback_for_reply = Dashboard::getExternalFeedbackForReply();

@@ -73,7 +73,6 @@ class sfI18N
                      '%URL_FOR_SEARCH_CRITERIA%' => $con->genUrl('dashboard/searchCriteria'),
                      '%URL_FOR_ESSAY%' => $con->genUrl('editProfile/essay'),
                      '%URL_FOR_PHOTOS%' => $con->genUrl('editProfile/photos'),
-                     '%URL_FOR_IMBRA%' => $con->genUrl('imbra/index'),
                      '%URL_FOR_SUBSCRIPTION%' => $con->genUrl('subscription/index'),
                      '%URL_FOR_HOMEPAGE%' => $con->genUrl('@homepage'),
                      '%URL_FOR_JOIN_NOW%' => $con->genUrl('registration/joinNow'),

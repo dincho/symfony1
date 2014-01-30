@@ -1229,25 +1229,7 @@ table.threaded_message .message_body {
     font-size: 12px;
 }
 
-#secondary_container #imbra_2 textarea {
-    background-color: #363639;
-    border: 1px solid #7995ae;
-    color: #aca49c;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    padding: 0;
-    width: 480px;
-    height: 60px;
-    font-size: 12px;
-}
-
-#secondary_container #imbra_2 label.form_1 {
-    float: left;
-    display: block;
-    width: 65px;
-}
-
-#secondary_container #imbra_2 input.input_text_width, select.input_text_width {
+select.input_text_width {
     margin: 2px;
 }
 
@@ -2486,15 +2468,6 @@ div.best_video div.right img {
     line-height: 18px;
 }
 
-.msg_form label.imbra_tos {
-    display: block;
-    width: 650px;
-    height: 45px;
-    color: #d3d3d3;
-    font-size: 11px;
-    line-height: 12px;
-}
-
 .msg_form fieldset.background_f4 {
     margin-top: -2px;
     background-color: #4f4f4f;
@@ -2849,29 +2822,7 @@ div.best_video div.right img {
 }
 
 /* END right */
-/* Profile IMBRA */
-#profile_imbra_details {
-    background-color: #3D3D3D;
-    color: #D3D3D3;
-    padding: 10px;
-}
 
-#profile_imbra_details p {
-    color: #D3D3D3;
-    font-size: 11px;
-}
-
-#profile_imbra_details .profile_imbra_version {
-    font-size: 10px;
-    color: #92897E;
-    padding-bottom: 10px;
-}
-
-#profile_imbra_details p.public_reg_notice {
-    color: #E0B400;
-}
-
-/* END profile IMBRA */
 /* END profile */
 #secondary_container p.contact_us {
     color: #d3d3d3;

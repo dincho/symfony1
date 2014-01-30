@@ -524,7 +524,7 @@ class geoActions extends sfActions
         try {
             $geo->delete();
         } catch (PropelException $e) {
-            $this->setFlash('msg_error', 'You can\'t delete this feature, because it\'s used for some member or IMBRA');
+            $this->setFlash('msg_error', 'You can\'t delete this feature, because it\'s used');
             $this->redirect('geo/edit?id=' . $geo->getId());
         }
 

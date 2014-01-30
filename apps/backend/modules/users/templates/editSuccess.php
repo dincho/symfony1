@@ -40,11 +40,6 @@
     <?php echo radiobutton_tag('flags_mod_type', 'V', $user->getFlagsModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('flags_mod_type', 'E', $user->getFlagsModType() == 'E', array('class' => 'radio')) ?><var>Edit</var><br />
     
-    <label for="imbra_mod">IMBRA:</label>
-    <?php echo object_checkbox_tag($user, 'getImbraMod', array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
-    <?php echo radiobutton_tag('imbra_mod_type', 'V', $user->getImbraModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
-    <?php echo radiobutton_tag('imbra_mod_type', 'E', $user->getImbraModType() == 'E', array('class' => 'radio')) ?><var>Edit</var><br />
-    
     <label for="reports_mod">Reports:</label>
     <?php echo object_checkbox_tag($user, 'getReportsMod', array('class' => 'checkbox')) ?><var>&nbsp;&nbsp;&nbsp;</var>
     <?php echo radiobutton_tag('reports_mod_type', 'V', $user->getReportsModType() == 'V', array('class' => 'radio')) ?><var>View&nbsp;&nbsp;&nbsp;</var>
