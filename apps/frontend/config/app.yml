@@ -152,8 +152,22 @@ stag:
     cs_polishdate_bonex_us: "CafeSayang.com (stag) - "
     db_polishdate_bonex_us: "DatingBistro.com (stag) - "
   sf_google_analytics_plugin:
-    enabled:                no  
+    enabled:                no 
 
+test:
+  paypal:
+    business:             admin_1231849319_biz@polishromance.com
+    test:                 yes
+    url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
+    cert_id:              KRHQZEWMCEYVL
+    notify_url:           http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/paypal.html
+    cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
+    cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
+    cert_public_paypal:   %SF_DATA_DIR%/paypal/sandbox_paypal-pubcert.pem
+  zong:
+      customer_key:         polishdev
+      supported_countries:  [PL, US]
+      accept_simulated:     yes
 prod:
   gmaps_key:
     www_polishdate_com:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E

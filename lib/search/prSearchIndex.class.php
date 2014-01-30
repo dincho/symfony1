@@ -113,11 +113,13 @@ class prSearchIndex
         }
 
         $openPrivacy = OpenPrivacyPeer::getVisibleByProfilesIds($memberObj->getId());
-        $memberCity = $memberObj->getCity();
-        $location = array(
-            'lat' => $memberCity->getLatitude(),
-            'lon' => $memberCity->getLongitude()
-        );
+        $location = array();
+        if ($memberCity = $memberObj->getCity()) {
+            $location = array(
+                'lat' => $memberCity->getLatitude(),
+                'lon' => $memberCity->getLongitude()
+            );
+        }
 
         return array(
             'status_id' => $memberObj->getMemberStatusId(),
