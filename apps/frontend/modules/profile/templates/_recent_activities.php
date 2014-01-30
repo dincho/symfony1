@@ -22,7 +22,7 @@
                 <?php else: ?>
                     <td><?php echo link_to($user, url_for_activity($activity), array('class' => 'sec_link')); ?></td>
                     <td><?php echo link_to(__($activity->getActivity()), url_for_activity($activity), array('class' => 'sec_link')); ?></td>
-                    <td><?php echo link_to(format_date_pr($activity->getDtime(), null, 'dd-MMM-yyyy', $sf_user->getProfile()->getTimezone()), url_for_activity($activity), array('class'=>'sec_link')) ?></td>
+                    <td><?php echo format_date_pr($activity->getDtime(), null, 'dd-MMM-yyyy', $sf_user->getProfile()->getTimezone()) ?></td>
                 <?php endif; ?>
                 <td><?php echo link_for_extra_activity_field($activity, $member); ?></td>
             </tr>
