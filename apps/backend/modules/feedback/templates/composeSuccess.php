@@ -27,12 +27,20 @@
       <tr>
         <th>Template</th>
         <?php $tpl_url = (!$sf_request->hasParameter('id')) ? url_for('feedback/compose?template_id=') : url_for('feedback/reply?id=' . $sf_request->getParameter('id').'&template_id=') ?>
-        <td><?php echo object_select_tag($template->getId(), 'template_id', array (
-                  'related_class' => 'FeedbackTemplate',
-                  'peer_method' => 'doSelect',
-                  'include_blank' => true,
-                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
-                ))?>
+        <td>
+            <?php $options_html = '<option></option>';?>
+            <?php foreach($feedback_templates as $template):?>
+                <?php $options_html .= sprintf('<option value="%s" data-tags="%s">%s</option>',
+                        $template->getId(),
+                        $template->getTags(),
+                        $template->getName())?>
+            <?php endforeach;?>
+            <?php echo select_tag( 'template_id', $options_html,
+                array(
+                     'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
+                )
+            )?>
+            
         </td>
       </tr>
       <tr>
@@ -101,7 +109,22 @@
         <td></td>
         <td></td>        
       </tr>
-    <tbody>
+    <tr>
+        <th colspan="9">
+            Filter templates:<br/>
+            <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null,
+                    array(
+                         'include_blank' => true,
+                    )),
+                array(
+                     'multiple' => true,
+                     'style' => 'width:250px; height:96px;',
+                     'onclick' => 'filter_select(this.value, "template_id")'
+                )
+            )?>
+        </th>
+    </tr>
+    </tbody>
   </table>
 </fieldset>
 

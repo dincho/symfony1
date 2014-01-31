@@ -26,6 +26,9 @@
   background-color: #EFEFEF;
   float: left;
 }
+.form_fields input {
+    padding: 0 2px;
+}
 .form_fields .member_stories
 {
   width: 260px;

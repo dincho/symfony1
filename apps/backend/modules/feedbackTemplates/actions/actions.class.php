@@ -44,6 +44,7 @@ class feedbackTemplatesActions extends sfActions
             $template->setSubject($this->getRequestParameter('subject'));
             $template->setBody($this->getRequestParameter('message_body'));
             $template->setFooter($this->getRequestParameter('message_footer'));
+            $template->setTags($this->getRequestParameter('tags'));
             $template->save();
             
             $this->setFlash('msg_ok', 'Template ' . $template->getName() . ' has been added.');
@@ -69,6 +70,7 @@ class feedbackTemplatesActions extends sfActions
             $template->setSubject($this->getRequestParameter('subject'));
             $template->setBody($this->getRequestParameter('body'));
             $template->setFooter($this->getRequestParameter('footer'));
+            $template->setTags($this->getRequestParameter('tags'));
             $template->save();
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
