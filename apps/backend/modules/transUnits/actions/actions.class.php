@@ -121,7 +121,14 @@ class transUnitsActions extends sfActions
             $trans_unit->setTags($this->getRequestParameter('tags'));
             $trans_unit->setLink($this->getRequestParameter('link'));
             $trans_unit->save();
-            
+
+            // save cat related urls
+            $c1 = new Criteria();
+            $c1->add(TransUnitPeer::SOURCE, $trans_unit->getSource());
+            $c2 = new Criteria();
+            $c2->add(TransUnitPeer::LINK, $this->getRequestParameter('link'));
+            BasePeer::doUpdate($c1, $c2, Propel::getConnection());
+
             if( $catalogue->getTargetLang() != 'en' && $en_trans_unit)
             {
                 $en_trans_unit->setTarget($this->getRequestParameter('en_target'));
