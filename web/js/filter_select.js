@@ -1,17 +1,22 @@
 /**
- * Filter options of 'select_id' having 'val' in attribute data-tags (comma separated list of tags)
+ * Filter options of 'select_id' having 'tag' in attribute data-tags (comma separated list of tags)
  */
-function filter_select(val, select_id) {
+var originalOptions = [];
+
+function filter_select(tag, select_id) {
     var el = document.getElementById(select_id);
-    var options = el.childNodes;
-    var r = new RegExp('(^|,\s*)' + val + '\s*(,|$)');
-    Array.prototype.forEach.call(options, function (elem) {
-        elem.style.display = null;
-        var tags = elem.getAttribute('data-tags');
-        if (val) {
-            if (tags && tags.search(r) == -1 || !tags) {
-                elem.style.display = 'none';
-            }
+
+    if (0 === originalOptions.length) {
+        Array.prototype.forEach.call(el.childNodes, function(optEl, i){
+            originalOptions.push(optEl.cloneNode(true));
+        });
+    }
+
+    el.innerHTML = '';
+    Array.prototype.forEach.call(originalOptions, function (elem) {
+        var tags = (elem.getAttribute('data-tags') || "").split(',');
+        if (-1 !== tags.indexOf(tag)) {
+            el.appendChild(elem);
         }
     });
 }
