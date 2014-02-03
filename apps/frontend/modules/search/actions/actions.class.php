@@ -375,16 +375,6 @@ class searchActions extends prActions
         $pager->setPage($this->getRequestParameter('page', 1));
         $pager->setPeerMethod($peerMethod);
         $pager->setPeerCountMethod($peerCountMethod);
-        
-        $profile = $this->getUser()->getProfile();
-        if (sfConfig::get('app_settings_man_should_pay') 
-            && $profile->isFree()
-            && $profile->getSex() == 'M' 
-            && $profile->getLookingFor() == 'F'
-        ) {
-            $pager->setMaxRecordLimit(600);
-        }
-        
         $pager->init();
         $pager->members = array();
         $this->pager = $pager;
@@ -416,16 +406,6 @@ class searchActions extends prActions
 
         $pager = new prSearchPager($builder, $perPage);
         $pager->setPage($this->getRequestParameter('page', 1));
-        
-        $profile = $this->getUser()->getProfile();
-        if (sfConfig::get('app_settings_man_should_pay') 
-            && $profile->isFree()
-            && $profile->getSex() == 'M' 
-            && $profile->getLookingFor() == 'F'
-        ) {
-            $pager->setMaxRecordLimit(600);
-        }
-        
         //get matches from search engine
         $pager->init();
         $pager->getResults();
