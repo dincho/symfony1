@@ -1,7 +1,7 @@
 <?php use_helper('prDate', 'Javascript', 'prProfilePhoto') ?>
 
 <?php include_component('messages', 'navigation', array('active' => 'drafts')); ?>
-<?php include_partial('pager', array('pager' => $pager, 'route' => 'messages/drafts')); ?><br />
+<?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/drafts')); ?><br />
 
 <?php if($pager->getNbResults() > 0): ?>
     <?php if($sf_request->hasParameter('confirm_delete_draft')): ?>
@@ -65,7 +65,7 @@
 <?php endif; ?>
 
 <br />
-<?php include_partial('pager', array('pager' => $pager, 'route' => 'messages/drafts')); ?>
+<?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/drafts')); ?>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

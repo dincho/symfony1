@@ -2,7 +2,7 @@
 
 <?php if( $pager->getNbResults() > 0): ?>
 <div id="match_results">
-    <?php include_partial('pager', array('pager' => $pager, 'route' => $route)); ?>
+    <?php include_partial('content/pager', array('pager' => $pager, 'route' => $route)); ?>
     <div class="member">
         <?php $i=1;foreach($pager->members as $member): ?>
             <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">  
@@ -49,6 +49,6 @@
             <?php endif; ?>  
         <?php $i++;endforeach; ?>
     </div>
-    <?php include_partial('pager', array('pager' => $pager, 'route' => $route)); ?>
+    <?php include_partial('content/pager', array('pager' => $pager, 'route' => $route)); ?>
 </div>
 <?php endif; ?>

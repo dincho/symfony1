@@ -1,7 +1,7 @@
 <?php use_helper('prDate', 'Javascript', 'prProfilePhoto') ?>
 
 <?php include_component('messages', 'navigation', array('active' => 'sent')); ?>
-<?php include_partial('pager', array('pager' => $pager, 'route' => 'messages/sent')); ?><br />
+<?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/sent')); ?><br />
 
 <?php if($pager->getNbResults() > 0): ?>
     <?php if($sf_request->hasParameter('confirm_delete')): ?>
@@ -52,7 +52,7 @@
 <?php endif; ?>
 
 <br />
-<?php include_partial('pager', array('pager' => $pager, 'route' => 'messages/sent')); ?>
+<?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/sent')); ?>
 
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
