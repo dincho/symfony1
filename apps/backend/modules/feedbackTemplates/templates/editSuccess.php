@@ -37,7 +37,7 @@
     <div style="float:left;">
       <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null),
           array(
-               'multiple' => true,
+               'size' => 5,
                'style' => 'width:250px; height:106px;',
                'onclick' => 'add_tags(this.value, "tags")'
           )

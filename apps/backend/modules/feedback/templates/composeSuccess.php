@@ -100,7 +100,7 @@
                          'include_blank' => true,
                     )),
                 array(
-                     'multiple' => true,
+                     'size' => 5,
                      'style' => 'width:250px; height:96px;',
                      'onclick' => 'filter_select(this.value, "template_id")'
                 )
