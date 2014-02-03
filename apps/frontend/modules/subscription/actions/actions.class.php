@@ -69,103 +69,70 @@ class subscriptionActions extends prActions
     public function executePayment()
     {
         $member = $this->getUser()->getProfile();
-        // $this->redirectIf($member->getSubscriptionId() != SubscriptionPeer::FREE, 'subscription/manage');
-        
-        if( $member->getLastPaymentState() == 'pending' )
-        {
+
+        if ($member->getLastPaymentState() == 'pending') {
             $this->setFlash('msg_error', 'You have pending payment, please allow us up to 24 hours to process it.');
             $this->redirect('@dashboard');
         }
-        
-        $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId($this->getRequestParameter('sid'), $member->getCatalogId());
+
+        $subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId(
+            $this->getRequestParameter('sid'),
+            $member->getCatalogId()
+        );
         $this->forward404Unless($subscription);
-        
+
         //downgrades and double payments are not allowed
         $this->forward404Unless($subscription->getAmount() > $member->getMostRecentSubscription()->getAmount());
-        
-        $current_member_subscription = $member->getCurrentMemberSubscription();
-        $is_last_processor_paypal = ($current_member_subscription && $current_member_subscription->getLastCompletedPayment()->getPaymentProcessor() == 'paypal');
-        
-        if( $current_member_subscription && !$is_last_processor_paypal && $current_member_subscription->getStatus() != 'canceled')
-        {
-          $this->redirect('subscription/cancelToUpgrade?sid=' . $subscription->getSubscriptionId());
-        }
 
-        $this->zongAvailable = false;
-        
-        if( !$is_last_processor_paypal )
-        {
-          $member->setLastPaymentState('init');
-          $member->save();
-        
-          //check if we already have some pending subscription
-          $c = new Criteria();
-          $c->add(MemberSubscriptionPeer::MEMBER_ID, $member->getId());
-          $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, $subscription->getSubscriptionID());
-          $c->add(MemberSubscriptionPeer::STATUS, 'pending');
-          $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
-        
-          if( !$member_subscription ) //no subscription found, create new one.
-          {
-              $member_subscription = new MemberSubscription();
-              $member_subscription->setMemberId($member->getId());
-              $member_subscription->setSubscriptionId($subscription->getSubscriptionId());
-              $member_subscription->setPeriod($subscription->getPeriod());
-              $member_subscription->setPeriodType($subscription->getPeriodType());
-              $member_subscription->save();
-          }
-
-          $zong = new prZong($member->getCountry(), $subscription->getCurrency());
-          $zongItem = $zong->getFirstItemWithApproxPrice($subscription->getAmount());
-          $this->zongAvailable = (bool) $zongItem;
-          
-          $dotpay = new DotPay(sfConfig::get('app_dotpay_account_id'), $this->getUser()->getCulture());
-          $dotpay->setAmount($subscription->getAmount());
-          $dotpay->setCurrency($subscription->getCurrency());
-          $dotpay->setDescription($subscription->getTitle() . ' Membership ' . $member->getUsername());
-          $dotpay->setReturnURL($this->getController()->genUrl('subscription/thankyou', true));
-          $dotpay->setCallbackURL($this->getController()->genUrl(sfConfig::get('app_dotpay_callback_url'), true));
-          $dotpay->setData($member_subscription->getId());
-          $dotpay->setFirstname($member->getFirstName());
-          $dotpay->setLastname($member->getLastName());
-          $dotpay->setEmail($member->getEmail());
-          $this->dotpayURL = $dotpay->generateURL(sfConfig::get('app_dotpay_url'));
-        
+        //determine current payment processor
+        $memberSubscription = $member->getcurrentMemberSubscription();
+        if ($memberSubscription) {
+            $currentPaymentProcessor = $memberSubscription->getLastCompletedPayment()->getPaymentProcessor();
         } else {
-          $member_subscription = $current_member_subscription;
+            $currentPaymentProcessor = null;
         }
 
-        //paypal setup
-        //@see https://www.paypal.com/en_US/ebook/subscriptions/html.html
-        $EWP = new sfEWP();
-        $parameters = array("cmd" => "_xclick-subscriptions",
-                            "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => $subscription->getTitle() . ' Membership ' . $member->getUsername(),
-                            'item_number' => $subscription->getSubscriptionId(),
-                            'lc' => $member->getCountry(),
-                            'no_note' => 1,
-                            'no_shipping' => 1,
-                            'currency_code' => $subscription->getCurrency(),
-                            'rm' => 1, //return method 1 = GET, 2 = POST
-                            'src' => 1, //Recurring or not
-                            'sra' => 1, //Reattemt recurring payments on failture
-                            'modify' => ( $is_last_processor_paypal ) ? 2 : 0, 
-                            'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
-                            'return' => $this->getController()->genUrl('subscription/thankyou', true),
-                            'cancel_return' => $this->getController()->genUrl('subscription/cancel?subscription_id=' . $member_subscription->getId(), true),
-                            'a3' => $subscription->getAmount(),
-                            'p3' => $subscription->getPeriod(),
-                            't3' => $subscription->getPeriodType(),
-                            'custom' => $member_subscription->getId(),
+        //Members with not canceled non paypal subscriptions are not allowed to upgrade
+        if ($memberSubscription
+            && $currentPaymentProcessor != 'paypal'
+            && $memberSubscription->getStatus() != 'canceled'
+        ) {
+            $this->redirect('subscription/cancelToUpgrade?sid=' . $subscription->getSubscriptionId());
+        }
+
+        /**
+        * If member has no current subscription, or it's not paypal (because paypal allow modify)
+        * Initialize new pending member subscription for further processing
+        */
+        if ($currentPaymentProcessor != 'paypal') {
+            $member->setLastPaymentState('init');
+            $member->save();
+
+            $memberSubscription = MemberSubscriptionPeer::getOrCreatePendingSubscription(
+                $member, $subscription
+            );
+        }
+
+        //build payment processor buttons & forms
+        $paymentsFactory = new prPaymentsFactory($member, $subscription);
+        $this->zongAvailable = $paymentsFactory->isZongAvailable();
+        $this->dotpayURL = $paymentsFactory->getDotpayURL(
+            $this->getUser()->getCulture(),
+            $this->getController(),
+            $memberSubscription->getId()
         );
-        
-        
-        $this->encrypted = $EWP->encryptFields($parameters);
+        $this->encrypted = $paymentsFactory->getPaypalEncryptedData(
+            $this->getController(),
+            $memberSubscription->getId(),
+            //allow upgrade (modify) if last processor is paypal
+            ($currentPaymentProcessor == 'paypal')
+        );
+
+        //additional details 
         $this->amount = $subscription->getAmount();
         $this->currency = $subscription->getCurrency();
-        $this->member_subscription_id = $member_subscription->getId();
+        $this->memberSubscription_id = $memberSubscription->getId();
     }
-
     
     protected function executeGiftMembership()
     {

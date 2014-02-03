@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.29-log)
 # Database: polishdate_test
-# Generation Time: 2014-01-29 10:10:18 +0000
+# Generation Time: 2014-01-30 15:38:35 +0000
 # ************************************************************
 
 
@@ -1790,6 +1790,36 @@ CREATE TABLE `static_page` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `static_page` WRITE;
+/*!40000 ALTER TABLE `static_page` DISABLE KEYS */;
+
+INSERT INTO `static_page` (`id`, `slug`, `has_mini_menu`, `has_content`)
+VALUES
+	(1,'about_us',0,1),
+	(2,'contact_us',1,1),
+	(3,'frequently_asked_questions',0,1),
+	(4,'for_law_enforcement',0,1),
+	(6,'help',0,1),
+	(7,'how_it_works',0,1),
+	(8,'IMBRA',0,1),
+	(9,'user_agreement',0,1),
+	(10,'privacy_policy',0,1),
+	(11,'copyright',0,1),
+	(12,'site_map',0,1),
+	(13,'affiliates',1,1),
+	(14,'safety_tips',0,1),
+	(15,'legal_resources',0,1),
+	(16,'immigrant_rights',0,1),
+	(17,'writing_tips',0,1),
+	(18,'best_videos',0,1),
+	(19,'best_videos_rules',0,1),
+	(20,'blocked_user',0,1),
+	(21,'tell_friend',0,0),
+	(22,'search_engines',0,0),
+	(23,'seo_countries',0,0);
+
+/*!40000 ALTER TABLE `static_page` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table static_page_domain
@@ -1812,6 +1842,104 @@ CREATE TABLE `static_page_domain` (
   CONSTRAINT `static_page_i18n_FK_1` FOREIGN KEY (`id`) REFERENCES `static_page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `static_page_domain` WRITE;
+/*!40000 ALTER TABLE `static_page_domain` DISABLE KEYS */;
+
+INSERT INTO `static_page_domain` (`link_name`, `title`, `keywords`, `description`, `content`, `id`, `updated_at`, `cat_id`)
+VALUES
+	('About Us','About Us','','','',1,'2010-02-08 09:57:06',1),
+	('O nas','O nas','','','',1,'2012-03-09 17:19:11',2),
+	('About Us','About Us','','','',1,'2013-06-19 14:25:46',17),
+	('About Us','About Us','','','',1,'2013-08-19 15:53:44',18),
+	('Contact Us','Contact Us','','','',2,'2012-03-05 15:04:37',1),
+	('Kontakt','Skontaktuj się z nami','','','',2,'2012-03-05 15:21:18',2),
+	('Contact Us','Contact Us','','','',2,'2013-06-19 14:25:46',17),
+	('Contact Us','Contact Us','','','',2,'2013-08-19 15:53:44',18),
+	('FAQs','Frequently Asked Questions','','','',3,'2010-07-30 12:17:36',1),
+	('Pytania','Najczęściej zadawane pytania','','','',3,'2012-03-09 16:39:09',2),
+	('FAQs','Frequently Asked Questions','','','',3,'2013-06-19 14:25:46',17),
+	('FAQs','Frequently Asked Questions','','','',3,'2013-08-19 15:53:44',18),
+	('Legal','Legal Statement','','','',4,'2010-11-03 07:57:54',1),
+	('Prawne','Prawne uwagi, zastrzeżenia i wyłączenia','','','',4,'2010-07-30 12:37:43',2),
+	('Legal','Legal Statement','','','',4,'2013-06-19 14:25:46',17),
+	('Legal','Legal Statement','','','',4,'2013-08-19 15:53:44',18),
+	('Help','Help','','','',6,'2010-02-08 09:57:06',1),
+	('Pomoc','Pomoc','','','',6,'2012-03-09 17:51:28',2),
+	('Help','Help','','','',6,'2013-06-19 14:25:46',17),
+	('Help','Help','','','',6,'2013-08-19 15:53:44',18),
+	('How It Works','How it works','','','',7,'2010-02-08 09:57:06',1),
+	('Jak to działa','Jak działa Szukam Milionera?','','','',7,'2012-03-09 17:04:50',2),
+	('How It Works','How it works','','','',7,'2013-06-19 14:25:46',17),
+	('How It Works','How it works','','','',7,'2013-08-19 15:53:44',18),
+	('Background Checks','Background Check Policy','','','',8,'2010-07-30 12:11:53',1),
+	('Sprawdzanie przeszłości','Sprawdzanie przeszłości','','','',8,'2010-06-15 21:39:27',2),
+	('Background Checks','Background Check Policy','','','',8,'2013-06-19 14:25:46',17),
+	('Background Checks','Background Check Policy','','','',8,'2013-08-19 15:53:44',18),
+	('Terms of Use','Terms of Use','','','',9,'2010-07-30 12:30:18',1),
+	('Warunki użytkowania','Umowa i warunki użytkowania i korzystania z serwisu SzukamMilionera (dot) com','','','',9,'2012-01-26 21:12:59',2),
+	('Warunki użytkowania','Umowa i warunki użytkowania i korzystania z serwisu Meska Milosc (dot) pl','','','',9,'2012-01-26 21:12:01',16),
+	('Terms of Use','Terms of Use','','','',9,'2013-06-19 14:25:46',17),
+	('Terms of Use','Terms of Use','','','',9,'2013-08-19 15:53:44',18),
+	('Privacy Policy','Privacy Policy','','','',10,'2010-07-30 12:23:21',1),
+	('Polityka prywatności','Polityka prywatności','','','',10,'2012-03-28 22:16:34',2),
+	('Privacy Policy','Privacy Policy','','','',10,'2013-06-19 14:25:46',17),
+	('Privacy Policy','Privacy Policy','','','',10,'2013-08-19 15:53:44',18),
+	('Copyright_Note','Copyright','','','',11,'2010-07-30 12:16:35',1),
+	('Prawa autorskie','Prawa autorskie zastrzeżone','','','',11,'2012-03-09 16:49:08',2),
+	('Copyright_Note','Copyright','','','',11,'2013-06-19 14:25:46',17),
+	('Copyright_Note','Copyright','','','',11,'2013-08-19 15:53:44',18),
+	('Site Map','Site Map','','','',12,'2010-07-30 12:27:30',1),
+	('Mapa serwisu','Mapa serwisu','','','',12,'2010-02-08 09:57:06',2),
+	('Site Map','Site Map','','','',12,'2013-06-19 14:25:46',17),
+	('Site Map','Site Map','','','',12,'2013-08-19 15:53:44',18),
+	('Affiliates','Affiliates','','','',13,'2010-07-30 12:11:04',1),
+	('Współpraca','Współpraca','','','',13,'2010-06-15 15:17:47',2),
+	('Affiliates','Affiliates','','','',13,'2013-06-19 14:25:46',17),
+	('Affiliates','Affiliates','','','',13,'2013-08-19 15:53:44',18),
+	('Safe Dating','Safe Dating Tips','','','',14,'2011-05-20 00:14:33',1),
+	('Bezpieczna randka','Bezpieczne randka','','','',14,'2010-02-12 00:26:07',2),
+	('Safe Dating','Safe Dating Tips','','','',14,'2013-06-19 14:25:46',17),
+	('Safe Dating','Safe Dating Tips','','','',14,'2013-08-19 15:53:44',18),
+	('Moving to Poland?','Helpful Resources on Moving to Poland','','','',15,'2010-02-08 09:57:06',1),
+	('Mądra przeprowadzka','Jak przeprowadzić się za granicę lub do innego miasta','','','',15,'2010-02-08 09:57:06',2),
+	('Moving to Poland?','Helpful Resources on Moving to Poland','','','',15,'2013-06-19 14:25:46',17),
+	('Moving to Poland?','Helpful Resources on Moving to Poland','','','',15,'2013-08-19 15:53:44',18),
+	('Emigrating to Poland','Rights and Responsibilities of New Immigrants','','','',16,'2010-07-30 12:25:11',1),
+	('Emigrujesz? Znaj swoje prawa!','Prawo i obowiązki świeżych imigrantów','','','',16,'2010-02-08 09:57:06',2),
+	('Emigrating to Poland','Rights and Responsibilities of New Immigrants','','','',16,'2013-06-19 14:25:46',17),
+	('Emigrating to Poland','Rights and Responsibilities of New Immigrants','','','',16,'2013-08-19 15:53:44',18),
+	('Writing Tips','How to write a profile that attracts','','','',17,'2010-02-08 09:57:06',1),
+	('Jak pisać aby wzbudzić zainteresowanie','Jak pisać, aby sobą zaciekawić','','','',17,'2010-07-30 12:38:29',2),
+	('Jak pisać aby wzbudzić zainteresowanie','Jak pisać, aby sobą zaciekawić','','','',17,'2012-12-26 07:54:25',16),
+	('Writing Tips','How to write a profile that attracts','','','',17,'2013-06-19 14:25:46',17),
+	('Writing Tips','How to write a profile that attracts','','','',17,'2013-08-19 15:53:44',18),
+	('Best Videos','Best Videos','','','',18,'2010-07-30 12:13:08',1),
+	('Najlepsze klipy wideo','Najpopularniejsze wideo klipy użytkowników!','','','',18,'2010-07-30 12:46:28',2),
+	('Best Videos','Best Videos','','','',18,'2013-06-19 14:25:46',17),
+	('Best Videos','Best Videos','','','',18,'2013-08-19 15:53:44',18),
+	('Best Videos Rules','Best Videos Rules','','','',19,'2010-07-30 12:15:06',1),
+	('Regulamin konkursu wideo','Regulamin konkursu na najlelpszy klip wideo','','','',19,'2010-07-30 12:44:58',2),
+	('Best Videos Rules','Best Videos Rules','','','',19,'2013-06-19 14:25:46',17),
+	('Best Videos Rules','Best Videos Rules','','','',19,'2013-08-19 15:53:44',18),
+	('Blocked User','Restricted Area','','','',20,'2010-07-30 12:23:59',1),
+	('Dostęp zablokowany','Strefa niedostępna','','','',20,'2010-07-30 12:24:39',2),
+	('Blocked User','Restricted Area','','','',20,'2013-06-19 14:25:46',17),
+	('Blocked User','Restricted Area','','','',20,'2013-08-19 15:53:44',18),
+	('Tell A Friend','Tell A Friend','','','',21,'2010-02-08 09:57:06',1),
+	('Poleć nas','Poleć nas','','','',21,'2010-10-27 22:22:57',2),
+	('Tell A Friend','Tell A Friend','','','',21,'2013-06-19 14:25:46',17),
+	('Tell A Friend','Tell A Friend','','','',21,'2013-08-19 15:53:44',18),
+	('View Polish Singles','View Polish Singles','','','',22,'2010-07-30 12:31:07',1),
+	('Profile','Przeglądaj profile kobiet i mężczyzn','','','',22,'2012-03-09 16:42:23',2),
+	('View Polish Singles','View Polish Singles','','','',22,'2013-06-19 14:25:46',17),
+	('View Polish Singles','View Polish Singles','','','',22,'2013-08-19 15:53:44',18),
+	('Locations','Locations','','','',23,'2010-06-15 23:59:20',1),
+	('Lokalizacje','Lokalizacje','','','',23,'2010-06-15 21:49:45',2),
+	('Locations','Locations','','','',23,'2013-06-19 14:25:46',17),
+	('Locations','Locations','','','',23,'2013-08-19 15:53:44',18);
+
+/*!40000 ALTER TABLE `static_page_domain` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table stock_photo
