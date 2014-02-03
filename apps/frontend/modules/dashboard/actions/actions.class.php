@@ -278,12 +278,13 @@ class dashboardActions extends prActions
         $request = $this->getRequest();
         if ($request->getMethod() == sfRequest::POST) {
             $member = $this->getUser()->getProfile();
-            $modifiedOnlyFull = ($member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members', 0));
-            $modifiedPrivateDating = ($member->getPrivateDating() != $this->getRequestParameter('private_dating', 0));
-            $modifiedHideVisits = ($member->getHideVisits() != $this->getRequestParameter('hide_visits', 0));
+            $privateDating = $this->getRequestParameter('private_dating', 0);
+            $hideVisits = $this->getRequestParameter('hide_visits', 0);
+            $enabledPrivateDating = $privateDating && $member->getPrivateDating() == 0;
+            $enabledHideVisits = $hideVisits && $member->getHideVisits() == 0;
             $vip = $member->getSubscriptionId() == SubscriptionPeer::VIP;
 
-            if (!$vip && ($modifiedPrivateDating || $modifiedHideVisits)) {
+            if (!$vip && ($enabledPrivateDating || $enabledHideVisits)) {
                 $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
                 return false;
             }
