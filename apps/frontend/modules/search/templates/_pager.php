@@ -23,11 +23,5 @@
         <?php if ($pager->getPage() != $pager->getLastPage()): ?>
             <?php echo link_to(image_tag('next.gif'), $route . '?page='.$pager->getNextPage()) ?>
         <?php endif; ?>
-        
-        <?php if( $pager->getPage() == $pager->getLastPage() && $pager->getMaxRecordLimit() > 0 ): ?>
-            <br />
-            <?php echo link_to(__('See more matches'), 'subscription/index', array('class' => 'sec_link', )); ?>
-            <?php echo link_to(image_tag('next.gif'), 'subscription/index'); ?>
-        <?php endif; ?>
     </div>
 <?php endif; ?>
