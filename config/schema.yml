@@ -124,6 +124,7 @@ propel:
     member_counter_id:        { type: integer, required: true, foreignTable: member_counter, foreignReference: id, onDelete: restrict }
     public_search:            { type: boolean, required: true, default: false }
     private_dating:           { type: boolean, required: true, default: false }
+    hide_visits:              { type: boolean, required: true, default: false }
     registration_ip:          { type: bigint, required: false }
     last_ip:                  { type: bigint, required: false }
     last_status_change:       { type: timestamp } #used for geting stats like 'New Deletions pending review'

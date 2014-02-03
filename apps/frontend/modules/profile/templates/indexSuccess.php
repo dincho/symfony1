@@ -208,7 +208,9 @@
                 <?php endif; ?>
                 <br />
                 <?php echo __('Profile ID:') . '&nbsp;' . $member->getId(); ?><br />
-                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
+                <?php if( !$member->getHideVisits() ): ?>
+                    <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

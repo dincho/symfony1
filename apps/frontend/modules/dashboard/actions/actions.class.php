@@ -253,33 +253,52 @@ class dashboardActions extends prActions
     {
         $member = MemberPeer::retrieveByPK($this->getUser()->getId());
         $this->forward404Unless($member);
-        
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            $modified = ( $member->getPrivateDating() != $this->getRequestParameter('private_dating') );
-            
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+            $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
+            $member->setHideVisits($this->getRequestParameter('hide_visits', 0));
             $member->setPrivateDating($this->getRequestParameter('private_dating', 0));
-            if( $this->getRequestParameter('private_dating', 0) == 1) 
-            {
+
+            if ($member->getPrivateDating() && $member->isColumnModified('private_dating')) {
                 $member->setPublicSearch(false);
                 $member->deleteHomepagePhotos();
             }
             
-            $member->setContactOnlyFullMembers($this->getRequestParameter('contact_only_full_members', 0));
-            
-            if( $modified && $this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::VIP )
-            {
-              $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
-            } else {
-              $member->save();
-              $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
-              $this->redirect('dashboard/index');                
-            }            
+            $member->save();
+            $this->setFlash('msg_ok', 'Your Privacy Settings have been updated');
+            $this->redirect('dashboard/index');
         }
-        
+
         $this->member = $member;
     }
     
+
+    public function validatePrivacy()
+    {
+        $request = $this->getRequest();
+        if ($request->getMethod() == sfRequest::POST) {
+            $member = $this->getUser()->getProfile();
+            $modifiedOnlyFull = ($member->getContactOnlyFullMembers() != $this->getRequestParameter('contact_only_full_members', 0));
+            $modifiedPrivateDating = ($member->getPrivateDating() != $this->getRequestParameter('private_dating', 0));
+            $modifiedHideVisits = ($member->getHideVisits() != $this->getRequestParameter('hide_visits', 0));
+            $vip = $member->getSubscriptionId() == SubscriptionPeer::VIP;
+
+            if (!$vip && ($modifiedPrivateDating || $modifiedHideVisits)) {
+                $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    public function handleErrorPrivacy()
+    {
+        $this->member = $this->getUser()->getProfile();
+        return sfView::SUCCESS;
+    }
+
     public function executeContactYourAssistant()
     {
         $this->getUser()->getBC()->replaceLast(array('name' => 'Assistant request title'));

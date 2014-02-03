@@ -58,8 +58,13 @@
 <var id="member_original_last_name"><?php echo $member->getOriginalLastName() ?></var><br />
 
 <label for="member_private_dating">Private Dating</label>
-<var id="member_private_dating"><?php echo ($member->getPrivateDating()) ? 'ON' : 'OFF'; ?></var><br />
+<var id="member_private_dating"><?php echo ($member->getPrivateDating()) ? 'ON' : 'off'; ?></var><br />
 
+<label for="member_only_full">Only VIP</label>
+<var id="member_only_full"><?php echo ($member->getContactOnlyFullMembers()) ? 'ON' : 'off'; ?></var><br />
+
+<label for="member_hide_visits">Hide visits</label>
+<var id="member_hide_visits"><?php echo ($member->getHideVisits()) ? 'ON' : 'off'; ?></var><br />
 
 <?php include_component('members', 'MemberIpBlock', 
     array('label' => "Registration IP", 'ip' => $member->getRegistrationIP())); ?>

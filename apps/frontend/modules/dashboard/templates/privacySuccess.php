@@ -12,7 +12,11 @@
     <?php echo object_checkbox_tag($member, 'getContactOnlyFullMembers') ?>
     <?php echo pr_label_for('contact_only_full_members', __('I want to be contacted by Full Members only.')) ?>
     <p><?php echo __('Contact only by full members option description'); ?></p>
-    
+
+    <?php echo object_checkbox_tag($member, 'getHideVisits') ?>
+    <?php echo pr_label_for('hide_visits', __('Hide Visitors Counter')) ?>
+    <p><?php echo __('Hide Visitors Counter on my profile page'); ?></p>
+
     <?php echo __('Privacy options footer content'); ?>
         
     <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />

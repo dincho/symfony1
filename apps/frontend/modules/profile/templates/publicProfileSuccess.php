@@ -61,7 +61,9 @@
             
                 <?php echo __('Profile ID:'); ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
-                <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
+                <?php if( !$member->getHideVisits() ): ?>
+                    <?php echo __('Viewed by %count% visitors', array('%count%' => $member->getCounter('ProfileViews'))) ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
