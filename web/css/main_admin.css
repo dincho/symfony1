@@ -268,7 +268,7 @@ table.compose_options td input {
     float: none;
 }
 
-table.compose_options th {
+.form_fields table.compose_options th {
     text-align: left;
     width: auto;
 }
