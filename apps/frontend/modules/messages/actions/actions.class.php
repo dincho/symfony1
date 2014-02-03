@@ -57,8 +57,7 @@ class messagesActions extends prActions
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
         $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
 
-        $crit = $c->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
-        $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
+        $crit = $c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
         $c->add($crit);
 
         $this->pager = new prPropelPager('Message', 10);
@@ -170,7 +169,6 @@ class messagesActions extends prActions
             $send_msg = MessagePeer::send(
                 $this->sender,
                 $this->recipient,
-                $this->getRequestParameter('subject'),
                 $this->getRequestParameter('content'),
                 $this->draft->getId(),
                 null, //thread
@@ -449,7 +447,6 @@ class messagesActions extends prActions
             $send_msg = MessagePeer::send(
                 $member,
                 $profile,
-                $this->getRequestParameter('subject'),
                 $this->getRequestParameter('content'),
                 $this->getRequestParameter('draft_id'),
                 $thread,
@@ -682,7 +679,8 @@ class messagesActions extends prActions
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
 
-        $this->getUser()->getBC()->removeLast()->add(array('name' => $thread->getSubject()));
+        // should we substitute thread subject with something?
+        //$this->getUser()->getBC()->removeLast()->add(array('name' => $thread->getSubject()));
 
         $profile = ($message_sample->getSenderId() == $member->getId())
             ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();

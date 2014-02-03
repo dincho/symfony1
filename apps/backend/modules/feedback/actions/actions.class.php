@@ -226,8 +226,7 @@ class feedbackActions extends sfActions
             if( in_array('internal_inbox', $send_options) && 
                 $member = MemberPeer::retrieveByEmail($this->getRequestParameter('mail_to')) )
             {
-                MessagePeer::sendSystem($member, 
-                                        $this->getRequestParameter('subject'), 
+                MessagePeer::sendSystem($member,
                                         $this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer'));
             }
         }

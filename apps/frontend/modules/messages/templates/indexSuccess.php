@@ -50,8 +50,7 @@
                     <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
                 </td>
                 <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=inbox&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><!--
-             --><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
+                <?php if ($thread->getCntDrafts() > 0): ?><span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
                     <br />
                     <?php echo Tools::truncate($thread->getSnippet(), $truncateLimit) ?>
                 </td>

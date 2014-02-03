@@ -37,7 +37,7 @@ for($i=0; $i<$cnt; $i++)
         
         $rand_member = $members[rand(0, $cnt-1)];
         
-        MessagePeer::send($rand_member, $member, RandomGenerator::getSentence(), RandomGenerator::generate('br'));
+        MessagePeer::send($rand_member, $member, RandomGenerator::generate('br'));
     }
     
 }

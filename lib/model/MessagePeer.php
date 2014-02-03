@@ -13,28 +13,25 @@ class MessagePeer extends BaseMessagePeer
     const TYPE_DRAFT  = 2;
     const TYPE_SYSTEM = 3;
     
-    public static function send(BaseMember $sender, BaseMember $recipient, $subject = '', $body = '', $draft_id = null, BaseThread $thread = null, PredefinedMessage $pMessage = null)
+    public static function send(BaseMember $sender, BaseMember $recipient, $body = '', $draft_id = null, BaseThread $thread = null, PredefinedMessage $pMessage = null)
     {
         $message = new Message();
         $reply = true; //default value
         
         if( !is_null($pMessage) ) //overwrite with predefined message to prevent abuse
         {
-            $subject = $pMessage->getSubject();
             $body = $pMessage->getBody();
             $message->setPredefinedId($pMessage->getId());
         }
 
         $message->setRecipientId($recipient->getId());
         $message->setSenderId($sender->getId());
-        $message->setSubject($subject);
         $message->setBody(nl2br($body));
 
         if( !$thread)
         {
             $reply = false;
             $thread = new Thread();
-            $thread->setSubject($subject);
         }
         
         $thread->setSnippet($message->getBody());
@@ -53,7 +50,6 @@ class MessagePeer extends BaseMessagePeer
             ( $recipient->isFree() || !$recipient->getSubscriptionDetails()->getCanReadMessages() )
           )
         {
-            $subject = 'Re: ' . $subject . ' - (auto-response)';
             $msg = 'Messages - please upgrade auto-response';
             if( sfConfig::get('sf_i18n') ) $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $recipient->getUsername()));
             
@@ -65,7 +61,6 @@ class MessagePeer extends BaseMessagePeer
             $auto_msg->setType(MessagePeer::TYPE_SYSTEM);
             $auto_msg->setSenderId($recipient->getId());
             $auto_msg->setRecipientId($sender->getId());
-            $auto_msg->setSubject($subject);
             $auto_msg->setBody($msg);
             $auto_msg->setIsReviewed(true);
             $auto_msg->save();
@@ -96,20 +91,18 @@ class MessagePeer extends BaseMessagePeer
         return $message;
     }
 
-    public static function sendSystem(BaseMember $recipient, $subject = '', $body = '', BaseThread $thread = null)
+    public static function sendSystem(BaseMember $recipient, $body = '', BaseThread $thread = null)
     {
         $message = new Message();
         $reply = true; //default value
         
         $message->setRecipientId($recipient->getId());
-        $message->setSubject($subject);
         $message->setBody(nl2br($body));
 
         if( !$thread)
         {
             $reply = false;
             $thread = new Thread();
-            $thread->setSubject($subject);
         }
         
         $thread->setSnippet($message->getBody());

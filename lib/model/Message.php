@@ -21,11 +21,10 @@ class Message extends BaseMessage
         return MemberPeer::retrieveByPK($this->getToMemberId());
     }
 
-    public function reply($subject = '', $content = '', $draft_id = null)
+    public function reply($content = '', $draft_id = null)
     {
         $send_message = MessagePeer::send($this->getMemberRelatedByToMemberId(), 
-                                          $this->getMemberRelatedByFromMemberId(), 
-                                          $subject, 
+                                          $this->getMemberRelatedByFromMemberId(),
                                           $content, 
                                           $this->getId(),
                                           $draft_id);

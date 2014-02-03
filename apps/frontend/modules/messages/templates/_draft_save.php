@@ -1,5 +1,5 @@
 <?php $remote_options = array('url'       => 'ajax/SaveToDraft?draft_id='.$draft->getId(),
-                            'with'      => "'content=' + encodeURIComponent(\$F('your_story')) + '&subject=' + encodeURIComponent(\$F('title'))",
+                            'with'      => "'content=' + encodeURIComponent(\$F('your_story'))",
                             'update'    => 'feedback',
                             'complete'  => 'save_complete(); ',
                             'condition' => 'save_condition',
@@ -58,8 +58,7 @@
 
       $("your_story").focus();
    }
-    
-    Event.observe("title", "focus", function(event){ last_focused_field = $("title"); });
+
     Event.observe("your_story", "keyup", updateState);
     Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
     

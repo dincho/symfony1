@@ -22,29 +22,12 @@
     <div id="feedback">&nbsp;</div>
     
     <fieldset class="actions">
-        
-        <div class="new_message_profile_photo" >
-            <?php if( $recipient ): ?>
-                <?php echo link_to_unless((!$recipient->isActive() || $sf_params->get('layout') == 'window'), 
-                                            profile_thumbnail_photo_tag($recipient), '@profile?username=' . $recipient->getUsername()); ?>
-            <?php endif; ?>
-        </div>
-
-        <?php echo pr_label_for('to', __('To:')) ?>
-        <span class="msg_to"><?php echo $recipient->getUsername() ?></span><br />
-        
-        <?php echo pr_label_for('predefined_message', __('Template:')); ?>
-        <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => 'title', 'body_field_id' => 'your_story', )); ?><br />
-            
-            
-        <?php echo pr_label_for('subject', __('Subject:')) ?>
-        <?php echo input_tag('subject', $draft->getSubject(), array('id' => 'title')) ?><br />
+        <?php include_component('messages', 'selectPredefinedMessage', array('subject_field_id' => 'title', 'body_field_id' => 'your_story', )); ?>
     </fieldset>
 
     <fieldset class="background_f4">
         <div id="send_text" class="new_message_notice"><span><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?></span>
         </div>
-        <?php echo pr_label_for('content', __('Message:')) ?>
         <?php echo textarea_tag('content',  $draft->getBody(), array('id' => 'your_story', 
                                                                         'rows' => 10, 'cols' => 30)) ?>
         <br />

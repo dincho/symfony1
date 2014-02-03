@@ -21,7 +21,7 @@ class messagesComponents extends sfComponents
         $js_options = array();
         foreach($this->messages as $message)
         {
-            $js_options[$message->getId()] = array('subject' => $message->getSubject(), 'body' => $message->getBody());
+            $js_options[$message->getId()] = array('body' => $message->getBody());
         }
         
         $this->js_options = json_encode($js_options);
@@ -44,8 +44,7 @@ class messagesComponents extends sfComponents
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
         $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
 
-        $crit = $c->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
-        $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
+        $crit = $c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
         $c->add($crit);
 
         $rs = MessagePeer::doSelectRS($c);

@@ -44,7 +44,6 @@
     <br class="clear" />
 </div>
 <br />
-<p class="thread_headline"><?php echo $thread->getSubject(); ?></p>
 <div id="loader" class="center_text">
         <?php echo link_to_remote(__('View older messages'), array(
                 'update' => 'messages',
@@ -71,7 +70,6 @@
     <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
-        <?php echo input_hidden_tag('title', $thread->getSubject(), array('class' => 'hidden'));?>
         <?php if( $limit ): ?>
             <?php echo input_hidden_tag('limit', $limit, array('class' => 'hidden')) ?>
         <?php endif; ?>

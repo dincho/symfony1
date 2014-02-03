@@ -1102,18 +1102,12 @@ table.threaded_message .profile_photo {
     width: 55px;
 }
 
-.new_message_profile_photo {
-    width: 55px;
-    float: right;
-    clear: left;
-    margin: 10px;
-}
-
 .new_message_notice {
-    width: 90px;
+    width: 140px;
     float: right;
-    clear: left;
+    clear:both;
     margin: 5px;
+    padding-right: 7px;
 }
 
 table.threaded_message .message_info {
@@ -2402,7 +2396,6 @@ div.best_video div.right img {
 .msg_form {
     color: #92897e;
     font-size: 10px;
-    margin-top: 10px;
     padding: 3px;
 }
 
@@ -2476,7 +2469,7 @@ div.best_video div.right img {
 .msg_form select {
     height: 22px;
     padding: 1px 0;
-    margin: 2px;
+    margin: 1px 2px 4px 2px;
 }
 
 #post_story label {
@@ -3249,6 +3242,8 @@ a.inactive_link:hover {
     width: 500px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 14px;
+    padding-right: 14px;
 }
 
 #send_message_form #feedback {

@@ -186,10 +186,6 @@ class messagesActions extends sfActions
         if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
         {
             switch ($this->filters['search_type']) {
-                case 'subject':
-                    $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
-                    $c->add(MessagePeer::SUBJECT, $this->filters['search_query']);
-                    break;
                 case 'email':
                     $bc->add(array('name' => 'Search', 'uri' => 'messages/list?filter=filter'));
                     $c->add(MemberPeer::EMAIL, $this->filters['search_query']);

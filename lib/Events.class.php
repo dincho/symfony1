@@ -198,7 +198,6 @@ class Events
                                  '{TO_FIRST_NAME}' => $recipient->getFirstName(),
                                  '{TO_LAST_NAME}' => $recipient->getLastName(),
                                  '{TO_USERNAME}' => $recipient->getUsername(),
-                                 '{SUBJECT}' => $message->getThread()->getSubject(),
                                  '{MESSAGE}' => $message->getBody(),
                                 );
             

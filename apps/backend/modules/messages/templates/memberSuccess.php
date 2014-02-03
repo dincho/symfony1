@@ -20,11 +20,9 @@
                     <th class="firstcolumn"></th>
                     <?php if( $received_only ): ?>
                         <th>Received From</th>
-                        <th>Subject</th>
                         <th>Date Received</th>
                     <?php else: ?>
                         <th>Sent To</th>
-                        <th>Subject</th>
                         <th>Date Sent</th>
                     <?php endif; ?>
                 </tr>
@@ -40,7 +38,6 @@
                 <?php endif; ?>
                 <td><?php echo unless_profile_thumbnail_photo_tag($profile) ?></td>
                 <td><?php echo $profile->getUsername() ?></td>
-                <td><?php echo Tools::truncate($message->getThread()->getSubject(), 100); ?></td>
                 <td><?php echo $message->getCreatedAt('m/d/Y h:m'); ?></td>
                 <td class="preview_button">
                     <?php echo button_to_remote('Preview', array('url' => 'ajax/getMessageById?no_links=1&id=' . $message->getId(), 'update' => 'preview'), 'id=preview_' . $message->getId()) ?>

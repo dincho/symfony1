@@ -86,7 +86,7 @@ class ThreadPeer extends BaseThreadPeer
         $sql = 'SELECT COUNT(*) FROM message m2
                 WHERE m2.thread_id = thread.id 
                 AND m2.type = ' . MessagePeer::TYPE_DRAFT .
-                ' AND NOT (m2.subject IS NULL OR m2.body IS NULL)';
+                ' AND m2.body IS NOT NULL';
 
         if ($c->containsKey(MessagePeer::SENDER_ID)) {  // sent_messages
             $sql .= ' AND m2.sender_id = ' . $c->getValue(MessagePeer::SENDER_ID);
