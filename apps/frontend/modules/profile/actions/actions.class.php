@@ -134,8 +134,10 @@ class profileActions extends prActions
 
                     $prPrivavyValidator->execute($value, $error);
 
-                    if ( $this->member->getMainPhotoId() && $this->getUser()->getProfile()->isFree() && !$this->getUser()->getProfile()->getMainPhotoId())
-                    {
+                    if ($this->member->getMainPhotoId()
+                        && $this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::VIP
+                        && !$this->getUser()->getProfile()->getMainPhotoId()
+                    ) {
                         $error = 'To see profile with photo, you have to have photo on your profile. Simple and fair.';
                     }
                 }
