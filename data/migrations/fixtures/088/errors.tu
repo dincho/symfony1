@@ -1,0 +1,1 @@
+To see profile with photo, you have to have photo on your profile. Simple and fair.
