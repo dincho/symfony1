@@ -749,13 +749,13 @@ form#sign_in fieldset a {
     margin-top: 25px;
 }
 
-#loader.center_text{
-    height:16px;
+#loader.center_text {
+    height: 16px;
     margin-top: 10px;
     margin-bottom: 22px
 }
 
-#loader a{
+#loader a {
     color: #7CAEE7;
 }
 
@@ -2161,7 +2161,7 @@ div.best_video div.right img {
 #register .reg_submit_container input {
     cursor: pointer;
     border: 0;
-    width: 58px;
+    width: 58px !important;
     height: 33px;
     padding: 0;
     margin: 50px 0 0 0;
@@ -2285,11 +2285,6 @@ div.best_video div.right img {
 
 #registration_box_complete_page select {
     padding: 0;
-}
-
-/* this does not apply to IE6 */
-#registration_box_complete_page > input {
-    height: 12px;
 }
 
 #registration_box_complete_page select {
@@ -3060,76 +3055,48 @@ label.error, #secondary_container div.error,
 /* End form errors */
 
 /* New buttons - I18N Ready */
-button, .button, form .button {
-    height: 28px !important;
+input[type=button], input[type=submit], button, .button {
+    height: 28px ;
     width: auto !important;
-    background: black url(/images/button_bg.jpg) repeat-x top left;
-    color: white !important;
+    background: #73a7ff url(/images/button_bg.jpg) repeat-x top left;
+    color: white;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
-    border: 1px solid #3c3c3c; /* top-left */
-    border-right-color: #171717;
-    border-bottom-color: #171717;
-    padding: 6px 8px !important;
+    font-size: 12px;
+    border: 1px solid #73a7ff; /* top-left */
+    border-right-color: #618ad3;
+    border-bottom-color: #618ad3;
+    padding: 6px 8px;
     cursor: pointer;
-    margin-top: 5px !important;
+    margin-top: 5px ;
 }
 
-#self_desc_form .button:hover,
-.button:hover {
-    background: #00CCFF;
+input[type=button]:hover, input[type=submit]:hover, button:hover, .button:hover {
+    background: #8CBDFF;
+    color: white;
+    border: 1px solid #a4cbff; /* top-left */
+    border-right-color: #7eafec;
+    border-bottom-color: #7eafec;
 }
 
-.button_save_and_cont:hover {
-    background: #00CCFF !important;
-}
-
-#self_desc_form .button_disabled:hover {
-    background: #363639;
-}
-
-form .button_disabled {
+.button_disabled, button[disabled], .button[disabled] {
     height: 28px !important;
     width: auto !important;
-    color: #575757 !important;
-    background: #333333;
+    color: #2f2f2f !important;
+    background: rgba(115, 167, 255, 0.60) !important;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px !important;
     border: none !important;
-    padding: 6px 8px !important;
-    cursor: default;
+    padding: 7px 9px !important;
+    cursor: default !important;
     margin-top: 5px;
 }
 
-button[disabled], .button[disabled], form .button[disabled] {
-    height: 28px !important;
-    width: auto !important;
-    color: #575757 !important;
-    background: #333333;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
-    border: none !important;
-    padding: 6px 8px !important;
-    cursor: default;
-    margin-top: 5px;
-}
-
-.button_save_and_cont {
-    height: 28px !important;
+input.button_save_and_cont {
     width: 120px !important;
-    background: black url(/images/button_bg.jpg) repeat-x top left;
-    color: white !important;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
-    border: 1px solid #3c3c3c; /* top-left */
-    border-right-color: #171717;
-    border-bottom-color: #171717;
-    padding: 6px 8px !important;
-    cursor: pointer;
     margin-top: 22px !important;
 }
 
-.button_mini {
+input.button_mini, button.button_mini {
     height: 18px !important;
     width: auto !important;
     background: black url(/images/button_mini_bg.jpg) repeat-x top left;
@@ -3141,7 +3108,8 @@ button[disabled], .button[disabled], form .button[disabled] {
     border-bottom-color: #171717;
     cursor: pointer;
     margin-top: 5px !important;
-    padding: 0 3px;
+    margin-bottom: 5px !important;
+    padding: 0 3px !important;
 }
 
 /* END New buttons */
