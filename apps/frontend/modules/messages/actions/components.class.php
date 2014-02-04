@@ -44,8 +44,7 @@ class messagesComponents extends sfComponents
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
         $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
 
-        $crit = $c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
-        $c->add($crit);
+        $c->add(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
 
         $rs = MessagePeer::doSelectRS($c);
         $this->cntDrafts = $rs->getRecordCount();

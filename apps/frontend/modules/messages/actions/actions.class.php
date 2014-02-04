@@ -56,9 +56,7 @@ class messagesActions extends prActions
         $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
         $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
-
-        $crit = $c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
-        $c->add($crit);
+        $c->add(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
 
         $this->pager = new prPropelPager('Message', 10);
         $this->pager->setCriteria($c);
@@ -679,11 +677,20 @@ class messagesActions extends prActions
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
 
-        // should we substitute thread subject with something?
-        //$this->getUser()->getBC()->removeLast()->add(array('name' => $thread->getSubject()));
-
         $profile = ($message_sample->getSenderId() == $member->getId())
             ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
+
+        if ($profile) {
+            $this->getUser()->getBC()->removeLast()->add(
+                array(
+                    'name' => __(
+                        'Conversation between You and %USERNAME%',
+                        array('%USERNAME%' => $profile->getUsername())
+                    )
+                )
+            );
+        }
+
         $this->draft = MessagePeer::retrieveOrCreateDraft(
             $member->getId(),
             $profile->getId(),

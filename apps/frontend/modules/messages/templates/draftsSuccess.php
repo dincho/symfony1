@@ -40,10 +40,10 @@
                 <td class="message_from">
                 <?php echo link_to($message->getMemberRelatedByRecipientId()->getUsername(), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername(), array('class' => 'sec_link')) ?>
                 <br />
-                    <?php echo link_to(format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()), $message_form_link, array('class' => 'sec_link')) ?>
+                    <?php echo format_date_pr($message->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()) ?>
                 </td>
                 <td class="message_body">
-                    <?php echo Tools::truncate($message->getBody(), 80) ?>
+                    <?php echo link_to(Tools::truncate($message->getBody(), 80), $message_form_link, array('class' => 'sec_link')) ?>
                 </td>
             </tr>
         <?php endforeach; ?>
