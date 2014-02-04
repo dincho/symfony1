@@ -417,6 +417,7 @@ propel:
     subject:                  varchar(255)
     body:                     longvarchar
     footer:                   longvarchar
+    tags:                     longvarchar
     
   flag:
     id:

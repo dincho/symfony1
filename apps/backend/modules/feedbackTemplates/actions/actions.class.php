@@ -22,11 +22,28 @@ class feedbackTemplatesActions extends sfActions
         $this->left_menu_selected = 'Templates';
         $bc = $this->getUser()->getBC();
         $bc->clear()->add(array('name' => 'Templates', 'uri' => 'feedbackTemplates/list'));
+        
+        $this->processFilters();
+        $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/feedbackTemplates/filters');
     }
+
+    protected function processFilters()
+    {
+        if ($this->getRequest()->hasParameter('filter'))
+        {
+            $filters = $this->getRequestParameter('filters');
+
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedbackTemplates/filters');
+            $this->getUser()->getAttributeHolder()->add($filters, 'backend/feedbackTemplates/filters');
+        }
+    }
+
 
     public function executeList()
     {
-        $this->templates = FeedbackTemplatePeer::doSelect(new Criteria());
+        $c = new Criteria();
+        $this->addFiltersCriteria($c);
+        $this->templates = FeedbackTemplatePeer::doSelect($c);
     }
 
     public function executeCreate()
@@ -44,6 +61,8 @@ class feedbackTemplatesActions extends sfActions
             $template->setSubject($this->getRequestParameter('subject'));
             $template->setBody($this->getRequestParameter('message_body'));
             $template->setFooter($this->getRequestParameter('message_footer'));
+            $tags = array_filter(array_map('trim', explode(",", $this->getRequestParameter('tags')))); //clear junk
+            $template->setTags(implode(',', $tags));
             $template->save();
             
             $this->setFlash('msg_ok', 'Template ' . $template->getName() . ' has been added.');
@@ -69,6 +88,8 @@ class feedbackTemplatesActions extends sfActions
             $template->setSubject($this->getRequestParameter('subject'));
             $template->setBody($this->getRequestParameter('body'));
             $template->setFooter($this->getRequestParameter('footer'));
+            $tags = array_filter(array_map('trim', explode(",", $this->getRequestParameter('tags')))); //clear junk
+            $template->setTags(implode(',', $tags));
             $template->save();
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
@@ -90,5 +111,12 @@ class feedbackTemplatesActions extends sfActions
         
         $this->setFlash('msg_ok', 'Selected templates has been deleted.');
         return $this->redirect('feedbackTemplates/list');
+    }
+
+    protected function addFiltersCriteria(Criteria $c)
+    {
+        if (isset($this->filters['tags']) && strlen($this->filters['tags']) > 0) {
+            $c->add(FeedbackTemplatePeer::TAGS, '%' . $this->filters['tags'] . '%', Criteria::LIKE);
+        }
     }
 }

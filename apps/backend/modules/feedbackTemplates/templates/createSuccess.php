@@ -28,6 +28,23 @@
     
     <label for="message_footer">Footer</label>
     <?php echo textarea_tag('message_footer', null, array('cols' => 90, 'rows' => 5)) ?><br />
+
+      <label for="tags">Tags:</label>
+      <?php echo textarea_tag('tags', '',
+          array(
+               'size' => '60x2',
+               'style'=>'width: 395px;float: left;height: 100px;'
+          )
+      ) ?>
+      <div style="float:left;">
+          <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null),
+              array(
+                   'size' => 5,
+                   'style' => 'width:250px; height:106px;',
+                   'onclick' => 'add_tags(this.value, "tags")'
+              )
+          )?>
+      </div>
   </fieldset>        
 
   <fieldset class="actions">

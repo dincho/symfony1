@@ -26,6 +26,9 @@
   background-color: #EFEFEF;
   float: left;
 }
+.form_fields input {
+    padding: 0 2px;
+}
 .form_fields .member_stories
 {
   width: 260px;
@@ -301,7 +304,7 @@ input.field_error, select.field_error, textarea.field_error {
 }
 
 #search_filter fieldset {
-    display:  inline;
+    float: left;
 }
 
 #search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select {

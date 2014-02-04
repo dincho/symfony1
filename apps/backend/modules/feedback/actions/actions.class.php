@@ -56,6 +56,7 @@ class feedbackActions extends sfActions
         //replace mailbox and add compose
         $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
         $this->selectTemplate();
+        $this->feedback_templates = FeedbackTemplatePeer::doSelect(new Criteria());
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {

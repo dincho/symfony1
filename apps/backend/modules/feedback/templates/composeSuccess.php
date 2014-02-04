@@ -27,12 +27,20 @@
       <tr>
         <th>Template</th>
         <?php $tpl_url = (!$sf_request->hasParameter('id')) ? url_for('feedback/compose?template_id=') : url_for('feedback/reply?id=' . $sf_request->getParameter('id').'&template_id=') ?>
-        <td><?php echo object_select_tag($template->getId(), 'template_id', array (
-                  'related_class' => 'FeedbackTemplate',
-                  'peer_method' => 'doSelect',
-                  'include_blank' => true,
-                  'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
-                ))?>
+        <td>
+            <?php $options_html = '<option></option>';?>
+            <?php foreach($feedback_templates as $template):?>
+                <?php $options_html .= sprintf('<option value="%s" data-tags="%s">%s</option>',
+                        $template->getId(),
+                        $template->getTags(),
+                        $template->getName())?>
+            <?php endforeach;?>
+            <?php echo select_tag( 'template_id', $options_html,
+                array(
+                     'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
+                )
+            )?>
+            
         </td>
       </tr>
       <tr>
@@ -58,13 +66,13 @@
       <tr>
         <th>Membership:</th>
         <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::FREE, null, array('class' => 'checkbox')) ?></td>
-        <th>Standard Members</th>
+        <th>Standard</th>
         <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::PREMIUM, null, array('class' => 'checkbox')) ?></td>
-        <th>Premium Members</th>        
+        <th>Premium</th>        
         <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::VIP, null, array('class' => 'checkbox')) ?></td>
-        <th>VIP Members</th>        
+        <th>VIP</th>        
         <td><?php echo checkbox_tag('send_filter[status_id][]', MemberStatusPeer::ABANDONED, null, array('class' => 'checkbox')) ?></td>
-        <th>Abandoned Registration</th>        
+        <th>Abandoned</th>        
       </tr>
       <tr>
         <th>Sex:</th>
@@ -72,36 +80,34 @@
         <th>Men</th>
         <td><?php echo checkbox_tag('send_filter[sex][]', 'F', null, array('class' => 'checkbox')) ?></td>
         <th>Women</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td colspan="5"></td>
       </tr>
       <tr>
         <th>Country:</th>
         <td><?php echo checkbox_tag('send_filter[filter_country]', 1, null, array('class' => 'checkbox')) ?></td>
-        <td colspan="3" style="vertical-align: middle"><?php echo select_country_tag('send_filter[country]', null, array('include_custom' => 'All Countries')) ?></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>        
+        <td colspan="9" style="vertical-align: middle"><?php echo select_country_tag('send_filter[country]', null, array('include_custom' => 'All Countries')) ?></td>
       </tr>
       <tr>
         <th>Language</th>
         <td><?php echo checkbox_tag('send_filter[filter_language]', 1, null, array('class' => 'checkbox')) ?></td>
-        <td colspan="3" style="vertical-align: middle"><?php echo select_language_tag('send_filter[language]', null, array('include_custom' => 'All Languages')) ?></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>        
+        <td colspan="9" style="vertical-align: middle"><?php echo select_language_tag('send_filter[language]', null, array('include_custom' => 'All Languages')) ?></td>
       </tr>
-    <tbody>
+    <tr>
+        <th colspan="11">
+            Filter templates:<br/>
+            <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null,
+                    array(
+                         'include_blank' => true,
+                    )),
+                array(
+                     'size' => 5,
+                     'style' => 'width:250px; height:96px;',
+                     'onclick' => 'filter_select(this.value, "template_id")'
+                )
+            )?>
+        </th>
+    </tr>
+    </tbody>
   </table>
 </fieldset>
 
