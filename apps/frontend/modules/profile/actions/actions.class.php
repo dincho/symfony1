@@ -182,15 +182,6 @@ class profileActions extends prActions
                     $profile = $this->getUser()->getProfile();
                     $this->profile_pager = new FrontendProfilePager($profile->getId());
                     $this->profile_pager->setPage($this->getRequestParameter('page'));
-                    
-                    if (sfConfig::get('app_settings_man_should_pay') 
-                        && $profile->isFree()
-                        && $profile->getSex() == 'M' 
-                        && $profile->getLookingFor() == 'F'
-                    ) {
-                        $this->profile_pager->setMaxRecordLimit(600);
-                    }
-
                     $this->profile_pager->init();
                 } else {
                     $this->profile_pager = null;
