@@ -749,14 +749,16 @@ form#sign_in fieldset a {
     margin-top: 25px;
 }
 
-#loader.center_text {
-    height: 16px;
-    margin-top: 10px;
-    margin-bottom: 22px
+#loader {
+    text-align: center;
+    display: block;
+    margin-top: 15px;
 }
 
 #loader a {
     color: #7CAEE7;
+    margin-top: 0px;
+    margin-bottom: 10px
 }
 
 /* Subscriptions */

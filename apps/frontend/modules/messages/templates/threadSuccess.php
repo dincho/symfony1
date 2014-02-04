@@ -43,8 +43,7 @@
     
     <br class="clear" />
 </div>
-<br />
-<div id="loader" class="center_text">
+<div id="loader">
         <?php echo link_to_remote(__('View older messages'), array(
                 'update' => 'messages',
                 'position' => 'top',
