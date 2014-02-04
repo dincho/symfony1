@@ -102,7 +102,7 @@
                                                             'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
                                                             'id'             => '"send_message_window"',
                                                             'width'          => '540',
-                                                            'height'         => '430',
+                                                            'height'         => '380',
                                                             'center'         => 'true', 
                                                             'minimizable'    => 'false',
                                                             'maximizable'    => 'false',

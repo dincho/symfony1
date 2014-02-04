@@ -77,7 +77,7 @@
             <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
         <?php endif; ?>
         <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden', 'id' => 'numberOfMessages')) ?>
-        <fieldset class="background_f4 thread_msg">
+        <fieldset class="thread_msg">
             <?php echo pr_label_for('your_story', __('Message:')) ?>
             <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?>
             </div>
@@ -85,7 +85,7 @@
             <br />
         </fieldset>
     
-        <fieldset class="background_000">
+        <fieldset class="thread_actions">
             <label></label>
             <?php echo submit_tag(__('Send'), array('class' => 'button', 'onclick' => "if(submitted) return false; messagebar_message('".__('Sending message...')."'); submitted = true; return true;") ) ?>
             <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn')) ?>
