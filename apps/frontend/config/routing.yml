@@ -117,8 +117,8 @@ matches:
     param:  { module: search, action: index, sf_culture: en }
     
 visitors:
-    url:    /:sf_culture/visitors
-    param:  { module: dashboard, action: visitors, sf_culture: en  }
+    url:    /:sf_culture/visitors/:page
+    param:  { module: dashboard, action: visitors, sf_culture: en, page: 1  }
 
 hotlist:
     url:    /:sf_culture/hotlist
