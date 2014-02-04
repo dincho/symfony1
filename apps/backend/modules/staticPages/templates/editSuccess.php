@@ -29,15 +29,9 @@
   
   
       <fieldset class="form_fields email_fields" style="margin-top: 150px;">
-        <?php if( $page->getSlug() == 'best_videos'): ?>
-            <label>&nbsp;</label>
-            <var><?php echo link_to('Regenerate Best Videos Content', 'staticPages/edit?regenerate_best_videos=1&culture=' . $page->getCulture() . '&id=' . $page->getId()) ?></var><br />
-        <?php endif; ?>
-        
         <?php if( $page->hasContent() ): ?>
             <label for="html_content">HTML Content:</label>
-            <?php $content = ($sf_request->getParameter('regenerate_best_videos') && $page->getSlug() == 'best_videos') ? get_component('staticPages', 'bestVideos', array('cat_id' => $page->getCatId())) : $page->getContent() ?>
-            <?php echo textarea_tag('html_content', $content, 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
+            <?php echo textarea_tag('html_content', $page->getContent(), 'id=html_content rows=20 cols=38' . error_class('html_content')) ?>
         <?php endif; ?>
       </fieldset>
 

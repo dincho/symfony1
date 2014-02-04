@@ -52,7 +52,6 @@ class systemComponents extends sfComponents
       array('title' => 'System Messages', 'uri' => 'content/systemMessages?cat_id=1'),
       array('title' => 'Member Stories', 'uri' => 'memberStories/list?cat_id=1'),
       array('title' => 'Static Pages', 'uri' => 'staticPages/list'),
-      array('title' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=1'),
       array('title' => 'Assistant', 'uri' => 'content/assistant?cat_id=1'),
       array('title' => 'Upload Photos', 'uri' => 'photos/upload'),
       array('title' => 'System Notifications', 'uri' => 'notifications/list?cat_id=1'),
