@@ -749,14 +749,16 @@ form#sign_in fieldset a {
     margin-top: 25px;
 }
 
-#loader.center_text {
-    height: 16px;
-    margin-top: 10px;
-    margin-bottom: 22px
+#loader {
+    text-align: center;
+    display: block;
+    margin-top: 15px;
 }
 
 #loader a {
     color: #7CAEE7;
+    margin-top: 0px;
+    margin-bottom: 10px
 }
 
 /* Subscriptions */
@@ -1102,18 +1104,12 @@ table.threaded_message .profile_photo {
     width: 55px;
 }
 
-.new_message_profile_photo {
-    width: 55px;
-    float: right;
-    clear: left;
-    margin: 10px;
-}
-
 .new_message_notice {
-    width: 90px;
+    width: 140px;
     float: right;
-    clear: left;
+    clear:both;
     margin: 5px;
+    padding-right: 7px;
 }
 
 table.threaded_message .message_info {
@@ -1158,8 +1154,8 @@ table.threaded_message .message_body {
     padding: 2px 0;
 }
 
-.thread_actions .button {
-    margin: 0 5px;
+.thread_actions input {
+    margin: 0 3px 0 2px !important;
 }
 
 .text_1 {
@@ -2402,7 +2398,6 @@ div.best_video div.right img {
 .msg_form {
     color: #92897e;
     font-size: 10px;
-    margin-top: 10px;
     padding: 3px;
 }
 
@@ -2422,6 +2417,10 @@ div.best_video div.right img {
     padding-top: 24px;
 }
 
+.msg_form fieldset.thread_actions {
+    padding-bottom: 14px;
+}
+
 .msg_form span.msg_to {
     margin-top: 4px;
     font-size: 11px;
@@ -2432,8 +2431,11 @@ div.best_video div.right img {
 }
 
 .msg_form fieldset.actions {
-    background-color: #000;
-    padding: 4px 0;
+    padding: 0 0 7px 7px;
+    margin: 0;
+}
+.msg_form fieldset.template {
+    padding: 7px 7px 0 7px;
     margin: 0;
 }
 
@@ -2464,8 +2466,7 @@ div.best_video div.right img {
 }
 
 .msg_form fieldset.background_f4 {
-    margin-top: -2px;
-    background-color: #4f4f4f;
+    padding: 0 0 0 7px;
 }
 
 .msg_form textarea {
@@ -2476,7 +2477,7 @@ div.best_video div.right img {
 .msg_form select {
     height: 22px;
     padding: 1px 0;
-    margin: 2px;
+    margin: 1px 2px 4px 2px;
 }
 
 #post_story label {
@@ -3079,16 +3080,10 @@ input[type=button]:hover, input[type=submit]:hover, button:hover, .button:hover 
 }
 
 .button_disabled, button[disabled], .button[disabled] {
-    height: 28px !important;
-    width: auto !important;
     color: #2f2f2f !important;
     background: rgba(115, 167, 255, 0.60) !important;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px !important;
-    border: none !important;
-    padding: 7px 9px !important;
+    border: 1px solid transparent !important;
     cursor: default !important;
-    margin-top: 5px;
 }
 
 input.button_save_and_cont {
@@ -3249,6 +3244,8 @@ a.inactive_link:hover {
     width: 500px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 14px;
+    padding-right: 14px;
 }
 
 #send_message_form #feedback {

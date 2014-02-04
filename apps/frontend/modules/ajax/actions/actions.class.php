@@ -43,7 +43,6 @@ class ajaxActions extends geoActions
         
         if ( $draft )
         {
-            $draft->setSubject($this->getRequestParameter('subject'));
             $draft->setBody($this->getRequestParameter('content'));
             $draft->save();
             

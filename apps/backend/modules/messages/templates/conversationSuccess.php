@@ -5,7 +5,7 @@
 <?php echo input_hidden_tag('member_id', $member->getId(), 'class=hidden') ?>
     <br />
     <?php $username = $profile->getUsername(); ?>
-    <div class="legend">Conversation with <?php echo  $username; ?>: <?php echo $thread->getSubject(); ?></div>
+    <div class="legend">Conversation with <?php echo  $username; ?></div>
     <div>
         <?php echo link_to($username ."'s messages", 'messages/member?id=' . $profile->getId()); ?> | 
         <?php echo link_to("see " . $username ."'s BE profile", 'members/edit?id=' . $profile->getId()); ?> | 

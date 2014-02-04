@@ -346,7 +346,6 @@ propel:
 
   thread:
     id:
-    subject:                  { type: varchar, size: 255 }
     snippet:                  { type: longvarchar }
     snippet_member_id:        { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: setnull }
     created_at:
@@ -357,7 +356,6 @@ propel:
     sender_id:                { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade }
     recipient_id:             { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
     thread_id:                { type: integer, required: false, foreignTable: thread, foreignReference: id, onDelete: setnull }
-    subject:                  { type: longvarchar }
     body:                     { type: longvarchar }
     type:                     { type: integer, required: true, default: 1 } #1 - normal, 2 - draft, 3 - system
     unread:                   { type: boolean, default: true, required: true }

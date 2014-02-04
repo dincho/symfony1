@@ -43,9 +43,7 @@
     
     <br class="clear" />
 </div>
-<br />
-<p class="thread_headline"><?php echo $thread->getSubject(); ?></p>
-<div id="loader" class="center_text">
+<div id="loader">
         <?php echo link_to_remote(__('View older messages'), array(
                 'update' => 'messages',
                 'position' => 'top',
@@ -71,7 +69,6 @@
     <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
-        <?php echo input_hidden_tag('title', $thread->getSubject(), array('class' => 'hidden'));?>
         <?php if( $limit ): ?>
             <?php echo input_hidden_tag('limit', $limit, array('class' => 'hidden')) ?>
         <?php endif; ?>
@@ -79,7 +76,7 @@
             <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
         <?php endif; ?>
         <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden', 'id' => 'numberOfMessages')) ?>
-        <fieldset class="background_f4 thread_msg">
+        <fieldset class="thread_msg">
             <?php echo pr_label_for('your_story', __('Message:')) ?>
             <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?>
             </div>
@@ -87,7 +84,7 @@
             <br />
         </fieldset>
     
-        <fieldset class="background_000">
+        <fieldset class="thread_actions">
             <label></label>
             <?php echo submit_tag(__('Send'), array('class' => 'button', 'onclick' => "if(submitted) return false; messagebar_message('".__('Sending message...')."'); submitted = true; return true;") ) ?>
             <?php echo button_to_function(__('Save Now'), 'save_draft();', array('class' => 'button', 'id' => 'save_to_draft_btn')) ?>

@@ -1,9 +1,6 @@
 fillin:
   enabled: true
 fields:
-  subject:
-    required:
-      msg:       "Please enter message subject"
   message_body:
     required:
       msg:       "Please enter message body"

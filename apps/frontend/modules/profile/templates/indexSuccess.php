@@ -100,9 +100,9 @@
         <?php else: ?>
             <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title' => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
                                                             'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
-                                                            'id'             => '"send_message_window"', 
-                                                            'width'          => '550', 
-                                                            'height'         => '460',
+                                                            'id'             => '"send_message_window"',
+                                                            'width'          => '540',
+                                                            'height'         => '380',
                                                             'center'         => 'true', 
                                                             'minimizable'    => 'false',
                                                             'maximizable'    => 'false',

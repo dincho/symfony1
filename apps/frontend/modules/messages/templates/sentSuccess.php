@@ -35,13 +35,12 @@
                     <span class="message_count">(<?php echo $thread->getCntAll(); ?>)</span>
                 <?php endif; ?>
                 <br />
-                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?></a>
+                <?php echo format_date_pr($thread->getUpdatedAt(null), null, 'dd-MMM-yyyy', $member->getTimezone()); ?>
             </td>
             <td class="message_body">
-                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo $thread->getSubject(); ?></a><!--
-             --><?php if ($thread->getCntDrafts() > 0): ?>, <span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
+                <?php if ($thread->getCntDrafts() > 0): ?><span class="draft"><?php echo __('Draft'); ?></span><?php endif; ?>
                 <br />
-                <?php echo Tools::truncate($thread->getSnippet(), 80) ?>
+                <a href="<?php echo url_for('messages/thread?mailbox=sent&id=' . $thread->getId()); ?>" class="sec_link"><?php echo Tools::truncate($thread->getSnippet(), 80) ?></a>
             </td>
         </tr>
 

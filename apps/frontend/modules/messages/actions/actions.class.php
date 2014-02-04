@@ -56,10 +56,7 @@ class messagesActions extends prActions
         $c->add(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL);
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT);
         $c->addDescendingOrderByColumn(MessagePeer::UPDATED_AT);
-
-        $crit = $c->getNewCriterion(MessagePeer::SUBJECT, '', Criteria::NOT_EQUAL);
-        $crit->addOr($c->getNewCriterion(MessagePeer::BODY, '', Criteria::NOT_EQUAL));
-        $c->add($crit);
+        $c->add(MessagePeer::BODY, '', Criteria::NOT_EQUAL);
 
         $this->pager = new prPropelPager('Message', 10);
         $this->pager->setCriteria($c);
@@ -170,7 +167,6 @@ class messagesActions extends prActions
             $send_msg = MessagePeer::send(
                 $this->sender,
                 $this->recipient,
-                $this->getRequestParameter('subject'),
                 $this->getRequestParameter('content'),
                 $this->draft->getId(),
                 null, //thread
@@ -449,7 +445,6 @@ class messagesActions extends prActions
             $send_msg = MessagePeer::send(
                 $member,
                 $profile,
-                $this->getRequestParameter('subject'),
                 $this->getRequestParameter('content'),
                 $this->getRequestParameter('draft_id'),
                 $thread,
@@ -682,10 +677,20 @@ class messagesActions extends prActions
         $this->forward404Unless($messages);
         $message_sample = $messages[0];
 
-        $this->getUser()->getBC()->removeLast()->add(array('name' => $thread->getSubject()));
-
         $profile = ($message_sample->getSenderId() == $member->getId())
             ? $message_sample->getMemberRelatedByRecipientId() : $message_sample->getMemberRelatedBySenderId();
+
+        if ($profile) {
+            $this->getUser()->getBC()->removeLast()->add(
+                array(
+                    'name' => __(
+                        'Conversation between You and %USERNAME%',
+                        array('%USERNAME%' => $profile->getUsername())
+                    )
+                )
+            );
+        }
+
         $this->draft = MessagePeer::retrieveOrCreateDraft(
             $member->getId(),
             $profile->getId(),
