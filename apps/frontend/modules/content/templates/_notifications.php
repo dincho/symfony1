@@ -10,7 +10,7 @@ Event.observe(window, 'load', function() {
 
   setTimeout(function() {
       <?php echo $ajax_request; ?>
-      new PeriodicalExecuter(function() {<?php echo $ajax_request; ?>}, 60);
+      new PeriodicalExecuter(function() {<?php echo $ajax_request; ?>}, 10);
   }, 1500);
   
 });

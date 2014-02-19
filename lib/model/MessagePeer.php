@@ -72,6 +72,8 @@ class MessagePeer extends BaseMessagePeer
         if( $recipient->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($recipient, $sender, $message);
 
         if( !is_null($draft_id) ) MessagePeer::clearDraft($draft_id, $sender->getId());
+
+        MemberNotificationPeer::addNotification($recipient, $sender, MemberNotificationPeer::MESSAGE, $thread->getId());
         
         //increment counters
         if( $reply ) //replying ...
