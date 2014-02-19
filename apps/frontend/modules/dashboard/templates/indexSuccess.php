@@ -16,25 +16,25 @@
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Messages ( %count%/%count_all% )', array('%count%' => $messages_cnt, '%count_all%' => $messages_all_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Messages ( %count% )', array('%count%' => $messages_cnt)), 'messages/index', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($messages as $message_profile): ?>
                 <?php echo link_to(profile_small_photo($message_profile), '@profile?username=' . $message_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Winks ( %count%/%count_all% )', array('%count%' => $winks_cnt, '%count_all%' => $winks_all_cnt)), '@winks', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Winks ( %count% )', array('%count%' => $winks_cnt)), '@winks', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($winks as $wink_profile): ?>
                 <?php echo link_to_unless(!$wink_profile->isActive(), profile_small_photo($wink_profile), '@profile?bc=winks&username=' . $wink_profile->getUsername()) ?>
             <?php endforeach; ?>            
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Hotlist ( %count%/%count_all% )', array('%count%' => $hotlist_cnt, '%count_all%' => $hotlist_all_cnt)), '@hotlist', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Hotlist ( %count% )', array('%count%' => $hotlist_cnt)), '@hotlist', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($hotlist as $hotlist_profile): ?>
                 <?php echo link_to_unless(!$hotlist_profile->isActive(), profile_small_photo($hotlist_profile), '@profile?bc=hotlist&username=' . $hotlist_profile->getUsername()) ?>
             <?php endforeach; ?>
         </div>
         <div class="dashboard-menu">
-            <?php echo link_to(__('Visitors ( %count%/%count_all% )', array('%count%' => $visits_cnt, '%count_all%' => $visits_all_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Visitors ( %count% )', array('%count%' => $visits_cnt)), '@visitors', array('class' => 'sec_link menu_title')) ?>
             <?php if( $member->getSubscriptionDetails()->getCanSeeViewed() ): ?>
                 <?php foreach ($visits as $visit_profile): ?>
                     <?php echo link_to_unless(!$visit_profile->isActive(), profile_small_photo($visit_profile), '@profile?bc=visitors&username=' . $visit_profile->getUsername()) ?>
@@ -47,7 +47,7 @@
             <?php endif; ?>
         </div>
         <div class="dashboard-menu">     
-            <?php echo link_to(__('Private Photo Access ( %count%/%count_all% )', array('%count%' => $private_photos_profiles_cnt,'%count_all%' => $private_photos_profiles_all_cnt)), '@photo_access', array('class' => 'sec_link menu_title')) ?>
+            <?php echo link_to(__('Private Photo Access ( %count% )', array('%count%' => $private_photos_profiles_cnt)), '@photo_access', array('class' => 'sec_link menu_title')) ?>
             <?php foreach ($private_photos_profiles as $private_photos_profile): ?>
                 <?php echo link_to_unless(!$private_photos_profile->isActive(), profile_small_photo($private_photos_profile), '@profile?bc=photoAccess&username=' . $private_photos_profile->getUsername()) ?>
             <?php endforeach; ?>

@@ -19,7 +19,7 @@
             <li>&bull;</li>
             <li><?php echo pr_link_to(__('Search'), 'search/index') ?></li>
             <li>&bull;</li>
-            <li><?php echo pr_link_to(__('Messages ( %count%/%count_all% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount(), '%count_all%' => $sf_user->getProfile()->getAllMessagesCount())), 'messages/index', 'class=last') ?></li>
+            <li><?php echo pr_link_to(__('Messages ( %count% )', array('%count%' => $sf_user->getProfile()->getUnreadMessagesCount())), 'messages/index', 'class=last') ?></li>
             <li>&bull;</li>
             <li id="dhtmlgoodies_menu" class="dhtmlgoodiesmenu"><?php echo link_to(__('Settings').image_tag('down.png', array('class' => 'image_down')), '#', array('id' => 'header_menu_drop')); ?></li>
             <li>&nbsp;</li>
