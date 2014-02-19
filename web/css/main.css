@@ -3070,7 +3070,11 @@ input[type=button], input[type=submit], button, .button {
     border-bottom-color: #618ad3;
     padding: 6px 8px;
     cursor: pointer;
-    margin-top: 5px ;
+    margin-top: 5px;
+}
+
+#flag .button {
+    margin: 5px 3px 0 3px;
 }
 
 input[type=button]:hover, input[type=submit]:hover, button:hover, .button:hover {
