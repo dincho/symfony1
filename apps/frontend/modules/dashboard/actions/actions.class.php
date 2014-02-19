@@ -35,7 +35,6 @@ class dashboardActions extends prActions
         
         $this->messages = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->messages_cnt = $member->getUnreadMessagesCount();
-        $this->messages_all_cnt = $member->getAllMessagesCount();
         
         //winks
         $c = new Criteria();
@@ -44,7 +43,6 @@ class dashboardActions extends prActions
         $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE); //don not show unavailable profiles
         $c->add(WinkPeer::SENT_BOX, false);
         $c->add(WinkPeer::DELETED_AT, null, Criteria::ISNULL);
-        $cc_all = clone $c; //count all criteria
         $c->add(WinkPeer::IS_NEW, true);
         $cc = clone $c; //count criteria
         
@@ -53,7 +51,6 @@ class dashboardActions extends prActions
         
         $this->winks = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->winks_cnt = MemberPeer::doCount($cc);
-        $this->winks_all_cnt = MemberPeer::doCount($cc_all);
         
         //hotlist
         $c = HotlistPeer::getNewHotlistCriteria($member->getId());
@@ -64,7 +61,6 @@ class dashboardActions extends prActions
         
         $this->hotlist = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->hotlist_cnt = MemberPeer::doCount($cc);
-        $this->hotlist_all_cnt = MemberPeer::doCount(HotlistPeer::getAllHotlistCriteria($member->getId()));
         
         //visitors
         $c = ProfileViewPeer::getNewVisitorsCriteria($member->getId());
@@ -76,8 +72,6 @@ class dashboardActions extends prActions
         $this->visits = MemberPeer::doSelectJoinMemberPhoto($c);
         $cnt_rs = MemberPeer::doSelectRS($cc);
         $this->visits_cnt = $cnt_rs->getRecordCount();
-        $cnt_all_rs = MemberPeer::doSelectRS(ProfileViewPeer::getAllVisitorsCriteria($member->getId()));
-        $this->visits_all_cnt = $cnt_all_rs->getRecordCount();
 
         //private photos
         $c = PrivatePhotoPermissionPeer::getNewPhotoCriteria($member->getId());
@@ -88,7 +82,6 @@ class dashboardActions extends prActions
         
         $this->private_photos_profiles = MemberPeer::doSelectJoinMemberPhoto($c);
         $this->private_photos_profiles_cnt = MemberPeer::doCount($cc);
-        $this->private_photos_profiles_all_cnt = MemberPeer::doCount(PrivatePhotoPermissionPeer::getAllPhotoCriteria($member->getId()));
         
         if($this->getUser()->getProfile()->getPrivateDating()){
             $this->open_privacy_perms = $member->getTop5PrivacyPermsProfiles(); 
