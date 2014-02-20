@@ -485,15 +485,7 @@ propel:
     description:            { type: longvarchar, required: false }
     content:                { type: longvarchar, required: true }
     updated_at:     
-    
-  best_video_template:
-    id:                   { type: INTEGER, required: true, primaryKey: true }
-    cat_id:               { type: INTEGER, required: true, primaryKey: true, foreignTable: catalogue, foreignReference: cat_id, onDelete: CASCADE, onUpdate: RESTRICT }
-    header:               { type: longvarchar, required: false }
-    body_winner:          { type: longvarchar, required: false }
-    footer:               { type: longvarchar, required: false }
-    updated_at:
-    
+
   member_story:
     id:
     cat_id:             { type: integer, required: false, foreignTable: catalogue, foreignReference: cat_id, onDelete: setnull }

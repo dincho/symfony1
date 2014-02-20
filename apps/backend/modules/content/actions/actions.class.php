@@ -417,36 +417,4 @@ class contentActions extends sfActions
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::ASSISTANT, $this->catalog);
         $this->photo = StockPhotoPeer::getAssistantPhotoByCatalog($this->catalog);
     }
-    
-    public function executeBestVideo()
-    {
-        $this->left_menu_selected = 'Best Videos Templates';
-        $bc = $this->getUser()->getBC();
-        $bc->replaceLast(array('name' => 'Best Videos Templates', 'uri' => 'content/bestVideo?cat_id=' .  $this->catalog->getCatId()));
-
-        $c = new Criteria();
-        $c->add(BestVideoTemplatePeer::CAT_ID, $this->catalog->getCatId());
-        $template = BestVideoTemplatePeer::doSelectOne($c);
-        
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
-            $this->getUser()->checkPerm(array('content_edit'));
-            
-            if( !$template )
-            {
-                $template = new BestVideoTemplate();
-                $template->setCatId($this->catalog->getCatId());
-            }
-            
-            $template->setHeader($this->getRequestParameter('Header'));
-            $template->setBodyWinner($this->getRequestParameter('BodyWinner'));
-            $template->setFooter($this->getRequestParameter('Footer'));
-            $template->save();
-            
-            $this->setFlash('msg_ok', 'Your changes has been saved.');
-            $this->redirect('content/bestVideo?cat_id=' .  $this->catalog->getCatId());
-        }
-        
-        $this->template = $template;
-    }
 }

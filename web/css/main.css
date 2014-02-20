@@ -1852,42 +1852,6 @@ span.sec_link {
 /*profile*/
 /*subscribe*/
 
-/* Best videos */
-
-#best_videos_text {
-    margin-top: 35px;
-    font-size: 11px;
-}
-
-div.best_video {
-    clear: both;
-}
-
-div.best_video div.left {
-    float: left;
-}
-
-div.best_video div.right {
-    float: left;
-    margin-top: 27px;
-    padding-left: 5px;
-}
-
-div.best_video div.right img {
-    float: left;
-    margin-right: 8px;
-}
-
-#participate {
-    clear: both;
-}
-
-#participate ul {
-    list-style-type: decimal;
-}
-
-/* END Best Videos */
-
 /* footer */
 #footer {
     font-size: 11px;

@@ -136,14 +136,7 @@ class contentActions extends prActions
         $this->getResponse()->addMeta('description', $this->page->getDescription());
         $this->getResponse()->addMeta('keywords', $this->page->getKeywords());
         
-        if( $page->getSlug() == 'best_videos_rules' )
-        {
-            $links_map = StaticPagePeer::getLinskMap($this->getUser()->getCatalogId());
-            $bc_middle = array('name' => $links_map['best_videos'], 'uri' => '@page?slug=best_videos');
-        } else {
-            $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
-        }
-
+        $bc_middle = ($this->getUser()->isAuthenticated()) ? array('name' => 'Dashboard', 'uri' => '@dashboard') : array('name' => 'Home', 'uri' => '@homepage');
         $this->getUser()->getBC()->clear()->add($bc_middle);
     }
 
