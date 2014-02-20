@@ -1116,6 +1116,7 @@ class Member extends BaseMember
                 || $this->isColumnModified(MemberPeer::COUNTRY)
                 || $this->isColumnModified(MemberPeer::CITY_ID)
                 || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
+                || $this->isColumnModified(MemberPeer::PURPOSE)
             )
         ) {
             $updateIndex = true;

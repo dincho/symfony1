@@ -152,6 +152,35 @@ abstract class prSearchQueryBuilder
                                 ),
                             )
         );
+
+        $this->addPurposeFilter();
+    }
+
+    protected function addPurposeFilter()
+    {
+        $purpose = $this->member->getPurpose();
+
+        //both selected - see all profiles
+        if (in_array('CR', $purpose) && in_array('M', $purpose)) {
+            return;
+        }
+
+        //only Marriage selected - see only Marriage
+        if (in_array('M', $purpose)) {
+            $this->filter[] = array(
+                                'terms' => array(
+                                    'purpose' => array('M'),
+                                ),
+            );
+            return;
+        }
+
+        //CR or none selected (rest cases) - see only CR
+        $this->filter[] = array(
+                            'terms' => array(
+                                'purpose' => array('CR'),
+                            ),
+        );
     }
 
     protected function getFilter()

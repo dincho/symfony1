@@ -22,6 +22,11 @@ $memberMapping = array(
           'type' => 'string',
           'index' => 'not_analyzed',
         ),
+        'purpose' => array(
+          'omit_norms' => true,
+          'type' => 'string',
+          'index' => 'not_analyzed',
+        ),
         'location' => array(
           'type' => 'geo_point',
         ),

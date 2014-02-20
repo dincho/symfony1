@@ -133,6 +133,7 @@ class prSearchIndex
             'search_criteria' => $searchCriteria,
             'open_privacy' => $openPrivacy,
             'private_dating' => $memberObj->getPrivateDating(),
+            'purpose' => $memberObj->getPurpose(),
         );
     }
 }
