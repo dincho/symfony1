@@ -12,8 +12,8 @@
         <?php echo input_hidden_tag('tech_info') ?>
     </fieldset>
     <fieldset class="actions">
-        <?php echo link_to_function(__('Cancel and go back to previous page'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
+        <?php echo link_to_function(__('Cancel and go back to previous page'), 'window.history.go(-1)', array('class' => 'sec_link_small cancel')) ?>
     </fieldset>
 </form>
 <?php slot('footer_menu') ?>

@@ -19,9 +19,9 @@
     
     <?php echo radiobutton_tag('email_notifications', 'no', (is_null($member->getEmailNotifications())), array('id' => 'email_notifications_no')) ?>
     <?php echo pr_label_for('email_notifications_no', __('Do not send me e-mail notifications about activity on my profile')) ?><br />
-    
-    <br /><br /><?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
+
+<br /><br /><?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
+<?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small cancel')) ?>
 </form>
 
 <?php slot('footer_menu') ?>

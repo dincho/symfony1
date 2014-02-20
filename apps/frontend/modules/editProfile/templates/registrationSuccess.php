@@ -44,8 +44,9 @@
         
     </fieldset>
     <fieldset class="actions">
-        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
+        <br />
         <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small cancel')) ?>
     </fieldset>
 </form>
 

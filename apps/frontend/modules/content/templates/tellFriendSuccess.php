@@ -21,8 +21,8 @@
     </fieldset>
 
     <fieldset class="actions">
-        <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
+        <?php echo link_to(__('Cancel and go back to previous page'), 'dashboard/index', array('class' => 'sec_link_small cancel')) ?><br />
     </fieldset>
     
 </form>

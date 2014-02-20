@@ -3524,3 +3524,8 @@ ul.rating li.five a:hover {
 #messages_group a {
     color: #7CAEE7;
 }
+
+a.cancel {
+    padding-top: 6px;
+    padding-left: 4px;
+}

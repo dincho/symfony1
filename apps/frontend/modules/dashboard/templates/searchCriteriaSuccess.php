@@ -74,8 +74,9 @@
     
     <br /><br />
     <fieldset>
-      <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
-      <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
+        <br />
+        <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
+        <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small cancel')) ?>
     </fieldset>
 </form>
 

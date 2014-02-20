@@ -3,9 +3,11 @@
 <?php echo __('Select the countries you want to find members in.') ?><br /><br />
 
 <form action="<?php echo url_for('search/selectCountries')?>" id="countries" name="countries_form" method="post">
-    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br /><br />
-
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small cancel')) ?>
+    <br />
+    <br />
+    <br />
     <?php echo __('Select:'); ?>&nbsp;
     <?php echo link_to_function(__('All'), 'SC_select_all(document.forms.countries_form.elements["countries[]"], true)', array('class' => 'sec_link')) ?>&nbsp;
     <?php echo link_to_function(__('None'), 'SC_select_all(document.forms.countries_form.elements["countries[]"], false)', array('class' => 'sec_link')) ?><br />
@@ -87,7 +89,8 @@
     <?php endforeach; ?>
     
     <br class="clear" />
-    <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?><br />
-    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
+    <br/>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small cancel')) ?>
 </form>
 
