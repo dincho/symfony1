@@ -227,6 +227,7 @@ class searchActions extends prActions
     {
         $user = $this->getUser();
         $user->getBC()->removeFirst()->add(array('name' => 'Select Countries', 'search/selectCountries'));
+        $this->cancelLevel = -1;
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -235,6 +236,8 @@ class searchActions extends prActions
             $user->getAttributeHolder()->add(array_unique($this->getRequestParameter('countries')), 'frontend/search/countries');
             
             $this->setFlash('msg_ok', 'Success, your changes have been saved. To return to your search, click here.', false);
+            $this->cancelLevel = $this->getRequest()->getParameter('cancelLevel', $this->cancelLevel);
+            $this->cancelLevel--;
         }
         
         $selected_areas = $user->getAttributeHolder()->getAll('frontend/search/areas');
