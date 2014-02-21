@@ -17,7 +17,7 @@
     </div>
 
     <?php echo draggable_element("photo_" . $photo->getId(), array(
-                                    'revert' => 'revertEffect',
+                                    'revert' => 'true',
                                     'onStart' => 'function(draggable, event) { draggable.element.parentNode.style.zIndex = 50; } ', //IE float+zindex FIX
                                     'onEnd' => 'function(draggable, event) { draggable.element.parentNode.style.zIndex = 0; } ', //IE float+zindex FIX
                                 )); ?>

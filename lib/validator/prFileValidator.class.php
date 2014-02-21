@@ -42,7 +42,10 @@ class prFileValidator extends sfFileValidator
 
     if (!$imgData)
     {
-      throw new sfException("Could not load image data for: " . $value['tmp_name']);
+        $error = $this->getParameter('mime_types_error');
+
+        return false;
+//      throw new sfException("Could not load image data for: " . $value['tmp_name']);
     }
         
     $file_mime = $imgData['mime'];
