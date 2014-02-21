@@ -1,6 +1,6 @@
 <?php
 
-class prStraightQueryBuilder extends prSearchQueryBuilder
+class prStraightQueryBuilder extends prScoreQueryBuilder
 {
     protected function getFunctions()
     {

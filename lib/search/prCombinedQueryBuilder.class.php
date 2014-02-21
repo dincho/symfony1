@@ -1,6 +1,6 @@
 <?php
 
-class prCombinedQueryBuilder extends prSearchQueryBuilder
+class prCombinedQueryBuilder extends prScoreQueryBuilder
 {
     public function __construct(Member $member)
     {

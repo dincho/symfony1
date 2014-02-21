@@ -1,6 +1,6 @@
 <?php
 
-class prReverseQueryBuilder extends prSearchQueryBuilder
+class prReverseQueryBuilder extends prScoreQueryBuilder
 {
     protected function getFunctions()
     {

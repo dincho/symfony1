@@ -124,6 +124,7 @@ class prSearchIndex
         return array(
             'status_id' => $memberObj->getMemberStatusId(),
             'catalog_id' => $memberObj->getCatalogId(),
+            'subscription_id' => $memberObj->getSubscriptionId(),
             'orientation' => $memberObj->getOrientationKey(),
             'main_photo' => (bool) $memberObj->getMainPhotoId(),
             'country' => $memberObj->getCountry(),
@@ -134,6 +135,11 @@ class prSearchIndex
             'open_privacy' => $openPrivacy,
             'private_dating' => $memberObj->getPrivateDating(),
             'purpose' => $memberObj->getPurpose(),
+            'last_login' => $memberObj->getLastLogin(null),
+            'created' => $memberObj->getCreatedAt(null),
+            'username' => $memberObj->getUsername(),
+            'essay_headline' => $memberObj->getEssayHeadline(),
+            'essay_intro' => $memberObj->getEssayIntroduction(),
         );
     }
 }

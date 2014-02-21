@@ -63,52 +63,19 @@ class searchActions extends prActions
 
     public function executeMostRecent()
     {
-
-        $subscriptioIds = implode(',', array(
-            SubscriptionPeer::VIP,
-            SubscriptionPeer::PREMIUM,
-            SubscriptionPeer::FREE
-        ));
-
-        $order = sprintf("FIELD(%s,%s)", MemberPeer::SUBSCRIPTION_ID, $subscriptioIds);
-
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
-        $c->addAscendingOrderByColumn($order);
-        $c->addDescendingOrderByColumn(MemberPeer::CREATED_AT);
-
+        $builder = new prFilteredQueryBuilder($this->getUser()->getProfile());
+        $builder->setSort('most_recent');
         $rows = sfConfig::get('app_settings_search_rows_most_recent', 4);
-        $this->initPager($c, $rows * 3); //3 boxes/profiles per row
-
-        //get matches from search engine
-        $members = $this->pager->getResults();
-        $this->pager->members = MemberMatchPeer::populateMemberMatches(
-            $this->getUser()->getProfile(),
-            $members
-        );
-
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/mostRecent');
     }
 
     public function executeLastLogin()
     {
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
-        
-        $c->addDescendingOrderByColumn(MemberPeer::LAST_LOGIN);
+        $builder = new prFilteredQueryBuilder($this->getUser()->getProfile());
+        $builder->setSort('last_login');
         $rows = sfConfig::get('app_settings_search_rows_last_login', 4);
-        //3 boxes/profiles per row
-        $this->initPager($c, $rows * 3);
-
-        //get matches from search engine
-        $members = $this->pager->getResults();
-        $this->pager->members = MemberMatchPeer::populateMemberMatches(
-            $this->getUser()->getProfile(),
-            $members
-        );
-
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/lastLogin');
     }
     
@@ -121,16 +88,17 @@ class searchActions extends prActions
             return sfView::SUCCESS;
         }
         
+        $builder = new prStraightQueryBuilder($this->getUser()->getProfile());
         $rows = sfConfig::get('app_settings_search_rows_custom', 4);
-        $this->initSearchPager('straight', $rows * 3);
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/criteria');
     }
 
     public function executeReverse()
     {
-        //3 boxes/profiles per row
+        $builder = new prReverseQueryBuilder($this->getUser()->getProfile());
         $rows = sfConfig::get('app_settings_search_rows_reverse', 4);
-        $this->initSearchPager('reverse', $rows * 3);
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/reverse');
     }
 
@@ -143,9 +111,9 @@ class searchActions extends prActions
             return sfView::SUCCESS;
         }
         
-        //3 boxes/profiles per row    
-        $rows = sfConfig::get('app_settings_search_rows_matches', 4);    
-        $this->initSearchPager('combined', $rows * 3);
+        $builder = new prCombinedQueryBuilder($this->getUser()->getProfile());
+        $rows = sfConfig::get('app_settings_search_rows_matches', 4);
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/matches');
     }
 
@@ -157,25 +125,9 @@ class searchActions extends prActions
 
         $keyword = $this->filters['keyword'];
 
-        $c = new Criteria();
-        $this->addGlobalCriteria($c);
-        $this->addFiltersCriteria($c);
-        $crit = $c->getNewCriterion(MemberPeer::ESSAY_HEADLINE, '%' . $keyword . '%', Criteria::LIKE);
-        $crit->addOr($c->getNewCriterion(MemberPeer::ESSAY_INTRODUCTION, '%' . $keyword . '%', Criteria::LIKE));
-        $crit->addOr($c->getNewCriterion(MemberPeer::USERNAME, '%' . $keyword . '%', Criteria::LIKE));
-        $c->add($crit);
-
-        //3 boxes/profiles per row    
-        $per_page = sfConfig::get('app_settings_search_rows_keyword', 4) * 3;
-        $this->initPager($c, $per_page);
-
-        //get matches from search engine
-        $members = $this->pager->getResults();
-        $this->pager->members = MemberMatchPeer::populateMemberMatches(
-            $this->getUser()->getProfile(),
-            $members
-        );
-
+        $builder = new prKeywordQueryBuilder($this->getUser()->getProfile(), $keyword);
+        $rows = sfConfig::get('app_settings_search_rows_keyword', 4);
+        $this->initSearchPager($builder, $rows * 3);
         $this->storeSearchUrl('search/byKeyword');
     }
 
@@ -204,22 +156,9 @@ class searchActions extends prActions
     public function executeProfileID()
     {
         if ($id = $this->getRequestParameter('profile_id')) {
-            $c = new Criteria();
-            $this->addGlobalCriteria($c);
-            $this->addFiltersCriteria($c);
-
-            $c->add(MemberPeer::ID, $id);
-            $members = MemberPeer::doSelect($c);
-
-            if (count($members)) {
-                $members = MemberMatchPeer::populateMemberMatches(
-                    $this->getUser()->getProfile(),
-                    $members
-                );
-                $this->member = $members[0];
-            } else {
-                $this->member = null;
-            }
+            $builder = new prFilteredQueryBuilder($this->getUser()->getProfile());
+            $builder->addFilterById($id);
+            $this->initSearchPager($builder, 12);
         }
     }
 
@@ -390,18 +329,8 @@ class searchActions extends prActions
         return $pager;
     }
 
-    protected function initSearchPager($searchType, $perPage = 12)
+    protected function initSearchPager(prSearchQueryBuilder $builder, $perPage = 12)
     {
-        if ($searchType == 'straight') {
-            $builder = new prStraightQueryBuilder($this->getUser()->getProfile());
-        } elseif ($searchType == 'reverse') {
-            $builder = new prReverseQueryBuilder($this->getUser()->getProfile());
-        } elseif ($searchType == 'combined') { //combined
-            $builder = new prCombinedQueryBuilder($this->getUser()->getProfile());
-        } else {
-            throw new LogicException('Unsupported search type');
-        }
-
         $this->applyBuilderFilters($builder);
 
         $pager = new prSearchPager($builder, $perPage);
