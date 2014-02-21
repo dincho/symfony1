@@ -262,6 +262,7 @@ table.compose_options td {
     text-align: right;
     padding: 0 0 5px 5px;
     line-height: 13px;
+    vertical-align:top;
 }
 
 table.compose_options td input {
