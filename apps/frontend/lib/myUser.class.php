@@ -142,7 +142,7 @@ class myUser extends sfBasicSecurityUser
                     if ( !$this->getProfile()->getPrivateDating() || 
                          $this->getProfile()->hasOpenPrivacyFor($profile->getId()) )
                     {
-                      MemberNotificationPeer::addNotification($profile, $this->getProfile(), MemberNotificationPeer::VISIT, null);
+                      MemberNotificationPeer::addNotification($profile, $this->getProfile(), MemberNotificationPeer::VISIT);
                       
                       if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivityVisitor($profile, $this->getProfile());
                     }

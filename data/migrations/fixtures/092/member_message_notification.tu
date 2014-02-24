@@ -1,0 +1,1 @@
+Visitor %USERNAME% has send you a <a href="%THREAD_URL%" class="sec_link">message</a>!

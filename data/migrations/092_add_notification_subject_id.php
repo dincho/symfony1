@@ -8,6 +8,7 @@ class Migration092 extends sfMigration
     public function up()
     {
         $this->executeSQL('ALTER TABLE `member_notification` ADD `subject_id` INT NOT NULL AFTER `type`');
+        $this->loadTransUnits();
     }
 
     /**
@@ -16,5 +17,6 @@ class Migration092 extends sfMigration
     public function down()
     {
         $this->executeSQL('ALTER TABLE `member_notification` DROP `subject_id`');
+        $this->deleteTransUnits();
     }
 }

@@ -14,7 +14,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
 
 
   //visitor is actually current sfUser
-  public static function addNotification(BaseMember $member, BaseMember $visitor, $notification_type, $subject_id)
+  public static function addNotification(BaseMember $member, BaseMember $visitor, $notification_type, $subject_id = null)
   {
     $notification = new MemberNotification();
     $notification->setMemberId($member->getId());
