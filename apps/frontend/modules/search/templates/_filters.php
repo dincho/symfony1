@@ -1,4 +1,4 @@
-    <?php use_helper('Javascript', 'Date', 'dtForm') ?>
+    <?php use_helper('Javascript', 'Date', 'dtForm', 'prLink') ?>
     
     <?php echo javascript_tag("
       function submit_filter(obj)
@@ -40,7 +40,7 @@
             <td></td>
             <td></td>
     
-            <td><?php echo link_to(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to_ref(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
             <td></td>
             <td></td>
         </tr>
