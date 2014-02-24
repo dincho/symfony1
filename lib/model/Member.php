@@ -164,6 +164,11 @@ class Member extends BaseMember
             ) {
                 Events::triggerWelcomeApproved($this);
             }
+            if ($StatusId == MemberStatusPeer::FV_REQUIRED
+                && $this->getMemberStatusId() != MemberStatusPeer::FV_REQUIRED
+            ) {
+                Events::triggerPhotoVerificationReminder($this);
+            }
             
             $old_status_id = $this->getMemberStatusId();
             if( $old_status_id == MemberStatusPeer::SUSPENDED || 
