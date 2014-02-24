@@ -66,51 +66,63 @@
     <tbody>
         <tr>
             <td>
-                <th colspan="11">
-                    Filter templates:<br/>
-                    <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null,
-                        array(
-                            'include_blank' => true,
-                        )),
-                    array(
-                        'size' => 5,
-                        'style' => 'width:250px; height:300px;',
-                        'onclick' => 'filter_select(this.value, "template_id")'
-                    )
-                )?>
-                </th>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Filter templates:<br/>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null,
+                                    array(
+                                        'include_blank' => true,
+                                    )),
+                                    array(
+                                        'size' => 5,
+                                        'style' => 'width:250px; height:300px;',
+                                        'onclick' => 'filter_select(this.value, "template_id")'
+                                    )
+                                )?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
             <td>
                 <table>
                     <tbody>
                         <tr>
                             <th>Membership:</th>
-                            <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::FREE, null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::FREE, null, array('class' => 'checkbox')) ?></th>
                             <th>Standard</th>
-                            <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::PREMIUM, null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::PREMIUM, null, array('class' => 'checkbox')) ?></th>
                             <th>Premium</th>
-                            <td><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::VIP, null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[subscription_id][]', SubscriptionPeer::VIP, null, array('class' => 'checkbox')) ?></th>
                             <th>VIP</th>
-                            <td><?php echo checkbox_tag('send_filter[status_id][]', MemberStatusPeer::ABANDONED, null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[status_id][]', MemberStatusPeer::ABANDONED, null, array('class' => 'checkbox')) ?></th>
                             <th>Abandoned</th>
                         </tr>
                         <tr>
                             <th>Sex:</th>
-                            <td><?php echo checkbox_tag('send_filter[sex][]', 'M', null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[sex][]', 'M', null, array('class' => 'checkbox')) ?></th>
                             <th>Men</th>
-                            <td><?php echo checkbox_tag('send_filter[sex][]', 'F', null, array('class' => 'checkbox')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[sex][]', 'F', null, array('class' => 'checkbox')) ?></th>
                             <th>Women</th>
-                            <td colspan="5"></td>
+                            <th colspan="5"></th>
                         </tr>
                         <tr>
                             <th>Country:</th>
-                            <td><?php echo checkbox_tag('send_filter[filter_country]', 1, null, array('class' => 'checkbox')) ?></td>
-                            <td colspan="9" style="vertical-align: middle"><?php echo select_country_tag('send_filter[country]', null, array('include_custom' => 'All Countries')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[filter_country]', 1, null, array('class' => 'checkbox')) ?></th>
+                            <th colspan="9" style="vertical-align: middle"><?php echo select_country_tag('send_filter[country]', null, array('include_custom' => 'All Countries')) ?></th>
                         </tr>
                         <tr>
                             <th>Language</th>
-                            <td><?php echo checkbox_tag('send_filter[filter_language]', 1, null, array('class' => 'checkbox')) ?></td>
-                            <td colspan="9" style="vertical-align: middle"><?php echo select_language_tag('send_filter[language]', null, array('include_custom' => 'All Languages')) ?></td>
+                            <th><?php echo checkbox_tag('send_filter[filter_language]', 1, null, array('class' => 'checkbox')) ?></th>
+                            <th colspan="9" style="vertical-align: middle"><?php echo select_language_tag('send_filter[language]', null, array('include_custom' => 'All Languages')) ?></th>
                         </tr>
                     </tbody>
                 </table>
