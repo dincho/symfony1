@@ -51,28 +51,6 @@
 <?php end_slot(); ?>
 
 <script type="text/javascript" charset="utf-8">
-Event.observe( 
-  window, 
-  'load', 
-  function() { 
-     if(/MSIE/.test( navigator.userAgent ))
-     {
-        var arr = document.cookie.split(';');
-        for(var i=0; i<arr.length; i++) {
-        	if (arr[i] == 'IsIe=1')
-        	{
-             document.cookie = 'IsIe=';
-        	   return;
-        	}
-        }
-        document.cookie = 'IsIe=1';
-        window.location.reload();
-     }
-  }
-);
-</script>
-
-<script type="text/javascript" charset="utf-8">
     var photo_rotate_url = '<?php echo url_for('editProfile/rotatePhoto?member_id=' . $member->getId()); ?>';
     function rotate(photo_id, deg)
     {
