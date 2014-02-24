@@ -13,9 +13,9 @@
 <form action="<?php echo url_for('search/selectAreas')?>" id="areas" name="areas_form" method="post">
     <?php echo input_hidden_tag('country', $sf_request->getParameter('country'), array('id' => 'country')) ?>
     <?php echo input_hidden_tag('polish_cities', $sf_request->getParameter('polish_cities')) ?>
-    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?><br />
-    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?><br /><br />
-    
+    <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small cancel')) ?><br /><br />
+
     <?php echo __('Select:'); ?>&nbsp;
     <?php echo link_to_function(__('All'), 'SC_select_all(document.forms.areas_form.elements["areas[]"], true)', array('class' => 'sec_link')) ?>&nbsp;
     <?php echo link_to_function(__('None'), 'SC_select_all(document.forms.areas_form.elements["areas[]"], false)', array('class' => 'sec_link')) ?>
@@ -32,8 +32,8 @@
     </fieldset>
     
     <br class="clear" />
-    <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?><br />
-    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small')) ?>
+    <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?>
+    <?php echo link_to_function(__('Cancel and return to search'), 'window.history.go(-1)', array('class' => 'sec_link_small cancel')) ?>
 </form>
 <br class="clear" />
 
