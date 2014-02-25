@@ -138,17 +138,24 @@ class myUser extends sfBasicSecurityUser
                     $visit->setMemberRelatedByMemberId($this->getProfile());
                     $visit->setMemberRelatedByProfileId($profile);
                     $visit->save();
-                    
-                    if ( !$this->getProfile()->getPrivateDating() || 
-                         $this->getProfile()->hasOpenPrivacyFor($profile->getId()) )
-                    {
-                      MemberNotificationPeer::addNotification($profile, $this->getProfile(), MemberNotificationPeer::VISIT);
-                      
-                      if( $profile->getEmailNotifications() === 0 ) Events::triggerAccountActivityVisitor($profile, $this->getProfile());
-                    }
 
+                    if ($profile->getEmailNotifications() === 0
+                        && (!$this->getProfile()->getPrivateDating()
+                            || $this->getProfile()->hasOpenPrivacyFor($profile->getId()))
+                    ) {
+                        Events::triggerAccountActivityVisitor($profile, $this->getProfile());
+                    }
                 }
-                
+
+                if (!$this->getProfile()->getPrivateDating()
+                    || $this->getProfile()->hasOpenPrivacyFor($profile->getId())
+                ) {
+                    MemberNotificationPeer::addNotification(
+                        $profile,
+                        $this->getProfile(),
+                        MemberNotificationPeer::VISIT
+                    );
+                }
             } else
             {
                 $profile->incCounter('ProfileViews');
