@@ -200,8 +200,9 @@ abstract class sfMigration
 
     foreach( $this->getTransUnits() as $source )
     {
+        $source = mysql_real_escape_string(rtrim($source), $this->getConnection()->getResource());
         $values = array();
-        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s", %d, %d)', $catalog, rtrim($source), $ts, $ts);
+        foreach ($catalogs as $catalog) $values[] = sprintf('(%d, "%s", %d, %d)', $catalog, $source, $ts, $ts);
 
         if( !empty($values) )
         {
@@ -215,7 +216,8 @@ abstract class sfMigration
   {
     foreach( $this->getTransUnits() as $source )
     {
-        $this->executeQuery(sprintf('DELETE FROM trans_unit WHERE `source` = "%s"', rtrim($source)));
+        $source = mysql_real_escape_string(rtrim($source), $this->getConnection()->getResource());
+        $this->executeQuery(sprintf('DELETE FROM trans_unit WHERE `source` = "%s"', $source));
     }
   }
   
