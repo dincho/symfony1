@@ -47,7 +47,7 @@ class Events
     const ACCOUNT_ACTIVITY_PRIVATE_PHOTOS_GRANTED = 28;
     const ACCOUNT_ACTIVITY_PRIVATE_PHOTOS_REQUEST = 29;
     const EOT = 24;
-    const PHOTO_VERIFICATION_REMINDER = 30;
+    const PHOTO_VERIFICATION_REQUIRED = 30;
     
     /* REGISTRATION EVENTS */
     public static function triggerJoin($member)
@@ -409,10 +409,10 @@ class Events
         return self::executeNotifications(self::EOT, $global_vars, $member->getEmail(), $member);
     }
 
-    public static function triggerPhotoVerificationReminder($member)
+    public static function triggerPhotoVerificationRequired($member)
     {
         $global_vars = array('{REGISTRATION_IP}' => long2ip($member->getRegistrationIp()));
-        return self::executeNotifications(self::PHOTO_VERIFICATION_REMINDER, $global_vars, $member->getEmail(), $member);
+        return self::executeNotifications(self::PHOTO_VERIFICATION_REQUIRED, $global_vars, $member->getEmail(), $member);
     }
     
     

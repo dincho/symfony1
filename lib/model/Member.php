@@ -167,7 +167,12 @@ class Member extends BaseMember
             if ($StatusId == MemberStatusPeer::FV_REQUIRED
                 && $this->getMemberStatusId() != MemberStatusPeer::FV_REQUIRED
             ) {
-                Events::triggerPhotoVerificationReminder($this);
+                Events::triggerPhotoVerificationRequired($this);
+                $note = new MemberNote();
+                $note->setMember($this);
+                $note->setUserId($this->getUser()->getId());
+                $note->setText("PV Request sent");
+                $note->save();
             }
             
             $old_status_id = $this->getMemberStatusId();
