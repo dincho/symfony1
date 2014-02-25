@@ -23,6 +23,17 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
         $notification_type,
         $subject_id = null
     ) {
+        $c = new Criteria();
+        $c->add(MemberNotificationPeer::MEMBER_ID, $member->getId());
+        $c->add(MemberNotificationPeer::PROFILE_ID, $profile->getId());
+        $c->add(MemberNotificationPeer::TYPE, $notification_type);
+        $c->add(MemberNotificationPeer::SENT_AT, null, Criteria::ISNULL);
+
+        //add only unique (not sent) notifications to prevent flooding
+        if (MemberNotificationPeer::doCount($c) > 0) {
+            return;
+        }
+
         $notification = new MemberNotification();
         $notification->setMemberId($member->getId());
         $notification->setProfileId($profile->getId());
