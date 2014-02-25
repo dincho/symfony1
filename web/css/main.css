@@ -3526,6 +3526,6 @@ ul.rating li.five a:hover {
 }
 
 a.cancel {
-    padding-top: 6px;
-    padding-left: 4px;
+    margin-top: 6px;
+    margin-left: 4px;
 }
