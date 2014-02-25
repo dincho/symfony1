@@ -560,9 +560,20 @@ class profileActions extends prActions
             if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($member, $rater);
             if( $rater->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($rater, $member);
 
+            MemberNotificationPeer::addNotification(
+              $member,
+              $rater,
+              MemberNotificationPeer::MUTUAL_RATE
+            );
         } elseif( $rate == 5 )
         {
           if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityRate($member, $rater);
+
+          MemberNotificationPeer::addNotification(
+            $member,
+            $rater,
+            MemberNotificationPeer::RATE
+          );
         }
           //we need to check some modified filed before saving this
           $memberRate->save();

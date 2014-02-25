@@ -11,6 +11,10 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
 {
     const VISIT = 1;
     const MESSAGE = 2;
+    const WINK = 3;
+    const HOTLIST = 4;
+    const RATE = 5;
+    const MUTUAL_RATE = 6;
 
     //profile is actually current sfUser
     public static function addNotification(
@@ -33,7 +37,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
         $con = sfContext::getInstance()->getController();
         
         switch ($notification->getType()) {
-            case MemberNotificationPeer::VISIT:
+            case self::VISIT:
                 $message =  __(
                     'Visitor %USERNAME% just opened your profile!',
                     array(
@@ -42,13 +46,49 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
                         )
                 );
             break;
-            case MemberNotificationPeer::MESSAGE:
+            case self::MESSAGE:
                 $message =  __(
                     'Visitor %USERNAME% has send you a <a href="%THREAD_URL%" class="sec_link">message</a>!',
                     array(
                         '%USERNAME%' => $member->getUsername(),
                         '%THREAD_URL%' => $con->genUrl('messages/thread?mailbox=inbox&id='. $notification->getSubjectId())
                     )
+                );
+            break;
+            case self::WINK:
+                $message =  __(
+                    '%USERNAME% just winked at you! Check %USERNAME% out',
+                    array(
+                        '%USERNAME%' => $member->getUsername(),
+                        '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())
+                        )
+                );
+            break;
+            case self::HOTLIST:
+                $message =  __(
+                    '%USERNAME% just added you to hotlist! Check %USERNAME% out',
+                    array(
+                        '%USERNAME%' => $member->getUsername(),
+                        '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())
+                        )
+                );
+            break;
+            case self::RATE:
+                $message =  __(
+                    '%USERNAME% just gave you 5 stars! Check %USERNAME% out',
+                    array(
+                        '%USERNAME%' => $member->getUsername(),
+                        '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())
+                        )
+                );
+            break;
+            case self::MUTUAL_RATE:
+                $message =  __(
+                    '%USERNAME% and you like each other! Check %USERNAME% out',
+                    array(
+                        '%USERNAME%' => $member->getUsername(),
+                        '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())
+                        )
                 );
             break;
       }

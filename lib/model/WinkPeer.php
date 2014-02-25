@@ -139,6 +139,12 @@ class WinkPeer extends BaseWinkPeer
         
         if( $to_member->getEmailNotifications() === 0 ) Events::triggerAccountActivityWink($to_member, $from_member);
 
+        MemberNotificationPeer::addNotification(
+            $to_member,
+            $from_member,
+            MemberNotificationPeer::WINK
+        );
+
         return $sent_wink;
     }    
 }
