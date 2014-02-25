@@ -5,7 +5,7 @@
 <?php echo form_tag('feedback/compose', 'class=form') ?>
 
 <div class="legend">Compose Email</div>
-<fieldset class="form_fields">
+<fieldset class="form_fields feedback">
   <table class="details float-left">
     <tbody>
       <tr>

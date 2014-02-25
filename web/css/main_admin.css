@@ -663,3 +663,7 @@ div.member_flags table {
     float: left;
     margin-left: 285px;
 }
+
+.feedback {
+    min-width: 1200px;
+}
