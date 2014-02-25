@@ -1,9 +1,9 @@
 <?php
 
-class Migration092 extends sfMigration
+class Migration094 extends sfMigration
 {
     /**
-     * Migrate up to version 092.
+     * Migrate up to version 094.
      */
     public function up()
     {
@@ -12,7 +12,7 @@ class Migration092 extends sfMigration
     }
 
     /**
-     * Migrate down to version 091.
+     * Migrate down to version 093.
      */
     public function down()
     {
