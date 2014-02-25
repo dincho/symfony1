@@ -53,7 +53,6 @@
           enable_saving();
       } else {
           disable_button("save_to_draft_btn");
-          save_condition = false;
       }
 
       $("your_story").focus();
