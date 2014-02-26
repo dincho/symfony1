@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'dtForm') ?>
+<?php use_helper('Date', 'dtForm', 'prLink') ?>
 
 <p><?php echo __('To see more profiles, set your preferences and to use our search engine, please join for free now.') ?></p>
 
@@ -34,7 +34,7 @@
             <td></td>
             <td></td>
     
-            <td><?php echo link_to(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
+            <td><?php echo link_to_ref(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
             <td></td>
             <td><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('class' => 'sec_link')) ?></td>
         </tr>
