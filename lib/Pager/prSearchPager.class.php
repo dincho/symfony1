@@ -14,7 +14,7 @@ class prSearchPager extends sfPager
   
     public function getResults()
     {
-        $query = $this->builder->getMatchesQuery($this->offset, $this->limit);
+        $query = $this->builder->getQuery($this->offset, $this->limit);
         list($members, $total) = MemberMatchPeer::getMatches($this->builder->getMember(), $query);
 
         $this->members = $members;

@@ -17,7 +17,21 @@ $memberMapping = array(
         'enabled' => true
     ),
     'properties' => array(
+        'username' => array(
+          'type' => 'string',
+        ),
+        'essay_headline' => array(
+          'type' => 'string',
+        ),
+        'essay_intro' => array(
+          'type' => 'string',
+        ),
         'orientation' => array(
+          'omit_norms' => true,
+          'type' => 'string',
+          'index' => 'not_analyzed',
+        ),
+        'purpose' => array(
           'omit_norms' => true,
           'type' => 'string',
           'index' => 'not_analyzed',
@@ -38,10 +52,19 @@ $memberMapping = array(
         'status_id' => array(
           'type' => 'long',
         ),
+        'subscription_id' => array(
+          'type' => 'long',
+        ),
         'open_privacy' => array(
           'type' => 'long',
         ),
         'adm1_id' => array(
+          'type' => 'long',
+        ),
+        'last_login' => array(
+          'type' => 'long',
+        ),
+        'created' => array(
           'type' => 'long',
         ),
         'self_description' => array(

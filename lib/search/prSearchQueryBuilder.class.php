@@ -4,6 +4,7 @@ abstract class prSearchQueryBuilder
 {
     protected $member;
     protected $filter;
+    protected $sort;
 
     public function __construct(Member $member)
     {
@@ -12,65 +13,7 @@ abstract class prSearchQueryBuilder
         $this->addCommonFilters();
     }
 
-    abstract protected function getFunctions();
-
-    public function getQueryForMembers(array $members)
-    {
-        //pluck ids
-        $memberIds = array();
-        foreach ($members as $member) {
-            $memberIds[] = $member->getId();
-        }
-
-        return array(
-            'size' => count($memberIds),
-            'fields' => array(
-                'orientation',
-                'status_id',
-                'catalog_id',
-            ),
-            'query' => array(
-                'function_score' => array(
-                    'filter' => array(
-                        'ids' => array(
-                            'values' => $memberIds,
-                        )
-                    ),
-                    'functions' => $this->getFunctions(),
-                    'score_mode' => 'sum',
-                    'boost_mode' => 'replace',
-                ),
-            ),
-        );
-    }
-
-    public function getMatchesQuery($from = 0, $size = 10)
-    {
-        return array(
-            'from' => $from,
-            'size' => $size,
-            'fields' => array(
-                'orientation',
-                'status_id',
-                'catalog_id',
-            ),
-            'query' => array(
-                'function_score' => array(
-                    'filter' => array(
-                        'and' => $this->getFilter(),
-                    ),
-                    'functions' => $this->getFunctions(),
-                    'score_mode' => 'sum',
-                    'boost_mode' => 'replace',
-                ),
-            ),
-            'sort' => array(
-                '_score' => array(
-                    'order' => 'desc',
-                ),
-            ),
-        );
-    }
+    abstract public function getQuery($from = 0, $size = 10);
 
     public function getMember()
     {
@@ -118,6 +61,51 @@ abstract class prSearchQueryBuilder
         );
     }
 
+    public function addFilterById($id)
+    {
+        $this->filter[] = array(
+            'ids' => array(
+                'values' => array($id),
+            )
+        );
+    }
+
+    public function setSort($sort)
+    {
+        switch ($sort) {
+            case 'last_login':
+                $this->sort = array(
+                    'last_login' => array(
+                        'order' => 'desc',
+                    ),
+                );
+            break;
+
+            case 'most_recent':
+                $this->sort = array(
+                    '_script' => array(
+                        //VIP (id 2) should be sorted before premium (id 3), so replace VIP with 4
+                        'script' => "(doc['subscription_id'].value == 2 ? 4 : doc['subscription_id'].value)",
+                        'type' => 'number',
+                        'order' => 'desc',
+                    ),
+                    'created' => array(
+                        'order' => 'desc',
+                    ),
+                );
+            break;
+
+            case 'score':
+            default:
+                $this->sort = array(
+                    '_score' => array(
+                        'order' => 'desc',
+                    ),
+                );
+            break;
+        }
+    }
+
     protected function addCommonFilters()
     {
         $this->filter[] = array(
@@ -152,10 +140,44 @@ abstract class prSearchQueryBuilder
                                 ),
                             )
         );
+
+        $this->addPurposeFilter();
+    }
+
+    protected function addPurposeFilter()
+    {
+        $purpose = $this->member->getPurpose();
+
+        //both selected - see all profiles
+        if (in_array('CR', $purpose) && in_array('M', $purpose)) {
+            return;
+        }
+
+        //only Marriage selected - see only Marriage
+        if (in_array('M', $purpose)) {
+            $this->filter[] = array(
+                                'terms' => array(
+                                    'purpose' => array('M'),
+                                ),
+            );
+            return;
+        }
+
+        //CR or none selected (rest cases) - see only CR
+        $this->filter[] = array(
+                            'terms' => array(
+                                'purpose' => array('CR'),
+                            ),
+        );
     }
 
     protected function getFilter()
     {
         return $this->filter;
+    }
+
+    protected function getSort()
+    {
+        return $this->sort;
     }
 }

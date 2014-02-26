@@ -79,7 +79,7 @@ class FrontendProfilePager extends sfPager
                 MemberRatePeer::getMapBuilder(); //force manual map loading because of serialized criteria
                 $this->members = MemberPeer::doSelect($obj);
             } elseif ($obj instanceof prSearchQueryBuilder) {
-                $query = $obj->getMatchesQuery($this->offset, 3);
+                $query = $obj->getQuery($this->offset, 3);
                 list($this->members, $total) = MemberMatchPeer::getMatches($obj->getMember(), $query);
             }
         }
