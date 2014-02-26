@@ -262,6 +262,7 @@ table.compose_options td {
     text-align: right;
     padding: 0 0 5px 5px;
     line-height: 13px;
+    vertical-align:top;
 }
 
 table.compose_options td input {
@@ -661,4 +662,8 @@ div.member_flags table {
 .view_profile {
     float: left;
     margin-left: 285px;
+}
+
+.feedback {
+    min-width: 1200px;
 }
