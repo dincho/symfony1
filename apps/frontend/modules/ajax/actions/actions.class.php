@@ -49,7 +49,8 @@ class ajaxActions extends geoActions
                 return $this->renderText(__('Draft saved at %TIME%', array('%TIME%' => date('h:i a'))));
 
             } else {
-                $draft->delete();
+                $draft->setBody(null);
+                $draft->save();
             }
         }
         
