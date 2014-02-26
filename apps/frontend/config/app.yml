@@ -126,6 +126,7 @@ stag:
     mm_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
     cs_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
     db_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
+    dh_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
   paypal:
     business:             admin_1231849319_biz@polishromance.com
     test:                 yes
@@ -149,8 +150,9 @@ stag:
     pl_polishdate_bonex_us:  "SzukamMilionera.com (stag) - "
     ec_polishdate_bonex_us:  "ExpatCalling.com (stag) - "
     mm_polishdate_bonex_us:  "MeskaMilosc.pl (stag) - "
-    cs_polishdate_bonex_us: "CafeSayang.com (stag) - "
-    db_polishdate_bonex_us: "DatingBistro.com (stag) - "
+    cs_polishdate_bonex_us:  "CafeSayang.com (stag) - "
+    db_polishdate_bonex_us:  "DatingBistro.com (stag) - "
+    dh_polishdate_bonex_us:  "DatingOnHudson.com (stag) - "
   sf_google_analytics_plugin:
     enabled:                no 
 
@@ -176,6 +178,7 @@ prod:
     www_meskamilosc_pl:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
     www_cafesayang_com:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
     www_datingbistro_com:     AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
+    www_datingonhudson_com:   AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
   recaptcha:
     www_polishdate_com:
       publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"
@@ -195,6 +198,9 @@ prod:
     www_datingbistro_com:
       publickey:            "6Lf6SeYSAAAAAN8TMLGTLNf7RTkl4M6vFqjfqdZi"
       privatekey:           "6Lf6SeYSAAAAACiIPVAeU1-7NmT_HOACgC06PKdM"
+    www_datingonhudson_com:
+      publickey:            "6LfrO-8SAAAAACOtoPWgxCfsYw6gV8UGqUGI9Cab"
+      privatekey:           "6LfrO-8SAAAAAO1gdoOQAmJ2zIfySFcZWfmYxrKH"
   paypal:
     business:             futurise@gmail.com
     url:                  https://www.paypal.com/cgi-bin/webscr
@@ -218,6 +224,7 @@ prod:
     www_meskamilosc_pl:       "MeskaMilosc.pl - "
     www_cafesayang_com:       "CafeSayang.com - "
     www_datingbistro_com:     "DatingBistro.com - "
+    www_datingonhudson_com:   "DatingOnHudson.com - "
   sf_google_analytics_plugin:
     enabled:      yes
     profile_id:   UA-11123315-1
