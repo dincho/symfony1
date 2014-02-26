@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.29-log)
 # Database: polishdate_test
-# Generation Time: 2014-01-30 15:38:35 +0000
+# Generation Time: 2014-02-26 14:13:13 +0000
 # ************************************************************
 
 
@@ -33,25 +33,6 @@ CREATE TABLE `as_seen_on_logo` (
   `is_online` int(11) DEFAULT '1',
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table best_video_template
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `best_video_template`;
-
-CREATE TABLE `best_video_template` (
-  `header` text,
-  `body_winner` text,
-  `footer` text,
-  `id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL DEFAULT '0',
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`,`cat_id`),
-  KEY `best_video_template_FK_1` (`cat_id`),
-  CONSTRAINT `best_video_template_FK_1` FOREIGN KEY (`cat_id`) REFERENCES `catalogue` (`cat_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -537,6 +518,7 @@ CREATE TABLE `feedback_template` (
   `subject` varchar(255) DEFAULT NULL,
   `body` text,
   `footer` text,
+  `tags` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -874,6 +856,7 @@ CREATE TABLE `member` (
   `last_payment_state` varchar(50) DEFAULT NULL,
   `catalog_id` int(11) NOT NULL,
   `age` int(11) DEFAULT NULL,
+  `hide_visits` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
@@ -1027,6 +1010,7 @@ CREATE TABLE `member_notification` (
   `member_id` int(11) NOT NULL,
   `profile_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
   `sent_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1224,7 +1208,6 @@ DROP TABLE IF EXISTS `message`;
 
 CREATE TABLE `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject` text,
   `is_reviewed` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `sender_id` int(11) DEFAULT NULL,
@@ -1463,7 +1446,7 @@ LOCK TABLES `schema_info` WRITE;
 
 INSERT INTO `schema_info` (`version`)
 VALUES
-	(86);
+	(94);
 
 /*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2114,7 +2097,6 @@ DROP TABLE IF EXISTS `thread`;
 
 CREATE TABLE `thread` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject` varchar(255) DEFAULT NULL,
   `snippet` text,
   `snippet_member_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,

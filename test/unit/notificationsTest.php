@@ -18,7 +18,7 @@ $member1->save();
 $member2->save();
 
 $thread = new Thread();
-$thread->setSubject(RandomGenerator::getSentence());
+$thread->setSnippet(RandomGenerator::getSentence());
 
 $message = new Message();
 $message->setThread($thread);
