@@ -45,4 +45,16 @@ class MemberSubscription extends BaseMemberSubscription
     {
         return ($this->getGiftBy()) ? MemberPeer::retrieveByPK($this->getGiftBy()) : null;
     }
+
+    public function getUnsubscribeUrl()
+    {
+        $details = $this->getDetails();
+        $business = sfConfig::get('app_paypal_business');
+
+        if (isset($details['business'])) {
+            $business = $details['business'];
+        }
+
+        return sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode($business);
+    }
 }

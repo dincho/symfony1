@@ -12,7 +12,7 @@
           $current_member_subscription->getStatus() != 'canceled' &&
           $current_member_subscription->getLastCompletedPayment()->getPaymentProcessor() == 'paypal' ): ?>
 
-<?php $cancel_url = sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')); ?>
+<?php $cancel_url = $current_member_subscription->getUnsubscribeUrl(); ?>
 <?php echo __('Delete account - you have active subscription', array('%SUBSCRIPTION_CANCEL_URL%' => $cancel_url)); ?>
 
 

@@ -196,9 +196,10 @@ prod:
       publickey:            "6Lf6SeYSAAAAAN8TMLGTLNf7RTkl4M6vFqjfqdZi"
       privatekey:           "6Lf6SeYSAAAAACiIPVAeU1-7NmT_HOACgC06PKdM"
   paypal:
-    business:             futurise@gmail.com
+    old_business:         futurise@gmail.com
+    business:             administrator@inventiss.com
     url:                  https://www.paypal.com/cgi-bin/webscr
-    cert_id:              D42ZPBNWRC4MG
+    cert_id:              4B2GLWFNGXRAL
     notify_url:           http://PolishDate.com/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/polishdate-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/polishdate-prvkey.pem

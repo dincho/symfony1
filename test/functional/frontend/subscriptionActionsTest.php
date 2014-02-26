@@ -36,3 +36,44 @@ $b
     ->responseContains('Subscribe With PayPal')
     ->responseContains('Pay with DotPay')
 ;
+
+/**
+ * Testing after payment related pages
+ */
+
+$subscription = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatalogId(
+    SubscriptionPeer::VIP,
+    $member->getCatalogId()
+);
+
+$memberSubscription = MemberSubscriptionPeer::getOrCreatePendingSubscription(
+    $member, $subscription
+);
+
+$memberPayment = new MemberPayment();
+$memberPayment->setMemberSubscriptionId($memberSubscription->getId());
+$memberPayment->setMemberId($memberSubscription->getMemberId());
+$memberPayment->setPaymentType('subscription');
+$memberPayment->setPaymentProcessor('paypal');
+$memberPayment->setStatus('Completed');
+$memberPayment->setDetails(array('business' => 'some@business.com'));
+$memberPayment->save();
+
+$memberPayment->applyToSubscription();
+
+$b
+    //subscription page
+    ->get('/subscription/manage')
+    ->isStatusCode(200)
+    ->isRequestParameter('module', 'subscription')
+    ->isRequestParameter('action', 'manage')
+    ->responseContains('Manage subscription - paypal')
+    ->responseContains('Unsubscribe')
+
+    //payment page
+    ->get('/subscription/cancelToUpgrade')
+    ->isStatusCode(200)
+    ->isRequestParameter('module', 'subscription')
+    ->isRequestParameter('action', 'cancelToUpgrade')
+    ->responseContains('Unsubscribe')
+;

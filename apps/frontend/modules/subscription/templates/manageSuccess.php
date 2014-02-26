@@ -20,9 +20,7 @@
                                                                 '%NEXT_PAYMENT_DATE%' => format_date($member_subscription->getEotAt(null), $date_format),
                                                                 '%NEXT_PAYMENT_AMOUNT%' => $next_payment_amount)); ?>
                                                                 
-            <?php echo button_to(__('Unsubscribe'), sfConfig::get('app_paypal_url') . '?cmd=_subscr-find&alias=' . urlencode(sfConfig::get('app_paypal_business')), 
-                                    array('popup' => true, 'class' => 'button')) ?>
-                                    
+            <?php echo button_to(__('Unsubscribe'), $member_subscription->getUnsubscribeUrl(), array('popup' => true, 'class' => 'button')) ?>
         <?php elseif( $last_payment->getPaymentProcessor() == 'zong' ): ?>
             <?php echo __('Manage subscription - zong', array('%SUBSCRIPTION_TYPE%' => $type,
                                                               '%EOT_DATE%' => format_date($member_subscription->getExtendedEOT(), $date_format))); ?>
