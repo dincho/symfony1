@@ -24,9 +24,9 @@
 <br class="clear" />
 
 <div class="upload_photos">
-    <span class="fileinput-button button"><?php echo $upload_button_title; ?>
+    <button class="fileinput-button button"><?php echo $upload_button_title; ?>
         <input id="btn_upload_<?php echo $id; ?>" type="file" name="Filedata" data-url="<?php echo $upload_url; ?>" multiple/>
-    </span>
+    </button>
 </div>
 
 <script type="text/javascript">
@@ -34,6 +34,7 @@
         var block_id = '<?php echo $id; ?>';
         var generalErrorMsg = '<?php echo __('The file upload was attempted but the server failed to handle it'); ?>';
         var maxSizeErrorMsg = '<?php echo __('Max image size is 3MB'); ?>';
+        var typeErrorMsg = '<?php echo __('Please select correct file type'); ?>';
 
         initFileUploads(block_id);
 
@@ -44,6 +45,10 @@
                 if (data.files[0].size > 3145728) {
                     $('#msg_container').append('<div id="msgs"><p class="msg_error" id="msg_error_Filedata">' + maxSizeErrorMsg + '</p></div>');
                     messagebar_message(maxSizeErrorMsg, true);
+                }
+                if (!/(\.|\/)(gif|jpe?g|png)$/i.test(data.files[0].name)){
+                    $('#msg_container').append('<div id="msgs"><p class="msg_error" id="msg_error_Filedata">' + typeErrorMsg + '</p></div>');
+                    messagebar_message(typeErrorMsg, true);
                 }
             })
             .on('fileuploadfail', function () {

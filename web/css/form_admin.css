@@ -385,12 +385,6 @@ input.field_error, select.field_error, textarea.field_error {
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-.fileinput-button {
-    border: 1px solid #9DB2C7;
-    margin-right: 2px;
-    background-color: #EFEFEF;
-    padding: 5px;
-}
 
 .fileinput-button {
     position: relative;

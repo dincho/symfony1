@@ -24,9 +24,9 @@
 <br class="clear" />
 
 <div class="upload_photos">
-    <span class="fileinput-button button"><?php echo $upload_button_title; ?>
+    <button class="fileinput-button"><?php echo $upload_button_title; ?>
         <input id="btn_upload_<?php echo $id; ?>" type="file" name="Filedata" data-url="<?php echo $upload_url; ?>" multiple/>
-    </span>
+    </button>
 </div>
 
 <script type="text/javascript">

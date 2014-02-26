@@ -3544,6 +3544,7 @@ ul.rating li.five a:hover {
     overflow: hidden;
     display: inline-block;
     height: auto;
+    margin-left: 6px;
 }
 
 .fileinput-button input {
