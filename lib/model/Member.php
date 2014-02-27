@@ -164,6 +164,16 @@ class Member extends BaseMember
             ) {
                 Events::triggerWelcomeApproved($this);
             }
+            if ($StatusId == MemberStatusPeer::FV_REQUIRED
+                && $this->getMemberStatusId() != MemberStatusPeer::FV_REQUIRED
+            ) {
+                Events::triggerPhotoVerificationRequired($this);
+                $note = new MemberNote();
+                $note->setMember($this);
+                $note->setUserId($this->getUser()->getId());
+                $note->setText("PV Request sent");
+                $note->save();
+            }
             
             $old_status_id = $this->getMemberStatusId();
             if( $old_status_id == MemberStatusPeer::SUSPENDED || 
