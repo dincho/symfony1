@@ -79,11 +79,16 @@ class hotlistActions extends prActions
             $hotlist->save(null, !$undo);
             
             
-            if( $profile->getEmailNotifications() === 0 && 
-                ( !$member->getPrivateDating() || $member->hasOpenPrivacyFor($profile->getId()) )
-              )
-            {
-              Events::triggerAccountActivityHotlist($profile, $member);
+            if(!$member->getPrivateDating() || $member->hasOpenPrivacyFor($profile->getId())) {
+                if ($profile->getEmailNotifications() === 0) {
+                    Events::triggerAccountActivityHotlist($profile, $member);
+                }
+
+                MemberNotificationPeer::addNotification(
+                    $profile,
+                    $member,
+                    MemberNotificationPeer::HOTLIST
+                );
             }
                       
             $msg_ok = sfI18N::getInstance()->__('%USERNAME% has been added to your hotlist. <a href="%URL_FOR_HOTLIST%" class="sec_link">See your hot-list</a>', 
