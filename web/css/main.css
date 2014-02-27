@@ -282,10 +282,13 @@ p {
     margin: 0 auto;
     text-align: left;
     font-size: 11px;
-    min-height: 277px;
+    min-height: 377px;
     height: auto !important;
-    height: 277px;
     color: #d3d3d3;
+}
+
+.window #secondary_container {
+    min-height: 277px;
 }
 
 .millionaire_mark {
@@ -366,7 +369,6 @@ form fieldset br {
     text-align: left;
     min-height: 500px;
     height: auto !important;
-    height: 500px;
     width: 240px;
 }
 
@@ -744,7 +746,7 @@ form#sign_in fieldset a {
 
 #loader a {
     color: #7CAEE7;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 10px
 }
 
@@ -1094,7 +1096,7 @@ table.threaded_message .profile_photo {
 .new_message_notice {
     width: 140px;
     float: right;
-    clear:both;
+    clear: both;
     margin: 5px;
     padding-right: 7px;
 }
@@ -1788,9 +1790,9 @@ span.sec_link {
 
 .member .member_box .profile_info p {
     margin: 0;
-    padding: 0.5px 1px;
+    padding: 0 1px;
     color: #92897E;
-    height: 11px;
+    height: 12px;
 }
 
 .member .member_box .profile_info p.profile_location {
@@ -2090,7 +2092,7 @@ span.sec_link {
     height: 12px;
     display: block;
     float: right;
-    margin: 7px 12px 0 0px;
+    margin: 7px 12px 0 0;
     border: none;
 }
 
@@ -2390,6 +2392,7 @@ span.sec_link {
     padding: 0 0 7px 7px;
     margin: 0;
 }
+
 .msg_form fieldset.template {
     padding: 7px 7px 0 7px;
     margin: 0;
@@ -3023,7 +3026,7 @@ a.button:hover {
 }
 
 input[type=button], input[type=submit], button, .button {
-    height: 28px ;
+    height: 28px;
     width: auto !important;
     background: #73a7ff url(/images/button_bg.jpg) repeat-x top left;
     color: white;
@@ -3398,7 +3401,7 @@ ul.rating li.five a:hover {
     padding: 4px;
     text-align: center;
     opacity: 0.8;
-    filter: alpha(opacity:80);
+    filter: alpha(opacity=80);
     white-space: nowrap;
     color: #ff0000;
     font-size: 12px;
@@ -3523,9 +3526,4 @@ ul.rating li.five a:hover {
 
 #messages_group a {
     color: #7CAEE7;
-}
-
-a.cancel {
-    margin-top: 6px;
-    margin-left: 4px;
 }
