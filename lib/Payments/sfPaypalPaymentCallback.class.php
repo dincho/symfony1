@@ -19,8 +19,18 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
     
     protected function validate()
     {
-        if( $this->getParam('test_ipn') && !sfConfig::get('app_paypal_test') ) return false;
-        if( $this->getParam('receiver_email') != sfConfig::get('app_paypal_business') ) return false;
+        $businesses = array(
+            sfConfig::get('app_paypal_business'),
+            sfConfig::get('app_paypal_old_business')
+        );
+
+        if ($this->getParam('test_ipn') && !sfConfig::get('app_paypal_test')) {
+            return false;
+        }
+
+        if (!in_array($this->getParam('receiver_email'), $businesses)) {
+            return false;
+        }
         
         $params = array_merge(array('cmd' => '_notify-validate'), $this->getParams());
         $data = http_build_query($params, '', '&');

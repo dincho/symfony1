@@ -228,17 +228,17 @@ class subscriptionActions extends prActions
     
     public function executeCancelToUpgrade()
     {
-      $member_subscription = $this->getUser()->getProfile()->getCurrentMemberSubscription();
+      $this->member_subscription = $this->getUser()->getProfile()->getCurrentMemberSubscription();
       
       if( $this->getRequestParameter('cancelCurrent') )
       {
-        $member_subscription->setStatus('canceled');
-        $member_subscription->save();
+        $this->member_subscription->setStatus('canceled');
+        $this->member_subscription->save();
         
         $this->setFlash('msg_ok', 'Your subscription has been canceled, now you can upgrade it.');
         $this->redirect('subscription/payment?sid=' . $this->getRequestParameter('sid'));
       }
       
-      $this->last_payment = $member_subscription->getLastCompletedPayment();
+      $this->last_payment = $this->member_subscription->getLastCompletedPayment();
     }
 }
