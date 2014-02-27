@@ -78,7 +78,7 @@
     <?php echo __('Prices and avialable features subject to changes without notice. Please read <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> for details.') ?>
     <br /><br /><br />
         
-    <?php echo link_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'sec_link_small')) ?><br />
+    <?php echo button_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'button')) ?><br />
 </form>
 <br /><br /><br class="clear" />
 

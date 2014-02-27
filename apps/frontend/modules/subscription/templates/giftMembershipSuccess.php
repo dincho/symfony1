@@ -13,6 +13,7 @@
     <input type="radio" id="gift_type_membership" name="gift_type" value="membership" checked="checked" />
     <label for="gift_type_membership"><?php echo __('Gift Membership - 3 months full membership.') ?></label><br /><br /><br />
     
-    <?php echo link_to(__('Cancel and return to profile'), '@profile?username=' . $member->getUsername(), array('class' => 'sec_link_small')) ?><br />
+    <br />
     <?php echo submit_tag(__('Pay Now'), array('class' => 'button')) ?>
+    <?php echo button_to(__('Cancel and return to profile'), '@profile?username=' . $member->getUsername(), array('class' => 'button')) ?>
 </form>

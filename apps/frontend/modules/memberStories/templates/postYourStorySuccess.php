@@ -31,7 +31,7 @@
     </fieldset>
     <fieldset class="actions">
         <?php echo submit_tag(__('Submit'), array('class' => 'button')) ?>
-        <?php echo link_to(__('Cancel and go back to previous page'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=sec_link_small cancel') ?>
+        <?php echo button_to(__('Cancel and go back to previous page'), $sf_data->getRaw('sf_user')->getRefererUrl(), 'class=button') ?>
     </fieldset>
 </form>
 
