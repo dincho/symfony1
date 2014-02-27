@@ -4,7 +4,7 @@
 
 <form action="<?php echo url_for('search/selectCountries')?>" id="countries" name="countries_form" method="post">
     <?php echo submit_tag(__('Save'), array('class' => 'button')) ?>
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small cancel')) ?><br /><br /><br />
+    <?php echo link_to(__('Cancel'), $sf_user->getRefererUrl(), array('class' => 'button')) ?><br /><br /><br />
 
     <?php echo __('Select:'); ?>&nbsp;
     <?php echo link_to_function(__('All'), 'SC_select_all(document.forms.countries_form.elements["countries[]"], true)', array('class' => 'sec_link')) ?>&nbsp;
@@ -89,6 +89,6 @@
     <br class="clear" />
     <br/>
     <?php echo submit_tag(__('Save'), array('class' => 'button', 'style' => 'margin: 5px;')) ?>
-    <?php echo link_to(__('Cancel and return to search'), $sf_user->getRefererUrl(), array('class' => 'sec_link_small cancel')) ?>
+    <?php echo link_to(__('Cancel'), $sf_user->getRefererUrl(), array('class' => 'button')) ?>
 </form>
 

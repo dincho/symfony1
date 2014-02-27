@@ -38,4 +38,4 @@
 <?php echo __('Payment description - dotpay'); ?>
 
 <br />
-<?php echo link_to(__('Cancel and return to subscription'), 'subscription/index', array('class' => 'sec_link_small')) ?>
+<?php echo link_to(__('Cancel'), 'subscription/index', array('class' => 'button')) ?>
