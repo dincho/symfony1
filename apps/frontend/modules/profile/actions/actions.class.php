@@ -266,6 +266,11 @@ class profileActions extends prActions
     public function executeSignIn()
     {
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home', 'uri' => '@homepage'));
+
+        if ($this->getRequestParameter('layout') == 'window') {
+            sfConfig::set('sf_web_debug', false);
+            $this->setLayout('window');
+        }
         
         if ($this->getRequest()->getMethod() == sfRequest::POST && $this->hasRequestParameter('email') && $this->hasRequestParameter('password'))
         {
