@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Migrations between versions 094 and 094.
+ * Migrations between versions 094 and 095.
  */
-class Migration094 extends sfMigration
+class Migration095 extends sfMigration
 {
 
     /**
-     * Migrate the schema up, from 093 to 094.
+     * Migrate the schema up, from 094 to 095.
      */
     public function up()
     {
