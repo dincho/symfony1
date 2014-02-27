@@ -1252,7 +1252,7 @@ span {
     height: 15px;
 }
 
-#public_reg_form input[type=submit], #public_reg_form input[type=button] {
+#public_reg_form input[type=submit] {
     height: auto;
     padding: 6px 8px;
 }

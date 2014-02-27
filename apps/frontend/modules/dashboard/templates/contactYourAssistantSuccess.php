@@ -21,7 +21,7 @@
     
     <fieldset class="actions">
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
-        <?php echo button_to(__('Cancel'), 'dashboard/index', array('class' => 'button')) ?><br />
+        <?php echo link_to(__('Cancel'), 'dashboard/index', array('class' => 'button')) ?><br />
     </fieldset>
 </form>
 

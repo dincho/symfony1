@@ -76,7 +76,7 @@
     <fieldset>
         <br />
         <?php echo submit_tag(__('Save'), array('class' => 'button', 'id' => 'save_btn')) ?>
-        <?php echo button_to(__('Cancel and go to dashboard'), 'dashboard/index', array('class' => 'button')) ?>
+        <?php echo link_to(__('Cancel'), 'dashboard/index', array('class' => 'button')) ?>
     </fieldset>
 </form>
 

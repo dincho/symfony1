@@ -12,7 +12,7 @@
     <fieldset class="actions">
         <br />
         <?php echo submit_tag(__('Upgrade to Premium'), array('class' => 'button')); ?>
-        <?php echo link_to(__('Cancel and return to subscription'), 'subscription/index', array('class' => 'button')) ?>
+        <?php echo link_to(__('Cancel'), 'subscription/index', array('class' => 'button')) ?>
     </fieldset>
     
 </form>
