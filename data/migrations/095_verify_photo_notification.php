@@ -11,7 +11,7 @@ class Migration095 extends sfMigration
      */
     public function up()
     {
-        $this->loadSql(dirname(__FILE__).'/fixtures/094/094_verify_photo_notification_up.sql');
+        $this->loadSql(dirname(__FILE__).'/fixtures/095/095_verify_photo_notification_up.sql');
     }
 
     /**
@@ -19,6 +19,6 @@ class Migration095 extends sfMigration
      */
     public function down()
     {
-        $this->loadSql(dirname(__FILE__).'/fixtures/094/094_verify_photo_notification_down.sql');
+        $this->loadSql(dirname(__FILE__).'/fixtures/095/095_verify_photo_notification_down.sql');
     }
 }
