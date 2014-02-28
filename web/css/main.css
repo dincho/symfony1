@@ -3528,6 +3528,14 @@ ul.rating li.five a:hover {
     color: #7CAEE7;
 }
 
+.seen_on {
+    margin-left: 20px;
+    display: inline;
+}
+
+.seen_on img{
+    margin-top: 24px;
+}
 /*
  * jQuery File Upload Plugin CSS 1.3.0
  * https://github.com/blueimp/jQuery-File-Upload

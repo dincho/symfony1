@@ -1,10 +1,8 @@
 <?php if(count($asSeenOnLogos) > 0): ?>
-	<h1>As Seen On</h1>
-	<ul>
+	<?php echo __('As Seen On') ?>
 	<?php foreach ($asSeenOnLogos as $logo):?>
-		<li style="margin-right: 20px; display: inline;">
+		<span class="seen_on">
 		 <?php echo image_tag( '/uploads/images/AsSeenOn/'.$logo->getFile() ) ?>
-		</li> 
+		</span>
 	<?php endforeach;?>
-	</ul>
 <?php endif;?>
