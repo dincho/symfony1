@@ -667,3 +667,11 @@ div.member_flags table {
 .feedback {
     min-width: 1200px;
 }
+
+.multi_save {
+    margin-left: 12px;
+}
+
+.bottom_menu_content {
+    min-width: 700px;
+}
