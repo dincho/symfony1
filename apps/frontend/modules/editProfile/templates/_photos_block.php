@@ -30,35 +30,9 @@
 </div>
 
 <script type="text/javascript">
-    (function ($) {
-        var block_id = '<?php echo $id; ?>';
-        var generalErrorMsg = '<?php echo __('The file upload was attempted but the server failed to handle it'); ?>';
-        var maxSizeErrorMsg = '<?php echo __('Max image size is 3MB'); ?>';
-        var typeErrorMsg = '<?php echo __('Please select correct file type'); ?>';
-
-        initFileUploads(block_id);
-
-        // handle displaying of error messages
-        // TODO: proper error display
-        $('#btn_upload_' + block_id)
-            .on('fileuploadadd', function (e, data) {
-                if (data.files[0].size > 3145728) {
-                    $('#msg_container').append('<div id="msgs"><p class="msg_error" id="msg_error_Filedata">' + maxSizeErrorMsg + '</p></div>');
-                    messagebar_message(maxSizeErrorMsg, true);
-                }
-                if (!/(\.|\/)(gif|jpe?g|png)$/i.test(data.files[0].name)){
-                    $('#msg_container').append('<div id="msgs"><p class="msg_error" id="msg_error_Filedata">' + typeErrorMsg + '</p></div>');
-                    messagebar_message(typeErrorMsg, true);
-                }
-            })
-            .on('fileuploadfail', function () {
-                $('#msg_container').append('<div id="msgs"><p class="msg_error" id="msg_error_Filedata">' + generalErrorMsg + '</p></div>');
-                messagebar_message(generalErrorMsg, true);
-            })
-            .on('fileuploaddone', function (e, data) {
-                if (data.result.status === "failed") {
-                    $('#msg_container').append(data.result.messages);
-                }
-            });
-    })(jQuery);
+    initFileUploads('<?php echo $id; ?>', {
+        generalErrorMsg: '<?php echo __('The file upload was attempted but the server failed to handle it'); ?>',
+        maxSizeErrorMsg: '<?php echo __('Max image size is 3MB'); ?>',
+        typeErrorMsg: '<?php echo __('Please select correct file type'); ?>'
+    }, true);
 </script>

@@ -231,8 +231,9 @@ class BaseEditProfileActions extends prActions
         sfConfig::set('sf_web_debug', false);
         
         $this->getResponse()->setContentType('application/json');
-        $return = array('status' => 'failed', 'messages' => get_partial($this->getContentModule() . '/formErrors', array('show_message_bar' => true)));
-        return $this->renderText(json_encode($return));                
+        $errors = $this->getRequest()->getErrors();
+        $return = array('status' => 'failed', 'error' => array_shift($errors));
+        return $this->renderText(json_encode($return));
     }
 
 }

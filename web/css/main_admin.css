@@ -168,11 +168,11 @@ tr.selected {
     background: url('/images/tarrow.png') no-repeat center;
 }
 
-#messages {
+#messages, #msgs {
     margin: 10px 0;
 }
 
-#messages div {
+#messages div, #msgs div {
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 1em;

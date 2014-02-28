@@ -2,22 +2,15 @@ jQuery.noConflict();
 
 function moveElement(draggable, droparea, event)
 {
-    draggable_parent = draggable.parentNode;
-    if( draggable_parent ===  droparea ) return; //droped in the same parent
+    var draggable_parent = draggable.parentNode;
+    if( draggable_parent ===  droparea ) return; //dropped in the same parent
     
-    revert = false; //turn off revert effect, if everething goes OK
-
-    //hide msg contianer ( old errors )
-    new Effect.Fade('msg_container', { duration: 0.3,
-      queue: {scope:'_draggable', position:'end'}
-    });
-    
-    setTimeout( function() { $('msg_container').update(); $('msg_container').show(); }, 350);
+    clearMessages();
     
     draggable_parent.removeChild(draggable);
-    droparea_photo = $(droparea).down('.photo');
+    var droparea_photo = $(droparea).down('.photo');
     
-    if( droparea_photo ) //exchange elements possition
+    if( droparea_photo ) //exchange elements position
     {
         droparea.removeChild(droparea_photo);
         draggable_parent.appendChild(droparea_photo);
@@ -53,8 +46,8 @@ function reorder_photo_block(block)
    var containers = $(block).getElementsBySelector('.photo_container');
    var cnt = containers.length;
    
-   //re-order/fillin empty containers
-   for(i=0; i<cnt; i++)
+   //reorder/fill-in empty containers
+   for(var i=0; i<cnt; i++)
    {
        var photo = containers[i].down('.photo');
        if( photo !== undefined ) continue;
@@ -86,38 +79,54 @@ function reorder_photo_block(block)
 }
 
 
-function initFileUploads(block_id) {
+function initFileUploads(block_id, errors, messageBar) {
     (function ($) {
         var $block = $('#' + block_id);
+        var toClear = true;
+
         $('#btn_upload_' + block_id).fileupload({
             dataType: 'json',
             dropZone: $block,
             sequentialUploads: true,
-            add: function (e, data){
-                var accept = /(\.|\/)(gif|jpe?g|png)$/i;
-                if (accept.test(data.files[0].name) && data.files[0].size <= 3145728) {
-                    var container = $('.photo_container:not(:has(.photo)):not(:has(img))', $block)[0];
-                    $(container).html('<img src="/images/ajax-loader-bg-3D3D3D.gif"' +
-                        ' data-name="' + data.files[0].name + '"/>');
-                    data.submit();
+            add: function (e, data) {
+                if (toClear) {
+                    clearMessages();
+                    toClear = false;
                 }
+
+                if (data.files[0].size > 3145728) {
+                    addMessage(errors.maxSizeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                    return;
+                }
+                if (!/(\.|\/)(gif|jpe?g|png)$/i.test(data.files[0].name)) {
+                    addMessage(errors.typeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                    return;
+                }
+
+                var container = $('.photo_container:not(:has(.photo)):not(:has(img))', $block)[0];
+                $(container).html('<img src="/images/ajax-loader-bg-3D3D3D.gif"' +
+                    ' data-name="' + data.files[0].name + '"/>');
+                data.submit();
             },
             fail: function (e, data) {
                 var container = $('.photo_container:has(img[data-name="' +
                     data.files[0].name + '"])', $block)[0];
                 $(container).html(''); //clear the container ( loader image )
+                addMessage(errors.generalErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
             },
             done: function (e, data) {
                 var response = data.result;
                 var container = $('.photo_container:has(img[data-name="' +
                     data.files[0].name + '"])', $block)[0];
-
+                toClear = true;
+                
                 if (response.status === "success") {
                     $(container).html(response.data);
                     var photo = $(".photo", container);
                     photo.hide().fadeIn(1000);
                 } else {
                     $(container).html(''); //clear the container ( loader image )
+                    addMessage(data.result.error + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
                 }
             }
         });
