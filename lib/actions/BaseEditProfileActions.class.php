@@ -10,10 +10,11 @@ class BaseEditProfileActions extends prActions
     {
         $this->forward404Unless($this->member);
         
+        $this->getResponse()->addJavascript('/js/jquery.min.js', 'last');
+        $this->getResponse()->addJavascript('/js/fileupload/vendor/jquery.ui.widget.js', 'last');
+        $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
-        $this->getResponse()->addJavascript('swfupload/swfupload.js', 'last');
-        $this->getResponse()->addJavascript('swfupload/swfupload.swfobject.js', 'last');
-        $this->getResponse()->addJavascript('swfupload/handlers.js', 'last');
+        $this->getResponse()->addJavascript('messagebar', 'last');
         
         $this->public_photos = $this->member->getPublicMemberPhotos();
         $this->private_photos = $this->member->getPrivateMemberPhotos();
@@ -127,19 +128,12 @@ class BaseEditProfileActions extends prActions
         
         $member_photo = new MemberPhoto();
         $member_photo->setMember($this->member);
-        $exif_info = $member_photo->updateImageFromRequest('file', 'Filedata', true, $brandName = $domain);
+        $member_photo->updateImageFromRequest('file', 'Filedata', true, $brandName = $domain);
         $member_photo->setIsPrivate($is_private);
         $member_photo->setSortOrder(PHP_INT_MAX);
         $member_photo->save();
 
-        if( !($exif_info === false) )
-        {
-          $photo_exif_info = new PhotoExifInfo();
-          $photo_exif_info->setPhotoId($member_photo->getId());
-          $photo_exif_info->setExifInfo($exif_info);
-          $photo_exif_info->save();
-        }
-        sfContext::getInstance()->getLogger()->info('executeUploadPhoto - $photo_exif_info - '.$exif_info);
+        sfContext::getInstance()->getLogger()->info('executeUploadPhoto - ' . $member_photo->getImagePath('file'));
         
         $this->member->setLastPhotoUploadAt(time());
         $this->member->setReviewedById(null);
@@ -238,8 +232,9 @@ class BaseEditProfileActions extends prActions
         sfConfig::set('sf_web_debug', false);
         
         $this->getResponse()->setContentType('application/json');
-        $return = array('status' => 'failed', 'messages' => get_partial($this->getContentModule() . '/formErrors', array('show_message_bar' => true)));
-        return $this->renderText(json_encode($return));                
+        $errors = $this->getRequest()->getErrors();
+        $return = array('status' => 'failed', 'error' => array_shift($errors));
+        return $this->renderText(json_encode($return));
     }
 
 }

@@ -86,8 +86,6 @@ class sfPropelThumbnailsBehavior
   {
     $Request = sfContext::getInstance()->getRequest();
     
-    $photo_exif_info = false; 
-    
     if ($Request->getFileSize($ImageField))
     {
      
@@ -105,14 +103,6 @@ class sfPropelThumbnailsBehavior
         
         if(!($exif===false) && array_key_exists('IFD0', $exif) && array_key_exists('Orientation', $exif['IFD0']) )
         {
-          if (array_key_exists('MakerNote', $exif['EXIF'])) {
-              unset($exif['EXIF']['MakerNote']);
-          }
-          $exif = array_map(function ($value) {
-            return preg_replace('/(?>[\x00-\x1F]|\xC2[\x80-\x9F]|\xE2[\x80-\x8F]{2}|\xE2\x80[\xA4-\xA8]|\xE2\x81[\x9F-\xAF])/ui', '', $value);
-          }, $exif);
-
-          $photo_exif_info = serialize($exif);
           $ort = $exif['IFD0']['Orientation']; 
     
           $img = new sfImage($tmp_file, 'image/jpg');
@@ -143,7 +133,7 @@ class sfPropelThumbnailsBehavior
               break;
                      
               case 7: // horizontal flip + 90 rotate right
-                  $image->mirror();   
+                  $img->mirror();   
                   $img->rotate(-90);
               break;
                      
@@ -167,18 +157,13 @@ class sfPropelThumbnailsBehavior
       
       chmod($newFile, 0666);
             
-      //$Request->moveFile($ImageField, $newFile);
-
       //set the image field
       $class = get_class($object);
-      //if( is_null($column) ) $columnName = sfConfig::get('propel_behavior_thumbnails_'.$class.'_column', 'image');
       $method = 'set'.call_user_func(array($class.'Peer', 'translateFieldName'), $column, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME);
       call_user_func(array($object, $method), $FileName.$ext);
             
-      //$object->setImage($FileName.$ext);
       if( $CreateThumbnails ) $object->createThumbnails($column);
     }
-    return $photo_exif_info;
   }
   
   public function updateImageFromFile($object, $column = 'file', $ImagePath, $CreateThumbnails = true, $brandName = null)

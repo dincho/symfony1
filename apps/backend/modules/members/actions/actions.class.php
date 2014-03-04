@@ -428,9 +428,10 @@ class membersActions extends prActions
     
     public function executeEditPhotos()
     {
+        $this->getResponse()->addJavascript('/js/jquery.min.js', 'last');
+        $this->getResponse()->addJavascript('/js/fileupload/vendor/jquery.ui.widget.js', 'last');
+        $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
-        $this->getResponse()->addJavascript('swfupload/swfupload.js', 'last');
-        $this->getResponse()->addJavascript('swfupload/handlers.js', 'last');
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
         
         $this->public_photos = $this->member->getPublicMemberPhotos();

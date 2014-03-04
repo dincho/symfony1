@@ -1,7 +1,3 @@
-<?php use_helper('Javascript'); ?>
-                
-<?php echo javascript_include_tag('messagebar') ?>
-                
 <?php echo __('You may change your photos here') ?><br />
 <span><?php echo __('Make changes and click Save on the bottom of the page.') ?></span><br />
 <?php echo __('You may upload any size of photo - we will shrink it to 700x700 pixels maximum; your high quality will be preserved.') ?>
@@ -49,28 +45,6 @@
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
-
-<script type="text/javascript" charset="utf-8">
-Event.observe( 
-  window, 
-  'load', 
-  function() { 
-     if(/MSIE/.test( navigator.userAgent ))
-     {
-        var arr = document.cookie.split(';');
-        for(var i=0; i<arr.length; i++) {
-        	if (arr[i] == 'IsIe=1')
-        	{
-             document.cookie = 'IsIe=';
-        	   return;
-        	}
-        }
-        document.cookie = 'IsIe=1';
-        window.location.reload();
-     }
-  }
-);
-</script>
 
 <script type="text/javascript" charset="utf-8">
     var photo_rotate_url = '<?php echo url_for('editProfile/rotatePhoto?member_id=' . $member->getId()); ?>';

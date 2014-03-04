@@ -4,5 +4,5 @@ default:
 editSelfDescriptionSuccess:
     javascripts: [/sf/prototype/js/prototype]
 editPhotosSuccess:
-    javascripts: [/cropper/lib/prototype.js, "/cropper/lib/scriptaculous.js?load=builder,dragdrop", /cropper/cropper.js]
+    javascripts: [/cropper/lib/prototype.js, "/cropper/lib/scriptaculous.js?load=builder,dragdrop", /cropper/cropper.js, messagebar]
     stylesheets: [/cropper/cropper.css: { position: last } ]
