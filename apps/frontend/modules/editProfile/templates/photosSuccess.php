@@ -1,7 +1,3 @@
-<?php use_helper('Javascript'); ?>
-                
-<?php echo javascript_include_tag('messagebar') ?>
-                
 <?php echo __('You may change your photos here') ?><br />
 <span><?php echo __('Make changes and click Save on the bottom of the page.') ?></span><br />
 <?php echo __('You may upload any size of photo - we will shrink it to 700x700 pixels maximum; your high quality will be preserved.') ?>

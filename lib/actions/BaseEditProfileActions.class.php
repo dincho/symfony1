@@ -14,6 +14,7 @@ class BaseEditProfileActions extends prActions
         $this->getResponse()->addJavascript('/js/fileupload/vendor/jquery.ui.widget.js', 'last');
         $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
+        $this->getResponse()->addJavascript('messagebar', 'last');
         
         $this->public_photos = $this->member->getPublicMemberPhotos();
         $this->private_photos = $this->member->getPrivateMemberPhotos();
