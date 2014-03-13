@@ -1,3 +1,5 @@
+<?php use_helper('Javascript'); ?>
+
 <div class="photos" id="<?php echo $id; ?>">
     <?php if( $id == 'public_photos' ): ?>
         <label id="main_photo">Main Photo</label><br />
@@ -24,9 +26,9 @@
 <br class="clear" />
 
 <div class="upload_photos">
-    <button class="fileinput-button"><?php echo $upload_button_title; ?>
+    <a class="fileinput-button button"><?php echo $upload_button_title; ?>
         <input id="btn_upload_<?php echo $id; ?>" type="file" name="Filedata" data-url="<?php echo $upload_url; ?>" multiple/>
-    </button>
+    </a>
 </div>
 
 <script type="text/javascript">
