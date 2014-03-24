@@ -83,5 +83,5 @@
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'content/profilepages?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
-    <?php include_component('content', 'bottomMenu', array('url' => 'content/profilepage', 'showMultiMenu' => true))?>
+    <?php include_component('content', 'bottomMenu', array('url' => 'content/profilepage', 'multiCatalogs' => true))?>
 </form>

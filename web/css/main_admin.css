@@ -672,6 +672,10 @@ div.member_flags table {
     margin-left: 12px;
 }
 
-.bottom_menu_content {
+.bottom_menu {
     min-width: 700px;
+}
+
+#affected_catalogs {
+    width: 300px;
 }

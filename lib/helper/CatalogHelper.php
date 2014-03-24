@@ -1,4 +1,5 @@
 <?php
+use_helper('Object');
 
 function select_catalog2url($catalogs, $url, $selected_cat_id = null, $options = array())
 {
@@ -23,18 +24,10 @@ function select_catalog2url($catalogs, $url, $selected_cat_id = null, $options =
     return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options));
 }
 
-function options4select_catalog($selected_cat_id = null)
+function catalogOptions($selected_cat_id = null)
 {
-    $options = array();
-    $catalogs = CataloguePeer::getAll();
-
-    foreach ($catalogs as $catalog)
-    {
-        if ($catalog->getCatId() != $selected_cat_id)
-        {
-            $options[$catalog->getCatId()] = $catalog->__toString();
-        }
-    }
-    // why does objects_for_select() not work ???
-    return  options_for_select($options, $selected_cat_id);
+    $c = new Criteria();
+    $c->add(CataloguePeer::CAT_ID, $selected_cat_id, Criteria::NOT_EQUAL);
+    $catalogs = CataloguePeer::getAll($c);
+    return  objects_for_select($catalogs, 'getCatId', '__toString', $selected_cat_id);
 }
