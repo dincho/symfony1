@@ -3,10 +3,10 @@
 /**
  * Migrations between versions 097 and 098.
  */
-class Migration098 extends sfMigration
+class Migration099 extends sfMigration
 {
     /**
-     * Migrate up to version 098.
+     * Migrate up to version 099.
      */
     public function up()
     {
@@ -14,7 +14,7 @@ class Migration098 extends sfMigration
     }
 
     /**
-     * Migrate down to version 097.
+     * Migrate down to version 098.
      */
     public function down()
     {

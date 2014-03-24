@@ -1,7 +1,7 @@
 <?php if(count($asSeenOnLogos) > 0): ?>
 	<?php echo __('As Seen On') ?>
 	<?php foreach ($asSeenOnLogos as $logo):?>
-		<span class="seen_on">
+		<span>
 		 <?php echo image_tag( '/uploads/images/AsSeenOn/'.$logo->getFile() ) ?>
 		</span>
 	<?php endforeach;?>

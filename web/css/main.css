@@ -3529,6 +3529,13 @@ ul.rating li.five a:hover {
 }
 
 .seen_on {
+    width: 782px;
+    font-size: 22px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.seen_on span {
     margin-left: 20px;
     display: inline;
 }
