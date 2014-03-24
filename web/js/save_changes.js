@@ -4,12 +4,13 @@ var hash = new Array();
 function disable_button(button)
 {
  $(button).className = 'button_disabled';
- $(button).onclick = function(){return false;};
+ $(button).onclick = function(){this.disabled=true;return false;};
 }
 
 function enable_button(button)
 {
  $(button).className = 'button';
+ $(button).disabled=false;
  $(button).onclick = null;
 }
 
