@@ -3016,6 +3016,22 @@ button:hover, .button:hover {
     display: inline-block;
 }
 
+.button.cancel {
+    background: #292929 url(/images/button_bg_cancel.jpg) repeat-x top left;
+    color: #A0A0A0;
+    border: 1px solid #3c3c3c; /* top-left */
+    border-right-color: #171717;
+    border-bottom-color: #171717;
+}
+
+.button.cancel:hover {
+    background: #323232;
+    color: #a8a8a8;
+    border: 1px solid #454545; /* top-left */
+    border-right-color: #1a1a1a;
+    border-bottom-color: #1a1a1a;
+}
+
 input.button_save_and_cont {
     width: 120px !important;
     margin-top: 22px !important;

@@ -13,7 +13,7 @@
             <?php echo textarea_tag('comment', null, array('rows' => '4', 'cols' => '65', 'maxlength'=>'255', 'class' => 'text_area')) ?>
             <br />
             <?php echo submit_tag(__('Submit'), array('class' => 'button' )); ?>
-            <?php echo button_to_function(__('Cancel'), 'parent.Windows.close("flag_profile_window");', array('class' => 'button')); ?>
+            <?php echo button_to_function(__('Cancel'), 'parent.Windows.close("flag_profile_window");', array('class' => 'button cancel')); ?>
         </fieldset>
     </div>
     <br class="clear" />

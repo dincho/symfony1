@@ -15,5 +15,5 @@
     
     <br />
     <?php echo submit_tag(__('Pay Now'), array('class' => 'button')) ?>
-    <?php echo link_to(__('Cancel'), '@profile?username=' . $member->getUsername(), array('class' => 'button')) ?>
+    <?php echo link_to(__('Cancel'), '@profile?username=' . $member->getUsername(), array('class' => 'button cancel')) ?>
 </form>
