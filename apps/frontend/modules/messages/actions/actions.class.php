@@ -335,6 +335,8 @@ class messagesActions extends prActions
     public function executeDelete()
     {
         $marked = $this->getRequestParameter('selected', array());
+        $backTo = $this->getRequestParameter('backto', 'index');
+
         if (!empty($marked)) {
             //inbox
             $c = new Criteria();
@@ -360,7 +362,7 @@ class messagesActions extends prActions
         }
 
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
-        $this->redirect('messages/index');
+        $this->redirect('messages/' . $backTo);
     }
 
     public function executeDeleteDraft()
@@ -375,7 +377,7 @@ class messagesActions extends prActions
         }
 
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
-        $this->redirect('messages/index');
+        $this->redirect('messages/drafts');
     }
 
     public function executeDiscard()

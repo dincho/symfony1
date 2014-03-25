@@ -5,7 +5,7 @@
 
 <?php if($pager->getNbResults() > 0): ?>
     <?php if($sf_request->hasParameter('confirm_delete')): ?>
-        <?php $action = 'messages/delete' ?>
+        <?php $action = 'messages/delete?backto=index' ?>
     <?php else: ?>
         <?php $action = 'messages/index?confirm_delete=1&form_id=messages_form'; ?>
     <?php endif; ?>
@@ -16,7 +16,7 @@
         <?php foreach ($pager->getResults() as $thread): ?>
             <?php $class = ''; ?>
             <?php $is_selected = in_array($thread->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-            <?php if( !$thread->isRead() ) $class .= 'bold' ?>
+            <?php if( !$thread->isRead() ) $class .= 'bold ' ?>
             <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?>
                 <?php $class .= 'delete'; ?>
             <?php endif; ?>
