@@ -82,18 +82,15 @@ function reorder_photo_block(block)
 function initFileUploads(block_id, errors, messageBar) {
     (function ($) {
         var $block = $('#' + block_id);
-        var toClear = true;
 
         $('#btn_upload_' + block_id).fileupload({
             dataType: 'json',
             dropZone: $block,
             sequentialUploads: true,
+            change: function () {
+                clearMessages();
+            },
             add: function (e, data) {
-                if (toClear) {
-                    clearMessages();
-                    toClear = false;
-                }
-
                 if (data.files[0].size > 3145728) {
                     addMessage(errors.maxSizeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
                     return;
@@ -118,8 +115,7 @@ function initFileUploads(block_id, errors, messageBar) {
                 var response = data.result;
                 var container = $('.photo_container:has(img[data-name="' +
                     data.files[0].name + '"])', $block)[0];
-                toClear = true;
-                
+
                 if (response.status === "success") {
                     $(container).html(response.data);
                     var photo = $(".photo", container);
