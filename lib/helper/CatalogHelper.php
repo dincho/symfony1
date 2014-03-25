@@ -1,5 +1,4 @@
 <?php
-use_helper('Object');
 
 function select_catalog2url($catalogs, $url, $selected_cat_id = null, $options = array())
 {
@@ -22,12 +21,4 @@ function select_catalog2url($catalogs, $url, $selected_cat_id = null, $options =
     $name = $id = 'select_catalog2url';
 
     return content_tag('select', $option_tags, array_merge(array('name' => $name, 'id' => get_id_from_name($id)), $options));
-}
-
-function catalogOptions($selected_cat_id = null)
-{
-    $c = new Criteria();
-    $c->add(CataloguePeer::CAT_ID, $selected_cat_id, Criteria::NOT_EQUAL);
-    $catalogs = CataloguePeer::getAll($c);
-    return  objects_for_select($catalogs, 'getCatId', '__toString', $selected_cat_id);
 }
