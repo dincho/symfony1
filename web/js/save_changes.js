@@ -5,7 +5,6 @@ function disable_button(button)
 {
  $(button).className = 'button_disabled';
  $(button).disabled=true;
- $(button).onclick = function(){return false;};
 }
 
 function enable_button(button)
