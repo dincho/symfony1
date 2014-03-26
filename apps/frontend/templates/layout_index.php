@@ -31,7 +31,9 @@
     <div id="footer">
         <?php include_partial('content/footer_links'); ?>
         <?php include_partial('content/footer_copyright');?>
-        <?php include_component('content','asSeenOn');?>
+        <div class="seen_on">
+            <?php include_component('content','asSeenOn');?>
+        </div>
     </div>
     <div id="footer_articles">
         <ul>
