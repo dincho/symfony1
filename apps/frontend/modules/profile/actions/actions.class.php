@@ -138,7 +138,7 @@ class profileActions extends prActions
                 if( !$error )
                 {
                     if ($this->member->getMainPhotoId()
-                        && $this->getUser()->getProfile()->getSubscriptionId() != SubscriptionPeer::VIP
+                        && $this->getUser()->getProfile()->isFree()
                         && !$this->getUser()->getProfile()->getMainPhotoId()
                     ) {
                         $this->setFlash('msg_error', 'To see profile with photo, you have to have photo on your profile. Simple and fair.');
