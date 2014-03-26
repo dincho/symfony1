@@ -23,6 +23,5 @@ web/*.php
 vendor/*
 generated-schema-transformed.xml
 generated-sfSettingsPlugin-schema-transformed.xml
-composer.lock
 apps/frontend/config/i18n.yml
 .idea/
