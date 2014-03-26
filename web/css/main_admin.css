@@ -667,3 +667,15 @@ div.member_flags table {
 .feedback {
     min-width: 1200px;
 }
+
+.multi_save {
+    margin-left: 12px;
+}
+
+.bottom_menu {
+    min-width: 700px;
+}
+
+#affected_catalogs {
+    width: 300px;
+}

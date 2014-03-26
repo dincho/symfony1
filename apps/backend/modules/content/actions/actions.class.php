@@ -84,9 +84,23 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            $catalogs = array();
+            $catIds = $this->getRequestParameter('affected_catalogs', array());
+
+            if (!empty($catIds)) {
+                $c = new Criteria();
+                $c->add(CataloguePeer::CAT_ID, $catIds, Criteria::IN);
+                $catalogs = CataloguePeer::getAll($c);
+            }
+
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/profilepages?cat_id=' . $this->catalog->getCatId());
         }
