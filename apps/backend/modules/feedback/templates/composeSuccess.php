@@ -70,7 +70,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Filter templates:<br/>
+                                Filter templates by tag:<br/>
                             </th>
                         </tr>
                     </thead>
@@ -79,7 +79,7 @@
                             <td>
                                 <?php echo select_tag( 'defined_tags', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), null,
                                     array(
-                                        'include_blank' => true,
+                                        'include_custom' => '--- All templates ---',
                                     )),
                                     array(
                                         'size' => 5,
