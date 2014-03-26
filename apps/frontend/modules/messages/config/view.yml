@@ -1,5 +1,7 @@
 indexSuccess:
   javascripts:    [messages]
+sentSuccess:
+  javascripts:    [messages]
 sendSuccess:
   javascripts:    [send_message_handlers]
 threadSuccess:
