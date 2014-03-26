@@ -1118,20 +1118,18 @@ class Member extends BaseMember
     public function save($con = null)
     {
         $updateIndex = false;
-        if ($this->getMemberStatusId() == MemberStatusPeer::ACTIVE
-            && ($this->isColumnModified(MemberPeer::CATALOG_ID)
-                || $this->isColumnModified(MemberPeer::MEMBER_STATUS_ID)
-                || $this->isColumnModified(MemberPeer::SUBSCRIPTION_ID)
-                || $this->isColumnModified(MemberPeer::SEX)
-                || $this->isColumnModified(MemberPeer::LOOKING_FOR)
-                || $this->isColumnModified(MemberPeer::COUNTRY)
-                || $this->isColumnModified(MemberPeer::CITY_ID)
-                || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
-                || $this->isColumnModified(MemberPeer::PURPOSE)
-                || $this->isColumnModified(MemberPeer::LAST_LOGIN)
-                || $this->isColumnModified(MemberPeer::ESSAY_HEADLINE)
-                || $this->isColumnModified(MemberPeer::ESSAY_INTRODUCTION)
-            )
+        if ($this->isColumnModified(MemberPeer::CATALOG_ID)
+            || $this->isColumnModified(MemberPeer::MEMBER_STATUS_ID)
+            || $this->isColumnModified(MemberPeer::SUBSCRIPTION_ID)
+            || $this->isColumnModified(MemberPeer::SEX)
+            || $this->isColumnModified(MemberPeer::LOOKING_FOR)
+            || $this->isColumnModified(MemberPeer::COUNTRY)
+            || $this->isColumnModified(MemberPeer::CITY_ID)
+            || $this->isColumnModified(MemberPeer::MAIN_PHOTO_ID)
+            || $this->isColumnModified(MemberPeer::PURPOSE)
+            || $this->isColumnModified(MemberPeer::LAST_LOGIN)
+            || $this->isColumnModified(MemberPeer::ESSAY_HEADLINE)
+            || $this->isColumnModified(MemberPeer::ESSAY_INTRODUCTION)
         ) {
             $updateIndex = true;
         }
