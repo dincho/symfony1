@@ -77,7 +77,7 @@ class messagesActions extends prActions
     {
         $this->getUser()->getBC()
              ->removeLast()->removeLast()
-             ->add(array('name' => __('Sent Messages')));
+             ->add(array('name' => __('Sent Headline')));
 
         $c = new Criteria();
         $c->add(MessagePeer::SENDER_ID, $this->getUser()->getId());
