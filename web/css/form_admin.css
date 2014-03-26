@@ -304,7 +304,7 @@ input.field_error, select.field_error, textarea.field_error {
 }
 
 #search_filter fieldset {
-    float: left;
+    display: inline;
 }
 
 #search_filter fieldset.search_fields input, #search_filter fieldset.search_fields select {
@@ -324,11 +324,16 @@ input.field_error, select.field_error, textarea.field_error {
     width: 150px;
     text-align: left;
     color: black;
-    margin:0px auto;    
+    margin:0 auto;    
 }
 
 #search_filter label {
     margin: 0;
+    float: none;
+}
+
+#search_filter br {
+    display: none;
 }
 
 .filter_right {
