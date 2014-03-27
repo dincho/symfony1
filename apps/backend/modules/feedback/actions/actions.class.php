@@ -86,7 +86,6 @@ class feedbackActions extends sfActions
         $selectedMembers = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers');
 
         $this->selectTemplate();
-
         $this->mail_options = $mail_options;
         $this->selectedMembers = implode(', ', $selectedMembers);
         $this->feedback_templates = FeedbackTemplatePeer::doSelect(new Criteria());
@@ -118,6 +117,7 @@ class feedbackActions extends sfActions
         $templateId = $this->getRequestParameter('template_id');
         if ($templateId) {
             $this->template = FeedbackTemplatePeer::retrieveByPK($templateId);
+            $this->getRequest()->setParameter('body', $this->template->getBody());
         }
         
         if (!isset($this->template)) {
@@ -150,18 +150,11 @@ class feedbackActions extends sfActions
     {
         $mail = FeedbackPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($mail);
-        
-        $this->selectTemplate();
+
         $request = $this->getRequest();
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
-        $request->setParameter('template_id', $this->template->getId());
-        
-        if ($this->template) {
-            $request->setParameter('body', $this->template->getBody());
-        } else {
-            $request->setParameter('body', $mail->getBodyForReply());
-        }
+        $request->setParameter('body', $mail->getBodyForReply());
 
         $this->forward($this->getModuleName(), 'compose');
     }
