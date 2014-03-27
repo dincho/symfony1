@@ -1,4 +1,4 @@
-<?php echo __('Member stories instructions', array('%URL_FOR_POST_YOUR_STORY%' => url_for('memberStories/postYourStory'))); ?>
+<?php echo __('Member stories instructions'); ?>
 
 <br /><br />
 <form action="http://www.google.com/cse" id="cse-search-box" target="_blank" style="float: right;">
