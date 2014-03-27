@@ -133,8 +133,10 @@ class messagesActions extends prActions
             $selected = $this->getRequestParameter('selected', array());
 
             if (empty($selected)) {
+                $backTo = $this->getRequestParameter('backto', 'index');
+                $page = $this->getRequestParameter('page');
                 $this->setFlash('msg_error', 'You must select at least one message to delete', false);
-                $this->redirect('messages/index');
+                $this->redirect('messages/' . $backTo . '?page=' . $page);
             }
         }
 
@@ -336,6 +338,7 @@ class messagesActions extends prActions
     {
         $marked = $this->getRequestParameter('selected', array());
         $backTo = $this->getRequestParameter('backto', 'index');
+        $page = $this->getRequestParameter('page');
 
         if (!empty($marked)) {
             //inbox
@@ -362,7 +365,7 @@ class messagesActions extends prActions
         }
 
         $this->setFlash('msg_ok', 'Selected message(s) has been deleted.');
-        $this->redirect('messages/' . $backTo);
+        $this->redirect('messages/' . $backTo . '?page=' . $page);
     }
 
     public function executeDeleteDraft()

@@ -5,9 +5,9 @@
 
 <?php if($pager->getNbResults() > 0): ?>
     <?php if($sf_request->hasParameter('confirm_delete')): ?>
-        <?php $action = 'messages/delete?backto=sent' ?>
+        <?php $action = 'messages/delete?backto=sent&page=' . $sf_request->getParameter('page') ?>
         <?php else: ?>
-        <?php $action = 'messages/sent?confirm_delete=1&form_id=messages_form_sent&backto=sent'; ?>
+        <?php $action = 'messages/sent?confirm_delete=1&form_id=messages_form_sent&backto=sent&page=' . $sf_request->getParameter('page'); ?>
         <?php endif; ?>
 
     <?php echo form_tag($action, array('id' => 'messages_form_sent', 'name' => 'messages_form_sent')) ?>
