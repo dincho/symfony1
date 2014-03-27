@@ -1,3 +1,0 @@
-var RecaptchaOptions = {
-  theme : 'blackglass'
-};

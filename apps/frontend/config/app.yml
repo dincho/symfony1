@@ -1,23 +1,4 @@
 all:
-  recaptcha:
-    pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
-    pl_pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
-    devel_pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
-    branch_pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
-    ec_pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"
-    mm_pd_dincho_bonex_us:
-      publickey:            "6LdbDLwSAAAAAEp3Q-HDwVHekC1cvIWMxS7d4tgS" #global-key.bonex.us
-      privatekey:           "6LdbDLwSAAAAAONCW9MOZZAT0QhzLcU3YpChG8fW"      
   sf_google_analytics_plugin:
     enabled:                no
   sfSimpleGoogleSitemap:
@@ -179,28 +160,6 @@ prod:
     www_cafesayang_com:       AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
     www_datingbistro_com:     AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
     www_datingonhudson_com:   AIzaSyC6oAx7kFEdlN6VAytEeFLDGHsVaflr85E
-  recaptcha:
-    www_polishdate_com:
-      publickey:            "6LdYDLwSAAAAAPx-nYdDnatkNHMO5z5SEY_zS_xj"
-      privatekey:           "6LdYDLwSAAAAAJimpEAAo5FJH47QSfHB6XpDfZRt"
-    www_szukammilionera_com:
-      publickey:            "6LepC7wSAAAAAOhZJiIVZmqC-wyANP63_5jEwyzM"
-      privatekey:           "6LepC7wSAAAAAE5UWS9O2KZHy8Q3REx9ICvid2rq"
-    www_meskamilosc_pl:
-      publickey:            "6LeQ8bwSAAAAAKFI1hfhketTw3fK2GuJ9ZQvHlmN"
-      privatekey:           "6LeQ8bwSAAAAADjGUNiAG9IAsnWQmgpwWjnTiP-D"
-    www_expatcalling_com:
-      publickey:            "6Lf26bwSAAAAAEDae5UVuOwzRSmx7rJZpIizO0i2"
-      privatekey:           "6Lf26bwSAAAAALF-dabveoS-4vpq8F8pZq0j0Zz6"
-    www_cafesayang_com:
-      publickey:            "6LdaA-MSAAAAAFz99ljfuKZWWIMK4Rc3UH1nLt40"
-      privatekey:           "6LdaA-MSAAAAAOtmUDdz7Vk7DvAK7PVteXXlOrLv"
-    www_datingbistro_com:
-      publickey:            "6Lf6SeYSAAAAAN8TMLGTLNf7RTkl4M6vFqjfqdZi"
-      privatekey:           "6Lf6SeYSAAAAACiIPVAeU1-7NmT_HOACgC06PKdM"
-    www_datingonhudson_com:
-      publickey:            "6LfrO-8SAAAAACOtoPWgxCfsYw6gV8UGqUGI9Cab"
-      privatekey:           "6LfrO-8SAAAAAO1gdoOQAmJ2zIfySFcZWfmYxrKH"
   paypal:
     old_business:         futurise@gmail.com
     business:             administrator@inventiss.com
