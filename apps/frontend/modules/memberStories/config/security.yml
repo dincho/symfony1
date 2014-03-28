@@ -2,7 +2,3 @@ index:
   is_secure: off
 read:
   is_secure: off
-postYourStory:
-  is_secure: off
-postYourStoryConfirmation:
-  is_secure: off
