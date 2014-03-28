@@ -11,8 +11,8 @@
         <?php if( !is_null($member->getMainPhotoId()) ): //has main photo ?>
                 
                <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
-                                    array('href' => $member->getMainPhoto()->getImg(null, 'file'),
-                                          'rel' => 'lightbox[public_photos]',
+                                    array('href' => isset($photoRestrictionError) ? '#' : $member->getMainPhoto()->getImg(null, 'file'),
+                                        isset($photoRestrictionError) ? 'onclick' : 'rel' => isset($photoRestrictionError) ? 'addMessage("'.$photoRestrictionError.'", "msg_error", false, true);' : 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
                                 )); ?>
@@ -30,7 +30,7 @@
         <?php endif; ?>
     </div>
     
-    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
+    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos', 'photoRestrictionError' => isset($photoRestrictionError) ? $photoRestrictionError : '')); ?>
     
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
@@ -42,7 +42,7 @@
 
         <?php if( $private_photos_perm ): ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
-            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
+            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos', 'photoRestrictionError' => isset($photoRestrictionError) ? $photoRestrictionError : '')); ?>
         <?php else: ?>
             <?php if( $private_photos_request ): ?>
               <p class="private_photos_headline"><?php echo __('You already requested access to %USERNAME%\'s private photos.', array('%USERNAME%' => $member->getUsername())); ?></p>

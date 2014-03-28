@@ -71,7 +71,7 @@ class profileActions extends prActions
         $bc = $user->getBC();
         
         $error = null;
-        
+
         if( !$this->is_admin )
         {
             if( $user->isAuthenticated() && $user->getId() == $this->member->getId() ) $this->redirect('profile/myProfile');
@@ -141,8 +141,7 @@ class profileActions extends prActions
                         && $this->getUser()->getProfile()->isFree()
                         && !$this->getUser()->getProfile()->getMainPhotoId()
                     ) {
-                        $this->setFlash('msg_error', 'To see profile with photo, you have to have photo on your profile. Simple and fair.');
-                        $this->redirect('editProfile/photos');
+                        $this->photoRestrictionError = __('To see profile with photo, you have to have photo on your profile. Simple and fair.');
                     }
 
                     $this->getUser()->viewProfile($this->member);
