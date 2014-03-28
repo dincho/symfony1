@@ -200,12 +200,6 @@ class BaseEditProfileActions extends prActions
             }            
         } elseif( $this->getRequestParameter('block_id') == 'private_photos' )
         {
-            if ($this->member->countPublicMemberPhotos() == 0)
-            {
-                $this->getRequest()->setError('photo', 'You must have at least one public photo in order to upload private photos.');
-                return false;
-            }
-
             $cnt_photos = $this->member->countPrivateMemberPhotos();
             
             if (! $subscription->getCanPostPrivatePhoto())
