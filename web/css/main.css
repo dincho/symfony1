@@ -53,7 +53,7 @@ textarea {
 }
 
 body .sign_in {
-    margin: 20px auto 10px auto;
+    margin: 5px auto 10px auto;
 }
 
 #secondary_container span.loading {
@@ -828,23 +828,6 @@ form#sign_in fieldset a {
     border-top: 1px solid #3d3d3d;
 }
 
-/*#subscription span.select_one {
-    height: 12px;
-    display: block;
-    font-size: 11px;
-    background-color: #3d3d3d;
-    margin-top: 8px;
-    padding: 8px;
-}
-
-#subscription span.select {
-    display: block;
-    font-size: 24px;
-    background-color: #3d3d3d;
-    margin-top: 8px;
-    text-align: center;
-}*/
-
 #subscription span.select {
     display: block;
     background-color: #3d3d3d;
@@ -855,7 +838,6 @@ form#sign_in fieldset a {
 
 #subscription span.select input {
     margin: 0 !important;
-    padding: 0 !important;
     width: 130px !important;
 }
 
@@ -947,7 +929,7 @@ span.online-assistant {
 #dashboard-container div.right_privacy div.dashboard-menu {
     clear: left;
     height: 36px;
-    /* thumnails height 30px + border 2*2px + margin 2*1px */
+    /* thumbnails height 30px + border 2*2px + margin 2*1px */
     line-height: 36px;
 }
 
@@ -1239,24 +1221,17 @@ span {
     margin: 35px 0 20px 0;
 }
 
-#public_reg_form select, #public_reg_form input {
-    margin: 3px 2px 1px 3px;
-}
-
 #public_reg_form select {
     width: 152px;
     height: 18px;
 }
 
-#public_reg_form input {
+#public_reg_form input[type=text],
+#public_reg_form input[type=password]
+{
     padding: 1px 0 0 1px;
     width: 149px;
     height: 15px;
-}
-
-#public_reg_form input[type=submit] {
-    height: auto;
-    padding: 6px 8px;
 }
 
 #public_reg_form label {
@@ -1315,13 +1290,10 @@ span {
     line-height: normal;
 }
 
-#essay input, #essay #intro textarea {
+#essay input[type=text], #essay #intro textarea {
     width: 328px;
     max-width: 328px;
     margin: 1px 0 0 0;
-}
-
-#essay input {
     font-size: 12px;
 }
 
@@ -1438,22 +1410,6 @@ form#edit_photos fieldset {
     font-size: 12px;
     padding: 1px 0;
     float: right;
-}
-
-.upload_photos {
-    position: relative;
-}
-
-.upload_photos object {
-    margin: 5px 2px 0 2px;
-}
-
-.upload_photos object, .upload_photos input {
-    width: 140px !important; /* stupid IE needs this */
-    margin: 5px 2px 0 5px;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .upload_photos {
@@ -2057,27 +2013,20 @@ span.sec_link {
     float: right;
 }
 
-#register input[type=text],
-#register input[type=password],
+#register fieldset input,
 #register select {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    border: 1px solid #7995ae;
-    background-color: #363639;
-    color: #aca49c;
+    font-size: 11px;
     float: left;
     margin: 0 0 0 3px;
     display: block;
-    height: 12px;
-}
-
-#register input {
+    height: 14px;
     width: 146px;
 }
 
 #register select {
     width: 148px !important;
-    height: 18px;
+    height: 16px;
 }
 
 #register .tos {
@@ -3025,8 +2974,8 @@ a.button:hover {
     text-decoration: none;
 }
 
-input[type=button], input[type=submit], button, .button {
-    height: 28px;
+button, .button {
+    height: auto;
     width: auto !important;
     background: #73a7ff url(/images/button_bg.jpg) repeat-x top left;
     color: white;
@@ -3037,14 +2986,15 @@ input[type=button], input[type=submit], button, .button {
     border-bottom-color: #618ad3;
     padding: 6px 8px;
     cursor: pointer;
-    margin-top: 5px;
+    margin: 5px 5px auto auto;
+    display: inline-block;
 }
 
 #flag .button {
     margin: 5px 3px 0 3px;
 }
 
-input[type=button]:hover, input[type=submit]:hover, button:hover, .button:hover {
+button:hover, .button:hover {
     background: #8CBDFF;
     color: white;
     border: 1px solid #a4cbff; /* top-left */
@@ -3053,10 +3003,17 @@ input[type=button]:hover, input[type=submit]:hover, button:hover, .button:hover 
 }
 
 .button_disabled, button[disabled], .button[disabled] {
+    height: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    width: auto !important;
+    padding: 6px 8px;
+    margin: 5px 5px auto auto;
     color: #2f2f2f !important;
-    background: rgba(115, 167, 255, 0.60) !important;
+    background: #5a7bbd !important;
     border: 1px solid transparent !important;
     cursor: default !important;
+    display: inline-block;
 }
 
 input.button_save_and_cont {
@@ -3397,11 +3354,10 @@ ul.rating li.five a:hover {
     top: 0;
     left: 40px;
     z-index: 10;
-    background-color: /*#363639*/ #000000;
+    background-color: #000000;
     padding: 4px;
     text-align: center;
     opacity: 0.8;
-    filter: alpha(opacity=80);
     white-space: nowrap;
     color: #ff0000;
     font-size: 12px;
@@ -3582,4 +3538,14 @@ ul.rating li.five a:hover {
         font-size: 100%;
         height: 100%;
     }
+
+    #messageBar {
+        filter: alpha(opacity=80);
+    }
+}
+
+/* remove firefox input 2px padding */
+.button::-moz-focus-inner,
+.button_disabled::-moz-focus-inner {
+    border: none;
 }
