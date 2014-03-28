@@ -41,7 +41,7 @@
                                                          'with'     => "'layout=' + $('layout').value",
                                                          'script'   => 'true', 
                                                     ), 
-                                                   array('class' => 'button', )) ?>
+                                                   array('class' => 'button cancel', )) ?>
         <br />
     </fieldset>
     <br />

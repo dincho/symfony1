@@ -13,7 +13,7 @@
     </fieldset>
     <fieldset class="actions">
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
-        <?php echo link_to_function(__('Cancel'), 'window.history.go(-1)', array('class' => 'button')) ?>
+        <?php echo link_to_function(__('Cancel'), 'window.history.go(-1)', array('class' => 'button cancel')) ?>
     </fieldset>
 </form>
 <?php slot('footer_menu') ?>

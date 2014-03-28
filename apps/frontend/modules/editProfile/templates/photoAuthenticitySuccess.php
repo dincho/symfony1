@@ -84,7 +84,7 @@
         <?php if( $free_photos_cnt > 0 ): ?>
             <?php echo submit_tag(__('Submit Authenticity Request'), array('class' => 'button', 'name' => 'save')) ?>
         <?php endif; ?>
-        <?php echo link_to(__('Cancel'), 'editProfile/photos', array('class' => 'button')) ?>
+        <?php echo link_to(__('Cancel'), 'editProfile/photos', array('class' => 'button cancel')) ?>
     </fieldset>
     
 </form>
