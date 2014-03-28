@@ -55,40 +55,39 @@ class feedbackActions extends sfActions
     {
         //replace mailbox and add compose
         $this->getUser()->getBC()->add(array('name' => 'Compose Email', 'uri' => 'feedback/compose'));
-        $this->selectTemplate();
-        $this->feedback_templates = FeedbackTemplatePeer::doSelect(new Criteria());
         
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('feedback_edit'));
-            if ($this->getRequestParameter('save_draft'))
-            {
+            if ($this->getRequestParameter('save_draft')) {
                 $this->saveDraft();
                 $this->setFlash('msg_ok', 'Your draft message has been saved.');
                 $this->redirect('feedback/list?filter=filter&filters[mailbox]=3');
-            } else
-            {
-                if ($this->getRequestParameter('save_as_new_template'))
-                    $this->saveTemplate();
-                $this->send();
-                $this->setFlash('msg_ok', 'Your message has been sent.');
-                $this->redirect('feedback/list');
             }
-        } else
-        {
-            $this->selectedMembers = implode(', ', $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers'));
-            
-            $mail_options = array();
-            foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
-                $mail_options[$group] = $values['title'];
+
+            if ($this->getRequestParameter('save_as_new_template')) {
+                $this->saveTemplate();
             }
-        
-            foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
-                $mail_options[$mail] = $mail;
-            }
-        
-            $this->mail_options = $mail_options; 
+
+            $this->send();
+            $this->setFlash('msg_ok', 'Your message has been sent.');
+            $this->redirect('feedback/list');
         }
+        
+        $mail_options = array();
+        foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
+            $mail_options[$group] = $values['title'];
+        }
+    
+        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
+            $mail_options[$mail] = $mail;
+        }
+    
+        $selectedMembers = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers');
+
+        $this->selectTemplate();
+        $this->mail_options = $mail_options;
+        $this->selectedMembers = implode(', ', $selectedMembers);
+        $this->feedback_templates = FeedbackTemplatePeer::doSelect(new Criteria());
     }
 
     public function handleErrorCompose()
@@ -114,13 +113,15 @@ class feedbackActions extends sfActions
     
     protected function selectTemplate()
     {
-        if ($this->getRequestParameter('template_id'))
-        {
-            $this->template = FeedbackTemplatePeer::retrieveByPK($this->getRequestParameter('template_id'));
+        $templateId = $this->getRequestParameter('template_id');
+        if ($templateId) {
+            $this->template = FeedbackTemplatePeer::retrieveByPK($templateId);
+            $this->getRequest()->setParameter('body', $this->template->getBody());
         }
         
-        if (! isset($this->template))
+        if (!isset($this->template)) {
             $this->template = new FeedbackTemplate();
+        }
     }
 
     protected function saveTemplate()
@@ -148,21 +149,12 @@ class feedbackActions extends sfActions
     {
         $mail = FeedbackPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($mail);
-        
-        $this->selectTemplate();
+
         $request = $this->getRequest();
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
-        if ( $request->hasParameter('template_id') )
-        {
-          $request->setParameter('body', $this->template->getBody());
-        }
-        else
-        {
-          $request->setParameter('body', $mail->getBodyForReply());
-        }
-        $request->setParameter('template_id', $this->template->getId());
-        
+        $request->setParameter('body', $mail->getBodyForReply());
+
         $this->forward($this->getModuleName(), 'compose');
     }
 

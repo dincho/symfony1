@@ -29,11 +29,11 @@
         <?php $tpl_url = (!$sf_request->hasParameter('id')) ? url_for('feedback/compose?template_id=') : url_for('feedback/reply?id=' . $sf_request->getParameter('id').'&template_id=') ?>
         <td>
             <?php $options_html = '<option></option>';?>
-            <?php foreach($feedback_templates as $template):?>
+            <?php foreach($feedback_templates as $tplOption):?>
                 <?php $options_html .= sprintf('<option value="%s" data-tags="%s">%s</option>',
-                        $template->getId(),
-                        $template->getTags(),
-                        $template->getName())?>
+                        $tplOption->getId(),
+                        $tplOption->getTags(),
+                        $tplOption->getName())?>
             <?php endforeach;?>
             <?php echo select_tag( 'template_id', $options_html,
                 array(
