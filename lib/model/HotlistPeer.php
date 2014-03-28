@@ -24,4 +24,20 @@ class HotlistPeer extends BaseHotlistPeer
 
         return $c;
     }
+
+
+    public static function getMembersForLoginNotification(BaseMember $profile)
+    {
+        $c = new Criteria();
+        $c->add(self::PROFILE_ID, $profile->getId());
+        $c->clearSelectColumns()->addSelectColumn(self::MEMBER_ID);
+
+        $ids = array();
+        $rs = self::doSelectRS($c);
+        while($rs->next()) {
+            $ids[] = $rs->getInt(1);
+        }
+
+        return $ids;
+    }
 }

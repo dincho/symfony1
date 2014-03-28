@@ -15,6 +15,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
     const HOTLIST = 4;
     const RATE = 5;
     const MUTUAL_RATE = 6;
+    const LOGIN = 7;
 
     //profile is actually current sfUser
     public static function addNotification(
@@ -102,8 +103,35 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
                         )
                 );
             break;
-      }
+            case self::LOGIN:
+                $message =  __(
+                    '%USERNAME% just logged in! Check %USERNAME% out',
+                    array(
+                        '%USERNAME%' => $member->getUsername(),
+                        '%PROFILE_URL%' => $con->genUrl('@profile?username=' . $member->getUsername())
+                        )
+                );
+            break;
+        }
 
-      return $message;
-  }
+        return $message;
+    }
+
+    public static function sendLoginNotifications(BaseMember $profile)
+    {
+        $hotlistMemberIds = HotlistPeer::getMembersForLoginNotification($profile);
+        $raterIds = MemberRatePeer::getRatersForLoginNotification($profile);
+        $interlocutorIds = MessagePeer::getRecentInterlocutors($profile->getId());
+
+        $memberIds = array_unique(array_merge(
+            $hotlistMemberIds,
+            $raterIds,
+            $interlocutorIds
+        ));
+
+        $members = MemberPeer::getMembersForLoginNotification($profile, $memberIds);
+        foreach ($members as $member) {
+            self::addNotification($member, $profile, self::LOGIN);
+        }
+    }
 }

@@ -236,4 +236,38 @@ class MessagePeer extends BaseMessagePeer
 
         self::doDelete($c);
     }
+
+    public static function getRecentInterlocutors($profileId)
+    {
+        $interval = new DateInterval('P14D');
+        $dt = new DateTime();
+        $dt->sub($interval);
+
+        $c = new Criteria();
+        $c->add(self::TYPE, self::TYPE_NORMAL);
+        $c->add(self::SENDER_ID, $profileId);
+        $c->add(self::CREATED_AT, $dt->format('Y-m-d'), Criteria::GREATER_THAN);
+        $c->addGroupByColumn(self::RECIPIENT_ID);
+        $c->clearSelectColumns()->addSelectColumn(self::RECIPIENT_ID);
+
+        $ids = array();
+        $rs = self::doSelectRS($c);
+        while($rs->next()) {
+            $ids[] = $rs->getInt(1);
+        }
+
+        $c = new Criteria();
+        $c->add(self::TYPE, self::TYPE_NORMAL);
+        $c->add(self::RECIPIENT_ID, $profileId);
+        $c->add(self::CREATED_AT, $dt->format('Y-m-d'), Criteria::GREATER_THAN);
+        $c->addGroupByColumn(self::SENDER_ID);
+        $c->clearSelectColumns()->addSelectColumn(self::SENDER_ID);
+
+        $rs = self::doSelectRS($c);
+        while($rs->next()) {
+            $ids[] = $rs->getInt(1);
+        }
+
+        return $ids;
+    }
 }
