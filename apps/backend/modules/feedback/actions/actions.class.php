@@ -72,7 +72,6 @@ class feedbackActions extends sfActions
             $this->setFlash('msg_ok', 'Your message has been sent.');
             $this->redirect('feedback/list');
         }
-
         
         $mail_options = array();
         foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
