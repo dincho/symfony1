@@ -1,5 +1,5 @@
 indexSuccess:
-    javascripts: [profile_desc_map, show_hide_tick, profile_image, balloons/balloon.config.js, balloons/balloon.js, "balloons/yahoo-dom-event.js"]
+    javascripts: [profile_desc_map, show_hide_tick, profile_image, balloons/balloon.config.js, balloons/balloon.js, "balloons/yahoo-dom-event.js", messagebar]
     stylesheets: [sec_container_no_padding]
 simpleProfileSuccess:
     javascripts: [profile_desc_map, show_hide_tick, profile_image]

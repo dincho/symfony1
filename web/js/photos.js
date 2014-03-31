@@ -79,7 +79,7 @@ function reorder_photo_block(block)
 }
 
 
-function initFileUploads(block_id, errors, messageBar) {
+function initFileUploads(block_id, errors) {
     (function ($) {
         var $block = $('#' + block_id);
 
@@ -92,11 +92,11 @@ function initFileUploads(block_id, errors, messageBar) {
             },
             add: function (e, data) {
                 if (data.files[0].size > 3145728) {
-                    addMessage(errors.maxSizeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                    addMessage(errors.maxSizeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error');
                     return;
                 }
                 if (!/(\.|\/)(gif|jpe?g|png)$/i.test(data.files[0].name)) {
-                    addMessage(errors.typeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                    addMessage(errors.typeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error');
                     return;
                 }
 
@@ -109,7 +109,7 @@ function initFileUploads(block_id, errors, messageBar) {
                 var container = $('.photo_container:has(img[data-name="' +
                     data.files[0].name + '"])', $block)[0];
                 $(container).html(''); //clear the container ( loader image )
-                addMessage(errors.generalErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                addMessage(errors.generalErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error');
             },
             done: function (e, data) {
                 var response = data.result;
@@ -122,7 +122,7 @@ function initFileUploads(block_id, errors, messageBar) {
                     photo.hide().fadeIn(1000);
                 } else {
                     $(container).html(''); //clear the container ( loader image )
-                    addMessage(data.result.error + ' (' + data.files[0].name + ') ', 'msg_error', true, !!messageBar);
+                    addMessage(data.result.error + ' (' + data.files[0].name + ') ', 'msg_error');
                 }
             }
         });

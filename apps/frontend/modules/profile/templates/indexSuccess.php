@@ -17,7 +17,7 @@
                 ); ?>
                <?php if (strlen($error) > 0) :?>
                     <?php $options['href'] = '#';?>
-                    <?php $options['onclick'] = 'addMessage("'.$error.'", "msg_error", false, true);';?>
+                    <?php $options['onclick'] = 'clearMessages(); addMessage("'.$error.'", "msg_error");';?>
                     <?php unset($options['rel']);?>
                <?php endif; ?>
                <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), $options); ?>
@@ -38,12 +38,6 @@
     
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
-
-        <?php if( $show_request_warning ): ?>
-            <?php echo javascript_include_tag('messagebar') ?>
-            <?php echo javascript_tag('messagebar_message("' . $request_warning . '");' ); ?>
-        <?php endif; ?>
-
         <?php if( $private_photos_perm ): ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos', 'error' => $error)); ?>
