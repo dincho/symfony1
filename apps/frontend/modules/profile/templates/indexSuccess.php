@@ -2,21 +2,25 @@
 
 <?php $public_photos = $member->getPublicMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_photos')); ?>
 <?php $private_photos = $member->getPrivateMemberPhotos(null, null, sfConfig::get('app_settings_profile_max_private_photos')); ?>
-
+<?php $error = ''; ?>
+<?php if ($sf_user->getProfile()->isFree() && !$sf_user->getProfile()->getMainPhotoId()) $error = __('To see profile with photo, you have to have photo on your profile. Simple and fair.'); ?>
 <div id="profile_left" style="padding-top: 9px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
     <div style="min-height: 350px">
         <?php _addLbRessources(); ?>
               
         <?php if( !is_null($member->getMainPhotoId()) ): //has main photo ?>
-                
-               <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
-                                    array('href' => $member->getMainPhoto()->getImg(null, 'file'),
-                                          'rel' => 'lightbox[public_photos]',
-                                          'title' => $member->getUsername(),
-                                          'id' => 'member_image_link'
-                                )); ?>
-                
+               <?php $options = array('href' => $member->getMainPhoto()->getImg(null, 'file'),
+                    'rel' => 'lightbox[public_photos]',
+                    'title' => $member->getUsername(),
+                    'id' => 'member_image_link'
+                ); ?>
+               <?php if (strlen($error) > 0) :?>
+                    <?php $options['href'] = '#';?>
+                    <?php $options['onclick'] = 'addMessage("'.$error.'", "msg_error", false, true);';?>
+                    <?php unset($options['rel']);?>
+               <?php endif; ?>
+               <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), $options); ?>
         <?php elseif( count($private_photos) > 0 && $private_photos_perm ):?>
                 <?php $mainPhoto = $private_photos[0]; ?>
                 <?php echo content_tag('a', image_tag($mainPhoto->getImg('350x350', 'file'), array('id' => 'member_image')), 
@@ -30,7 +34,7 @@
         <?php endif; ?>
     </div>
     
-    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
+    <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos', 'error' => $error)); ?>
     
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
@@ -42,7 +46,7 @@
 
         <?php if( $private_photos_perm ): ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
-            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos')); ?>
+            <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos', 'error' => $error)); ?>
         <?php else: ?>
             <?php if( $private_photos_request ): ?>
               <p class="private_photos_headline"><?php echo __('You already requested access to %USERNAME%\'s private photos.', array('%USERNAME%' => $member->getUsername())); ?></p>
