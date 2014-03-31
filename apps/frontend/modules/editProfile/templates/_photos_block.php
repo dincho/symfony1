@@ -36,5 +36,5 @@
         generalErrorMsg: '<?php echo __('The file upload was attempted but the server failed to handle it'); ?>',
         maxSizeErrorMsg: '<?php echo __('Max image size is 3MB'); ?>',
         typeErrorMsg: '<?php echo __('Please select correct file type'); ?>'
-    }, true);
+    });
 </script>

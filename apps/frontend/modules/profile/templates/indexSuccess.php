@@ -38,12 +38,6 @@
     
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
-
-        <?php if( $show_request_warning ): ?>
-            <?php echo javascript_include_tag('messagebar') ?>
-            <?php echo javascript_tag('messagebar_message("' . $request_warning . '");' ); ?>
-        <?php endif; ?>
-
         <?php if( $private_photos_perm ): ?>
             <p class="private_photos_headline"><?php echo __('%USERNAME% has private photos below and you have access to them. Click to enlarge.', array('%USERNAME%' => $member->getUsername())); ?></p>
             <?php include_partial('profile/photos', array('photos' => $private_photos, 'member' => $member, 'block_id' => 'private_photos', 'error' => $error)); ?>

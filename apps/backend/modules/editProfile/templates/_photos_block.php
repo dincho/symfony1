@@ -36,5 +36,5 @@
         generalErrorMsg: 'The file upload was attempted but the server failed to handle it',
         maxSizeErrorMsg: 'Max image size is 3MB',
         typeErrorMsg: 'Please select correct file type'
-    }, false);
+    });
 </script>

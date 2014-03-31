@@ -11,9 +11,6 @@
       <?php else:?>      
         <?php foreach ($sf_request->getErrorNames() as $name): ?>
           <p class="msg_error" id="msg_error_<?php echo $name ?>"><?php echo $sf_request->getError($name, ESC_RAW) ?></p>
-          <?php if( isset($show_message_bar) && $show_message_bar): ?>
-              <?php echo javascript_tag('messagebar_message("'.$sf_request->getError($name, ESC_RAW).'")'); ?>
-          <?php endif; ?>
         <?php endforeach; ?>
       <?php endif; ?>
       
