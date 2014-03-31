@@ -518,4 +518,35 @@ class MemberPeer extends BaseMemberPeer
        $pager->init();
        return $pager;          
    }
+
+   /**
+    * Get online, visible and active members identified by $ids param
+    * 
+    * @param  BaseMember  $profile  Profile that generates the notifications
+    * @param  array       $ids      Member identifiers of notification recipients
+    * @return array|null            Array of member objects or null
+    */
+   public static function getMembersForLoginNotification(BaseMember $profile, array $ids)
+   {
+       $c = new Criteria();
+       $c->add(self::ID, $ids, Criteria::IN);
+       $c->add(self::MEMBER_STATUS_ID, MemberStatusPeer::ACTIVE);
+       //INNER JOIN to filter only online members
+       $c->addJoin(self::ID, SessionStoragePeer::USER_ID);
+
+       /**
+        * If the profile that generates notifications is in private dating mode,
+        * get only members that he is visible to.
+        * Note the inner join to filter out.
+        */
+        if ($profile->getPrivateDating()) {
+            $c->addJoin(
+                self::ID,
+                OpenPrivacyPeer::PROFILE_ID . 
+                    ' AND ' . OpenPrivacyPeer::MEMBER_ID . ' = ' . $profile->getId()
+            );
+        }
+
+       return self::doSelect($c);
+   }
 }

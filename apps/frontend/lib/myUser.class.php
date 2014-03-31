@@ -67,6 +67,8 @@ class myUser extends sfBasicSecurityUser
         $member->setLastLogin(time());
         $member->save();
         
+        MemberNotificationPeer::sendLoginNotifications($member);
+
         //clear old session zombies
         if(SF_ENVIRONMENT != 'dev')  $member->clearDroppedSessions(session_id());
     }
