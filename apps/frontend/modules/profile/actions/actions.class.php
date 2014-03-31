@@ -137,13 +137,6 @@ class profileActions extends prActions
                 
                 if( !$error )
                 {
-                    if ($this->member->getMainPhotoId()
-                        && $this->getUser()->getProfile()->isFree()
-                        && !$this->getUser()->getProfile()->getMainPhotoId()
-                    ) {
-                        $this->photoRestrictionError = __('To see profile with photo, you have to have photo on your profile. Simple and fair.');
-                    }
-
                     $this->getUser()->viewProfile($this->member);
                     $this->match = MemberMatchPeer::getMatch(
                         $this->getUser()->getProfile(),
