@@ -17,7 +17,7 @@
                 ); ?>
                <?php if (strlen($error) > 0) :?>
                     <?php $options['href'] = '#';?>
-                    <?php $options['onclick'] = 'addMessage("'.$error.'", "msg_error", false, true);';?>
+                    <?php $options['onclick'] = 'clearMessages(); addMessage("'.$error.'", "msg_error");';?>
                     <?php unset($options['rel']);?>
                <?php endif; ?>
                <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), $options); ?>
