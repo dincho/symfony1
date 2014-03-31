@@ -1,1 +1,0 @@
-Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members

@@ -1,1 +1,0 @@
-To enjoy this site, you need to enable your browser's JavaScript support.

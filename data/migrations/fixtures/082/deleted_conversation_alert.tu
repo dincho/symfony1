@@ -1,1 +1,0 @@
-You have deleted your conversation with %username%

@@ -1,1 +1,0 @@
-You must have at least one public photo in order to upload private photos.

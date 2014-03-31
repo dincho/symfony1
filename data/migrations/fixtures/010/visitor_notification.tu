@@ -1,1 +1,0 @@
-Visitor %USERNAME% just opened your profile!

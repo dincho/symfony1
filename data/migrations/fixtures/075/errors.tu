@@ -1,1 +1,0 @@
-Due to privacy restrictions you cannot interact with this profile - catalog
