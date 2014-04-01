@@ -84,19 +84,13 @@ class contentActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-            $catalogs = array();
-            $catIds = $this->getRequestParameter('affected_catalogs', array());
 
-            if (!empty($catIds)) {
-                $c = new Criteria();
-                $c->add(CataloguePeer::CAT_ID, $catIds, Criteria::IN);
-                $catalogs = CataloguePeer::getAll($c);
-            }
+            $this->getUser()->checkPerm(array('content_edit'));
 
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
             // add current catalog to the catalogs affected by the change
             $catalogs[] = $this->catalog;
 
-            $this->getUser()->checkPerm(array('content_edit'));
             foreach ($catalogs as $catalog) {
                 sfSettingPeer::updateFromRequest(array('profile_max_photos', 'profile_num_recent_activities', 'profile_display_video'), $catalog);
                 TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
@@ -125,8 +119,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_most_recent'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_most_recent'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -144,8 +145,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_custom'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_custom'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -163,12 +171,19 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_reverse'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_reverse'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
-        
+
         $this->trans = TransCollectionPeer::getCollection(TransCollectionPeer::SEARCH_REVERSE, $this->catalog);
     }
         
@@ -182,8 +197,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_matches'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_matches'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -201,8 +223,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_keyword'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_keyword'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -220,7 +249,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -238,8 +274,16 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            sfSettingPeer::updateFromRequest(array('search_rows_public'), $this->catalog);
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $this->getUser()->checkPerm(array('content_edit'));
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                sfSettingPeer::updateFromRequest(array('search_rows_public'), $catalog);
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/searchpages?cat_id=' .  $this->catalog->getCatId());
         }
@@ -264,7 +308,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -282,7 +333,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -300,7 +359,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -318,7 +384,15 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -336,7 +410,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -354,7 +435,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/regpages');
         }
@@ -385,8 +473,8 @@ class contentActions extends sfActions
         $bc = $this->getUser()->getBC();
         $bc->replaceLast(array('name' => 'System Messages', 'uri' => 'content/systemMessages?cat_id=' . $this->catalog->getCatId()));
         
-        $headline = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('headline_id'), $this->catalog);
-        $content = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('content_id'), $this->catalog);
+        $headline = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('headline_id'), $this->catalog->getCatId());
+        $content = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('content_id'), $this->catalog->getCatId());
         $this->forward404Unless($headline && $content);
         
         $bc->add(array('name' => $headline->getSource()));
@@ -404,6 +492,21 @@ class contentActions extends sfActions
             
             $content->setTarget($this->getRequestParameter('content'));
             $content->save();
+
+            $catIds = $this->getRequestParameter('affected_catalogs', array());
+
+            if (!empty($catIds)) {
+                foreach ($catIds as $catId) {
+                    $headline = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('headline_id'), $catId);
+                    $content = TransUnitPeer::getByCultureAndCollection($this->getRequestParameter('content_id'), $catId);
+
+                    $headline->setTarget($this->getRequestParameter('headline'));
+                    $headline->save();
+
+                    $content->setTarget($this->getRequestParameter('content'));
+                    $content->save();
+                }
+            }
             
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect($this->uri);
@@ -423,7 +526,14 @@ class contentActions extends sfActions
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
             $this->getUser()->checkPerm(array('content_edit'));
-            TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $this->catalog);
+            $catalogs = CataloguePeer::getCatalogsByIds($this->getRequestParameter('affected_catalogs', array()));
+            // add current catalog to the catalogs affected by the change
+            $catalogs[] = $this->catalog;
+
+            foreach ($catalogs as $catalog) {
+                TransUnitPeer::bulkUpdate($this->getRequestParameter('trans', array()), $catalog);
+            }
+
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('content/assistant?cat_id=' .  $this->catalog->getCatId());
         }

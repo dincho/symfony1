@@ -10,11 +10,11 @@
 class TransUnitPeer extends BaseTransUnitPeer
 {
 
-    public static function getByCultureAndCollection($msg_collection_id, Catalogue $catalog)
+    public static function getByCultureAndCollection($msg_collection_id, $catId)
     {
         $c = new Criteria();
         $c->add(TransUnitPeer::MSG_COLLECTION_ID, $msg_collection_id);
-        $c->add(TransUnitPeer::CAT_ID, $catalog->getCatId());
+        $c->add(TransUnitPeer::CAT_ID, $catId);
         
         return TransUnitPeer::doSelectOne($c);
     }
@@ -24,7 +24,7 @@ class TransUnitPeer extends BaseTransUnitPeer
 
         foreach ($trans as $msg_coll_id => $value)
         {
-            $trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog);
+            $trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog->getCatId());
             
             if (! $trans_unit)
             {
