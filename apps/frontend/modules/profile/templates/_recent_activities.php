@@ -7,9 +7,11 @@
     <?php if( isset($recent_activities) && count($recent_activities) > 0 ): ?>
     
         <script type="text/javascript">
-            var RA_balloon = new Balloon;
-            BalloonConfig(RA_balloon,'GBubble');
-            RA_balloon.fontSize      = '12px';
+            Event.observe(window, 'load', function () {
+                var RA_balloon = new Balloon;
+                BalloonConfig(RA_balloon, 'GBubble');
+                RA_balloon.fontSize = '12px';
+            });
          </script>
 
         <?php foreach ($recent_activities as $activity): ?>
