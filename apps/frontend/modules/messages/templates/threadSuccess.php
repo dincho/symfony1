@@ -134,7 +134,6 @@
         document.getElementById("numberOfMessages").value = currentMessNum + parseInt(ajax.getResponseHeader("numberOfMessages"));
         if (document.getElementById("numberOfMessages").value > 5) {
             Element.siblings(el).each(function(node){
-                console.log(node.nodeName);
                 if (node.nodeName == "SPAN") {
                     node.style.display = el.style.display
                 }
