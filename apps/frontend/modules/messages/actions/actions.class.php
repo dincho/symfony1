@@ -412,7 +412,7 @@ class messagesActions extends prActions
 
     public function executeThread()
     {
-        $limit = 7;
+        $limit = 5;
         $member = $this->getUser()->getProfile();
         $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
         $this->forward404Unless($thread);
@@ -714,7 +714,7 @@ class messagesActions extends prActions
 
     public function executeGetMoreMessages()
     {
-        $limit = 7;
+        $limit = 5;
         $member = $this->getUser()->getProfile();
         $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
 

@@ -44,7 +44,7 @@
     <br class="clear" />
 </div>
 <div id="loader">
-        <?php echo link_to_remote(__('View older messages'), array(
+    <?php echo link_to_remote(__('View older messages'), array(
                 'update' => 'messages',
                 'position' => 'top',
                 'url' => 'messages/getMoreMessages?id='.$thread->getId(),
@@ -56,9 +56,11 @@
                 'id' => 'fetch_link',
                 'data-offset' => count($messages),
                 'data-limit' => $limit,
-                'style' => ($displayFetchLink) ? "display: block" : "display: none",
+                'style' => ($displayFetchLink) ? "display: inline" : "display: none",
             )
         ); ?>
+        <span>&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+        <?php echo link_to_function(__('View the last messages'),  'location.reload()', array('style' => 'display: none')) ?>
 </div>
 <div id="messages">
     <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
@@ -123,13 +125,24 @@
         var currentOffset = parseInt(el.getAttribute("data-offset"), 10);
         if (ajax.getResponseHeader("displayFetchLink")){
             el.setAttribute("data-offset", parseInt(el.getAttribute("data-limit"), 10) + currentOffset);
-            el.style.display = "block";
+            el.style.display = "inline";
         } else {
             el.style.display = "none";
             document.forms[0].displayFetchLink.value = 0;
         }
         var currentMessNum = parseInt(document.getElementById("numberOfMessages").value);
         document.getElementById("numberOfMessages").value = currentMessNum + parseInt(ajax.getResponseHeader("numberOfMessages"));
+        if (document.getElementById("numberOfMessages").value > 5) {
+            Element.siblings(el).each(function(node){
+                console.log(node.nodeName);
+                if (node.nodeName == "SPAN") {
+                    node.style.display = el.style.display
+                }
+                else {
+                    node.style.display = "inline";
+                }
+            });
+        }
     }
     function showLoading(){
         var el = document.getElementById("loader");
