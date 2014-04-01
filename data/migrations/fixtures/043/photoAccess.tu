@@ -1,2 +1,0 @@
-She Cap
-He Cap

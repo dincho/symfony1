@@ -1,1 +1,0 @@
-Your session will expire in %MINUTES% minutes - Please, click something to avoid being timed out.

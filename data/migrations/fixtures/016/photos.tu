@@ -1,2 +1,0 @@
-Public Photos
-Private Photos

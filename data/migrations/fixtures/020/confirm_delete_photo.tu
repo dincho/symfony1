@@ -1,1 +1,0 @@
-Are you sure you want to delete selected photo? <a onclick=\"%JS_FOR_CANCEL%\" class=\"sec_link\" href=\"#\">No</a> <a onclick=\"%JS_FOR_CONFIRM%\" class=\"sec_link\" href=\"#\">Yes</a>

@@ -1,1 +1,0 @@
-your photo is verified

@@ -1,1 +1,0 @@
-DELETE FROM `sf_setting` WHERE `name` = "post_your_story_min" OR `name` = "post_your_story_max";
