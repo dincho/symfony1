@@ -517,6 +517,8 @@ class messagesActions extends prActions
                     'block_error' => 'You can not send message to this member!',
                     'sex_error' => 'Due to privacy restrictions you cannot send message to this profile',
                     'check_onlyfull' => false,
+                    //alow conmunitaion to continue even if recipient switched to private dating
+                    'check_open_privacy' => false,
                 )
             );
 
