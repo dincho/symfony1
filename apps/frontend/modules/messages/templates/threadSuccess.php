@@ -56,7 +56,7 @@
                 'id' => 'fetch_link',
                 'data-offset' => count($messages),
                 'data-limit' => $limit,
-                'style' => ($displayFetchLink) ? "display: inline" : "display: none",
+                'style' => ($displayFetchLink) ? null : "display: none",
             )
         ); ?>
         <span>&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
@@ -125,7 +125,7 @@
         var currentOffset = parseInt(el.getAttribute("data-offset"), 10);
         if (ajax.getResponseHeader("displayFetchLink")){
             el.setAttribute("data-offset", parseInt(el.getAttribute("data-limit"), 10) + currentOffset);
-            el.style.display = "inline";
+            el.style = null;
         } else {
             el.style.display = "none";
             document.forms[0].displayFetchLink.value = 0;
@@ -135,10 +135,13 @@
         if (document.getElementById("numberOfMessages").value > 5) {
             Element.siblings(el).each(function(node){
                 if (node.nodeName == "SPAN") {
-                    node.style.display = el.style.display
-                }
-                else {
-                    node.style.display = "inline";
+                    if (el.style.display != "none") {
+                        node.style.display = "initial";
+                    } else {
+                        node.style.display = "none";
+                    }
+                } else {
+                    node.style.display = null;
                 }
             });
         }
