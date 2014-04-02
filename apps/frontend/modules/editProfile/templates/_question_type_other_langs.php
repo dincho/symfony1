@@ -30,6 +30,7 @@ function hide_lang_row(id)
     
     $("lang_container_" + id.toString()).hide();
     hidden_lang_ids.push(id);
+    validate_save_btn();
 }
 
 ');?>
