@@ -28,7 +28,7 @@ class TransUnitPeer extends BaseTransUnitPeer
             
             if (! $trans_unit)
             {
-                $base_trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog->getEnglishCatalogForDomain());
+                $base_trans_unit = TransUnitPeer::getByCultureAndCollection($msg_coll_id, $catalog->getEnglishCatalogForDomain()->getCatId());
                 if (! $base_trans_unit) throw new sfException('Trans unit: ' . $msg_coll_id . ' has no base unit.');
                 
                 $trans_unit = new TransUnit();
