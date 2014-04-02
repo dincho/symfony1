@@ -4,3 +4,5 @@ sentSuccess:
   javascripts:    [messages]
 sendSuccess:
   javascripts:    [send_message_handlers]
+threadSuccess:
+  javascripts:    [messages, send_message_handlers]

@@ -738,20 +738,16 @@ form#sign_in fieldset a {
     margin-top: 25px;
 }
 
-#loader {
+#thread_pagination {
     text-align: center;
     display: block;
     margin-top: 15px;
     margin-bottom: 15px
 }
 
-#loader a {
+#thread_pagination a {
     color: #7CAEE7;
     margin-top: 0;
-}
-
-#loader span{
-    display: none;
 }
 
 /* Subscriptions */
