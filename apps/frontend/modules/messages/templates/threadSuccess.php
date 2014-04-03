@@ -62,7 +62,7 @@
                     )
                 ); ?>
         </span>
-        <span class="js-reload" style="display: none;">
+        <span class="js-reload" style="<?php echo (count($messages) > $limit) ? "" : "display: none"?>">
             <span class="js-separator">&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
             <?php echo link_to_function(__('View the last messages'),  'location.reload()'); ?>
         </span>
@@ -120,13 +120,7 @@
 Event.observe(window, "load", function() {
     setTimeout("$(\"your_story\").focus();",1);
 });
-var curOffset = parseInt(document.getElementById("fetch_link").getAttribute("data-offset"), 10);
-var curLimit = parseInt(document.getElementById("fetch_link").getAttribute("data-limit"), 10);
-if (curOffset > curLimit) {
-    document.querySelector("#thread_pagination .js-reload").style.display = null;
-}
 ');?>
-
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
