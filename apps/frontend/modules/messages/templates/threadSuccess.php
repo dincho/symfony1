@@ -45,21 +45,23 @@
 </div>
 <div id="thread_pagination">
     <div class="js-nav">
-        <?php echo link_to_remote(__('View older messages'), array(
-                    'update' => 'messages',
-                    'position' => 'top',
-                    'url' => 'messages/getMoreMessages?id='.$thread->getId(),
-                    'method' => 'GET',
-                    'with' => "'offset=' + this.getAttribute('data-offset')",
-                    'loading' => 'showMessageLoading()',
-                    'success' => 'loadMessages(request)',
-                ), array(
-                    'id' => 'fetch_link',
-                    'data-offset' => count($messages),
-                    'data-limit' => $limit,
-                    'style' => ($displayFetchLink) ? null : "display: none",
-                )
-            ); ?>
+        <span>
+            <?php echo link_to_remote(__('View older messages'), array(
+                        'update' => 'messages',
+                        'position' => 'top',
+                        'url' => 'messages/getMoreMessages?id='.$thread->getId(),
+                        'method' => 'GET',
+                        'with' => "'offset=' + this.getAttribute('data-offset')",
+                        'loading' => 'showMessageLoading()',
+                        'success' => 'loadMessages(request)',
+                    ), array(
+                        'id' => 'fetch_link',
+                        'data-offset' => count($messages),
+                        'data-limit' => $limit,
+                        'style' => ($displayFetchLink) ? null : "display: none",
+                    )
+                ); ?>
+        </span>
         <span class="js-reload" style="display: none;">
             <span class="js-separator">&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
             <?php echo link_to_function(__('View the last messages'),  'location.reload()'); ?>
@@ -115,11 +117,9 @@
 </div>
 
 <?php echo javascript_tag('
-    Event.observe(window, "load", function() {
-       if($("your_story")) {
-          $("your_story").focus();
-       }
-    });
+Event.observe(window, "load", function() {
+    setTimeout("$(\"your_story\").focus();",1);
+});
 ');?>
 
 <?php slot('footer_menu') ?>

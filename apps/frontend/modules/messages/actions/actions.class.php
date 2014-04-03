@@ -665,7 +665,6 @@ class messagesActions extends prActions
 
     public function handleErrorThread()
     {
-
         $member = $this->getUser()->getProfile();
         $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
         $this->forward404Unless($thread);
