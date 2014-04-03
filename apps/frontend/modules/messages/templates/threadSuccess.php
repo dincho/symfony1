@@ -75,7 +75,7 @@
 <?php if( $profile && $profile->isActive() ): ?>
     <span id="feedback">&nbsp;</span>
 
-    <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
+    <?php echo form_tag('messages/thread?id='.$thread->getId(), array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
         <?php if( $limit ): ?>
@@ -120,6 +120,11 @@
 Event.observe(window, "load", function() {
     setTimeout("$(\"your_story\").focus();",1);
 });
+var curOffset = parseInt(document.getElementById("fetch_link").getAttribute("data-offset"), 10);
+var curLimit = parseInt(document.getElementById("fetch_link").getAttribute("data-limit"), 10);
+if (curOffset > curLimit) {
+    document.querySelector("#thread_pagination .js-reload").style.display = null;
+}
 ');?>
 
 <?php slot('footer_menu') ?>
