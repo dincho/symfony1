@@ -37,20 +37,24 @@
 	height: 100%;
 	width: 100%;
 	z-index: 10;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    margin-left: -100px;
 	}
 #imageContainer>#hoverNav{ left: 0;}
 #hoverNav a{ outline: none;}
 
 #prevLink, #nextLink{
-	width: 49%;
+	position: absolute;
+	width: 40%;
 	height: 100%;
 	background: transparent url(/sfLightboxPlugin/images/blank.gif) no-repeat; /* Trick IE into showing hover */
 	display: block;
 	}
 #prevLink { left: 0; float: left;}
 #nextLink { right: 0; float: right;}
-#prevLink:hover, #prevLink:visited:hover { background: url(/sfLightboxPlugin/images/prev.gif) left 15% no-repeat; }
-#nextLink:hover, #nextLink:visited:hover { background: url(/sfLightboxPlugin/images/next.gif) right 15% no-repeat; }
+#hoverNav:hover #prevLink { background: url(/sfLightboxPlugin/images/prev.gif) left 15% no-repeat; }
+#hoverNav:hover #nextLink { background: url(/sfLightboxPlugin/images/next.gif) right 15% no-repeat; }
 
 
 #imageDataContainer{
