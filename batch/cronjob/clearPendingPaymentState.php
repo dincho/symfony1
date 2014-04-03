@@ -19,7 +19,7 @@ $databaseManager->initialize();
 
 // batch process here
 $date = new DateTime();
-$date->sub(new DateInterval('P3D'));
+$date->sub(new DateInterval('P10D'));
 
 $c = new Criteria();
 $c->add(MemberSubscriptionPeer::UPDATED_AT, $date->format('Y-m-d'), Criteria::LESS_THAN);
