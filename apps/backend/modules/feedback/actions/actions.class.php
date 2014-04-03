@@ -173,17 +173,16 @@ class feedbackActions extends sfActions
     protected function sendAll()
     {
         $send_options = $this->getRequestParameter('send_options');
-        
+        $body = $this->getRequestParameter('message_body') . $this->getRequestParameter('message_footer');
+
         if ($this->getRequestParameter('mail_to')) {
             if (in_array('email_address', $send_options)) {
-                $this->sendEmailTo($this->getRequestParameter('mail_to'));
+                $this->sendEmailTo($this->getRequestParameter('mail_to'), $body);
             }
             
             if (in_array('internal_inbox', $send_options)) {
                 $member = MemberPeer::retrieveByEmail($this->getRequestParameter('mail_to'));
                 if ($member) {
-                    $body = $this->getRequestParameter('message_body') .
-                            $this->getRequestParameter('message_footer');
                     MessagePeer::sendSystem($member, $body);
                 }
             }
@@ -197,12 +196,10 @@ class feedbackActions extends sfActions
             $members = MemberPeer::doSelect($c);
             foreach ($members as $member) {
                 if (in_array('email_address', $send_options)) {
-                    $this->sendEmailTo($member->getEmail());
+                    $this->sendEmailTo($member->getEmail(), $body);
                 }
                 
                 if (in_array('internal_inbox', $send_options)) {
-                    $body = $this->getRequestParameter('message_body') .
-                            $this->getRequestParameter('message_footer');
                     MessagePeer::sendSystem($member, $body);
                 }
             }//foreach
@@ -214,12 +211,8 @@ class feedbackActions extends sfActions
      * @param  string $recipient
      * @return void
      */
-    protected function sendEmailTo($recipient)
+    protected function sendEmailTo($recipient, $body)
     {
-        $body = $this->getRequestParameter('message_body') .
-                $this->getRequestParameter('message_footer');
-
-
         $message = new PrMailMessage();
         $message->setMailConfig($this->getRequestParameter('mail_config'));
         $message->setMailFrom($this->getRequestParameter('mail_from'));
