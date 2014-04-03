@@ -43,22 +43,31 @@
     
     <br class="clear" />
 </div>
-<div id="loader">
-        <?php echo link_to_remote(__('View older messages'), array(
-                'update' => 'messages',
-                'position' => 'top',
-                'url' => 'messages/getMoreMessages?id='.$thread->getId(),
-                'method' => 'GET',
-                'with' => "'offset=' + this.getAttribute('data-offset')",
-                'loading' => 'showLoading()',
-                'success' => 'read(request)',
-            ), array(
-                'id' => 'fetch_link',
-                'data-offset' => count($messages),
-                'data-limit' => $limit,
-                'style' => ($displayFetchLink) ? "display: block" : "display: none",
-            )
-        ); ?>
+<div id="thread_pagination">
+    <div class="js-nav">
+        <span>
+            <?php echo link_to_remote(__('View older messages'), array(
+                        'update' => 'messages',
+                        'position' => 'top',
+                        'url' => 'messages/getMoreMessages?id='.$thread->getId(),
+                        'method' => 'GET',
+                        'with' => "'offset=' + this.getAttribute('data-offset')",
+                        'loading' => 'showMessageLoading()',
+                        'success' => 'loadMessages(request)',
+                    ), array(
+                        'id' => 'fetch_link',
+                        'data-offset' => count($messages),
+                        'data-limit' => $limit,
+                        'style' => ($displayFetchLink) ? null : "display: none",
+                    )
+                ); ?>
+        </span>
+        <span class="js-reload" style="<?php echo (count($messages) > $limit) ? "" : "display: none"?>">
+            <span class="js-separator">&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+            <?php echo link_to_function(__('View the last messages'),  'location.reload()'); ?>
+        </span>
+    </div>
+    <img class="js-loader" src="/images/ajax-loader-bg-2B2B2B.gif" alt="Loading..." style="display: none;" />
 </div>
 <div id="messages">
     <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
@@ -66,7 +75,7 @@
 <?php if( $profile && $profile->isActive() ): ?>
     <span id="feedback">&nbsp;</span>
 
-    <?php echo form_tag('messages/thread', array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
+    <?php echo form_tag('messages/thread?id='.$thread->getId(), array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
         <?php if( $limit ): ?>
@@ -108,37 +117,12 @@
 </div>
 
 <?php echo javascript_tag('
-    Event.observe(window, "load", function() {
+Event.observe(window, "load", function() {
        if($("your_story")) {
           $("your_story").focus();
        }
-    });
+});
 ');?>
-
-<?php echo javascript_tag('
-    var temp = "";
-    function read(ajax){
-        document.getElementById("loader").innerHTML = temp;
-        var el = document.getElementById("fetch_link");
-        var currentOffset = parseInt(el.getAttribute("data-offset"), 10);
-        if (ajax.getResponseHeader("displayFetchLink")){
-            el.setAttribute("data-offset", parseInt(el.getAttribute("data-limit"), 10) + currentOffset);
-            el.style.display = "block";
-        } else {
-            el.style.display = "none";
-            document.forms[0].displayFetchLink.value = 0;
-        }
-        var currentMessNum = parseInt(document.getElementById("numberOfMessages").value);
-        document.getElementById("numberOfMessages").value = currentMessNum + parseInt(ajax.getResponseHeader("numberOfMessages"));
-    }
-    function showLoading(){
-        var el = document.getElementById("loader");
-        temp = el.innerHTML;
-        el.innerHTML = "<img src=\"/images/ajax-loader-bg-2B2B2B.gif\" alt=\"Loading...\" />";
-    }
-')
-?>
-
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
