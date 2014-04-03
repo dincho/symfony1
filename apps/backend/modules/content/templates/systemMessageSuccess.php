@@ -21,5 +21,13 @@
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'content/systemMessages?cancel=1&cat_id=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
+
+<?php include_component('content',
+        'bottomMenu',
+        array(
+            'url' => 'content/systemMessage?headline_id=' . $headline->getMsgCollectionId() . '&content_id=' . $content->getMsgCollectionId(),
+            'multiCatalogs' => true,
+            'catId' => $catalog->getCatId()
+        )
+); ?>
 </form>
-<?php include_component('content', 'bottomMenu', array('url' => 'content/systemMessage?headline_id=' . $headline->getMsgCollectionId() . '&content_id=' . $content->getMsgCollectionId())); ?>

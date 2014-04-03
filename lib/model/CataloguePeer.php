@@ -22,4 +22,17 @@ class CataloguePeer extends BaseCataloguePeer
         
         return self::doSelect($c);
     }
+
+    public static function getCatalogsByIds(array $catIds)
+    {
+        $catalogs = array();
+
+        if (!empty($catIds)) {
+            $c = new Criteria();
+            $c->add(CataloguePeer::CAT_ID, $catIds, Criteria::IN);
+            $catalogs = CataloguePeer::getAll($c);
+        }
+
+        return $catalogs;
+    }
 }

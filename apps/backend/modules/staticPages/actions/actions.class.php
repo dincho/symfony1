@@ -55,17 +55,30 @@ class staticPagesActions extends sfActions
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
-           $this->getUser()->checkPerm(array('content_edit'));
-           
-           $page->setLinkName($this->getRequestParameter('link_name'));
-           $page->setTitle($this->getRequestParameter('title'));
-           $page->setKeywords($this->getRequestParameter('keywords'));
-           $page->setDescription($this->getRequestParameter('description'));
-           $page->setContent($this->getRequestParameter('html_content'));
-           $page->save();
-           
-           $page->getStaticPage()->clearCache();
-           
+            $this->getUser()->checkPerm(array('content_edit'));
+            $this->updatePage($page);
+            // update the rest of the catalogues
+            $catIds = $this->getRequestParameter('affected_catalogs', array());
+            $c = new Criteria();
+            $c->add(StaticPageDomainPeer::CAT_ID, $catIds, Criteria::IN);
+            $c->add(StaticPageDomainPeer::ID, $this->getRequestParameter('id'));
+            $c->setDistinct();
+            $pages = StaticPageDomainPeer::doSelectJoinAll($c);
+
+            // update existing
+            foreach ($pages as $page) {
+                $this->updatePage($page);
+                $key = array_search($page->getCatId(), $catIds);
+                unset($catIds[$key]);
+            }
+
+            foreach ($catIds as $catId) {
+                $page = new StaticPageDomain();
+                $page->setCatId($catId);
+                $page->setId($this->getRequestParameter('id'));
+                $this->updatePage($page);
+            }
+
            $this->setFlash('msg_ok', 'Your changes have been saved.');
            $this->redirect('staticPages/list');
         }
@@ -105,5 +118,16 @@ class staticPagesActions extends sfActions
                 $c->addDescendingOrderByColumn($sort_column);
             }
         }
+    }
+
+    private function updatePage($page)
+    {
+        $page->setLinkName($this->getRequestParameter('link_name'));
+        $page->setTitle($this->getRequestParameter('title'));
+        $page->setKeywords($this->getRequestParameter('keywords'));
+        $page->setDescription($this->getRequestParameter('description'));
+        $page->setContent($this->getRequestParameter('html_content'));
+        $page->save();
+        $page->getStaticPage()->clearCache();
     }
 }

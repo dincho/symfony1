@@ -35,10 +35,9 @@
         <?php endif; ?>
       </fieldset>
 
-  
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'staticPages/list?cancel=1')  . submit_tag('Save', 'class=button') ?>
   </fieldset>
+  <?php include_component('content', 'bottomMenu', array('url' => 'staticPages/edit?id=' . $page->getId(), 'multiCatalogs' => true, 'catId' => $page->getCatalogue()->getCatId())) ?>
 </form>
-<?php include_component('content', 'bottomMenu', array('url' => 'staticPages/edit?id=' . $page->getId())) ?>
 

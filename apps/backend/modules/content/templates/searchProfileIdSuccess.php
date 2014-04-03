@@ -20,5 +20,5 @@
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'content/searchpages?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>
+    <?php include_component('content', 'bottomMenu', array('url' => 'content/searchProfileId', 'multiCatalogs' => true, 'catId' => $catalog->getCatId())); ?>
 </form>
-<?php include_component('content', 'bottomMenu', array('url' => 'content/searchProfileId')); ?>
