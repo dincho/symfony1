@@ -29,8 +29,9 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
         $c->add(MemberNotificationPeer::PROFILE_ID, $profile->getId());
         $c->add(MemberNotificationPeer::TYPE, $notification_type);
         $c->add(MemberNotificationPeer::SENT_AT, null, Criteria::ISNULL);
+        $c->add(MemberNotificationPeer::CREATED_AT, time()-60, Criteria::GREATER_THAN);
 
-        //add only unique (not sent) notifications to prevent flooding
+        //add only unique (not sent and last minute) notifications to prevent flooding
         if (MemberNotificationPeer::doCount($c) > 0) {
             return;
         }
