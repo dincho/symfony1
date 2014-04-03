@@ -10,8 +10,21 @@
     <label for="value">Value:</label>
     <?php echo object_input_tag($setting, 'getValue') ?>
       
-  </fieldset> 
+  </fieldset>
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'settings/list?cat_id=' . $catalog->getCatId())  . submit_tag('Save', 'class=button') ?>
+    <?php echo button_to('Cancel', 'settings/list?cat_id=' . $catalog->getCatId())  . submit_tag('Save', 'class=button') . submit_tag('Save for all catalogs', array('name' => 'allCats', 'class' => 'button')) ?>
+  </fieldset>
+  <br/>
+  <fieldset>
+      <?php foreach ($settings as $set) : ?>
+      <p class="text-left">
+        <strong>
+            <?php echo $idCatMap[$set->getCatId()]->getDomain(); ?>
+        </strong>
+        <span>
+            Value: <?php echo $set->getValue()?>
+        </span>
+      </p>
+      <?php endforeach ?>
   </fieldset>
 </form>
