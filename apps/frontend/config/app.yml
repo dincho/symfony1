@@ -1,6 +1,8 @@
 all:
   sf_google_analytics_plugin:
     enabled:                no
+    classes:
+      google2:   sfGoogleAnalyticsTrackerGoogle2
   sfSimpleGoogleSitemap:
     orm:                  Propel                 # possible values: auto, Propel, DbFinder. 'auto' is auto detection. Note: case sensitive!
     urls:                                        # define multiple static urls here
@@ -188,8 +190,8 @@ prod:
   sf_google_analytics_plugin:
     enabled:      yes
     profile_id:   UA-11123315-1
-    tracker:      google
-    insertion:    top
+    tracker:      google2
+    insertion:    bottom
     params:
       domain_name:   none
       linker_policy: true      
