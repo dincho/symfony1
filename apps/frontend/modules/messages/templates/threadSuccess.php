@@ -118,7 +118,9 @@
 
 <?php echo javascript_tag('
 Event.observe(window, "load", function() {
-    setTimeout("$(\"your_story\").focus();",1);
+       if($("your_story")) {
+          $("your_story").focus();
+       }
 });
 ');?>
 <?php slot('footer_menu') ?>
