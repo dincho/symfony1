@@ -138,9 +138,12 @@ class registrationActions extends BaseEditProfileActions
         $this->setLayout('simple');
         $this->header_current_step = 1;
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))->add(array('name' => 'Registration headline', 'uri' => 'registration/index'));
-        
-        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
-        
+
+        if ($this->member->getMemberStatusId() != MemberStatusPeer::ABANDONED) {
+            $this->setFlash('msg_ok', __('You have already finished your registration.'));
+            $this->redirect('dashboard');
+        }
+
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
             $this->member->setCountry($this->getRequestParameter('country'));
@@ -258,8 +261,11 @@ class registrationActions extends BaseEditProfileActions
         $this->getUser()->getBC()->clear()->add(array('name' => 'Home'))
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
         ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'));
-        
-        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+
+        if ($this->member->getMemberStatusId() != MemberStatusPeer::ABANDONED) {
+            $this->setFlash('msg_ok', __('You have already finished your registration.'));
+            $this->redirect('dashboard');
+        }
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -433,8 +439,11 @@ class registrationActions extends BaseEditProfileActions
         ->add(array('name' => 'Registration headline', 'uri' => 'registration/index'))
         ->add(array('name' => 'Description headline', 'uri' => 'registration/selfDescription'))
         ->add(array('name' => 'Essay headline', 'uri' => 'registration/essay'));
-                
-        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+
+        if ($this->member->getMemberStatusId() != MemberStatusPeer::ABANDONED) {
+            $this->setFlash('msg_ok', __('You have already finished your registration.'));
+            $this->redirect('dashboard');
+        }
         
         if ($this->getRequest()->getMethod() == sfRequest::POST)
         {
@@ -468,7 +477,11 @@ class registrationActions extends BaseEditProfileActions
     public function executePhotos()
     {
         $this->setMember();
-        $this->forward404Unless($this->member->getMemberStatusId() == MemberStatusPeer::ABANDONED);
+
+        if ($this->member->getMemberStatusId() != MemberStatusPeer::ABANDONED) {
+            $this->setFlash('msg_ok', __('You have already finished your registration.'));
+            $this->redirect('dashboard');
+        }
         
         if( $this->getRequestParameter('skip') )
         {
