@@ -31,12 +31,24 @@ class settingsActions extends sfActions
         
         $setting = sfSettingPeer::retrieveByCatalogAndName($catalog, $this->getRequestParameter('name'));
         $this->forward404Unless($setting);
+
+        $c = new Criteria();
+        $c->add(sfSettingPeer::NAME, $this->getRequestParameter('name'));
+        $settings = sfSettingPeer::doSelectJoinCatalogue($c);
         
         if( $this->getRequest()->getMethod() == sfRequest::POST )
         {
+            //bellow loop does not double save, because no changes (already saved)
             $setting->setValue($this->getRequestParameter('value'));
             $setting->save();
-            
+
+            if ($this->getRequestParameter('allCats')) {
+                foreach ($settings as $currentSetting) {
+                    $currentSetting->setValue($this->getRequestParameter('value'));
+                    $currentSetting->save();
+                }
+            }
+
             //clear the cache
             $sf_root_cache_dir = sfConfig::get('sf_root_cache_dir');
             $cache_dir = $sf_root_cache_dir.'/*/*/config/';
@@ -46,6 +58,6 @@ class settingsActions extends sfActions
         }
         
         $this->setting = $setting;
-        $this->catalog = $catalog;
+        $this->settings = $settings;
     }
 }
