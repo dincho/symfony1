@@ -16,7 +16,7 @@
 include(dirname(__FILE__).'/../bootstrap/unit_propel.php');
 
 //tests
-$t = new lime_test(27, new lime_output_color());
+$t = new lime_test(29, new lime_output_color());
 
 /**
  * Test subscription confirmation
@@ -152,6 +152,12 @@ $t->is($subscription->getStatus(), 'failed', 'subscription status is failed');
  * Test subscription max failed payments when it's about current subscription
  */
 
+$t->is(
+    $member->getSubscriptionId(),
+    SubscriptionPeer::PREMIUM,
+    'precondition: member subscription is premium'
+);
+
 $c = new sfPaypalPaymentCallback();
 $c->setShouldValidate(false);
 $c->initialize(array(
@@ -204,6 +210,7 @@ $subscription->save();
 /**
  * an active subscription
  */
+
 $activeSubscription = new MemberSubscription();
 $activeSubscription->setSubscriptionId(SubscriptionPeer::PREMIUM);
 $activeSubscription->setStatus('pending');
@@ -223,6 +230,11 @@ $member_payment->save();
 $member_payment->applyToSubscription();
 $member->save();
 
+$t->is(
+    $member->getSubscriptionId(),
+    SubscriptionPeer::PREMIUM,
+    'precondition: member subscription is premium'
+);
 
 $c = new sfPaypalPaymentCallback();
 $c->setShouldValidate(false);
