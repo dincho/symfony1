@@ -35,6 +35,7 @@
     initFileUploads('<?php echo $id; ?>', {
         generalErrorMsg: 'The file upload was attempted but the server failed to handle it',
         maxSizeErrorMsg: 'Max image size is 3MB',
-        typeErrorMsg: 'Please select correct file type'
+        typeErrorMsg: 'Please select correct file type',
+        maxNumberOfFilesMsg: "You can't upload more photos. You reached the limit."
     });
 </script>
