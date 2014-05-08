@@ -12,14 +12,18 @@
 <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% public photos', array('%MAX_PHOTOS%' => $subscription->getPostPhotos())) ?></p>
 <h3><?php echo __('Public Photos'); ?></h3><hr />
 
-<?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
-                                                  'upload_url' => url_for('editProfile/uploadPhoto?block_id=public_photos'),
-                                                  'photos' => $public_photos, 
-                                                  'num_containers' => $subscription->getPostPhotos(),
-                                                  'member' => $member,
-                                                  'upload_button_title' => __('Upload Public Photos'),
-                                                  'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)), 
-                                                  'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
+<?php include_partial('editProfile/photos_block',
+                      array(
+                            'id' => 'public_photos', 
+                            'upload_url' => url_for('editProfile/uploadPhoto?block_id=public_photos'),
+                            'photos' => $public_photos, 
+                            'num_containers' => $subscription->getPostPhotos(),
+                            'member' => $member,
+                            'upload_button_title' => __('Upload Public Photos'),
+                            'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)), 
+                            'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg'
+                      )
+); ?>
 
 <p class="photo_authenticity float-right">
     <?php echo link_to(($member->hasAuthPhoto()) ? __('Update Your Verification Photo') : __('Verify authenticity'), '@verify_photo', array('class' => 'sec_link')); ?>
@@ -29,14 +33,18 @@
 <?php if( $subscription->getCanPostPrivatePhoto() && $subscription->getPostPrivatePhotos() > 0 ): ?>
     <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $subscription->getPostPrivatePhotos())) ?></p>
     <h3><?php echo __('Private Photos'); ?></h3><hr />
-    <?php include_partial('editProfile/photos_block', array('id' => 'private_photos', 
-                                                      'upload_url' => url_for('editProfile/uploadPhoto?block_id=private_photos'),
-                                                      'photos' => $private_photos, 
-                                                      'num_containers' => $subscription->getPostPrivatePhotos(), 
-                                                      'member' => $member,
-                                                      'upload_button_title' => __('Upload Private Photos'),
-                                                      'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)), 
-                                                      'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
+    <?php include_partial('editProfile/photos_block', 
+                          array(
+                                'id' => 'private_photos', 
+                                'upload_url' => url_for('editProfile/uploadPhoto?block_id=private_photos'),
+                                'photos' => $private_photos, 
+                                'num_containers' => $subscription->getPostPrivatePhotos(), 
+                                'member' => $member,
+                                'upload_button_title' => __('Upload Private Photos'),
+                                'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)), 
+                                'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg',
+                          )
+    ); ?>
     <br class="clear" />
 <?php endif; ?>
 
