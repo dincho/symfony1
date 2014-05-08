@@ -82,6 +82,7 @@ function reorder_photo_block(block)
 function initFileUploads(block_id, errors) {
     (function ($) {
         var $block = $('#' + block_id);
+        var limitErrorShown = false;
 
         $('#btn_upload_' + block_id).fileupload({
             dataType: 'json',
@@ -89,8 +90,20 @@ function initFileUploads(block_id, errors) {
             sequentialUploads: true,
             change: function () {
                 clearMessages();
+                limitErrorShown = false;
             },
             add: function (e, data) {
+                var emptyContainers = $('.photo_container:not(:has(.photo)):not(:has(img))', $block);
+
+                if (emptyContainers.length === 0) { //no more empty placeholders
+                    if (!limitErrorShown) {
+                        addMessage(errors.maxNumberOfFilesMsg + ' (' + data.files[0].name + ') ', 'msg_error');
+                        limitErrorShown = true;
+                    }
+
+                    return;
+                }
+
                 if (data.files[0].size > 3145728) {
                     addMessage(errors.maxSizeErrorMsg + ' (' + data.files[0].name + ') ', 'msg_error');
                     return;
