@@ -12,19 +12,23 @@
       
   </fieldset>
   <fieldset class="actions">
-    <?php echo button_to('Cancel', 'settings/list?cat_id=' . $catalog->getCatId())  . submit_tag('Save', 'class=button') . submit_tag('Save for all catalogs', array('name' => 'allCats', 'class' => 'button')) ?>
+    <?php echo button_to('Cancel', 'settings/list?cat_id=' . $setting->getCatId())  ?>
+    <?php echo submit_tag('Save', 'class=button') ?>
+    <?php echo submit_tag('Save for all catalogs', array('name' => 'allCats', 'class' => 'button')) ?>
   </fieldset>
   <br/>
   <fieldset>
-      <?php foreach ($settings as $set) : ?>
-      <p class="text-left">
-        <strong>
-            <?php echo $idCatMap[$set->getCatId()]->getDomain(); ?>
-        </strong>
-        <span>
-            Value: <?php echo $set->getValue()?>
-        </span>
-      </p>
-      <?php endforeach ?>
+      <table>
+        <tr>
+          <th>Catalog</th>
+          <th>Value</th>
+        </tr>
+        <?php foreach ($settings as $set): ?>
+          <tr>
+            <td><?php echo $set->getCatalogue()->getDomain(); ?></td>
+            <td><?php echo $set->getValue()?></td>
+          </tr>
+        <?php endforeach ?>
+      </table>
   </fieldset>
 </form>
