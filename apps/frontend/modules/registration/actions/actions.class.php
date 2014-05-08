@@ -523,4 +523,10 @@ class registrationActions extends BaseEditProfileActions
 
         return sfView::NONE;
     }
+
+    public function getPhotoError()
+    {
+        $errors = $this->getRequest()->getErrors();
+        return __(array_shift($errors));
+    }
 }

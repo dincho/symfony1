@@ -227,9 +227,13 @@ class BaseEditProfileActions extends prActions
         sfConfig::set('sf_web_debug', false);
         
         $this->getResponse()->setContentType('text/plain');
-        $errors = $this->getRequest()->getErrors();
-        $return = array('status' => 'failed', 'error' => array_shift($errors));
+        $return = array('status' => 'failed', 'error' => $this->getPhotoError());
         return $this->renderText(json_encode($return));
     }
 
+    public function getPhotoError()
+    {
+        $errors = $this->getRequest()->getErrors();
+        return array_shift($errors);
+    }
 }
