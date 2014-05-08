@@ -12,6 +12,7 @@ class BaseEditProfileActions extends prActions
         
         $this->getResponse()->addJavascript('/js/jquery.min.js', 'last');
         $this->getResponse()->addJavascript('/js/fileupload/vendor/jquery.ui.widget.js', 'last');
+        $this->getResponse()->addJavascript('/js/fileupload/jquery.iframe-transport.js', 'last');
         $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
         $this->getResponse()->addJavascript('messagebar', 'last');
@@ -146,7 +147,7 @@ class BaseEditProfileActions extends prActions
         $this->member->save();
         
 
-        $this->getResponse()->setContentType('application/json');
+        $this->getResponse()->setContentType('text/plain');
         $return = array('status' => 'success', 'data' => get_partial('editProfile/photo_slot', array('photo' => $member_photo)));
         return $this->renderText(json_encode($return));
     }
@@ -225,7 +226,7 @@ class BaseEditProfileActions extends prActions
         sfLoader::loadHelpers(array('Partial'));
         sfConfig::set('sf_web_debug', false);
         
-        $this->getResponse()->setContentType('application/json');
+        $this->getResponse()->setContentType('text/plain');
         $errors = $this->getRequest()->getErrors();
         $return = array('status' => 'failed', 'error' => array_shift($errors));
         return $this->renderText(json_encode($return));
