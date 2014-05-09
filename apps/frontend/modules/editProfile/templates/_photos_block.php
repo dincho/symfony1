@@ -33,9 +33,9 @@
 
 <script type="text/javascript">
     initFileUploads('<?php echo $id; ?>', {
-        generalErrorMsg: '<?php echo __('The file upload was attempted but the server failed to handle it'); ?>',
-        maxSizeErrorMsg: '<?php echo __('Max image size is 3MB'); ?>',
-        typeErrorMsg: '<?php echo __('Please select correct file type'); ?>',
-        maxNumberOfFilesMsg: "<?php echo __($upload_limit_error); ?>"
+        generalErrorMsg: '<?php echo esc_js_no_entities(__('The file upload was attempted but the server failed to handle it')); ?>',
+        maxSizeErrorMsg: '<?php echo esc_js_no_entities(__('Max image size is 3MB')); ?>',
+        typeErrorMsg: '<?php echo esc_js_no_entities(__('Please select correct file type')); ?>',
+        maxNumberOfFilesMsg: "<?php echo esc_js_no_entities(__($upload_limit_error)); ?>"
     });
 </script>
