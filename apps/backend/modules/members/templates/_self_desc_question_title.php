@@ -1,5 +1,5 @@
 <label class="full_row">
-    <?php echo $i; ?>. <?php echo $question->getTitle() ?> 
+    <?php echo $i; ?>. <?php echo $question->getTitle() ?>
     <span>
     <?php if($question->getType() == 'age'): ?>
         <?php echo '(If you\'re not 19 or older, you are not allowed to be here - you must leave now!)' ?>

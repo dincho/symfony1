@@ -20,13 +20,13 @@ fields:
     sfRegexValidator:
         match:        Yes
         match_error:  Please make sure your password is a combination of at least 6 letters and digits.
-        pattern:      /^.*(?=(.*\d){1})(?=(.*[a-z]){1})(?=(.*[\da-z]){6,}).*$/i      
+        pattern:      /^.*(?=(.*\d){1})(?=(.*[a-z]){1})(?=(.*[\da-z]){6,}).*$/i
   repeat_password:
     required:
       msg:  Please retype the password.
     sfCompareValidator:
       check:  password
-      compare_error:  Please enter identical passwords. 
+      compare_error:  Please enter identical passwords.
   looking_for:
     sfStringValidator:
       values:       [M_F, F_M, M_M, F_F]

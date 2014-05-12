@@ -9,36 +9,32 @@
  */
 class membersActions extends prActions
 {
-    
+
     public function preExecute()
     {
-        if ($this->getRequestParameter('cancel') == 1)
-        {
+        if ($this->getRequestParameter('cancel') == 1) {
             $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved');
             $this->redirect($this->getModuleName() . '/' . $this->getActionName() . '?id=' . $this->getRequestParameter('id'));
         }
-        
+
         $this->processFilters();
         $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
         $bc = $this->getUser()->getBC();
         $bc->removeLast();
-        
+
         if ($this->getActionName() != 'list')
             $this->addFiltersCriteria(new Criteria()); //left menu selection
-        
 
-        if (! count($this->filters))
-        {
+        if (! count($this->filters)) {
             $this->left_menu_selected = 'All Members';
             $bc->add(array('name' => 'All Members', 'uri' => 'members/list'));
         }
-        
-        if ($this->getRequestParameter('id'))
-        {
+
+        if ($this->getRequestParameter('id')) {
             $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
             $this->forward404Unless($member);
             $bc->add(array('name' => $member->getUsername(), 'uri' => 'members/edit?id=' . $member->getId()));
-            
+
             $this->member = $member;
         }
     }
@@ -51,11 +47,11 @@ class membersActions extends prActions
     public function executeList()
     {
         $this->processSort();
-        
+
         $c = new Criteria();
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
-        
+
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
@@ -64,7 +60,7 @@ class membersActions extends prActions
         $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
         $this->pager = $pager;
-    
+
         if( $this->getRequestParameter('page', 1)  == 1 )
             $this->getUser()->setAttribute('criteria', $c, 'backend/members/profile_pager');
     }
@@ -73,9 +69,8 @@ class membersActions extends prActions
     {
         $member = new Member();
         $this->member = $member;
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+
             $member->setUsername($this->getRequestParameter('username'));
             $member->setEmail($this->getRequestParameter('email'));
             $member->setPassword($this->getRequestParameter('password'));
@@ -90,93 +85,86 @@ class membersActions extends prActions
             $member->setNationality($this->getRequestParameter('nationality'));
             $member->setFirstName($this->getRequestParameter('first_name'));
             $member->setLastName($this->getRequestParameter('last_name'));
-                        
+
             $member->initNewMember();
             $member->setHasEmailConfirmation(true);
             $member->save();
-            
+
             $this->setFlash('msg_ok', 'You have added a member, please finish registration');
             $this->redirect('members/editSelfDescription?id=' . $member->getId());
         }
-        
+
         $this->has_adm1 = false;
         $this->has_adm2 = false;
     }
-    
+
     public function validateCreate()
     {
         $return = true;
-        
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
+
+        if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
-            
+
             $nationality = $this->getRequestParameter('nationality');
             $username = $this->getRequestParameter('username');
 
             $value = $error = null;
-            if( !$geoValidator->execute($value, $error) )
-            {
+            if ( !$geoValidator->execute($value, $error) ) {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
                 $return = false;
             }
-            
-            if( !$nationality )
-            {
+
+            if (!$nationality) {
                 $this->getRequest()->setError('nationality', 'Please provide your nationality.');
                 $return = false;
             }
-            
-            if( !$username )
-            {
+
+            if (!$username) {
                 $this->getRequest()->setError('username', 'Pease create your username.');
                 $return = false;
             }
-          
+
             $myRegexValidator = new sfRegexValidator();
             $myRegexValidator->initialize($this->getContext(), array(
                 'match'       => true,
                 'pattern'     => '/^[a-zA-Z0-9_]{4,20}$/',
             ));
-            if (!$myRegexValidator->execute($username, $error))
-            {
+            if (!$myRegexValidator->execute($username, $error)) {
                 $this->getRequest()->setError('username', 'Allowed characters for username are [a-zA-Z][0-9] and underscore, min 4 chars max 20.');
                 $return = false;
             }
-            
+
             $myRegexValidator2 = new sfRegexValidator();
             $myRegexValidator2->initialize($this->getContext(), array(
                 'match'       => false,
                 'pattern'     => '/^_.*$/',
             ));
-            if (!$myRegexValidator2->execute($username, $error))
-            {
+            if (!$myRegexValidator2->execute($username, $error)) {
                 $this->getRequest()->setError('username', 'Username cannot start with underscore');
                 $return = false;
             }
-            
+
             $myUniqueValidator = new sfPropelUniqueValidator();
             $myUniqueValidator->initialize($this->getContext(), array(
                 'class'        => 'Member',
                 'column'       => 'username',
             ));
-            if (!$myUniqueValidator->execute($username, $error))
-            {
+            if (!$myUniqueValidator->execute($username, $error)) {
                 $this->getRequest()->setError('username', 'This username is already taken.');
                 $return = false;
             }
 
         }
-        
+
         return $return;
     }
-    
+
     public function handleErrorCreate()
     {
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
-        
-        if( $this->getRequestParameter('adm1_id') && 
+
+        if( $this->getRequestParameter('adm1_id') &&
             $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
           )
         {
@@ -184,19 +172,17 @@ class membersActions extends prActions
         } else {
           $this->has_adm2 = false;
         }
-                
+
         return sfView::SUCCESS;
     }
 
     public function executeEdit()
     {
         $this->getUser()->getBC()->add(array('name' => 'Overview', 'uri' => 'members/edit?id=' . $this->member->getId()));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
-            
-            if ($this->getRequestParameter('submit_save'))
-            {
+
+            if ($this->getRequestParameter('submit_save')) {
                 $this->member->setFirstName($this->getRequestParameter('first_name'));
                 $this->member->setLastName($this->getRequestParameter('last_name'));
                 $this->member->setEmail($this->getRequestParameter('email'));
@@ -204,45 +190,42 @@ class membersActions extends prActions
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
                 $catalogChanged = $this->getRequestParameter('catalog_id') != $this->member->getCatalogId();
                 $this->member->setCatalogId($this->getRequestParameter('catalog_id'));
-                
+
                 //change the subscription and clear the last subscription item
                 $subscription_id = $this->getRequestParameter('subscription_id');
-                if ( $this->member->getSubscriptionId() != $subscription_id )
-                {
+                if ( $this->member->getSubscriptionId() != $subscription_id ) {
                   $this->member->changeSubscription($subscription_id, $this->getUser()->getUsername() . ' (edit)');
                 }
 
                 $this->member->save();
-                if ($catalogChanged ) {
+                if ($catalogChanged) {
                     $this->member->killSession();
                 }
 
                 $this->setFlash('msg_ok', 'Your changes have been saved');
                 $this->redirect('members/edit?id=' . $this->member->getId());
-            } elseif ($this->getRequestParameter('add_note'))
-            {
-                
+            } elseif ($this->getRequestParameter('add_note')) {
+
                 $this->forward('members', 'addNote');
             }
-        
-        } else
-        {
+
+        } else {
             $c = new Criteria();
             $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
             $c->add(FlagPeer::IS_HISTORY, false);
             $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
             $this->flags = FlagPeer::doSelectJoinAll($c);
-            
+
             $c = new Criteria();
             $c->addJoin(MemberNotePeer::USER_ID, UserPeer::ID, Criteria::LEFT_JOIN);
             $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
             $c->addDescendingOrderByColumn(MemberNotePeer::UPDATED_AT);
             $this->notes = MemberNotePeer::doSelect($c);
-            
+
             $pager_crit = $this->getUser()->getAttribute('criteria', new Criteria(), 'backend/members/profile_pager');
             $this->pager = new ProfilePager($pager_crit, $this->member->getId());
             $this->pager->init();
-            
+
             $member = clone $this->member;
             $member->setReviewedById($this->getUser()->getId());
             $member->setReviewedAt(time());
@@ -253,35 +236,34 @@ class membersActions extends prActions
     public function handleErrorEdit()
     {
         $this->preExecute();
-                
+
         $this->getUser()->getBC()->add(array('name' => 'Overview', 'uri' => 'members/edit?id=' . $this->member->getId()));
-        
+
         $c = new Criteria();
         $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
         $c->add(FlagPeer::IS_HISTORY, false);
         $c->addDescendingOrderByColumn(FlagPeer::CREATED_AT);
         $this->flags = FlagPeer::doSelectJoinAll($c);
-        
+
         $c = new Criteria();
         $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
         $c->addDescendingOrderByColumn(MemberNotePeer::CREATED_AT);
         $this->notes = MemberNotePeer::doSelectJoinAll($c);
-        
+
         $member = clone $this->member;
         $member->setReviewedById($this->getUser()->getId());
         $member->setReviewedAt(time());
         $member->save();
-                    
+
         return sfView::SUCCESS;
     }
-    
+
     public function executeEditRegistration()
     {
         $this->forward404Unless($this->member);
         $this->getUser()->getBC()->add(array('name' => 'Registration', 'uri' => 'members/editRegistration?id=' . $this->member->getId()));
         $this->adm1s = GeoPeer::getAllByCountry($this->member->getCountry());
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setPurpose($this->getRequestParameter('purpose'));
             $this->member->setCountry($this->getRequestParameter('country'));
@@ -289,8 +271,7 @@ class membersActions extends prActions
             $this->member->setAdm2Id($this->getRequestParameter('adm2_id'));
             $this->member->setCityId($this->getRequestParameter('city_id'));
             $this->member->setZip($this->getRequestParameter('zip'));
-            if ($this->getRequestParameter('password')) //password changed
-            {
+            if ($this->getRequestParameter('password')) { //password changed
                 $this->member->setPassword($this->getRequestParameter('password'));
             }
             $this->member->save();
@@ -298,105 +279,96 @@ class membersActions extends prActions
             $this->redirect('members/editRegistration?id=' . $this->member->getId());
         } else {
           $this->has_adm1 = ( !is_null($this->member->getAdm1Id()) ) ? true : false;
-          $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;          
+          $this->has_adm2 = ( !is_null($this->member->getAdm2Id()) ) ? true : false;
         }
     }
-    
+
     public function validateEditRegistration()
     {
         $return = true;
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST )
-        {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST ) {
             $geoValidator = new prGeoValidator();
             $geoValidator->initialize($this->getContext());
-            
+
             $value = $error = null;
-            if( !$geoValidator->execute($value, $error) )
-            {
+            if ( !$geoValidator->execute($value, $error) ) {
                 $this->getRequest()->setError($error['field_name'], $error['msg']);
                 $return = false;
-            } 
-            
+            }
+
         }
-        
+
         return $return;
     }
-    
+
     public function handleErroreditRegistration()
     {
         $this->member = MemberPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404Unless($this->member); //just in case
-        
+
         $this->has_adm1 = GeoPeer::hasAdm1AreasIn($this->getRequestParameter('country'));
         $this->purpose = $this->getRequestParameter('purpose');
-        
-        if( $this->getRequestParameter('adm1_id') && 
+
+        if( $this->getRequestParameter('adm1_id') &&
             $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country'), $this->getRequestParameter('adm1_id'))
           )
         {
           $this->has_adm2 = $adm1->hasAdm2Areas();
         } else {
           $this->has_adm2 = false;
-        } 
-                
+        }
+
         return sfView::SUCCESS;
     }
 
     public function executeEditSelfDescription()
     {
         $this->getUser()->getBC()->add(array('name' => 'Self-Description', 'uri' => 'members/editSelfDescription?id=' . $this->member->getId()));
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setDontDisplayZodiac($this->getRequestParameter('dont_display_zodiac'));
             $this->member->clearDescAnswers();
             $others = $this->getRequestParameter('others');
-            
-            foreach ($this->getRequestParameter('answers') as $question_id => $value)
-            {
+
+            foreach ($this->getRequestParameter('answers') as $question_id => $value) {
                 $q = DescQuestionPeer::retrieveByPK($question_id);
                 $m_answer = new MemberDescAnswer();
                 $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->member->getId());
-                
-                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id]))
-                {
+
+                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id])) {
                     $m_answer->setDescAnswerId(null);
                     $m_answer->setOther($others[$question_id]);
-                } elseif ($q->getType() == 'other_langs')
-                {
+                } elseif ($q->getType() == 'other_langs') {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
-                } elseif ($q->getType() == 'native_lang')
-                {
+                } elseif ($q->getType() == 'native_lang') {
                     $m_answer->setCustom($value);
                     $m_answer->setDescAnswerId(null);
                     $this->member->setLanguage($value);
-                } elseif ($q->getType() == 'age')
-                {
+                } elseif ($q->getType() == 'age') {
                     $birthday = date('Y-m-d', mktime(0, 0, 0, $value['month'], $value['day'], $value['year']));
                     $m_answer->setCustom($birthday);
                     $m_answer->setDescAnswerId(null);
                     $this->member->setBirthDay($birthday);
-                } else
-                {
+                } else {
                     $m_answer->setDescAnswerId( ($value) ? $value : null);
                 }
                 $m_answer->save();
-                
+
                 //millionaire check
-                if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) );                 
+                if( $question_id == 7 ) $this->member->setMillionaire( ($value > 26) );
             }
             $this->member->save();
             $this->member->clearCache();
             MemberMatchPeer::updateMemberIndex($this->member);
-            
+
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editSelfDescription?id=' . $this->member->getId());
         }
-        
+
         $this->questions = DescQuestionPeer::doSelect(new Criteria());
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_answers = MemberDescAnswerPeer::getAnswersAssoc($this->member->getId());
@@ -405,8 +377,7 @@ class membersActions extends prActions
     public function executeEditEssay()
     {
         $this->getUser()->getBC()->add(array('name' => 'Essay', 'uri' => 'members/editEssay?id=' . $this->member->getId()));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
             $this->member->setEssayHeadline($this->getRequestParameter('essay_headline'));
             $this->member->setEssayIntroduction($this->getRequestParameter('essay_introduction'));
@@ -422,10 +393,10 @@ class membersActions extends prActions
       $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
       $this->forward404Unless($member);
       $this->member = $member;
-      
+
       return sfView::SUCCESS;
     }
-    
+
     public function executeEditPhotos()
     {
         $this->getResponse()->addJavascript('/js/jquery.min.js', 'last');
@@ -434,44 +405,41 @@ class membersActions extends prActions
         $this->getResponse()->addJavascript('photos', 'last');
         $this->getResponse()->addJavascript('messagebar', 'last');
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
-        
+
         $this->public_photos = $this->member->getPublicMemberPhotos();
         $this->private_photos = $this->member->getPrivateMemberPhotos();
     }
-    
+
     public function handleErrorEditPhotos()
     {
         $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
         $this->forward404Unless($member);
         $this->member = $member;
-        
+
         $this->photos = $this->member->getPublicMemberPhotos();
         $this->selected_photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
-              
+
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
 
-        return sfView::SUCCESS; 
+        return sfView::SUCCESS;
     }
 
     public function executeEditSearchCriteria()
     {
         $this->getUser()->getBC()->add(array('name' => 'Search Criteria', 'uri' => 'members/editSearchCriteria?id=' . $this->member->getId()));
         $this->getResponse()->addJavascript('SC_select_all');
-        
+
         $questions = DescQuestionPeer::doSelect(new Criteria());
         $this->questions = $questions;
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
             $member_answers = $this->getRequestParameter('answers', array());
             $member_match_weights = $this->getRequestParameter('weights');
             $this->member->clearSearchCriteria();
-            
-            foreach ($questions as $question)
-            {
-                if (array_key_exists($question->getId(), $member_answers))
-                {
+
+            foreach ($questions as $question) {
+                if (array_key_exists($question->getId(), $member_answers)) {
                     $search_crit_desc = new SearchCritDesc();
                     $search_crit_desc->setMemberId($this->member->getId());
                     $search_crit_desc->setDescQuestionId($question->getId());
@@ -482,74 +450,66 @@ class membersActions extends prActions
                     $search_crit_desc->save();
                 }
             }
-            
+
             MemberMatchPeer::updateMemberIndex($this->member);
             $this->setFlash('msg_ok', 'Your changes have been saved');
         }
-        
+
         $this->answers = DescAnswerPeer::getAnswersAssoc();
         $this->member_crit_desc = $this->member->getSearchCritDescsArray();
     }
-    
+
     public function validateEditSearchCriteria()
     {
-        if( $this->getRequest()->getMethod() == sfRequest::POST )
-        {
+        if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
             $questions = DescQuestionPeer::doSelect(new Criteria());
             $answers = $this->getRequestParameter('answers', array());
             //print_r($answers);exit();
             $has_error = false;
             $add_error = false;
-            foreach ($questions as $question)
-            {
-                if( $question->getType() == 'age' )
-                {
+            foreach ($questions as $question) {
+                if ( $question->getType() == 'age' ) {
                     $ages = $answers[$question->getId()];
-                    if( !is_array($ages) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] )
-                    {
+                    if ( !is_array($ages) || $ages[0] < 18 || $ages[1] > 100 || $ages[1] < $ages[0] ) {
                         $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please enter correct ages range');
-                        $has_error = true;      
+                        $has_error = true;
                     }
-                } elseif( $question->getType() == 'select' && (!is_array($answers[$question->getId()]) || $answers[$question->getId()]['from'] > $answers[$question->getId()]['to']) )
-                {
+                } elseif ( $question->getType() == 'select' && (!is_array($answers[$question->getId()]) || $answers[$question->getId()]['from'] > $answers[$question->getId()]['to']) ) {
                         $this->getRequest()->setError('answers[' . $question->getId() . ']', 'Please select correct range');
                         $has_error = true;
-                } elseif( $question->getIsRequired() && !isset($answers[$question->getId()]) )
-                {
+                } elseif ( $question->getIsRequired() && !isset($answers[$question->getId()]) ) {
                         $this->getRequest()->setError('answers[' . $question->getId() . ']', 'You must fill out the missing information');
                         $has_error = true;
-                        
+
                 }
             }
-            
-            if ($has_error)
-            {
+
+            if ($has_error) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
     public function handleErrorEditSearchCriteria()
     {
-        if ($this->getRequestParameter('id'))
-        {
+        if ($this->getRequestParameter('id')) {
             $member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
             $this->forward404Unless($member);
             $this->getUser()->getBC()->add(array('name' => $member->getUsername(), 'uri' => 'members/edit?id=' . $member->getId()));
-            
+
             $this->member = $member;
         }
-            	
+
         $this->getUser()->getBC()->add(array('name' => 'Search Criteria', 'uri' => 'members/editSearchCriteria?id=' . $this->member->getId()));
         $this->getResponse()->addJavascript('SC_select_all');
-        
+
         $questions = DescQuestionPeer::doSelect(new Criteria());
         $this->questions = $questions;
-        
+
         $this->answers = DescAnswerPeer::getAnswersAssoc();
-        $this->member_crit_desc = $this->member->getSearchCritDescsArray();       
+        $this->member_crit_desc = $this->member->getSearchCritDescsArray();
 
         return sfView::SUCCESS;
     }
@@ -561,14 +521,14 @@ class membersActions extends prActions
         $c->addDescendingOrderByColumn(MemberStatusHistoryPeer::CREATED_AT);
         $this->history = $this->member->getMemberStatusHistorysJoinMemberStatus($c);
     }
-    
+
     public function executeEditSubscriptionHistory()
     {
         $this->getUser()->getBC()->add(array('name' => 'Subscription History', 'uri' => 'members/editSubscriptionHistory?id=' . $this->member->getId()));
         $c = new Criteria();
         $c->addDescendingOrderByColumn(SubscriptionHistoryPeer::CREATED_AT);
         $this->history = $this->member->getSubscriptionHistorys($c);
-    }    
+    }
 
     public function executeSubscriptions()
     {
@@ -576,10 +536,10 @@ class membersActions extends prActions
         $c->add(MemberSubscriptionPeer::MEMBER_ID, $this->member->getId());
         $c->addDescendingOrderByColumn(MemberSubscriptionPeer::UPDATED_AT);
         $this->subscriptions = MemberSubscriptionPeer::doSelect($c);
-        
+
         $this->currentSubscriptionId = ($this->member->getCurrentMemberSubscription()) ? $this->member->getCurrentMemberSubscription()->getId() : null;
     }
-    
+
     public function executePayments()
     {
         $c = new Criteria();
@@ -591,36 +551,31 @@ class membersActions extends prActions
     public function executeEditOpenPrivacy()
     {
         $this->getUser()->getBC()->add(array('name' => 'Privacy Relations', 'uri' => 'members/editPrivacyRelations?id=' . $this->member->getId()));
-        
+
         $c = new Criteria();
-        
-        if ($this->getRequestParameter('received_only'))
-        {
+
+        if ($this->getRequestParameter('received_only')) {
           $c->add(OpenPrivacyPeer::PROFILE_ID, $this->member->getId());
           $c->addJoin(OpenPrivacyPeer::MEMBER_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
-        }
-        else
-        {
+        } else {
           $c->add(OpenPrivacyPeer::MEMBER_ID, $this->member->getId());
           $c->addJoin(OpenPrivacyPeer::PROFILE_ID, MemberPeer::ID, Criteria::LEFT_JOIN);
         }
         $c->addDescendingOrderByColumn(OpenPrivacyPeer::CREATED_AT);
         $this->open_privacy_rows = OpenPrivacyPeer::doSelect($c);
-    }    
+    }
 
     public function executeEditNotifications()
     {
         $this->getUser()->getBC()->add(array('name' => 'Notifications', 'uri' => 'members/editNotifications?id=' . $this->member->getId()));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('members_edit'));
-            if ($this->getRequestParameter('email_notifications') == 'no')
-            {
+            if ($this->getRequestParameter('email_notifications') == 'no') {
                 $this->member->setEmailNotifications(NULL);
             } else {
                 $this->member->setEmailNotifications($this->getRequestParameter('email_notifications', 0));
             }
-            
+
             $this->member->save();
             $this->setFlash('msg_ok', 'Your changes have been saved');
             $this->redirect('members/editNotifications?id=' . $this->member->getId());
@@ -631,10 +586,10 @@ class membersActions extends prActions
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         $this->member->setIsStarred(! $this->member->IsStarred());
         $this->member->save();
-        
+
         $this->redirect($this->getUser()->getRefererUrl());
     }
 
@@ -642,18 +597,16 @@ class membersActions extends prActions
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         $note = new MemberNote();
         $note->setMember($this->member);
         $note->setUserId($this->getUser()->getId());
         $note->setText($this->getRequestParameter('note_content'));
         $note->save();
-        
-        if( $this->getRequestParameter('flagger'))
-        {
+
+        if ( $this->getRequestParameter('flagger')) {
             $this->redirect('flags/profileFlagger?id=' . $this->member->getId());
-        } elseif($this->getRequestParameter('flagged'))
-        {
+        } elseif ($this->getRequestParameter('flagged')) {
             $this->redirect('flags/profileFlagged?id=' . $this->member->getId());
         } else {
             $this->redirect('members/edit?id=' . $this->member->getId());
@@ -661,90 +614,87 @@ class membersActions extends prActions
     }
 
     public function executeDeleteNote()
-    {                       
+    {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         MemberNotePeer::doDelete($this->getRequestParameter('noteId'));
-        
+
         $this->redirect('members/edit?id=' . $this->member->getId());
     }
 
     public function executeUpdateNote()
-    {                       
+    {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         $note = MemberNotePeer::retrieveByPK($this->getRequestParameter('noteId'));
         $note->setUserId($this->getUser()->getId());
         $note->setText($this->getRequestParameter('value'));
         $note->save();
 
         return $this->renderText($note->getText());
-        
+
     }
 
     public function executeConfirmEmail()
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         $this->member->setHasEmailConfirmation(true);
         $this->member->save();
-        
+
         $this->setFlash('msg_ok', sprintf("%s's email address has been confirmed", $this->member->getUsername()));
         $this->redirect('members/edit?id=' . $this->member->getId());
     }
-    
+
     public function executeResendActivationEmail()
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
-        if( Events::triggerJoin($this->member) )
-        {
+
+        if ( Events::triggerJoin($this->member) ) {
             $this->setFlash('msg_ok', sprintf("%s's activation email has been re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));
-            
+
             $note = new MemberNote();
             $note->setMember($this->member);
             $note->setUserId($this->getUser()->getId());
             $note->setText('activation email sent');
             $note->save();
-                    
+
         } else {
-            $this->setFlash('msg_error', sprintf("%s's activation email can not be re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));            
+            $this->setFlash('msg_error', sprintf("%s's activation email can not be re-sent to address: %s", $this->member->getUsername(), $this->member->getEmail()));
         }
-        
+
         $this->redirect('members/edit?id=' . $this->member->getId());
-    }    
+    }
 
     public function executeVerifyPhoto()
     {
         $this->getUser()->checkPerm(array('members_edit'));
         $this->forward404Unless($this->member);
-        
+
         $photo = MemberPhotoPeer::retrieveByPK($this->getRequestParameter('photo_id'));
         $this->forward404Unless($photo);
-        
+
         $photo->setAuth($this->getRequestParameter('auth'));
         $photo->save();
-        
+
         $this->setFlash('msg_ok', "Member's photo authenticity successfully changed");
         $this->redirect($this->getUser()->getRefererUrl());
     }
-        
+
     protected function processSort()
     {
         $this->sort_namespace = 'backend/members/sort';
-        
-        if ($this->getRequestParameter('sort'))
-        {
+
+        if ($this->getRequestParameter('sort')) {
             $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
             $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
         }
-        
-        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $this->getUser()->setAttribute('sort', 'Member::created_at', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
@@ -752,17 +702,14 @@ class membersActions extends prActions
 
     protected function addSortCriteria($c)
     {
-        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $sort_arr = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
-            
+
             $sort_column = call_user_func(array($peer,'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
-            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
-            {
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc') {
                 $c->addAscendingOrderByColumn($sort_column);
-            } else
-            {
+            } else {
                 $c->addDescendingOrderByColumn($sort_column);
             }
         }
@@ -770,8 +717,7 @@ class membersActions extends prActions
 
     protected function processFilters()
     {
-        if ($this->getRequest()->hasParameter('filter'))
-        {
+        if ($this->getRequest()->hasParameter('filter')) {
             $filters = $this->getRequestParameter('filters');
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/members/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/members/filters');
@@ -781,85 +727,71 @@ class membersActions extends prActions
     protected function addFiltersCriteria($c)
     {
         $bc = $this->getUser()->getBC();
-        
-        if (isset($this->filters['cat_id']) && $this->filters['cat_id'] > 0)
-        {
+
+        if (isset($this->filters['cat_id']) && $this->filters['cat_id'] > 0) {
             $c->add(MemberPeer::CATALOG_ID, $this->filters['cat_id']);
         }
-        
-        if (isset($this->filters['sex']))
-        {
-            foreach($this->filters['sex'] as $orientation)
-            {
+
+        if (isset($this->filters['sex'])) {
+            foreach ($this->filters['sex'] as $orientation) {
                 $sex_looking = explode('_', $orientation);
                 $crit = $c->getNewCriterion(MemberPeer::SEX, $sex_looking[0]);
                 $crit->addAnd($c->getNewCriterion(MemberPeer::LOOKING_FOR, $sex_looking[1]));
                 $c->addOr($crit);
             }
         }
-        
-        if (isset($this->filters['subscription_id']))
-        {
+
+        if (isset($this->filters['subscription_id'])) {
             $c->add(MemberPeer::SUBSCRIPTION_ID, $this->filters['subscription_id'], Criteria::IN);
         }
-        
-        if (isset($this->filters['starred']))
-        {
+
+        if (isset($this->filters['starred'])) {
             $c->add(MemberPeer::IS_STARRED, $this->filters['starred'], Criteria::IN);
         }
-        if ( isset($this->filters['countries']) )
-        {
-            if( in_array('THE_REST', $this->filters['countries']) )
-            {
+        if ( isset($this->filters['countries']) ) {
+            if ( in_array('THE_REST', $this->filters['countries']) ) {
                 $c->add(MemberPeer::COUNTRY, array('PL', 'US', 'CA', 'GB', 'IE'), Criteria::NOT_IN);
             } else {
                 $c->add(MemberPeer::COUNTRY, $this->filters['countries'], Criteria::IN);
             }
         }
-        
-        if (isset($this->filters['status_id']))
-        {
+
+        if (isset($this->filters['status_id'])) {
             $c->add(MemberPeer::MEMBER_STATUS_ID, $this->filters['status_id'], Criteria::IN);
         }
-        
-        if (isset($this->filters['languages']))
-        {
+
+        if (isset($this->filters['languages'])) {
             $c->add(MemberPeer::LANGUAGE, $this->filters['languages'], Criteria::IN);
-        }        
-        
-        if (isset($this->filters['is_starred']))
-        {
+        }
+
+        if (isset($this->filters['is_starred'])) {
             $c->add(MemberPeer::IS_STARRED, true);
             $bc->add(array('name' => 'Starred Members', 'uri' => 'members/list?filter=filter&filters[is_starred]=1'));
             $this->left_menu_selected = 'Starred Members';
         }
-        
-        if (isset($this->filters['flagged']))
-        {
+
+        if (isset($this->filters['flagged'])) {
             $c->add(MemberCounterPeer::CURRENT_FLAGS, 0, Criteria::GREATER_THAN);
             $bc->add(array('name' => 'Flagged Members', 'uri' => 'members/list?filter=filter&filters[flagged]=1'));
             $this->left_menu_selected = 'Flagged Members';
         }
-        
-        if (isset($this->filters['canceled']))
-        {
+
+        if (isset($this->filters['canceled'])) {
             $crit = $c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED);
             $crit->addOr($c->getNewCriterion(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::CANCELED_BY_MEMBER));
             $c->add($crit);
-            
+
             $bc->add(array('name' => 'Deleted Members', 'uri' => 'members/list?filter=filter&filters[deleted]=1'));
             $this->left_menu_selected = 'Deleted Members';
         }
-        
-        if (isset($this->filters['no_email_confirmation']))
-        {
+
+        if (isset($this->filters['no_email_confirmation'])) {
             $c->add(MemberPeer::HAS_EMAIL_CONFIRMATION, false);
             $bc->add(array('name' => 'Not activated yet', 'uri' => 'members/list?filter=filter&filters[no_email_confirmation]=1'));
             $this->left_menu_selected = 'Not activated yet';
         }
-                
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
-        {
+
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0) {
             switch ($this->filters['search_type']) {
                 case 'first_name':
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
@@ -875,7 +807,7 @@ class membersActions extends prActions
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
                     $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
 
-                    break;                
+                    break;
                 default:
                     $bc->add(array('name' => 'Search', 'uri' => 'members/list?'));
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);

@@ -2,7 +2,7 @@
     <?php echo input_hidden_tag('filter', 'filter', 'class=hidden') ?>
     <fieldset class="search_fields">
         <label for="search_type">Search by:</label><br />
-        <?php echo select_tag('filters[tags]', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(), 
+        <?php echo select_tag('filters[tags]', options_for_select(FeedbackTemplatePeer::getTagsWithKeys(),
             ( isset($filters['tags']) ) ? $filters['tags'] : null, array('include_blank' => true))) ?>
     </fieldset>
     <fieldset>

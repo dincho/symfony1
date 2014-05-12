@@ -9,17 +9,17 @@ fields:
       msg:       This field cannot be left blank
   email:
     required:
-      msg:       This field cannot be left blank  
+      msg:       This field cannot be left blank
     prEmailValidator:
       strict:       true
-      email_error:  This email address is invalid      
+      email_error:  This email address is invalid
   username:
     required:
       msg:       This field cannot be left blank
     sfRegexValidator:
         match:        Yes
         match_error:  Allowed chars are [a-z][0-9] and underscore, min 4 chars max 20
-        pattern:      /^[a-z0-9_]{4,20}$/      
+        pattern:      /^[a-z0-9_]{4,20}$/
     sfPropelUniqueValidator:
       class:        User
       column:       username

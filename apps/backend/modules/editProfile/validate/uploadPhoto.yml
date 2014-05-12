@@ -2,11 +2,10 @@ fillin:
   enabled: false
 fields:
     Filedata:
-        file: true 
+        file: true
         prFileValidator:
           mime_types: @web_images
           mime_types_error: Only PNG, JPEG and GIF images are allowed
           max_size:         3145728
           max_size_error:   Max image size is 3MB
           ini_max_size_error: Max image size is 3MB
-          

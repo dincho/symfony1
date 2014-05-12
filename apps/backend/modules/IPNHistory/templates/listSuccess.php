@@ -5,13 +5,13 @@
     <fieldset class="search_fields">
         <label for="filters[subscr_id]">Subscription ID:</label><br />
         <?php echo input_tag('filters[subscr_id]', ( isset($filters['subscr_id']) ) ? $filters['subscr_id'] : null) ?><br />
-        
+
         <label for="query">Type:</label><br />
-        <?php echo input_tag('filters[txn_type]', ( isset($filters['txn_type']) ) ? $filters['txn_type'] : null) ?>    
+        <?php echo input_tag('filters[txn_type]', ( isset($filters['txn_type']) ) ? $filters['txn_type'] : null) ?>
     </fieldset>
     <fieldset>
         <label for="search">&nbsp;</label><br />
-        <?php echo submit_tag('Search', 'id=search') ?>       
+        <?php echo submit_tag('Search', 'id=search') ?>
     </fieldset>
 </form>
 
@@ -35,7 +35,7 @@
     <td><?php echo $history->getSubscrId() ?></td>
     <td><?php echo $history->getPaymentStatus() ?>
     <td><?php echo $history->getParam('item_number'); ?></td>
-    <td><?php echo $history->getParam('custom'); ?></td>        
+    <td><?php echo $history->getParam('custom'); ?></td>
     <td><?php echo $history->getCreatedAt() ?></td>
     <td><?php echo $history->getTxnCreatedAt() ?></td>
     <td><?php echo long2ip($history->getRequestIp()) ?></td>

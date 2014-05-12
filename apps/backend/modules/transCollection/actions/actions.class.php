@@ -45,12 +45,9 @@ class transCollectionActions extends sfActions
 
   public function executeUpdate()
   {
-    if (!$this->getRequestParameter('id'))
-    {
+    if (!$this->getRequestParameter('id')) {
       $trans_collection = new TransCollection();
-    }
-    else
-    {
+    } else {
       $trans_collection = TransCollectionPeer::retrieveByPk($this->getRequestParameter('id'));
       $this->forward404Unless($trans_collection);
     }

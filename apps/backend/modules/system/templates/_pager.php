@@ -8,7 +8,7 @@
             <label for="per_page">per page</label>
             <?php echo link_to_function('&gt;&gt;', 'document.getElementById("per_page_form").submit();') ?>
             </fieldset>
-        </form>    
+        </form>
         <span>Page</span>
         <?php foreach ($pager->getLinks(sfConfig::get('app_pager_default_pages')) as $page): ?>
         <?php echo link_to_unless($page == $pager->getPage(), $page, $route . '?page='.$page . '&per_page=' .$per_page . @$query_string) ?>

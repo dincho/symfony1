@@ -11,7 +11,7 @@ mustChangePwd:
     enabled: yes
     class:  mustChangePwdFilter
     param:
-        password_action: users/myAccount        
+        password_action: users/myAccount
 cache:     ~
 common:    ~
 flash:     ~

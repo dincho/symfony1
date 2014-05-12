@@ -30,4 +30,3 @@
   </table>
   <?php echo submit_tag('Delete', 'confirm=Are you sure you want to delete selected users?') ?>
 </form>
-

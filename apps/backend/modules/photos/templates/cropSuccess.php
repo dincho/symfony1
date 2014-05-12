@@ -13,9 +13,10 @@
     <?php echo input_hidden_tag('crop_y2', null, 'class=hidden') ?>
     <?php echo input_hidden_tag('crop_width', null, 'class=hidden') ?>
     <?php echo input_hidden_tag('crop_height', null, 'class=hidden') ?>
-    
+
     <script type="text/javascript" charset="utf-8">
-    function onEndCrop( coords, dimensions ) {
+    function onEndCrop(coords, dimensions)
+    {
         $( 'crop_x1' ).value = coords.x1;
         $( 'crop_y1' ).value = coords.y1;
         $( 'crop_x2' ).value = coords.x2;
@@ -23,36 +24,36 @@
         $( 'crop_width' ).value = dimensions.width;
         $( 'crop_height' ).value = dimensions.height;
     }
-    
-    Event.observe( 
-      window, 
-      'load', 
-      function() { 
-        new Cropper.ImgWithPreview( 
+
+    Event.observe(
+      window,
+      'load',
+      function () {
+        new Cropper.ImgWithPreview(
           'thePhoto',
-          { 
-            minWidth: <?php echo $dims['w'] ?>, 
+          {
+            minWidth: <?php echo $dims['w'] ?>,
             minHeight: <?php echo $dims['h'] ?>,
             ratioDim: { x: <?php echo $dims['w'] ?>, y: <?php echo $dims['h'] ?> },
-            displayOnInit: true, 
+            displayOnInit: true,
             onEndCrop: onEndCrop,
             previewWrap: 'crop_preview'
-          } 
-        ) 
-      } 
+          }
+        )
+      }
     );
-    
+
     </script>
-    
+
     <div class="float-left">
         <?php echo image_tag($photo->getImageUrlPath('file'), array('id' => 'thePhoto')) ?>
     </div>
-        
+
     <div class="float-left" style="margin-left: 50px;">
         <div id="crop_preview">
             <?php echo image_tag( $photo->getImageUrlPath('file', $dims['w'] . 'x' . $dims['h']) ) ?>
         </div>
-        
+
         <div class="form_fields" style="margin-top: 40px;">
             <?php echo radiobutton_tag('gender', 'M', $photo->getGender() == 'M') ?><label style="text-align: left;">Male (Blue Tint)</label><br />
             <?php echo radiobutton_tag('gender', 'F', $photo->getGender() == 'F') ?><label style="text-align: left;">Female (Orange Tint)</label><br />
@@ -64,6 +65,6 @@
         <?php echo button_to('Cancel', $sf_user->getRefererUrl()) ?>
         <?php echo submit_tag('Save', array('name' => 'save', 'class' => 'button')) ?>
         <?php echo submit_tag('Crop & Save', array('name' => 'crop', 'class' => 'button')) ?>
-    </fieldset>   
+    </fieldset>
 </form>
 <br />

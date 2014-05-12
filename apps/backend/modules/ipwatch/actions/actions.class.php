@@ -21,7 +21,6 @@ class ipwatchActions extends sfActions
         $bc->clear()->add(array('name' => 'IP Watch', 'uri' => 'ipwatch/index'));
     }
 
-
     public function executeIndex()
     {
         $this->redirect('ipwatch/residence');
@@ -35,7 +34,7 @@ class ipwatchActions extends sfActions
     public function executeDuplicates()
     {
         $this->getUser()->getBC()->add(array('name' => 'IP Duplicates', 'uri' => 'ipwatch/duplicates'));
-        
+
         $this->getResponse()->addJavascript('preview.js');
 
         $params['page'] = $this->getRequestParameter('page',1);
@@ -47,7 +46,7 @@ class ipwatchActions extends sfActions
     {
         $this->getUser()->getBC()->add(array('name' => 'IP Blacklisted', 'uri' => 'ipwatch/blacklisted'));
         $this->getResponse()->addJavascript('preview.js');
-                              
+
         $params['page'] = $this->getRequestParameter('page',1);
         $params['maxpage'] = $this->getRequestParameter('per_page',15);
         $this->pager = MemberPeer::getBlacklistedWithPager($params);
@@ -69,53 +68,48 @@ class ipwatchActions extends sfActions
         $this->left_menu_selected = 'IP Blacklist';
         $bc = $this->getUser()->getBC()->add(array('name' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'))
             ->add(array('name' => 'New IP', 'uri' => 'ipwatch/addWatch'));
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $ipblock = new Ipwatch();
             $ipblock->setIP(ip2long($this->getRequestParameter('ip')));
             $ipblock->save();
             $this->redirect('ipwatch/blacklist');
         }
     }
-    
-    
+
     public function validateAddWatch()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
-            if( $this->_validateIP() )
-            {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+            if ( $this->_validateIP() ) {
                 $c = new Criteria();
                 $c->add(IpwatchPeer::IP, ip2long($this->getRequestParameter('ip')));
                 $cnt = IpwatchPeer::doCount($c);
-                
-                if( $cnt > 0 )
-                {
+
+                if ($cnt > 0) {
                     $this->getRequest()->setError('ip', 'This IP address already exists.');
+
                     return false;
                 }
             } else {
                 return false;
             }
         }
-        
+
         return true;
-        
+
     }
 
     private function _validateIP()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $ip = $this->getRequestParameter('ip', '');
-            if( ! Tools::isValidIp($ip) )
-            {
+            if ( ! Tools::isValidIp($ip) ) {
                 $this->getRequest()->setError('IP', 'Please enter a valid IP ');
+
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -136,18 +130,17 @@ class ipwatchActions extends sfActions
         $bc->clear()->add(array('name' => 'IP Watch', 'uri' => 'ipwatch/index'));
         $bc = $this->getUser()->getBC()->add(array('name' => 'IP Blacklist', 'uri' => 'ipwatch/blacklist'))
             ->add(array('name' => 'Edit IP ', 'uri' => 'ipwatch/editWatch'));
-        
+
         $this->ipwatch = IpwatchPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404unless($this->ipwatch);
 
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->ipwatch->setIP(ip2long($this->getRequestParameter('ip')));
             $this->ipwatch->save();
             $this->redirect('ipwatch/blacklist');
         }
     }
-    
+
     public function validateEditWatch()
     {
         return $this->_validateIP();
@@ -162,17 +155,15 @@ class ipwatchActions extends sfActions
 
         $this->ipwatch = IpwatchPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404unless($this->ipwatch);
-        
+
         return sfView::SUCCESS;
     }
 
     public function executeDeleteWatch()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $marked = $this->getRequestParameter('marked', false);
-            if (! is_null($this->getRequestParameter('delete')) && is_array($marked) && ! empty($marked))
-            {
+            if (! is_null($this->getRequestParameter('delete')) && is_array($marked) && ! empty($marked)) {
                 $c = new Criteria();
                 $c->add(IpwatchPeer::ID, $marked, Criteria::IN);
                 IpblockPeer::doDelete($c);
@@ -185,45 +176,39 @@ class ipwatchActions extends sfActions
     public function executeAddToList()
     {
 
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $marked = $this->getRequestParameter('marked', false);
-            if ( !is_null($this->getRequestParameter('add_to_blacklist')) && is_array($marked) && ! empty($marked))
-            {                
+            if ( !is_null($this->getRequestParameter('add_to_blacklist')) && is_array($marked) && ! empty($marked)) {
                 $con = Propel::getConnection(IpwatchPeer::DATABASE_NAME);
                 try {
-                	$con->begin();
-                	foreach($marked as $ip)
-                	{
+                    $con->begin();
+                    foreach ($marked as $ip) {
                     $ipwatch = new Ipwatch();
                     $ipwatch->setIP( $ip );
                     $ipwatch->save();
                   }
-                	$con->commit();
+                    $con->commit();
                   $this->setFlash('msg_ok', 'Selected IP have been added to blacklist.');
                 } catch (PropelException $e) {
-                	$con->rollback();
+                    $con->rollback();
                   $this->setFlash('msg_error', 'Error - '. $e->getMessage ( )  );
-                } 
-           }
-            else if ( !is_null($this->getRequestParameter('add_to_block')) && is_array($marked) && ! empty($marked))
-            {                
+                }
+           } elseif ( !is_null($this->getRequestParameter('add_to_block')) && is_array($marked) && ! empty($marked)) {
                 $con = Propel::getConnection(IpblockPeer::DATABASE_NAME);
                 try {
-                	$con->begin();
-                	foreach($marked as $ip)
-                	{
+                    $con->begin();
+                    foreach ($marked as $ip) {
                     $ipblock = new Ipblock();
                     $ipblock->setItem( long2ip($ip) );
                     $ipblock->setItemType( 2 ); //  2 => 'Single IP',
                     $ipblock->save();
                   }
-                	$con->commit();
+                    $con->commit();
                   $this->setFlash('msg_ok', 'Selected IP have been added to IP blocking.');
                 } catch (PropelException $e) {
-                	$con->rollback();
+                    $con->rollback();
                   $this->setFlash('msg_error', 'Error - '. $e->getMessage ( )  );
-                } 
+                }
            }
         }
         $this->redirect('ipwatch/duplicates');

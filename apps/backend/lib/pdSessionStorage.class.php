@@ -14,8 +14,7 @@ class pdSessionStorage extends sfStorage
     $use_cookies = (boolean) ini_get('session.use_cookies');
     $sessionId = $context->getRequest()->getParameter($sessionName, '');
 
-    if ($sessionId != '')
-    {
+    if ($sessionId != '') {
         session_id($sessionId);
     }
 
@@ -25,22 +24,18 @@ class pdSessionStorage extends sfStorage
     $domain   = $this->getParameter('session_cookie_domain',   $cookieDefaults['domain']);
     $secure   = $this->getParameter('session_cookie_secure',   $cookieDefaults['secure']);
     $httpOnly = $this->getParameter('session_cookie_httponly', isset($cookieDefaults['httponly']) ? $cookieDefaults['httponly'] : false);
-    if (version_compare(phpversion(), '5.2', '>='))
-    {
+    if (version_compare(phpversion(), '5.2', '>=')) {
       session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
-    }
-    else
-    {
+    } else {
       session_set_cookie_params($lifetime, $path, $domain, $secure);
     }
 
-    if ($this->getParameter('auto_start', true))
-    {
+    if ($this->getParameter('auto_start', true)) {
       // start our session
       session_start();
     }
   }
-  
+
    /**
    * Reads data from this storage.
    *
@@ -54,8 +49,7 @@ class pdSessionStorage extends sfStorage
   {
     $retval = null;
 
-    if (isset($_SESSION[$key]))
-    {
+    if (isset($_SESSION[$key])) {
       $retval =& $_SESSION[$key];
     }
 
@@ -75,8 +69,7 @@ class pdSessionStorage extends sfStorage
   {
     $retval = null;
 
-    if (isset($_SESSION[$key]))
-    {
+    if (isset($_SESSION[$key])) {
       $retval =& $_SESSION[$key];
       unset($_SESSION[$key]);
     }
@@ -105,5 +98,5 @@ class pdSessionStorage extends sfStorage
   public function shutdown()
   {
     // don't need a shutdown procedure because read/write do it in real-time
-  } 
+  }
 }

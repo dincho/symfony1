@@ -33,8 +33,8 @@
             <?php echo $sf_data->getRaw('sf_content') ?>
         </div>
     </div>
-    
+
     <br style="clear: left;" />
-    
+
 </body>
 </html>

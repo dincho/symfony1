@@ -14,7 +14,7 @@ class dashboardActions extends sfActions
     {
         $this->forward('dashboard', 'index');
     }
-    
+
     public function executeIndex()
     {
         $c = new Criteria();
@@ -23,10 +23,10 @@ class dashboardActions extends sfActions
         $c->addJoin(SessionStoragePeer::USER_ID, MemberPeer::ID);
         $c->clearSelectColumns()->addSelectColumn('COUNT(DISTINCT session_storage.USER_ID)');
         $c->add(MemberPeer::SEX, 'M');
-        
+
         $rs = SessionStoragePeer::doSelectRS($c);
         $this->males_online = ($rs->next()) ? $rs->getInt(1) : 0;
-        
+
         $c1 = clone $c;
         $c1->add(MemberPeer::SEX, 'F');
         $rs = SessionStoragePeer::doSelectRS($c1);

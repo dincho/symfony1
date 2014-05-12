@@ -8,15 +8,15 @@
         <label for="culture">Language</label>
         <var><?php echo format_language($culture) ?></var><br />
     </fieldset>
-    
+
     <fieldset class="form_fields error_msgs_fields">
         <label>Error Messages</label>
         <?php foreach ($trans as $msg_coll_id => $tran): ?>
             <?php echo input_tag('trans['.$msg_coll_id.']', $tran->getTarget()) ?><br />
         <?php endforeach; ?>
-        
+
     </fieldset>
-        
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'content/otherPages?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>

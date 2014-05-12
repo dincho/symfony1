@@ -45,12 +45,9 @@ class msgCollectionActions extends sfActions
 
   public function executeUpdate()
   {
-    if (!$this->getRequestParameter('id'))
-    {
+    if (!$this->getRequestParameter('id')) {
       $msg_collection = new MsgCollection();
-    }
-    else
-    {
+    } else {
       $msg_collection = MsgCollectionPeer::retrieveByPk($this->getRequestParameter('id'));
       $this->forward404Unless($msg_collection);
     }

@@ -3,4 +3,3 @@ default:
     sidebar:  [system, photosSidebar]
 listSuccess:
     javascripts: [/sf/prototype/js/prototype.js]
-    

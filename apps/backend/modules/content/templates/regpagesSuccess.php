@@ -20,7 +20,7 @@
               <td>2</td>
               <td>Registration</td>
               <td>
-                <?php echo select_catalog2url(null, 'content/regReg', null, array('include_custom' => '---')); ?>                
+                <?php echo select_catalog2url(null, 'content/regReg', null, array('include_custom' => '---')); ?>
               </td>
             </tr>
             <tr>

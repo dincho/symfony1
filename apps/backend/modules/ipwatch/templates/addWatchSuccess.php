@@ -1,7 +1,6 @@
 <?php use_helper('Object', 'dtForm', 'Javascript', 'General') ?>
 <?php include_component('system', 'formErrors') ?>
 
-
 <?php echo form_tag('ipwatch/addWatch') ?>
 <div class="legend">New IP Watch</div>
     <fieldset class="form_fields">

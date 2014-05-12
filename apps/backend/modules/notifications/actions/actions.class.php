@@ -17,39 +17,38 @@ class notificationsActions extends sfActions
         $this->left_menu_selected = 'System Notifications';
         $this->getUser()->getBC()->clear()->add(array('name' => 'Notifications', 'uri' => 'notifications/list?cat_id='.$this->getRequestParameter('cat_id', 1)));
     }
-    
+
     public function executeList()
     {
         $this->getUser()->getBC()->add(array('name' => 'List', 'uri' => ''));
 
         $customObject = new CustomQueryObject();
-        
+
         $sql = 'SELECT n.name, n.mail_config, n.is_active, n.id, IF(m.today IS NULL, 0, m.today) as today
-                  FROM notification n 
+                  FROM notification n
                   LEFT JOIN (SELECT m.notification_id, m.notification_cat,
                                SUM(IF( DATE(m.created_at) = CURDATE(), 1, 0 )) AS today
-                  					 FROM pr_mail_message m
+                                       FROM pr_mail_message m
                                   WHERE 	status = "sent"
-                                  group by m.notification_id, m.notification_cat 
+                                  group by m.notification_id, m.notification_cat
                                   order by m.notification_id, m.notification_cat) m on m.notification_id = n.id and m.notification_cat= n.cat_id
                   WHERE n.to_admins =%TO_ADMIN% and n.cat_id =%CAT_ID%';
-             
+
         $sql = strtr($sql, array(
             '%TO_ADMIN%' => $this->getRequestParameter('to_admins', 0),
             '%CAT_ID%'   => $this->getRequestParameter('cat_id', 1)));
-            
+
         $this->notifications = $customObject->query($sql);
     }
 
     public function executeEdit()
     {
         $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => ''));
-        
+
         $notification = NotificationPeer::retrieveByPK($this->getRequestParameter('id'), $this->getRequestParameter('cat_id', 1));
         $this->forward404Unless($notification);
-        
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('content_edit'));
             $notification->setName($this->getRequestParameter('name'));
             $notification->setSendFrom($this->getRequestParameter('send_from'));
@@ -64,22 +63,22 @@ class notificationsActions extends sfActions
             $notification->setWhn(($this->getRequestParameter('days', 0) == 0) ? null : $this->getRequestParameter('whn'));
             $notification->setMailConfig($this->getRequestParameter('mail_config'));
             $notification->save();
-            
+
             $this->setFlash('msg_ok', 'Your changes have been saved');
-            $this->redirect('notifications/list?to_admins=' . (int)$notification->getToAdmins() . '&cat_id=' . $notification->getCatId());
+            $this->redirect('notifications/list?to_admins=' . (int) $notification->getToAdmins() . '&cat_id=' . $notification->getCatId());
         }
-        
+
         $this->notification = $notification;
-        
+
         $mail_options = array();
-        foreach(sfConfig::get('app_mail_rr_groups') as $group => $values) {
+        foreach (sfConfig::get('app_mail_rr_groups') as $group => $values) {
             $mail_options[$group] = $values['title'];
         }
-        
-        foreach(array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
+
+        foreach (array_keys(sfConfig::get('app_mail_outgoing')) as $mail) {
             $mail_options[$mail] = $mail;
         }
-        
+
         $this->mail_options = $mail_options;
     }
 }

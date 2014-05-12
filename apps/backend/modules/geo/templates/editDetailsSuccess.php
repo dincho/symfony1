@@ -4,19 +4,18 @@
 <?php echo form_tag('geo/editDetails', array('class' => 'form')) ?>
     <?php echo  object_input_hidden_tag($details, 'getCatId') ?>
     <?php echo  object_input_hidden_tag($details, 'getId') ?>
-    
-    
+
     <fieldset class="form_fields float-left">
         <label for="member_info">Member Info:</label><br />
         <?php echo object_textarea_tag($details, 'getMemberInfo', array('cols' => 80, 'rows' => 20)) ?>
     </fieldset>
-   
+
     <fieldset class="form_fields float-left">
         <label for="seo_info">Seo Info:</label><br />
         <?php echo object_textarea_tag($details, 'getSeoInfo', array('cols' => 80, 'rows' => 20)) ?>
     </fieldset>
     <br />
-    
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'geo/list?cancel=1') ?>
         <?php echo submit_tag('Save') ?>
@@ -28,7 +27,7 @@
 <br />
 <div class="legend">Photos (culture independent):</div>
 <?php echo form_tag('geo/uploadPhoto', array('multipart' => true)) ?>
-    
+
     <?php echo  object_input_hidden_tag($details, 'getId') ?>
     <fieldset>
         <?php echo input_file_tag('new_photo') ?>
@@ -42,4 +41,3 @@
         </div>
     <?php endforeach; ?>
 </form>
-

@@ -22,16 +22,15 @@ class flagsActions extends sfActions
     {
         $this->sort_namespace = 'backend/flags/suspended/sort';
         $this->processSort();
-        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $this->getUser()->setAttribute('sort', 'Member::last_status_change', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
-                        
+
         $c = new Criteria();
         $this->addFiltersCriteria($c);
         $this->addSortCriteria($c);
-        
+
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
@@ -39,30 +38,29 @@ class flagsActions extends sfActions
         $pager->setPeerMethod('doSelectJoinAll');
         $pager->setPeerCountMethod('doCountJoinAll');
         $pager->init();
-        $this->pager = $pager;        
+        $this->pager = $pager;
     }
 
     public function executeList()
     {
         $this->sort_namespace = 'backend/flags/list/sort';
         $this->processSort();
-        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $this->getUser()->setAttribute('sort', 'Member::last_flagged', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
-                
+
         $this->is_history = ( isset($this->filters['history']) && $this->filters['history'] == 1) ? true : false;
-            
+
         $c = new Criteria();
         $c->addJoin(FlagPeer::MEMBER_ID, MemberPeer::ID);
         //$c->addGroupByColumn(FlagPeer::MEMBER_ID);
         $c->setDistinct();
-		$this->addFiltersCriteria($c);
-		$this->addSortCriteria($c);
-        
+        $this->addFiltersCriteria($c);
+        $this->addSortCriteria($c);
+
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
-        
+
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
@@ -76,15 +74,14 @@ class flagsActions extends sfActions
     {
         $this->getUser()->getBC()->add(array('name' => 'Flaggers', 'uri' => 'flags/flaggers'));
         $this->left_menu_selected = 'Flaggers';
-        
+
         $this->sort_namespace = 'backend/flags/flaggers/sort';
         $this->processSort();
-        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+        if (! $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $this->getUser()->setAttribute('sort', 'MemberCounter::sent_flags', $this->sort_namespace); //default sort column
             $this->getUser()->setAttribute('type', 'desc', $this->sort_namespace); //default order
         }
-                
+
         $c = new Criteria();
         $c->addJoin(FlagPeer::FLAGGER_ID, MemberPeer::ID);
         $c->add(FlagPeer::IS_HISTORY, false);
@@ -94,7 +91,7 @@ class flagsActions extends sfActions
         $this->addSortCriteria($c);
 
         $per_page = $this->getRequestParameter('per_page', sfConfig::get('app_pager_default_per_page'));
-        
+
         $pager = new sfPropelPager('Member', $per_page);
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
@@ -103,50 +100,48 @@ class flagsActions extends sfActions
         $pager->init();
         $this->pager = $pager;
     }
-    
+
     public function executeProfileFlagged()
     {
         $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
         $this->forward404Unless($this->member);
-        
+
         $bc = $this->getUser()->getBC();
         $bc->add(array('name' => 'Flags', 'uri' => 'flags/list'));
         $bc->add(array('name' => $this->member->getUsername(), 'uri' => 'members/edit?id=' . $this->member->getId()));
         $this->left_menu_selected = 'Flags';
-        
-        
+
         $c = new Criteria();
         $c->add(FlagPeer::MEMBER_ID, $this->member->getId());
         $c->add(FlagPeer::IS_HISTORY, false);
         $this->flags = FlagPeer::doSelectJoinAll($c);
-        
+
         $c = new Criteria();
         $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
         $this->notes = MemberNotePeer::doSelectJoinAll($c);
 
     }
-    
+
     public function executeProfileFlagger()
     {
         $this->member = MemberPeer::retrieveByPkJoinAll($this->getRequestParameter('id'));
         $this->forward404Unless($this->member);
-        
+
         $bc = $this->getUser()->getBC();
         $bc->add(array('name' => 'Flaggers', 'uri' => 'flags/flaggers'));
         $bc->add(array('name' => $this->member->getUsername(), 'uri' => 'members/edit?id=' . $this->member->getId()));
         $this->left_menu_selected = 'Flaggers';
-        
-        
+
         $c = new Criteria();
         $c->add(FlagPeer::FLAGGER_ID, $this->member->getId());
         $this->flags = FlagPeer::doSelectJoinAll($c);
-        
+
         $c = new Criteria();
         $c->add(MemberNotePeer::MEMBER_ID, $this->member->getId());
         $this->notes = MemberNotePeer::doSelectJoinAll($c);
 
     }
-    
+
     public function executeSuspend()
     {
         $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
@@ -155,11 +150,11 @@ class flagsActions extends sfActions
         $member->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED);
         $member->save();
         $member->resetFlags();
-        
+
         $this->setFlash('msg_ok', $member->getUsername() . ' has been suspended.');
         $this->redirect('flags/profileFlagged?id=' . $member->getId());
     }
-    
+
     public function executeUnsuspend()
     {
         $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
@@ -167,26 +162,25 @@ class flagsActions extends sfActions
 
         $member->changeStatus(MemberStatusPeer::ACTIVE);
         $member->save();
-        
+
         $this->setFlash('msg_ok', $member->getUsername() . ' has been un-suspended.');
         $this->redirect('flags/profileFlagged?id=' . $member->getId());
     }
-    
+
     public function executeReset()
     {
         $member = MemberPeer::retrieveByPK($this->getRequestParameter('id'));
         $this->forward404Unless($member);
 
         $member->resetFlags();
-        
+
         $this->setFlash('msg_ok', $member->getUsername() . "'s flags has been reset.");
         $this->redirect('flags/profileFlagged?id=' . $member->getId());
     }
-    
+
     protected function processSort()
     {
-        if ($this->getRequestParameter('sort'))
-        {
+        if ($this->getRequestParameter('sort')) {
             $this->getUser()->setAttribute('sort', $this->getRequestParameter('sort'), $this->sort_namespace);
             $this->getUser()->setAttribute('type', $this->getRequestParameter('type', 'asc'), $this->sort_namespace);
         }
@@ -194,30 +188,27 @@ class flagsActions extends sfActions
 
     protected function addSortCriteria($c)
     {
-        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace))
-        {
+        if ($sort_column = $this->getUser()->getAttribute('sort', null, $this->sort_namespace)) {
             $sort_arr = explode('::', $sort_column);
             $peer = $sort_arr[0] . 'Peer';
-            
+
             $sort_column = call_user_func(array($peer, 'translateFieldName'), $sort_arr[1], BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME);
-            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc')
-            {
+            if ($this->getUser()->getAttribute('type', null, $this->sort_namespace) == 'asc') {
                 $c->addAscendingOrderByColumn($sort_column);
-            } else
-            {
+            } else {
                 $c->addDescendingOrderByColumn($sort_column);
             }
         }
     }
-        
+
     protected function processFilters()
     {
             $filters = $this->getRequestParameter('filters');
-            
+
             //some default values
             if (!isset($filters['confirmed'])) $filters['confirmed'] = 0;
             if (!isset($filters['history'])) $filters['history'] = 0;
-            
+
             $this->getUser()->getAttributeHolder()->removeNamespace('backend/flags/filters');
             $this->getUser()->getAttributeHolder()->add($filters, 'backend/flags/filters');
     }
@@ -225,9 +216,8 @@ class flagsActions extends sfActions
     protected function addFiltersCriteria(Criteria $c)
     {
         $bc = $this->getUser()->getBC();
-        
-        if ( isset($this->filters['history']) && $this->getActionName() == 'list')
-        {
+
+        if ( isset($this->filters['history']) && $this->getActionName() == 'list') {
             switch ($this->filters['history']) {
                 case 0:
                     $bc->add(array('name' => 'List', 'uri' => 'flags/list?filter=filter&filters[history]=0'));
@@ -240,13 +230,12 @@ class flagsActions extends sfActions
                 default:
                     break;
             }
-                        
+
             $bHistory = (bool) $this->filters['history'];
             $c->add(FlagPeer::IS_HISTORY, $bHistory);
         }
-        
-        if ( isset($this->filters['confirmed']) && $this->getActionName() == 'suspended')
-        {
+
+        if ( isset($this->filters['confirmed']) && $this->getActionName() == 'suspended') {
             switch ($this->filters['confirmed']) {
                 case 0:
                     $bc->add(array('name' => 'New Suspension by Flagging', 'uri' => 'flags/list?filter=filter&filters[confirmed]=0'));
@@ -260,11 +249,10 @@ class flagsActions extends sfActions
                     break;
                 default:
                     break;
-            }      
+            }
         }
-        
-        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0)
-        {
+
+        if (isset($this->filters['search_type']) && isset($this->filters['search_query']) && strlen($this->filters['search_query']) > 0) {
             switch ($this->filters['search_type']) {
                 case 'first_name':
                     $c->add(MemberPeer::FIRST_NAME, $this->filters['search_query']);
@@ -272,7 +260,7 @@ class flagsActions extends sfActions
                 case 'last_name':
                     $c->add(MemberPeer::LAST_NAME, $this->filters['search_query']);
                     break;
-                
+
                 case 'email':
                     $c->add(MemberPeer::EMAIL, $this->filters['search_query']);
                     break;
@@ -280,6 +268,6 @@ class flagsActions extends sfActions
                     $c->add(MemberPeer::USERNAME, $this->filters['search_query']);
                     break;
             }
-        }        
+        }
     }
 }

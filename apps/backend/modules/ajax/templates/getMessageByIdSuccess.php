@@ -7,7 +7,7 @@
     <?php endif; ?>
     <br /><br />
     <?php if(!$sf_request->getParameter('no_links')): ?>
-        <?php echo link_to('see all messages of this sender', 'messages/member?id=' . $message->getSenderId()) . '&nbsp;|&nbsp;' . 
+        <?php echo link_to('see all messages of this sender', 'messages/member?id=' . $message->getSenderId()) . '&nbsp;|&nbsp;' .
                     link_to('see the whole conversation', 'messages/conversation?member_id=' . $message->getSenderId() . '&id=' . $message->getThreadId()) ?>
     <?php endif; ?>
 <?php endif; ?>

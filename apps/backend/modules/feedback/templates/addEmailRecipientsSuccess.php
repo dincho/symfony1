@@ -26,8 +26,8 @@
   <tbody>
   <?php foreach ($pager->getResults() as $member): ?>
   <tr>
-    <td class="marked"><?php echo checkbox_tag('marked[]', $member->getUsername(), in_array($member->getUsername(),$selectedMembers), 
-                                                        array('class' => 'checkbox', 
+    <td class="marked"><?php echo checkbox_tag('marked[]', $member->getUsername(), in_array($member->getUsername(),$selectedMembers),
+                                                        array('class' => 'checkbox',
                                                         'onchange' => "new Ajax.Request('". url_for('ajax/UpdateEmailRecipients?member_id=' . $member->getId()) ."', {method: 'get'});")) ?>
         </td>
     <td class="starred"><?php echo link_to(($member->IsStarred()) ? image_tag('star_yellow.png') : image_tag('star_gray.png'), 'members/star?id=' . $member->getId()) ?></td>

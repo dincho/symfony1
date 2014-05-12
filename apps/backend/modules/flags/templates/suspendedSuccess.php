@@ -9,11 +9,11 @@
                 <th><?php echo sortable_title('Profile ID', 'Member::id', $sort_namespace) ?></th>
                 <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
                 <th><?php echo sortable_title('First Name', 'Member::first_name', $sort_namespace) ?></th>
-                <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>            
+                <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>
                 <th colspan="2"></th>
             </tr>
         </thead>
-        
+
     <?php foreach ($pager->getResults() as $member): ?>
         <?php //$member = $flag->getMember(); ?>
         <tr rel="<?php echo url_for('flags/profileFlagged?id=' . $member->getId()); ?>" onmouseover="preview_click('<?php echo $member->getId();?>')" onmouseout="preview_clear();"">
@@ -29,7 +29,7 @@
             <td class="profile"><?php echo link_to('Profile', $member->getFrontendProfileUrl(), array('popup' => true)) ?></td>
         </tr>
     <?php endforeach; ?>
-    
+
     </table>
 
 <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'flags/suspended')); ?>

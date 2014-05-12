@@ -3,11 +3,10 @@
 
 <?php echo javascript_include_tag('table_navigation') ?>
 
-
     <div class="filter_right text-right">
         <?php echo input_date_tag('filters[date_from]', ( isset($filters['date_from']) ) ? $filters['date_from'] : time() - 2592000, array('calendar_button_img' => '/sf/sf_admin/images/date.png',
                                                               'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'style' => 'width: 74px;', 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_from"')) ?> -
-                                                               
+
         <?php echo input_date_tag('filters[date_to]', ( isset($filters['date_to']) ) ? $filters['date_to'] : time(), array('calendar_button_img' => '/sf/sf_admin/images/date.png',
                                                               'format' => 'MM/dd/yy', 'rich' => true, 'readonly' => true, 'style' => 'width: 74px;', 'withtime' => false, 'class' => '', 'calendar_options' => 'button: "filters_date_to"')) ?>
                                                               <br />
@@ -17,18 +16,18 @@
     <?php echo input_hidden_tag('filter', 'filter', 'class=hidden') ?>
     <fieldset class="search_fields">
         <label for="query">Search for:</label><br />
-        <?php echo input_tag('filters[search_query]', ( isset($filters['search_query']) ) ? $filters['search_query'] : null) ?>    
+        <?php echo input_tag('filters[search_query]', ( isset($filters['search_query']) ) ? $filters['search_query'] : null) ?>
     </fieldset>
     <fieldset class="search_fields">
         <label for="search_type">Search by:</label><br />
-        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'email' => 'Email', ), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>       
+        <?php echo select_tag('filters[search_type]', options_for_select(array('username' => 'Username', 'email' => 'Email', ), ( isset($filters['search_type']) ) ? $filters['search_type'] : null)) ?>
     </fieldset>
     <fieldset>
         <label for="search">&nbsp;</label><br />
-        <?php echo submit_tag('Search', 'id=search') ?>       
+        <?php echo submit_tag('Search', 'id=search') ?>
     </fieldset>
 </form>
-      
+
 <table class="zebra" id="table1">
   <thead>
     <tr>
@@ -40,12 +39,12 @@
       <th><?php echo sortable_title('For', 'Member::looking_for', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Email', 'Member::email', $sort_namespace) ?></th>
       <th><?php echo sortable_title('Sent', 'Message::created_at', $sort_namespace) ?></th>
-      <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>      
+      <th><?php echo sortable_title('Sent To', 'Message::to_member_id', $sort_namespace) ?></th>
       <th></th>
       <th class="firstcolumn"></th>
     </tr>
   </thead>
-  <tbody>              
+  <tbody>
   <?php foreach ($pager->getResults() as $message): ?>
   <?php $member = $message->getMemberRelatedBySenderId(); //shortcut ?>
   <tr rel="<?php echo url_for('messages/conversation?member_id='.$message->getSenderId() . '&id=' . $message->getThreadId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')" onmouseout2="preview_clear();">

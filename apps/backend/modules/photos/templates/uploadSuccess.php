@@ -9,7 +9,7 @@
 <br />
 <?php if( isset($photo) ): ?>
     <?php echo image_tag($photo->getImageUrlPath('file', '350x350'), 'id=thePhoto') ?><br />
-    
+
     <?php echo form_tag('photos/upload', array('class' => 'form')) ?>
     <?php echo input_hidden_tag('photo_id', $photo->getId()) ?>
     <fieldset class="form_fields">
@@ -20,6 +20,5 @@
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'photos/upload') ?>
         <?php echo submit_tag('Continue') ?>
-    </fieldset>    
+    </fieldset>
 <?php endif; ?>
-

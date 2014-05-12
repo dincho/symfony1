@@ -11,7 +11,7 @@
          <dt><?php echo ucwords(str_replace('_', ' ', $name)); ?>:</dt>
         <?php endif; ?>
         <dd><?php echo $sf_data->get('sf_request')->getError($name) ?></dd>
-      <?php endforeach; ?>  
+      <?php endforeach; ?>
       <?php else: ?>
         <?php $errors = $sf_request->getErrors(ESC_RAW); ?>
         <dt></dt>

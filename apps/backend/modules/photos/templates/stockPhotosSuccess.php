@@ -1,6 +1,6 @@
 <div id="photos">
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/stockPhotos')); ?><br />
-    
+
     <fieldset class="form_fields">
     <?php $i=1; foreach($pager->getResults() as $photo): ?>
         <div class="photo_slot">
@@ -18,7 +18,7 @@
         <?php endif; ?>
     <?php endforeach; ?>
     </fieldset><br />
-    
+
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'photos/stockPhotos')); ?><br />
-    
+
 </div>

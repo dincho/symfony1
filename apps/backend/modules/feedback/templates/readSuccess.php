@@ -32,7 +32,7 @@
             <th>Received</th>
             <td><?php echo time_ago_in_words($message->getCreatedAt(null)) ?></td>
         </tr>
-        
+
     </table>
     <hr />
     <p><?php echo nl2br(strip_tags($message->getBody(), '<br><strong>')) ?></p>

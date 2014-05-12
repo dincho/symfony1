@@ -27,7 +27,7 @@
             <td><?php echo number_format($object->getPeriod(), 0, '.', ',') ?></td>
         </tr>
     <?php endif; ?>
-    
+
     <?php if( $suspensions ): ?>
         <?php $object = $suspensions[0]; ?>
         <tr><td colspan="9" style="background-color: white">&nbsp;</td></tr>

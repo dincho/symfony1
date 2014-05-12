@@ -8,7 +8,7 @@
 <table>
 <thead>
 <tr>
-  
+
   <th>Trans collection</th>
   <th>Name</th>
   <th>Id</th>

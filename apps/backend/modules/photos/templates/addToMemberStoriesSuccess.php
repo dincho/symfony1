@@ -14,7 +14,7 @@
                 <th>Replace</th>
             </tr>
         </thead>
-        
+
     <?php foreach ($stories as $story): ?>
         <tr>
             <td class="marked"><?php echo checkbox_tag('marked[]', $story->getId(), null) ?></td>
@@ -28,7 +28,7 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    
+
     </table>
     <div class="actions">
         <?php echo button_to('Cancel', 'photos/stockPhotos') ?>

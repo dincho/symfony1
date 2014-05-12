@@ -4,7 +4,7 @@
     <div class="actions">
         <?php echo submit_tag('Add to Blacklist', 'id=add_to_blacklist name=add_to_blacklist') ?>
         <?php echo submit_tag('Add to IP Blocking', 'id=add_to_block name=add_to_block') ?>
-    </div>    
+    </div>
 
 <table class="zebra reports">
   <thead>

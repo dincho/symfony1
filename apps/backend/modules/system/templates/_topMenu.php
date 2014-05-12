@@ -9,5 +9,3 @@
   <?php endforeach; ?>
 <?php endif; ?>
 </ul>
-
-    

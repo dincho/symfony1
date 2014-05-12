@@ -13,12 +13,11 @@ class ipblockingActions extends sfActions
 
     public function preExecute()
     {
-        if ($this->getRequestParameter('cancel') == 1)
-        {
+        if ($this->getRequestParameter('cancel') == 1) {
             $this->setFlash('msg_error', 'You clicked Cancel, your changes have not been saved');
             $this->redirect($this->getModuleName() . '/' . $this->getActionName() . '?id=' . $this->getRequestParameter('id'));
         }
-        
+
         $this->left_menu_selected = 'IP Blocking';
         $this->top_menu_selected = 'ipwatch';
         $bc = $this->getUser()->getBC();
@@ -27,11 +26,11 @@ class ipblockingActions extends sfActions
     }
 
     public function executeList()
-    {                                  
+    {
         $c = new Criteria();
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM_TYPE);
         $c->addAscendingOrderByColumn(IpblockPeer::ITEM);
-        
+
         $pager = new sfPropelPager('Ipblock', $this->getRequestParameter('per_page',15));
         $pager->setCriteria($c);
         $pager->setPage($this->getRequestParameter('page', 1));
@@ -44,10 +43,9 @@ class ipblockingActions extends sfActions
     {
         $this->ipblock = IpblockPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404unless($this->ipblock);
-        
+
         $this->getUser()->getBC()->add(array('name' => 'IP Block Edit', 'uri' => 'ipblocking/edit?id=' . $this->ipblock->getId()));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('content_edit'));
             $this->ipblock->setItem($this->getRequestParameter('item'));
             $this->ipblock->setItemType($this->getRequestParameter('item_type'));
@@ -61,15 +59,14 @@ class ipblockingActions extends sfActions
     {
         $this->ipblock = IpblockPeer::retrieveByPk($this->getRequestParameter('id'));
         $this->forward404unless($this->ipblock);
-        
+
         return sfView::SUCCESS;
     }
 
     public function executeAdd()
     {
         $this->getUser()->getBC()->add(array('name' => 'New IP Block', 'uri' => 'ipblocking/add'));
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('content_edit'));
             $ipblock = new Ipblock();
             $ipblock->setItem($this->getRequestParameter('item'));
@@ -87,70 +84,66 @@ class ipblockingActions extends sfActions
 
     public function validateEdit()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $item_type = $this->getRequestParameter('item_type', - 1);
             $netmask = $this->getRequestParameter('netmask', '');
             $item = $this->getRequestParameter('item', '');
-            if ($item_type == 3 && empty($netmask))
-            {
+            if ($item_type == 3 && empty($netmask)) {
                 $this->getRequest()->setError('netmask', 'Please select a network mask');
+
                 return false;
             }
-            
-            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item))
-            {
+
+            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item)) {
                 $this->getRequest()->setError('item', 'Please enter a valid IP ');
+
                 return false;
             }
-            
-            if ($item_type == 1 && ! Tools::isValidEmail($item))
-            {
+
+            if ($item_type == 1 && ! Tools::isValidEmail($item)) {
                 $this->getRequest()->setError('item', 'Please enter a valid email address');
+
                 return false;
             }
         }
-        
+
         return true;
     }
 
     public function validateAdd()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $item_type = $this->getRequestParameter('item_type', - 1);
             $netmask = $this->getRequestParameter('netmask', '');
             $item = $this->getRequestParameter('item', '');
-            if ($item_type == 3 && empty($netmask))
-            {
+            if ($item_type == 3 && empty($netmask)) {
                 $this->getRequest()->setError('netmask', 'Please select a network mask');
+
                 return false;
             }
-            
-            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item))
-            {
+
+            if (($item_type == 2 || $item_type == 3) && ! Tools::isValidIp($item)) {
                 $this->getRequest()->setError('item', 'Please enter a valid IP ');
+
                 return false;
             }
-            
-            if ($item_type == 1 && ! Tools::isValidEmail($item))
-            {
+
+            if ($item_type == 1 && ! Tools::isValidEmail($item)) {
                 $this->getRequest()->setError('item', 'Please enter a valid email address');
+
                 return false;
             }
         }
-        
+
         return true;
     }
 
     public function executeUpdate()
     {
-        if ($this->getRequest()->getMethod() == sfRequest::POST)
-        {
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('content_edit'));
             $marked = $this->getRequestParameter('marked', false);
-            if (! is_null($this->getRequestParameter('delete')) && is_array($marked) && ! empty($marked))
-            {
+            if (! is_null($this->getRequestParameter('delete')) && is_array($marked) && ! empty($marked)) {
                 $c = new Criteria();
                 $c->add(IpblockPeer::ID, $marked, Criteria::IN);
                 IpblockPeer::doDelete($c);

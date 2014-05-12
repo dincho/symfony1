@@ -15,7 +15,7 @@
             <th>To</th>
             <td><?php echo implode ( ', ', $message->getRecipients()) ?></td>
         </tr>
-        
+
     </table>
     <hr />
     <p><?php echo nl2br(strip_tags($message->getBody(), '<br><strong>')) ?></p>

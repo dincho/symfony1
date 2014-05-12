@@ -2,4 +2,3 @@ fillin:
   enabled: true
   param:
     content_type:   xml
-

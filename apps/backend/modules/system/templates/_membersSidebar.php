@@ -9,7 +9,7 @@
     <li>
         <?php echo select_tag('filters[cat_id]', objects_for_select($catalogues, 'getCatId', '__toString',
                 isset($filters['cat_id']) ? $filters['cat_id'] : null, array('include_custom' => 'All'))); ?>
-    </li> 
+    </li>
     <li>Stared:</li>
     <?php foreach($starred_array as $key => $value): ?>
     <li>
@@ -24,9 +24,9 @@
         <label><?php echo $value; ?></label>
     </li>
     <?php endforeach; ?>
-    
+
     <li>&nbsp;</li>
-    
+
     <li>Subscription Type:</li>
     <?php foreach($subscriptions as $subscription): ?>
     <li>
@@ -34,9 +34,9 @@
         <label><?php echo $subscription->getTitle(); ?></label>
     </li>
     <?php endforeach; ?>
-    
+
     <li>&nbsp;</li>
-    
+
     <li>Country:</li>
     <?php foreach($countries as $country): ?>
     <li>
@@ -48,10 +48,10 @@
         <?php echo checkbox_tag('filters[countries][]', 'THE_REST', @in_array('THE_REST', $filters['countries']) );?>
         <label>The Rest</label>
     </li>
-    
+
     <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
     <li>&nbsp;</li>
-    
+
     <li>Status:</li>
     <?php foreach($statuses as $status): ?>
     <li>
@@ -63,9 +63,9 @@
         <?php echo checkbox_tag('filters[no_email_confirmation]', 1, isset($filters['no_email_confirmation']) );?>
         <label>Not Activated Yet</label>
     </li>
-    
+
     <li>&nbsp;</li>
-        
+
     <li>Language:</li>
     <?php foreach($languages as $language): ?>
     <li>
@@ -73,9 +73,8 @@
         <label><?php echo format_language($language) ?></label>
     </li>
     <?php endforeach; ?>
-    
+
     <li class="sidebar_actions"><?php echo submit_tag('Apply'); ?></li>
     <li>&nbsp;</li>
 </ul>
 </form>
-
