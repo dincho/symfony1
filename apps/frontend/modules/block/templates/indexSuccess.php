@@ -14,7 +14,7 @@
             <?php echo link_to_remote(__('Unblock'),
                                       array('url'     => 'block/toggle?show_profile_link=1&profile_id=' . $block->getProfileId(),
                                             'update'  => 'msg_container',
-                                            'success' => '$("member_'.$block->getProfileId().'").remove();', 
+                                            'success' => '$("member_'.$block->getProfileId().'").remove();',
                                             'script'  => true
                                           ),
                                       array('class' => 'sec_link',

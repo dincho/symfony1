@@ -15,25 +15,24 @@ class geo2seoActions extends sfActions
     {
         $this->getUser()->getBC()->replaceFirst(array('name' => 'Countries', 'uri' => '@seo_countries'));
     }
-    
+
     public function executeIndex()
     {
         //this shows all countries
         $countries = GeoPeer::getCountriesArray();
         $first_column_rows = 85;
         $second_column_rows = 82;
-        $countries_columns['left'] = array_slice($countries, 0, $first_column_rows, true); //left 
+        $countries_columns['left'] = array_slice($countries, 0, $first_column_rows, true); //left
         $countries_columns['middle'] = array_slice($countries, $first_column_rows, $second_column_rows, true); //middle
         $countries_columns['right'] = array_slice($countries, $first_column_rows+$second_column_rows); //right
         $this->countries_columns = $countries_columns;
-        
-        if( $page = StaticPagePeer::getBySlug('seo_countries') )
-        {
+
+        if ( $page = StaticPagePeer::getBySlug('seo_countries') ) {
             $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
             $this->getResponse()->setTitle($prefix.$page->getTitle());
             $this->getResponse()->addMeta('description', $page->getDescription());
             $this->getResponse()->addMeta('keywords', $page->getKeywords());
-        }        
+        }
     }
 
     public function executeCountry()
@@ -43,19 +42,19 @@ class geo2seoActions extends sfActions
         $this->forward404Unless($this->country);
 
         $name = $this->getRequestParameter('country_name');
-        $this->getUser()->getBC()->replaceLast(array('name' => $name, 
-                                                    'uri' => '@country_info?country_iso=' . $this->country->getCountry() . '&name='. $name));  
-        
+        $this->getUser()->getBC()->replaceLast(array('name' => $name,
+                                                    'uri' => '@country_info?country_iso=' . $this->country->getCountry() . '&name='. $name));
+
         $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->setTitle($prefix.$name);
-        
+
         $c = new Criteria();
         $c->add(GeoPeer::COUNTRY, $this->country->getCountry());
         $c->add(GeoPeer::DSG, 'ADM1');
 
         $this->adms = GeoPeer::doSelect($c);
         $this->rows_per_column = count($this->adms)/5; //5 columns
-        
+
         $details = $this->country->getDetails($this->getUser()->getCatalogId());
         $this->info = ($details) ? $details->getSeoInfo() : null;
     }
@@ -64,16 +63,16 @@ class geo2seoActions extends sfActions
     {
         $adm1 = GeoPeer::getAdm1ByCountryAndPK($this->getRequestParameter('country_iso'), $this->getRequestParameter('adm1_id'));
         $this->forward404Unless($adm1);
-        
+
         $bc = $this->getUser()->getBC();
-        $uri = $this->getController()->genUrl('@country_info?country_iso=' . $this->getRequestParameter('country_iso') . 
+        $uri = $this->getController()->genUrl('@country_info?country_iso=' . $this->getRequestParameter('country_iso') .
                                                                             '&country_name='. $this->getRequestParameter('country_name'), true);
         $bc->replaceLast(array('name' => $this->getRequestParameter('country_name'), 'uri' => $uri));
         $bc->add(array('name' => $adm1->getName()));
-        
+
         $prefix =  sfConfig::get('app_title_prefix_' . str_replace('.', '_', $this->getRequest()->getHost()));
         $this->getResponse()->setTitle($prefix.$this->getRequestParameter('country_name').', '.$adm1->getName());
-        
+
         $this->adm1 = $adm1;
         $details = $adm1->getDetails($this->getUser()->getCatalogId());
         $this->info = ($details) ? $details->getSeoInfo() : null;

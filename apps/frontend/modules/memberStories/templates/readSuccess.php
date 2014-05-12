@@ -21,7 +21,7 @@
         <?php endif; ?>
 
     <?php endif; ?>
-    
+
     <br /><br />
     <div class="g_ad">
         <script type="text/javascript">
@@ -37,7 +37,6 @@
         <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
     </div>
 </div>
-
 
 <div id="member_story_content">
     <?php echo $sf_data->getRaw('story')->getContent(); ?>

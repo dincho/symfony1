@@ -12,10 +12,10 @@
             &bull;&nbsp;<?php echo __('We will not save your friend\'s contact information.') ?><br />
             &bull;&nbsp;<?php echo __('We will not forward your friend\'s contact information to any other organization.') ?><br />
         </div>
-        
+
         <?php echo pr_label_for('friend_email', __('Your Friend Email')) ?>
         <?php echo input_tag('friend_email') ?><br />
-        
+
         <?php echo pr_label_for('email', __('Your email')) ?>
         <?php echo input_tag('email') ?><br />
     </fieldset>
@@ -24,7 +24,7 @@
         <?php echo submit_tag(__('Send'), array('class' => 'button')) ?>
         <?php echo link_to(__('Cancel'), 'dashboard/index', array('class' => 'button cancel')) ?><br />
     </fieldset>
-    
+
 </form>
 
 <?php slot('footer_menu') ?>

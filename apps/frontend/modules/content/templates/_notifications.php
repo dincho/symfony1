@@ -1,22 +1,19 @@
 <?php use_helper('Javascript'); ?>
 
-<?php $ajax_request = remote_function(array('success' => 'parse_notifications(request, '. sfConfig::get('app_settings_member_notification_lifetime', 7000) .')', 
+<?php $ajax_request = remote_function(array('success' => 'parse_notifications(request, '. sfConfig::get('app_settings_member_notification_lifetime', 7000) .')',
                                  'url' => 'ajax/notifications',
                                 )); ?>
-                                
+
 <script type="text/javascript" language="javascript">
 //<![CDATA[
-Event.observe(window, 'load', function() {
+Event.observe(window, 'load', function () {
 
-  setTimeout(function() {
+  setTimeout(function () {
       <?php echo $ajax_request; ?>
-      new PeriodicalExecuter(function() {<?php echo $ajax_request; ?>}, 60);
+      new PeriodicalExecuter(function () {<?php echo $ajax_request; ?>}, 60);
   }, 1500);
-  
+
 });
 
 //]]>
 </script>
-
-
-

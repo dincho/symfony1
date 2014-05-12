@@ -2,7 +2,7 @@ fillin:
   enabled: true
   param:
     content_type:   xhtml
-    
+
 validators:
   noUnderScoreUsernameValidator:
     class: sfRegexValidator
@@ -22,7 +22,7 @@ fields:
       class:        Member
       column:       email
       unique_error: For some reason the system does not accept this email address. Please use another one.
-            
+
   password:
     required:
       msg:  Please create password.

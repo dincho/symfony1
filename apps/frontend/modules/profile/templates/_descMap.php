@@ -4,20 +4,20 @@
     <div id="profile_desc">
         <?php echo link_to_function(__('Description'), '', 'class=switch') ?>
         <?php $area_info = addslashes(link_to(__('Area Information'), '@area_info?area_id=' . $member->getCityId() . '&username=' . $member->getUsername(), array('class' => 'sec_link'))); ?>
-        <?php echo link_to_function(__('Map'), 
-                    'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")', 
+        <?php echo link_to_function(__('Map'),
+                    'show_profile_map("'. $member->getGAddress() . '", "'. $area_info .'")',
                     'class=inactive switch');
          ?>
         <br class="clear" />
         <dl>
             <dt><?php echo __('Orientation') ?></dt>
                 <dd><?php echo __($member->getOrientationString()) ?></dd>
-            
+
             <dt><?php echo __('Purpose') ?></dt>
                 <?php $purposes = $member->getPurpose(); ?>
                 <?php if( count($purposes) ): ?>
                     <dd><?php echo format_purpose($purposes[0], $member->getOrientationKey()); ?></dd>
-                    
+
                     <?php for($i = 1; $i < count($purposes); $i++): ?>
                         <dt>&nbsp;</dt><dd><?php echo format_purpose($purposes[$i], $member->getOrientationKey()); ?></dd>
                     <?php endfor; ?>
@@ -26,23 +26,22 @@
                   <dd> - </dd>
                 <?php endif; ?>
 
-            
             <dt><?php echo __('Country') ?></dt>
                 <dd><?php echo ($member->getCountry()) ? pr_format_country($member->getCountry()) : "-" ?></dd>
-            
+
             <dt><?php echo __('Area') ?></dt>
                 <?php if( $member->getAdm1Id() ): ?>
                   <dd><?php echo $member->getAdm1() . '&nbsp;' . link_to(__('(other profiles from this area)'), 'search/areaFilter?id=' . $member->getAdm1Id(), 'class=sec_link') ?></dd>
                 <?php else: ?>
                   <dd> - </dd>
                 <?php endif; ?>
-            
+
             <dt><?php echo __('District') ?></dt>
                 <dd><?php echo ($member->getAdm2Id()) ? $member->getAdm2() : '-'; ?></dd>
-            
+
             <dt><?php echo __('City') ?></dt>
                 <dd><?php echo ($member->getCity()) ? $member->getCity() : '-'; ?></dd>
-                
+
             <dt><?php echo __('Zodiac') ?></dt>
                 <dd><?php echo ($member->getBirthday() && !$member->getDontDisplayZodiac()) ? __($member->getZodiac()->getSign()) : '-'; ?></dd>
 
@@ -66,11 +65,10 @@
                   <?php endif; ?>
               <?php endif; ?>
             <?php endforeach; ?>
-            
-            
+
             <dt><?php echo __('Language'); ?></dt>
                 <?php $no_language = true ?>
-                
+
                 <?php foreach ($questions as $question): ?>
                     <?php $member_answer = isset($member_answers[$question->getId()]) ? $member_answers[$question->getId()] : null; ?>
                     <?php if( $question->getType() == 'native_lang' && $member_answer ): ?>
@@ -88,7 +86,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
-            
+
                 <?php if( $no_language ): ?>
                   <dd> - </dd>
                 <?php endif; ?>

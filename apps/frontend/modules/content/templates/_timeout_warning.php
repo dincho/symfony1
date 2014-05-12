@@ -7,14 +7,13 @@
 <script type="text/javascript" language="javascript">
 //<![CDATA[
   var DISABLE_TIMEOUT_WARNING = false;
-  
-  Event.observe(window, 'load', function() {
-    setTimeout(function() {
-      if(!DISABLE_TIMEOUT_WARNING) 
-      {
+
+  Event.observe(window, 'load', function () {
+    setTimeout(function () {
+      if (!DISABLE_TIMEOUT_WARNING) {
           alert('<?php echo $warning; ?>');
       }
-    }, <?php echo $timeout; ?>) 
+    }, <?php echo $timeout; ?>)
 });
 //]]>
 </script>

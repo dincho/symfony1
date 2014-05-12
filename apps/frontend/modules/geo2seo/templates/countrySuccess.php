@@ -16,13 +16,13 @@
                 <td>
                     <?php $index = ($row_index+$column_index*$itemsPerColumn-$itemsPerColumn-1); ?>
                     <?php if( isset($adms[$index]) ): ?>
-                        <?php echo link_to($adms[$index]->getName(), '@adm1_info?country_iso=' . $country->getCountry() . 
-                                                                                        '&country_name=' . $sf_params->get('country_name'). 
-                                                                                        '&adm1_id=' . $adms[$index]->getId() . 
+                        <?php echo link_to($adms[$index]->getName(), '@adm1_info?country_iso=' . $country->getCountry() .
+                                                                                        '&country_name=' . $sf_params->get('country_name').
+                                                                                        '&adm1_id=' . $adms[$index]->getId() .
                                                                                         '&adm1_name=' . $adms[$index]->getName()); ?>
                     <?php endif; ?>
                 </td>
             <?php endfor; ?>
-        </tr> 
+        </tr>
     <?php endfor; ?>
 </table>

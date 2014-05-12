@@ -19,7 +19,7 @@
     <div id="center">
         <div id="index_image">
             <?php include_component('content', 'homepageSinglePhoto', array('homepage_set' => $homepage_set)); ?>
-            
+
         </div>
         <br class="clear" />
         <div id="under_index_image">
@@ -30,26 +30,25 @@
                     <fieldset>
                         <?php echo pr_label_for('email', __('Your email')) ?>
                         <?php echo input_tag('email') ?><br class="clear" />
-                                            
+
                         <?php echo pr_label_for('password', __('Create Password')) ?>
                         <?php echo input_password_tag('password') ?><br class="clear" />
-                        
+
                         <?php echo pr_label_for('repeat_password', __('Repeat Password')) ?>
                         <?php echo input_password_tag('repeat_password') ?><br class="clear" />
-                        
+
                         <?php echo pr_label_for('looking_for', __('You are')) ?>
                         <?php echo select_tag('looking_for', looking_for_options()) ?><br class="clear" />
 
                         <?php echo pr_label_for('username', __('Username')); ?>
                         <?php echo input_tag('username', null, array('maxlength' => 20)) ?><br class="clear" />
-                        
-                        
+
                         <?php $tos_text = __('Homepage - I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
                         <div class="tos">
                             <?php echo content_tag('label', $tos_text); ?>
                             <?php echo checkbox_tag('tos', 1, false); ?>
                         </div>
-                        
+
                     </fieldset>
                     <div class="reg_submit_container">
                       <?php echo submit_tag('', array('name' => 'go', 'id' => 'reg_submit_' .$sf_user->getCulture())) ?>

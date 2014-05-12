@@ -1,12 +1,12 @@
 <?php use_helper('dtForm', 'Javascript', 'prProfilePhoto'); ?>
 
-<?php echo form_remote_tag(array('url'    => 'content/flag', 
-                                 'complete' => 'flag_request_complete(request)'), 
+<?php echo form_remote_tag(array('url'    => 'content/flag',
+                                 'complete' => 'flag_request_complete(request)'),
                            array('id' => 'flag')); ?>
-        
+
     <?php echo input_hidden_tag('username', $profile->getUsername(), array('class' => 'hidden')) ?>
     <?php echo input_hidden_tag('layout', $sf_params->get('layout'), array('class' => 'hidden')) ?>
-    
+
     <div>
         <?php echo pr_label_for('comment', __('Please tell us why you are flagging this member.')) ?>
         <fieldset>

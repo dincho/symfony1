@@ -1,46 +1,44 @@
 <?php
 /**
- * 
+ *
  * @author Dincho Todorov
  * @version 1.0
  * @created Sep 27, 2008 9:16:46 PM
- * 
+ *
  */
-class statusFilter extends sfFilter
+class statusFIlter extends sfFilter
 {
 
-    static private $skip_actions = array('content/message', 'content/page', 'profile/signIn', 
+    private static $skip_actions = array('content/message', 'content/page', 'profile/signIn',
                                          'profile/signout', 'memberStories/index', 'memberStories/read', 'dashboard/deactivate',
                                          'registration/confirmDeletePhoto', 'registration/deletePhoto', 'registration/ajaxPhotoHandler',
                                          'registration/uploadPhoto');
-    
+
     public function execute($filterChain)
     {
-      
+
         $context = $this->getContext();
         $user = $context->getUser();
-        if ($this->isFirstCall() && $user->isAuthenticated())
-        {
+        if ($this->isFirstCall() && $user->isAuthenticated()) {
             $module = $context->getModuleName();
             $action = $context->getActionName();
             $module_action = $module . '/' . $action;
-           
+
             //second condition is to bypass case constructor if status is active
-            if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE && 
+            if ($user->isAuthenticated() && $user->getAttribute('status_id') != MemberStatusPeer::ACTIVE &&
                 !in_array($module_action, self::$skip_actions) && $module != 'ajax')
             {
                 $AI = $this->getContext()->getActionStack()->getLastEntry()->getActionInstance();
                 switch ($user->getAttribute('status_id')) {
                     case MemberStatusPeer::ABANDONED:
-                            if( $user->getAttribute('must_confirm_email') && 
+                            if( $user->getAttribute('must_confirm_email') &&
                                 $module_action != 'registration/requestNewActivationEmail' &&
                                 $module_action != 'registration/activate')
                             {
                               $AI->redirect('registration/requestNewActivationEmail');
                             }
 
-                            if ( $module != 'registration' )
-                            {
+                            if ($module != 'registration') {
                               $AI->message('complete_registration');
                             }
                         break;
@@ -74,4 +72,3 @@ class statusFilter extends sfFilter
         $filterChain->execute();
     }
 }
-

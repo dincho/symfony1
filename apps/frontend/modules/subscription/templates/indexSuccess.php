@@ -32,7 +32,7 @@
 <!--                <?php if ($is_VIP): ?>
                   <div class="separator">&nbsp;</div>
                 <?php endif; ?>
--->                <div class="upgrade_header_<?php echo ( $is_VIP )? '3':'1' ?>">&nbsp;</div> 
+-->                <div class="upgrade_header_<?php echo ( $is_VIP )? '3':'1' ?>">&nbsp;</div>
                 <div class="upgrade_header_<?php echo ( $is_VIP )? '4':'2' ?>">
                   <?php if( $is_better  ): ?>
                     <?php $is_VIP = true; ?>
@@ -63,21 +63,21 @@
                   <span class="select">
                     <?php if( $is_better): ?>
                       <?php $better_subscription_flag = true; ?>
-                      <?php echo button_to(__('Upgrade to %SUBSCRIPTION_TITLE%',  array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())), 
+                      <?php echo button_to(__('Upgrade to %SUBSCRIPTION_TITLE%',  array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())),
                                           'subscription/payment?sid=' . $subscription->getSubscriptionId(), array('class' => 'button')); ?>
                     <?php else: ?>
                       &nbsp;
                     <?php endif; ?>
                   </span>
                 </div>
-            </div>        
+            </div>
         <?php endforeach; ?>
     </fieldset>
     <br class="clear" />
     <br /><br /><br /><?php echo __('Please allow up at 48 hours for the changes to take effect.') ?><br />
     <?php echo __('Prices and avialable features subject to changes without notice. Please read <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> for details.') ?>
     <br /><br /><br />
-        
+
     <?php echo link_to(__('Cancel'), 'dashboard/index', array('class' => 'button cancel')) ?><br />
 </form>
 <br /><br /><br class="clear" />

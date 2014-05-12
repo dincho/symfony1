@@ -8,7 +8,7 @@
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
     <div style="min-height: 350px">
         <?php _addLbRessources(); ?>
-              
+
         <?php if( !is_null($member->getMainPhotoId()) ): //has main photo ?>
                <?php $options = array('href' => $member->getMainPhoto()->getImg(null, 'file'),
                     'rel' => 'lightbox[public_photos]',
@@ -23,7 +23,7 @@
                <?php echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), $options); ?>
         <?php elseif( count($private_photos) > 0 && $private_photos_perm ):?>
                 <?php $mainPhoto = $private_photos[0]; ?>
-                <?php echo content_tag('a', image_tag($mainPhoto->getImg('350x350', 'file'), array('id' => 'member_image')), 
+                <?php echo content_tag('a', image_tag($mainPhoto->getImg('350x350', 'file'), array('id' => 'member_image')),
                                     array('href' => $mainPhoto->getImg(null, 'file'),
                                           'rel' => 'lightbox[private_photos]',
                                           'title' => $member->getUsername(),
@@ -33,9 +33,9 @@
             <?php echo image_tag($member->getMainPhoto()->getImg('350x350', 'file')); ?>
         <?php endif; ?>
     </div>
-    
+
     <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos', 'error' => $error)); ?>
-    
+
     <?php if( count($private_photos) > 0 ): ?>
         <hr />
         <?php if( $private_photos_perm ): ?>
@@ -49,7 +49,7 @@
                 <?php echo __('%USERNAME% has private photos.', array('%USERNAME%' => $member->getUsername()))." " . link_to_remote( __('Request access.'), array(
                                         'url' => '@send_private_photos_request?toggle_link=1&username=' . $member->getUsername(),
                                         'update' => array('success' => 'msg_container'),
-                                        'script' => true, 
+                                        'script' => true,
                                 ), array('id' => 'photo_req_link', 'class' => 'sec_link', )); ?><br />
               </div>
             <?php endif; ?>
@@ -59,7 +59,7 @@
             <?php endfor; ?>
           <?php endif; ?>
     <?php endif; ?>
-    
+
     <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
         <br /><br />
         <object width="350" height="355">
@@ -71,60 +71,57 @@
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
 
-
 <div id="profile_right">
     <div id="profile_pager">
         <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
     </div>
-   
+
    <div id="profile_top">
         <?php if( $sf_user->getProfile() && $sf_user->getProfile()->hasWinkTo($member->getId()) ): ?>
             <span class="sec_link"><?php echo __('Wink'); ?></span>
         <?php else: ?>
-            <?php echo link_to_remote(__('Wink'), 
+            <?php echo link_to_remote(__('Wink'),
                                       array('url'     => 'winks/send?profile_id=' . $member->getId(),
                                             'update'  => 'msg_container',
                                             'success' => '$("wink_link").removeAttribute("onclick"); $("wink_link").addClassName("inactive_link");'
                                           ),
                                       array('class' => 'sec_link',
-                                            'id'    => 'wink_link', 
+                                            'id'    => 'wink_link',
                                             )
                         ); ?>
         <?php endif; ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-        
-        
+
         <?php if( $messageThread ): ?>
             <?php echo link_to(__('Send Mail'), 'messages/thread?id=' . $messageThread->getId(), array('class' => 'sec_link')); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php else: ?>
-            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title' => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
-                                                            'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(), 
+            <?php echo link_to_prototype_window(__('Send Mail'), 'send_message', array('title' => __('Send Message to %USERNAME%', array('%USERNAME%' => $member->getUsername())),
+                                                            'url'            => 'messages/send?layout=window&recipient_id=' . $member->getId(),
                                                             'id'             => '"send_message_window"',
                                                             'width'          => '540',
                                                             'height'         => '380',
-                                                            'center'         => 'true', 
+                                                            'center'         => 'true',
                                                             'minimizable'    => 'false',
                                                             'maximizable'    => 'false',
-                                                            'closable'       => 'true', 
+                                                            'closable'       => 'true',
                                                             'destroyOnClose' => "true",
                                                             'showEffect'     => 'Element.show',
-                                                            'onBeforeShow'   => 'function(event) {
+                                                            'onBeforeShow'   => 'function (event) {
                                                                 $("send_message_link").hide();
                                                                 $("send_message_span").show();
-                                                            }', 
-                                                            'onClose'        => 'function() { 
+                                                            }',
+                                                            'onClose'        => 'function () {
                                                                     if($("send_message_span")) $("send_message_span").hide();
                                                                     if($("send_message_link")) $("send_message_link").show();
                                                                  }',
                                                             'className'      => 'polishdate',
-                                                        ), array('class' => 'sec_link', 
+                                                        ), array('class' => 'sec_link',
                                                                  'id'    => 'send_message_link'
                                                         )); ?>
-                                                
-                                                          
+
             <?php //used when the popup window is shown, so user can't click again on the below links ?>
             <span class="sec_link" id="send_message_span" style="display: none;"><?php echo __('Send Mail'); ?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <?php endif; ?>
-         
+
         <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
         <?php echo link_to_remote($hotlist_link_title,
                                   array('url'     => 'hotlist/toggle?update_selector=hotlist_link&profile_id=' . $member->getId(),
@@ -132,7 +129,7 @@
                                         'script'  => true
                                       ),
                                   array('class' => 'sec_link',
-                                        'id'    => 'hotlist_link', 
+                                        'id'    => 'hotlist_link',
                                         )
                     ); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
 
@@ -144,23 +141,23 @@
                                         'script'  => true
                                       ),
                                   array('class' => 'sec_link',
-                                        'id'    => 'block_link', 
+                                        'id'    => 'block_link',
                                         )
                     ); ?>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
-                    
-        <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $member->getUsername())), 
-                                                                                'url'            => 'content/flag?layout=window&username=' . $member->getUsername(), 
-                                                                                'id'             => '"flag_profile_window"', 
-                                                                                'width'          => '550', 
+
+        <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $member->getUsername())),
+                                                                                'url'            => 'content/flag?layout=window&username=' . $member->getUsername(),
+                                                                                'id'             => '"flag_profile_window"',
+                                                                                'width'          => '550',
                                                                                 'height'         => '200',
-                                                                                'center'         => 'true', 
+                                                                                'center'         => 'true',
                                                                                 'minimizable'    => 'false',
                                                                                 'maximizable'    => 'false',
-                                                                                'closable'       => 'true', 
+                                                                                'closable'       => 'true',
                                                                                 'destroyOnClose' => "true",
                                                                                 'className'      => 'polishdate',
-                                                                            ), 
-                                                                         array('absolute'        => false, 
+                                                                            ),
+                                                                         array('absolute'        => false,
                                                                                'id'              => 'flag_profile_link_window',
                                                                                'class'           => 'sec_link',
                                                                              )); ?>
@@ -169,9 +166,9 @@
         <?php if( $member->getMillionaire() ): ?>
             <div class="millionaire_mark"><?php echo __('M'); ?></div>
         <?php endif; ?>
-        
+
         <?php include_partial('profile/membership', array('member' => $member)); ?>
-        
+
         <br class="clear" />
     </span>
     <div id="profile_double_box">
@@ -183,16 +180,16 @@
                     <?php else: ?>
                         <?php echo __('%she_he% matches you: (no result)', array('%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'))) ?><br />
                     <?php endif; ?>
-                    
+
                     <?php if( $member->hasSearchCriteria() ): ?>
                         <?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $match->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?><br />
                     <?php else: ?>
                         <?php echo __('You match %her_him%: (no result)', array('%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?><br />
                     <?php endif; ?>
-                    
+
                     <?php if( $match->getCombinedPct() > 0 ): ?>
                         <?php echo __('Your combined match is: %COMBINED_MATCH%%', array('%COMBINED_MATCH%' => $match->getCombinedPct()) ) ?><br />
-                    <?php endif; ?> 
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -281,7 +278,7 @@
           'title' => __('5 Star')
         )) ?>
       </li>
-    </ul>    
+    </ul>
     <div id="rateMessage" style="float: left">
         <?php if( $rate == 0 ): ?>
             <?php echo __('rate this member')?>
@@ -291,13 +288,13 @@
     </div>
     <br class="clear" />
     <?php if( $sf_user->getProfile()->getPrivateDating()): ?>
-        <?php echo link_to_remote( ( $has_privacy_perm ) ? 
-                                      __('%USERNAME% can see you. Do not let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())) : 
-                                      __('%USERNAME% cannot see you. Let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())), 
+        <?php echo link_to_remote( ( $has_privacy_perm ) ?
+                                      __('%USERNAME% can see you. Do not let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())) :
+                                      __('%USERNAME% cannot see you. Let %USERNAME% see you.', array('%USERNAME%' => $member->getUsername())),
                                   array(
                                     'url' => '@toggle_privacy_perm?toggle_link=1&username=' . $member->getUsername(),
                                     'update' => array('success' => 'msg_container'),
-                                    'script' => true, 
+                                    'script' => true,
                             ), array('id' => 'privacy_link', 'class' => 'sec_link', )); ?><br /><br />
     <?php endif; ?>
 
@@ -310,8 +307,7 @@
 <br class="clear" />
 
 
-<?php echo javascript_tag('function changeRate(json){ 
+<?php echo javascript_tag('function changeRate(json) {
   $("currentRatingStars").className = "rating star" + json.currentRate;
   $("currentRate").innerHTML = json.currentRate;
 }') ?>
-

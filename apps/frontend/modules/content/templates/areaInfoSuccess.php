@@ -8,11 +8,11 @@
 
 <div class="city_right">
     <?php echo __('Area Info Headline', array('%GEO_TREE_STRING%' => $geo_tree_string)); ?><br />
-    
+
     <?php if( $details ): ?>
         <?php echo $details->getMemberInfo(ESC_RAW); ?><br /><br />
     <?php endif; ?>
-    
+
     <br /><br />
     <script type="text/javascript">
         <!--

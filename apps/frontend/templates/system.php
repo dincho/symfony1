@@ -19,22 +19,22 @@
         <div id="bb"><div id="blc">
         <div id="brc"><div id="tb">
         <div id="tlc"><div id="trc">&nbsp;
-        <!--  -->   
-        <div id="content">  
+        <!--  -->
+        <div id="content">
             <div id="header">
                 <?php echo link_to(domain_image_tag('logo.gif'), '@homepage') ?>
             </div>
             <div id="header_text">
                 <div id="header_title">
                     <?php echo image_tag('header_text/left.gif', 'class=float-left') ?>
-                    <?php echo image_tag('header_text/right.gif', 'class=float-right') ?>                
+                    <?php echo image_tag('header_text/right.gif', 'class=float-right') ?>
                     <h2>
                         <?php if(has_slot('header_title')): ?>
                             <?php include_slot('header_title') ?>
                         <?php endif; ?>
                     </h2>
                 </div>
-            </div>            
+            </div>
             <div id="secondary_container" class="small">
                 <?php echo $sf_data->getRaw('sf_content') ?>
             </div>

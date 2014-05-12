@@ -9,4 +9,3 @@ fields:
           max_size:         3145728
           max_size_error:   Max image size is 3MB
           ini_max_size_error: Max image size is 3MB
-          

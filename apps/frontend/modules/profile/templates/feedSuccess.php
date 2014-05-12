@@ -1,1 +1,1 @@
-<?php echo $sf_data->getRaw('feed')->getFeed() ?>
+<?php echo $sf_data->getRaw('feed')->getFeed()

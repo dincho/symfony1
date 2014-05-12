@@ -5,7 +5,7 @@
         <th colspan="4"><?php echo __('Your Recent Activities with %username%', array('%username%' => $member->getUsername()))?></th>
     </tr>
     <?php if( isset($recent_activities) && count($recent_activities) > 0 ): ?>
-    
+
         <script type="text/javascript">
             Event.observe(window, 'load', function () {
                 var RA_balloon = new Balloon;

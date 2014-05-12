@@ -10,23 +10,23 @@
             </div>
             <label for="email"><?php echo __('Email') ?></label>
             <?php echo input_tag('email', null, array('class' => 'input_text_width')); ?><br />
-        
+
             <label for="password"><?php echo __('Password') ?></label>
             <?php echo input_password_tag('password', null, array('class' => 'input_text_width')); ?><br />
-        
+
             <span><?php echo link_to(__('Forgot your Password?'), 'profile/forgotYourPassword', array('class' => 'sec_link_small')) ?></span>
         </fieldset>
 
         <?php echo submit_tag(__('Sign In'), array('class' => 'button sign_in')) ?><br />
         <?php echo __('New to PolishRomance.com? <a href="%URL_FOR_JOIN_NOW%" class="sec_link">Join for free</a>') ?>
-    </form> 
-    
+    </form>
+
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
 
-<div id="profile_right"> 
+<div id="profile_right">
    <div id="profile_pager"></div>
-   
+
    <div id="profile_top">
         <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
@@ -46,10 +46,10 @@
             <div class="middle">
                 <?php echo __('%she_he% matches you:', array('%she_he%' => ( $member->getSex() == 'M' ) ? __('He') : __('She'))) ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
-                
+
                 <?php echo __('You match %her_him%:', array('%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
-                
+
                 <?php echo __('Your combined match is:') ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
             </div>
@@ -58,7 +58,7 @@
             <div class="middle">
                 <?php echo __('Last log in: ') ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
-            
+
                 <?php echo __('Profile ID:'); ?>
                 <?php echo link_to(__('sign in'), '@signin', array('class' => 'sec_link')); ?><br />
                 <?php if( !$member->getHideVisits() ): ?>
@@ -80,4 +80,3 @@
 </div>
 
 <br class="clear" />
-

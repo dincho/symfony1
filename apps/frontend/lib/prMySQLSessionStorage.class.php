@@ -1,5 +1,5 @@
 <?php
-class prMySQLSessionStorage extends sfMySQLSessionStorage 
+class prMySQLSessionStorage extends sfMySQLSessionStorage
 {
     public function initialize($context, $parameters = null)
     {
@@ -17,8 +17,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
         session_name($sessionName);
 
         $sessionId = $context->getRequest()->getParameter($sessionName, '');
-        if ($sessionId != '')
-        {
+        if ($sessionId != '') {
             session_id($sessionId);
         }
 
@@ -28,17 +27,13 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
         $domain   = $this->getParameter('session_cookie_domain',   $cookieDefaults['domain']);
         $secure   = $this->getParameter('session_cookie_secure',   $cookieDefaults['secure']);
         $httpOnly = $this->getParameter('session_cookie_httponly', isset($cookieDefaults['httponly']) ? $cookieDefaults['httponly'] : false);
-        if (version_compare(phpversion(), '5.2', '>='))
-        {
+        if (version_compare(phpversion(), '5.2', '>=')) {
           session_set_cookie_params($lifetime, $path, $domain, $secure, $httpOnly);
-        }
-        else
-        {
+        } else {
           session_set_cookie_params($lifetime, $path, $domain, $secure);
         }
 
-        if (!$this->getParameterHolder()->has('db_table'))
-        {
+        if (!$this->getParameterHolder()->has('db_table')) {
             // missing required 'db_table' parameter
             $error = 'Factory configuration file is missing required "db_table" parameter for the Storage category';
 
@@ -56,7 +51,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
         // start our session
         session_start();
     }
-    
+
   /**
    * Writes session data.
    *
@@ -93,8 +88,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
            'WHERE '.$db_id_col.' = \''.$id.'\'';
 
     //sfLogger::getInstance()->info('Session write SQL: ' . $sql);
-    if (@mysql_query($sql, $this->resource))
-    {
+    if (@mysql_query($sql, $this->resource)) {
       return true;
     }
 
@@ -119,8 +113,7 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     $sql = 'DELETE FROM '.$db_table.' '.
            'WHERE '.$db_time_col.' < "' .$mysql_date.'"';
 
-    if (@mysql_query($sql, $this->resource))
-    {
+    if (@mysql_query($sql, $this->resource)) {
       return true;
     }
 

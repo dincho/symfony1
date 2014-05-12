@@ -8,14 +8,14 @@
     <?php if($cnt_photos > 0): ?>
         <div class="photos">
             <label id="main_photo"><?php echo __('Main Photo'); ?></label>
-            
+
             <?php foreach ($public_photos as $photo): ?>
                 <div class="photo_container">
                     <div class="photo">
                         <?php if( !$photo->getAuth() ): ?>
                           <?php echo radiobutton_tag('auth_photo_id', $photo->getId(), null, array('id' => 'main_photo')) ?>
                         <?php endif; ?>
-                        
+
                         <?php if( $photo->getAuth() ): ?>
                             <label>
                                 <?php if( $photo->getAuth() == 'S' ): ?>
@@ -29,7 +29,7 @@
                         <?php else: ?>
                             <?php $free_photos_cnt++; ?>
                         <?php endif;?>
-                        
+
                     <span>
                         <?php echo image_tag( $photo->getImg('100x100') ) ?>
                     </span>
@@ -38,7 +38,7 @@
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    
+
     <br class="clear" />
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('your photo is verified') : __('photo authenticity not verified'); ?></p>
     <br class="clear" />
@@ -54,7 +54,7 @@
                         <?php if( !$photo->getAuth() ): ?>
                           <?php echo radiobutton_tag('auth_photo_id', $photo->getId(), null, array('id' => 'main_photo')) ?>
                         <?php endif; ?>
-                        
+
                         <?php if( $photo->getAuth() ): ?>
                             <label>
                                 <?php if( $photo->getAuth() == 'S' ): ?>
@@ -68,7 +68,7 @@
                         <?php else: ?>
                             <?php $free_photos_cnt++; ?>
                         <?php endif;?>
-                        
+
                     <span>
                         <?php echo image_tag( $photo->getImg('100x100') ) ?>
                     </span>
@@ -78,7 +78,7 @@
         </div>
     <?php endif; ?>
     <br class="clear" />
-    
+
     <fieldset>
         <br /><br />
         <?php if( $free_photos_cnt > 0 ): ?>
@@ -86,7 +86,7 @@
         <?php endif; ?>
         <?php echo link_to(__('Cancel'), 'editProfile/photos', array('class' => 'button cancel')) ?>
     </fieldset>
-    
+
 </form>
 <?php slot('footer_menu') ?>
     <?php include_partial('content/footer_menu') ?>

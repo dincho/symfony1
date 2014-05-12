@@ -13,22 +13,22 @@
 
     var save_condition = false;
     var last_focused_field = null;
-    
+
     function save_draft()
     {
         '. remote_function($remote_options) .'
     }
-    
+
    function disable_button(button)
    {
      $(button).className = "button_disabled";
-     $(button).onclick = function(){return false;};
+     $(button).onclick = function () {return false;};
    }
 
    function enable_button(button)
    {
      $(button).className = "button";
-     $(button).onclick = function(){ save_draft(); return false;};
+     $(button).onclick = function () { save_draft(); return false;};
    }
 
    function save_complete()
@@ -59,7 +59,7 @@
    }
 
     Event.observe("your_story", "keyup", updateState);
-    Event.observe("your_story", "focus", function(event){ last_focused_field = $("your_story"); });
-    
-    Event.observe(window, "load", function(){ disable_button("save_to_draft_btn"); });
+    Event.observe("your_story", "focus", function (event) { last_focused_field = $("your_story"); });
+
+    Event.observe(window, "load", function () { disable_button("save_to_draft_btn"); });
 ');?>

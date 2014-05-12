@@ -6,11 +6,11 @@
     </div>
 </div>
 
-<div id="profile_right"> 
+<div id="profile_right">
    <div id="profile_pager">
         <?php include_partial('profile_pager', array('pager' => $profile_pager)); ?>
    </div>
-   
+
    <div id="profile_top">
         <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;

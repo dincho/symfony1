@@ -12,4 +12,3 @@
 <?php if( $pager->haveToPaginate() ): ?>
     <br /><?php echo link_to(__('[More]'), '@search_engines?page='.$pager->getNextPage());?><br /><br />
 <?php endif; ?>
-

@@ -164,7 +164,7 @@ class messagesActions extends prActions
             $this->sender->getId(),
             $this->recipient->getId()
         );
-        
+
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $send_msg = MessagePeer::send(
                 $this->sender,
@@ -176,10 +176,10 @@ class messagesActions extends prActions
             );
 
             $this->setFlashConfirmation($send_msg, false);
+
             return $this->renderText(get_partial('content/messages'));
         }
 
-        
     }
 
     protected function needsToforceOneThread($sender, $recipient)
@@ -231,12 +231,14 @@ class messagesActions extends prActions
 
         if ($sender->getId() == $recipient->getId()) {
             $this->getRequest()->setError('message', 'You can\'t use this function on your own profile');
+
             return false;
         }
 
         //1. is the other member active ?
         if ($recipient->getmemberStatusId() != MemberStatusPeer::ACTIVE) {
             $this->getRequest()->setError('message', 'The member that you want to send a message to is not active.');
+
             return false;
         }
 
@@ -255,6 +257,7 @@ class messagesActions extends prActions
         $error = '';
         if (!$prPrivacyValidator->execute($value, $error)) {
             $this->getRequest()->setError('privacy', $error);
+
             return false;
         }
 
@@ -275,6 +278,7 @@ class messagesActions extends prActions
                 'subscription',
                 'M4F: In order to send message you need to upgrade your membership.'
             );
+
             return false;
         }
 
@@ -283,6 +287,7 @@ class messagesActions extends prActions
                 'subscription',
                 sprintf('%s: In order to send message you need to upgrade your membership.', $subscription->getTitle())
             );
+
             return false;
         }
 
@@ -294,6 +299,7 @@ class messagesActions extends prActions
                     $subscription->getTitle()
                 )
             );
+
             return false;
         }
 
@@ -305,6 +311,7 @@ class messagesActions extends prActions
                     $subscription->getTitle()
                 )
             );
+
             return false;
         }
 
@@ -316,6 +323,7 @@ class messagesActions extends prActions
     {
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getResponse()->setStatusCode(400);
+
             return $this->renderText(get_partial('content/formErrors'));
         }
 
@@ -398,9 +406,11 @@ class messagesActions extends prActions
         if ($this->getRequest()->isXmlHttpRequest()) {
             if ($this->getRequestParameter('layout') == 'window') {
                 $this->setFlash('msg_ok', 'Your message has been discarded.', false);
+
                 return $this->renderText(get_partial('content/messages'));
             } else {
                 $this->setFlash('msg_ok', 'Your message has been discarded.');
+
                 return $this->renderText(get_partial('content/client_side_redirect', array('url' => 'messages/index')));
             }
 
@@ -423,7 +433,7 @@ class messagesActions extends prActions
         $c->setOffset(0);
         $c->setLimit($limit+1);
         $messages = array_reverse($thread->getMessages($c));
-        if (count($messages) > $limit){
+        if (count($messages) > $limit) {
             array_shift($messages);
             $displayFetchLink = true;
         } else {
@@ -505,6 +515,7 @@ class messagesActions extends prActions
                     'message',
                     'The member that you want to send a message to is not active.'
                 );
+
                 return false;
             }
 
@@ -525,6 +536,7 @@ class messagesActions extends prActions
             $error = '';
             if (!$prPrivacyValidator->execute($value, $error)) {
                 $this->getRequest()->setError('privacy', $error);
+
                 return false;
             }
 
@@ -547,6 +559,7 @@ class messagesActions extends prActions
                     'subscription',
                     'M4F: In order to reply to message you need to upgrade your membership.'
                 );
+
                 return false;
             }
 
@@ -558,6 +571,7 @@ class messagesActions extends prActions
                         $subscription->getTitle()
                     )
                 );
+
                 return false;
             }
 
@@ -569,6 +583,7 @@ class messagesActions extends prActions
                         $subscription->getTitle()
                     )
                 );
+
                 return false;
             }
 
@@ -580,6 +595,7 @@ class messagesActions extends prActions
                         $subscription->getTitle()
                     )
                 );
+
                 return false;
             }
 
@@ -603,7 +619,6 @@ class messagesActions extends prActions
             if ($cnt_unread == 0) {
                 return true;
             }
-
 
             if (sfConfig::get('app_settings_man_should_pay')
                 && $member->getSex() == 'M'
@@ -660,7 +675,6 @@ class messagesActions extends prActions
                 $this->redirect('messages/index');
             }
         }
-
 
         return true;
     }
@@ -727,7 +741,7 @@ class messagesActions extends prActions
         $c->setLimit($limit+1);
         $messages = array_reverse($thread->getMessages($c));
 
-        if (count($messages) > $limit){
+        if (count($messages) > $limit) {
             array_shift($messages);
             $displayFetchLink = true;
         } else {

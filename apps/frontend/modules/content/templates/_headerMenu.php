@@ -5,7 +5,7 @@
     <?php if( !$sf_user->isAuthenticated()): ?>
         <p>
             <?php echo pr_link_to(__('Join Now'), 'registration/joinNow') ?>&bull;<?php echo pr_link_to(__('Members Stories'), 'memberStories/index') ?>&bull;<?php echo pr_link_to(__('Home'), '@homepage', 'class=last') ?>
-            <?php if(  $sf_context->getModuleName() != sfConfig::get('sf_login_module') 
+            <?php if(  $sf_context->getModuleName() != sfConfig::get('sf_login_module')
                       && $sf_context->getActionName() != sfConfig::get('sf_login_action') ): ?>
                       <?php echo link_to(image_tag($sf_user->getCulture().'/sign_in.gif'), 'profile/signIn') ?>
             <?php endif; ?>
@@ -61,7 +61,7 @@
             </ul>
           </div>
         </div>
-      </div> 
+      </div>
         <p class="second_row" ><?php echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'safety_tips', $links_map['safety_tips'], '@page?slug=safety_tips', 'class=last') ?>
           &bull;<?php echo pr_link_to(__('Report a bug'), 'content/reportBug') ?>
           &bull;<?php if(array_key_exists('help', $links_map)) echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'help', $links_map['help'], '@page?slug=help', 'class=last') ?></p>

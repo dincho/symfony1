@@ -12,12 +12,11 @@
 </form>
 <?php echo __('Payment description - paypal'); ?>
 
-
 <?php if( $zongAvailable ): ?>
 
     <?php echo button_to_function(__('Pay with Zong+'), 'show_zong_payment();', array('class' => 'button', 'id' => 'zong_button')); ?>
     <?php echo __('Payment description - zong'); ?>
-    
+
     <div id="zongPayment_container" style="display: none;"><?php echo __('Loading please wait ...'); ?></div>
 
     <script type="text/javascript" charset="utf-8">
@@ -26,7 +25,7 @@
             $('paypal_button').hide();
             $('zong_button').hide();
             $('zongPayment_container').show();
-        
+
             <?php echo remote_function(array('update' => 'zongPayment_container', 'url' => 'ajax/zongPayment?msid=' . $member_subscription_id)); ?>
         }
     </script>

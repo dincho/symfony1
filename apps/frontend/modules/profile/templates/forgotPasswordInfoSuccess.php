@@ -1,1 +1,1 @@
-<?php echo __('Forgot password info body')?>
+<?php echo __('Forgot password info body')
