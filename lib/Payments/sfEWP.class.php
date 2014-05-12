@@ -7,7 +7,7 @@
   on executing the external "openssl" utility.)
 
   Author: Ivor Durham (ivor.durham@ivor.cc)
-  Author/Modified: Dincho Todorov (dincho@xbuv.com) 
+  Author/Modified: Dincho Todorov (dincho@xbuv.com)
   Version: 1.1
 
   Example usage:
@@ -51,18 +51,14 @@ class sfEWP
 {
     private $certificate = null; // Certificate resource
     private $certificateFile = null; // Path to the certificate file
-    
 
     private $privateKey = null; // Private key resource (matching certificate)
     private $privateKeyFile = null; // Path to the private key file
-    
 
     private $paypalCertificate = null; // PayPal public certificate resource
     private $paypalCertificateFile = null; // Path to PayPal public certificate file
-    
 
     private $certificateID = null; // ID assigned by PayPal to the $certificate.
-    
 
     private $tempFileDirectory = null;
 
@@ -83,27 +79,25 @@ class sfEWP
 
     Returns: TRUE iff the private key matches the certificate.
    */
-    
+
     public function setCertificate($certificateFilename, $privateKeyFilename)
     {
-        if (is_readable($certificateFilename) && is_readable($privateKeyFilename))
-        {
+        if (is_readable($certificateFilename) && is_readable($privateKeyFilename)) {
             $certificate = openssl_x509_read(file_get_contents($certificateFilename));
-            
+
             $privateKey = openssl_get_privatekey(file_get_contents($privateKeyFilename));
-            
-            if (($certificate !== FALSE) && ($privateKey !== FALSE) && openssl_x509_check_private_key($certificate, $privateKey))
-            {
+
+            if (($certificate !== FALSE) && ($privateKey !== FALSE) && openssl_x509_check_private_key($certificate, $privateKey)) {
                 $this->certificate = $certificate;
                 $this->certificateFile = $certificateFilename;
-                
+
                 $this->privateKey = $privateKey;
                 $this->privateKeyFile = $privateKeyFilename;
-                
+
                 return true;
             }
         }
-        
+
         throw new sfException('sfEWP: Cannot set certificate: ' . $certificateFilename . ' and private key: ' . $privateKeyFilename);
     }
 
@@ -114,18 +108,16 @@ class sfEWP
 
     Returns: TRUE iff the certificate is read successfully, FALSE otherwise.
    */
-    
+
     public function setPayPalCertificate($fileName)
     {
-        if (is_readable($fileName))
-        {
+        if (is_readable($fileName)) {
             $certificate = openssl_x509_read(file_get_contents($fileName));
-            
-            if ($certificate !== FALSE)
-            {
+
+            if ($certificate !== FALSE) {
                 $this->paypalCertificate = $certificate;
                 $this->paypalCertificateFile = $fileName;
-                
+
                 return true;
             } else {
                 throw new sfException('sfEWP(openssl_x509_read): Cannot set paypal certificate to: ' . $fileName);
@@ -140,7 +132,7 @@ class sfEWP
 
     $id - The certificate ID assigned when the certificate was uploaded to PayPal
    */
-    
+
     public function setCertificateID($id)
     {
         $this->certificateID = $id;
@@ -153,15 +145,15 @@ class sfEWP
 
     Returns: TRUE iff directory is usable.
    */
-    
+
     public function setTempFileDirectory($directory)
     {
-        if (is_dir($directory) && is_writable($directory))
-        {
+        if (is_dir($directory) && is_writable($directory)) {
             $this->tempFileDirectory = $directory;
+
             return true;
         }
-        
+
         throw new sfException('sfEWP: Cannot set temp directory');
     }
 
@@ -173,62 +165,56 @@ class sfEWP
 
     Returns: The encrypted string for the _s_xclick button form field.
    */
-    
-    function encryptFields($parameters)
+
+    public function encryptFields($parameters)
     {
         // Check encryption data is available.
-        
 
-        if ( is_null($this->certificateID) || is_null($this->certificate) || is_null($this->paypalCertificate))
-        {
+        if ( is_null($this->certificateID) || is_null($this->certificate) || is_null($this->paypalCertificate)) {
             throw new sfException('sfEWP: Certificate ID or Certificate or Paypal Public Certificates is not set');
         }
-        
+
         $clearText = '';
         $encryptedText = '';
-        
+
         // Compose clear text data.
-        
 
         $clearText = 'cert_id=' . $this->certificateID;
-        
-        foreach (array_keys($parameters) as $key)
-        {
+
+        foreach (array_keys($parameters) as $key) {
             $clearText .= "\n{$key}={$parameters[$key]}";
         }
-        
+
         $clearFile = tempnam($this->tempFileDirectory, 'clear_');
         $signedFile = preg_replace('/clear/', 'signed', $clearFile);
         $encryptedFile = preg_replace('/clear/', 'encrypted', $clearFile);
-        
+
         $out = fopen($clearFile, 'wb');
         fwrite($out, $clearText);
         fclose($out);
-        
-        if (! openssl_pkcs7_sign($clearFile, $signedFile, $this->certificate, $this->privateKey, array(), PKCS7_BINARY))
-        {
+
+        if (! openssl_pkcs7_sign($clearFile, $signedFile, $this->certificate, $this->privateKey, array(), PKCS7_BINARY)) {
             throw new sfException('sfEWP: Cannot sign ' . $clearFile . ' with ' . $this->certificateFile);
         }
-        
+
         $signedData = explode("\n\n", file_get_contents($signedFile));
-        
+
         $out = fopen($signedFile, 'wb');
         fwrite($out, base64_decode($signedData[1]));
         fclose($out);
-        
-        if (! openssl_pkcs7_encrypt($signedFile, $encryptedFile, $this->paypalCertificate, array(), PKCS7_BINARY))
-        {
+
+        if (! openssl_pkcs7_encrypt($signedFile, $encryptedFile, $this->paypalCertificate, array(), PKCS7_BINARY)) {
             throw new sfException('sfEWP: Cannot encrypt signed file ' . $signedFile . ' with ' . $this->paypalCertificateFile);
         }
-        
+
         $encryptedData = explode("\n\n", file_get_contents($encryptedFile));
-        
+
         $encryptedText = $encryptedData[1];
-        
+
         @unlink($clearFile);
         @unlink($signedFile);
         @unlink($encryptedFile);
-        
+
         return $encryptedText;
     }
 }

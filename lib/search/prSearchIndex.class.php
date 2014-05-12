@@ -50,7 +50,7 @@ class prSearchIndex
     {
         $selfDescription = array();
         $memberAnswers = MemberDescAnswerPeer::getAnswersAssoc($memberObj->getId());
-        foreach($memberAnswers as $questionId => $memberAnswer) {
+        foreach ($memberAnswers as $questionId => $memberAnswer) {
             $idx = 'q' . $questionId;
             if ($questionId == 1) { //age
                 $selfDescription[$idx] = $memberAnswer->getCustom();
@@ -73,7 +73,7 @@ class prSearchIndex
 
         $searchCriteria = array();
         $searchCriteriaDescriptions = $memberObj->getSearchCritDescsArray();
-        foreach($searchCriteriaDescriptions as $questionId => $description) {
+        foreach ($searchCriteriaDescriptions as $questionId => $description) {
             $idx = 'q' . $questionId;
 
             if (in_array($questionId, array(1, 12, 13))) { //age & other ranges

@@ -4,7 +4,7 @@ class RandomModelGenerator
     public static function generateMember()
     {
         $name = strtolower(RandomGenerator::getName());
-        
+
         $member = new Member();
         $member->initNewMember();
         $member->setUsername($name);
@@ -17,7 +17,7 @@ class RandomModelGenerator
         $member->setRegistrationIp(ip2long('127.0.0.1'));
         $member->setLanguage('en');
         $member->setCatalogId(1); //used by notifications
-        
+
         return $member;
     }
 }

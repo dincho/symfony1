@@ -3,20 +3,20 @@
 /**
  * Subclass for performing query and update operations on the 'feedback' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class FeedbackPeer extends BaseFeedbackPeer
 {
     const INBOX = 1;
     const SENT  = 2;
     const DRAFT = 3;
     const TRASH = 4;
-    
+
     const BUGS_SUGGESIONS_ADDRESS = 'bugs_suggestions@polishdate.com';
     const SUPPORT_ADDRESS = 'support@polishdate.com';
-    
+
     public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
     {
         $criteria = clone $criteria;
@@ -28,8 +28,7 @@ class FeedbackPeer extends BaseFeedbackPeer
             $criteria->addSelectColumn(FeedbackPeer::COUNT);
         }
 
-                foreach($criteria->getGroupByColumns() as $column)
-        {
+                foreach ($criteria->getGroupByColumns() as $column) {
             $criteria->addSelectColumn($column);
         }
 
@@ -43,8 +42,6 @@ class FeedbackPeer extends BaseFeedbackPeer
         }
     }
 
-
-    
     public static function doSelectJoinAll(Criteria $c, $con = null)
     {
         $c = clone $c;
@@ -64,19 +61,15 @@ class FeedbackPeer extends BaseFeedbackPeer
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
-        while($rs->next()) {
+        while ($rs->next()) {
 
             $omClass = FeedbackPeer::getOMClass();
-
 
             $cls = Propel::import($omClass);
             $obj1 = new $cls();
             $obj1->hydrate($rs);
 
-
-                    
             $omClass = MemberPeer::getOMClass();
-
 
             $cls = Propel::import($omClass);
             $obj2 = new $cls();
@@ -98,6 +91,7 @@ class FeedbackPeer extends BaseFeedbackPeer
 
             $results[] = $obj1;
         }
+
         return $results;
-    }  
+    }
 }

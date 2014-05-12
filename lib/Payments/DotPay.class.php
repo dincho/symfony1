@@ -1,8 +1,7 @@
 <?php
 class DotPay
 {
-    private
-        $accountId    = null,
+    private $accountId    = null,
         $amount       = 0,
         $currency     = 'EUR',
         $description  = '',
@@ -14,16 +13,15 @@ class DotPay
         $firstname    = '',
         $lastname     = '',
         $email        = ''
-        
+
     ;
-    
+
     public function __construct($accountId = null, $lang = 'en')
     {
         $this->accountId = $accountId;
         $this->lang = $lang;
     }
-    
-    
+
     public function generateURL($url)
     {
         $params = array('id'            => $this->accountId,
@@ -37,12 +35,12 @@ class DotPay
                         'control'       => $this->data,
                         'firstname'     => $this->firstname,
                         'lastname'      => $this->lastname,
-                        'email'         => $this->email, 
+                        'email'         => $this->email,
         );
-        
+
         return $url.'?'.http_build_query($params);
     }
-    
+
     public function setAccountId($accountId)
     {
         $this->accountId = $accountId;
@@ -52,7 +50,7 @@ class DotPay
     {
         return $this->accountId;
     }
-    
+
     public function setAmount($amount)
     {
         $this->amount = $amount;
@@ -62,7 +60,7 @@ class DotPay
     {
         return $this->amount;
     }
-    
+
     public function setCurrency($currency)
     {
         $this->currency = $currency;
@@ -72,7 +70,7 @@ class DotPay
     {
         return $this->currency;
     }
-    
+
     public function setDescription($description)
     {
         $this->description = $description;
@@ -82,7 +80,7 @@ class DotPay
     {
         return $this->description;
     }
-    
+
     public function setLang($lang)
     {
         $this->lang = $lang;
@@ -102,7 +100,7 @@ class DotPay
     {
         return $this->returnURL;
     }
-    
+
     public function setCallbackURL($callbackURL)
     {
         $this->callbackURL = $callbackURL;
@@ -112,7 +110,7 @@ class DotPay
     {
         return $this->callbackURL;
     }
-    
+
     public function setData($data)
     {
         $this->data = $data;
@@ -122,7 +120,7 @@ class DotPay
     {
         return $this->data;
     }
-    
+
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
@@ -132,7 +130,7 @@ class DotPay
     {
         return $this->firstname;
     }
-    
+
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
@@ -142,7 +140,7 @@ class DotPay
     {
         return $this->lastname;
     }
-    
+
     public function setEmail($email)
     {
         $this->email = $email;

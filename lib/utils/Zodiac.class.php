@@ -1,31 +1,30 @@
 <?php
 /*
-			id	signs			date start			date end
-			1	aquarius		from 21 Gennaio 	to 18 Febbraio
-			2	aries			from 21 Marzo 		to 20 Aprile
-			3	cancer			from 22 Giugno 		to 22 luglio
-			4	capricon		from 22 Dicembre 	to 20 gennaio
-			5	gemini			from 22 Maggio 		to 22 giugno
-			6	leo			    from 22 Luglio 		to 21 agosto
-			7	libra			from 24 Settembre 	to 23 ottobre
-			8	pisces			from 19 Febbraio 	to 20 marzo
-			9	Sagittarius		from 22 Novembre 	to 22 dicembre
-			10	scorpio		    from 24 Ottobre 	to 21 novembre
-			11	taurus			from 21 Aprile 		to 21 Maggio
-			12	virgo			from 24 Agosto 		to 23 settembre
+            id	signs			date start			date end
+            1	aquarius		from 21 Gennaio 	to 18 Febbraio
+            2	aries			from 21 Marzo 		to 20 Aprile
+            3	cancer			from 22 Giugno 		to 22 luglio
+            4	capricon		from 22 Dicembre 	to 20 gennaio
+            5	gemini			from 22 Maggio 		to 22 giugno
+            6	leo			    from 22 Luglio 		to 21 agosto
+            7	libra			from 24 Settembre 	to 23 ottobre
+            8	pisces			from 19 Febbraio 	to 20 marzo
+            9	Sagittarius		from 22 Novembre 	to 22 dicembre
+            10	scorpio		    from 24 Ottobre 	to 21 novembre
+            11	taurus			from 21 Aprile 		to 21 Maggio
+            12	virgo			from 24 Agosto 		to 23 settembre
 
 */
 class Zodiac
 {
     private $error = '';
     private $sign = '';
-    
-    
+
     public function __construct($day, $month)
     {
         $this->parseDate($day, $month);
     }
-    
+
     public function parseDate($day, $month)
     {
         $this->error = (($day > 31) || ($day < 0)) ? "not valid day" : "";
@@ -74,12 +73,12 @@ class Zodiac
                 break;
         }
     }
-    
+
     public function getSign()
     {
         return $this->sign;
     }
-    
+
     public function hasError()
     {
         return (isset($this->error) && $this->error != "") ? true : false;

@@ -3,23 +3,22 @@
 /**
  * Subclass for performing query and update operations on the 'message' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MessagePeer extends BaseMessagePeer
 {
     const TYPE_NORMAL = 1;
     const TYPE_DRAFT  = 2;
     const TYPE_SYSTEM = 3;
-    
+
     public static function send(BaseMember $sender, BaseMember $recipient, $body = '', $draft_id = null, BaseThread $thread = null, PredefinedMessage $pMessage = null)
     {
         $message = new Message();
         $reply = true; //default value
-        
-        if( !is_null($pMessage) ) //overwrite with predefined message to prevent abuse
-        {
+
+        if ( !is_null($pMessage) ) { //overwrite with predefined message to prevent abuse
             $body = $pMessage->getBody();
             $message->setPredefinedId($pMessage->getId());
         }
@@ -28,34 +27,33 @@ class MessagePeer extends BaseMessagePeer
         $message->setSenderId($sender->getId());
         $message->setBody(nl2br($body));
 
-        if( !$thread)
-        {
+        if (!$thread) {
             $reply = false;
             $thread = new Thread();
         }
-        
+
         $thread->setSnippet($message->getBody());
         $thread->setSnippetMemberId($message->getSenderId());
         $message->setThread($thread);
-            
+
         //save objects
         $message->save();
 
         //open the privacy
         $sender->addOpenPrivacyForIfNeeded($recipient->getId());
-        
+
         //add auto reply message if nessecary
-        if( is_null($pMessage) && 
-            $sender->isFree() && !$sender->getSubscriptionDetails()->getCanSendMessages() && 
+        if( is_null($pMessage) &&
+            $sender->isFree() && !$sender->getSubscriptionDetails()->getCanSendMessages() &&
             ( $recipient->isFree() || !$recipient->getSubscriptionDetails()->getCanReadMessages() )
           )
         {
             $msg = 'Messages - please upgrade auto-response';
             if( sfConfig::get('sf_i18n') ) $msg = sfContext::getInstance()->getI18N()->__($msg, array('%USERNAME%' => $recipient->getUsername()));
-            
+
             $thread->setSnippet($msg);
             $thread->setSnippetMemberId($recipient->getId());
-                        
+
             $auto_msg = new Message();
             $auto_msg->setThread($thread);
             $auto_msg->setType(MessagePeer::TYPE_SYSTEM);
@@ -64,32 +62,31 @@ class MessagePeer extends BaseMessagePeer
             $auto_msg->setBody($msg);
             $auto_msg->setIsReviewed(true);
             $auto_msg->save();
-            
+
             if( $sender->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($sender, $recipient, $auto_msg);
         }
-                
+
         Events::triggerFirstContact($message);
         if( $recipient->getEmailNotifications() === 0 ) Events::triggerAccountActivityMessage($recipient, $sender, $message);
 
         if( !is_null($draft_id) ) MessagePeer::clearDraft($draft_id, $sender->getId());
 
         MemberNotificationPeer::addNotification($recipient, $sender, MemberNotificationPeer::MESSAGE, $thread->getId());
-        
+
         //increment counters
-        if( $reply ) //replying ...
-        {
+        if ($reply) { //replying ...
             $sender->incCounter('ReplyMessages');
             $sender->incCounter('ReplyMessagesDay');
         } else {
-            if( $sender->getNbSentMessagesToday()+1 == sfConfig::get('app_settings_notification_spam_msgs') ) 
+            if( $sender->getNbSentMessagesToday()+1 == sfConfig::get('app_settings_notification_spam_msgs') )
                 Events::triggerSpamActivity($sender, $sender->getNbSentMessagesToday()+1);
-            
+
             $sender->incCounter('SentMessages');
             $sender->incCounter('SentMessagesDay');
         }
 
         $recipient->incCounter('ReceivedMessages');
-        
+
         return $message;
     }
 
@@ -97,27 +94,26 @@ class MessagePeer extends BaseMessagePeer
     {
         $message = new Message();
         $reply = true; //default value
-        
+
         $message->setRecipientId($recipient->getId());
         $message->setBody(nl2br($body));
 
-        if( !$thread)
-        {
+        if (!$thread) {
             $reply = false;
             $thread = new Thread();
         }
-        
+
         $thread->setSnippet($message->getBody());
         $message->setThread($thread);
-            
+
         //save objects
         $message->save();
-        
+
         if( $recipient->getEmailNotifications() === 0 ) Events::triggerAccountActivitySystemMessage($recipient, $message);
-        
+
         return $message;
     }
-        
+
     public static function getThreadLastMessage($thread_id, $member_id)
     {
         $c = new Criteria();
@@ -126,9 +122,9 @@ class MessagePeer extends BaseMessagePeer
         $crit = $c->getNewCriterion(self::SENDER_ID, $member_id);
         $crit->addOr($c->getNewCriterion(self::RECIPIENT_ID, $member_id));
         $c->add($crit);
-        
+
         $c->addDescendingOrderByColumn(self::CREATED_AT);
-        
+
         return self::doSelectOne($c);
     }
 
@@ -139,9 +135,9 @@ class MessagePeer extends BaseMessagePeer
         $c->add(self::THREAD_ID, $thread_id);
         $c->add(self::RECIPIENT_ID, $member->getId());
         $c->add(self::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
+
         return self::doCount($c);
     }
-    
 
     public static function countUnreadInThread($thread_id, BaseMember $member, Criteria $crit = null)
     {
@@ -152,17 +148,18 @@ class MessagePeer extends BaseMessagePeer
         $c->add(self::RECIPIENT_ID, $member->getId());
         $c->add(self::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
         $c->add(self::TYPE, self::TYPE_NORMAL);
+
         return self::doCount($c);
     }
-    
+
     public static function countUnreadInThreadExcludePredefined($thread_id, BaseMember $member, Criteria $crit = null)
     {
         $c = ( !is_null($crit) ) ? clone $crit : new Criteria();
         $c->add(self::PREDEFINED_ID, null, Criteria::ISNULL);
-        
+
         return self::countUnreadInThread($thread_id, $member, $c);
     }
-    
+
     public static function countUnreadSystemInThread($thread_id, BaseMember $member)
     {
         $c = new Criteria();
@@ -171,9 +168,10 @@ class MessagePeer extends BaseMessagePeer
         $c->add(self::RECIPIENT_ID, $member->getId());
         $c->add(self::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
         $c->add(self::TYPE, self::TYPE_SYSTEM);
+
         return self::doCount($c);
-    }    
-    
+    }
+
     public static function markAsReadInThread($thread_id, BaseMember $member)
     {
         $c = new Criteria();
@@ -181,15 +179,14 @@ class MessagePeer extends BaseMessagePeer
         $c->add(self::THREAD_ID, $thread_id);
         $c->add(self::RECIPIENT_ID, $member->getId());
         $c->add(self::RECIPIENT_DELETED_AT, null, Criteria::ISNULL);
-                
+
         $cnt = self::countAllUnreadInThread($thread_id, $member);
-        
-        if( $cnt > 0 )
-        {
+
+        if ($cnt > 0) {
             $c2 = new Criteria();
             $c2->add(self::UNREAD, false);
             BasePeer::doUpdate($c, $c2, Propel::getConnection());
-            
+
             $cnt = $cnt - self::countUnreadSystemInThread($thread_id, $member); //remove system messages from member's counter
             $member->incCounter('ReadMessages', $cnt);
             $member->incCounter('ReadMessagesDay', $cnt);
@@ -202,7 +199,7 @@ class MessagePeer extends BaseMessagePeer
      *
      * @param $sender_id
      * @param $recipient_id
-     * @param null $thread_id
+     * @param  null         $thread_id
      * @return MessageDraft
      */
     public static function retrieveOrCreateDraft($sender_id, $recipient_id, $thread_id = null)
@@ -226,7 +223,7 @@ class MessagePeer extends BaseMessagePeer
 
         return $draft;
     }
-    
+
     public static function clearDraft($id, $member_id)
     {
         $c = new Criteria();
@@ -252,7 +249,7 @@ class MessagePeer extends BaseMessagePeer
 
         $ids = array();
         $rs = self::doSelectRS($c);
-        while($rs->next()) {
+        while ($rs->next()) {
             $ids[] = $rs->getInt(1);
         }
 
@@ -264,7 +261,7 @@ class MessagePeer extends BaseMessagePeer
         $c->clearSelectColumns()->addSelectColumn(self::SENDER_ID);
 
         $rs = self::doSelectRS($c);
-        while($rs->next()) {
+        while ($rs->next()) {
             $ids[] = $rs->getInt(1);
         }
 

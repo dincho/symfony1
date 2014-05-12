@@ -1,15 +1,15 @@
 <?php
 /**
- * 
+ *
  * @author Dincho Todorov
  * @version 1.0
  * @created Jan 28, 2009 1:00:17 PM
- * 
+ *
  */
 
 class CustomObject
 {
-    
+
     private $objectName;
 
     public function __construct($name)
@@ -24,8 +24,7 @@ class CustomObject
 
     public function __call($funcname, $args = array())
     {
-        if (! function_exists($funcname))
-        {
+        if (! function_exists($funcname)) {
             $method = substr($funcname, 3);
             $methodType = substr($funcname, 0, 3);
             switch ($methodType) {
@@ -36,9 +35,8 @@ class CustomObject
                     return $this->{$method};
                     break;
             }
-        
-        } else
-        {
+
+        } else {
             throw new sfException("Call to Function with call_user_func_array failed");
         }
     }
@@ -54,4 +52,3 @@ class CustomObject
     }
 
 }
-

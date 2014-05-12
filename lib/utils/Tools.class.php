@@ -8,17 +8,16 @@ class Tools
         // define possible characters
         $possible = "0123456789abcdfghjkmnpqrstvwxyzABCDFGHJKMNPQRSTVWXYZ";
         $i = 0;
-        while($i < $length)
-        {
+        while ($i < $length) {
             // pick a random character from the possible ones
             $char = substr($possible, mt_rand(0, strlen($possible) - 1), 1);
             // we don't want this character if it's already in the string
-            if(!strstr($sting, $char))
-            {
+            if (!strstr($sting, $char)) {
                 $sting .= $char;
                 $i++;
             }
         }
+
         return $sting;
     }
 
@@ -48,8 +47,9 @@ class Tools
         if ($plain) {
             $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
         }
-        
+
         mb_internal_encoding($oldEncoding);
+
         return $text;
     }
 
@@ -60,8 +60,7 @@ class Tools
 
     public static function createThumbnails($obj)
     {
-        foreach($obj->getThumbSizes() as $thumbSize)
-        {
+        foreach ($obj->getThumbSizes() as $thumbSize) {
             $thumbnail = new sfThumbnail($thumbSize ['width'], $thumbSize ['height']);
             $thumbnail->loadFile($obj->getImagePath());
             $thumbDir = $obj->getImagesPath() . $thumbSize ['width'] . 'x' . $thumbSize ['height'] . DIRECTORY_SEPARATOR;
@@ -78,6 +77,7 @@ class Tools
         $time1 = strtotime($time1);
         $time2 = strtotime($time2);
         $timestamp = rand($time1, $time2);
+
         return $timestamp;
     }
 
@@ -95,10 +95,10 @@ class Tools
     public static function bintodq($binin)
     {
         $binin = explode(".", chunk_split($binin, 8, "."));
-        for($i = 0; $i < 4; $i++)
-        {
+        for ($i = 0; $i < 4; $i++) {
             $dq [$i] = bindec($binin [$i]);
         }
+
         return implode(".", $dq);
     }
 
@@ -114,11 +114,9 @@ class Tools
 
     public static function isValidEmail($email)
     {
-        if(eregi("^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}", $email))
-        {
+        if (eregi("^[a-z0-9]+([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}", $email)) {
             return true;
-        } else
-        {
+        } else {
             return false;
         }
     }
@@ -137,20 +135,19 @@ class Tools
 
         return $text;
     }
-    
+
     public static function getAgeFromDateString($date = null)
     {
         if( is_null($date) ) return null;
-        
+
         list($b_Y, $b_m, $b_d) = explode('-', $date);
         list($now_Y, $now_m, $now_d) = explode('-', date('Y-m-d', time()));
         $age = $now_Y - $b_Y - 1;
-        
-        if( $now_m > $b_m || ( $now_m == $b_m && $now_d >= $b_d) ) 
-        {
+
+        if ( $now_m > $b_m || ( $now_m == $b_m && $now_d >= $b_d) ) {
             $age++;
         }
-        
+
         return $age;
     }
 
@@ -160,7 +157,6 @@ class Tools
         $culture = $user->getCulture();
         $c = new sfCultureInfo($culture);
         $countries = $c->getCountries();
-
 
         //remove continents out of the array
         $culture_continets_elements = ($culture == 'en') ? 30 : 29;
@@ -177,4 +173,3 @@ class Tools
         return $countries;
     }
 }
-?>

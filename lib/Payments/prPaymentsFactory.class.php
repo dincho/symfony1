@@ -15,6 +15,7 @@ class prPaymentsFactory
     {
           $zong = new prZong($this->member->getCountry(), $this->subscription->getCurrency());
           $zongItem = $zong->getFirstItemWithApproxPrice($this->subscription->getAmount());
+
           return (bool) $zongItem;
     }
 
@@ -66,7 +67,7 @@ class prPaymentsFactory
             'rm' => 1, //return method 1 = GET, 2 = POST
             'src' => 1, //Recurring or not
             'sra' => 1, //Reattemt recurring payments on failture
-            'modify' => $allowModify ? 2 : 0, 
+            'modify' => $allowModify ? 2 : 0,
             'notify_url' => $controller->genUrl(sfConfig::get('app_paypal_notify_url'), true),
             'return' => $controller->genUrl('subscription/thankyou', true),
             'cancel_return' => $cancelUrl,
@@ -77,6 +78,7 @@ class prPaymentsFactory
         );
 
         $EWP = new sfEWP();
+
         return $EWP->encryptFields($parameters);
     }
 

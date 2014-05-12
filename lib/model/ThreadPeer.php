@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'thread' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class ThreadPeer extends BaseThreadPeer
 {
 
@@ -21,10 +21,10 @@ class ThreadPeer extends BaseThreadPeer
         ThreadPeer::addSelectColumns($c);
         $startcol = (ThreadPeer::NUM_COLUMNS - ThreadPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
         MemberPeer::addSelectColumns($c);
-        
+
         $c->addAsColumn('unread', 'SUM('.MessagePeer::UNREAD.')');
         $unread_index = $startcol + (MemberPeer::NUM_COLUMNS - MemberPeer::NUM_LAZY_LOAD_COLUMNS);
-        
+
         self::addCountMessagesColumn($c);
         $cntMessagesIndex = $unread_index+1;
 
@@ -34,7 +34,7 @@ class ThreadPeer extends BaseThreadPeer
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
-        while($rs->next()) {
+        while ($rs->next()) {
 
             $omClass = ThreadPeer::getOMClass();
 
@@ -42,10 +42,7 @@ class ThreadPeer extends BaseThreadPeer
             $obj1 = new $cls();
             $obj1->hydrate($rs);
 
-            
-
-            if( $rs->get($startcol) )
-            {
+            if ( $rs->get($startcol) ) {
                 $omClass = MemberPeer::getOMClass();
                 $cls = Propel::import($omClass);
                 $obj2 = new $cls();
@@ -61,13 +58,14 @@ class ThreadPeer extends BaseThreadPeer
 
             $results[] = $obj1;
         }
+
         return $results;
     }
-    
+
     private static function addCountMessagesColumn(Criteria $c)
     {
         $sql = 'SELECT COUNT(*) FROM message WHERE message.thread_id = thread.id';
-        
+
         if ($c->containsKey(MessagePeer::RECIPIENT_ID)) {
             $sql .= ' AND message.type != ' . MessagePeer::TYPE_DRAFT . '
                       AND message.recipient_deleted_at IS NULL';
@@ -84,7 +82,7 @@ class ThreadPeer extends BaseThreadPeer
     private static function addCountDraftColumn(Criteria $c)
     {
         $sql = 'SELECT COUNT(*) FROM message m2
-                WHERE m2.thread_id = thread.id 
+                WHERE m2.thread_id = thread.id
                 AND m2.type = ' . MessagePeer::TYPE_DRAFT .
                 ' AND m2.body IS NOT NULL';
 
@@ -102,11 +100,11 @@ class ThreadPeer extends BaseThreadPeer
     public static function getOldThreadCriteria(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
     {
         $c  = (is_null($crit)) ? new Criteria() : clone $crit;
-        
+
         $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
         $c->addGroupByColumn(ThreadPeer::ID);
         $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
-                
+
         $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $sender->getId());
         $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
         $crit->addAnd($c->getNewCriterion(MessagePeer::SENDER_ID, $recipient->getId()));
@@ -114,23 +112,25 @@ class ThreadPeer extends BaseThreadPeer
         $crit2 = $c->getNewCriterion(MessagePeer::SENDER_ID, $sender->getId());
         $crit2->addAnd($c->getNewCriterion(MessagePeer::SENDER_DELETED_AT, null, Criteria::ISNULL));
         $crit2->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_ID, $recipient->getId()));
-    
+
         $crit->addOr($crit2);
         $c->addAnd($crit);
         $c->addDescendingOrderByColumn(ThreadPeer::CREATED_AT);
-        
+
         return $c;
     }
-    
+
     public static function getOldThread(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
     {
         $c = self::getOldThreadCriteria($sender, $recipient, $crit);
+
         return ThreadPeer::doSelectOne($c);
     }
-    
+
     public static function countOldThreads(BaseMember $sender, BaseMember $recipient, Criteria $crit = null)
     {
         $c = self::getOldThreadCriteria($sender, $recipient, $crit);
+
         return ThreadPeer::doCount($c);
     }
 }

@@ -3,17 +3,17 @@
 /**
  * Subclass for performing query and update operations on the 'flag' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class FlagPeer extends BaseFlagPeer
 {
     public static function doSelectJoinAll(Criteria $c, $con = null)
     {
         return self::doSelectJoinAllFlagger($c, $con);
     }
-    
+
     public static function doSelectJoinAllFlagger(Criteria $c, $con = null)
     {
         $c = clone $c;
@@ -33,7 +33,7 @@ class FlagPeer extends BaseFlagPeer
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
-        while($rs->next()) {
+        while ($rs->next()) {
 
             $omClass = FlagPeer::getOMClass();
             $cls = Propel::import($omClass);
@@ -61,9 +61,10 @@ class FlagPeer extends BaseFlagPeer
 
             $results[] = $obj1;
         }
+
         return $results;
     }
-    
+
     public static function doSelectJoinAllFlagged(Criteria $c, $con = null)
     {
         $c = clone $c;
@@ -83,7 +84,7 @@ class FlagPeer extends BaseFlagPeer
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
-        while($rs->next()) {
+        while ($rs->next()) {
 
             $omClass = FlagPeer::getOMClass();
             $cls = Propel::import($omClass);
@@ -110,6 +111,7 @@ class FlagPeer extends BaseFlagPeer
 
             $results[] = $obj1;
         }
+
         return $results;
     }
 
@@ -117,18 +119,17 @@ class FlagPeer extends BaseFlagPeer
     {
         $rs = FlagPeer::doSelectRS($criteria, $con);
         $results = array();
-        while ($rs->next())
-        {
+        while ($rs->next()) {
             $flag = new Flag();
             $lastColumn = $flag->hydrate($rs);
-            
+
             $flag->num_members = $rs->getInt($lastColumn);
             $results[] = $flag;
         }
-        
+
         return $results;
     }
-    
+
     public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
     {
         $criteria = clone $criteria;
@@ -140,8 +141,7 @@ class FlagPeer extends BaseFlagPeer
             $criteria->addSelectColumn(FlagPeer::COUNT);
         }
 
-                foreach($criteria->getGroupByColumns() as $column)
-        {
+                foreach ($criteria->getGroupByColumns() as $column) {
             $criteria->addSelectColumn($column);
         }
 
@@ -155,5 +155,5 @@ class FlagPeer extends BaseFlagPeer
         } else {
                         return 0;
         }
-    }    
+    }
 }

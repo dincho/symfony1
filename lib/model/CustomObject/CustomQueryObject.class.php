@@ -1,15 +1,15 @@
 <?php
 /**
- * 
+ *
  * @author Dincho Todorov
  * @version 1.0
  * @created Jan 28, 2009 1:02:17 PM
- * 
+ *
  */
 
 class CustomQueryObject
 {
-    
+
     private $className;
     private $peerClassName;
     private $module;
@@ -20,26 +20,23 @@ class CustomQueryObject
 
     public function __construct($callerClassName = false)
     {
-        if (class_exists($callerClassName))
-        {
+        if (class_exists($callerClassName)) {
             $this->caller = new $callerClassName();
             $this->setClass($callerClassName);
             $this->setPeerClass($callerClassName);
-        } else if (false === $callerClassName)
-        {
+        } elseif (false === $callerClassName) {
             $this->customized = true;
         }
     }
 
     public function __call($funcname, $args = array())
     {
-        if (false === $this->isCustomized() && is_object($this->caller) && function_exists('call_user_func_array'))
-        {
+        if (false === $this->isCustomized() && is_object($this->caller) && function_exists('call_user_func_array')) {
             $this->caller = call_user_func_array(array(&$this->caller, $funcname), $args);
             $resultSet = new CustomQueryResultSet($this->caller, $this->getClass(), $this->getPeerClass());
+
             return $resultSet->getResultSet();
-        } else
-        {
+        } else {
             throw new sfException("Call to Function with call_user_func_array failed");
         }
     }
@@ -55,6 +52,7 @@ class CustomQueryObject
         $statement = $connection->createStatement();
         $this->caller = $statement->executeQuery($query);
         $resultSet = new CustomQueryResultSet($this->caller);
+
         return $resultSet->getResultSet();
     }
 
@@ -62,13 +60,10 @@ class CustomQueryObject
     {
         $connection = Propel::getConnection();
         $statement = $connection->prepareStatement($query);
-        if (! empty($parameters))
-        {
+        if (! empty($parameters)) {
             $increment = 1;
-            foreach ($parameters as $parameter)
-            {
-                foreach ($parameter as $type => $value)
-                {
+            foreach ($parameters as $parameter) {
+                foreach ($parameter as $type => $value) {
                     switch ($type) {
                         case "int":
                         case "integer":
@@ -115,10 +110,11 @@ class CustomQueryObject
                     $increment ++;
                 }
             }
-        
+
         }
         $this->caller = $statement->executeQuery();
         $resultSet = new CustomQueryResultSet($this->caller);
+
         return $resultSet->getResultSet();
     }
 
@@ -147,4 +143,3 @@ class CustomQueryObject
         $this->className = $name;
     }
 }
-

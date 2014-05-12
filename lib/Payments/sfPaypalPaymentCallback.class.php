@@ -1,22 +1,21 @@
 <?php
 /**
- * 
+ *
  * @author Dincho Todorov
  * @version 1.0
  * @created Jan 12, 2009 5:16:59 PM
- * 
+ *
  */
- 
 
 class sfPaypalPaymentCallback extends sfPaymentCallback
 {
     private $paypal_response = null;
-    
+
     public function __construct()
     {
         parent::__construct();
     }
-    
+
     protected function validate()
     {
         $businesses = array(
@@ -31,10 +30,10 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         if (!in_array($this->getParam('receiver_email'), $businesses)) {
             return false;
         }
-        
+
         $params = array_merge(array('cmd' => '_notify-validate'), $this->getParams());
         $data = http_build_query($params, '', '&');
-        
+
         $process = curl_init();
         curl_setopt($process, CURLOPT_URL, sfConfig::get('app_paypal_url'));
         curl_setopt($process, CURLOPT_POSTFIELDS, $data);
@@ -46,14 +45,14 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         curl_setopt($process, CURLOPT_TIMEOUT, 30);
         $this->paypal_response = curl_exec($process);
         curl_close($process);
-        
+
         return ($this->paypal_response == 'VERIFIED') ? true : false;
     }
-    
+
     protected function logNotification()
     {
         $subscriptionID = ( $this->getParam('recurring_payment_id') ) ? $this->getParam('recurring_payment_id') : $this->getParam('subscr_id');
-        
+
         $ip = isset($_SERVER['REMOTE_ADDR']) ? ip2long($_SERVER['REMOTE_ADDR']) : null;
         $history = new IpnHistory();
         $history->setParameters(serialize($this->getParams()));
@@ -65,23 +64,21 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
         $history->setPaypalResponse($this->paypal_response);
         $history->save();
     }
-    
+
     protected function log($message, $priority = SF_LOG_INFO)
     {
         sfLogger::getInstance()->log('{sfPaypalPaymentCallback} ' . $message, $priority);
     }
-    
+
     protected function processNotification()
-    {   
-        if( $this->getParam('txn_type') )
-        {
+    {
+        if ( $this->getParam('txn_type') ) {
             switch ($this->getParam('txn_type')) {
                 case 'subscr_payment':
-                       $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id')); 
+                       $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
                        if( !$member_subscription ) $member_subscription = MemberSubscriptionPeer::retrieveByPK($this->getParam('custom')); //on subscr_signup the payment comes first sometimes
-                       
-                       if( $member_subscription )
-                       {
+
+                       if ($member_subscription) {
                            $member_payment = new MemberPayment();
                            $member_payment->setMemberSubscriptionId($member_subscription->getId());
                            $member_payment->setMemberId($member_subscription->getMemberId());
@@ -93,24 +90,23 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                            $member_payment->setPPRef($this->getParam('txn_id'));
                            $member_payment->setDetails($this->getParams());
                            $member_payment->save();
-                           
+
                            if( $this->getParam('payment_status') == 'Completed') $member_payment->applyToSubscription();
                            $member = $member_subscription->getMember();
                            $member->setLastPaymentState(null);
                            $member->save();
                        }
                 break;
-                
+
                 case 'subscr_signup':
                     //confirm member subscription
                     $c = new Criteria();
                     $c->add(MemberSubscriptionPeer::ID, $this->getParam('custom'));
                     $member_subscription = MemberSubscriptionPeer::doSelectOne($c);
-                    
-                    if( $member_subscription )
-                    {
+
+                    if ($member_subscription) {
                         list($period, $period_type) = explode(' ', $this->getParam('period3'));
-                        
+
                         $member_subscription->setPeriod($period);
                         $member_subscription->setPeriodType($period_type);
                         if($member_subscription->getStatus() == 'pending') $member_subscription->setStatus('confirmed');
@@ -121,26 +117,24 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         $member_subscription->save();
                     }
                 break;
-                
+
                 case 'subscr_cancel':
                     //cancel member subscription - note that this not lead to EOT
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
-                    
-                    if( $member_subscription && in_array($member_subscription->getStatus(), array('active', 'confirmed', 'failed')) )
-                    {
+
+                    if ( $member_subscription && in_array($member_subscription->getStatus(), array('active', 'confirmed', 'failed')) ) {
                         $member_subscription->setStatus('canceled');
                         $member_subscription->save();
                     }
                 break;
-                
+
                 case 'subscr_modify':
                     //modification become effective immeditaly, but paypal charges on next billing cycle
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
-                    
-                    if( $member_subscription )
-                    {
+
+                    if ($member_subscription) {
                         list($period, $period_type) = explode(' ', $this->getParam('period3'));
-                        
+
                         $member_subscription->setPeriod($period);
                         $member_subscription->setPeriodType($period_type);
                         $member_subscription->setDetails($this->getParams());
@@ -149,62 +143,57 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
                         $member_subscription->setNextAmount($this->getParam('mc_amount'));
                         $member_subscription->setNextCurrency($this->getParam('mc_currency'));
                         $member_subscription->getMember()->changeSubscription($member_subscription->getSubscriptionId(), 'system (modify)');
-                        
+
                         $member_subscription->save();
                     }
-                break;                
-                
+                break;
+
                 case 'subscr_failed':
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('subscr_id'));
-                    
-                    if( $member_subscription )
-                    {
-                        if( $member_subscription->getStatus() == 'active' )
-                        {
+
+                    if ($member_subscription) {
+                        if ( $member_subscription->getStatus() == 'active' ) {
                           $member_subscription->setStatus('failed');
                           $member_subscription->save();
                         }
                     }
                 break;
-                
+
                 case 'recurring_payment_suspended_due_to_max_failed_payment':
                     $member_subscription = MemberSubscriptionPeer::retrieveByPPRef($this->getParam('recurring_payment_id'));
-                    
-                    if( $member_subscription )
-                    {
+
+                    if ($member_subscription) {
                         $member = $member_subscription->getMember();
                         $currentSubscription = $member->getCurrentMemberSubscription();
 
                         $member_subscription->setStatus('eot');
 
                         //downgrade only if notification is about current subscription
-                        if ($currentSubscription 
+                        if ($currentSubscription
                             && $currentSubscription->getId() == $member_subscription->getId()
                         ) {
                             $member->changeSubscription(SubscriptionPeer::FREE, 'system (3th failed payment)');
                         }
-                        
+
                         $member_subscription->save();
                     }
                 break;
-                
+
                 default:
                     sfLogger::getInstance()->notice('Unhandled txn_type: ' . $this->getParam('txn_type'));
                 break;
             }
-            
+
         } else {
-            if( $this->getParam('payment_status') == 'Reversed' || $this->getParam('payment_status') == 'Refunded' )
-            {
+            if ( $this->getParam('payment_status') == 'Reversed' || $this->getParam('payment_status') == 'Refunded' ) {
                 $c = new Criteria();
                 $c->add(MemberPaymentPeer::PP_REF, $this->getParam('parent_txn_id'));
                 $member_payment = MemberPaymentPeer::doSelectOne($c);
-                
-                if( $member_payment )
-                {
+
+                if ($member_payment) {
                     $member_payment->voidWithStatus(strtolower($this->getParam('payment_status')));
                     $member_payment->save();
-                    
+
                     //record the new payment
                     $void_payment = new MemberPayment();
                     $void_payment->setMemberSubscriptionId($member_payment->getMemberSubscriptionId());
@@ -221,9 +210,9 @@ class sfPaypalPaymentCallback extends sfPaymentCallback
 
             } else {
                 sfLogger::getInstance()->notice('Unhandled payment_status: ' . $this->getParam('payment_status'));
-            }            
+            }
         }
-        
-        return false;    
-    }  
+
+        return false;
+    }
 }

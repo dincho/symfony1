@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'mailbox_folder' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MailboxFolderPeer extends BaseMailboxFolderPeer
 {
     const INBOX     = 1;

@@ -2,7 +2,7 @@
 /**
  * Subclass for performing query and update operations on the 'matches' view.
  *
- * 
+ *
  *
  * @package lib.model.matches
  * @author Dincho Todorov
@@ -23,10 +23,11 @@ class BaseMatchesPeer
 
     const COUNT = 'COUNT(matches.MEMBER2_ID)';
     const COUNT_DISTINCT = 'COUNT(DISTINCT matches.MEMBER2_ID)';
-    
+
     public static function getMapBuilder()
     {
         include_once 'lib/model/matches/MatchesMapBuilder.php';
+
         return BasePeer::getMapBuilder('lib.model.matches.MatchesMapBuilder');
     }
 
@@ -37,37 +38,36 @@ class BaseMatchesPeer
 
     public static function getPhpNameMap()
     {
-        if (self::$phpNameMap === null)
-        {
+        if (self::$phpNameMap === null) {
             $map = MatchesPeer::getTableMap();
             $columns = $map->getColumns();
             $nameMap = array();
-            foreach ($columns as $column)
-            {
+            foreach ($columns as $column) {
                 $nameMap[$column->getPhpName()] = $column->getColumnName();
             }
             self::$phpNameMap = $nameMap;
         }
+
         return self::$phpNameMap;
     }
 
-    static public function translateFieldName($name, $fromType, $toType)
+    public static function translateFieldName($name, $fromType, $toType)
     {
         $toNames = self::getFieldNames($toType);
         $key = isset(self::$fieldKeys[$fromType][$name]) ? self::$fieldKeys[$fromType][$name] : null;
-        if ($key === null)
-        {
+        if ($key === null) {
             throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(self::$fieldKeys[$fromType], true));
         }
+
         return $toNames[$key];
     }
 
-    static public function getFieldNames($type = BasePeer::TYPE_PHPNAME)
+    public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (! array_key_exists($type, self::$fieldNames))
-        {
+        if (! array_key_exists($type, self::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants TYPE_PHPNAME, TYPE_COLNAME, TYPE_FIELDNAME, TYPE_NUM. ' . $type . ' was given.');
         }
+
         return self::$fieldNames[$type];
     }
 
@@ -81,31 +81,30 @@ class BaseMatchesPeer
         $criteria->addSelectColumn(MatchesPeer::MEMBER1_ID);
         $criteria->addSelectColumn(MatchesPeer::MEMBER2_ID);
         $criteria->addAsColumn('total_score', 'SUM(' . MatchesPeer::SCORE . ')');
-        $criteria->addAsColumn('reverse_score', 
+        $criteria->addAsColumn('reverse_score',
                                 'COALESCE((SELECT SUM(m2.score)
-                                    FROM matches AS m2 
-                                    WHERE m2.member1_id = matches.member2_id AND m2.member2_id = matches.member1_id 
+                                    FROM matches AS m2
+                                    WHERE m2.member1_id = matches.member2_id AND m2.member2_id = matches.member1_id
                                     GROUP BY m2.member2_id), 0)');
         $criteria->addAsColumn('combined_score',
                                 '(COALESCE((SELECT SUM(m2.score)
-                                    FROM matches AS m2 
-                                    WHERE m2.member1_id = matches.member2_id AND m2.member2_id = matches.member1_id 
+                                    FROM matches AS m2
+                                    WHERE m2.member1_id = matches.member2_id AND m2.member2_id = matches.member1_id
                                     GROUP BY m2.member2_id), 0)+SUM(matches.score))/2');
         $criteria->addGroupByColumn(MatchesPeer::MEMBER2_ID);
     }
 
     public static function doSelectRS(Criteria $criteria, $con = null)
     {
-        if ($con === null)
-        {
+        if ($con === null) {
             $con = Propel::getConnection(self::DATABASE_NAME);
         }
-        if (! $criteria->getSelectColumns())
-        {
+        if (! $criteria->getSelectColumns()) {
             $criteria = clone $criteria;
             MatchesPeer::addSelectColumns($criteria);
         }
         $criteria->setDbName(self::DATABASE_NAME);
+
         return BasePeer::doSelect($criteria, $con);
     }
 
@@ -113,27 +112,22 @@ class BaseMatchesPeer
     {
         $criteria = clone $criteria;
         $criteria->clearSelectColumns()->clearOrderByColumns();
-        
-        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers()))
-        {
+
+        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->addSelectColumn(MatchesPeer::COUNT_DISTINCT);
-        } else
-        {
+        } else {
             $criteria->addSelectColumn(MatchesPeer::COUNT);
         }
-        
-        foreach ($criteria->getGroupByColumns() as $column)
-        {
+
+        foreach ($criteria->getGroupByColumns() as $column) {
             $criteria->addSelectColumn($column);
         }
-        
+
         //$criteria->addJoin(MatchesPeer::MEMBER2_ID, MemberPeer::ID);
         $rs = MatchesPeer::doSelectRS($criteria, $con);
-        if ($rs->next())
-        {
+        if ($rs->next()) {
             return $rs->getInt(1);
-        } else
-        {
+        } else {
             return 0;
         }
     }
@@ -141,66 +135,58 @@ class BaseMatchesPeer
     public static function doCountJoinMemberRelatedByMember2Id(Criteria $criteria, $distinct = true, $con = null)
     {
         $criteria = clone $criteria;
-        
+
         $criteria->clearSelectColumns()->clearOrderByColumns();
-        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers()))
-        {
+        if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->addSelectColumn(MatchesPeer::COUNT_DISTINCT);
-        } else
-        {
+        } else {
             $criteria->addSelectColumn(MatchesPeer::COUNT);
         }
-        
-        foreach ($criteria->getGroupByColumns() as $column)
-        {
+
+        foreach ($criteria->getGroupByColumns() as $column) {
             $criteria->addSelectColumn($column);
         }
-        
+
         $criteria->addJoin(MatchesPeer::MEMBER2_ID, MemberPeer::ID);
-        
+
         $rs = MatchesPeer::doSelectRS($criteria, $con);
-        if ($rs->next())
-        {
+        if ($rs->next()) {
             return $rs->getInt(1);
-        } else
-        {
+        } else {
             return 0;
         }
     }
-        
 
     public static function doSelectJoinMemberRelatedByMember2Id(Criteria $c, $con = null)
     {
         $c = clone $c;
-        if ($c->getDbName() == Propel::getDefaultDB())
-        {
+        if ($c->getDbName() == Propel::getDefaultDB()) {
             $c->setDbName(self::DATABASE_NAME);
         }
         MatchesPeer::addSelectColumns($c);
         $startcol = (MatchesPeer::NUM_COLUMNS - MatchesPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-        
+
         MemberPeer::addSelectColumns($c);
         $c->addJoin(MatchesPeer::MEMBER2_ID, MemberPeer::ID);
-        
+
         $rs = MatchesPeer::doSelectRS($c, $con);
         $results = array();
-        
+
         $cls1 = Propel::import(MatchesPeer::getOMClass());
-        $cls2 = Propel::import(MemberPeer::getOMClass());            
-        while ($rs->next())
-        {
+        $cls2 = Propel::import(MemberPeer::getOMClass());
+        while ($rs->next()) {
 
             $obj1 = new $cls1();
             $obj1->hydrate($rs);
             //print_r($rs->getInt(3)); echo '<br />';
-            
+
             $obj2 = new $cls2();
             $obj2->hydrate($rs, $startcol);
             $obj1->setMemberRelatedByMember2Id($obj2);
-            
+
             $results[] = $obj1;
         }
-        
+
         //print_r($results);exit();
         return $results;
     }
@@ -210,26 +196,22 @@ class BaseMatchesPeer
         $results = array();
         $cls = MatchesPeer::getOMClass();
         $cls = Propel::import($cls);
-        while ($rs->next())
-        {
+        while ($rs->next()) {
             $obj = new $cls();
             $obj->hydrate($rs);
             $results[] = $obj;
         }
+
         return $results;
     }
 }
-if (Propel::isInit())
-{
-    try
-    {
+if (Propel::isInit()) {
+    try {
         BaseMatchesPeer::getMapBuilder();
-    } catch (Exception $e)
-    {
+    } catch (Exception $e) {
         Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
     }
-} else
-{
+} else {
     require_once 'lib/model/matches/MatchesMapBuilder.php';
     Propel::registerMapBuilder('lib.model.matches.MatchesMapBuilder');
 }
