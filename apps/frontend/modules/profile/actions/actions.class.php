@@ -385,7 +385,8 @@ class profileActions extends prActions
         $member->setMustChangePwd(true);
         $member->save();
 
-        if ( $member->isActive() ) //one redirect less if it's active ( do not apply the filter ) {
+        //one redirect less if it's active ( do not apply the filter )
+        if ( $member->isActive() ) {
           $this->redirect('editProfile/registration');
         } else {
           $this->redirect('dashboard/index'); //apply the status filter
