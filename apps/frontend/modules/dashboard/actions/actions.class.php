@@ -271,11 +271,16 @@ class dashboardActions extends prActions
             $hideVisits = $this->getRequestParameter('hide_visits', 0);
             $enabledPrivateDating = $privateDating && $member->getPrivateDating() == 0;
             $enabledHideVisits = $hideVisits && $member->getHideVisits() == 0;
-            $vip = $member->getSubscriptionId() == SubscriptionPeer::VIP;
+            $isVIP = $member->getSubscriptionId() == SubscriptionPeer::VIP;
 
-            if (!$vip && ($enabledPrivateDating || $enabledHideVisits)) {
+            if (!$isVIP && $enabledPrivateDating) {
                 $this->setFlash('msg_error', 'This feature is available by to Full Members. Please upgrade your membership.', false);
 
+                return false;
+            }
+
+            if ($member->isFree() && $enabledHideVisits) {
+                $this->setFlash('msg_error', 'This feature is available only to Paying Members. Please upgrade your membership.', false);
                 return false;
             }
         }
