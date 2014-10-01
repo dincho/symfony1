@@ -10,24 +10,23 @@
           <td class="form_fields" style="vertical-align: top">
             <?php include_partial('members/member_details', array('member' => $member)); ?>
           </td>
-          
+
           <td class="form_fields" style="padding-right: 0">
             <?php include_partial('members/member_notes', array('notes' => $notes, 'member' => $member)); ?>
-          </td> 
+          </td>
       </tr>
   </table>
-  
+
   <?php include_partial('flags/member_flagged', array('flags' => $flags)); ?>
-  
+
   <fieldset class="actions">
-    <?php echo button_to_function('Close', 'window.history.go(-1)') . 
+    <?php echo button_to_function('Close', 'window.history.go(-1)') .
                button_to('Reset Flags', 'flags/reset?id=' . $member->getId()); ?>
-    <?php if( $member->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS || 
+    <?php if( $member->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS ||
               $member->getMemberStatusId() == MemberStatusPeer::SUSPENDED_FLAGS_CONFIRMED ): ?>
           <?php echo button_to('Un-suspend', 'flags/unsuspend?id=' . $member->getId()) ?>
-    <?php else: ?>               
+    <?php else: ?>
         <?php echo button_to('Suspend', 'flags/suspend?id=' . $member->getId()) ?>
     <?php endif; ?>
   </fieldset>
 </form>
-

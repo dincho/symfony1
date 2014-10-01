@@ -7,7 +7,7 @@
             <th>Value</th>
         </tr>
     </thead>
-    
+
 <?php foreach ($settings as $setting): ?>
     <tr rel="<?php echo url_for('settings/edit?name=' . $setting->getName() . '&cat_id=' . $setting->getCatId()) ?>">
         <td><?php echo $setting->getDescription(); ?></td>

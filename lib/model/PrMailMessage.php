@@ -3,10 +3,10 @@
 /**
  * Subclass for representing a row from the 'PR_mail_message' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class PrMailMessage extends BasePrMailMessage
 {
     public function setRecipients($v)
@@ -14,127 +14,123 @@ class PrMailMessage extends BasePrMailMessage
         if(!is_array($v)) $v = array($v);
         parent::setRecipients(serialize($v));
     }
-    
+
     public function getRecipients($unserialize = true)
     {
-        if( !is_null(parent::getRecipients()) ) 
-        {
+        if ( !is_null(parent::getRecipients()) ) {
             return ($unserialize) ? unserialize(parent::getRecipients()) : parent::getRecipients();
         } else {
             return array();
         }
     }
-    
+
     public function setBcc($v)
     {
         if(!is_array($v)) $v = array($v);
         parent::setBcc(serialize($v));
     }
-    
+
     public function getBcc($unserialize = true)
     {
-        if( !is_null(parent::getBcc()) ) 
-        {
+        if ( !is_null(parent::getBcc()) ) {
             return ($unserialize) ? unserialize(parent::getBcc()) : parent::getBcc();
         } else {
             return array();
         }
     }
-    
+
     public function setCc($v)
     {
         if(!is_array($v)) $v = array($v);
         parent::setCc(serialize($v));
     }
-    
+
     public function getCc($unserialize = true)
     {
-        if( !is_null(parent::getCc()) ) 
-        {
+        if ( !is_null(parent::getCc()) ) {
             return ($unserialize) ? unserialize(parent::getCc()) : parent::getCc();
         } else {
             return array();
         }
     }
-    
+
     public function setMailConfig($value)
     {
         $groups = sfConfig::get('app_mail_rr_groups');
-        
+
         //let's go random ( Round Robin )
-        if( isset($groups[$value]) )
-        {
+        if ( isset($groups[$value]) ) {
             $idx = array_rand($groups[$value]['values']);
             $value = $groups[$value]['values'][$idx];
-        } elseif( (bool) $value === false ) //backward compatibility
-        {
+        } elseif ( (bool) $value === false ) { //backward compatibility
             $group = array_shift($groups); //get the first one
             $idx = array_rand($group['values']);
             $value = $group['values'][$idx];
         }
-        
+
         parent::setMailConfig($value);
     }
-    
+
     public function addRecipient($address)
     {
         $recipients = $this->getRecipients();
         $recipients[] = $address;
         $this->setRecipients($recipients);
     }
-    
+
     public function addRecipients($addresses)
     {
         $recipients = $this->getRecipients();
         $this->setRecipients(array_merge($recipients, $addresses));
     }
-    
+
     public function addBcc($bcc)
     {
         $recipients = $this->getBcc();
         $recipients[] = $bcc;
         $this->setBcc($recipients);
     }
-   
+
     public function saveAndSend()
     {
         $this->save();
+
         return $this->send();
     }
-    
+
     public function send()
     {
         if( $this->isNew() ) throw new sfException("New object (messages) cannot be send! Use saveAndSend method, or save the object first!");
         if( !in_array($this->getStatus(), array(PrMailMessagePeer::STATUS_PENDING, PrMailMessagePeer::STATUS_FAILED)) ) throw new sfException("You can send only pending and failed messages (resent)");
-        
-        if( sfConfig::get('app_mail_use_queue') )
-        {
+
+        if ( sfConfig::get('app_mail_use_queue') ) {
             $gmc = new GearmanClient();
             $gmc->addServer('127.0.0.1', 4730);
             $handle = @$gmc->doBackground('MailQueue_Send', $this->getId());
-            
-            if ( $gmc->returnCode() == GEARMAN_SUCCESS )
-            {            
+
+            if ( $gmc->returnCode() == GEARMAN_SUCCESS ) {
                 $this->setStatus(PrMailMessagePeer::STATUS_SCHEDULED);
                 $this->save();
+
                 return true;
             } else {
                 if( sfConfig::get('app_mail_error_exception') ) throw new sfException("Unable to schedule gearman job!", $gmc->returnCode());
+
                 return false;
             }
-            
+
         } else {
             return $this->sendMail();
         }
     }
-    
+
     public function sendMail()
     {
         $this->setStatus(PrMailMessagePeer::STATUS_SENDING);
         $this->save();
-        
+
         $mailer_class = sfConfig::get('app_mail_class');
-        
+
         $mailer = new $mailer_class($this->getMailConfig());
         $mailer->setSubject($this->getSubject());
         $mailer->setBody($this->getBody());
@@ -145,37 +141,37 @@ class PrMailMessage extends BasePrMailMessage
         $mailer->addCcRecipients($this->getCc());
         $mailer->setMessageId($this->getId());
         $status = $mailer->send();
-        
-        if( $status )
-        {
+
+        if ($status) {
             $this->setStatus(PrMailMessagePeer::STATUS_SENT);
         } else {
             $this->setStatus(PrMailMessagePeer::STATUS_FAILED);
         }
-        
+
         $this->save();
+
         return $status;
     }
 
     public function createWebCopy(Catalogue $catalog)
     {
         $hash = $this->generateHash(); //both body and subject are used in hash generation
-    
+
         $webemail_url  = LinkPeer::create('@web_email?hash=' . $hash)->getUrl($catalog);
         $global_vars = array('{WEB_MAIL_URL}' => $webemail_url);
         $new_body = str_replace(array_keys($global_vars), array_values($global_vars), $this->getBody());
-        
+
         //re-set parsed body
         $this->setBody($new_body);
-        
+
         $this->save();
     }
-    
+
     public function generateHash()
     {
         $hash = sha1(SALT . $this->getSubject() . SALT . $this->getBody() . SALT . time() . SALT);
         $this->setHash($hash);
-        
+
         return $hash;
     }
 

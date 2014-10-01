@@ -31,11 +31,10 @@ class myUser extends sfBasicSecurityUser
      */
     public function getProfile()
     {
-        if (is_null($this->profile))
-        {
+        if (is_null($this->profile)) {
             $this->profile = UserPeer::retrieveByPK($this->getId());
         }
-        
+
         return $this->profile;
     }
 
@@ -46,10 +45,9 @@ class myUser extends sfBasicSecurityUser
         $this->setAttribute('user_id', $logged->getId());
         $this->setAttribute('last_login', $logged->getLastLogin(null)); //set last login as timestamp
         $this->setAttribute('must_change_pwd', $logged->getMustChangePwd());
-        
 
         $credentials = array();
-        
+
         if ($logged->getDashboardMod())
             $credentials[] = ($logged->getDashboardModType() == 'E') ? 'dashboard_edit' : 'dashboard';
         if ($logged->getMembersMod())
@@ -68,15 +66,14 @@ class myUser extends sfBasicSecurityUser
             $credentials[] = ($logged->getReportsModType() == 'E') ? 'reports_edit' : 'reports';
         if ($logged->getUsersMod())
             $credentials[] = ($logged->getUsersModType() == 'E') ? 'users_edit' : 'users';
-        
+
         $this->addCredentials($credentials);
     }
 
     public function checkPerm($credentials = array())
     {
         $controller = sfContext::getInstance()->getController();
-        if (! $this->hasCredential($credentials, false))
-        {
+        if (! $this->hasCredential($credentials, false)) {
             $controller->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             throw new sfStopException();
         }
@@ -85,9 +82,10 @@ class myUser extends sfBasicSecurityUser
     public function getRefererUrl()
     {
         $stack = $this->getAttributeHolder()->getAll('backend/user/referer_stack');
+
         return isset($stack[1]) ? str_replace(array('cancel=1','cancel=1'), "", $stack[1]) : null;
     }
-    
+
     public function getLocale()
     {
         return 'en_US.utf8';

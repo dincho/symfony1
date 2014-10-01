@@ -6,7 +6,7 @@
 <span><?php echo __("Make changes and click Save.") ?></span>
 
 <?php echo form_tag('editProfile/essay', array('id' => 'essay')) ?>
-    
+
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
         <?php echo input_tag('essay_headline',substr(strip_tags($member->getEssayHeadline(ESC_RAW)), 0, 40), array('class' => 'essay', 'size' => 30, 'maxlength' => 40))?><br /><br />
@@ -24,22 +24,22 @@
             <?php echo link_to_function('ź', 'pl_letter_press("ź")') ?>
         </div><br />
         <?php endif; ?>
-                        
-        <?php echo pr_label_for('introduction', __('Introduction:') . '<span style="color:red;">*</span>') ?><br />  
+
+        <?php echo pr_label_for('introduction', __('Introduction:') . '<span style="color:red;">*</span>') ?><br />
         <div id="intro">
           <div id="tips">
             <?php echo __('Essay Helpful Tips - edit'); ?>
           </div>
-          <?php echo object_textarea_tag($member, 'getEssayIntroduction', 
-                                                 array('cols'=> 60, 
-                                                        'rows' => 11, 
-                                                        'class' => 'essay', 
+          <?php echo object_textarea_tag($member, 'getEssayIntroduction',
+                                                 array('cols'=> 60,
+                                                        'rows' => 11,
+                                                        'class' => 'essay',
                                                         'id' => 'introduction',
                                                         'onfocus' => 'active_field = this',
                                                         'maxlength' => 2500
                                                  )) ?>
         </div>
-                       
+
     </fieldset>
     <fieldset class="actions">
         <br />
@@ -52,7 +52,7 @@
 <?php echo javascript_tag('parseCharCounts();') ?>
 
 <?php echo javascript_tag('
-Event.observe(window, "load", function() {
+Event.observe(window, "load", function () {
     setTimeout("$(\"essay\").findFirstElement().focus();",1);
 });
 ');?>

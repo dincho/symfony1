@@ -14,39 +14,39 @@ blocked_user:
 joinnow:
     url:   /:sf_culture/joinNow
     param: { module: registration, action: joinNow, sf_culture: en  }
-    
+
 signin:
     url:   /:sf_culture/signin
     param: { module: profile, action: signIn, sf_culture: en  }
-      
+
 signout:
     url:   /:sf_culture/signout
     param: { module: profile, action: signout, sf_culture: en  }
-    
+
 forgotten_password:
     url:   /:sf_culture/forgotten_password
     param: { module: profile, action: forgotYourPassword, sf_culture: en  }
-    
+
 forgotten_password_info:
     url:   /:sf_culture/forgotten_password_info
     param: { module: profile, action: forgotPasswordInfo, sf_culture: en  }
-    
+
 forgotten_password_confirm:
     url:   /:sf_culture/forgotten_password_confirm/*
     param: { module: profile, action: forgotPasswordConfirm, sf_culture: en  }
-    
+
 confirm_new_password:
     url:   /:sf_culture/confirm_new_password/*
     param: { module: profile, action: confirmNewPassword, sf_culture: en  }
-    
+
 confirm_new_email:
     url:   /:sf_culture/confirm_new_email/*
     param: { module: profile, action: confirmNewEmail, sf_culture: en  }
-    
+
 undo_new_email:
     url:   /:sf_culture/undo_new_email/*
     param: { module: profile, action: undoNewEmail, sf_culture: en  }
-    
+
 profilese:
     url:   /:sf_culture/profiles_search_engine/:username/:headline/*
     param: { module: profile, action: indexse, sf_culture: en }
@@ -70,15 +70,15 @@ verify_photo:
 send_private_photos_request:
     url:   /:sf_culture/privatePhotosRequest/:username/:toggle_link
     param: { module: profile, action: sendPrivatePhotosRequest, sf_culture: en, toggle_link: 0 }
-    
+
 profile:
     url:   /:sf_culture/:bc/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }
-    
+
 profiles_feed:
     url:  /profiles/feed
     param: { module: profile, action: feed, sf_culture: en }
-    
+
 public_profile:
     url:   /:sf_culture/profile/:username/*
     param: { module: profile, action: index, sf_culture: en, bc: dashboard }
@@ -88,22 +88,22 @@ my_profile:
     param: { module: profile, action: myProfile, sf_culture: en }
 
 search_engines:
-    url:  /:sf_culture/review_profiles/:page/* 
+    url:  /:sf_culture/review_profiles/:page/*
     param: { module: content, action: searchEngine, sf_culture: en, page: 1 }
 
 #geo2seo routes
 seo_countries:
     url:   /:sf_culture/countries/all
     param: { module: geo2seo, action: index, sf_culture: en  }
-    
+
 country_info:
     url:   /:sf_culture/countries/:country_iso/:country_name
     param: { module: geo2seo, action: country, sf_culture: en  }
-    
+
 adm1_info:
     url:   /:sf_culture/countries/:country_iso/:country_name/:adm1_id/:adm1_name
     param: { module: geo2seo, action: adm1Info, sf_culture: en  }
-       
+
 web_email:
     url:   /:sf_culture/emails/:hash
     param: { module: content, action: emails, sf_culture: en  }
@@ -111,11 +111,11 @@ web_email:
 dashboard:
     url:   /:sf_culture/dashboard
     param: { module: dashboard, action: index, sf_culture: en  }
-                    
+
 matches:
     url:    /:sf_culture/matches
     param:  { module: search, action: index, sf_culture: en }
-    
+
 visitors:
     url:    /:sf_culture/visitors/:page
     param:  { module: dashboard, action: visitors, sf_culture: en, page: 1  }
@@ -127,7 +127,7 @@ hotlist:
 winks:
     url:    /:sf_culture/winks
     param:  { module: winks, action: index, sf_culture: en  }
-    
+
 who_can_see_you:
     url:    /:sf_culture/who_can_see_you
     param:  { module: whoCanSeeYou, action: index, sf_culture: en  }
@@ -139,19 +139,19 @@ toggle_privacy_perm:
 area_info:
     url:    /:sf_culture/area_information/:area_id/*
     param:  { module: content, action: areaInfo, sf_culture: en  }
-    
+
 blocked_members:
     url:    /:sf_culture/blocked_members
     param: { module: block, action: index, sf_culture: en  }
- 
+
 flag:
     url:   /:sf_culture/flag/:username
     param: { module: content, action: flag, sf_culture: en  }
 
 member_stories:
     url:  /:sf_culture/member_stories
-    param: { module: memberStories, action: index, sf_culture: en  }    
-      
+    param: { module: memberStories, action: index, sf_culture: en  }
+
 member_story_by_slug:
     url:  /:sf_culture/member_story/:slug
     param: { module: memberStories, action: read, sf_culture: en  }
@@ -159,11 +159,11 @@ member_story_by_slug:
 callback_paypal:
     url: /callbacks/paypal
     param: { module: callbacks, action: paypal, sf_culture: en }
-    
+
 callback_zong:
     url: /callbacks/zong/*
     param: { module: callbacks, action: zong, sf_culture: en }
-    
+
 callback_dotpay:
     url: /callbacks/dotpay/*
     param: { module: callbacks, action: dotpay, sf_culture: en }
@@ -171,12 +171,12 @@ callback_dotpay:
 error404:
     url: /error404
     param: { module: system, action: pageNotFound, sf_culture: en }
-    
+
 #this is forwarded to the new callback_paypal route
 ipn:
     url: /IPN/*
     param: { module: subscription, action: IPN, sf_culture: en }
-        
+
 link:
     url: /link/:hash
     param: { module: content, action: link, sf_culture: en }
@@ -184,16 +184,15 @@ link:
 sitemap:
   url: /sitemap.xml
   param: { module: sfSimpleGoogleSitemap, action: index, sf_culture: en }
-    
+
 default_symfony:
   url:   /symfony/:action/*
   param: { module: default, sf_culture: en  }
-  
+
 default_index:
   url:   /:sf_culture/:module
   param: { action: index, sf_culture: en  }
-  
+
 default:
   url:   /:sf_culture/:module/:action/*
   param: { sf_culture: en }
-

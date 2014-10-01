@@ -7,7 +7,7 @@
       <th>ISO Code</th>
       <th>Name</th>
       <th>Name I18N</th>
-      
+
     </tr>
   </thead>
   <tbody>
@@ -16,7 +16,7 @@
     <td><?php echo $geo->getId() ?></td>
     <td><?php echo $geo->getCountry() ?></td>
     <td><?php echo $geo->getName() ?></td>
-    <td><?php echo format_country($geo->getCountry()) ?></td>    
+    <td><?php echo format_country($geo->getCountry()) ?></td>
   </tr>
   <?php endforeach; ?>
   </tbody>

@@ -1,6 +1,6 @@
 <?php $class = ($sf_request->hasErrors() && $sf_request->hasError('answers['. $question->getId() .']')) ? 'radio_error' : 'radio'; ?>
 <?php foreach ($answers[$question->getId()] as $answer): ?>
-  <?php echo radiobutton_tag('answers['. $question->getId() .']', 
+  <?php echo radiobutton_tag('answers['. $question->getId() .']',
                              $answer->getId(),
                              fillIn('answers['. $question->getId() .']', 'r', false, isset($member_answers[$question->getId()]) && $member_answers[$question->getId()]->getDescAnswerId() == $answer->getId()),
                              array('class' => $class, 'onclick' => 'show_hide_other('. $question->getId() .')') ) ?>

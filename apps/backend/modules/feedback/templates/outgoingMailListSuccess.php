@@ -16,7 +16,7 @@
                     <th><?php echo sortable_title('Status', 'PrMailMessage::status', $sort_namespace) ?></th>
                 </tr>
             </thead>
-            
+
         <?php foreach ($pager->getResults() as $message): ?>
             <tr rel="<?php echo url_for('feedback/outgoingRead?id=' . $message->getId()) ?>" onmouseover="javascript:document.getElementById('preview_<?php echo $message->getId();?>').click()">
                 <td class="marked">
@@ -35,20 +35,20 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-        
+
         </table>
         <div class="actions">
             <?php echo submit_tag('Retry', 'confirm=Are you sure you want to retry selected messages?'); ?>
         </div>
     </form>
-    
+
     <?php include_partial('system/pager', array('pager' => $pager, 'route' => 'feedback/outgoingMailList')); ?>
     <div id="preview"></div>
 <?php else: ?>
     <p>No outgoing mail messages.</p>
 <?php endif; ?>
 
-<?php 
+<?php
 function status_color($status)
 {
     switch ($status) {
@@ -56,19 +56,19 @@ function status_color($status)
         case PrMailMessagePeer::STATUS_SCHEDULED:
                 return "orange";
             break;
-            
+
         case PrMailMessagePeer::STATUS_SENDING:
                 return "#9ACD32";
             break;
-                                            
+
         case PrMailMessagePeer::STATUS_FAILED:
                 return "red";
             break;
-            
+
         case PrMailMessagePeer::STATUS_SENT:
                 return "green";
             break;
-        
+
         default:
                 return "black";
             break;

@@ -4,24 +4,24 @@
 
 <div class="thread_actions">
     <div class="float-left">
-        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?> 
+        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?>
         &nbsp;&bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?>
     </div>
     <?php if($profile): ?>
         <div class="float-right">&bull;&nbsp;&nbsp;
-            <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $profile->getUsername())), 
-                                                                                    'url'            => 'content/flag?layout=window&username=' . $profile->getUsername(), 
-                                                                                    'id'             => '"flag_profile_window"', 
-                                                                                    'width'          => '550', 
+            <?php echo link_to_prototype_window(__('Flag'), 'flag_profile', array('title'          => __('Flag %USERNAME%', array('%USERNAME%' => $profile->getUsername())),
+                                                                                    'url'            => 'content/flag?layout=window&username=' . $profile->getUsername(),
+                                                                                    'id'             => '"flag_profile_window"',
+                                                                                    'width'          => '550',
                                                                                     'height'         => '200',
-                                                                                    'center'         => 'true', 
+                                                                                    'center'         => 'true',
                                                                                     'minimizable'    => 'false',
                                                                                     'maximizable'    => 'false',
-                                                                                    'closable'       => 'true', 
+                                                                                    'closable'       => 'true',
                                                                                     'destroyOnClose' => "true",
                                                                                     'className'      => 'polishdate',
-                                                                                ), 
-                                                                             array('absolute'        => false, 
+                                                                                ),
+                                                                             array('absolute'        => false,
                                                                                    'id'              => 'flag_profile_link_window',
                                                                                    'class'           => 'sec_link',
                                                                                  )); ?>
@@ -34,13 +34,13 @@
                                             'script'  => true
                                           ),
                                       array('class' => 'sec_link',
-                                            'id'    => 'block_link', 
+                                            'id'    => 'block_link',
                                             )
                         ); ?>
             &nbsp;&nbsp;
         </div>
     <?php endif; ?>
-    
+
     <br class="clear" />
 </div>
 <div id="thread_pagination">
@@ -92,7 +92,7 @@
             <?php echo textarea_tag('content',  isset($content)? $content : $draft->getBody(), array('id' => 'your_story', 'rows' => 10, 'cols' => 30)) ?>
             <br />
         </fieldset>
-    
+
         <fieldset class="thread_actions">
             <label></label>
             <?php echo submit_tag(__('Send'), array(
@@ -112,13 +112,13 @@
 
 <br /><br />
 <div class="thread_actions">
-        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?> 
+        &bull;&nbsp;&nbsp;<?php echo link_to_function(__('back to previous page'), 'history.go(-1)'); ?>
         &nbsp;&bull;&nbsp;&nbsp;<?php echo link_to(__('Back to Inbox'), 'messages/index', array('class' => 'sec_link')); ?>
 </div>
 
 <?php echo javascript_tag('
-Event.observe(window, "load", function() {
-       if($("your_story")) {
+Event.observe(window, "load", function () {
+       if ($("your_story")) {
           $("your_story").focus();
        }
 });

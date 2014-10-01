@@ -1,6 +1,5 @@
 <?php use_helper('Number', 'Javascript') ?>
 
-
 <table class="zebra reports">
   <thead>
       <tr>
@@ -11,7 +10,7 @@
   </thead>
   <tbody>
     <?php foreach ($pager->getResults() as $object): ?>
-      <tr onclick="preview_click('<?php echo $object['ip']; ?>')"  >   
+      <tr onclick="preview_click('<?php echo $object['ip']; ?>')"  >
           <td><?php echo long2ip($object['ip']) ?></td>
           <td><?php echo number_format($object['count'], 0, '.', ',') ?></td>
           <td><?php echo $object['location'] ?></td>

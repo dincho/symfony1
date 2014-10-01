@@ -19,7 +19,7 @@
                     <?php echo link_to_unless_ref(!$member->isActive(), __('View Profile'), '@profile?bc=visitors&username=' . $member->getUsername(), array('class' => $visit->getIsNew()?'sec_link':'last')) ?>
                     <?php include_partial('content/onlineProfile', array('member' => $member)) ?>
                 </div>
-            </div>        
+            </div>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>

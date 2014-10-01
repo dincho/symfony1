@@ -2,10 +2,10 @@
 
 /**
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MemberMatch
 {
     protected $score;
@@ -53,5 +53,3 @@ class MemberMatch
         return round(($this->getPct() + $this->getReversePct()) / 2);
     }
 }
-
-

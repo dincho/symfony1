@@ -1,46 +1,39 @@
 <?php
 
+class MatchesMapBuilder
+{
+    const CLASS_NAME = 'lib.model.map.MatchesMapBuilder';
 
+    private $dbMap;
 
-class MatchesMapBuilder {
+    public function isBuilt()
+    {
+        return ($this->dbMap !== null);
+    }
 
-	
-	const CLASS_NAME = 'lib.model.map.MatchesMapBuilder';
+    public function getDatabaseMap()
+    {
+        return $this->dbMap;
+    }
 
-	
-	private $dbMap;
+    public function doBuild()
+    {
+        $this->dbMap = Propel::getDatabaseMap('propel');
 
-	
-	public function isBuilt()
-	{
-		return ($this->dbMap !== null);
-	}
+        $tMap = $this->dbMap->addTable('matches');
+        $tMap->setPhpName('Matches');
 
-	
-	public function getDatabaseMap()
-	{
-		return $this->dbMap;
-	}
+        $tMap->setUseIdGenerator(true);
 
-	
-	public function doBuild()
-	{
-		$this->dbMap = Propel::getDatabaseMap('propel');
+        $tMap->addForeignKey('MEMBER1_ID', 'Member1Id', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
 
-		$tMap = $this->dbMap->addTable('matches');
-		$tMap->setPhpName('Matches');
+        $tMap->addForeignKey('MEMBER2_ID', 'Member2Id', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
 
-		$tMap->setUseIdGenerator(true);
+        $tMap->addColumn('SCORE', 'Score', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('MEMBER1_ID', 'Member1Id', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
+        $tMap->addColumn('REVERSE_SCORE', 'ReverseScore', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('MEMBER2_ID', 'Member2Id', 'int', CreoleTypes::INTEGER, 'member', 'ID', true, null);
+        $tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('SCORE', 'Score', 'int', CreoleTypes::INTEGER, true, null);
-
-		$tMap->addColumn('REVERSE_SCORE', 'ReverseScore', 'int', CreoleTypes::INTEGER, true, null);
-
-		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
-
-	} 
-} 
+    }
+}

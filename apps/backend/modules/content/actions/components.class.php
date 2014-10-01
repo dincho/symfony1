@@ -1,7 +1,7 @@
 <?php
 
-class contentComponents extends sfComponents 
-{ 
+class contentComponents extends sfComponents
+{
   public function executeBottomMenu()
   {
       $c = new Criteria();

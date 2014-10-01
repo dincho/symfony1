@@ -4,4 +4,3 @@
     <?php echo submit_tag(__('Delete Account'), array('class' => 'button')) ?>
     <?php echo button_to(__('Cancel'), 'dashboard/index', array('class' => 'button cancel')) ?>
 </form>
-

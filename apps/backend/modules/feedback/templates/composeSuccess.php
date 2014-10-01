@@ -40,7 +40,7 @@
                      'onchange' => 'document.location.href = "'. $tpl_url.'/" + this.value + "&mail_to="+document.getElementById("mail_to").value;',
                 )
             )?>
-            
+
         </td>
       </tr>
       <tr>
@@ -137,13 +137,13 @@
 <fieldset class="form_fields email_fields">
   <label for="subject">Subject</label>
   <?php echo input_tag('subject', $sf_request->getParameter('subject', $template->getSubject())) ?><br />
-  
+
   <label for="body">Body</label>
   <?php echo textarea_tag('message_body', Tools::br2nl($sf_request->getParameter('body', $template->getBody())), array('cols' => 90, 'rows' => 10)) ?><br />
-  
+
   <label for="message_footer">Footer</label>
   <?php echo textarea_tag('message_footer', Tools::br2nl($sf_request->getParameter('message_footer', $template->getFooter())), array('cols' => 90, 'rows' => 5)) ?><br />
-  
+
   <label for="save_as_new_template">Save as new template</label>
   <?php echo input_tag('save_as_new_template', null, 'id=save_as_new_template') ?><br />
 </fieldset>

@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'member_story' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MemberStoryPeer extends BaseMemberStoryPeer
 {
     public static function doSelectJoinStockPhoto2(Criteria $c, $con = null)
@@ -25,7 +25,7 @@ class MemberStoryPeer extends BaseMemberStoryPeer
         $rs = BasePeer::doSelect($c, $con);
         $results = array();
 
-        while($rs->next()) {
+        while ($rs->next()) {
 
             $omClass = MemberStoryPeer::getOMClass();
 
@@ -40,7 +40,7 @@ class MemberStoryPeer extends BaseMemberStoryPeer
             $obj2->hydrate($rs, $startcol);
 
             $newObject = true;
-            foreach($results as $temp_obj1) {
+            foreach ($results as $temp_obj1) {
                 $temp_obj2 = $temp_obj1->getStockPhoto();                 if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
                     $newObject = false;
                                         $temp_obj2->addMemberStory($obj1);                     break;
@@ -51,6 +51,7 @@ class MemberStoryPeer extends BaseMemberStoryPeer
                 $obj2->addMemberStory($obj1);             }
             $results[] = $obj1;
         }
+
         return $results;
     }
 }

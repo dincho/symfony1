@@ -17,13 +17,13 @@
 </div>
 <hr/>
 
-<?php include_partial('editProfile/photos_block', array('id' => 'public_photos', 
+<?php include_partial('editProfile/photos_block', array('id' => 'public_photos',
                                                   'upload_url' => url_for('registration/uploadPhoto?block_id=public_photos'),
-                                                  'photos' => $public_photos, 
+                                                  'photos' => $public_photos,
                                                   'num_containers' => $subscription->getPostPhotos(),
                                                   'member' => $member,
                                                   'upload_button_title' => __('Upload Public Photos'),
-                                                  'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)), 
+                                                  'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)),
                                                   'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
 
 <br class="clear" />
@@ -31,13 +31,13 @@
 <?php if( $subscription->getCanPostPrivatePhoto() && $subscription->getPostPrivatePhotos() > 0 ): ?>
     <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $subscription->getPostPrivatePhotos())) ?></p>
     <h3><?php echo __('Private Photos'); ?></h3><hr />
-    <?php include_partial('editProfile/photos_block', array('id' => 'private_photos', 
+    <?php include_partial('editProfile/photos_block', array('id' => 'private_photos',
                                                       'upload_url' => url_for('registration/uploadPhoto?block_id=private_photos'),
-                                                      'photos' => $private_photos, 
-                                                      'num_containers' => $subscription->getPostPrivatePhotos(), 
+                                                      'photos' => $private_photos,
+                                                      'num_containers' => $subscription->getPostPrivatePhotos(),
                                                       'member' => $member,
                                                       'upload_button_title' => __('Upload Private Photos'),
-                                                      'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)), 
+                                                      'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)),
                                                       'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
     <br class="clear" />
 <?php endif; ?>
@@ -66,4 +66,3 @@
         new Ajax.Updater(photo_container, photo_rotate_url, {asynchronous:true, evalScripts:true, parameters:params});
     }
 </script>
-

@@ -10,32 +10,32 @@
     <label for="filters_name">Name:</label>
     <br />
 
-    <?php echo select_tag('filters[country]', 
-                            options_for_select(array('GEO_ALL' => 'All('. count($countries).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['country']) . 
-                            options_for_select($countries, $filters['country']), 
+    <?php echo select_tag('filters[country]',
+                            options_for_select(array('GEO_ALL' => 'All('. count($countries).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['country']) .
+                            options_for_select($countries, $filters['country']),
                             array('multiple' => true)
                         ); ?>
 
-    <?php echo select_tag('filters[adm1]', 
-                            options_for_select(array('GEO_ALL' => 'All('. count($adm1s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm1']) . 
-                            objects_for_select($adm1s, 'getId', 'getName', $filters['adm1']), 
-                            array('multiple' => true)
-                        ); ?> 
-                                        
-    <?php echo select_tag('filters[adm2]', 
-                            options_for_select(array('GEO_ALL' => 'All('. count($adm2s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm2']) . 
-                            objects_for_select($adm2s, 'getId', 'getName', $filters['adm2']), 
+    <?php echo select_tag('filters[adm1]',
+                            options_for_select(array('GEO_ALL' => 'All('. count($adm1s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm1']) .
+                            objects_for_select($adm1s, 'getId', 'getName', $filters['adm1']),
                             array('multiple' => true)
                         ); ?>
-                    
-    <?php echo select_tag('filters[dsg]', 
-                            options_for_select(array('GEO_ALL' => 'All('. count($DSGs).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['dsg']) . 
-                            options_for_select($DSGs, $filters['dsg']), 
+
+    <?php echo select_tag('filters[adm2]',
+                            options_for_select(array('GEO_ALL' => 'All('. count($adm2s).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['adm2']) .
+                            objects_for_select($adm2s, 'getId', 'getName', $filters['adm2']),
                             array('multiple' => true)
                         ); ?>
-                        
+
+    <?php echo select_tag('filters[dsg]',
+                            options_for_select(array('GEO_ALL' => 'All('. count($DSGs).')', 'GEO_UNASSIGNED' => 'Unassigned'), $filters['dsg']) .
+                            options_for_select($DSGs, $filters['dsg']),
+                            array('multiple' => true)
+                        ); ?>
+
     <?php echo input_tag('filters[name]', $filters['name'], array('style' => 'vertical-align: top', )); ?>
-    
+
     <br />
     <?php echo submit_tag('Apply Filter', array('id' => 'apply_filter')); ?>
 
@@ -49,16 +49,15 @@
         <?php echo button_to('Add Feature', 'geo/create?ret_uri=' . $ret_uri) ?>
         <?php echo button_to('Add Country', 'geo/createCountry?ret_uri=' . $ret_uri) ?>
     </div>
-    
+
     <div style="padding-right: 5px;">
             <span>select:</span>
-            <?php echo link_to_function('all', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = true });'); ?>
-            <?php echo link_to_function('none', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = false });'); ?>
-            <?php echo link_to_function('reverse', '$("geo_list_form").getInputs("checkbox").each(function(e){ if(!e.disabled) e.checked = !e.checked });'); ?>
+            <?php echo link_to_function('all', '$("geo_list_form").getInputs("checkbox").each(function (e) { if(!e.disabled) e.checked = true });'); ?>
+            <?php echo link_to_function('none', '$("geo_list_form").getInputs("checkbox").each(function (e) { if(!e.disabled) e.checked = false });'); ?>
+            <?php echo link_to_function('reverse', '$("geo_list_form").getInputs("checkbox").each(function (e) { if(!e.disabled) e.checked = !e.checked });'); ?>
     </div>
     <br />
 </div>
-
 
 <?php echo form_tag('geo/batchEdit', array('method' => 'get', 'id' => 'geo_list_form', )) ?>
     <?php echo input_hidden_tag('ret_uri', $ret_uri); ?>
@@ -80,7 +79,7 @@
         </tr>
       </thead>
       <tbody>
-      
+
       <?php foreach ($pager->getResults() as $geo): ?>
           <?php $edit_uri = ($geo->getDsg() == 'PCL') ? 'geo/editCountry' : 'geo/edit'; ?>
           <tr rel="<?php echo url_for($edit_uri . '?id=' . $geo->getId() . '&ret_uri=' .$ret_uri); ?>">
@@ -131,8 +130,7 @@
 <?php echo javascript_tag("
 function loading(start)
 {
-    if( start )
-    {
+    if (start) {
         $('loading').show();
         $('multiple_filter').disable();
     } else {
@@ -150,23 +148,22 @@ function updateAdm1(request)
   var json = eval('(' + request.responseText + ')');
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('filters_adm1');
-  S.options.length = 0;  
-  
+  S.options.length = 0;
+
       S.options[0] = new Option('All('+nbElementsInResponse+')', 'GEO_ALL');
       S.options[0].selected = true;
       S.options[1] = new Option('Unassigned', 'GEO_UNASSIGNED');
-      
-      for (var i = 1; i <= nbElementsInResponse; i++)
-      {
+
+      for (var i = 1; i <= nbElementsInResponse; i++) {
          S.options[i+1] = new Option(json[i-1].title, json[i-1].id);
       }
-      
-      " . remote_function(array('success' => 'updateAdm2(request)', 
+
+      " . remote_function(array('success' => 'updateAdm2(request)',
                                 'url' => 'ajax/getAdm2ByAdm1Id?allow_blank=1',
                                 'with'     => "'country='+$('filters_country').getValue()+'&adm1=' + $('filters_adm1').getValue()",
                                 )
                           )
-      . "  
+      . "
 }
 ") ?>
 
@@ -176,24 +173,23 @@ function updateAdm2(request)
   var json = eval('(' + request.responseText + ')');
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('filters_adm2');
-  S.options.length = 0;  
-  
+  S.options.length = 0;
+
   S.options[0] = new Option('All('+nbElementsInResponse+')', 'GEO_ALL');
   S.options[0].selected = true;
   S.options[1] = new Option('Unassigned', 'GEO_UNASSIGNED');
-  
-  for (var i = 1; i <= nbElementsInResponse; i++)
-  {
+
+  for (var i = 1; i <= nbElementsInResponse; i++) {
      S.options[i+1] = new Option(json[i-1].title, json[i-1].id);
   }
-  
-  " . remote_function(array('success' => 'updateDSG(request)', 
+
+  " . remote_function(array('success' => 'updateDSG(request)',
                             'url' => 'ajax/getDSG',
                             'with'     => "'country='+$('filters_country').getValue()+'&adm1=' + $('filters_adm1').getValue()+'&adm2=' + $('filters_adm2').getValue()",
                             )
                       )
-  . "          
-  
+  . "
+
 }
 ") ?>
 
@@ -204,16 +200,15 @@ function updateDSG(request)
   var nbElementsInResponse = (json) ? json.length : 0;
   var S = $('filters_dsg');
   S.options.length = 0;
-  
+
   S.options[0] = new Option('All('+nbElementsInResponse+')', 'GEO_ALL');
   S.options[0].selected = true;
   S.options[1] = new Option('Unassigned', 'GEO_UNASSIGNED');
-  
-  for (var i = 1; i <= nbElementsInResponse; i++)
-  {
+
+  for (var i = 1; i <= nbElementsInResponse; i++) {
      S.options[i+1] = new Option(json[i-1], json[i-1]);
   }
-  
+
   loading(false);
 }
 ") ?>

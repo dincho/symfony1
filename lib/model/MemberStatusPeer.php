@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'member_status' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MemberStatusPeer extends BaseMemberStatusPeer
 {
     const ACTIVE                        = 1;

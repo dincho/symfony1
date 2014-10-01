@@ -9,7 +9,7 @@
         <?php //echo select_language_tag('catalog', $catalog, array('languages' => array('en', 'pl'))) ?><br />
     </fieldset>
    -->
-   
+
     <table class="zebra" style="width: 300px">
         <tr>
             <th colspan="2">Languages</th>
@@ -21,7 +21,7 @@
             </tr>
         <?php endforeach; ?>
     </table>
-    
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'photos/stockPhotos') ?>
         <?php echo submit_tag('Next') ?>

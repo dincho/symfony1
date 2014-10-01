@@ -34,7 +34,7 @@
         </tr>
       <?php endforeach; ?>
     </tbody>
-  
+
 </table>
 
 <?php include_partial('members/subMenu', array('member' => $member)); ?>

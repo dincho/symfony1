@@ -1,5 +1,5 @@
 <?php
-class systemComponents extends sfComponents 
+class systemComponents extends sfComponents
 {
   public function executeTopMenu()
   {
@@ -19,7 +19,7 @@ class systemComponents extends sfComponents
 
     if( !isset($this->top_menu_selected )) $this->top_menu_selected = $this->getContext()->getModuleName();
   }
-  
+
   public function executeLeftMenu()
   {
     if (isset($this->top_menu_selected)) {
@@ -31,7 +31,7 @@ class systemComponents extends sfComponents
     if (!isset($this->left_menu_selected)) {
       $this->left_menu_selected = null;
     }
-    
+
     $submenuMethod = 'get' . ucfirst($module) . 'Submenu';
     if (method_exists($this, $submenuMethod)) {
       $this->menu = call_user_func(array($this, $submenuMethod));
@@ -96,7 +96,7 @@ class systemComponents extends sfComponents
     //$c->add(FeedbackPeer::IS_READ, false);
     $c->add(FeedbackPeer::MAILBOX, FeedbackPeer::INBOX);
     $feedback_cnt_all = FeedbackPeer::doCount($c);
-    
+
     $c1 = clone $c;
     $c1->add(FeedbackPeer::MEMBER_ID, null, Criteria::ISNOTNULL);
     $c1->addJoin(FeedbackPeer::MEMBER_ID, MemberPeer::ID);
@@ -212,14 +212,14 @@ class systemComponents extends sfComponents
   public function executeBreadcrumb()
   {
   }
-  
+
   public function executeFormErrors()
   {
     $this->labels = array(
 
     );
   }
-  
+
   public function executeMessages()
   {
     return array(
@@ -227,14 +227,14 @@ class systemComponents extends sfComponents
       array('title' => 'Predefined Messages', 'uri' => 'predefinedMessages/list'),
     );
   }
-  
+
   public function executeMembersSidebar()
   {
     $this->starred_array = array('0' => 'Not Starred', '1' => 'Starred');
 
     $this->sex_array = array('M_F' => 'Man looking for woman', 'F_M' => 'Woman looking for man',
                             'M_M' => 'Man looking for man', 'F_F' => 'Woman looking for woman');
-    
+
     $c = new Criteria();
     $c->addAscendingOrderByColumn(CataloguePeer::CAT_ID);
     $this->catalogues = CataloguePeer::doSelect($c);
@@ -242,7 +242,7 @@ class systemComponents extends sfComponents
     $this->countries = array('PL', 'US', 'CA', 'GB', 'IE');
     $this->statuses = MemberStatusPeer::doSelect(new Criteria());
     $this->languages = array('en', 'pl', 'ar', 'zh', 'fr', 'de', 'he', 'it', 'pt', 'ru', 'es', 'sv', 'tr');
-    
+
     $this->filters = $this->getUser()->getAttributeHolder()->getAll('backend/members/filters');
   }
 

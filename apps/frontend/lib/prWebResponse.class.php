@@ -7,6 +7,7 @@ class prWebResponse extends sfWebResponse
         if ( array_key_exists ('title', $meta_tags) ) {
             unset($meta_tags ['title']);
         }
+
         return $meta_tags;
     }
 }

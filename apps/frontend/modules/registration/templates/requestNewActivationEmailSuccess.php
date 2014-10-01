@@ -1,1 +1,1 @@
-<?php echo __('Request new activation email body'); ?>
+<?php echo __('Request new activation email body');

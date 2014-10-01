@@ -3,7 +3,7 @@
 
 <?php echo __('These users are able to see you. Click on the "x" in the lower corner of a profile to remove it from the list.') ?>
 <br />
-<br />  
+<br />
 <br />
 <div id="winks">
     <?php foreach ($privacy_list as $privacy): ?>
@@ -16,19 +16,19 @@
                   <?php echo link_to_remote(__('Revoke Access'), array(
                                                   'url' => '@toggle_privacy_perm?username=' . $profile->getUsername(),
                                                   'update' => array('success' => 'msg_container'),
-                                                  'script' => true, 
+                                                  'script' => true,
                                                   'after' => '$("member_profile_'.$profile->getId().'").remove();'
                                           ), array('class' => 'sec_link', )); ?>
                   <?php echo link_to_remote(image_tag('butt_x.gif', 'class=x'), array(
                                                   'url' => '@toggle_privacy_perm?username=' . $profile->getUsername(),
                                                   'update' => array('success' => 'msg_container'),
-                                                  'script' => true, 
+                                                  'script' => true,
                                                   'after' => '$("member_profile_'.$profile->getId().'").remove();'
                                           )); ?>
               </div>
               <?php echo link_to_ref(profile_photo($profile), '@profile?bc=whoCanSeeYou&username=' . $profile->getUsername()) ?>
               <?php include_partial('content/onlineProfile', array('member' => $profile)) ?>
-          </div>        
+          </div>
     <?php endforeach; ?>
 </div>
 <?php slot('footer_menu') ?>

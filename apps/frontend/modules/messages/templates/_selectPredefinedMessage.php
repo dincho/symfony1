@@ -1,9 +1,9 @@
 <?php use_helper('Object', 'Javascript'); ?>
 
-<?php echo select_tag('predefined_message_id', 
-                       objects_for_select($messages, 
-                                            'getId', 
-                                            'getSubject', 
+<?php echo select_tag('predefined_message_id',
+                       objects_for_select($messages,
+                                            'getId',
+                                            'getSubject',
                                             $sf_request->getParameter('predefined_message_id'),
                                             array('include_custom' => __('Custom Message (Paid Only)'))
                         ),
@@ -25,32 +25,29 @@ function init_predefined_messages()
 
 function predefined_message_selected(id)
 {
-    if( id )
-    {
+    if (id) {
         save_condition = false;
-        
+
         var message = predefined_messages[id];
         body_field.value = message.body;
         body_field.readOnly = 'readonly';
-        if( subject_field )
-        {
+        if (subject_field) {
             subject_field.value = message.subject;
             subject_field.readOnly = 'readonly';
         }
     } else {
         //save_condition = true;
-        
+
         body_field.value = null;
         body_field.readOnly = null;
-        
-        if( subject_field )
-        {
+
+        if (subject_field) {
             subject_field.value = null;
             subject_field.readOnly = null;
-            
+
         }
     }
-    
+
 }
 </script>
 

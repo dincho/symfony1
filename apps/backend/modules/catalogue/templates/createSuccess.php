@@ -12,4 +12,3 @@
     <?php echo button_to('Cancel', 'catalogue/list')  . submit_tag('Save', 'class=button') ?>
   </fieldset>
 </form>
-

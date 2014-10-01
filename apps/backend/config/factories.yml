@@ -27,7 +27,7 @@ all:
     class: pdSessionStorage
     param:
       session_name: PDBSSID
-      
+
   view_cache:
     class: sfFileCache
     param:

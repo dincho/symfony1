@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'hotlist' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class HotlistPeer extends BaseHotlistPeer
 {
     public static function getNewHotlistCriteria($member_id)
@@ -25,7 +25,6 @@ class HotlistPeer extends BaseHotlistPeer
         return $c;
     }
 
-
     public static function getMembersForLoginNotification(BaseMember $profile)
     {
         $c = new Criteria();
@@ -34,7 +33,7 @@ class HotlistPeer extends BaseHotlistPeer
 
         $ids = array();
         $rs = self::doSelectRS($c);
-        while($rs->next()) {
+        while ($rs->next()) {
             $ids[] = $rs->getInt(1);
         }
 

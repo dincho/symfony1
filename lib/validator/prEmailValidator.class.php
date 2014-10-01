@@ -1,6 +1,6 @@
 <?php
 /**
- * prEmailValidator extends the functionality of the sfEmailValidator 
+ * prEmailValidator extends the functionality of the sfEmailValidator
  * to conform the RFC 5321 section 4.5.3.1.
  *
  * @subpackage validator
@@ -19,12 +19,9 @@ class prEmailValidator extends sfEmailValidator
   public function execute(&$value, &$error)
   {
     $strict = $this->getParameterHolder()->get('strict');
-    if ($strict == true)
-    {
+    if ($strict == true) {
       $re = '/^([^@\s]{1,64})@((?:[-a-z0-9]{1,255}\.)+[a-z]{2,})$/i';
-    }
-    else
-    {
+    } else {
       /* Cal Henderson: http://iamcal.com/publish/articles/php/parsing_email/pdf/
        * The long regular expression below is made by the following code
        * fragment:
@@ -57,18 +54,16 @@ class prEmailValidator extends sfEmailValidator
       ;
     }
 
-    if (!preg_match($re, $value))
-    {
+    if (!preg_match($re, $value)) {
       $error = $this->getParameterHolder()->get('email_error');
+
       return false;
     }
 
     $checkDomain = $this->getParameterHolder()->get('check_domain');
-    if ($checkDomain && function_exists('checkdnsrr'))
-    {
+    if ($checkDomain && function_exists('checkdnsrr')) {
       $tokens = explode('@', $value);
-      if (!checkdnsrr($tokens[1], 'MX') && !checkdnsrr($tokens[1], 'A'))
-      {
+      if (!checkdnsrr($tokens[1], 'MX') && !checkdnsrr($tokens[1], 'A')) {
         $error = $this->getParameterHolder()->get('email_error');
 
         return false;

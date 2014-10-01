@@ -2,7 +2,7 @@
 /**
  * Subclass for representing a row from the 'matches' table.
  *
- * 
+ *
  *
  * @package lib.model
  */
@@ -43,46 +43,38 @@ class BaseMatches
 
     public function setMember1Id($v)
     {
-        if ($v !== null && ! is_int($v) && is_numeric($v))
-        {
+        if ($v !== null && ! is_int($v) && is_numeric($v)) {
             $v = (int) $v;
         }
-        if ($this->member1_id !== $v)
-        {
+        if ($this->member1_id !== $v) {
             $this->member1_id = $v;
             $this->modifiedColumns[] = MatchesPeer::MEMBER1_ID;
         }
-        if ($this->aMemberRelatedByMember1Id !== null && $this->aMemberRelatedByMember1Id->getId() !== $v)
-        {
+        if ($this->aMemberRelatedByMember1Id !== null && $this->aMemberRelatedByMember1Id->getId() !== $v) {
             $this->aMemberRelatedByMember1Id = null;
         }
     }
 
     public function setMember2Id($v)
     {
-        if ($v !== null && ! is_int($v) && is_numeric($v))
-        {
+        if ($v !== null && ! is_int($v) && is_numeric($v)) {
             $v = (int) $v;
         }
-        if ($this->member2_id !== $v)
-        {
+        if ($this->member2_id !== $v) {
             $this->member2_id = $v;
             $this->modifiedColumns[] = MatchesPeer::MEMBER2_ID;
         }
-        if ($this->aMemberRelatedByMember2Id !== null && $this->aMemberRelatedByMember2Id->getId() !== $v)
-        {
+        if ($this->aMemberRelatedByMember2Id !== null && $this->aMemberRelatedByMember2Id->getId() !== $v) {
             $this->aMemberRelatedByMember2Id = null;
         }
     }
 
     public function setScore($v)
     {
-        if ($v !== null && ! is_int($v) && is_numeric($v))
-        {
+        if ($v !== null && ! is_int($v) && is_numeric($v)) {
             $v = (int) $v;
         }
-        if ($this->score !== $v)
-        {
+        if ($this->score !== $v) {
             $this->score = $v;
             $this->modifiedColumns[] = MatchesPeer::SCORE;
         }
@@ -90,12 +82,10 @@ class BaseMatches
 
     public function setReverseScore($v)
     {
-        if ($v !== null && ! is_int($v) && is_numeric($v))
-        {
+        if ($v !== null && ! is_int($v) && is_numeric($v)) {
             $v = (int) $v;
         }
-        if ($this->reverse_score !== $v)
-        {
+        if ($this->reverse_score !== $v) {
             $this->reverse_score = $v;
             $this->modifiedColumns[] = MatchesPeer::REVERSE_SCORE;
         }
@@ -110,7 +100,7 @@ class BaseMatches
         }
         $this->aMemberRelatedByMember2Id = $v;
     }
-    
+
     public function getMemberRelatedByMember2Id($con = null)
     {
         if ($this->aMemberRelatedByMember2Id === null && ($this->member2_id !== null)) {
@@ -118,23 +108,22 @@ class BaseMatches
 
             $this->aMemberRelatedByMember2Id = MemberPeer::retrieveByPK($this->member2_id, $con);
         }
+
         return $this->aMemberRelatedByMember2Id;
     }
-        
-    
+
     public function hydrate(ResultSet $rs, $startcol = 1)
     {
-        try
-        {
+        try {
             $this->member1_id = $rs->getInt($startcol + 0);
             $this->member2_id = $rs->getInt($startcol + 1);
             $this->score = $rs->getInt($startcol + 2);
             $this->reverse_score = $rs->getInt($startcol + 3);
             $this->combined_score = $rs->getInt($startcol + 4);
             $this->modifiedColumns = array();
+
             return $startcol + 5;
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             throw new PropelException("Error populating Matches object", $e);
         }
     }

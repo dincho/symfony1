@@ -2,7 +2,7 @@
 /**
  * Subclass for representing a row from the 'desc_question' table.
  *
- * 
+ *
  *
  * @package lib.model
  */
@@ -16,16 +16,14 @@ class DescQuestion extends BaseDescQuestion
 
     public function getMemberDescAnswer()
     {
-        if ($answers = $this->getMemberDescAnswers())
-        {
+        if ($answers = $this->getMemberDescAnswers()) {
             return $answers[0]->getDescAnswer();
         }
     }
 
     public function getMemberSearchCriteria()
     {
-        if ($answers = $this->getMemberSearchCriterias())
-        {
+        if ($answers = $this->getMemberSearchCriterias()) {
             return $answers[0]->getDescAnswer();
         }
     }
@@ -33,10 +31,10 @@ class DescQuestion extends BaseDescQuestion
     public function getSearchCritDescAnswers()
     {
         $ret = array();
-        if ($crit = $this->getSearchCritDescs())
-        {
+        if ($crit = $this->getSearchCritDescs()) {
             $ret = explode(',', $crit[0]->getDescAnswers());
         }
+
         return $ret;
     }
 
@@ -52,8 +50,7 @@ class DescQuestion extends BaseDescQuestion
 
     public function getSearchCritDesc()
     {
-        if ($crit = $this->getSearchCritDescs())
-        {
+        if ($crit = $this->getSearchCritDescs()) {
             return $crit[0];
         }
     }

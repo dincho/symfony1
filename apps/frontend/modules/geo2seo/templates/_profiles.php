@@ -20,11 +20,11 @@
                        <?php echo distance_of_time_in_words($member->getLastLogin(null)); ?>
                     </p>
                 </div>
-            </div>  
+            </div>
             <?php if( $i < 12 && $i%3 == 0): ?>
             </div>
             <div class="member">
-            <?php endif; ?>  
+            <?php endif; ?>
         <?php $i++;endforeach; ?>
     </div>
 </div>

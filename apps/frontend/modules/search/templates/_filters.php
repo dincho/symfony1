@@ -1,15 +1,15 @@
     <?php use_helper('Javascript', 'Date', 'dtForm', 'prLink') ?>
-    
+
     <?php echo javascript_tag("
       function submit_filter(obj)
       {
         obj.form.submit();
         show_load();
       }
-    
+
     ")?>
     <table border="0" cellpadding="0" cellspacing="0" class="search_filter">
-      <tbody>                                                                                                                                                                                                                
+      <tbody>
         <tr class="search_filter_top_row">
             <td colspan="4"><?php echo checkbox_tag('filters[only_with_photo]', 1, isset($filters['only_with_photo']), array('onchange' => "submit_filter(this);")) . __('Show only profiles with photo') ?></td>
             <td></td>
@@ -39,7 +39,7 @@
         <tr class="search_filter_bottom_row">
             <td></td>
             <td></td>
-    
+
             <td><?php echo link_to_ref(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
             <td></td>
             <td></td>
@@ -50,7 +50,7 @@
             </td>
         </tr>
       </tbody>
-  </table> 
+  </table>
 </form>
 <span id="loading" class="loading" style="display: none;">
   <?php echo image_tag('loading.gif') ?>

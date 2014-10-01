@@ -11,7 +11,7 @@ class prSearchPager extends sfPager
         $this->builder = $builder;
         parent::__construct(null, $maxPerPage);
     }
-  
+
     public function getResults()
     {
         $query = $this->builder->getQuery($this->offset, $this->limit);

@@ -29,15 +29,12 @@ class subscriptionsActions extends sfActions
     $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
     $subscriptions = SubscriptionDetailsPeer::doSelect($c);
     $this->forward404Unless($subscriptions);
-    
-    if( $this->getRequest()->getMethod() == sfRequest::POST )
-    {
+
+    if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
         $this->getUser()->checkPerm(array('subscriptions_edit'));
         $req_subs = $this->getRequestParameter('subs');
-        foreach ($subscriptions as $subscription)
-        {
-            if( array_key_exists($subscription->getSubscriptionId(), $req_subs) )
-            {
+        foreach ($subscriptions as $subscription) {
+            if ( array_key_exists($subscription->getSubscriptionId(), $req_subs) ) {
                 $subscription->setCanCreateProfile($req_subs[$subscription->getSubscriptionId()]['can_create_profile']);
                 $subscription->setCreateProfiles($req_subs[$subscription->getSubscriptionId()]['create_profiles']);
                 $subscription->setCanPostPhoto($req_subs[$subscription->getSubscriptionId()]['can_post_photo']);
@@ -62,84 +59,81 @@ class subscriptionsActions extends sfActions
                 $subscription->setContactAssistant($req_subs[$subscription->getSubscriptionId()]['contact_assistant']);
                 $subscription->setContactAssistantDay($req_subs[$subscription->getSubscriptionId()]['contact_assistant_day']);
                 $subscription->setPreApprove(@$req_subs[$subscription->getSubscriptionId()]['pre_approve']);
-                
-                if( isset($req_subs[$subscription->getSubscriptionId()]['period']) )
-                {
+
+                if ( isset($req_subs[$subscription->getSubscriptionId()]['period']) ) {
                     $subscription->setPeriod($req_subs[$subscription->getSubscriptionId()]['period']);
                     $subscription->setPeriodType($req_subs[$subscription->getSubscriptionId()]['period_type']);
                     $subscription->setAmount($req_subs[$subscription->getSubscriptionId()]['amount']);
                     $subscription->setCurrency($req_subs[$subscription->getSubscriptionId()]['currency']);
                 }
-                
+
                 $subscription->save();
             }
         }
-        
-	    return $this->redirect('subscriptions/list');
+
+        return $this->redirect('subscriptions/list');
     }
-    
+
     $this->subscriptions = $subscriptions;
     $this->sub1 = $subscriptions[0];
   }
 
   public function validateEdit()
   {
-    if( $this->getRequest()->getMethod() == sfRequest::POST )
-    {   
+    if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
         $req_subs = $this->getRequestParameter('subs');
-        
-        foreach($req_subs as $id => $sub)
-        {
+
+        foreach ($req_subs as $id => $sub) {
             if( $id == 1 ) continue; //skip the free subscription
-            
+
           $field_name = 'subs['. $id.'][period]';
-        
-          if( !is_numeric($sub['period']) || $sub['period'] <= 0 )
-          {
+
+          if ( !is_numeric($sub['period']) || $sub['period'] <= 0 ) {
               $this->getRequest()->setError($field_name, 'Please enter a positive integer');
+
               return false;
-            
+
           }
-        
+
           //regular subscription
           switch ($sub['period_type']) {
               case 'D':
-                  if( $sub['period'] > 90 )
-                  {
+                  if ($sub['period'] > 90) {
                       $this->getRequest()->setError($field_name, 'Allowable range is 1 to 90');
+
                       return false;
                   }
                   break;
               case 'W':
-                  if( $sub['period'] > 52 )
-                  {
+                  if ($sub['period'] > 52) {
                       $this->getRequest()->setError($field_name, 'Allowable range is 1 to 52');
+
                       return false;
-                  }            
+                  }
                   break;
               case 'M':
-                  if( $sub['period'] > 24 )
-                  {
+                  if ($sub['period'] > 24) {
                       $this->getRequest()->setError($field_name, 'Allowable range is 1 to 24');
+
                       return false;
-                  }            
+                  }
                   break;
               case 'Y':
-                  if( $sub['period'] > 5 )
-                  {
+                  if ($sub['period'] > 5) {
                       $this->getRequest()->setError($field_name, 'Allowable range is 1 to 5');
+
                       return false;
-                  }            
+                  }
                   break;
               default:
                   break;
           }
         }
     }
-    
+
     return true;
   }
-  
+
     public function handleErrorEdit()
     {
         $c = new Criteria();
@@ -149,8 +143,8 @@ class subscriptionsActions extends sfActions
         $this->forward404Unless($subscriptions);
 
         $this->subscriptions = $subscriptions;
-        $this->sub1 = $subscriptions[0];  
+        $this->sub1 = $subscriptions[0];
 
-        return sfView::SUCCESS;    
+        return sfView::SUCCESS;
     }
 }

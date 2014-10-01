@@ -9,10 +9,10 @@ fields:
       msg:       This field cannot be left blank
   email:
     required:
-      msg:       This field cannot be left blank  
+      msg:       This field cannot be left blank
     prEmailValidator:
       strict:       true
-      email_error:  This email address is invalid      
+      email_error:  This email address is invalid
   password:
     group:      password_group
   password2:

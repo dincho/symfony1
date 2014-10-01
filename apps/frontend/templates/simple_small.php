@@ -20,8 +20,8 @@
         <div id="bb"><div id="blc">
         <div id="brc"><div id="tb">
         <div id="tlc"><div id="trc">&nbsp;
-        <!--  -->   
-        <div id="content">  
+        <!--  -->
+        <div id="content">
             <div id="header">
                 <?php echo link_to(domain_image_tag('logo.gif'), '@homepage') ?>
             </div>

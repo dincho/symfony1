@@ -9,7 +9,7 @@
 <?php if( !$member->getHasEmailConfirmation() ): ?>
   <?php echo link_to('Confirm', 'members/confirmEmail?id=' . $member->getId()); ?>&nbsp;|
 <?php endif; ?>
-<?php echo link_to('G Search', 'http://google.com/search', 
+<?php echo link_to('G Search', 'http://google.com/search',
                                     array( 'query_string' => 'q=' . urlencode($member->getEmail()),
                                            'target' => '_blank')); ?>
 <br />
@@ -17,10 +17,10 @@
     <label></label>
     <?php echo link_to('Re-send activation email', 'members/resendActivationEmail?id=' . $member->getId()); ?><br />
 <?php endif; ?>
- 
+
 <label for="subscription_id">Subscription</label>
 <?php echo object_select_tag($member, 'getSubscriptionId') ?><br />
-   
+
 <label for="member_status_id">Status</label>
 <?php echo object_select_tag($member, 'getMemberStatusId', array ('related_class' => 'MemberStatus','include_blank' => false,)) ?><br />
 
@@ -66,9 +66,8 @@
 <label for="member_hide_visits">Hide visits</label>
 <var id="member_hide_visits"><?php echo ($member->getHideVisits()) ? 'ON' : 'off'; ?></var><br />
 
-<?php include_component('members', 'MemberIpBlock', 
+<?php include_component('members', 'MemberIpBlock',
     array('label' => "Registration IP", 'ip' => $member->getRegistrationIP())); ?>
 
-<?php include_component('members', 'MemberIpBlock', 
+<?php include_component('members', 'MemberIpBlock',
     array('label' => "Last IP", 'ip' => $member->getLastIP())); ?>
-

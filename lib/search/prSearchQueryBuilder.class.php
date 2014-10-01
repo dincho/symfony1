@@ -39,7 +39,7 @@ abstract class prSearchQueryBuilder
                                     'adm1_id' => $areas,
                                 )
             );
-        } else if (!empty($countries)) {
+        } elseif (!empty($countries)) {
             $this->filter[] = array(
                                 'terms' => array(
                                     'country' => $countries,
@@ -160,6 +160,7 @@ abstract class prSearchQueryBuilder
                                     'purpose' => array('M'),
                                 ),
             );
+
             return;
         }
 

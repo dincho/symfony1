@@ -15,4 +15,3 @@ fields:
       nan_error:    Please enter a number
       min:          0
       min_error:    Population must be at least zero
-      

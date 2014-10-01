@@ -1,6 +1,6 @@
 <?php
 
-class prPropelPager extends sfPropelPager 
+class prPropelPager extends sfPropelPager
 {
     public function init()
     {
@@ -15,31 +15,22 @@ class prPropelPager extends sfPropelPager
         $c->setOffset(0);
         $c->setLimit(0);
 
-        if (($this->getPage() == 0 || $this->getMaxPerPage() == 0))
-        {
+        if (($this->getPage() == 0 || $this->getMaxPerPage() == 0)) {
             $this->setLastPage(0);
-        }
-        else
-        {
+        } else {
             $this->setLastPage(ceil($this->getNbResults() / $this->getMaxPerPage()));
 
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
             $c->setOffset($offset);
 
-            if ($hasMaxRecordLimit)
-            {
+            if ($hasMaxRecordLimit) {
                 $maxRecordLimit = $maxRecordLimit - $offset;
-                if ($maxRecordLimit > $this->getMaxPerPage())
-                {
+                if ($maxRecordLimit > $this->getMaxPerPage()) {
                     $c->setLimit($this->getMaxPerPage());
-                }
-                else
-                {
+                } else {
                     $c->setLimit($maxRecordLimit);
                 }
-            }
-            else
-            {
+            } else {
                 $c->setLimit($this->getMaxPerPage());
             }
         }
@@ -70,6 +61,7 @@ class prPropelPager extends sfPropelPager
         $stmt = $con->PrepareStatement($cSQL);
         $rs = $stmt->executeQuery();
         $rs->next();
+
         return $rs->getInt('cnt');
     }
 }

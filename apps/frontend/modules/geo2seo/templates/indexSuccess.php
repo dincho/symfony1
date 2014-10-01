@@ -19,6 +19,6 @@
       <?php endforeach; ?>
     </table>
     <?php endforeach; ?>
-    
+
     <br class="clear" />
 </div>

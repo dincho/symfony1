@@ -3,7 +3,7 @@
     <?php echo __('You are here: ')?>
     <?php $BC = $sf_user->getBC(); ?>
     <?php $stack = $BC->getStack(); $cnt = count($stack)-1; //do not add link to last element ?>
-    
+
     <?php for( $i=0; $i<$cnt; $i++ ): ?>
       <?php $name = ( !isset($stack[$i]['tr']) || $stack[$i]['tr'] ) ? __($BC->getElementName($i)) : $BC->getElementName($i); ?>
       <?php echo (( isset($stack[$i]['uri']) ) ? link_to($name, $stack[$i]['uri']) : $name). $BC->getDelimiter(); ?>

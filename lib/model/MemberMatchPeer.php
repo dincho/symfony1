@@ -2,10 +2,10 @@
 
 /**
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MemberMatchPeer
 {
     const SORT_SCORE = 1;
@@ -17,7 +17,7 @@ class MemberMatchPeer
         if (!$client) {
             $client = new Elasticsearch\Client();
         }
-        
+
         $index = new prSearchIndex($client);
         $index->updateIndex($memberObj);
     }
@@ -30,7 +30,7 @@ class MemberMatchPeer
         if (0 == count($matchDocuments)) {
             return array(array(), 0);
         }
-        
+
         //pluck by ID property of all members
         $memberIds = array();
         foreach ($matchDocuments as $doc) {
@@ -83,6 +83,7 @@ class MemberMatchPeer
     public static function getMatch(Member $memberObj, Member $matchingMember)
     {
         $members = self::populateMemberMatches($memberObj, array($matchingMember));
+
         return $members[0]->getMemberMatch();
     }
 
@@ -93,19 +94,19 @@ class MemberMatchPeer
         //only oposite orientation
         $c->add(MemberPeer::SEX, $member->getLookingFor());
         $c->add(MemberPeer::LOOKING_FOR, $member->getSex());
-        
+
         //filter only visible catalogs
         $catalog = $member->getCatalogue();
         $c->add(MemberPeer::CATALOG_ID, $catalog->getVisibleCatalogs(), Criteria::IN);
 
         // does not seems to work
-        $privacyJoin = sprintf('%s AND %s = %d', 
+        $privacyJoin = sprintf('%s AND %s = %d',
             OpenPrivacyPeer::PROFILE_ID,
             OpenPrivacyPeer::MEMBER_ID,
             $member->getId()
         );
 
-        $privacyCheck = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE", 
+        $privacyCheck = sprintf("IF(%s = 1 AND %s IS NULL, FALSE, TRUE) = TRUE",
             MemberPeer::PRIVATE_DATING,
             OpenPrivacyPeer::ID
         );

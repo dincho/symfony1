@@ -48,7 +48,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
     {
         $member = $notification->getMemberRelatedByProfileId();
         $con = sfContext::getInstance()->getController();
-        
+
         switch ($notification->getType()) {
             case self::VISIT:
                 $message =  __(

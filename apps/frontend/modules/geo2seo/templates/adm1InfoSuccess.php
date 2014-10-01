@@ -11,13 +11,13 @@
     <fieldset>
         <?php echo pr_label_for('email', __('Your email') . '<span style="color:red;">*</span>') ?>
         <?php echo input_tag('email') ?><br />
-        
+
         <?php echo pr_label_for('password', __('Create Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('password') ?><br />
-        
+
         <?php echo pr_label_for('repeat_password', __('Repeat Password') . '<span style="color:red;">*</span>') ?>
         <?php echo input_password_tag('repeat_password') ?><br />
-        
+
         <?php echo pr_label_for('looking_for', __('You are') . '<span style="color:red;">*</span>') ?>
         <?php echo select_tag('looking_for', looking_for_options()) ?><br />
 
@@ -33,9 +33,9 @@
         </div><br  />
     </fieldset>
     <div id="ajax_response"></div>
-    
+
     <br class="clear" />
-    
+
     <div id="tos_container">
     <?php $tos_text = __('I am 18 or older and I agree to the <a href="%URL_FOR_TERMS%" class="sec_link">Terms of Use</a> and <a href="%URL_FOR_PRIVACY_POLICY%" class="sec_link">Privacy Policy</a>.') ?>
       <?php echo pr_label_for('tos', $tos_text, array('class' => 'tos'), false) ?>

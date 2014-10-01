@@ -1,4 +1,4 @@
-<?php 
+<?php
 $lang_answers = ( isset($member_answers[$question->getId()]) ) ? $member_answers[$question->getId()]->getOtherLangs() : array();
 $req_answers = $sf_data->getRaw('sf_request')->getParameter('answers');
 //if $lang_answers is not array the count return 1
@@ -27,7 +27,7 @@ function hide_lang_row(id)
 {
     $("answers_'.$question->getId().'_" + id.toString()).value = null;
     $("answers_'.$question->getId().'_lang_levels_" + id.toString()).value = null;
-    
+
     $("lang_container_" + id.toString()).hide();
     hidden_lang_ids.push(id);
 }

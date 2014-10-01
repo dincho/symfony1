@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'member_rate' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class MemberRatePeer extends BaseMemberRatePeer
 {
     public static function getRatersForLoginNotification(BaseMember $member)
@@ -17,7 +17,7 @@ class MemberRatePeer extends BaseMemberRatePeer
 
         $ids = array();
         $rs = self::doSelectRS($c);
-        while($rs->next()) {
+        while ($rs->next()) {
             $ids[] = $rs->getInt(1);
         }
 

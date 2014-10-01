@@ -4,8 +4,6 @@
     Total: <?php echo format_number($pager->getNbResults()) ?>
 </div>
 
-
-
 <table class="zebra">
   <thead>
     <tr>
@@ -28,7 +26,7 @@
     <?php $ret_uri = base64_encode('geo/citiesWithoutCoordinates?cancel=1&page=' . $sf_request->getParameter('page', 1)); ?>
     <td><?php echo link_to($member->getCity(), 'geo/edit?id=' . $member->getCityId() .
                             '&ret_uri=' . $ret_uri) ?></td>
-    
+
   </tr>
   <?php endforeach; ?>
   </tbody>

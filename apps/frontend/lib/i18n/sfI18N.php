@@ -17,20 +17,17 @@
  */
 class sfI18N
 {
-  protected
-    $context             = null,
+  protected $context             = null,
     $globalMessageSource = null,
     $messageSource       = null,
     $messageFormat       = null,
     $predefined_hashes   = array();
 
-  static protected
-    $instance            = null;
+  protected static $instance            = null;
 
-  static public function getInstance()
+  public static function getInstance()
   {
-    if (!isset(self::$instance))
-    {
+    if (!isset(self::$instance)) {
       $class = __CLASS__;
       self::$instance = new $class();
     }
@@ -50,11 +47,10 @@ class sfI18N
   {
       $this->predefined_hashes[$key] = $value;
   }
-  
+
   public function getPredefinedHashes()
   {
-      if( empty($this->predefined_hashes) )
-      {
+      if ( empty($this->predefined_hashes) ) {
         $con = $this->context->getController();
         $this->predefined_hashes = array_merge($this->predefined_hashes, array('%URL_FOR_DASHBOARD%' => $con->genUrl('@dashboard'),
                      '%URL_FOR_SEARCH%' => $con->genUrl('@matches'),
@@ -102,10 +98,11 @@ class sfI18N
                      '%URL_FOR_WRITING_TIPS%' => $con->genUrl('@page?slug=writing_tips'),
                      '%URL_FOR_FEED_PROFILES%' => $con->genUrl('@profiles_feed'),
                     ));
-      }                      
+      }
+
       return $this->predefined_hashes;
   }
-  
+
   public function setMessageSourceDir($dir, $culture)
   {
     $this->messageSource = $this->createMessageSource($dir);
@@ -118,17 +115,13 @@ class sfI18N
 
   public function createMessageSource($dir)
   {
-    if (in_array(sfConfig::get('sf_i18n_source'), array('Creole', 'MySQL', 'SQLite', 'pdMySQL')))
-    {
+    if (in_array(sfConfig::get('sf_i18n_source'), array('Creole', 'MySQL', 'SQLite', 'pdMySQL'))) {
       $messageSource = sfMessageSource::factory(sfConfig::get('sf_i18n_source'), sfConfig::get('sf_i18n_database', 'default'));
-    }
-    else
-    {
+    } else {
       $messageSource = sfMessageSource::factory(sfConfig::get('sf_i18n_source'), $dir);
     }
 
-    if (sfConfig::get('sf_i18n_cache'))
-    {
+    if (sfConfig::get('sf_i18n_cache')) {
       $subdir   = str_replace(str_replace('/', DIRECTORY_SEPARATOR, sfConfig::get('sf_root_dir')), '', $dir);
       $cacheDir = str_replace('/', DIRECTORY_SEPARATOR, sfConfig::get('sf_i18n_cache_dir').$subdir);
 
@@ -148,8 +141,7 @@ class sfI18N
   {
     $messageFormat = new sfMessageFormat($source, sfConfig::get('sf_charset'));
 
-    if (sfConfig::get('sf_debug') && sfConfig::get('sf_i18n_debug'))
-    {
+    if (sfConfig::get('sf_debug') && sfConfig::get('sf_i18n_debug')) {
       $messageFormat->setUntranslatedPS(array(sfConfig::get('sf_i18n_untranslated_prefix'), sfConfig::get('sf_i18n_untranslated_suffix')));
     }
 
@@ -158,8 +150,7 @@ class sfI18N
 
   public function setCulture($culture)
   {
-    if ($this->messageSource)
-    {
+    if ($this->messageSource) {
       $this->messageSource->setCulture($culture);
       $this->messageFormat = $this->createMessageFormat($this->messageSource);
     }
@@ -190,16 +181,14 @@ class sfI18N
 
   public function __($string, $args = array(), $catalogue = 'messages')
   {
-      if( is_array($args) )
-      {
+      if ( is_array($args) ) {
        $args = array_merge($this->getPredefinedHashes(), $args);
       } else {
        $args = $this->getPredefinedHashes();
       }
     $retval = $this->messageFormat->formatExists($string, $args, $catalogue);
 
-    if (!$retval)
-    {
+    if (!$retval) {
       $retval = $this->globalMessageFormat->format($string, $args, $catalogue);
     }
 
@@ -217,6 +206,7 @@ class sfI18N
   public static function getNativeName($culture)
   {
     $cult = new sfCultureInfo($culture);
+
     return $cult->getNativeName();
   }
 
@@ -254,13 +244,10 @@ class sfI18N
     $datePositions = array_flip($c);
 
     // We find all elements
-    if (preg_match("~$dateRegexp~", $date, $matches))
-    {
+    if (preg_match("~$dateRegexp~", $date, $matches)) {
       // We get matching timestamp
       return array($matches[$datePositions['d']], $matches[$datePositions['m']], $matches[$datePositions['y']]);
-    }
-    else
-    {
+    } else {
       return null;
     }
   }
@@ -295,21 +282,17 @@ class sfI18N
     $i = 0;
     $c = array();
 
-    foreach ($tmp as $value)
-    {
+    foreach ($tmp as $value) {
       $c[++$i] = $value;
     }
 
     $timePositions = array_flip($c);
 
     // We find all elements
-    if (preg_match("~$timeRegexp~", $time, $matches))
-    {
+    if (preg_match("~$timeRegexp~", $time, $matches)) {
       // We get matching timestamp
       return array($matches[$timePositions['h']], $matches[$timePositions['m']]);
-    }
-    else
-    {
+    } else {
       return null;
     }
   }

@@ -4,15 +4,14 @@
 
 <?php echo form_tag('photos/addToHomepage') ?>
     <?php echo input_hidden_tag('photo_id', $photo->getId()) ?>
-    
+
     <div class="form_fields float-left">
         <label style="width: 140px">Homepage set</label>
         <?php echo select_tag('homepages_set', options_for_select(array(1 => 'S1', 2 => 'S2', 3 => 'S3'), $homepages_set, 'include_blank=true'), array('class' => 'limit_input')) ?><br />
         <label style="width: 140px">Homepage position</label>
         <?php echo select_tag('homepages_pos', options_for_select(array(1 => 'A1', 2 => 'B1', 3 => 'C1', 4 => 'A2', 5 => 'B2', 6 => 'C2', 7 => 'A3', 8 => 'B3', 9 => 'C3'), $homepages_pos, 'include_blank=true'), array('class' => 'limit_input')) ?><br />
     </div><br /><br /><br />
-    
-    
+
     <table class="zebra" style="width: 300px">
         <tr>
             <th colspan="2">Languages</th>
@@ -24,7 +23,7 @@
             </tr>
         <?php endforeach; ?>
     </table>
-    
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'photos/stockPhotos') ?>
         <?php echo submit_tag('Next') ?>

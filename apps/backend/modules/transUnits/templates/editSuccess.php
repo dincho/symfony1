@@ -10,7 +10,6 @@
     <br />
 <?php endif; ?>
 
-
 <?php echo form_tag('transUnits/edit', 'class=form') ?>
     <?php echo object_input_hidden_tag($trans_unit, 'getId', 'class=hidden') ?>
     <div class="legend">Edit Translation Unit</div>
@@ -24,7 +23,7 @@
         <div style="float:left;">
             <label for="source">Source:</label>
             <?php echo object_textarea_tag($trans_unit, 'getSource', array('size' => '60x5')) ?><br/>
-        
+
             <?php if ($trans_unit->getCatalogue()->getTargetLang() != 'en' && $en_trans_unit): ?>
                 <label for="en_target">English Target:</label>
                 <?php echo object_textarea_tag(
@@ -33,20 +32,20 @@
                     array('size' => '60x5', 'control_name' => 'en_target')
                 ) ?><br/>
             <?php endif; ?>
-    
+
             <label for="target">Target:</label>
             <?php echo object_textarea_tag($trans_unit, 'getTarget', array('size' => '60x5')) ?><br/>
-    
+
             <label for="tags">Tags:</label>
             <?php echo object_textarea_tag($trans_unit, 'getTags', array('size' => '60x5')) ?><br/>
-            
+
             <label for="link">Link:</label>
             <?php echo object_input_tag($trans_unit, 'getLink', array('style' => 'width: 350px')) ?>
             <?php if ($trans_unit->getLink()) {
                 echo link_to('Open', $trans_unit->getLink(), array('popup' => true, 'class' => 'float-left'));
             } ?>
             <br/>
-    
+
             <label for="translated">Translated:</label>
             <?php echo object_checkbox_tag($trans_unit, 'getTranslated', array('class' => 'checkbox')) ?>
         </div>
@@ -60,7 +59,7 @@
             )?>
         </div>
     </fieldset>
-    
+
     <fieldset class="actions">
         <?php $cancel_param = (strpos($sf_user->getRefererUrl(), "?")) ? '&cancel=1' : '?cancel=1'; ?>
         <?php echo button_to('Cancel', $sf_user->getRefererUrl() . $cancel_param) .
@@ -72,4 +71,3 @@
             submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
-

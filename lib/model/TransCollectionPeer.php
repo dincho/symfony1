@@ -3,10 +3,10 @@
 /**
  * Subclass for performing query and update operations on the 'trans_collection' table.
  *
- * 
+ *
  *
  * @package lib.model
- */ 
+ */
 class TransCollectionPeer extends BaseTransCollectionPeer
 {
     const HOMEPAGE = 1;
@@ -27,7 +27,7 @@ class TransCollectionPeer extends BaseTransCollectionPeer
     const IMBRA_APP = 16;
     const SYSTEM_MESSAGES = 18;
     const ASSISTANT = 19;
-    
+
     public static function getCollection($id, Catalogue $catalog)
     {
         $c = new Criteria();
@@ -35,15 +35,14 @@ class TransCollectionPeer extends BaseTransCollectionPeer
         $c->addJoin(MsgCollectionPeer::TRANS_COLLECTION_ID, TransCollectionPeer::ID);
         $c->add(TransUnitPeer::CAT_ID, $catalog->getCatId());
         $c->add(TransCollectionPeer::ID, $id);
-        
+
         $trans = TransUnitPeer::doSelect($c);
-        
+
         $ret = array();
-        foreach ($trans as $tran)
-        {
+        foreach ($trans as $tran) {
             $ret[$tran->getMsgCollectionId()] = $tran;
         }
-        
+
         return $ret;
     }
 }

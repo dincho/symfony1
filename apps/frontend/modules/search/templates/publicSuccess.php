@@ -11,7 +11,7 @@
               <?php echo select_tag('filters[looking_for]', looking_for_options(isset($filters['looking_for']) ? $filters['looking_for'] : null)) ?>
             </td>
             <td>
-                <?php echo __('Age'); ?> 
+                <?php echo __('Age'); ?>
                 <?php echo input_tag('filters[age_from]', isset($filters['age_from']) ? $filters['age_from'] : 18, array('class' => 'age')) ?>
                 &nbsp;<?php echo __('to') ?>&nbsp;
                 <?php echo input_tag('filters[age_to]',  isset($filters['age_to']) ? $filters['age_to'] : 35, array('class' => 'age')) ?>
@@ -33,7 +33,7 @@
         <tr class="search_filter_bottom_row">
             <td></td>
             <td></td>
-    
+
             <td><?php echo link_to_ref(__('Select Countries'), 'search/selectCountries', array('class' => 'sec_link')) ?></td>
             <td></td>
             <td><?php echo link_to(__('Select Cities'), 'search/selectAreas?country=PL&polish_cities=1', array('class' => 'sec_link')) ?></td>
@@ -42,7 +42,7 @@
             <td colspan="5"><?php echo submit_tag(__('Search'), array('class' => 'button','name' => 'filter', 'onclick' => "show_loader('match_results','".__('Updating Results...')."'))")) ?></td>
         </tr>
       </tbody>
-  </table> 
+  </table>
 
 </form>
 
@@ -67,11 +67,11 @@
                        <?php echo distance_of_time_in_words($member->getLastLogin(null)); ?>
                     </p>
                 </div>
-            </div>  
+            </div>
             <?php if( $i < 12 && $i%3 == 0): ?>
             </div>
             <div class="member">
-            <?php endif; ?>  
+            <?php endif; ?>
         <?php $i++;endforeach; ?>
     </div>
     <?php include_partial('public_pager'); ?>

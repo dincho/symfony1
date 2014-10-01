@@ -3,8 +3,7 @@ default:
   credentials:  [[ feedback, feedback_edit ]]
 create:
   credentials: feedback_edit
-edit: 
+edit:
   credentials: feedback_edit
 delete:
   credentials: feedback_edit
-

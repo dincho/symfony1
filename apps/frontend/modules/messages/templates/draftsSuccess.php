@@ -10,22 +10,22 @@
         <?php $action = 'messages/drafts?confirm_delete_draft=1&form_id=messages_form_draft'; ?>
     <?php endif; ?>
 
-    <?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft')) ?>    
+    <?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft')) ?>
         <?php include_partial(
             'actionsdraft',
             array(
-                'form_name' => 'messages_form_draft', 
+                'form_name' => 'messages_form_draft',
                 'no_read_unread' => true
             )
         ); ?>
-        <table cellspacing="0" cellpadding="0" class="messages" id="draft_messages"> 
+        <table cellspacing="0" cellpadding="0" class="messages" id="draft_messages">
         <?php foreach ($pager->getResults() as $message): ?>
             <?php unset($class); ?>
             <?php $is_selected = in_array($message->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-            <?php if( $sf_request->getParameter('confirm_delete_draft') && $is_selected ): ?> 
+            <?php if( $sf_request->getParameter('confirm_delete_draft') && $is_selected ): ?>
                 <?php $class = 'delete'; ?>
             <?php endif; ?>
-            
+
             <?php if( $message->getThreadId() ): ?>
                 <?php $message_form_link = 'messages/thread?draft_id='.$message->getId().'&id=' . $message->getThreadId() ?>
             <?php else: ?>
@@ -33,9 +33,9 @@
             <?php endif; ?>
 
             <tr <?php if(isset($class)) echo 'class="' . $class . '"'?> >
-                <td class="unread_circle">&nbsp;</td>          
+                <td class="unread_circle">&nbsp;</td>
                 <td class="checkboxes"><?php echo checkbox_tag('selected[]', $message->getId(), $is_selected, array('class' => 'checkbox')) ?></td>
-              
+
                 <td class="profile_image"><?php echo link_to(profile_thumbnail_photo_tag($message->getMemberRelatedByRecipientId()), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername()); ?></td>
                 <td class="message_from">
                 <?php echo link_to($message->getMemberRelatedByRecipientId()->getUsername(), '@profile?username=' . $message->getMemberRelatedByRecipientId()->getUsername(), array('class' => 'sec_link')) ?>
@@ -51,7 +51,7 @@
         <?php include_partial(
             'actionsdraft',
             array(
-                'form_name' => 'messages_form_draft', 
+                'form_name' => 'messages_form_draft',
                 'no_read_unread' => true
             )
         ); ?>

@@ -7,21 +7,20 @@
     <?php endif; ?>
     <div class="legend">Add new country</div>
     <fieldset class="form_fields">
-        
+
         <label for="name">Name:</label>
         <?php echo input_tag('name', null, array('size' => 50, 'maxlength' => 100, 'class' => error_class('name', true))) ?><br />
-        
+
         <label for="iso_code">ISO Code:</label>
         <?php echo input_tag('iso_code', null, array('size' => 4, 'maxlength' => 4, 'class' => error_class('iso_code', true))) ?><br />
 
         <label for="timezone">Timezone</label>
         <?php echo pr_select_timezone_tag('timezone', 'UTC'); ?><br />
-                        
+
     </fieldset>
-    
+
     <fieldset class="actions">
-    <?php echo button_to('Cancel', 'geo/list?cancel=1')  . 
+    <?php echo button_to('Cancel', 'geo/list?cancel=1')  .
                submit_tag('Save', 'class=button') ?>
     </fieldset>
 </form>
-

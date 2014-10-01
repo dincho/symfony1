@@ -9,11 +9,11 @@
             <th><?php echo sortable_title('Profile ID', 'Member::id', $sort_namespace) ?></th>
             <th><?php echo sortable_title('Last Name', 'Member::last_name', $sort_namespace) ?></th>
             <th><?php echo sortable_title('First Name', 'Member::first_name', $sort_namespace) ?></th>
-            <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>            
+            <th><?php echo sortable_title('Subscription', 'Subscription::title', $sort_namespace) ?></th>
             <th></th>
         </tr>
     </thead>
-    
+
 <?php foreach ($pager->getResults() as $member): ?>
     <tr rel="<?php echo url_for('flags/profileFlagger?id=' . $member->getId()); ?>" onmouseover="preview_click('<?php echo $member->getId();?>')" onmouseout="preview_clear();"">
         <td><?php echo $member->getCounter('SentFlags'); ?></td>

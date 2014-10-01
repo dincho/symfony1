@@ -6,7 +6,7 @@
             <label for="per_page">per page</label>
             <?php echo link_to_function('&gt;&gt;', 'document.getElementById("per_page_form").submit();') ?>
             </fieldset>
-        </form>    
+        </form>
 
         <div>
           <?php echo link_to_unless($page == 1, 'Previous', $route . '?page='.($page-1) . '&per_page='.$limit) ?>&nbsp;|

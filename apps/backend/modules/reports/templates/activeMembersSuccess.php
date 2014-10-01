@@ -66,5 +66,5 @@
             </tr>
         <?php $i++;endforeach; ?>
         <tr><td colspan="9" style="background-color: white">&nbsp;</td></tr>
-    <?php endif; ?>    
+    <?php endif; ?>
 </table>

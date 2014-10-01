@@ -8,20 +8,20 @@
         <div class="float-right">
             <label for="profile_max_photos">Display Photos</label>
             <?php echo input_tag('profile_max_photos', sfSettingPeer::valueForCatalogAndName($catalog, 'profile_max_photos'), array('class' => 'mini')) ?><br />
-            
+
             <label for="profile_num_recent_messages">Display Recent Activities</label>
-            <?php echo input_tag('profile_num_recent_activities', sfSettingPeer::valueForCatalogAndName($catalog, 'profile_num_recent_activities'), array('class' => 'mini')) ?><br /> 
-              
+            <?php echo input_tag('profile_num_recent_activities', sfSettingPeer::valueForCatalogAndName($catalog, 'profile_num_recent_activities'), array('class' => 'mini')) ?><br />
+
             <label for="profile_display_video">Display Video</label>
-            <?php echo bool_select_tag('profile_display_video', array(), sfSettingPeer::valueForCatalogAndName($catalog, 'profile_display_video')) ?><br />   
+            <?php echo bool_select_tag('profile_display_video', array(), sfSettingPeer::valueForCatalogAndName($catalog, 'profile_display_video')) ?><br />
         </div>
         <label for="trans_8">Message Panel<br />Signup Preview</label>
         <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
-        
+
         <label for="trans_9">Message Panel<br />Full View from dashboard</label>
         <?php echo textarea_tag('trans[9]', (isset($trans[9])) ? $trans[9]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
     </fieldset>
-    
+
     <fieldset class="form_fields error_msgs_fields" id="labels_120">
         <label style="width: 120px;">Error Messages</label>
         <?php echo input_tag('trans[10]', (isset($trans[10])) ? $trans[10]->getTarget() : null) ?><br />
@@ -51,7 +51,7 @@
 
         <br /><label style="width: 120px;">To Premium members</label><br />
         <label>upg. to send</label><?php echo input_tag('trans[157]', (isset($trans[157])) ? $trans[157]->getTarget() : null) ?><br />
-        <label>send limit</label><?php echo input_tag('trans[158]', (isset($trans[158])) ? $trans[158]->getTarget() : null) ?><br />        
+        <label>send limit</label><?php echo input_tag('trans[158]', (isset($trans[158])) ? $trans[158]->getTarget() : null) ?><br />
         <label>upg. to read</label><?php echo input_tag('trans[153]', (isset($trans[153])) ? $trans[153]->getTarget() : null) ?><br />
         <label>read limit</label><?php echo input_tag('trans[154]', (isset($trans[154])) ? $trans[154]->getTarget() : null) ?><br />
         <label>upg. to reply</label><?php echo input_tag('trans[155]', (isset($trans[155])) ? $trans[155]->getTarget() : null) ?><br />
@@ -63,7 +63,7 @@
         <label>cont. assist. limit</label><?php echo input_tag('trans[163]', (isset($trans[163])) ? $trans[163]->getTarget() : null) ?><br />
         <label>upg. to wink</label><?php echo input_tag('trans[164]', (isset($trans[164])) ? $trans[164]->getTarget() : null) ?><br />
         <label>wink limit</label><?php echo input_tag('trans[165]', (isset($trans[165])) ? $trans[165]->getTarget() : null) ?><br />
-                
+
         <br /><label style="width: 120px;">To VIP members</label><br />
         <label>upg. to send</label><?php echo input_tag('trans[126]', (isset($trans[126])) ? $trans[126]->getTarget() : null) ?><br />
         <label>send limit</label><?php echo input_tag('trans[127]', (isset($trans[127])) ? $trans[127]->getTarget() : null) ?><br />
@@ -79,7 +79,7 @@
         <label>upg. to wink</label><?php echo input_tag('trans[133]', (isset($trans[133])) ? $trans[133]->getTarget() : null) ?><br />
         <label>wink limit</label><?php echo input_tag('trans[134]', (isset($trans[134])) ? $trans[134]->getTarget() : null) ?><br />
     </fieldset>
-    
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'content/profilepages?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>

@@ -11,7 +11,7 @@
        class="<?php echo ($active == "drafts") ? "active_group" : "" ?>">
             <?php echo __('Draft Messages (%NUM_DRAFTS%)', array('%NUM_DRAFTS%' => $cntDrafts)) ?>
     </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="<?php echo url_for('messages/sent') ?>" 
+    <a href="<?php echo url_for('messages/sent') ?>"
        id="sent_messages"
        rel="messages_form_sent"
        class="<?php echo ($active == "sent") ? "active_group" : "" ?>">

@@ -24,7 +24,7 @@ class FeedbackTemplatePeer extends BaseFeedbackTemplatePeer
 
         return $tags;
     }
-    
+
     public static function getTagsWithKeys()
     {
         $ret = array();

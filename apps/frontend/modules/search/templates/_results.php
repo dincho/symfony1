@@ -5,7 +5,7 @@
     <?php include_partial('content/pager', array('pager' => $pager, 'route' => $route)); ?>
     <div class="member">
         <?php $i=1;foreach($pager->members as $member): ?>
-            <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">  
+            <div class="member_box <?php echo ($i%3 == 0) ? 'last_box' :''; ?>">
                 <div class="header">
                     <div class="age"><?php echo $member->getAge() ?></div>
                     <div class="headline"><?php echo Tools::truncate($member->getEssayHeadline(), 35) ?></div>
@@ -18,10 +18,9 @@
                     <?php endif; ?>
 
                   <p class="profile_location_mini"><?php echo Tools::truncate(pr_format_country($member->getCountry()) . ', ' . $member->getCity(), 45) ?></p>
-                  
-                  
+
                   <p>
-                    <?php echo link_to_ref(__('View Profile'), '@profile?username=' . $member->getUsername() . '&page=' . $ppo, array('class' => 'sec_link')) . ' | ' ?> 
+                    <?php echo link_to_ref(__('View Profile'), '@profile?username=' . $member->getUsername() . '&page=' . $ppo, array('class' => 'sec_link')) . ' | ' ?>
                     <?php $hotlist_link_title = ( $sf_user->getProfile()->hasInHotlist($member->getId()) ) ? __('Remove from Hotlist') : __('Add to Hotlist'); ?>
                     <?php echo link_to_remote($hotlist_link_title,
                                               array('url'     => 'hotlist/toggle?update_selector=hotlist_link_'.$member->getId().'&profile_id=' . $member->getId(),
@@ -29,7 +28,7 @@
                                                     'script'  => true
                                                   ),
                                               array('class' => 'sec_link',
-                                                    'id'    => 'hotlist_link_' . $member->getId(), 
+                                                    'id'    => 'hotlist_link_' . $member->getId(),
                                                     )
                                 ); ?>
                   </p>
@@ -42,11 +41,11 @@
                   <?php endif; ?>
                   <p><?php echo __('You match %her_him%: %REVERSE_MATCH%%', array('%REVERSE_MATCH%' => $member->getMemberMatch()->getReversePct(), '%her_him%' => ( $member->getSex() == 'M' ) ? __('him') : __('her'))) ?></p>
               </div>
-            </div>  
+            </div>
             <?php if( $i < $pager->getMaxPerPage() && $i%3 == 0): ?>
             </div>
             <div class="member">
-            <?php endif; ?>  
+            <?php endif; ?>
         <?php $i++;endforeach; ?>
     </div>
     <?php include_partial('content/pager', array('pager' => $pager, 'route' => $route)); ?>

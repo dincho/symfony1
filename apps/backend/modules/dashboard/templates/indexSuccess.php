@@ -4,13 +4,13 @@
     <th>
     </th>
     <th>
-	less than 2 days
+    less than 2 days
     </th>
     <th>
-	3-7 days
+    3-7 days
     </th>
     <th>
-	8 days and older
+    8 days and older
     </th>
 </tr>
     <tr>

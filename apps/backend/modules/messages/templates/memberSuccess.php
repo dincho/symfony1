@@ -11,7 +11,7 @@
             <thead>
                  <tr>
                     <td colspan="7">
-                        Select: <?php echo link_to_function('All', 'msg_select(document.forms.member_messages.elements["marked[]"], true)') ?>, 
+                        Select: <?php echo link_to_function('All', 'msg_select(document.forms.member_messages.elements["marked[]"], true)') ?>,
                                 <?php echo link_to_function('None', 'msg_select(document.forms.member_messages.elements["marked[]"], false)') ?>
                     </td>
                  </tr>
@@ -27,7 +27,7 @@
                     <?php endif; ?>
                 </tr>
             </thead>
- 
+
         <?php foreach ($pager->getResults() as $message): ?>
             <tr rel="<?php echo url_for('messages/conversation?id=' . $message->getThreadId() . '&received_only=' . $received_only . '&member_id=' . $member->getId()) ?>" onmouseover="preview_click('<?php echo $message->getId();?>')">
                 <td class="marked"><?php echo checkbox_tag('marked[]', $message->getId(), null) ?></td>
@@ -44,9 +44,9 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-        
+
         </table>
-      
+
     </div>
 
     <div class="text-left">

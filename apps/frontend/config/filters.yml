@@ -32,11 +32,11 @@ domainsFilter:
 
 sf_google_analytics_plugin:
   class: sfGoogleAnalyticsFilter
-             
+
 cache:     ~
 
 common:
     class: <?php echo (SF_ENVIRONMENT == 'dev' || SF_ENVIRONMENT == 'test') ? 'sfCommonFilter' : 'sfOptimizeStyleAndScript', "\n" ?>
-  
+
 flash:     ~
 execution: ~

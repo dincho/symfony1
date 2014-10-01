@@ -6,24 +6,24 @@
 <div id="profile_left" style="padding-top: 9px">
     <p class="photo_authenticity"><?php echo ($member->hasAuthPhoto()) ? __('photo authenticity verified') : __('photo authenticity not verified'); ?></p><br class="clear" />
     <div style="min-height: 350px">
-        <?php 
+        <?php
               _addLbRessources();
-              
+
               if( !is_null($member->getMainPhotoId()) ): //has main photo
-                
-                echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')), 
+
+                echo content_tag('a', image_tag($member->getMainPhoto()->getImg('350x350', 'file'), array('id' => 'member_image')),
                                     array('href' => $member->getMainPhoto()->getImg(null, 'file'),
                                           'rel' => 'lightbox[public_photos]',
                                           'title' => $member->getUsername(),
                                           'id' => 'member_image_link'
                                 ));
-                
+
               else: //has no main photo ( this means no photos at all ), so lightbox and link should not be applied
                 echo image_tag($member->getMainPhoto()->getImg('350x350', 'file'));
-              endif; 
+              endif;
         ?>
     </div>
-    
+
     <?php include_partial('profile/photos', array('photos' => $public_photos, 'member' => $member, 'block_id' => 'public_photos')); ?>
 
     <?php if( count($private_photos) > 0 ): ?>
@@ -33,7 +33,7 @@
             <?php echo image_tag('/images/no_photo/'. $member->getSex() .'/50x50_lock.jpg', array('class' => 'thumb')); ?>
         <?php endfor; ?>
     <?php endif; ?>
-        
+
     <?php if( sfConfig::get('app_settings_profile_display_video') && $member->getYoutubeVid() ): ?>
         <br /><br />
         <object width="350" height="355">
@@ -45,9 +45,9 @@
     <p style="width: 350px;"><?php echo nl2br($member->getEssayIntroduction()) ?></p>
 </div>
 
-<div id="profile_right"> 
+<div id="profile_right">
    <div id="profile_pager"></div>
-   
+
    <div id="profile_top">
         <span class="sec_link"><?php echo __('Wink');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;
         <span class="sec_link"><?php echo __('Send Mail');?></span>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;

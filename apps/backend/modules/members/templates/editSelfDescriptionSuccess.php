@@ -11,7 +11,7 @@
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/editRegistration?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>
   </fieldset>
-    
+
   <fieldset class="form_fields">
     <?php $i=0; ?>
     <?php foreach ($questions as $question): ?>
@@ -32,9 +32,9 @@
         <?php include_partial('members/self_description/question_type_other_langs', array('question' => $question, 'member_answers' => $member_answers, 'answers' => $answers)); ?>
         <?php include_partial('members/self_description/question_other_checkbox', array('question' => $question, 'member_answers' => $member_answers) ); ?>
       <?php endif; ?>
-    <?php endforeach; ?> 
-  </fieldset> 
-  
+    <?php endforeach; ?>
+  </fieldset>
+
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/editRegistration?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button') ?>
   </fieldset>

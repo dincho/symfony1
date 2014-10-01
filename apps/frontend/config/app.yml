@@ -44,7 +44,7 @@ all:
         date:             getUpdatedAt
         order_by:         { peer: MemberStoryPeer, column: SORT_ORDER, method: SortOrder, sort: asc }
         freq:             weekly
-        priority:         0.5  
+        priority:         0.5
       model_profiles:
         model:            Member
         route:            @public_profile
@@ -59,8 +59,8 @@ all:
         priority:         0.5
   cse_id:
       en:   "014252771680410157097:dm1temprble"
-      pl:   "014252771680410157097:cjbkxr0dyga"          
-    
+      pl:   "014252771680410157097:cjbkxr0dyga"
+
   dotpay:
     url:        https://ssl.dotpay.pl/
     ip_address: "195.150.9.37"
@@ -92,7 +92,7 @@ dev:
     secret:               I92JsuHT04r6fZNl
     callback_url:         http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/dotpay.html
     test_mode:            yes
-    
+
   title_prefix:
     polishdate_bonex_us:     "PolishDate (dev) - "
     pl_polishdate_bonex_us:  "SzukamMilionera.com (dev) - "
@@ -100,7 +100,7 @@ dev:
     mm_polishdate_bonex_us:  "MeskaMilosc.pl (dev) - "
   sf_google_analytics_plugin:
     enabled:                no
-    
+
 stag:
   gmaps_key:
     polishdate_bonex_us:          ABQIAAAAZ8CWR0Ug1byIqYVeuFfIYhT1t4zxXDUL8-uvkn_t4boESsZvkhRnb6N6jyVnR8UNM-tg1IE552KCJg
@@ -137,7 +137,7 @@ stag:
     db_polishdate_bonex_us:  "DatingBistro.com (stag) - "
     dh_polishdate_bonex_us:  "DatingOnHudson.com (stag) - "
   sf_google_analytics_plugin:
-    enabled:                no 
+    enabled:                no
 
 test:
   paypal:
@@ -194,4 +194,4 @@ prod:
     insertion:    bottom
     params:
       domain_name:   none
-      linker_policy: true      
+      linker_policy: true

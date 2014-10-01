@@ -5,14 +5,14 @@
 <div class="legend">Member Information</div>
 
 <?php echo form_tag('members/edit', 'class=form') ?>
-  
+
   <?php echo object_input_hidden_tag($member, 'getId', 'class=hidden') ?>
-  
+
   <?php include_partial('members/subMenu', array('member' => $member, 'class' => 'top')); ?>
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/edit?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button name=submit_save') ?>
   </fieldset>
-  
+
   <table class="details">
       <tr>
           <td class="form_fields" style="vertical-align: top; padding-right: 0">
@@ -28,7 +28,7 @@
             <hr />
             <?php $unread = $member->getUnreadFeedback() ?>
             <?php $unread = $unread ? '<strong>' . $unread . '</strong>' : $unread ?>
-            <?php echo link_to(__('Feedback ( %UNREAD% / %ALL% )', 
+            <?php echo link_to(__('Feedback ( %UNREAD% / %ALL% )',
                               array('%UNREAD%' => $unread, '%ALL%' => $member->getAllFeedback() )),
                             'feedback/list?filter=filter&commit=Search&filters[search_type]=username&filters[search_query]=' . $member->getUsername())  ?>
           </td>
@@ -36,7 +36,7 @@
   </table>
 
   <?php include_partial('flags/member_flagged', array('flags' => $flags)); ?>
-  
+
   <fieldset class="actions">
     <?php echo button_to('Cancel', 'members/edit?cancel=1&id=' . $member->getId())  . submit_tag('Save', 'class=button name=submit_save') ?>
   </fieldset>

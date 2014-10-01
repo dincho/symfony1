@@ -10,7 +10,7 @@ stag:
     optimizer_js_lifetime:    86400        # lifetime for js file, in second
     optimizer_js_compressed:  true        # compress merged result with JsMin
     optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
-    optimizer_css_compressed: true        # compress merged result with JsMin    
+    optimizer_css_compressed: true        # compress merged result with JsMin
 
 prod:
   .settings:
@@ -24,7 +24,7 @@ prod:
     optimizer_js_lifetime:    86400        # lifetime for js file, in second
     optimizer_js_compressed:  true        # compress merged result with JsMin
     optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
-    optimizer_css_compressed: true        # compress merged result with JsMin    
+    optimizer_css_compressed: true        # compress merged result with JsMin
 
 dev:
   .settings:
@@ -59,7 +59,7 @@ all:
     secure_module:          system   # To be called when a user doesn't have
     secure_action:          secure    # The credentials required for an action
 
-    module_disabled_module: system   # To be called when a user requests 
+    module_disabled_module: system   # To be called when a user requests
     module_disabled_action: disabled  # A module disabled in the module.yml
 
     unavailable_module:     system   # To be called when a user requests a page
@@ -127,10 +127,10 @@ all:
 
     # ORM
     orm:                    propel
-    
+
     #CSS and JS optimizer
     optimizer_dir:            cache        # cache directory in http web dir
     optimizer_js_lifetime:    86400        # lifetime for js file, in second
     optimizer_js_compressed:  false        # compress merged result with JsMin
     optimizer_css_lifetime:   86400        # lifetime for ccs file, in second
-    optimizer_css_compressed: false        # compress merged result with JsMin    
+    optimizer_css_compressed: false        # compress merged result with JsMin

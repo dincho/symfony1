@@ -8,7 +8,7 @@
             <label for="item">IP:</label>
             <?php echo input_tag('ip', long2ip($ipwatch->getIp()), error_class('ip')) ?>
         </fieldset>
-  
+
     <fieldset class="actions">
     <?php echo button_to('Cancel', 'ipwatch/blacklist?cancel=1')  . submit_tag('Save', 'class=button') ?>
     </fieldset>

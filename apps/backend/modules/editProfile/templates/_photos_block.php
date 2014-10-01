@@ -4,15 +4,15 @@
     <?php if( $id == 'public_photos' ): ?>
         <label id="main_photo">Main Photo</label><br />
     <?php endif; ?>
-    
+
     <?php for($i=0; $i<$num_containers; $i++): ?>
         <?php $container_id = $id . '_container_' . $i; ?>
-        <div class="photo_container" id="<?php echo $container_id; ?>" 
+        <div class="photo_container" id="<?php echo $container_id; ?>"
              style="background-image: url('<?php echo $container_bg_image; ?>')">
             <?php if( isset($photos[$i]) ): ?>
                 <?php include_partial('editProfile/photo_slot', array('photo' => $photos[$i])); ?>
             <?php endif; ?>
-            
+
         </div>
         <?php echo drop_receiving_element($container_id, array(
                 'accept' => 'photo',

@@ -9,7 +9,7 @@ class prStraightQueryBuilder extends prScoreQueryBuilder
 
         foreach ($searchCriteriaDescriptions as $idx => $answer) {
             $answers = $answer->getDescAnswersArray();
-            
+
             if (1 === $idx) { //age
                 $dateFrom = new DateTime();
                 $dateFrom->sub(new DateInterval(sprintf('P%sY', $answers[1] - 1)));

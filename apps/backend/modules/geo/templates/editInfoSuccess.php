@@ -6,7 +6,7 @@
     <fieldset class="form_fields">
         <?php echo object_textarea_tag($geo, 'getInfo', array('cols' => 80, 'rows' => 20)) ?>
     </fieldset>
-    
+
     <fieldset class="actions">
         <?php echo button_to('Cancel', 'geo/list?cancel=1') ?>
         <?php echo submit_tag('Save') ?>
@@ -15,7 +15,7 @@
 
 <div class="legend">Photos:</div>
 <?php echo form_tag('geo/uploadPhoto', array('multipart' => true)) ?>
-    
+
     <?php echo  object_input_hidden_tag($geo, 'getId') ?>
     <fieldset>
         <?php echo input_file_tag('new_photo') ?>

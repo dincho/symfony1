@@ -27,7 +27,7 @@
             <td><?php echo number_format($object->getPeriod(), 0, '.', ',') ?></td>
         </tr>
     <?php endforeach; ?>
-</table> 
+</table>
 
 <?php else: ?>
     No members yet

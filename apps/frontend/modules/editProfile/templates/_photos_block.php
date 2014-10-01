@@ -4,7 +4,7 @@
     <?php if( $id == 'public_photos' ): ?>
         <label id="main_photo"><?php echo __('Main Photo'); ?></label>
     <?php endif; ?>
-    
+
     <?php for($i=0; $i<$num_containers; $i++): ?>
         <?php $container_id = $id . '_container_' . $i; ?>
         <div class="photo_container" id="<?php echo $container_id; ?>"
@@ -12,7 +12,7 @@
             <?php if( isset($photos[$i]) ): ?>
                 <?php include_partial('editProfile/photo_slot', array('photo' => $photos[$i])); ?>
             <?php endif; ?>
-            
+
         </div>
         <?php echo drop_receiving_element($container_id, array(
                 'accept' => 'photo',

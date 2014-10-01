@@ -13,7 +13,7 @@
             <span class="float-left" style="padding: 0 20px;"><?php echo __('Previous'); ?></span>
         <?php endif; ?>
     </div>
-    
+
     <div class="next">
 
         <?php if ($pager->getPage() != $pager->getLastPage()): ?>
@@ -29,6 +29,6 @@
             <span class="float-right" style="padding: 0 20px;"><?php echo __('Next'); ?></span>
         <?php endif; ?>
     </div>
-    
+
     <?php echo link_to(__('Return to Results'), $sf_user->getAttribute('last_search_url'), array('class' => 'sec_link')) ?>
 <?php endif; ?>

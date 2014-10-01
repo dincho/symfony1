@@ -1,10 +1,10 @@
 <?php
 /**
- * 
+ *
  * @author Dincho Todorov
  * @version 1.0
  * @created Jan 7, 2009 11:47:49 AM
- * 
+ *
  */
 
 class FrontendProfilePager extends sfPager
@@ -19,7 +19,7 @@ class FrontendProfilePager extends sfPager
         $this->userId = $userId;
         parent::__construct('Member', $maxPerPage = 1);
     }
-    
+
     public static function storeCriteria($userId, $c)
     {
         $cache_dir = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . 'last_search_criteria';
@@ -75,7 +75,7 @@ class FrontendProfilePager extends sfPager
             if ($obj instanceof Criteria) {
                 $obj->setOffset($this->offset);
                 $obj->setLimit(3);
-                
+
                 MemberRatePeer::getMapBuilder(); //force manual map loading because of serialized criteria
                 $this->members = MemberPeer::doSelect($obj);
             } elseif ($obj instanceof prSearchQueryBuilder) {
@@ -95,6 +95,7 @@ class FrontendProfilePager extends sfPager
     protected function retrieveObject($offset)
     {
         $results = $this->getResults();
+
         return (isset($results[$offset])) ? $results[$offset] : null;
     }
 

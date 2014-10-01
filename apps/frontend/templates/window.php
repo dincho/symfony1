@@ -12,9 +12,9 @@
 
 <body class="window">
     <div id="msg_container">
-        <?php if( $sf_data->get('sf_flash')->has('msg_error') || 
-                  $sf_data->get('sf_flash')->has('msg_warning') || 
-                  $sf_data->get('sf_flash')->has('msg_ok') || 
+        <?php if( $sf_data->get('sf_flash')->has('msg_error') ||
+                  $sf_data->get('sf_flash')->has('msg_warning') ||
+                  $sf_data->get('sf_flash')->has('msg_ok') ||
                   $sf_data->get('sf_flash')->has('msg_info') ): ?>
             <?php include_partial('content/messages'); ?>
         <?php endif; ?>
