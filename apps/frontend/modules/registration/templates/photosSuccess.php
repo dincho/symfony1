@@ -17,28 +17,38 @@
 </div>
 <hr/>
 
-<?php include_partial('editProfile/photos_block', array('id' => 'public_photos',
-                                                  'upload_url' => url_for('registration/uploadPhoto?block_id=public_photos'),
-                                                  'photos' => $public_photos,
-                                                  'num_containers' => $subscription->getPostPhotos(),
-                                                  'member' => $member,
-                                                  'upload_button_title' => __('Upload Public Photos'),
-                                                  'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)),
-                                                  'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
+<?php include_partial('editProfile/photos_block',
+                      array(
+                            'id' => 'public_photos',
+                            'upload_url' => url_for('registration/uploadPhoto?block_id=public_photos'),
+                            'photos' => $public_photos,
+                            'num_containers' => $subscription->getPostPhotos(),
+                            'member' => $member,
+                            'upload_button_title' => __('Upload Public Photos'),
+                            'file_upload_limit' => ($subscription->getPostPhotos() - count($public_photos)),
+                            'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg',
+                            'upload_limit_error' => sprintf('%s: For the feature that you want to use - post photo - you have reached the limit up to which you can use it with your membership. In order to post photo, please upgrade your membership.', $subscription->getTitle()),
+                      )
+); ?>
 
 <br class="clear" />
 
 <?php if( $subscription->getCanPostPrivatePhoto() && $subscription->getPostPrivatePhotos() > 0 ): ?>
     <p class="note float-right"><?php echo __('Note: You can upload up to %MAX_PHOTOS% private photos', array('%MAX_PHOTOS%' => $subscription->getPostPrivatePhotos())) ?></p>
     <h3><?php echo __('Private Photos'); ?></h3><hr />
-    <?php include_partial('editProfile/photos_block', array('id' => 'private_photos',
-                                                      'upload_url' => url_for('registration/uploadPhoto?block_id=private_photos'),
-                                                      'photos' => $private_photos,
-                                                      'num_containers' => $subscription->getPostPrivatePhotos(),
-                                                      'member' => $member,
-                                                      'upload_button_title' => __('Upload Private Photos'),
-                                                      'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)),
-                                                      'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg', )); ?>
+    <?php include_partial('editProfile/photos_block',
+                          array(
+                                'id' => 'private_photos',
+                                'upload_url' => url_for('registration/uploadPhoto?block_id=private_photos'),
+                                'photos' => $private_photos,
+                                'num_containers' => $subscription->getPostPrivatePhotos(),
+                                'member' => $member,
+                                'upload_button_title' => __('Upload Private Photos'),
+                                'file_upload_limit' => ($subscription->getPostPrivatePhotos() - count($private_photos)),
+                                'container_bg_image' => '/images/no_photo/'. $sf_user->getProfile()->getSex() . '/x100x100.jpg',
+                                'upload_limit_error' => sprintf('%s: For the feature that you want to use - post private photo - you have reached the limit up to which you can use it with your membership. In order to post private photo, please upgrade your membership.', $subscription->getTitle()),
+                          )
+    ); ?>
     <br class="clear" />
 <?php endif; ?>
 
