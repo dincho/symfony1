@@ -64,17 +64,8 @@ class ThreadPeer extends BaseThreadPeer
 
     private static function addCountMessagesColumn(Criteria $c)
     {
-        $sql = 'SELECT COUNT(*) FROM message WHERE message.thread_id = thread.id';
-
-        if ($c->containsKey(MessagePeer::RECIPIENT_ID)) {
-            $sql .= ' AND message.type != ' . MessagePeer::TYPE_DRAFT . '
-                      AND message.recipient_deleted_at IS NULL';
-        } elseif ($c->containsKey(MessagePeer::SENDER_ID)) {
-            $sql .= ' AND message.type != ' . MessagePeer::TYPE_DRAFT . '
-                      AND message.sender_deleted_at IS NULL';
-        } else {
-            throw new Exception("Unsuppoted query");
-        }
+        $sql = 'SELECT COUNT(*) FROM message WHERE message.thread_id = thread.id
+                    AND message.type != ' . MessagePeer::TYPE_DRAFT;
 
         $c->addAsColumn('cntMessages', '('. $sql .')');
     }
