@@ -82,6 +82,13 @@ class feedbackActions extends sfActions
         }
 
         $selectedMembers = $this->getUser()->getAttributeHolder()->getAll('backend/feedback/selectedMembers');
+        
+        if ($username = $this->getRequestParameter('username')) {
+            $member = MemberPeer::retrieveByUsername($username);
+            $selectedMembers = array($member->getId() => $username);
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/selectedMembers');
+            $this->getUser()->getAttributeHolder()->add($selectedMembers, 'backend/feedback/selectedMembers');
+        }
 
         $this->selectTemplate();
         $this->mail_options = $mail_options;
@@ -322,8 +329,8 @@ class feedbackActions extends sfActions
         $send_filter = $this->getRequestParameter('send_filter', array());
         $crit = $c->getNewCriterion(MemberPeer::ID, null, Criteria::ISNOTNULL);
 
-        if (strlen($this->getRequestParameter('username')) > 0) {
-            $usernames = Tools::getStringRequestParameterAsArray('username');
+        if (strlen($this->getRequestParameter('usernames')) > 0) {
+            $usernames = Tools::getStringRequestParameterAsArray('usernames');
             $crit_usr = $c->getNewCriterion(MemberPeer::USERNAME, $usernames, Criteria::IN);
         }
 

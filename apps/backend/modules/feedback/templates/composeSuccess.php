@@ -10,7 +10,7 @@
     <tbody>
       <tr>
         <th>Username</th>
-        <td><?php echo input_tag('username', ( isset($selectedMembers) ) ? $selectedMembers : $sf_request->getParameter('username') ) ?></td>
+        <td><?php echo input_tag('usernames', $selectedMembers) ?></td>
       </tr>
       <tr>
         <th></th>
