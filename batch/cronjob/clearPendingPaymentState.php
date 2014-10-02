@@ -36,5 +36,6 @@ foreach ($memberSubscriptions as $subscription) {
         $member->save();
     }
 
-    $subscription->delete();
+    $subscription->setStatus('expired');
+    $subscription->save();
 }
