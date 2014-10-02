@@ -68,6 +68,9 @@
         </span>
     </div>
     <img class="js-loader" src="/images/ajax-loader-bg-2B2B2B.gif" alt="Loading..." style="display: none;" />
+    <?php if( $displayFetchLink ): ?>
+        <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
+    <?php endif; ?>
 </div>
 <div id="messages">
     <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
@@ -80,9 +83,6 @@
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
         <?php if( $limit ): ?>
             <?php echo input_hidden_tag('limit', $limit, array('class' => 'hidden')) ?>
-        <?php endif; ?>
-        <?php if( $displayFetchLink ): ?>
-            <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
         <?php endif; ?>
         <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden', 'id' => 'numberOfMessages')) ?>
         <fieldset class="thread_msg">

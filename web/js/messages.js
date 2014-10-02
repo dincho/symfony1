@@ -39,7 +39,7 @@ function loadMessages(ajax) {
 
     //keep offset in sync (why?!)
     fetchLink.setAttribute("data-offset", currentLimit + currentOffset);
-    document.forms[0].displayFetchLink.value = +displayFetchLink; //cast to int
+    document.getElementById("displayFetchLink").value = +displayFetchLink; //cast to int
 
     //show "more" link if anything for pagination
     fetchLink.style.display = (displayFetchLink) ? null : 'none';
