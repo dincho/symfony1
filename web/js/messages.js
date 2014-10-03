@@ -35,20 +35,20 @@ function loadMessages(ajax) {
 
     //hide loader and show navigation
     document.querySelector('#thread_pagination .js-loader').style.display = 'none';
-    nav.style.display = null;
+    nav.style.display = "";
 
     //keep offset in sync (why?!)
     fetchLink.setAttribute("data-offset", currentLimit + currentOffset);
     document.getElementById("displayFetchLink").value = +displayFetchLink; //cast to int
 
     //show "more" link if anything for pagination
-    fetchLink.style.display = (displayFetchLink) ? null : 'none';
+    fetchLink.style.display = (displayFetchLink) ? "" : 'none';
 
     //hide separator is "more" link is hidden
-    sep.style.display = (displayFetchLink) ? null : 'none';
+    sep.style.display = (displayFetchLink) ? "" : 'none';
 
     //if this function is called => at least on "2nd page" => show reload/refresh link
-    document.querySelector('#thread_pagination .js-reload').style.display = null;
+    document.querySelector('#thread_pagination .js-reload').style.display = "";
 
     //keep numberOfMessages hidden field in sync, because of re-population on error
     var nomEl = document.getElementById("numberOfMessages");
@@ -59,5 +59,5 @@ function loadMessages(ajax) {
 function showMessageLoading() {
     //show loader and hide nav
     document.querySelector('#thread_pagination .js-nav').style.display = 'none';
-    document.querySelector('#thread_pagination .js-loader').style.display = null;
+    document.querySelector('#thread_pagination .js-loader').style.display = "";
 }
