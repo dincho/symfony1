@@ -6,7 +6,7 @@
  * @created Feb 15, 2011
  *
  */
-class FVrequiredFIlter extends sfFilter
+class FVrequiredFilter extends sfFilter
 {
     private static $skip_actions = array('content/message', 'content/page',
                                           'profile/signIn', 'profile/signout',
