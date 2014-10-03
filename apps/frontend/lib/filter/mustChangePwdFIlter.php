@@ -6,7 +6,7 @@
  * @created Sep 27, 2008 9:16:46 PM
  *
  */
-class mustChangePwdFIlter extends sfFilter
+class mustChangePwdFilter extends sfFilter
 {
     public function execute($filterChain)
     {

@@ -6,7 +6,7 @@
  * @created Sep 27, 2008 9:16:46 PM
  *
  */
-class statusFIlter extends sfFilter
+class statusFilter extends sfFilter
 {
 
     private static $skip_actions = array('content/message', 'content/page', 'profile/signIn',
