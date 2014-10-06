@@ -189,7 +189,8 @@ class feedbackActions extends sfActions
             if (in_array('internal_inbox', $send_options)) {
                 $member = MemberPeer::retrieveByEmail($this->getRequestParameter('mail_to'));
                 if ($member) {
-                    MessagePeer::sendSystem($member, $body);
+                    $thread = $member->retrieveAdminThread();
+                    MessagePeer::sendSystem($member, $body, $thread);
                 }
             }
         }
@@ -206,7 +207,8 @@ class feedbackActions extends sfActions
                 }
 
                 if (in_array('internal_inbox', $send_options)) {
-                    MessagePeer::sendSystem($member, $body);
+                    $thread = $member->retrieveAdminThread();
+                    MessagePeer::sendSystem($member, $body, $thread);
                 }
             }//foreach
         }//if

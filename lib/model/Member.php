@@ -786,6 +786,23 @@ class Member extends BaseMember
         return ThreadPeer::doSelectOne($c);
     }
 
+    public function retrieveAdminThread()
+    {
+        $c  =  new Criteria();
+        $c->add(ThreadPeer::SNIPPET_MEMBER_ID, null, Criteria::ISNULL);
+
+        $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
+        $c->addGroupByColumn(ThreadPeer::ID);
+        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+
+        $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->getId());
+        $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
+
+        $c->addAnd($crit);
+
+        return ThreadPeer::doSelectOne($c);
+    }
+
     public function getTimezone()
     {
         return ( $this->getCityId() ) ? $this->getCity()->getTimezone() : 'UTC';
