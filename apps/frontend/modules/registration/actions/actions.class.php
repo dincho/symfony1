@@ -346,7 +346,7 @@ class registrationActions extends BaseEditProfileActions
                 return false;
             } else {
                 foreach ($others as $question_id => $value) {
-                    if ( $answers[$question_id] == 'other' && mb_strlen($value) > 35 ) {
+                    if ( isset($answers[$question_id]) && $answers[$question_id] == 'other' && mb_strlen($value) > 35 ) {
                         $this->getRequest()->setError('answers[' . $question_id . ']', null);
                         $has_error = true;
                     }
