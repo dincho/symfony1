@@ -23,7 +23,7 @@ class contentActions extends prActions
         $this->pager->setPage($this->getRequestParameter('page', 1));
         $this->pager->init();
 
-        if ( $page = StaticPagePeer::getBySlug('search_engines') ) {
+        if ($page = StaticPagePeer::getBySlug('search_engines')) {
             $this->getResponse()->setTitle($page->getTitle());
             $this->getResponse()->addMeta('description', $page->getDescription());
             $this->getResponse()->addMeta('keywords', $page->getKeywords());
@@ -62,23 +62,25 @@ class contentActions extends prActions
             $flag->save();
 
             $counter = $profile->getMemberCounter();
-            if( !$is_flagged ) $counter->setCurrentFlags($counter->getCurrentFlags() + 1);
+            if (!$is_flagged) {
+                $counter->setCurrentFlags($counter->getCurrentFlags() + 1);
+            }
             $counter->setTotalFlags($counter->getTotalFlags() + 1);
             $counter->save();
 
             $profile->setLastFlagged(time());
 
             if ($counter->getCurrentFlags() >= sfConfig::get('app_settings_flags_num_auto_suspension')
-                && $profile->getMemberStatusId() != MemberStatusPeer::SUSPENDED_FLAGS)
-            {
+                && $profile->getMemberStatusId() != MemberStatusPeer::SUSPENDED_FLAGS) {
                 $profile->changeStatus(MemberStatusPeer::SUSPENDED_FLAGS);
                 $profile->save();
             } else {
                 $profile->save();
             }
 
-            if ($counter->getCurrentFlags() == sfConfig::get('app_settings_notification_scam_flags'))
+            if ($counter->getCurrentFlags() == sfConfig::get('app_settings_notification_scam_flags')) {
                 Events::triggerScamActivity($profile, $counter->getCurrentFlags());
+            }
 
             $this->getUser()->getProfile()->incCounter('SentFlags');
 
@@ -89,7 +91,7 @@ class contentActions extends prActions
 
         $this->profile = $profile;
 
-        if ( $this->getRequestParameter('layout') == 'window' ) {
+        if ($this->getRequestParameter('layout') == 'window') {
             sfConfig::set('sf_web_debug', false);
             $this->setLayout('window');
         }
@@ -162,7 +164,7 @@ class contentActions extends prActions
             $feedback->setNameFrom($member->getFullName());
             $feedback->setMemberId($member->getId());
             $feedback->setMailbox(FeedbackPeer::INBOX);
-            $feedback->setIsRead(FALSE);
+            $feedback->setIsRead(false);
             $feedback->save();
             $this->setFlash('msg_ok', 'Thank you. We really appreciate your feedback.');
             //$this->redirect('dashboard/index');
@@ -180,13 +182,18 @@ class contentActions extends prActions
         $this->getUser()->getBC()->removeFirst()->replaceFirst(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'));
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
 
-            Events::triggerTellFriend($this->getRequestParameter('full_name'), $this->getRequestParameter('email'), $this->getRequestParameter('friend_full_name'),
-                    $this->getRequestParameter('friend_email'), nl2br($this->getRequestParameter('comments')));
+            Events::triggerTellFriend(
+                $this->getRequestParameter('full_name'),
+                $this->getRequestParameter('email'),
+                $this->getRequestParameter('friend_full_name'),
+                $this->getRequestParameter('friend_email'),
+                nl2br($this->getRequestParameter('comments'))
+            );
 
             $this->redirect('content/tellFriendConfirm');
         }
 
-        if ( $page = StaticPagePeer::getBySlug('tell_friend') ) {
+        if ($page = StaticPagePeer::getBySlug('tell_friend')) {
             $this->getResponse()->setTitle($page->getTitle());
             $this->getResponse()->addMeta('description', $page->getDescription());
             $this->getResponse()->addMeta('keywords', $page->getKeywords());
@@ -197,7 +204,7 @@ class contentActions extends prActions
     {
         $this->getUser()->getBC()->removeFirst()->replaceFirst(array('name' => 'Tell a Friend', 'uri' => 'content/tellFriend'));
 
-        if ( $page = StaticPagePeer::getBySlug('tell_friend') ) {
+        if ($page = StaticPagePeer::getBySlug('tell_friend')) {
             $this->getResponse()->setTitle($page->getTitle());
             $this->getResponse()->addMeta('description', $page->getDescription());
             $this->getResponse()->addMeta('keywords', $page->getKeywords());
@@ -245,21 +252,33 @@ class contentActions extends prActions
         $geo_tree = array();
         $geo_tree[] = format_country($geo->getCountry());
 
-        if ( $geo->getDsg() == 'PPL' && $geo->getAdm1Id() ) {
+        if ($geo->getDsg() == 'PPL' && $geo->getAdm1Id()) {
             $geo_tree[] = $geo->getAdm1();
-            if( $geo->getAdm2Id() ) $geo_tree[] = $geo->getAdm2();
-        } elseif ( $geo->getDsg() == 'ADM2' ) {
+            if ($geo->getAdm2Id()) {
+                $geo_tree[] = $geo->getAdm2();
+            }
+        } elseif ($geo->getDsg() == 'ADM2') {
             $geo_tree[] = $geo->getAdm1();
         }
 
-        if( $geo->getDSG() != 'PCL' ) $geo_tree[] = $geo->getName();
+        if ($geo->getDSG() != 'PCL') {
+            $geo_tree[] = $geo->getName();
+        }
 
         $bc = $this->getUser()->getBC();
         $username = $this->getRequestParameter('username');
 
         $bc->clear();
-        if( $this->getUser()->isAuthenticated() ) $bc->add(array('name' => 'dashboard', 'uri' => '@dashboard'));
-        if( $username ) $bc->add(array('name' => __("%USERNAME%'s profile", array('%USERNAME%' => $username)), 'uri' => '@profile?username=' . $username));
+        if ($this->getUser()->isAuthenticated()) {
+            $bc->add(array('name' => 'dashboard', 'uri' => '@dashboard'));
+        }
+
+        if ($username) {
+            $bc->add(array(
+                'name' => __("%USERNAME%'s profile", array('%USERNAME%' => $username)),
+                'uri' => '@profile?username=' . $username
+            ));
+        }
         $bc->add(array('name' => implode(', ', $geo_tree)));
 
         $bc->setCustomLastItem('Area Information');
@@ -272,32 +291,35 @@ class contentActions extends prActions
 
     public function executeLink()
     {
-      $hash = $this->getRequestParameter('hash');
-      $this->forward404Unless($hash);
+        $hash = $this->getRequestParameter('hash');
+        $this->forward404Unless($hash);
 
-      $link = LinkPeer::getByHash($hash);
-      $this->forward404Unless($link);
+        $link = LinkPeer::getByHash($hash);
+        $this->forward404Unless($link);
 
-      if( $link->isExpired() ) $this->message('expired_link');
-
-      //login the member if needs to
-      if ( $link->getLoginAs() ) {
-        if ( $this->getUser()->isAuthenticated() && $this->getUser()->getId() != $link->getLoginAs() ) {
-            $this->getUser()->signOut();
-            $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
-
-        } elseif (!$this->getUser()->isAuthenticated() && !$link->isExpiredLogin() ) {
-          $member = MemberPeer::retrieveByPK($link->getLoginAs());
-
-          if( !$member || $member->getMemberStatusId() == MemberStatusPeer::CANCELED_BY_MEMBER )
-              $this->message('expired_link');
-
-          $this->getUser()->SignIn($member);
-        } elseif ( !$this->getUser()->isAuthenticated() ) {
-          $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
+        if ($link->isExpired()) {
+            $this->message('expired_link');
         }
-      }
 
-      $this->redirect($link->getUri());
+        //login the member if needs to
+        if ($link->getLoginAs()) {
+            if ($this->getUser()->isAuthenticated() && $this->getUser()->getId() != $link->getLoginAs()) {
+                $this->getUser()->signOut();
+                $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
+
+            } elseif (!$this->getUser()->isAuthenticated() && !$link->isExpiredLogin()) {
+                $member = MemberPeer::retrieveByPK($link->getLoginAs());
+
+                if (!$member || $member->getMemberStatusId() == MemberStatusPeer::CANCELED_BY_MEMBER) {
+                    $this->message('expired_link');
+                }
+
+                $this->getUser()->SignIn($member);
+            } elseif (!$this->getUser()->isAuthenticated()) {
+                $this->setFlash('msg_ok', 'For your own security instant login of this link has expired, please login to continue.');
+            }
+        }
+
+        $this->redirect($link->getUri());
     }
 }
