@@ -292,10 +292,14 @@ class contentActions extends prActions
     public function executeLink()
     {
         $hash = $this->getRequestParameter('hash');
-        $this->forward404Unless($hash);
+        if (!$hash) {
+            $this->message('expired_link');
+        }
 
         $link = LinkPeer::getByHash($hash);
-        $this->forward404Unless($link);
+        if (!$link) {
+            $this->message('expired_link');
+        }
 
         if ($link->isExpired()) {
             $this->message('expired_link');
