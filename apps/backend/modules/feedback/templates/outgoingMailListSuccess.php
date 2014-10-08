@@ -7,7 +7,7 @@
         <table class="zebra">
             <thead>
                 <tr>
-                    <th></th>
+                    <th><?php echo checkbox_tag('mark-all', "", false, array('class' => 'checkbox', 'onClick' => 'select_all_emails(this);')) ?></th>
                     <th><?php echo sortable_title('Mail From', 'PrMailMessage::mail_from', $sort_namespace) ?></th>
                     <th><?php echo sortable_title('Recipients', 'PrMailMessage::recipients', $sort_namespace) ?></th>
                     <th><?php echo sortable_title('Subject', 'PrMailMessage::subject', $sort_namespace) ?></th>
