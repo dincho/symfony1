@@ -679,3 +679,27 @@ div.member_flags table {
 #affected_catalogs {
     width: 300px;
 }
+
+.photos div.photo .imgCrop_previewWrap {
+    border: 3px solid #000;
+}
+
+#crop_actions {
+    float: left;
+    width: 120px;
+}
+
+#crop_img_wrap {
+    margin-top: 20px;
+}
+
+.imgCrop_wrap {
+    margin-left: 120px;
+}
+
+#crop_preview {
+    border: 3px solid black;
+    margin-left: 3px;
+    margin-bottom: 10px;
+}
+
