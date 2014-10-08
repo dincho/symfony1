@@ -789,11 +789,9 @@ class Member extends BaseMember
     public function retrieveAdminThread()
     {
         $c  =  new Criteria();
-        $c->add(ThreadPeer::SNIPPET_MEMBER_ID, null, Criteria::ISNULL);
-
         $c->addJoin(ThreadPeer::ID, MessagePeer::THREAD_ID);
         $c->addGroupByColumn(ThreadPeer::ID);
-        $c->add(MessagePeer::TYPE, MessagePeer::TYPE_DRAFT, Criteria::NOT_EQUAL);
+        $c->add(MessagePeer::SENDER_ID, null, Criteria::ISNULL);
 
         $crit = $c->getNewCriterion(MessagePeer::RECIPIENT_ID, $this->getId());
         $crit->addAnd($c->getNewCriterion(MessagePeer::RECIPIENT_DELETED_AT, null, Criteria::ISNULL));
