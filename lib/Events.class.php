@@ -47,6 +47,7 @@ class Events
     const ACCOUNT_ACTIVITY_PRIVATE_PHOTOS_REQUEST = 29;
     const EOT = 24;
     const PHOTO_VERIFICATION_REQUIRED = 30;
+    const MEMBER_PHOTO_DELETED = 31;
 
     /* REGISTRATION EVENTS */
     public static function triggerJoin($member)
@@ -411,6 +412,17 @@ class Events
         $global_vars = array('{REGISTRATION_IP}' => long2ip($member->getRegistrationIp()));
 
         return self::executeNotifications(self::PHOTO_VERIFICATION_REQUIRED, $global_vars, $member->getEmail(), $member);
+    }
+
+    public static function triggerMemberPhotoDeleted($member)
+    {
+        $photos_url = LinkPeer::create('@profile_photos', $member->getId())->getUrl($member->getCatalogue());
+        $global_vars = array(
+            '{MEMBER_PHOTOS_URL}' => $photos_url,
+            '{REGISTRATION_IP}' => long2ip($member->getRegistrationIp())
+        );
+
+        return self::executeNotifications(self::MEMBER_PHOTO_DELETED, $global_vars, $member->getEmail(), $member);
     }
 
     /**

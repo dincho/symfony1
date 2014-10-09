@@ -56,7 +56,21 @@ class BaseEditProfileActions extends prActions
         $this->member->setLastPhotoUploadAt(time());
         $this->member->save();
 
-        $this->setFlash('msg_ok', 'Your photo has been deleted.', false);
+        $msg = 'Your photo has been deleted.';
+        // notification hook
+        if ($this->getUser()->getProfile() instanceof User) {
+            Events::triggerMemberPhotoDeleted($this->member);
+            $msg .= ' User will be notified within 10 seconds.';
+
+            // add a note to profile
+            $note = new MemberNote();
+            $note->setMember($this->member);
+            $note->setUserId($this->getUser()->getId());
+            $note->setText('photo deleted');
+            $note->save();
+        }
+
+        $this->setFlash('msg_ok', $msg, false);
 
         return $this->renderText(get_partial('editProfile/delete_photo'));
     }
