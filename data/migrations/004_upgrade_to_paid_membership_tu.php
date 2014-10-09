@@ -1,6 +1,6 @@
 <?php
 
-class Migration004
+class Migration004 extends sfMigration
 {
     /**
      * Migrate the schema up, from the version 003 to the current one.
