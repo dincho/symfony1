@@ -2,7 +2,8 @@
 $lang_answers = ( isset($member_answers[$question->getId()]) ) ? $member_answers[$question->getId()]->getOtherLangs() : array();
 $req_answers = $sf_data->getRaw('sf_request')->getParameter('answers');
 //if $lang_answers is not array the count return 1
-$cnt = ( isset($req_answers[$question->getId()]) ) ? max(0, count( array_filter($req_answers[$question->getId()]) )-2) : max(0, count($lang_answers)-1);
+$cnt = ( isset($req_answers[$question->getId()]) && is_array($req_answers[$question->getId()]) ) ?
+    max(0, count( array_filter($req_answers[$question->getId()]) )-2) : max(0, count($lang_answers)-1);
 ?>
 
 <div id="lang_container">
