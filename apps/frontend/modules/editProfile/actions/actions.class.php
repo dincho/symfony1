@@ -350,6 +350,15 @@ class editProfileActions extends BaseEditProfileActions
         return parent::validateUploadPhoto();
     }
 
+    public function executeDeletePhoto()
+    {
+        parent::executeDeletePhoto();
+
+        $this->setFlash('msg_ok', 'Your photo has been deleted.', false);
+
+        return $this->renderText(get_partial('editProfile/delete_photo'));
+    }
+
     public function executePhotoAuthenticity()
     {
         $this->getUser()->getBC()->clear()
