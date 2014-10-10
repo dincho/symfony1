@@ -1381,7 +1381,7 @@ form#edit_photos fieldset {
     border-top-right-radius: 15px;
 }
 
-.photos div.photo .delete_button {
+.photos div.photo .tool_button {
     float: left;
     margin: 0 !important;
 }
@@ -3524,4 +3524,82 @@ ul.rating li.five a:hover {
     float: left;
     margin-left: 3px;
     margin-right: 2px;
+}
+
+#crop_area {
+    position: absolute;
+    top: 15%;
+    background-color: #3D3D3D;
+    border: 2px solid #E0B400;
+    cursor: move;
+    padding: 0 20px 20px 20px;
+    min-height: 720px;
+    z-index: 100;
+}
+
+.photos div.photo .imgCrop_previewWrap {
+    border: 3px solid #000;
+}
+
+#crop_actions {
+    float: left;
+    width: 120px;
+}
+
+#crop_img_wrap {
+    margin-top: 20px;
+}
+
+.imgCrop_wrap {
+    margin-left: 120px;
+}
+
+#crop_preview {
+    border: 3px solid black;
+    margin-left: 3px;
+    margin-bottom: 10px;
+}
+
+/**
+* Increase handles size of cropper
+*/
+.imgCrop_selArea .imgCrop_handle {
+    width: 10px;
+    height: 10px;
+}
+
+.imgCrop_selArea .imgCrop_handleN {
+    top: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleNE {
+    top: -5px;
+    right: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleE {
+    right: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleSE {
+    right: -5px;
+    bottom: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleS {
+    bottom: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleSW {
+    left: -5px;
+    bottom: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleW {
+    left: -5px;
+}
+
+.imgCrop_selArea .imgCrop_handleNW {
+    top: -5px;
+    left: -5px;
 }

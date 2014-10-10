@@ -66,13 +66,20 @@
     <?php include_partial('content/footer_menu') ?>
 <?php end_slot(); ?>
 
-<script type="text/javascript" charset="utf-8">
-    var photo_rotate_url = '<?php echo url_for('registration/rotatePhoto?member_id=' . $member->getId()); ?>';
-    function rotate(photo_id, deg)
-    {
-        var params = 'deg=' + deg + '&photo_id=' + photo_id;
-        var photo_container = $('photo_' + photo_id).parentNode;
-        photo_container.update('<img src="/images/ajax-loader-bg-3D3D3D.gif" />');
-        new Ajax.Updater(photo_container, photo_rotate_url, {asynchronous:true, evalScripts:true, parameters:params});
-    }
-</script>
+<div id="crop_area" style="display: none;">
+    <div id="crop_img_wrap">
+        <div id="crop_actions">
+            <div id="crop_preview"></div>
+            <?php echo button_to_function(
+                'Crop',
+                'crop("' . url_for('registration/cropPhoto?member_id=' . $member->getId()) . '")',
+                array('class' => 'button')
+            ) ?>
+            <?php echo button_to_function(
+                'Cancel',
+                'remove_crop_area()',
+                array('class' => 'button cancel')
+            ) ?>
+        </div>
+    </div>
+</div>
