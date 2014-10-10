@@ -27,12 +27,12 @@
         </div>
         <div id="tab1" class="js-tab">
             <label for="trans_8">Message Panel<br />Signup Preview</label>
-            <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
+            <?php echo textarea_tag('trans[8]', (isset($trans[8])) ? $trans[8]->getTarget() : null, array('cols' => 100, 'rows' => 18)) ?><br />
         </div>
 
         <div id="tab2" class="hidden js-tab">
             <label for="trans_9">Message Panel<br />Full View from dashboard</label>
-            <?php echo textarea_tag('trans[9]', (isset($trans[9])) ? $trans[9]->getTarget() : null, array('cols' => 60, 'rows' => 9)) ?><br />
+            <?php echo textarea_tag('trans[9]', (isset($trans[9])) ? $trans[9]->getTarget() : null, array('cols' => 100, 'rows' => 18)) ?><br />
         </div>
 
         <div id="tab3" class="error_msgs_fields hidden js-tab">
