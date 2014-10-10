@@ -579,7 +579,7 @@ div.member_flags table {
     -moz-border-radius-topright: 15px;
 }
 
-.photos div.photo .delete_button {
+.photos div.photo .tool_button {
     float: left;
     margin: 0 !important;
 }
@@ -707,42 +707,42 @@ div.member_flags table {
 * Increase handles size of cropper
 */
 .imgCrop_handle {
-    width: 10px !important;
-    height: 10px !important;
+    width: 10px;
+    height: 10px;
 }
 
 .imgCrop_handleN {
-    top: -5px !important;
+    top: -5px;
 }
 
 .imgCrop_handleNE {
-    top: -5px !important;
-    right: -5px !important;
+    top: -5px;
+    right: -5px;
 }
 
 .imgCrop_handleE {
-    right: -5px !important;
+    right: -5px;
 }
 
 .imgCrop_handleSE {
-    right: -5px !important;
-    bottom: -5px !important;
+    right: -5px;
+    bottom: -5px;
 }
 
 .imgCrop_handleS {
-    bottom: -5px !important;
+    bottom: -5px;
 }
 
 .imgCrop_handleSW {
-    left: -5px !important;
-    bottom: -5px !important;
+    left: -5px;
+    bottom: -5px;
 }
 
 .imgCrop_handleW {
-    left: -5px !important;
+    left: -5px;
 }
 
 .imgCrop_handleNW {
-    top: -5px !important;
-    left: -5px !important;
+    top: -5px;
+    left: -5px;
 }

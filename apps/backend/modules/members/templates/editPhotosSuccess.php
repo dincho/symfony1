@@ -49,11 +49,11 @@
     <div id="crop_img_wrap">
         <div id="crop_actions">
             <div id="crop_preview"></div>
-            <?php echo button_to_function('Cancel', 'remove_crop_area()') ?>
             <?php echo button_to_function(
                 'Crop',
                 'crop("' . url_for('editProfile/cropPhoto?member_id=' . $member->getId()) . '")'
             ) ?>
+            <?php echo button_to_function('Cancel', 'remove_crop_area()') ?>
         </div>
     </div>
 </div>
