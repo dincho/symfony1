@@ -90,7 +90,7 @@ class MessagePeer extends BaseMessagePeer
         return $message;
     }
 
-    public static function sendSystem(BaseMember $recipient, $body = '')
+    public static function sendSystem(BaseMember $recipient, $body = '', BaseThread $thread = null)
     {
         $message = new Message();
         $reply = true; //default value
@@ -98,9 +98,8 @@ class MessagePeer extends BaseMessagePeer
         $message->setRecipientId($recipient->getId());
         $message->setBody(nl2br($body));
 
-        $thread = $recipient->retrieveAdminThread();
-
         if (!$thread) {
+            $reply = false;
             $thread = new Thread();
         }
 
