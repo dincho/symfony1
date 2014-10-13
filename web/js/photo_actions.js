@@ -20,10 +20,6 @@ function show_crop_area(photo_id, img_src, btn) {
     window.activeCropButton = btn;
     window.activeCropButton.disabled = true;
 
-    var photo_el = "photo_" + photo_id;
-    var x = 100;
-    var y = 100;
-
     //remove old cropper if any
     if (cropper) {
         cropper.previewWrap.removeClassName('imgCrop_previewWrap');
@@ -50,9 +46,10 @@ function show_crop_area(photo_id, img_src, btn) {
         cropper = new Cropper.ImgWithPreview(
             'crop_image',
             {
-                minWidth: x,
-                minHeight: y,
-                ratioDim: {x: x, y: y},
+                autoIncludeCSS: false,
+                minWidth: 100,
+                minHeight: 100,
+                ratioDim: {x: 200, y: 200},
                 displayOnInit: true,
                 previewWrap: 'crop_preview',
                 pd_photo_id: photo_id
