@@ -366,7 +366,23 @@ input.field_error, select.field_error, textarea.field_error {
 
 .error_msgs_fields input {
     width: 70%;
+    margin-bottom: 5px;
 }
+
+.tab_menu a.selected {
+    color: red;
+}
+
+.tab_menu a {
+    color: blue;
+    position: relative;
+}
+
+.tab_menu a:active {
+    color: blue;
+    top: 1px;
+}
+
 .filter_multiple label {
     width: 205px;
 }
