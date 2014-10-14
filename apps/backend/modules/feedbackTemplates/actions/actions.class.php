@@ -41,6 +41,8 @@ class feedbackTemplatesActions extends sfActions
         $c = new Criteria();
         $this->addFiltersCriteria($c);
         $this->templates = FeedbackTemplatePeer::doSelect($c);
+        $this->tags = FeedbackTemplatePeer::getTagsList();
+        $this->getUser()->setAttribute('criteria', $c, 'backend/feedbackTemplates/template_pager');
     }
 
     public function executeCreate()
@@ -68,24 +70,31 @@ class feedbackTemplatesActions extends sfActions
 
     public function executeEdit()
     {
-        $template = FeedbackTemplatePeer::retrieveByPk($this->getRequestParameter('id'));
-        $this->forward404Unless($template);
-        $this->template = $template;
+        $this->template = null;
 
-        $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => 'feedbackTemplates/edit?id=' . $template->getId()));
+        if (isset($this->filters['tag']) && strlen($this->filters['tag']) > 0) {
+            $this->filterByTag();
+        }
+
+        if ($this->getRequestParameter('id')) {
+            $this->template = FeedbackTemplatePeer::retrieveByPk($this->getRequestParameter('id'));
+        }
+
+        $this->forward404Unless($this->template);
+        $this->getUser()->getBC()->add(array('name' => 'Edit', 'uri' => 'feedbackTemplates/edit?id=' . $this->template->getId()));
 
         if ($this->getRequest()->getMethod() == sfRequest::POST) {
             $this->getUser()->checkPerm(array('feedback_edit'));
-            $template->setName($this->getRequestParameter('name'));
-            $template->setMailFrom($this->getRequestParameter('mail_from'));
-            $template->setReplyTo($this->getRequestParameter('reply_to'));
-            $template->setBcc($this->getRequestParameter('bcc'));
-            $template->setSubject($this->getRequestParameter('subject'));
-            $template->setBody($this->getRequestParameter('body'));
-            $template->setFooter($this->getRequestParameter('footer'));
+            $this->template->setName($this->getRequestParameter('name'));
+            $this->template->setMailFrom($this->getRequestParameter('mail_from'));
+            $this->template->setReplyTo($this->getRequestParameter('reply_to'));
+            $this->template->setBcc($this->getRequestParameter('bcc'));
+            $this->template->setSubject($this->getRequestParameter('subject'));
+            $this->template->setBody($this->getRequestParameter('body'));
+            $this->template->setFooter($this->getRequestParameter('footer'));
             $tags = array_filter(array_map('trim', explode(",", $this->getRequestParameter('tags')))); //clear junk
-            $template->setTags(implode(',', $tags));
-            $template->save();
+            $this->template->setTags(implode(',', $tags));
+            $this->template->save();
 
             $this->setFlash('msg_ok', 'Your changes has been saved.');
             $this->redirect('feedbackTemplates/list');
@@ -113,5 +122,20 @@ class feedbackTemplatesActions extends sfActions
         if (isset($this->filters['tags']) && strlen($this->filters['tags']) > 0) {
             $c->add(FeedbackTemplatePeer::TAGS, '%' . $this->filters['tags'] . '%', Criteria::LIKE);
         }
+    }
+
+    protected function filterByTag()
+    {
+        $c = new Criteria();
+        $c->add(FeedbackTemplatePeer::TAGS, $this->filters['tag'], Criteria::EQUAL);
+        $this->template = FeedbackTemplatePeer::doSelectOne($c);
+
+        if (!$this->template) {
+            $this->setFlash('msg_error', 'No matching templates found.');
+            $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedbackTemplates/filters');
+            return $this->redirect('feedbackTemplates/list');
+        }
+
+        $this->getUser()->setAttribute('criteria', $c, 'backend/feedbackTemplates/template_pager');
     }
 }
