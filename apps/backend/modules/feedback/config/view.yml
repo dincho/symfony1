@@ -1,2 +1,5 @@
 composeSuccess:
     javascripts: [filter_select]
+
+outgoingMailListSuccess:
+    javascripts: [select_all_emails]
