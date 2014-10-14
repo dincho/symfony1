@@ -5,14 +5,24 @@
         <?php echo button_to_remote('x', array('url' => 'editProfile/confirmDeletePhoto?id=' . $photo->getId() . '&member_id=' . $photo->getMemberId(),
                                                                  'update'  => 'msg_container'
                                                                 ),
-                                                           array('class' => 'delete_button')) ?>
+                                                           array('class' => 'tool_button')) ?>
 
         <?php echo button_to_function('crop', strtr('show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)', array('%ID%' => $photo->getId(), '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file'), ) ),
-                                                           array('class' => 'delete_button', )) ?>
-        <?php echo button_to_function('↶', 'rotate(' . $photo->getId() . ', 90)' ,
-            array('class' => 'button_mini delete_button')) ?>
-        <?php echo button_to_function('↷', 'rotate(' . $photo->getId() . ', -90)' ,
-            array('class' => 'button_mini delete_button')) ?>
+                                                           array('class' => 'tool_button', )) ?>
+        <?php echo button_to_function(
+            '↶',
+            'rotate("' . url_for(
+                'editProfile/rotatePhoto?member_id=' . $photo->getMemberId()
+            ) . '", ' . $photo->getId() . ', 90)',
+            array('class' => 'tool_button')
+        ) ?>
+        <?php echo button_to_function(
+            '↷',
+            'rotate("' . url_for(
+                'editProfile/rotatePhoto?member_id=' . $photo->getMemberId()
+            ) . '", ' . $photo->getId() . ', -90)',
+            array('class' => 'tool_button')
+        ) ?>
     </div>
     <div class="img">
         <?php echo image_tag( $photo->getImg('100x100') ) ?>

@@ -403,6 +403,7 @@ class membersActions extends prActions
         $this->getResponse()->addJavascript('/js/fileupload/vendor/jquery.ui.widget.js', 'last');
         $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
+        $this->getResponse()->addJavascript('photo_actions', 'last');
         $this->getResponse()->addJavascript('messagebar', 'last');
         $this->getUser()->getBC()->add(array('name' => 'Photos', 'uri' => 'members/editPhotos?id=' . $this->member->getId()));
 

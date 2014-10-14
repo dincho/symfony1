@@ -334,10 +334,10 @@ class photosActions extends sfActions
             $dims = array('w' => 220, 'h' => 225);
         }
 
-        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
-        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js?load=builder,dragdrop');
-        $this->getResponse()->addJavascript('/cropper/cropper.js');
-        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');
+        $this->getResponse()->addJavascript('/cropper/lib/prototype.js', 'last');
+        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js', 'last');
+        $this->getResponse()->addJavascript('/cropper/cropper.js', 'last');
+        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'first');
         $this->photo = $photo;
         $this->dims = $dims;
 
@@ -411,10 +411,10 @@ class photosActions extends sfActions
         $this->photo = $photo;
         $this->catalogs = CataloguePeer::doSelect(new Criteria());
 
-        $this->getResponse()->addJavascript('/cropper/lib/prototype.js');
-        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js?load=builder,dragdrop');
-        $this->getResponse()->addJavascript('/cropper/cropper.js');
-        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'last');
+        $this->getResponse()->addJavascript('/cropper/lib/prototype.js', 'last');
+        $this->getResponse()->addJavascript('/cropper/lib/scriptaculous.js', 'last');
+        $this->getResponse()->addJavascript('/cropper/cropper.js', 'last');
+        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'first');
     }
 
     public function executeDeleteHomepagePhoto()
