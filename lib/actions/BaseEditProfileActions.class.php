@@ -55,10 +55,6 @@ class BaseEditProfileActions extends prActions
 
         $this->member->setLastPhotoUploadAt(time());
         $this->member->save();
-
-        $this->setFlash('msg_ok', 'Your photo has been deleted.', false);
-
-        return $this->renderText(get_partial('editProfile/delete_photo'));
     }
 
     public function handleErrorDeletePhoto()

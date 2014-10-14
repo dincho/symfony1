@@ -67,6 +67,10 @@ verify_photo:
     url:   /:sf_culture/editProfile/photoAuthenticity
     param: { module: editProfile, action: photoAuthenticity, sf_culture: en }
 
+profile_photos:
+    url:   /:sf_culture/editProfile/photos
+    param: {module: editProfile, action: photos, sf_culture: en}
+
 send_private_photos_request:
     url:   /:sf_culture/privatePhotosRequest/:username/:toggle_link
     param: { module: profile, action: sendPrivatePhotosRequest, sf_culture: en, toggle_link: 0 }

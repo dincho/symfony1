@@ -13,6 +13,29 @@ class editProfileActions extends BaseEditProfileActions
             return parent::validateUploadPhoto();
     }
 
+    public function executeDeletePhoto()
+    {
+        parent::executeDeletePhoto();
+
+        // notification hook
+        Events::triggerMemberPhotoDeleted($this->member);
+
+        // add a note to profile
+        $note = new MemberNote();
+        $note->setMember($this->member);
+        $note->setUserId($this->getUser()->getId());
+        $note->setText('photo deleted');
+        $note->save();
+
+        $this->setFlash(
+            'msg_ok',
+            'Your photo has been deleted. The user will be notified within seconds.',
+            false
+        );
+
+        return $this->renderText(get_partial('editProfile/delete_photo'));
+    }
+
     public function validateDeletePhoto()
     {
         return true; //administrator always can delete photos
