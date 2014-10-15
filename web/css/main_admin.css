@@ -499,7 +499,7 @@ div.member_flags table {
     float: right;
 }
 
-#template_pager{
+#template_pager {
     text-align: center;
     height: 30px;
     line-height: 27px;
@@ -686,4 +686,15 @@ div.member_flags table {
 
 #affected_catalogs {
     width: 300px;
+}
+
+.width_undo{
+    width: auto;
+}
+
+.tag_holder {
+    float:right;
+    padding-right:100px;
+    padding-left:10px;
+    width:250px;
 }

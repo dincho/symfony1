@@ -41,7 +41,7 @@
 </div>
 
 <?php echo form_tag('feedbackTemplates/delete') ?>
-    <table class="zebra shortened">
+    <table class="zebra width_undo">
         <thead>
             <tr>
                 <th></th>

@@ -72,8 +72,19 @@ class feedbackTemplatesActions extends sfActions
     {
         $this->template = null;
 
-        if (isset($this->filters['tag']) && strlen($this->filters['tag']) > 0) {
-            $this->filterByTag();
+        // handle filter by a single tag
+        if (!empty($this->filters['tag'])) {
+            $c = new Criteria();
+            $c->add(FeedbackTemplatePeer::TAGS, $this->filters['tag'], Criteria::EQUAL);
+            $this->template = FeedbackTemplatePeer::doSelectOne($c);
+
+            if (!$this->template) {
+                $this->setFlash('msg_error', 'No matching templates found.');
+                $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedbackTemplates/filters');
+                return $this->redirect('feedbackTemplates/list');
+            }
+
+            $this->getUser()->setAttribute('criteria', $c, 'backend/feedbackTemplates/template_pager');
         }
 
         if ($this->getRequestParameter('id')) {
@@ -122,20 +133,5 @@ class feedbackTemplatesActions extends sfActions
         if (isset($this->filters['tags']) && strlen($this->filters['tags']) > 0) {
             $c->add(FeedbackTemplatePeer::TAGS, '%' . $this->filters['tags'] . '%', Criteria::LIKE);
         }
-    }
-
-    protected function filterByTag()
-    {
-        $c = new Criteria();
-        $c->add(FeedbackTemplatePeer::TAGS, $this->filters['tag'], Criteria::EQUAL);
-        $this->template = FeedbackTemplatePeer::doSelectOne($c);
-
-        if (!$this->template) {
-            $this->setFlash('msg_error', 'No matching templates found.');
-            $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedbackTemplates/filters');
-            return $this->redirect('feedbackTemplates/list');
-        }
-
-        $this->getUser()->setAttribute('criteria', $c, 'backend/feedbackTemplates/template_pager');
     }
 }
