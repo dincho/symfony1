@@ -12,7 +12,7 @@ default:
 
   stylesheets:    [reset, form_admin, main_admin]
 
-  javascripts:    [zebra]
+  javascripts:    [prototype/js/prototype, prototype/js/scriptaculous, zebra]
 
   has_layout:     on
   layout:         layout

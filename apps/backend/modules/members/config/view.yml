@@ -1,8 +1,6 @@
 default:
   components:
     sidebar:  [system, membersSidebar]
-editSelfDescriptionSuccess:
-    javascripts: [/sf/prototype/js/prototype]
 editPhotosSuccess:
-    javascripts: [/cropper/lib/prototype.js: { position: last }, /cropper/lib/scriptaculous.js: { position: last }, /cropper/cropper.js: { position: last }]
+    javascripts: [/cropper/cropper.js: { position: last }]
     stylesheets: [/cropper/cropper.css: { position: first } ]

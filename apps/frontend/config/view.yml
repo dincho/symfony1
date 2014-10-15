@@ -13,7 +13,7 @@ default:
 
   stylesheets:    [main]
 
-  javascripts:    [/sf/prototype/js/prototype.js, active_fields.js, dropdown.js ]
+  javascripts:    [prototype/js/prototype, prototype/js/scriptaculous, active_fields.js, dropdown.js ]
 
   has_layout:     on
   layout:         layout

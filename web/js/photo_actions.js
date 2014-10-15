@@ -1,5 +1,4 @@
 var cropper = null;
-window.activeCropButton = null;
 
 function show_crop_area(photo_id, img_src, btn) {
     // manually clean previously unsuccessful loading of #crop_image src
@@ -7,18 +6,11 @@ function show_crop_area(photo_id, img_src, btn) {
         $('imgCrop_crop_image').remove();
     }
 
-    $$('div.imgCrop_wrap').forEach(function (el) {
-        if (!el.down('img')) el.remove();
-    });
-
-    // enable previously pressed "Crop" button if any
-    if (window.activeCropButton) {
-        window.activeCropButton.disabled = false;
+    if ($$('div.imgCrop_wrap').length) {
+        $$('div.imgCrop_wrap').forEach(function (el) {
+            if (!el.down('img')) el.remove();
+        });
     }
-
-    // disable currently pressed "Crop" button till img loads
-    window.activeCropButton = btn;
-    window.activeCropButton.disabled = true;
 
     //remove old cropper if any
     if (cropper) {
@@ -36,10 +28,8 @@ function show_crop_area(photo_id, img_src, btn) {
         var elem = $('crop_img_wrap');
         elem.innerHTML += '<img id="crop_image" />';
     }
-    $('crop_area').down('#crop_image').src = img_src;
+
     $('crop_area').down('#crop_image').observe('load', function () {
-        window.activeCropButton.disabled = false;
-        window.activeCropButton = null;
         $('crop_area').show();
 
         //this should be done after the image is loaded
@@ -56,6 +46,9 @@ function show_crop_area(photo_id, img_src, btn) {
             }
         );
     });
+    
+    // src should be changed after binding to the onLoad event
+    $('crop_area').down('#crop_image').src = img_src;
 }
 
 function remove_crop_area() {
