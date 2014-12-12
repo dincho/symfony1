@@ -6,7 +6,7 @@
  * @created June 20, 2010
  *
  */
-class deactivationFIlter extends sfFilter
+class deactivationFilter extends sfFilter
 {
 
     private static $skip_actions = array('content/message', 'content/page',
