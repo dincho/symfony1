@@ -2,7 +2,7 @@ all:
   propel:
     class:          sfPropelDatabase
     param:
-      dsn:          mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+      dsn:          mysql://polishdate:polishdate@127.0.0.1/polishdate
       encoding:     utf8
 
 test:

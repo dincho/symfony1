@@ -1,0 +1,11 @@
+# Hosts
+[vagrant-devservers]
+polishdate.dev
+
+# Groups by role
+[devservers:children]
+vagrant-devservers
+
+# Groups by location
+[vagrant:children]
+vagrant-devservers

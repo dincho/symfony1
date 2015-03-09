@@ -25,3 +25,4 @@ generated-schema-transformed.xml
 generated-sfSettingsPlugin-schema-transformed.xml
 apps/frontend/config/i18n.yml
 .idea/
+.vagrant
