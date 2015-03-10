@@ -1,0 +1,141 @@
+---
+- name: Configuring dev servers
+  hosts: devservers
+  sudo: yes
+
+  vars:
+    project_user: vagrant
+    project_path: /home/vagrant/polishdate
+    mysql_root_password: root_parolata
+    mysql_databases:
+      - { name: polishdate }
+    mysql_users:
+      - { name: polishdate, password: polishdate, database: polishdate }
+    mysql_server_config:
+      performance_schema: "off"
+    es_config:
+      http.cors.enabled: "true"
+      http.cors.allow-origin: '/https?:\/\/www.elastichq.org(:[0-9]+)?/'
+
+    php_fpm_apt_packages:
+      - php5-fpm
+      - php5-cli 
+      - php5-apcu
+      - php5-mysql
+      - php5-intl
+      - php5-curl
+      - php5-xdebug
+      - php5-sqlite
+
+    php_fpm_pools:
+      - name: vagrant
+        user: vagrant
+        group: vagrant
+        listen: /var/run/php5-fpm-vagrant.sock
+        listen.owner: www-data
+        listen.group: www-data
+        listen.mode: "0660"
+
+    php_fpm_ini:
+      # PHP section directives
+      - option: "error_reporting"
+        section: "PHP"
+        value: "E_ALL"
+      - option: "display_errors"
+        section: "PHP"
+        value: "on"
+      - option: "display_startup_errors"
+        section: "PHP"
+        value: "on"
+      - option: "log_errors"
+        section: "PHP"
+        value: "On"
+      - option: "date.timezone"
+        section: "PHP"
+        value: "UTC"
+
+    nginx_ubuntu_pkg:
+      - nginx
+
+    nginx_sites:
+      vagrant:
+         - listen 80
+         - server_name {{ inventory_hostname }}
+         - root /home/vagrant/polishdate/web
+         - access_log /var/log/nginx/{{ inventory_hostname }}.access_log
+         - error_log /var/log/nginx/{{ inventory_hostname }}.error_log
+         - client_max_body_size 10m
+         - "location / { try_files $uri /index.php$is_args$args; }"
+         -  location ~ ^/(index|frontend_dev|backend_dev)\.php(/|$) {
+            fastcgi_pass unix:/var/run/php5-fpm-vagrant.sock;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param HTTPS off;
+          }
+
+  roles:
+    - percona-mysql
+    - nbz4live.php-fpm
+    - jdauphant.nginx
+    - elasticsearch
+
+  pre_tasks:
+    - name: disable ipv6
+      sysctl: name={{ item }} value=1 state=present
+      with_items:
+       - net.ipv6.conf.all.disable_ipv6
+       - net.ipv6.conf.default.disable_ipv6
+       - net.ipv6.conf.lo.disable_ipv6
+
+  post_tasks:
+    - name: install git
+      apt: pkg={{ item }} state=installed
+      with_items:
+       - git
+
+    - name: Install composer
+      get_url:
+        url: https://getcomposer.org/composer.phar
+        dest: "{{ project_path }}/composer.phar"
+        mode: 0755
+        validate_certs: no
+        force: no #don't download if already exists
+      sudo: no
+
+    - name: Set composer github token
+      command: "{{ project_path }}/composer.phar config -g github-oauth.github.com {{ github_token }}"
+      sudo: no
+      when: github_token is defined
+
+    - name: Install dependencies
+      command: >
+        {{ project_path }}/composer.phar install --no-interaction
+      args:
+        chdir: "{{ project_path }}"
+      sudo: no
+
+    - name: Create config/databases.yml
+      command: >
+        cp {{ project_path }}/config/databases.yml.dist {{ project_path }}/config/databases.yml
+      args:
+        creates: "{{ project_path }}/config/databases.yml"
+      sudo: no
+
+    - name: Create apps/frontend/config/i18n.yml
+      command: >
+        cp {{ project_path }}/apps/frontend/config/i18n.yml.dist {{ project_path }}/apps/frontend/config/i18n.yml
+      args:
+        creates: "{{ project_path }}/apps/frontend/config/i18n.yml"
+      sudo: no
+
+    - name: Link symfony web assets
+      file:
+        src: "{{ project_path }}/vendor/dincho/symfony1/data/web/sf/"
+        dest: "{{ project_path }}/web/sf"
+        state: link
+
+    - name: Install database
+      command: >
+        php {{ project_path }}/symfony propel-build-model
+      sudo: no

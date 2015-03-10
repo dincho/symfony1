@@ -1,0 +1,4 @@
+es_version: '1.4'
+es_default_config:
+  ES_HEAP_SIZE: 128m
+es_config:

@@ -1,7 +1,7 @@
 all:
   default_culture:     en
   source:              pdMySQL
-  database:            mysql://polishdate_user:polishdate_pass@127.0.0.1/polishdate_db
+  database:            mysql://polishdate:polishdate@127.0.0.1/polishdate
   debug:               off
   cache:               on
   untranslated_prefix: "[T]"
