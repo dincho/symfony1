@@ -118,12 +118,22 @@
     - name: Create config/databases.yml
       command: >
         cp {{ project_path }}/config/databases.yml.dist {{ project_path }}/config/databases.yml
+      args:
+        creates: "{{ project_path }}/config/databases.yml"
       sudo: no
 
     - name: Create apps/frontend/config/i18n.yml
       command: >
         cp {{ project_path }}/apps/frontend/config/i18n.yml.dist {{ project_path }}/apps/frontend/config/i18n.yml
+      args:
+        creates: "{{ project_path }}/apps/frontend/config/i18n.yml"
       sudo: no
+
+    - name: Link symfony web assets
+      file:
+        src: "{{ project_path }}/vendor/dincho/symfony1/data/web/sf/"
+        dest: "{{ project_path }}/web/sf"
+        state: link
 
     - name: Install database
       command: >
