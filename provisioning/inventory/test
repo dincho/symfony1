@@ -1,0 +1,11 @@
+# Hosts
+[rackspace-appservers]
+polishdate.bonex.us
+
+# Groups by role
+[appservers:children]
+rackspace-appservers
+
+# Groups by location
+[rackspace:children]
+rackspace-appservers
