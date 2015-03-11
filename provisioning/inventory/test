@@ -1,0 +1,11 @@
+# Hosts
+[rackspace-appservers]
+polishdate.bonex.us project_env=stag
+
+# Groups by role
+[appservers:children]
+rackspace-appservers
+
+# Groups by location
+[rackspace:children]
+rackspace-appservers

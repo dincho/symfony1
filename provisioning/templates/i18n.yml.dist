@@ -1,0 +1,18 @@
+all:
+  default_culture:     en
+  source:              pdMySQL
+  database:            mysql://{{ lookup('env', 'DATABASE_USER') }}:{{ lookup('env', 'DATABASE_PASSWORD') }}@{{ lookup('env', 'DATABASE_HOST') | default('127.0.0.1', True) }}/{{ lookup('env', 'DATABASE_NAME') }}
+  debug:               off
+  cache:               on
+  untranslated_prefix: "[T]"
+  untranslated_suffix: "[/T]"
+
+trans:
+    debug:             on
+    cache:             off
+
+dev:
+    cache:             off
+
+test:
+  source:              XLIFF
