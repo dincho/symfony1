@@ -499,6 +499,13 @@ div.member_flags table {
     float: right;
 }
 
+#template_pager {
+    text-align: center;
+    height: 30px;
+    line-height: 27px;
+    margin-left: 150px;
+}
+
 #profile_pager {
     text-align: center;
     float: left;
@@ -507,7 +514,8 @@ div.member_flags table {
     margin-left: 150px;
 }
 
-#profile_pager a, #profile_pager span {
+#profile_pager a, #profile_pager span,
+#template_pager a, #template_pager span {
     padding: 0 20px;
     font-size: 14px;
     font-weight: bold;
@@ -745,4 +753,15 @@ div.member_flags table {
 .imgCrop_handleNW {
     top: -5px;
     left: -5px;
+}
+
+.width_undo{
+    width: auto;
+}
+
+.tag_holder {
+    float:right;
+    padding-right:100px;
+    padding-left:10px;
+    width:250px;
 }

@@ -1,5 +1,6 @@
 <?php use_helper('Object', 'dtForm') ?>
 <?php include_component('system', 'formErrors') ?>
+<?php include_component('feedbackTemplates', 'templatePager', array('template' => $template)); ?>
 
 <?php echo form_tag('feedbackTemplates/edit', 'class=form') ?>
   <?php echo object_input_hidden_tag($template, 'getId', 'class=hidden') ?>

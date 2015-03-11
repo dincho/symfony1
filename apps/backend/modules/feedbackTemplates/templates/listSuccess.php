@@ -15,8 +15,33 @@
     <?php echo button_to('New Template', 'feedbackTemplates/create') ?>
 </div>
 
+<div class="tag_holder">
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    All tags:
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($tags as $tag): ?>
+                <tr>
+                    <td>
+                        <?php echo link_to(
+                            Tools::truncate($tag, 110),
+                            'feedbackTemplates/edit?filter=filter',
+                            array('query_string' => 'filters[tag]=' . urlencode($tag))
+                        ); ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 <?php echo form_tag('feedbackTemplates/delete') ?>
-    <table class="zebra">
+    <table class="zebra width_undo">
         <thead>
             <tr>
                 <th></th>
@@ -46,7 +71,5 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="actions">
-        <?php echo submit_tag('Delete', 'confirm=Are you sure you want to delete selected templates?') ?>
-    </div>
+    <?php echo submit_tag('Delete', 'confirm=Are you sure you want to delete selected templates?') ?>
 </form>
