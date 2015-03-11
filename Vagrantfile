@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "cache/",
       "log/",
       "tmp/",
-      "vendor/",
+      "/vendor/*",
       "lib/model/om/*",
       "lib/model/map/*",
       "web/uploads/",
