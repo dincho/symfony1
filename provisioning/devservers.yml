@@ -26,6 +26,7 @@
       - php5-curl
       - php5-xdebug
       - php5-sqlite
+      - php5-gd
 
     php_fpm_pools:
       - name: vagrant
