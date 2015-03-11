@@ -136,6 +136,21 @@
         dest: "{{ project_path }}/web/sf"
         state: link
 
+    - name: Create upload dir MemberPhoto
+      file:
+        dest: "{{ project_path }}/web/uploads/images/MemberPhoto/"
+        state: directory
+
+    - name: Create upload dir AsSeenOn
+      file:
+        dest: "{{ project_path }}/web/uploads/images/AsSeenOn/"
+        state: directory
+
+    - name: Create upload dir StockPhoto
+      file:
+        dest: "{{ project_path }}/web/uploads/images/StockPhoto/"
+        state: directory
+
     - name: Install database
       command: >
         php {{ project_path }}/symfony propel-build-model
