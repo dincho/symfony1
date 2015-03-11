@@ -16,7 +16,7 @@
 include(dirname(__FILE__).'/../bootstrap/unit_propel.php');
 
 //tests
-$t = new lime_test(29, new lime_output_color());
+$t = new lime_test(26, new lime_output_color());
 
 /**
  * Test subscription confirmation
@@ -55,8 +55,8 @@ $t->is($subscription->getStatus(), 'confirmed', 'status is set to confirmed');
 $t->is($subscription->getPeriod(), '3', 'period is set');
 $t->is($subscription->getPeriodType(), 'M', 'period type is set');
 $t->is($subscription->getPPRef(), $subscrId, 'paypal reference is set');
-$t->is($subscription->getCreatedAt(null), $now->getTimestamp(), 'created datetime is set');
-$t->is($subscription->getUpdatedAt(null), $now->getTimestamp(), 'update datetime is set');
+$t->cmp_ok(abs($subscription->getCreatedAt(null) - $now->getTimestamp()), '<', 2, 'created datetime is set');
+$t->cmp_ok(abs($subscription->getUpdatedAt(null) - $now->getTimestamp()), '<', 2, 'update datetime is set');
 
 
 /**
@@ -88,7 +88,7 @@ $subscriptionDetails = SubscriptionDetailsPeer::retrieveBySubscriptionIdAndCatal
 $t->is($member->getSubscriptionId(), SubscriptionPeer::VIP, 'member subscription is upgraded');
 $t->is($member->getLastPaymentState(), null, 'member LastPaymentState is cleared');
 $t->is($subscription->getStatus(), 'active', 'subscription status is confirmed');
-$t->is($subscription->getUpdatedAt(null), $now->getTimestamp(), 'update datetime is set');
+$t->cmp_ok(abs($subscription->getUpdatedAt(null) - $now->getTimestamp()), '<', 2, 'update datetime is set');
 $t->is($subscription->getPeriod(), 3, 'period is correct');
 $t->is($subscription->getPeriodType(), 'M', 'period type is correct');
 
@@ -127,7 +127,7 @@ $subscription = MemberSubscriptionPeer::retrieveByPK($subscription->getId());
 
 $t->is($member->getSubscriptionId(), SubscriptionPeer::PREMIUM, 'member subscription is upgraded');
 $t->is($subscription->getSubscriptionId(), SubscriptionPeer::PREMIUM, 'MemberSubscription is upgarded');
-$t->is($subscription->getUpdatedAt(null), $now->getTimestamp(), 'update datetime is set');
+$t->cmp_ok(abs($subscription->getUpdatedAt(null) - $now->getTimestamp()), '<', 2, 'update datetime is set');
 $t->is($subscription->getPeriod(), 4, 'period is correct');
 $t->is($subscription->getPeriodType(), 'W', 'period type is correct');
 
@@ -174,40 +174,6 @@ $t->is($subscription->getStatus(), 'eot', 'subscription status is eot');
 $t->is($member->getSubscriptionId(), SubscriptionPeer::FREE, 'member subscription is free');
 
 /**
- * Test subscription max failed payments when member already upgarded to another
- * e.g. delayed notification
- */
-
-/**
- * one failed subscription
- */
-$subscrId = 'PP' . rand(10000, 99999);
-$subscription = new MemberSubscription();
-$subscription->setSubscriptionId(SubscriptionPeer::VIP);
-$subscription->setStatus('pending');
-$subscription->setPPRef($subscrId);
-$member->addMemberSubscription($subscription);
-
-$member_payment = new MemberPayment();
-$member_payment->setMemberSubscription($subscription);
-$member_payment->setMember($member);
-$member_payment->setPaymentType('subscription');
-$member_payment->setPaymentProcessor('paypal');
-$member_payment->setAmount('10.99');
-$member_payment->setCurrency('USD');
-$member_payment->setStatus('Completed');
-$member_payment->save();
-
-$member_payment->applyToSubscription();
-$member->save();
-
-$yesterday = clone $now;
-$yesterday->sub(new DateInterval('P1D'));
-$subscription->setEffectiveDate($yesterday->format('Y-m-d'));
-$subscription->setStatus('failed');
-$subscription->save();
-
-/**
  * an active subscription
  */
 
@@ -235,24 +201,6 @@ $t->is(
     SubscriptionPeer::PREMIUM,
     'precondition: member subscription is premium'
 );
-
-$c = new sfPaypalPaymentCallback();
-$c->setShouldValidate(false);
-$c->initialize(array(
-    'txn_type' => 'recurring_payment_suspended_due_to_max_failed_payment',
-    'recurring_payment_id' => $subscrId,
-));
-$c->handle();
-
-//refresh DB objects
-$member = MemberPeer::retrieveByPK($member->getId());
-$activeSubscription = MemberSubscriptionPeer::retrieveByPK($activeSubscription->getId());
-$subscription = MemberSubscriptionPeer::retrieveByPK($subscription->getId());
-
-$t->is($activeSubscription->getStatus(), 'active', 'current subscription status is active');
-$t->is($subscription->getStatus(), 'eot', 'old subscription status is eot');
-$t->is($member->getSubscriptionId(), SubscriptionPeer::PREMIUM, 'member subscription is not modified');
-
 
 /**
  * Test subscription cancel

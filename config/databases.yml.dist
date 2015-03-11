@@ -8,4 +8,4 @@ all:
 test:
   propel:
     param:
-      dsn:          mysql://pd_test:polish_test@127.0.0.1/polishdate_test
+      dsn:          mysql://<?=$ENV['MYSQL_USER']?>:<?=$ENV['MYSQL_PASSWORD']?>@localhost/test
