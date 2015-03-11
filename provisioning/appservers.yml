@@ -1,0 +1,84 @@
+---
+- name: Configuring app servers
+  hosts: appservers
+  sudo: yes
+
+  vars:
+    project_env: stag
+    php_fpm_apt_packages:
+      - php5-fpm
+      - php5-cli 
+      - php5-mysql
+      - php5-intl
+      - php5-curl
+      - php5-imagick
+      - php5-gd
+      - php-apc
+
+    php_fpm_pools:
+      - name: polishdate
+        user: polishdate
+        group: polishdate
+        listen: /var/run/php5-fpm-polishdate.sock
+        listen.owner: www-data
+        listen.group: www-data
+        listen.mode: "0660"
+
+    php_fpm_ini:
+      # PHP section directives
+      - option: "error_reporting"
+        section: "PHP"
+        value: "E_ALL"
+      - option: "display_errors"
+        section: "PHP"
+        value: "Off"
+      - option: "display_startup_errors"
+        section: "PHP"
+        value: "Off"
+      - option: "log_errors"
+        section: "PHP"
+        value: "On"
+      - option: "date.timezone"
+        section: "PHP"
+        value: "UTC"
+      - option: "post_max_size"
+        section: "PHP"
+        value: "10M"
+      - option: "upload_max_filesize"
+        section: "PHP"
+        value: "8M"
+
+    nginx_ubuntu_pkg:
+      - nginx
+
+    nginx_sites:
+      polishdate-master:
+         - listen 80
+         - server_name {{ inventory_hostname }}
+         - root /home/polishdate/master/current/web
+         - access_log /var/log/nginx/{{ inventory_hostname }}.access_log
+         - error_log /var/log/nginx/{{ inventory_hostname }}.error_log
+         - client_max_body_size 10m
+
+         - rewrite /backend.php /backend_stag.php permanent
+         - "location / { try_files $uri /frontend_{{ project_env }}.php$is_args$args; }"
+         -  location ~ ^/(frontend|backend)_(prod|stag|dev)\.php(/|$) {
+            fastcgi_pass unix:/var/run/php5-fpm-polishdate.sock;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param HTTPS off;
+          }
+
+  roles:
+    - nbz4live.php-fpm
+    - jdauphant.nginx
+
+  pre_tasks:
+    - name: Allow all access to tcp port 80
+      ufw: rule=allow port=80 proto=tcp
+
+    - name: Create application user
+      user:
+        name:  polishdate
+        shell: /bin/bash
