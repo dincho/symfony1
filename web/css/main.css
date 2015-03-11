@@ -3519,3 +3519,9 @@ ul.rating li.five a:hover {
 .button_disabled::-moz-focus-inner {
     border: none;
 }
+
+.thumb_teaser {
+    float: left;
+    margin-left: 3px;
+    margin-right: 2px;
+}

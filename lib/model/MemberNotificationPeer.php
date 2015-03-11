@@ -48,7 +48,8 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
     {
         $member = $notification->getMemberRelatedByProfileId();
         $con = sfContext::getInstance()->getController();
-
+        sfLoader::loadHelpers(array('Asset', 'Tag'));
+        $thumbImg = image_tag($member->getMainPhoto()->getImg('30x30'), array('class' => 'thumb_teaser'));
         switch ($notification->getType()) {
             case self::VISIT:
                 $message =  __(
@@ -115,7 +116,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
             break;
         }
 
-        return $message;
+        return $thumbImg.$message;
     }
 
     public static function sendLoginNotifications(BaseMember $profile)
