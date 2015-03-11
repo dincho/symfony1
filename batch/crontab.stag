@@ -14,5 +14,4 @@ MAILTO=dincho@me.com
 40      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearLinks.php
 45      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearMemberNotification.php
 50      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/updateMemberAge.php
-10      01     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/clearPendingPaymentState.php
 #50      00     *     *     *         /usr/bin/php /home/polishdate/pd-git/batch/cronjob/compactPrMailMessage.php
