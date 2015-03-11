@@ -1,6 +1,6 @@
 # Hosts
 [rackspace-appservers]
-polishdate.bonex.us
+polishdate.bonex.us project_env=stag
 
 # Groups by role
 [appservers:children]

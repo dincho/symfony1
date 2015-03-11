@@ -1,0 +1,59 @@
+---
+- name: Deploy a release
+  hosts: appservers
+  remote_user: polishdate
+
+  vars:
+    project_root: "/home/polishdate/master/"
+    project_deploy_strategy: git
+    project_git_repo: git@github.com:vm-labs/polishdate.git
+    project_has_composer: true
+    project_composer_binary: composer
+    project_command_for_composer_install: >
+      {{ project_composer_binary }} install --no-ansi --no-dev --no-interaction 
+      --no-progress --optimize-autoloader --no-scripts --prefer-dist
+
+    project_templates:
+      - src: templates/databases.yml.dist
+        dest: config/databases.yml
+      - src: templates/i18n.yml.dist
+        dest: apps/frontend/config/i18n.yml
+
+    project_shared_children:
+      - path: "/web/uploads"
+        src: "uploads"
+
+    project_unwanted_items:
+      - .git
+
+    project_post_build_commands:
+      - "./symfony disable frontend {{project_env}}"
+      - "./symfony disable backend {{project_env}}"
+      - "./symfony propel-build-model"
+      - "./symfony migrate frontend:{{project_env}}"
+      - "./symfony enable frontend {{project_env}}"
+      - "./symfony enable backend {{project_env}}"
+
+  pre_tasks:
+    - name: ensure github.com is a known host
+      lineinfile:
+        dest: ~/.ssh/known_hosts
+        create: yes
+        state: present
+        line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+        regexp: "^github\\.com"
+
+    - name: Set composer github token
+      command: "{{ project_composer_binary }} config -g github-oauth.github.com {{ github_token }}"
+      when: github_token is defined
+
+  roles:
+       - f500.project_deploy
+
+  post_tasks:
+      - name: reload php5-fpm
+        service: name=php5-fpm state=reloaded
+        sudo: yes
+
+      - name: Remove old releases
+        deploy_helper: "path={{ project_root }} state=clean"

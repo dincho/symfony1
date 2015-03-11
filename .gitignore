@@ -27,3 +27,4 @@ apps/frontend/config/i18n.yml
 .idea/
 .vagrant
 !**/.gitkeep
+/provisioning/group_vars/all/vars.local

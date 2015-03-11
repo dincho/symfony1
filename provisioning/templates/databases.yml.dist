@@ -1,0 +1,6 @@
+all:
+  propel:
+    class:          sfPropelDatabase
+    param:
+      dsn:          mysql://{{ lookup('env', 'DATABASE_USER') }}:{{ lookup('env', 'DATABASE_PASSWORD') }}@{{ lookup('env', 'DATABASE_HOST') | default('127.0.0.1', True) }}/{{ lookup('env', 'DATABASE_NAME') }}
+      encoding:     utf8
