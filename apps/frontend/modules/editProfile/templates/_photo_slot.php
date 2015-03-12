@@ -12,7 +12,7 @@
             array('class' => 'button_mini tool_button')
         ) ?>
         <?php echo button_to_function(
-            'crop',
+            __('crop'),
             strtr(
                 'show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)',
                 array(

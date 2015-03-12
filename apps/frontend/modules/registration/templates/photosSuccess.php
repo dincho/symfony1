@@ -71,12 +71,12 @@
         <div id="crop_actions">
             <div id="crop_preview"></div>
             <?php echo button_to_function(
-                'Crop',
+                __('Confirm'),
                 'crop("' . url_for('registration/cropPhoto?member_id=' . $member->getId()) . '")',
                 array('class' => 'button')
             ) ?>
             <?php echo button_to_function(
-                'Cancel',
+                __('Cancel'),
                 'remove_crop_area()',
                 array('class' => 'button cancel')
             ) ?>
