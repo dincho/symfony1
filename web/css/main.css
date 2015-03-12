@@ -3249,23 +3249,23 @@ a.inactive_link:hover {
 }
 
 .star1 {
-    background-position: 0 -16px
+    background-position: 0 -96px
 }
 
 .star2 {
-    background-position: 0 -32px
+    background-position: 0 -112px
 }
 
 .star3 {
-    background-position: 0 -48px
+    background-position: 0 -128px
 }
 
 .star4 {
-    background-position: 0 -64px
+    background-position: 0 -144px
 }
 
 .star5 {
-    background-position: 0 -80px
+    background-position: 0 -160px
 }
 
 ul.rating li {
@@ -3317,23 +3317,23 @@ ul.rating li a:hover {
 }
 
 ul.rating li.one a:hover {
-    background-position: 0 -96px;
+    background-position: 0 -16px;
 }
 
 ul.rating li.two a:hover {
-    background-position: 0 -112px;
+    background-position: 0 -32px;
 }
 
 ul.rating li.three a:hover {
-    background-position: 0 -128px
+    background-position: 0 -48px
 }
 
 ul.rating li.four a:hover {
-    background-position: 0 -144px
+    background-position: 0 -64px
 }
 
 ul.rating li.five a:hover {
-    background-position: 0 -160px
+    background-position: 0 -80px
 }
 
 /* end rating code */
