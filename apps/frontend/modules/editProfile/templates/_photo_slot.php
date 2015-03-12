@@ -25,14 +25,14 @@
         <?php echo button_to_function(
             '↶',
             'rotate("' . url_for(
-                'editProfile/rotatePhoto?member_id=' . $photo->getMemberId()
+                $sf_params->get('module') . '/rotatePhoto?member_id=' . $photo->getMemberId()
             ) . '", ' . $photo->getId() . ', 90)',
             array('class' => 'button_mini tool_button')
         ) ?>
         <?php echo button_to_function(
             '↷',
             'rotate("' . url_for(
-                'editProfile/rotatePhoto?member_id=' . $photo->getMemberId()
+                $sf_params->get('module') . '/rotatePhoto?member_id=' . $photo->getMemberId()
             ) . '", ' . $photo->getId() . ', -90)',
             array('class' => 'button_mini tool_button')
         ) ?>
