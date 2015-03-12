@@ -722,3 +722,13 @@ propel:
     homepages:       { type: varchar, size: 255 }
     is_online:       { type: boolean, required: false, default: true }
     created_at:
+
+  gift:
+    id:
+    from_member_id:  { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
+    to_member_id:    { type: integer, required: false, foreignTable: member, foreignReference: id, onDelete: cascade, default: null }
+    to_email:        { type: varchar, size: 255, required: true }
+    accepted:        { type: boolean, default: false }
+    hash:            { type: char, size: 40, required: true } #sha1
+    subscription_id: { type: integer, required: true, foreignTable: subscription, foreignReference: id, onDelete: restrict }
+    created_at:
