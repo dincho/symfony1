@@ -8,6 +8,7 @@ default:
     description:  PolishRomance.com - Admin Tool
     keywords:     PolishRomance.com - Admin Tool
     language:     en
+    viewport:     width=device-width, initial-scale=1
 
   stylesheets:    [reset, form_admin, main_admin]
 

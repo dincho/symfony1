@@ -9,6 +9,7 @@ default:
     description:  Love Street
     keywords:     love, street
     language:     en
+    viewport:     width=device-width, initial-scale=1
 
   stylesheets:    [main]
 
