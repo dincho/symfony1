@@ -1,7 +1,7 @@
 default:
   http_metas:
     content-type: text/html
-    X-UA-Compatible: IE=EmulateIE8
+#    X-UA-Compatible: IE=EmulateIE8
 
   metas:
     title:        SzukamMilionera.com

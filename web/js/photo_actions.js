@@ -6,30 +6,27 @@ function show_crop_area(photo_id, img_src, btn) {
         $('imgCrop_crop_image').remove();
     }
 
-    if ($$('div.imgCrop_wrap').length) {
-        $$('div.imgCrop_wrap').forEach(function (el) {
-            if (!el.down('img')) el.remove();
-        });
+    for (var i = 0; i < $$('div.imgCrop_wrap').length; i++) {
+        if ($$('div.imgCrop_wrap')[i].down('img')) {
+            $$('div.imgCrop_wrap')[i].down('img').remove();
+        }
     }
 
     //remove old cropper if any
     if (cropper) {
-        cropper.previewWrap.removeClassName('imgCrop_previewWrap');
-        cropper.previewWrap.removeAttribute('style');
-        cropper.remove();
-        cropper = null;
-        if ($('crop_image')) {
-            $('crop_image').remove();
-        }
+        remove_crop_area();
     }
+
+    var cropImage = $('crop_area').down('#crop_image');
 
     //set the image and show the crop_area
-    if (!$('crop_area').down('#crop_image')) {
+    if (!cropImage) {
         var elem = $('crop_img_wrap');
         elem.innerHTML += '<img id="crop_image" />';
+        cropImage = $('crop_area').down('#crop_image');
     }
 
-    $('crop_area').down('#crop_image').observe('load', function () {
+    cropImage.observe('load', function () {
         $('crop_area').show();
 
         //this should be done after the image is loaded
@@ -45,10 +42,11 @@ function show_crop_area(photo_id, img_src, btn) {
                 pd_photo_id: photo_id
             }
         );
+        cropImage.stopObserving('load'); // stop endless firing on IE8
     });
     
     // src should be changed after binding to the onLoad event
-    $('crop_area').down('#crop_image').src = img_src;
+    cropImage.src = img_src;
 }
 
 function remove_crop_area() {
