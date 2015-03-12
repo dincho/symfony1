@@ -1,4 +1,4 @@
 essaySuccess:
     javascripts: [ charcount, essay_polish_letters ]
 selfDescriptionSuccess:
-    javascripts: [/sf/prototype/js/prototype, show_hide_other]
+    javascripts: [show_hide_other]

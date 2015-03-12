@@ -15,7 +15,10 @@ class BaseEditProfileActions extends prActions
         $this->getResponse()->addJavascript('/js/fileupload/jquery.iframe-transport.js', 'last');
         $this->getResponse()->addJavascript('/js/fileupload/jquery.fileupload.js', 'last');
         $this->getResponse()->addJavascript('photos', 'last');
+        $this->getResponse()->addJavascript('/cropper/cropper.js', 'last');
+        $this->getResponse()->addJavascript('photo_actions', 'last');
         $this->getResponse()->addJavascript('messagebar', 'last');
+        $this->getResponse()->addStyleSheet('/cropper/cropper.css', 'first');
 
         $this->public_photos = $this->member->getPublicMemberPhotos();
         $this->private_photos = $this->member->getPrivateMemberPhotos();
