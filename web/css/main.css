@@ -3543,7 +3543,7 @@ ul.rating li.five a:hover {
 
 #crop_actions {
     float: left;
-    width: 120px;
+    width: 145px;
 }
 
 #crop_img_wrap {
@@ -3551,12 +3551,12 @@ ul.rating li.five a:hover {
 }
 
 .imgCrop_wrap {
-    margin-left: 120px;
+    margin-left: 145px;
 }
 
 #crop_preview {
     border: 3px solid black;
-    margin-left: 3px;
+    margin-left: 9px;
     margin-bottom: 10px;
 }
 
