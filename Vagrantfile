@@ -32,12 +32,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.network "public_network"
 
   config.vm.define "dev", primary: true do |node|
-    node.vm.box = "ubuntu/trusty32"
+    node.vm.box = "ubuntu/precise32"
     node.vm.hostname = PROJECT_NAME + ".dev"
     node.vm.synced_folder ".", "/home/vagrant/" + PROJECT_NAME, type: "rsync", rsync__exclude: [
       "Vagrantfile",
       ".git/",
       ".vagrant/",
+      "composer.phar",
       "cache/",
       "log/",
       "tmp/",

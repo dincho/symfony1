@@ -9,10 +9,13 @@
     mysql_root_password: root_parolata
     mysql_databases:
       - { name: polishdate }
+      - { name: polishdate_test }
     mysql_users:
       - { name: polishdate, password: polishdate, database: polishdate }
+      - { name: polishdate_test, password: polishdate_test, database: polishdate_test }
     mysql_server_config:
       performance_schema: "off"
+    es_version: "0.90"
     es_config:
       http.cors.enabled: "true"
       http.cors.allow-origin: '/https?:\/\/www.elastichq.org(:[0-9]+)?/'
@@ -20,13 +23,14 @@
     php_fpm_apt_packages:
       - php5-fpm
       - php5-cli 
-      - php5-apcu
+      - php-apc
       - php5-mysql
       - php5-intl
       - php5-curl
       - php5-xdebug
       - php5-sqlite
       - php5-gd
+      - php5-xsl
 
     php_fpm_pools:
       - name: vagrant
