@@ -17,7 +17,7 @@
                 'show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)',
                 array(
                     '%ID%'             => $photo->getId(),
-                    '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file'),
+                    '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file') . '?' . $photo->getUpdatedAt(null)
                 )
             ),
             array('class' => 'button_mini tool_button')

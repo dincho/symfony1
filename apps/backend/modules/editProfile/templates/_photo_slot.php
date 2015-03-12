@@ -7,7 +7,7 @@
                                                                 ),
                                                            array('class' => 'tool_button')) ?>
 
-        <?php echo button_to_function('crop', strtr('show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)', array('%ID%' => $photo->getId(), '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file'), ) ),
+        <?php echo button_to_function('crop', strtr('show_crop_area("%ID%", "%ORIGINAL_PHOTO%", this)', array('%ID%' => $photo->getId(), '%ORIGINAL_PHOTO%' => $photo->getImageUrlPath('file') . '?' . $photo->getUpdatedAt(null))),
                                                            array('class' => 'tool_button', )) ?>
         <?php echo button_to_function(
             '↶',
