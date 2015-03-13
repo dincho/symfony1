@@ -334,9 +334,9 @@ class membersActions extends prActions
                 $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->member->getId());
 
-                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id])) {
+                if (! is_null($q->getOther()) && $value == 'other') {
                     $m_answer->setDescAnswerId(null);
-                    $m_answer->setOther($others[$question_id]);
+                    $m_answer->setOther('other');
                 } elseif ($q->getType() == 'other_langs') {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
@@ -351,6 +351,11 @@ class membersActions extends prActions
                     $this->member->setBirthDay($birthday);
                 } else {
                     $m_answer->setDescAnswerId( ($value) ? $value : null);
+                }
+
+                if (! is_null($q->getOther()) && isset($others[$question_id])) {
+                    $m_answer->setDescAnswerId(null);
+                    $m_answer->setOther('other');
                 }
                 $m_answer->save();
 

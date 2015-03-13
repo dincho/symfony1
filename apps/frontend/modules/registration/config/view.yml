@@ -1,4 +1,2 @@
-selfDescriptionSuccess:
-    javascripts: [show_hide_other]
 essaySuccess:
     javascripts: [ charcount, essay_polish_letters ]

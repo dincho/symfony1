@@ -75,13 +75,12 @@
                         <?php $no_language = false; ?>
                         <dd><?php echo ( is_null($member_answer->getOther()) ) ? format_language($member_answer->getCustom()) : $member_answer->getOther() ?> (<?php echo __('native'); ?>)</dd>
                     <?php elseif( $question->getType() == 'other_langs' && $member_answer ): ?>
-                        <?php if( is_null($member_answer->getOther()) ): ?>
                             <?php foreach ($member_answer->getOtherLangs() as $lang_answer): ?>
                                 <?php if( $lang_answer['lang'] ): ?>
                                         <dt>&nbsp;</dt><dd><?php echo format_language($lang_answer['lang']) ?> (<?php echo pr_format_language_level($lang_answer['level'] ? $lang_answer['level'] : 3) //default to basic (id: 3) ?>)</dd>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-                        <?php else: ?>
+                        <?php if( !is_null($member_answer->getOther()) ): ?>
                             <dt>&nbsp;</dt><dd><?php echo $member_answer->getOther(); ?></dd>
                         <?php endif; ?>
                     <?php endif; ?>
