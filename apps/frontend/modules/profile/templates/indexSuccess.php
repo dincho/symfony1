@@ -237,7 +237,7 @@
         <?php echo link_to_remote('1',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=1',
           'update'      =>  'rateMessage',
-          'complete'  =>  'changeRate(json)'
+          'complete'  =>  'changeRate(1)'
         ),array(
           'title' => __('1 Star')
         )) ?>
@@ -246,7 +246,7 @@
         <?php echo link_to_remote('2',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=2',
           'update'      =>  'rateMessage',
-          'complete'  =>  'changeRate(json)'
+          'complete'  =>  'changeRate(2)'
         ),array(
           'title' => __('2 Star')
         )) ?>
@@ -255,7 +255,7 @@
         <?php echo link_to_remote('3',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=3',
           'update'      =>  'rateMessage',
-          'complete'  =>  'changeRate(json)'
+          'complete'  =>  'changeRate(3)'
         ),array(
           'title' => __('3 Star')
         )) ?>
@@ -264,7 +264,7 @@
         <?php echo link_to_remote('4',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=4',
           'update'      =>  'rateMessage',
-          'complete'  =>  'changeRate(json)'
+          'complete'  =>  'changeRate(4)'
         ),array(
           'title' => __('4 Star')
         )) ?>
@@ -273,7 +273,7 @@
         <?php echo link_to_remote('5',array(
           'url'         =>  'profile/rate?id='.$member->getId().'&rate=5',
           'update'      =>  'rateMessage',
-          'complete'  =>  'changeRate(json)'
+          'complete'  =>  'changeRate(5)'
         ),array(
           'title' => __('5 Star')
         )) ?>
@@ -307,7 +307,7 @@
 <br class="clear" />
 
 
-<?php echo javascript_tag('function changeRate(json) {
-  $("currentRatingStars").className = "rating star" + json.currentRate;
-  $("currentRate").innerHTML = json.currentRate;
+<?php echo javascript_tag('function changeRate(rate) {
+  $("currentRatingStars").className = "rating star" + rate;
+  $("currentRate").innerHTML = rate;
 }') ?>

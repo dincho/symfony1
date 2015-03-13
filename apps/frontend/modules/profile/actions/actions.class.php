@@ -536,8 +536,6 @@ class profileActions extends prActions
           $memberRate->save();
       }
 
-      $this->getResponse()->setHttpHeader("X-JSON", '('.json_encode(array('currentRate' => $rate)).')');
-
       return $this->renderText(__("You gave this member %NB% star", array('%NB%' => $rate)));
     }
 
