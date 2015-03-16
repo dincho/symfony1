@@ -134,54 +134,6 @@ class subscriptionActions extends prActions
         $this->memberSubscription_id = $memberSubscription->getId();
     }
 
-    protected function executeGiftMembership()
-    {
-        $this->forward404Unless( sfConfig::get('app_settings_enable_gifts') );
-        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
-        $this->forward404Unless($member);
-        $this->forward404Unless($member->getSubscriptionId() == SubscriptionPeer::FREE);
-
-        $i18n = $this->getContext()->getI18N();
-        $bc_parent = $i18n->__("%USERNAME%'s profile", array('%USERNAME%' => $member->getUsername()));
-        $bc_buy_string = $i18n->__('Buy %USERNAME% a gift', array('%USERNAME%' => $member->getUsername()));
-
-        $this->getUser()->getBC()->clear()
-        ->add(array('name' => $bc_parent, 'uri' => '@profile?username=' . $member->getUsername()))
-        ->add(array('name' => $bc_buy_string));
-
-        if ( $this->getUser()->getId() == $member->getId() ) {
-            $this->setFlash('msg_error', 'You can\'t use this function on your own profile');
-            $this->redirect('profile/index?username=' . $member->getUsername() );
-        }
-
-        $this->member = $member;
-        $this->amount = 29.95;
-
-        $EWP = new sfEWP();
-        $parameters = array("cmd" => "_xclick-subscriptions",
-                            "business" => sfConfig::get('app_paypal_business'),
-                            "item_name" => 'Buy ' . $_SERVER['HTTP_HOST'] . ' Gift to ' . $member->getUsername(),
-                            'item_number' => 'gift_membership',
-                            'lc' => $this->getUser()->getProfile()->getCountry(),
-                            'no_note' => 1,
-                            'no_shipping' => 1,
-                            'currency_code' => 'GBP',
-                            'rm' => 1, //return method 1 = GET, 2 = POST
-                            'src' => 0, //Recurring or not
-                            'sra' => 1, //Reattemt recurring payments on failture
-                            'notify_url' => $this->getController()->genUrl(sfConfig::get('app_paypal_notify_url'), true),
-                            'return' => $this->getController()->genUrl('subscription/thankyouGift?profile=' . $member->getUsername(), true),
-                            'cancel_return' => $this->getController()->genUrl('@profile?cancel_gift=1&username=' . $member->getUsername(), true),
-                            'a3' => $this->amount,
-                            'p3' => 3,
-                            't3' => 'M',
-                            'custom' => $member->getId().'|'.$this->getUser()->getId(),
-
-        );
-
-        $this->encrypted = $EWP->encryptFields($parameters);
-    }
-
     public function executeThankyou()
     {
         $this->getUser()->getBC()->clear()
@@ -199,18 +151,6 @@ class subscriptionActions extends prActions
             $this->zongBonusEntryPointUrl = urlencode($this->getRequestParameter('bonusEntryPointUrl'));
             $this->member_subscription_id = $member->getCurrentMemberSubscription()->getSubscriptionId();
         }
-    }
-
-    protected function executeThankyouGift()
-    {
-        $member = MemberPeer::retrieveByUsername($this->getRequestParameter('profile'));
-        $this->forward404Unless($member);
-
-        $this->getUser()->getBC()->clear()->add(array('name' => $member->getUsername() . "'s Profile", 'uri' => '@profile?username=' . $member->getUsername()))
-        ->add(array('name' => 'Buy ' . $member->getUsername() . ' a gift'))
-        ->add(array('name' => 'Thank you!'));
-
-        $this->member = $member;
     }
 
     public function executeCancel()
@@ -236,6 +176,66 @@ class subscriptionActions extends prActions
       }
 
       $this->last_payment = $this->member_subscription->getLastCompletedPayment();
+    }
+
+    public function executeSendGift()
+    {
+        $this->member = $this->getUser()->getProfile();
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+
+            $gift = new Gift();
+            $gift->setMemberRelatedByFromMemberId($this->member);
+            $gift->setToEmail($this->getRequestParameter('email'));
+
+            $rand = Tools::generateString(8) . time();
+            $gift->setHash(sha1(SALT . $rand . SALT));
+            $gift->setSubscriptionId($this->member->getSubscriptionId());
+
+            $gift->save();
+
+            $this->setFlash('msg_ok', 'Your gift has been successfully sent');
+
+            Events::triggerGiftReceived($gift);
+
+            $this->redirect('subscription/send_gift');
+        }
+
+        $this->allowedGifts = GiftPeer::getAllowedGiftsNum($this->member);
+    }
+
+    public function validateSendGift() {
+
+        if ($this->getRequest()->getMethod() == sfRequest::POST) {
+            // check if the email belongs to the currently logged in member
+            $this->member = $this->getUser()->getProfile();
+            $email = $this->getRequestParameter('email');
+            if ($email == $this->member->getEmail()) {
+                $this->setFlash('msg_error', 'You can\'t send gifts to yourself');
+                return false;
+            }
+
+            // check if the email belongs to a non-standard subscriber
+            $recipient = MemberPeer::retrieveByEmail($email);
+            if ($recipient && $recipient->isPaid()) {
+                $this->setFlash('msg_error', 'You can\'t send gifts to Premium ot VIP profiles');
+                return false;
+            }
+
+            if (GiftPeer::getAllowedGiftsNum($this->member) <= 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function handleErrorSendGift()
+    {
+        $this->member = $this->getUser()->getProfile();
+        $this->allowedGifts = GiftPeer::getAllowedGiftsNum($this->member);
+
+        return sfView::SUCCESS;
     }
 
     public function executeAcceptGift()

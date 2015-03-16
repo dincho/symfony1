@@ -66,6 +66,8 @@ all:
     ip_address: "195.150.9.37"
 
   gifts:
+    friends_limit: 2 # maximum gifts to send after payment
+    send_period_days: 7 #member can send gift for that long after last payment
     expire_days: 7 #unaccepted gift expires after this period in days
     free_period_days: 14 #free subscription period in days
 
