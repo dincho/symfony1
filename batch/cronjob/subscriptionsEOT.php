@@ -22,14 +22,10 @@ $logger->initialize(array('file' => SF_ROOT_DIR . '/log/cron/subscriptionEOT.log
  
 
 // batch process here
-$days = sfConfig::get('app_settings_extend_eot', 0);
-
 $c = new Criteria();
-$c->add(MemberSubscriptionPeer::EOT_AT, '('.MemberSubscriptionPeer::EOT_AT . ' + INTERVAL ' . $days . ' DAY) <= NOW()', Criteria::CUSTOM);
+$c->add(MemberSubscriptionPeer::EOT_AT, time(), Criteria::LESS_EQUAL);
 $c->add(MemberSubscriptionPeer::STATUS, array('active', 'canceled'), Criteria::IN);
-// $c->add(MemberSubscriptionPeer::SUBSCRIPTION_ID, MemberPeer::SUBSCRIPTION_ID);
 $member_subscriptions = MemberSubscriptionPeer::doSelectJoinMember($c);
-
 
 foreach( $member_subscriptions as $subscription)
 {
