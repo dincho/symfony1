@@ -1,3 +1,4 @@
+<?php $links_map = StaticPagePeer::getLinskMap($sf_user->getCatalogId()); ?>
 <?php if( $sf_user->isAuthenticated() ): ?>
 <div id="footer_menu">
     <ul>
@@ -30,6 +31,7 @@
             <?php endif; ?>
         </li>
         <li><?php echo link_to(__('Privacy'), 'dashboard/privacy') ?></li>
+        <li><?php echo link_to($links_map['safety_tips'], '@page?slug=safety_tips') ?></li>
         <li><?php echo link_to(__('Delete your account'), 'dashboard/deleteYourAccount') ?></li>
     </ul>
 </div>
