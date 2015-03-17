@@ -226,7 +226,7 @@ class subscriptionActions extends prActions
                 return false;
             }
 
-            if (GiftPeer::giftAlreadyPending($this->member, $email)) {
+            if (GiftPeer::canSendGiftToEmail($this->member, $email)) {
                 $this->setFlash('msg_error', 'You have already sent a gift to this email address');
                 return false;
             }
