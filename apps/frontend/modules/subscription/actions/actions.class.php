@@ -289,7 +289,7 @@ class subscriptionActions extends prActions
         );
         $member->save();
 
-        $gift->setAccepted(true);
+        $gift->setAccepted(time());
         $gift->save();
 
         $this->setFlash('msg_ok', 'Your account was upgraded.');
