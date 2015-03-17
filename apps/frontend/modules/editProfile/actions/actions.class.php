@@ -150,9 +150,9 @@ class editProfileActions extends BaseEditProfileActions
                 $m_answer->setDescQuestionId($q->getId());
                 $m_answer->setMemberId($this->getUser()->getId());
 
-                if (! is_null($q->getOther()) && $value == 'other' && isset($others[$question_id])) {
+                if (! is_null($q->getOther()) && $value == 'other') {
                     $m_answer->setDescAnswerId(null);
-                    $m_answer->setOther($others[$question_id]);
+                    $m_answer->setOther('other');
                 } elseif ($q->getType() == 'other_langs') {
                     $m_answer->setOtherLangs($value);
                     $m_answer->setDescAnswerId(null);
@@ -167,6 +167,11 @@ class editProfileActions extends BaseEditProfileActions
                     $this->member->setBirthDay($birthday);
                 } else {
                     $m_answer->setDescAnswerId( ($value) ? $value : null);
+                }
+
+                if (! is_null($q->getOther()) && isset($others[$question_id])) {
+                    $m_answer->setDescAnswerId(null);
+                    $m_answer->setOther('other');
                 }
                 $m_answer->save();
 
@@ -198,14 +203,12 @@ class editProfileActions extends BaseEditProfileActions
             $others = $this->getRequestParameter('others');
             $has_error = false; $you_must_fill = false;
 
-            //print_r($answers); print_r($others);exit();
-
             foreach ($questions as $question) {
-                if ($question->getIsRequired() &&
-                    (!isset($answers[$question->getId()]) || empty($answers[$question->getId()]) ||
-                        (!is_null($question->getOther()) && $answers[$question->getId()] == 'other' && !$others[$question->getId()])
-                    || ( $question->getType() == 'other_langs' && $answers[$question->getId()]  != 'other' && !$this->hasValidAnswerForOtherLang($question->getId()) )
-                    ))
+                if ($question->getIsRequired() 
+                    && (empty($answers[$question->getId()])
+                        && (is_null($others) || empty($others[$question->getId()]))
+                       )
+                    )
                 {
                     $this->getRequest()->setError('answers[' . $question->getId() . ']', null);
                     $has_error = true;
@@ -251,23 +254,6 @@ class editProfileActions extends BaseEditProfileActions
         }
 
         return true;
-    }
-
-    protected function hasValidAnswerForOtherLang($question_id)
-    {
-      $answers = $this->getRequestParameter('answers');
-      $question_answers = $answers[$question_id];
-
-      $has_one_answer = false;
-
-        for ($i=0; $i<5; $i++) {
-          if ($question_answers[$i]) {
-            $has_one_answer = true;
-            if( !$question_answers['lang_levels'][$i] ) return false;
-          }
-        }
-
-        return $has_one_answer;
     }
 
     public function handleErrorSelfDescription()
