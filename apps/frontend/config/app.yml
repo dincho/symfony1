@@ -65,6 +65,10 @@ all:
     url:        https://ssl.dotpay.pl/
     ip_address: "195.150.9.37"
 
+  gifts:
+    expire_days: 7 #unaccepted gift expires after this period in days
+    free_period_days: 14 #free subscription period in days
+
 dev:
   gmaps_key:
     pd_dincho_bonex_us:         ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg

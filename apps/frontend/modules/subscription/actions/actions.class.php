@@ -30,7 +30,10 @@ class subscriptionActions extends prActions
              ->add(array('name' => 'Subscription', 'uri' => 'subscription/manage'));
 
         $this->member = $this->getUser()->getProfile();
-        $this->redirectIf($this->member->getSubscriptionId() == SubscriptionPeer::FREE, 'subscription/payment');
+        $this->redirectIf(
+            $this->member->getSubscriptionId() == SubscriptionPeer::FREE,
+            'subscription'
+        );
 
         $this->member_subscription = $this->member->getCurrentMemberSubscription();
         $this->next_member_subscription = $this->member->getNextMemberSubscription();
@@ -233,5 +236,63 @@ class subscriptionActions extends prActions
       }
 
       $this->last_payment = $this->member_subscription->getLastCompletedPayment();
+    }
+
+    public function executeAcceptGift()
+    {
+        /* @var Member $member */
+        $member = $this->getUser()->getProfile();
+
+        if ($member->isSubscriptionPaid()) {
+            $this->setFlash(
+                'msg_error',
+                'Your already have a subscription. You cannot accept gifts.'
+            );
+            $this->redirect('subscription/manage');
+        }
+
+        $gift = GiftPeer::retrieveByHash($this->getRequestParameter('hash', ''));
+
+        $this->forward404Unless($gift);
+
+        // if sent to unregistered email there is no memberId, so we check the email
+        if (!$gift->getToMemberId() && $gift->getToEmail() == $member->getEmail()) {
+            // add the memberId so the validation by Id shall pass
+            $gift->setToMemberId($member->getId());
+        }
+
+        // 404 if the gift is not for this user
+        $this->forward404Unless($gift->getToMemberId() == $member->getId());
+
+        if ($gift->isExpired()) {
+            $this->setFlash('msg_error', 'Gift expired.');
+            $this->redirect('subscription/manage');
+        }
+
+        $subscriptionExpires = new DateTime();
+        $subscriptionExpires->add(new DateInterval('P' . sfConfig::get('free_period_days') . 'D'));
+
+        $memberSubscription = new MemberSubscription();
+        $memberSubscription->setMember($member);
+        $memberSubscription->setSubscriptionId($gift->getSubscriptionId());
+        $memberSubscription->setPeriod(sfConfig::get('gifts_free_period_days'));
+        $memberSubscription->setPeriodType('D');
+        $memberSubscription->setStatus('active');
+        $memberSubscription->setEotAt($subscriptionExpires->getTimestamp());
+        $memberSubscription->setEffectiveDate(time());
+        $memberSubscription->setGiftBy($gift->getFromMemberId());
+        $memberSubscription->save();
+
+        $member->changeSubscription(
+            $gift->getSubscriptionId(),
+            $gift->getMemberRelatedByFromMemberId()->getUsername() . ' (gift)'
+        );
+        $member->save();
+
+        $gift->setAccepted(time());
+        $gift->save();
+
+        $this->setFlash('msg_ok', 'Your account was upgraded.');
+        $this->redirect('subscription/manage');
     }
 }
