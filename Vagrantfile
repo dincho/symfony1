@@ -56,6 +56,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
 
+    node.vm.provider "parallels" do |vb, override|
+      override.vm.box = "parallels/ubuntu-12.04-i386"
+      vb.name = node.vm.hostname
+      vb.customize ["set", :id, "--memsize", "2048"]
+    end
+
     if Vagrant::Util::Platform.windows?
         node.vm.provision "shell" do |s|
           s.path = "provisioning/generic-provision.sh"
