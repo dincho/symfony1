@@ -275,12 +275,12 @@ class subscriptionActions extends prActions
         }
 
         $subscriptionExpires = new DateTime();
-        $subscriptionExpires->add(new DateInterval('P' . sfConfig::get('free_period_days') . 'D'));
+        $subscriptionExpires->add(new DateInterval('P' . sfConfig::get('app_free_period_days') . 'D'));
 
         $memberSubscription = new MemberSubscription();
         $memberSubscription->setMember($member);
         $memberSubscription->setSubscriptionId($gift->getSubscriptionId());
-        $memberSubscription->setPeriod(sfConfig::get('gifts_free_period_days'));
+        $memberSubscription->setPeriod(sfConfig::get('app_gifts_free_period_days'));
         $memberSubscription->setPeriodType('D');
         $memberSubscription->setStatus('active');
         $memberSubscription->setEotAt($subscriptionExpires->getTimestamp());
