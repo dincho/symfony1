@@ -4,7 +4,7 @@ $allow_ips = array('216.113.188.202', '216.113.188.203', '216.113.188.204', '66.
                    '127.0.0.1', '::1', '10.0.0.7', //my addresses
                    '46.10.100.36', //VMLabs office,
                    '176.12.56.76', //Dincho's Home
-                   '172.28.128.1', //Vagrant host
+                   '172.28.128.1', '10.37.129.2', //Vagrant hosts
 );
 
 if (!in_array(@$_SERVER['REMOTE_ADDR'], $allow_ips))
