@@ -215,15 +215,22 @@ class Events
         return self::executeNotifications(self::TELL_FRIEND, $global_vars, $friend_email, null, $email);
     }
 
-    public static function triggerGiftReceived(BaseMember $recipient, BaseMember $sender)
+    public static function triggerGiftReceived(Gift $gift)
     {
-        $profile_url  = LinkPeer::create('@profile?username=' . $sender->getUsername(), $recipient->getId())->getUrl($recipient->getCatalogue());
+        $member = $gift->getMemberRelatedByFromMemberId();
 
-        $global_vars = array('{SENDER_PROFILE_URL}' => $profile_url,
-                             '{SENDER_USERNAME}' => $sender->getUsername(),
+        $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
+        $registration_url  = LinkPeer::create('@joinnow')->getUrl($member->getCatalogue());
+
+        $global_vars = array('{EMAIL}' => $member->getEmail(),
+                             '{CATALOG}' => $member->getCatalogue()->getDomain(),
+                             '{MEMBERSHIP_TYPE}' => $gift->getSubscription()->getTitle(),
+                             '{LOGIN_URL}' => $login_url,
+                             '{REGISTRATION_URL}' => $registration_url,
+                             '{ACCEPT_LINK}' => 'subscription/acceptGift?hash=' . $gift->getHash(),
                             );
 
-        return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $recipient->getEmail(), $recipient);
+        return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $gift->getToEmail());
     }
 
     /* REMINDERS */
