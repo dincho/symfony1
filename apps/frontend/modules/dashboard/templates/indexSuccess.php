@@ -1,6 +1,6 @@
 <?php use_helper('prProfilePhoto', 'Url', 'Javascript') ?>
 <span class="give-vip">
-    <?php echo link_to(__('Give VIP or Premium to your friend'), 'subscription/manage', array('class'=>'sec_link')) ?>
+    <?php echo link_to(__('Give VIP or Premium to your friend'), '@send_gift', array('class'=>'sec_link')) ?>
 </span>
 
 <?php if( $member->isFree() ): ?>
