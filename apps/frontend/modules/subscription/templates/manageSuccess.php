@@ -4,7 +4,9 @@
 <?php if( $member_subscription ): ?>
     <?php $eot = format_date($member_subscription->getExtendedEOT(null), $date_format); ?>
     <?php echo __('Manage subscription - membership status', array('%SUBSCRIPTION_TYPE%' => $type, '%EOT_DATE%' => $eot)); ?>
-    
+    <span>
+        <?php echo link_to(__('Give VIP or Premium to your friend'), '@send_gift') ?>
+    </span>
     <?php if($member_subscription->getGiftBy()): ?>
         <?php echo __('Manage subscription - gift membership', array(
                         '%SENDER_USERNAME%' => $member_subscription->getGiftSender()->getUsername(),
