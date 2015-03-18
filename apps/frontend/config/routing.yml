@@ -181,6 +181,10 @@ ipn:
     url: /IPN/*
     param: { module: subscription, action: IPN, sf_culture: en }
 
+send_gift:
+    url:   /:sf_culture/subscription/send_gift
+    param: { module: subscription, action: sendGift, sf_culture: en  }
+
 link:
     url: /link/:hash
     param: { module: content, action: link, sf_culture: en }

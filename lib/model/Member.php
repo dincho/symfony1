@@ -883,6 +883,16 @@ class Member extends BaseMember
       return $this->_current_member_subscription;
     }
 
+    public function getLastCompletedPayment()
+    {
+        $member_subscription = $this->getCurrentMemberSubscription();
+        if (!$member_subscription) {
+            return null;
+        }
+
+        return $member_subscription->getLastCompletedPayment();
+    }
+
     public function getLastEotAt()
     {
       $c = new Criteria();

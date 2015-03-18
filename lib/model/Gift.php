@@ -13,7 +13,7 @@ class Gift extends BaseGift
     {
         $giftExpires = new DateTime($this->getCreatedAt());
 
-        return $giftExpires->add(new DateInterval('P' . sfConfig::get('gifts_expire_days') . 'D'));
+        return $giftExpires->add(new DateInterval('P' . sfConfig::get('app_gifts_expire_days') . 'D'));
     }
 
     public function isExpired()

@@ -1,0 +1,11 @@
+fillin:
+  enabled: true
+  param:
+    content_type:   xhtml
+fields:
+  email:
+    required:
+        msg:    Please enter email address.
+    prEmailValidator:
+      strict:       true
+      email_error:  Please provide email address in correct format.
