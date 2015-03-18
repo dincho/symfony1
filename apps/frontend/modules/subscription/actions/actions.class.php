@@ -275,7 +275,7 @@ class subscriptionActions extends prActions
         }
 
         $subscriptionExpires = new DateTime();
-        $subscriptionExpires->add(new DateInterval('P' . sfConfig::get('app_free_period_days') . 'D'));
+        $subscriptionExpires->add(new DateInterval('P' . sfConfig::get('app_gifts_free_period_days') . 'D'));
 
         $memberSubscription = new MemberSubscription();
         $memberSubscription->setMember($member);

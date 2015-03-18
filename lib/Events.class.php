@@ -219,6 +219,7 @@ class Events
     {
         $member = $gift->getMemberRelatedByFromMemberId();
 
+        $ACCEPT_LINK  = LinkPeer::create('subscription/acceptGift?hash=' . $gift->getHash())->getUrl($member->getCatalogue());
         $login_url  = LinkPeer::create('@signin')->getUrl($member->getCatalogue());
         $registration_url  = LinkPeer::create('@joinnow')->getUrl($member->getCatalogue());
 
@@ -227,7 +228,7 @@ class Events
                              '{MEMBERSHIP_TYPE}' => $gift->getSubscription()->getTitle(),
                              '{LOGIN_URL}' => $login_url,
                              '{REGISTRATION_URL}' => $registration_url,
-                             '{ACCEPT_LINK}' => 'subscription/acceptGift?hash=' . $gift->getHash(),
+                             '{ACCEPT_LINK}' => $ACCEPT_LINK,
                             );
 
         return self::executeNotifications(self::GIFT_RECEIVED, $global_vars, $gift->getToEmail());
