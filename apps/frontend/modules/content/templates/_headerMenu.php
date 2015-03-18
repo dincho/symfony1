@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-        <p class="second_row" ><?php echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'safety_tips', $links_map['safety_tips'], '@page?slug=safety_tips', 'class=last') ?>
+        <p class="second_row" ><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant') ?>
           &bull;<?php echo pr_link_to(__('Report a bug'), 'content/reportBug') ?>
           &bull;<?php if(array_key_exists('help', $links_map)) echo link_to_unless( $sf_context->getModuleName() == 'content' && $sf_request->getParameter('slug') == 'help', $links_map['help'], '@page?slug=help', 'class=last') ?></p>
     <?php endif; ?>

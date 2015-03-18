@@ -1,5 +1,7 @@
 <?php use_helper('prProfilePhoto', 'Url', 'Javascript') ?>
-<span class="online-assistant"><?php echo link_to(__('Contact Online Assistant'), 'dashboard/contactYourAssistant', array('class' => 'sec_link')) ?></span>
+<span class="give-vip">
+    <?php echo link_to(__('Give VIP or Premium to your friend'), '@send_gift', array('class'=>'sec_link')) ?>
+</span>
 
 <?php if( $member->isFree() ): ?>
     <?php echo __('Your currently using Free Membership. To see what options are available to you, <a href="%URL_FOR_SUBSCRIPTION%" class="sec_link">click here</a>.', array('%URL_FOR_SUBSCRIPTION%' => url_for('subscription/index'))) ?><br />

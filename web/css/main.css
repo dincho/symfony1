@@ -883,7 +883,7 @@ form#sign_in fieldset a {
     border: 2px solid #4F4F4F;
 }
 
-span.online-assistant {
+.give-vip {
     float: right;
     font-size: 11px;
     padding-bottom: 10px;
