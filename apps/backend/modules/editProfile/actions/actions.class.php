@@ -17,8 +17,10 @@ class editProfileActions extends BaseEditProfileActions
     {
         parent::executeDeletePhoto();
 
-        // notification hook
-        Events::triggerMemberPhotoDeleted($this->member);
+        if ($this->member->isActive()) {
+            // notification hook
+            Events::triggerMemberPhotoDeleted($this->member);
+        }
 
         // add a note to profile
         $note = new MemberNote();
