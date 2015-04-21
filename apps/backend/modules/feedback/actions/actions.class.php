@@ -160,7 +160,8 @@ class feedbackActions extends sfActions
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
         $request->setParameter('body', $mail->getBodyForReply());
-
+        // remove selected members from session
+        $this->getUser()->getAttributeHolder()->removeNamespace('backend/feedback/selectedMembers');
         $this->forward($this->getModuleName(), 'compose');
     }
 
