@@ -160,6 +160,8 @@ class feedbackActions extends sfActions
         $request->setParameter('mail_to', $mail->getMailFrom());
         $request->setParameter('subject', 'Re: ' . $mail->getSubject());
         $request->setParameter('body', $mail->getBodyForReply());
+        // clean up session data
+        $this->getUser()->getAttributeHolder()->clear();
 
         $this->forward($this->getModuleName(), 'compose');
     }
