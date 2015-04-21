@@ -81,10 +81,10 @@ dev:
     ec_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
     mm_pd_dincho_bonex_us:      ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
   paypal:
-    business:             admin_1231849319_biz@polishromance.com
+    business:             pd-seller@gmail.com
     test:                 yes
     url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
-    cert_id:              KRHQZEWMCEYVL
+    cert_id:              8RBU44QFHS9BQ
     notify_url:           http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
@@ -117,10 +117,10 @@ stag:
     db_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
     dh_polishdate_bonex_us:       ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BT1t4zxXDUL8-uvkn_t4boESsZvkhR6bhP-eezmr93L4qM2DynVHf8Hyg
   paypal:
-    business:             admin_1231849319_biz@polishromance.com
+    business:             pd-seller@gmail.com
     test:                 yes
     url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
-    cert_id:              KRHQZEWMCEYVL
+    cert_id:              8RBU44QFHS9BQ
     notify_url:           http://polishdate.bonex.us/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
@@ -147,10 +147,10 @@ stag:
 
 test:
   paypal:
-    business:             admin_1231849319_biz@polishromance.com
+    business:             pd-seller@gmail.com
     test:                 yes
     url:                  https://www.sandbox.paypal.com/cgi-bin/webscr
-    cert_id:              KRHQZEWMCEYVL
+    cert_id:              8RBU44QFHS9BQ
     notify_url:           http://pd.dincho.bonex.us:8007/frontend_dev.php/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/sandbox_pr-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/sandbox_pr-prvkey.pem
