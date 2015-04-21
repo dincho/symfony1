@@ -172,7 +172,7 @@ prod:
     old_business:         futurise@gmail.com
     business:             administrator@inventiss.com
     url:                  https://www.paypal.com/cgi-bin/webscr
-    cert_id:              3KFZN8HKFBTEU
+    cert_id:              VGR2LFT7E8CWE
     notify_url:           http://PolishDate.com/callbacks/paypal.html
     cert_public:          %SF_DATA_DIR%/paypal/polishdate-pubcert.pem
     cert_private_key:     %SF_DATA_DIR%/paypal/polishdate-prvkey.pem
