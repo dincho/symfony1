@@ -24,6 +24,7 @@ class dashboardActions extends prActions
         //matches
         $c = new Criteria();
         MemberMatchPeer::addGlobalCriteria($c, $member);
+        $c->addDescendingOrderByColumn(MemberPeer::ID);
         $c->setLimit(5);
         $this->matches = MemberPeer::doSelectJoinMemberPhoto($c);
 
