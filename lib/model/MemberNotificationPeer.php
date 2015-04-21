@@ -50,7 +50,7 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
         $con = sfContext::getInstance()->getController();
         sfLoader::loadHelpers(array('Asset', 'Tag', 'Url'));
         $thumbImg = image_tag($member->getMainPhoto()->getImg('30x30'), array('class' => 'thumb_teaser'));
-        $profileLink = link_to($thumbImg, '@profile?username=' . $member->getUsername(), array('class' => 'sec_link'));
+        $profileLink = link_to($thumbImg, '@profile?username=' . $member->getUsername());
 
         switch ($notification->getType()) {
             case self::VISIT:
