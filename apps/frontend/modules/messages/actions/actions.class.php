@@ -6,6 +6,7 @@ class messagesActions extends prActions
     {
         $bc = $this->getUser()->getBC();
         $bc->addFirst(array('name' => 'Dashboard', 'uri' => 'dashboard/index'));
+        $this->del_msg = __('Are you sure you want to delete selected message(s)?');
     }
 
     public function executeIndex()
@@ -36,8 +37,6 @@ class messagesActions extends prActions
         $this->truncateLimit = ($profile->getSex() == 'M'
                                 && $profile->isFree()
                                 && $profile->hasUnreadMessagesFromFreeFemales()) ? 12 : 80;
-
-        $this->showDeleteConfirmation();
     }
 
     public function validateIndex()
@@ -64,7 +63,6 @@ class messagesActions extends prActions
         $this->pager->setPeerMethod('doSelectJoinMemberRelatedByRecipientId');
         $this->pager->init();
 
-        $this->showDeleteConfirmation();
         $this->member = $this->getUser()->getProfile();
     }
 
@@ -94,32 +92,12 @@ class messagesActions extends prActions
         $this->pager->setPeerMethod('doSelectHydrateObject');
         $this->pager->init();
 
-        $this->showDeleteConfirmation();
         $this->member = $this->getUser()->getProfile();
     }
 
     public function validateSent()
     {
         return $this->validateDeleteMessages();
-    }
-
-    protected function showDeleteConfirmation()
-    {
-        if (($this->getRequestParameter('confirm_delete') || $this->getRequestParameter('confirm_delete_draft'))
-            && count($this->getRequestParameter('selected', array())) > 0
-        ) {
-            $i18n = $this->getContext()->getI18N();
-            $i18n_options = array(
-                '%URL_FOR_CANCEL%' => 'javascript:window.history.go(-1);',
-                '%URL_FOR_CONFIRM%' =>
-                    'javascript:document.getElementById(\'' . $this->getRequestParameter('form_id') . '\').submit()'
-            );
-            $del_msg = $i18n->__(
-                'Are you sure you want to delete selected message(s)? <a href="%URL_FOR_CANCEL%" class="sec_link">No</a> <a href="%URL_FOR_CONFIRM%" class="sec_link">Yes</a>',
-                $i18n_options
-            );
-            $this->setFlash('msg_error', $del_msg, false);
-        }
     }
 
     protected function validateDeleteMessages()

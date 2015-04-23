@@ -61,3 +61,34 @@ function showMessageLoading() {
     document.querySelector('#thread_pagination .js-nav').style.display = 'none';
     document.querySelector('#thread_pagination .js-loader').style.display = "";
 }
+
+function confirmDelete(form, msg) {
+
+    var nothingToDelete = true;
+    $(form).select('input[type="checkbox"]').each(function(el){
+        if (el.checked) {
+            el.up('tr').addClassName('delete');
+            nothingToDelete = nothingToDelete ? false : nothingToDelete;
+        }
+    });
+
+    if (nothingToDelete) {
+        return;
+    }
+
+    var dialog = new Dialog().confirm(
+        msg,
+        function(continU){
+            if(!continU) {
+                $(form).select('input[type="checkbox"]').each(function(el){
+                    if (el.checked) {
+                        el.up('tr').removeClassName('delete');
+                    }
+                });
+                this.stopQ();
+            } else {
+                form.submit();
+            }
+        }
+    );
+}
