@@ -79,6 +79,13 @@ abstract class prSearchQueryBuilder
                         'order' => 'desc',
                     ),
                 );
+                $this->filter[] = array(
+                    'range' => array(
+                        'last_login' => array(
+                            'lt' => time()
+                        ),
+                    )
+                );
             break;
 
             case 'most_recent':
@@ -92,6 +99,13 @@ abstract class prSearchQueryBuilder
                     'created' => array(
                         'order' => 'desc',
                     ),
+                );
+                $this->filter[] = array(
+                    'range' => array(
+                        'created' => array(
+                            'lt' => time()
+                        ),
+                    )
                 );
             break;
 
