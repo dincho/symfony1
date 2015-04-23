@@ -309,6 +309,7 @@ class Events
                              '{SENDER_USERNAME}' => $sender->getUsername(),
                              '{URL_TO_MESSAGES}' => $messages_url,
                              '{URL_TO_MESSAGE}' => $message_url,
+                             '{UNREAD_MESSAGES_COUNT}' => $recipient->getUnreadMessagesCount(),
                              '{MESSAGE_SNIPPET}' => $message_snippet,
                             );
 
