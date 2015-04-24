@@ -51,5 +51,8 @@
         <?php include_partial('content/footer_copyright');?>
     </div>
     <?php include_partial('content/javascriptWarning'); ?>
+    <?php if( $sf_user->isAuthenticated() ): ?>
+        <?php include_partial('content/timeout_warning'); ?>
+    <?php endif; ?>
 </body>
 </html>
