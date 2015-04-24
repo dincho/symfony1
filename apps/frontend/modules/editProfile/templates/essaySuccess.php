@@ -9,7 +9,7 @@
 
     <fieldset>
         <?php echo pr_label_for('essay_headline', __('Headline:') . '<span style="color:red;">*</span>') ?><br />
-        <?php echo input_tag('essay_headline',substr(strip_tags($member->getEssayHeadline(ESC_RAW)), 0, 40), array('class' => 'essay', 'size' => 30, 'maxlength' => 40))?><br /><br />
+        <?php echo input_tag('essay_headline',mb_substr(strip_tags($member->getEssayHeadline(ESC_RAW)), 0, 40), array('class' => 'essay', 'size' => 30, 'maxlength' => 40))?><br /><br />
 
         <?php if( $sf_user->getCulture() == 'pl'): ?>
         <div id="essay_polish_letters">
