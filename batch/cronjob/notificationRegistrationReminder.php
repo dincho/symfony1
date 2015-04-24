@@ -28,12 +28,16 @@ $notifications = NotificationPeer::doSelect($c);
 
 foreach ($notifications as $notification)
 {
-    $days = (int) $notification->getDays();
-    
+    $preiodOne = date('Y-m-d', strtotime('-7 day'));
+    $preiodTwo = date('Y-m-d', strtotime('-21 day'));
+    $preiodThree = date('Y-m-d', strtotime('-90 day'));
+
     $c = new Criteria();
     $c->add(MemberPeer::CATALOG_ID, $notification->getCatId());
     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ABANDONED);
-    $c->add(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') + INTERVAL '. $days .' DAY = CURRENT_DATE()', Criteria::CUSTOM);
+    $c->add(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodOne .'"', Criteria::CUSTOM);
+    $c->addOr(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodTwo .'"', Criteria::CUSTOM);
+    $c->addOr(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodThree .'"', Criteria::CUSTOM);
     $members = MemberPeer::doSelect($c);
     
     foreach ($members as $member) Events::triggerRegistrationReminder($member);
