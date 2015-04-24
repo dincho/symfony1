@@ -71,9 +71,10 @@ class prMySQLSessionStorage extends sfMySQLSessionStorage
     $db_time_col = $this->getParameterHolder()->get('db_time_col', 'sess_time');
     $db_user_id_col = $this->getParameterHolder()->get('db_user_id_col', 'user_id');
 
+    $user = sfContext::getInstance()->getUser();
     $user_id = 'NULL'; //SQL NULL
-    if (sfContext::getInstance()->getUser()) {
-      $user_id = sfContext::getInstance()->getUser()->getId();
+    if ($user->isAuthenticated()) {
+      $user_id = $user->getId();
     }
 
     // cleanup the session id and data, just in case
