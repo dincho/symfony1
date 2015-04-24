@@ -64,26 +64,22 @@ function showMessageLoading() {
 
 function confirmDelete(form, msg) {
 
-    var nothingToDelete = true;
-    $(form).select('input[type="checkbox"]').each(function(el){
-        if (el.checked) {
-            el.up('tr').addClassName('delete');
-            nothingToDelete = nothingToDelete ? false : nothingToDelete;
-        }
-    });
+    var checkedBoxes = $(form).select('input[type="checkbox"]:checked');
 
-    if (nothingToDelete) {
+    if (checkedBoxes.length == 0) {
         return;
     }
 
+    checkedBoxes.each(function(el){
+        el.up('tr').addClassName('delete');
+    });
+
     var dialog = new Dialog().confirm(
         msg,
-        function(continU){
-            if(!continU) {
-                $(form).select('input[type="checkbox"]').each(function(el){
-                    if (el.checked) {
-                        el.up('tr').removeClassName('delete');
-                    }
+        function(callBack){
+            if(!callBack) {
+                checkedBoxes.each(function(el){
+                    el.up('tr').removeClassName('delete');
                 });
                 this.stopQ();
             } else {
