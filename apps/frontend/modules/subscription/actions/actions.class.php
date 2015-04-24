@@ -15,8 +15,16 @@ class subscriptionActions extends prActions
         $this->member = $this->getUser()->getProfile();
 
         $c = new Criteria();
+        $c->add(SubscriptionDetailsPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
         $c->add(SubscriptionDetailsPeer::CAT_ID, $this->member->getCatalogId());
-        $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+        $c->addAscendingOrderByColumn(sprintf(
+            'FIELD(%s, %d, %d, %d)',
+            SubscriptionDetailsPeer::SUBSCRIPTION_ID,
+            SubscriptionPeer::PREMIUM_EXPRESS,
+            SubscriptionPeer::PREMIUM,
+            SubscriptionPeer::VIP
+        ));
+
         $this->subscriptions = SubscriptionDetailsPeer::doSelect($c);
 
         $this->recent_subscription = $this->member->getMostRecentSubscription();
@@ -64,7 +72,6 @@ class subscriptionActions extends prActions
             }
         }
     }
-
 
     public function executePayment()
     {

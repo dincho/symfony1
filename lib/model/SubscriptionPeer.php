@@ -12,4 +12,5 @@ class SubscriptionPeer extends BaseSubscriptionPeer
     const FREE = 1;
     const VIP = 2;
     const PREMIUM = 3;
+    const PREMIUM_EXPRESS = 4;
 }

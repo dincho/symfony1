@@ -18,4 +18,14 @@ class SubscriptionDetails extends BaseSubscriptionDetails
     {
         return $this->getSubscription()->getShortTitle();
     }
+
+    public function getCanSendGift()
+    {
+        return $this->getSubscriptionId() == SubscriptionPeer::VIP;
+    }
+
+    public function getCanHideVisitorCounter()
+    {
+        return $this->getSubscriptionId() == SubscriptionPeer::VIP;
+    }
 }
