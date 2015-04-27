@@ -61,3 +61,30 @@ function showMessageLoading() {
     document.querySelector('#thread_pagination .js-nav').style.display = 'none';
     document.querySelector('#thread_pagination .js-loader').style.display = "";
 }
+
+function confirmDelete(form, msg) {
+
+    var checkedBoxes = $(form).select('input[type="checkbox"]:checked');
+
+    if (checkedBoxes.length == 0) {
+        return;
+    }
+
+    checkedBoxes.each(function(el){
+        el.up('tr').addClassName('delete');
+    });
+
+    var dialog = new Dialog().confirm(
+        msg,
+        function(callBack){
+            if(!callBack) {
+                checkedBoxes.each(function(el){
+                    el.up('tr').removeClassName('delete');
+                });
+                this.stopQ();
+            } else {
+                form.submit();
+            }
+        }
+    );
+}

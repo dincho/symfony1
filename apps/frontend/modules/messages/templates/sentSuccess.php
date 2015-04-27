@@ -4,21 +4,15 @@
 <?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/sent')); ?><br />
 
 <?php if($pager->getNbResults() > 0): ?>
-    <?php if($sf_request->hasParameter('confirm_delete')): ?>
-        <?php $action = 'messages/delete?backto=sent&page=' . $sf_request->getParameter('page') ?>
-        <?php else: ?>
-        <?php $action = 'messages/sent?confirm_delete=1&form_id=messages_form_sent&backto=sent&page=' . $sf_request->getParameter('page'); ?>
-        <?php endif; ?>
 
-    <?php echo form_tag($action, array('id' => 'messages_form_sent', 'name' => 'messages_form_sent')) ?>
+    <?php $action = 'messages/delete?backto=sent&page=' . $sf_request->getParameter('page') ?>
+
+    <?php echo form_tag($action, array('id' => 'messages_form_sent', 'name' => 'messages_form_sent', 'onSubmit' => "confirmDelete(this, '$del_msg');return false;")) ?>
     <?php include_partial('actions', array('form_name' => 'messages_form_sent', 'no_read_unread' => true)); ?>
     <table cellspacing="0" cellpadding="0" class="messages" id="sent_messages">
         <?php foreach ($pager->getResults() as $thread): ?>
         <?php $class = ''; ?>
         <?php $is_selected = in_array($thread->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-        <?php if( $sf_request->getParameter('confirm_delete') && $is_selected ): ?>
-            <?php $class .= 'delete'; ?>
-        <?php endif; ?>
 
         <tr class="<?php echo $class ?>">
             <td class="unread_circle">

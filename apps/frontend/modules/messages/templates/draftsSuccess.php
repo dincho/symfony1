@@ -4,13 +4,10 @@
 <?php include_partial('content/pager', array('pager' => $pager, 'route' => 'messages/drafts')); ?><br />
 
 <?php if($pager->getNbResults() > 0): ?>
-    <?php if($sf_request->hasParameter('confirm_delete_draft')): ?>
-        <?php $action = 'messages/deleteDraft' ?>
-    <?php else: ?>
-        <?php $action = 'messages/drafts?confirm_delete_draft=1&form_id=messages_form_draft'; ?>
-    <?php endif; ?>
 
-    <?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft')) ?>
+    <?php $action = 'messages/deleteDraft' ?>
+
+    <?php echo form_tag($action, array('id' => 'messages_form_draft', 'name' => 'messages_form_draft', 'onSubmit' => "confirmDelete(this, '$del_msg');return false;")) ?>
         <?php include_partial(
             'actionsdraft',
             array(
@@ -22,9 +19,6 @@
         <?php foreach ($pager->getResults() as $message): ?>
             <?php unset($class); ?>
             <?php $is_selected = in_array($message->getId(), $sf_data->getRaw('sf_request')->getParameter('selected', array())) ?>
-            <?php if( $sf_request->getParameter('confirm_delete_draft') && $is_selected ): ?>
-                <?php $class = 'delete'; ?>
-            <?php endif; ?>
 
             <?php if( $message->getThreadId() ): ?>
                 <?php $message_form_link = 'messages/thread?draft_id='.$message->getId().'&id=' . $message->getThreadId() ?>
