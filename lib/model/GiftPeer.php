@@ -11,6 +11,10 @@ class GiftPeer extends BaseGiftPeer
 {
     public static function getAllowedGiftsNum(BaseMember $member)
     {
+        if (!$member->getSubscriptionDetails()->getCanSendGift()) {
+            return 0;
+        }
+
         if (!$member->getLastCompletedPayment()) {
             return 0;
         }
