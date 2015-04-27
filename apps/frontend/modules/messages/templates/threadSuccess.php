@@ -76,8 +76,10 @@
     <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
 </div>
 <?php if( $profile && $profile->isActive() ): ?>
+    <div class="thread_errors">
+        <?php include_partial('content/formErrors'); ?>
+    </div>
     <span id="feedback">&nbsp;</span>
-
     <?php echo form_tag('messages/thread?id='.$thread->getId(), array('class'  => 'msg_form', 'id' => 'reply_message_form')) ?>
         <?php echo input_hidden_tag('id', $thread->getId(), 'class=hidden') ?>
         <?php echo input_hidden_tag('draft_id', $draft->getId(), 'class=hidden') ?>
