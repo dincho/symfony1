@@ -681,6 +681,9 @@ class messagesActions extends prActions
 
     public function handleErrorThread()
     {
+        // notify the default layout not to render form-specific errors
+        $this->getRequest()->setAttribute("relocate_error", true);
+
         $member = $this->getUser()->getProfile();
         $thread = $member->retrieveThreadById($this->getRequestParameter('id'));
         $this->forward404Unless($thread);

@@ -43,7 +43,7 @@
                           $sf_data->get('sf_flash')->has('msg_info') ): ?>
                     <?php include_partial('content/messages'); ?>
                 <?php endif; ?>
-                <?php if( $sf_params->get('action') != 'thread' ): // msg-specific errors should go above the msg box ?>
+                <?php if( !$sf_request->hasAttribute('relocate_error') ): // check for action-specific errors ?>
                     <?php include_partial('content/formErrors'); ?>
                 <?php endif; ?>
             </div>
