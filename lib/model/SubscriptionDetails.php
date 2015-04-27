@@ -28,4 +28,13 @@ class SubscriptionDetails extends BaseSubscriptionDetails
     {
         return $this->getSubscriptionId() == SubscriptionPeer::VIP;
     }
+
+    public function getPaymentProcessorsString()
+    {
+        if ($this->getSubscriptionId() == SubscriptionPeer::PREMIUM_EXPRESS) {
+            return 'SMS';
+        }
+
+        return 'Dotpay, PayPal';
+    }
 }

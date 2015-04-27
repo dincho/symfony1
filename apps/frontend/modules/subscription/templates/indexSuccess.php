@@ -23,14 +23,12 @@
         </div>
         <?php $columnIdx = 1; ?>
         <?php foreach ($subscriptions as $subscription): ?>
-            <div class="column column_<?php echo $columnIdx ?>">
-                <?php if ($columnIdx++ == 3): ?>
-                  <div class="upgrade_header">
-                      <div><?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?></div>
-                  </div>
-                <?php endif; ?>
-                <div class="subscription_features">
-                  <span class="top"><?php echo __($subscription->getTitle()) ?></span>
+            <div class="column column_<?php echo $columnIdx++ ?>">
+                <div class="upgrade_header">
+                    <?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?>
+                </div>
+                <div class="outlined_subscription_features">
+                  <span class="top"><?php echo __($subscription->getPaymentProcessorsString()) ?></span>
                   <span class="check"><?php echo ($subscription->getCanReplyMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                   <span class="check"><?php echo ($subscription->getCanSendMessages()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>
                   <span class="check"><?php echo ($subscription->getCanSeeViewed()) ? image_tag('check_mark.gif') : '&nbsp;'?></span>

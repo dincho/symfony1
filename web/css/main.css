@@ -777,6 +777,7 @@ form#sign_in fieldset a {
 
 #subscription .left {
     border-left: 1px solid #3D3D3D;
+    margin-top: 44px;
 }
 
 #subscription .subscription_features {
@@ -793,21 +794,27 @@ form#sign_in fieldset a {
 }
 
 #subscription .column_3 {
-    margin-top: -44px;
+    margin-top: -16px;
 }
 
-#subscription .column_3 .subscription_features {
+#subscription .outlined_subscription_features {
     border: 1px solid #35773b;
 }
 
-#subscription .column_3 .upgrade_header {
+#subscription .upgrade_header {
     background-color: #35773b;
-    border-right: 1px solid #35773b;
     color: white;
     font-family: Myriad, Myriad Pro, sans-serif;
     font-size: 14px;
     padding: 6px;
     width: 135px;
+    height: 32px;
+}
+
+#subscription .column_3 .upgrade_header {
+    height: 33px;
+    width: 136px;
+    padding-top: 21px;
 }
 
 #subscription span.select input {
