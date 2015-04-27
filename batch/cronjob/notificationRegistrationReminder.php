@@ -28,16 +28,19 @@ $notifications = NotificationPeer::doSelect($c);
 
 foreach ($notifications as $notification)
 {
-    $preiodOne = date('Y-m-d', strtotime('-7 day'));
-    $preiodTwo = date('Y-m-d', strtotime('-21 day'));
-    $preiodThree = date('Y-m-d', strtotime('-90 day'));
+    $before7Days = date('Y-m-d', strtotime('-7 day'));
+    $before21Days = date('Y-m-d', strtotime('-21 day'));
+    $before90Days = date('Y-m-d', strtotime('-90 day'));
 
     $c = new Criteria();
     $c->add(MemberPeer::CATALOG_ID, $notification->getCatId());
     $c->add(MemberPeer::MEMBER_STATUS_ID, MemberStatusPeer::ABANDONED);
-    $c->add(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodOne .'"', Criteria::CUSTOM);
-    $c->addOr(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodTwo .'"', Criteria::CUSTOM);
-    $c->addOr(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $preiodThree .'"', Criteria::CUSTOM);
+    $period1 = $c->getNewCriterion(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $before7Days .'"', Criteria::CUSTOM);
+    $period2 = $c->getNewCriterion(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $before21Days .'"', Criteria::CUSTOM);
+    $period3 = $c->getNewCriterion(MemberPeer::CREATED_AT, 'DATE('. MemberPeer::CREATED_AT .') = "'. $before90Days .'"', Criteria::CUSTOM);
+    $c->addOr($period1);
+    $c->addOr($period2);
+    $c->addOr($period3);
     $members = MemberPeer::doSelect($c);
     
     foreach ($members as $member) Events::triggerRegistrationReminder($member);
