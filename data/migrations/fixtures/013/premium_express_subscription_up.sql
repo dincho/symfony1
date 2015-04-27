@@ -10,3 +10,18 @@ INSERT INTO `subscription_details`
         FROM `subscription_details` 
         WHERE `subscription_id` = 3;
 
+CREATE TABLE `dotpay_sms_history`
+(
+    `id` INTEGER  NOT NULL AUTO_INCREMENT,
+    `service` VARCHAR(2)  NOT NULL,
+    `ident` VARCHAR(10)  NOT NULL,
+    `number` VARCHAR(5)  NOT NULL,
+    `sender` VARCHAR(100)  NOT NULL,
+    `code` VARCHAR(8)  NOT NULL,
+    `text` VARCHAR(160)  NOT NULL,
+    `date` DATETIME  NOT NULL,
+    `checksum` VARCHAR(32)  NOT NULL,
+    `request_ip` BIGINT,
+    `created_at` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -26,7 +26,9 @@ class MemberSubscription extends BaseMemberSubscription
     public function getExtendedEOT()
     {
         $dt = new sfDate($this->getEotAt(null));
-        $dt->addDay(sfConfig::get('app_settings_extend_eot', 0));
+        if ($this->getSubscriptionId() != SubscriptionPeer::PREMIUM_EXPRESS) {            
+            $dt->addDay(sfConfig::get('app_settings_extend_eot', 0));
+        }
 
         return $dt->get();
     }

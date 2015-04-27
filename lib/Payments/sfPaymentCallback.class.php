@@ -38,13 +38,15 @@ abstract class sfPaymentCallback
 
     public function handle()
     {
-        if ( $this->shouldValidate() ) {
-            if( $this->validate() ) $this->processNotification();
-        } else {
-            $this->processNotification();
+        if ($this->shouldValidate() && !$this->validate()) {
+            return false;
         }
 
-        if( $this->shouldLogNotification() ) $this->logNotification();
+        if ($this->shouldLogNotification()) {
+            $this->logNotification();
+        }
+
+        return $this->processNotification();
     }
 
     public function setShouldValidate($bool)

@@ -3,7 +3,7 @@
 
 <?php if( $member_subscription ): ?>
     <?php $eot = format_date($member_subscription->getExtendedEOT(null), $date_format); ?>
-    <?php echo __('Manage subscription - membership status', array('%SUBSCRIPTION_TYPE%' => $type, '%EOT_DATE%' => $eot)); ?>
+    <?php echo __('Manage subscription - membership status', array('%SUBSCRIPTION_TYPE%' => $type)); ?>
     <span>
         <?php echo link_to(__('Give VIP or Premium to your friend'), '@send_gift') ?>
     </span>
@@ -55,7 +55,13 @@
                 <?php echo form_tag($sf_data->getRaw('dotpayURL'), array('method' => 'post', 'id' => 'dotpay_form')) ?>
                     <?php echo submit_tag(__('Pay with DotPay'), array('class' => 'button', 'id' => 'dotpay_button')); ?>
                 </form>
-
+            <?php elseif( $last_payment->getPaymentProcessor() == 'dotpay-sms' ): ?>
+                <?php echo __('Manage subscription - dotpay sms', array(
+                    '%SUBSCRIPTION_TYPE%' => $type,
+                    '%EOT_DATE%' => $eot,
+                    '%SMS_TEXT%' => $smsText,
+                    '%NUMBER%' => sfConfig::get('app_dotpay_sms_number')
+                )); ?>
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>

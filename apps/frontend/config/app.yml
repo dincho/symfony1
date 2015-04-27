@@ -64,6 +64,11 @@ all:
   dotpay:
     url:        https://ssl.dotpay.pl/
     ip_address: "195.150.9.37"
+  dotpay_sms:
+    account_id: 20767
+    secret: I92JsuHT04r6fZNl
+    prefix: TC.WHIN
+    number: 92578
 
   gifts:
     friends_limit: 2 # maximum gifts to send after payment
