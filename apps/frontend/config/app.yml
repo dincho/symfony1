@@ -145,7 +145,7 @@ stag:
     cs_polishdate_bonex_us:  "CafeSayang.com (stag) - "
     db_polishdate_bonex_us:  "DatingBistro.com (stag) - "
     as_polishdate_bonex_us:  "Ashley.pl (stag) - "
-    im_polishdate_bonex_us:  "ishchumillionera.com (stag) - "
+    im_polishdate_bonex_us:  "IshchuMillionera.com (stag) - "
   sf_google_analytics_plugin:
     enabled:                no
 
@@ -196,7 +196,7 @@ prod:
     www_cafesayang_com:       "CafeSayang.com - "
     www_datingbistro_com:     "DatingBistro.com - "
     www_ashley_pl:            "Ashley.pl - "
-    www_ishchumillionera_com: "ishchumillionera.com - "
+    www_ishchumillionera_com: "IshchuMillionera.com - "
   sf_google_analytics_plugin:
     enabled:      yes
     profile_id:   UA-11123315-1
