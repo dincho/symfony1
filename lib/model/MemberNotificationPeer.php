@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Subclass for performing query and update operations on the 'member_notification' table.
- *
- *
- *
- * @package lib.model
- */
-class MemberNotificationPeer extends BaseMemberNotificationPeer
+class MemberNotificationPeer
 {
     const VISIT = 1;
     const MESSAGE = 2;
@@ -16,33 +9,6 @@ class MemberNotificationPeer extends BaseMemberNotificationPeer
     const RATE = 5;
     const MUTUAL_RATE = 6;
     const LOGIN = 7;
-
-    //profile is actually current sfUser
-    public static function addNotification(
-        BaseMember $member,
-        BaseMember $profile,
-        $notification_type,
-        $subject_id = null
-    ) {
-        $c = new Criteria();
-        $c->add(MemberNotificationPeer::MEMBER_ID, $member->getId());
-        $c->add(MemberNotificationPeer::PROFILE_ID, $profile->getId());
-        $c->add(MemberNotificationPeer::TYPE, $notification_type);
-        $c->add(MemberNotificationPeer::SENT_AT, null, Criteria::ISNULL);
-        $c->add(MemberNotificationPeer::CREATED_AT, time()-60, Criteria::GREATER_THAN);
-
-        //add only unique (not sent and last minute) notifications to prevent flooding
-        if (MemberNotificationPeer::doCount($c) > 0) {
-            return;
-        }
-
-        $notification = new MemberNotification();
-        $notification->setMemberId($member->getId());
-        $notification->setProfileId($profile->getId());
-        $notification->setType($notification_type);
-        $notification->setSubjectId($subject_id);
-        $notification->save();
-    }
 
     public static function send(BaseMember $member, BaseMember $actor, $type, $subjectId = null)
     {
