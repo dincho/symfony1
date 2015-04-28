@@ -76,9 +76,9 @@ all:
     expire_days: 7 #unaccepted gift expires after this period in days
     free_period_days: 14 #free subscription period in days
   pusher:
-    key: 5d51587ddf43169e1fcb
-    secret: 76fda86f5860b405c0b2
-    app_id: 117676
+    key: 15626cff3028b13b38a2
+    secret: 6e61917d1434b046e930
+    app_id: 117716
 dev:
   gmaps_key:
     pd_dincho_bonex_us:         ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg
@@ -151,6 +151,10 @@ stag:
     im_polishdate_bonex_us:  "IshchuMillionera.com (stag) - "
   sf_google_analytics_plugin:
     enabled:                no
+  pusher:
+    key: 94007b2c2e593269d60e
+    secret: 80f6fc5b388d8f62e32d
+    app_id: 117717
 
 test:
   paypal:
@@ -208,3 +212,7 @@ prod:
     params:
       domain_name:   none
       linker_policy: true
+  pusher:
+    key: a40fb1a471cd1e5e3c38
+    secret: 6a7a16d07116a37f7430
+    app_id: 117718
