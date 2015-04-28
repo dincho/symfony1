@@ -64,7 +64,7 @@
         </span>
         <span class="js-reload" style="<?php echo (count($messages) > $limit) ? "" : "display: none"?>">
             <span class="js-separator">&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
-            <?php echo link_to_function(__('View the last messages'),  'location.reload()'); ?>
+            <?php echo link_to_function(__('View the last messages'),  'location = location.pathname'); ?>
         </span>
     </div>
     <img class="js-loader" src="/images/ajax-loader-bg-2B2B2B.gif" alt="Loading..." style="display: none;" />
