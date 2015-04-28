@@ -68,9 +68,6 @@
         </span>
     </div>
     <img class="js-loader" src="/images/ajax-loader-bg-2B2B2B.gif" alt="Loading..." style="display: none;" />
-    <?php if( $displayFetchLink ): ?>
-        <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
-    <?php endif; ?>
 </div>
 <div id="messages">
     <?php include_partial('get_messages', array('messages' => $messages, 'member' => $member, 'profile' => $profile)); ?>
@@ -85,6 +82,9 @@
             <?php echo input_hidden_tag('limit', $limit, array('class' => 'hidden')) ?>
         <?php endif; ?>
         <?php echo input_hidden_tag('numberOfMessages', count($messages), array('class' => 'hidden', 'id' => 'numberOfMessages')) ?>
+        <?php if( $displayFetchLink ): ?>
+            <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
+        <?php endif; ?>
         <fieldset class="thread_msg">
             <?php echo pr_label_for('your_story', __('Message:')) ?>
             <div id="thread_text"><?php echo __('Never include your last name, e-mail address, home address, phone number, place of work and any other identifying information in initial messages with other members'); ?>
