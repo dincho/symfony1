@@ -1,19 +1,24 @@
 <?php use_helper('Javascript'); ?>
 
-<?php $ajax_request = remote_function(array('success' => 'parse_notifications(request, '. sfConfig::get('app_settings_member_notification_lifetime', 7000) .')',
-                                 'url' => 'ajax/notifications',
-                                )); ?>
+<script src="//js.pusher.com/2.2/pusher.min.js"></script>
+<script type="text/javascript">
+    Pusher.log = function(message) {
+        if (window.console && window.console.log) {
+            window.console.log(message);
+        }
+    };
 
-<script type="text/javascript" language="javascript">
-//<![CDATA[
-Event.observe(window, 'load', function () {
+    var noteLifetime = <?php echo sfConfig::get('app_settings_member_notification_lifetime', 7000); ?>;
+    var appKey = '<?php echo sfConfig::get("app_pusher_key"); ?>';
+    var userId = <?php echo $sf_user->getId(); ?>;
+    var authEndpoint = '<?php echo url_for('ajax/pusher'); ?>';
 
-  setTimeout(function () {
-      <?php echo $ajax_request; ?>
-      new PeriodicalExecuter(function () {<?php echo $ajax_request; ?>}, 60);
-  }, 1500);
+    var pusher = new Pusher(appKey, {
+        authEndpoint: authEndpoint
+    });
 
-});
-
-//]]>
+    var channel = pusher.subscribe('private-notifications-' + userId);
+    channel.bind('notification', function(data) {
+        show_notification(data, noteLifetime);
+    });
 </script>

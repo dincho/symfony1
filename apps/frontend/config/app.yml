@@ -75,7 +75,10 @@ all:
     send_period_days: 7 #member can send gift for that long after last payment
     expire_days: 7 #unaccepted gift expires after this period in days
     free_period_days: 14 #free subscription period in days
-
+  pusher:
+    key: 5d51587ddf43169e1fcb
+    secret: 76fda86f5860b405c0b2
+    app_id: 117676
 dev:
   gmaps_key:
     pd_dincho_bonex_us:         ABQIAAAAWOdXT6qNUgPjKm7xCk2W8BSZHOM69ArWeLydefi213lCfJxAdxRI-S73zrRwJIyVR_FzKaZYx5-eIg

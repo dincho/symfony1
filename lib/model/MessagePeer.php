@@ -71,7 +71,7 @@ class MessagePeer extends BaseMessagePeer
 
         if( !is_null($draft_id) ) MessagePeer::clearDraft($draft_id, $sender->getId());
 
-        MemberNotificationPeer::addNotification($recipient, $sender, MemberNotificationPeer::MESSAGE, $thread->getId());
+        MemberNotificationPeer::send($recipient, $sender, MemberNotificationPeer::MESSAGE, $thread->getId());
 
         //increment counters
         if ($reply) { //replying ...
