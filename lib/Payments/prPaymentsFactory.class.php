@@ -16,7 +16,22 @@ class prPaymentsFactory
           $zong = new prZong($this->member->getCountry(), $this->subscription->getCurrency());
           $zongItem = $zong->getFirstItemWithApproxPrice($this->subscription->getAmount());
 
-          return (bool) $zongItem;
+          return ((bool) $zongItem && $this->subscription->getId() != SubscriptionPeer::PREMIUM_EXPRESS);
+    }
+
+    public function isPaypalAvailable()
+    {
+        return $this->subscription->getSubscriptionId() != SubscriptionPeer::PREMIUM_EXPRESS;
+    }
+
+    public function isDotpayAvailable()
+    {
+        return $this->subscription->getSubscriptionId() != SubscriptionPeer::PREMIUM_EXPRESS;
+    }
+
+    public function isDotpaySmsAvailable()
+    {
+        return $this->subscription->getSubscriptionId() == SubscriptionPeer::PREMIUM_EXPRESS;
     }
 
     public function getDotpayURL($culture, sfWebController $controller, $memberSubscriptionId)
@@ -80,6 +95,11 @@ class prPaymentsFactory
         $EWP = new sfEWP();
 
         return $EWP->encryptFields($parameters);
+    }
+
+    public function getDotpaySmsText($memberSubscriptionId)
+    {
+        return sfConfig::get('app_dotpay_sms_prefix') . '.' . $memberSubscriptionId;
     }
 
     protected function getDescription()

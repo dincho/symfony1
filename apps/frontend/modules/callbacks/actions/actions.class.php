@@ -50,6 +50,21 @@ class callbacksActions extends sfActions
       return sfView::NONE;
   }
 
+  public function executeDotpaySms()
+  {
+    sfConfig::set('sf_web_debug', false);
+    $this->getResponse()->setContentType('text/plain');
+
+    $callback = new sfDotPaySmsPaymentCallback();
+    $callback->initialize($this->getRequestParams());
+
+    if ($callback->handle()) {
+      $this->renderText('OK');
+    }
+
+    return sfView::NONE;    
+  }
+
   public function getRequestParams()
   {
         $params_by_ref = $this->request->getParameterHolder()->getAll();

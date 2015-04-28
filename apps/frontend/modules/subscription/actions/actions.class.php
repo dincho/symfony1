@@ -15,8 +15,16 @@ class subscriptionActions extends prActions
         $this->member = $this->getUser()->getProfile();
 
         $c = new Criteria();
+        $c->add(SubscriptionDetailsPeer::SUBSCRIPTION_ID, SubscriptionPeer::FREE, Criteria::NOT_EQUAL);
         $c->add(SubscriptionDetailsPeer::CAT_ID, $this->member->getCatalogId());
-        $c->addAscendingOrderByColumn(SubscriptionDetailsPeer::AMOUNT);
+        $c->addAscendingOrderByColumn(sprintf(
+            'FIELD(%s, %d, %d, %d)',
+            SubscriptionDetailsPeer::SUBSCRIPTION_ID,
+            SubscriptionPeer::PREMIUM_EXPRESS,
+            SubscriptionPeer::PREMIUM,
+            SubscriptionPeer::VIP
+        ));
+
         $this->subscriptions = SubscriptionDetailsPeer::doSelect($c);
 
         $this->recent_subscription = $this->member->getMostRecentSubscription();
@@ -61,10 +69,11 @@ class subscriptionActions extends prActions
                   $dotpay->setLastname($this->member->getLastName());
                   $dotpay->setEmail($this->member->getEmail());
                   $this->dotpayURL = $dotpay->generateURL(sfConfig::get('app_dotpay_url'));
+            } elseif ($this->last_payment->getPaymentProcessor() == 'dotpay-sms') {
+                $this->smsText = sfConfig::get('app_dotpay_sms_prefix') . '.' . $this->member_subscription->getId();
             }
         }
     }
-
 
     public function executePayment()
     {
@@ -116,6 +125,9 @@ class subscriptionActions extends prActions
         //build payment processor buttons & forms
         $paymentsFactory = new prPaymentsFactory($member, $subscription);
         $this->zongAvailable = $paymentsFactory->isZongAvailable();
+        $this->paypalAvailable = $paymentsFactory->isPaypalAvailable();
+        $this->dotpayAvailable = $paymentsFactory->isDotpayAvailable();
+        $this->dotpaySmsAvailable = $paymentsFactory->isDotpaySmsAvailable();
         $this->dotpayURL = $paymentsFactory->getDotpayURL(
             $this->getUser()->getCulture(),
             $this->getController(),
@@ -127,11 +139,12 @@ class subscriptionActions extends prActions
             //allow upgrade (modify) if last processor is paypal
             ($currentPaymentProcessor == 'paypal')
         );
+        $this->smsText = $paymentsFactory->getDotpaySmsText($memberSubscription->getId());
 
         //additional details
         $this->amount = $subscription->getAmount();
         $this->currency = $subscription->getCurrency();
-        $this->memberSubscription_id = $memberSubscription->getId();
+        $this->memberSubscriptionId = $memberSubscription->getId();
     }
 
     public function executeThankyou()

@@ -714,6 +714,20 @@ propel:
     t_date:             { type: timestamp, required: true }
     request_ip:         { type: bigint }
     created_at:
+
+  dotpay_sms_history:
+    id:
+    service:            { type: varchar, size: 2, required: true }
+    ident:              { type: varchar, size: 10, required: true }
+    number:             { type: varchar, size: 5, required: true }
+    sender:             { type: varchar, size: 100, required: true }
+    code:               { type: varchar, size: 8, required: true }
+    text:               { type: varchar, size: 160, required: true }
+    date:               { type: timestamp, required: true }
+    checksum:           { type: varchar, size: 32, required: true } #md5
+    request_ip:         { type: bigint }
+    created_at:
+
     
   as_seen_on_logo:
     id:

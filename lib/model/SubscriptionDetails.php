@@ -18,4 +18,23 @@ class SubscriptionDetails extends BaseSubscriptionDetails
     {
         return $this->getSubscription()->getShortTitle();
     }
+
+    public function getCanSendGift()
+    {
+        return $this->getSubscriptionId() == SubscriptionPeer::VIP;
+    }
+
+    public function getCanHideVisitorCounter()
+    {
+        return $this->getSubscriptionId() == SubscriptionPeer::VIP;
+    }
+
+    public function getPaymentProcessorsString()
+    {
+        if ($this->getSubscriptionId() == SubscriptionPeer::PREMIUM_EXPRESS) {
+            return 'SMS';
+        }
+
+        return 'Dotpay, PayPal';
+    }
 }
