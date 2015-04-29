@@ -518,7 +518,7 @@ class profileActions extends prActions
             if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($member, $rater);
             if( $rater->getEmailNotifications() === 0 ) Events::triggerAccountActivityMutualRate($rater, $member);
 
-            MemberNotificationPeer::addNotification(
+            MemberNotificationPeer::send(
               $member,
               $rater,
               MemberNotificationPeer::MUTUAL_RATE
@@ -526,7 +526,7 @@ class profileActions extends prActions
         } elseif ($rate == 5) {
           if( $member->getEmailNotifications() === 0 ) Events::triggerAccountActivityRate($member, $rater);
 
-          MemberNotificationPeer::addNotification(
+          MemberNotificationPeer::send(
             $member,
             $rater,
             MemberNotificationPeer::RATE

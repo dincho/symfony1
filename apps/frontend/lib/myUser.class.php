@@ -144,7 +144,7 @@ class myUser extends sfBasicSecurityUser
                 if (!$this->getProfile()->getPrivateDating()
                     || $this->getProfile()->hasOpenPrivacyFor($profile->getId())
                 ) {
-                    MemberNotificationPeer::addNotification(
+                    MemberNotificationPeer::send(
                         $profile,
                         $this->getProfile(),
                         MemberNotificationPeer::VISIT

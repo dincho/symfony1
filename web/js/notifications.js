@@ -1,21 +1,5 @@
-function parse_notifications(request, notification_lifetime)
-{
-
-  var json = eval('(' + request.responseText + ')');
-  var nbElementsInResponse = (json) ? json.length : 0;
-  var delay = 0;
-  
-  for (var i = 0; i <= nbElementsInResponse; i++)
-  {
-    if(json[i]) show_notification(json[i], notification_lifetime);
-  }
-}
-
 function show_notification(note, lifetime)
 {
-
-    if( typeof(note.title) != 'string' ) return; //don't show empty notifications
-    
     var notes = $$('.notification');
     var last_note = notes[notes.length-1];
     
@@ -41,10 +25,7 @@ function show_notification(note, lifetime)
     br.setAttribute('class', 'clear');
 
     var h3 = document.createElement('h3');
-    h3.innerHTML = note.title;
-    
-    var theBody = document.createElement('p');
-    theBody.innerHTML = note.body;
+    h3.innerHTML = note;
    
     Event.observe(close_link, 'click', function(event) {
       theBox.remove();
@@ -53,12 +34,11 @@ function show_notification(note, lifetime)
     theBox.appendChild(close_link);
     theBox.appendChild(br);
     theBox.appendChild(h3);
-    theBox.appendChild(theBody);    
     document.body.appendChild(theBox);
     
     new Effect.Appear(theBox, { duration: 2.0 });
-    setTimeout(function () { 
-                new Effect.Fade(theBox, { duration: 1.0 }); 
-                setTimeout(function() { theBox.remove(); }, 1200);
-                }, lifetime);
+    setTimeout(function () {
+      new Effect.Fade(theBox, { duration: 1.0 });
+      setTimeout(function() { theBox.remove(); }, 1200);
+    }, lifetime);
 }

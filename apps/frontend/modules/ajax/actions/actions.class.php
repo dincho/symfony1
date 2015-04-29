@@ -119,45 +119,26 @@ class ajaxActions extends geoActions
         $this->setLayout(false);
     }
 
-    public function executeNotifications()
+    public function executePusher()
     {
-        $output = null;
-
-        if ( $this->getUser()->isAuthenticated() ) {
-            $c = new Criteria();
-            $c->add(MemberNotificationPeer::MEMBER_ID, $this->getUser()->getId());
-            $c->add(MemberNotificationPeer::SENT_AT, null, Criteria::ISNULL);
-            $c->add(MemberNotificationPeer::CREATED_AT, time()-60, Criteria::GREATER_THAN);
-            $c->addAscendingOrderByColumn(MemberNotificationPeer::CREATED_AT);
-            $c->setLimit(8);
-            $notifications = MemberNotificationPeer::doSelect($c);
-
-            $results_tmp = array();
-
-            if ($notifications) { //to prevent empty updates
-              $ids = array();
-
-              foreach ($notifications as $notification) {
-                $ids[] = $notification->getId();
-                $message = MemberNotificationPeer::getNotificationMessage($notification);
-                $results_tmp[] = array('title' => $message,
-                                      'body' => '');
-              }
-
-              $output = json_encode($results_tmp);
-
-              $u1 = new Criteria();
-              $u1->add(MemberNotificationPeer::ID, $ids, Criteria::IN);
-
-              $u2 = new Criteria();
-              $u2->add(MemberNotificationPeer::SENT_AT, time());
-
-              BasePeer::doUpdate($u1, $u2, Propel::getConnection());
-            }
-        }
+        sfConfig::set('sf_web_debug', false);
 
         $this->setLayout(false);
+        $this->getResponse()->setContentType('application/json');
 
-        return $this->renderText($output);
+        $socketId = $this->getRequestParameter('socket_id');
+        $channelName = $this->getRequestParameter('channel_name');
+        $data = $socketId . ':' . $channelName;
+        $key = sfConfig::get('app_pusher_key');
+        $secret = sfConfig::get('app_pusher_secret');
+
+        $userId = (int) substr($channelName, strrpos($channelName, '-')+1);
+        if ($this->getUser()->getId() != $userId) {
+            return sfView::NONE; //error
+        }
+
+        return $this->renderText(json_encode(array(
+            'auth' => $key . ':' . hash_hmac('sha256', $data, $secret)
+        )));
     }
 }

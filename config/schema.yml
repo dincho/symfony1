@@ -537,15 +537,6 @@ propel:
       event_notify:  [notification_id, event]
     _indexes:
       event:         [event]
-      
-  member_notification:
-    id:
-    member_id:      { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    profile_id:     { type: integer, required: true, foreignTable: member, foreignReference: id, onDelete: cascade }
-    type:           { type: integer, required: true }
-    subject_id:     { type: integer, required: true }
-    sent_at:        { type: timestamp }
-    created_at:
 
   pr_mail_message:
     id:

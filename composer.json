@@ -15,6 +15,7 @@
     ],
     "require": {
         "dincho/symfony1": "1.0.*",
-        "elasticsearch/elasticsearch": "~0.4"
+        "elasticsearch/elasticsearch": "~0.4",
+        "pusher/pusher-php-server": "2.2.*"
     }
 }

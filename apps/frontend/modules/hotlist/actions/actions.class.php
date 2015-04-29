@@ -82,7 +82,7 @@ class hotlistActions extends prActions
                     Events::triggerAccountActivityHotlist($profile, $member);
                 }
 
-                MemberNotificationPeer::addNotification(
+                MemberNotificationPeer::send(
                     $profile,
                     $member,
                     MemberNotificationPeer::HOTLIST
