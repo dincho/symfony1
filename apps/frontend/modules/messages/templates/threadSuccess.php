@@ -64,8 +64,11 @@
         </span>
         <span class="js-reload" style="<?php echo (count($messages) > $limit) ? "" : "display: none"?>">
             <span class="js-separator">&nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
-            <?php echo link_to_function(__('View the last messages'),  'location = location.pathname'); ?>
+            <?php echo link_to_function(__('View the last messages'),  'location = location.href'); ?>
         </span>
+        <?php if( (!$profile || !$profile->isActive()) && $displayFetchLink): ?>
+            <?php echo input_hidden_tag('displayFetchLink', $displayFetchLink, array('class' => 'hidden')) ?>
+        <?php endif; ?>
     </div>
     <img class="js-loader" src="/images/ajax-loader-bg-2B2B2B.gif" alt="Loading..." style="display: none;" />
 </div>
