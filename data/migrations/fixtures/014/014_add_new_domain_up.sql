@@ -1,7 +1,7 @@
 INSERT INTO `catalogue` (`cat_id`, `name`, `source_lang`, `target_lang`, `date_created`, `date_modified`, `author`, `domain`, `shared_catalogs`)
 VALUES
     (20, 'www.ashley.pl.messages.pl', 'en', 'pl', 1430142180, 1430142180, '', 'www.ashley.pl', NULL),
-    (21, 'www.ishchumillionera.com.messages.com', 'en', 'ru', 1430142180, 1430142180, '', 'www.ishchumillionera.com', NULL);
+    (21, 'www.ishchumillionera.com.messages.ru', 'en', 'ru', 1430142180, 1430142180, '', 'www.ishchumillionera.com', NULL);
 
 INSERT INTO `trans_unit` (`id`,`cat_id`,`source`,`target`,`comments`,`author`,`translated`,`date_modified`,`msg_collection_id`,`date_added`,`tags`,`link`)
     SELECT NULL, 20, `source`,`target`,`comments`,`author`,`translated`,UNIX_TIMESTAMP(),`msg_collection_id`,UNIX_TIMESTAMP(),`tags`,`link` 
