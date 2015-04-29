@@ -43,8 +43,9 @@
                           $sf_data->get('sf_flash')->has('msg_info') ): ?>
                     <?php include_partial('content/messages'); ?>
                 <?php endif; ?>
-
-                <?php include_partial('content/formErrors'); ?>
+                <?php if( !$sf_request->hasAttribute('relocate_error') ): // check for action-specific errors ?>
+                    <?php include_partial('content/formErrors'); ?>
+                <?php endif; ?>
             </div>
             <?php if( stripos(sfRouting::getInstance()->getCurrentInternalUri(), 'myProfile') !== false ): //looking my profile ?>
               <?php $breadcrumb_params = array('header_title' => @$header_title, 'auth' => $sf_user->isAuthenticated(), 'sf_cache_key' => $sf_user->getId()); ?>
