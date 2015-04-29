@@ -51,13 +51,15 @@ all:
       domain_cultures:
         pl: []
         en: []
+        ru: []
       catalog_domains:  []
 
 dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
-          pl:             [szukammilionera.localhost, pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-          en:             [polishdate.dev, polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us, dh.polishdate.bonex.us]
+          pl:             [szukammilionera.localhost, pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us, as.polishdate.bonex.us]
+          en:             [polishdate.dev, polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us]
+          ru:             [im.polishdate.bonex.us]
       catalog_domains:
           "polishdate.dev":               www.polishdate.com
           "polishdate.bonex.us":          www.polishdate.com
@@ -66,14 +68,13 @@ dev:
           "pl.polishdate.bonex.us":       www.szukammilionera.com
           "pl.pd.dincho.bonex.us":        www.szukammilionera.com
           "du.polishdate.bonex.us":       www.dyskretnyuklad.com
-          "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
           "cs.polishdate.bonex.us":       www.cafesayang.com
           "cafesayang.localhost":         www.cafesayang.com
           "db.polishdate.bonex.us":       www.datingbistro.com
           "datingbistro.localhost":       www.datingbistro.com
-          "dh.polishdate.bonex.us":       www.datingonhudson.com
-          "datingonhudson.localhost":     www.datingonhudson.com
+          "as.polishdate.bonex.us":       www.ashley.pl
+          "im.polishdate.bonex.us":       www.ishchumillionera.com
   mail:
     enabled:                no
     use_queue:              no
@@ -86,8 +87,9 @@ dev:
 stag:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
-          pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us]
-          en:             [polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us, dh.polishdate.bonex.us]
+          pl:             [pl.polishdate.bonex.us, mm.polishdate.bonex.us, as.polishdate.bonex.us]
+          en:             [polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us]
+          ru:             [im.polishdate.bonex.us]
       catalog_domains:
           "polishdate.bonex.us":          www.polishdate.com
           "pd.dincho.bonex.us":           www.polishdate.com
@@ -95,11 +97,11 @@ stag:
           "pl.polishdate.bonex.us":       www.szukammilionera.com
           "pl.pd.dincho.bonex.us":        www.szukammilionera.com
           "du.polishdate.bonex.us":       www.dyskretnyuklad.com
-          "ec.polishdate.bonex.us":       www.expatcalling.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
           "cs.polishdate.bonex.us":       www.cafesayang.com
           "db.polishdate.bonex.us":       www.datingbistro.com
-          "dh.polishdate.bonex.us":       www.datingonhudson.com
+          "as.polishdate.bonex.us":       www.ashley.pl
+          "im.polishdate.bonex.us":       www.ishchumillionera.com
   mail:
     enabled:          yes
     use_queue:        yes
@@ -108,8 +110,9 @@ stag:
 prod:
     .domains:
         domain_cultures:   #do not have :sf_culture in the routes
-            pl:             [www.szukammilionera.com, www.meskamilosc.pl]
-            en:             [www.polishdate.com, www.dyskretnyuklad.com, www.expatcalling.com, www.cafesayang.com, www.datingbistro.com, www.datingonhudson.com]
+            pl:             [www.szukammilionera.com, www.meskamilosc.pl, www.ashley.pl]
+            en:             [www.polishdate.com, www.dyskretnyuklad.com, www.cafesayang.com, www.datingbistro.com]
+            ru:             [www.ishchumillionera.com]
         catalog_domains:    [] #no trasforms
     mail:
       enabled:          yes
