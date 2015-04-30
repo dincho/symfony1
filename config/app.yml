@@ -57,22 +57,22 @@ all:
 dev:
   .domains:
       domain_cultures:   #do not have :sf_culture in the routes
-          pl:             [szukammilionera.localhost, pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us, as.polishdate.bonex.us]
+          pl:             [szukammilionera.dev, pl.pd.dincho.bonex.us, pl.polishdate.bonex.us, mm.polishdate.bonex.us, as.polishdate.bonex.us]
           en:             [polishdate.dev, polishdate.bonex.us, du.polishdate.bonex.us, cs.polishdate.bonex.us, db.polishdate.bonex.us]
           ru:             [im.polishdate.bonex.us]
       catalog_domains:
           "polishdate.dev":               www.polishdate.com
           "polishdate.bonex.us":          www.polishdate.com
           "branch.pd.dincho.bonex.us":    www.polishdate.com
-          "szukammilionera.localhost":    www.szukammilionera.com
+          "szukammilionera.dev":          www.szukammilionera.com
           "pl.polishdate.bonex.us":       www.szukammilionera.com
           "pl.pd.dincho.bonex.us":        www.szukammilionera.com
           "du.polishdate.bonex.us":       www.dyskretnyuklad.com
           "mm.polishdate.bonex.us":       www.meskamilosc.pl
           "cs.polishdate.bonex.us":       www.cafesayang.com
-          "cafesayang.localhost":         www.cafesayang.com
+          "cafesayang.dev":               www.cafesayang.com
           "db.polishdate.bonex.us":       www.datingbistro.com
-          "datingbistro.localhost":       www.datingbistro.com
+          "datingbistro.dev":             www.datingbistro.com
           "as.polishdate.bonex.us":       www.ashley.pl
           "im.polishdate.bonex.us":       www.ishchumillionera.com
   mail:
