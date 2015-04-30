@@ -2,12 +2,6 @@
 
 <script src="//js.pusher.com/2.2/pusher.min.js"></script>
 <script type="text/javascript">
-    Pusher.log = function(message) {
-        if (window.console && window.console.log) {
-            window.console.log(message);
-        }
-    };
-
     var noteLifetime = <?php echo sfConfig::get('app_settings_member_notification_lifetime', 7000); ?>;
     var appKey = '<?php echo sfConfig::get("app_pusher_key"); ?>';
     var userId = <?php echo $sf_user->getId(); ?>;
