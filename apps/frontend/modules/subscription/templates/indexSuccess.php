@@ -21,9 +21,9 @@
               <span class="select"><?php echo __('Select Membership') ?>&nbsp;</span>
             </div>
         </div>
-        <?php $columnIdx = 1; ?>
-        <?php foreach ($subscriptions as $subscription): ?>
-            <div class="column column_<?php echo $columnIdx++ ?>">
+        <?php $nbSubscr = count($subscriptions); ?>
+        <?php foreach ($subscriptions as $i => $subscription): ?>
+            <div class="column <?php echo ($i == $nbSubscr-1) ? 'column_last' : ''; ?>">
                 <div class="upgrade_header">
                     <?php echo __('Upgrade to %SUBSCRIPTION_TITLE% account!', array('%SUBSCRIPTION_TITLE%' => $subscription->getTitle())); ?>
                 </div>

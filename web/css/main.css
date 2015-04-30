@@ -793,7 +793,7 @@ form#sign_in fieldset a {
     height: 30px;
 }
 
-#subscription .column_3 {
+#subscription .column_last {
     margin-top: -16px;
 }
 
@@ -811,7 +811,7 @@ form#sign_in fieldset a {
     height: 32px;
 }
 
-#subscription .column_3 .upgrade_header {
+#subscription .column_last .upgrade_header {
     height: 33px;
     width: 136px;
     padding-top: 21px;
