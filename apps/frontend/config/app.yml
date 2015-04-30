@@ -113,6 +113,8 @@ dev:
     mm_polishdate_bonex_us:  "MeskaMilosc.pl (dev) - "
   sf_google_analytics_plugin:
     enabled:                no
+  dotpay_sms:
+    prefix: TC.PDTEST
 
 stag:
   gmaps_key:
@@ -155,6 +157,8 @@ stag:
     key: 94007b2c2e593269d60e
     secret: 80f6fc5b388d8f62e32d
     app_id: 117717
+  dotpay_sms:
+    prefix: TC.PDSTAG
 
 test:
   paypal:
