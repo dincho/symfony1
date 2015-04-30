@@ -1121,6 +1121,7 @@ class Member extends BaseMember
             || $this->isColumnModified(MemberPeer::LAST_LOGIN)
             || $this->isColumnModified(MemberPeer::ESSAY_HEADLINE)
             || $this->isColumnModified(MemberPeer::ESSAY_INTRODUCTION)
+            || $this->isColumnModified(MemberPeer::PRIVATE_DATING)
         ) {
             $updateIndex = true;
         }
