@@ -68,7 +68,7 @@ all:
     account_id: 20767
     secret: I92JsuHT04r6fZNl
     prefix: TC.WHIN
-    number: 92578
+    number: 92595
 
   gifts:
     friends_limit: 2 # maximum gifts to send after payment
