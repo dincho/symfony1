@@ -4,3 +4,5 @@ default:
 editPhotosSuccess:
     javascripts: [/cropper/cropper.js: { position: last }]
     stylesheets: [/cropper/cropper.css: { position: first } ]
+editSuccess:
+    javascripts: [toggle_private_dating]

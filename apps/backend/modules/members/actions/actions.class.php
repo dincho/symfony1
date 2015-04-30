@@ -190,6 +190,7 @@ class membersActions extends prActions
                 $this->member->parseLookingFor($this->getRequestParameter('orientation', 'M_F'));
                 $catalogChanged = $this->getRequestParameter('catalog_id') != $this->member->getCatalogId();
                 $this->member->setCatalogId($this->getRequestParameter('catalog_id'));
+                $this->member->setPrivateDating($this->getRequestParameter('private_dating'));
 
                 //change the subscription and clear the last subscription item
                 $subscription_id = $this->getRequestParameter('subscription_id');
