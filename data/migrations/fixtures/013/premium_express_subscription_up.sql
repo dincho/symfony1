@@ -8,7 +8,7 @@ INSERT INTO `subscription_details`
             `can_contact_assistant`, `contact_assistant`, `contact_assistant_day`, `private_dating`,
              `pre_approve`, 25.00, "PLN", 1, "D"
         FROM `subscription_details` 
-        WHERE `subscription_id` = 3;
+        WHERE `subscription_id` = 3 AND `cat_id` IN (2,14,16,20);
 
 CREATE TABLE `dotpay_sms_history`
 (
