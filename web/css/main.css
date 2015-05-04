@@ -3668,7 +3668,7 @@ ul.rating li.five a:hover {
 .dlg-empty .dlg-bdy{
     padding: 20px 0;
 }
-.alignment {
+#footer .social {
     font-size: 16px;
     vertical-align: middle;
 }

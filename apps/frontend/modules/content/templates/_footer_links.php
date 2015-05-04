@@ -21,28 +21,28 @@
 
     <?php if ($sf_user->getCatalogId() === 1): ?>
         <?php echo "|" ?>
-        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/PolishDate', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/polishdate', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/instagram_16.png'), 'https://instagram.com/PolishDate', array('class' => 'alignment')); ?>
+        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/PolishDate', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/polishdate', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/instagram_16.png'), 'https://instagram.com/PolishDate', array('class' => 'social')); ?>
     <?php endif ?>
 
     <?php if ($sf_user->getCatalogId() === 2): ?>
         <?php echo "|" ?>
-        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/SzukamMilionera', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/SzukamMilionera', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/youtube_16.png'), 'https://www.youtube.com/user/SzukamMilionera', array('class' => 'alignment')); ?>
+        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/SzukamMilionera', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/SzukamMilionera', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/youtube_16.png'), 'https://www.youtube.com/user/SzukamMilionera', array('class' => 'social')); ?>
     <?php endif ?>
 
     <?php if ($sf_user->getCatalogId() === 17): ?>
         <?php echo "|" ?>
-        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/cafesayang', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/pages/Cafe-Sayang/122297874488634', array('class' => 'alignment')); ?>
+        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/cafesayang', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/pages/Cafe-Sayang/122297874488634', array('class' => 'social')); ?>
     <?php endif ?>
 
     <?php if ($sf_user->getCatalogId() === 18): ?>
         <?php echo "|" ?>
-        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/datingbistro', array('class' => 'alignment')); ?>
-        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/pages/Dating-Bistro/346670378796341', array('class' => 'alignment')); ?>
+        <?php echo link_to(image_tag('social_icons/twitter_16.png'), 'https://twitter.com/datingbistro', array('class' => 'social')); ?>
+        <?php echo link_to(image_tag('social_icons/facebook_16.png'), 'https://www.facebook.com/pages/Dating-Bistro/346670378796341', array('class' => 'social')); ?>
     <?php endif ?>
     <br />
 <?php endif; ?>
