@@ -4,3 +4,4 @@ default:
 editPhotosSuccess:
     javascripts: [/cropper/cropper.js: { position: last }]
     stylesheets: [/cropper/cropper.css: { position: first } ]
+

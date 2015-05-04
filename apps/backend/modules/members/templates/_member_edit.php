@@ -58,7 +58,7 @@
 <var id="member_original_last_name"><?php echo $member->getOriginalLastName() ?></var><br />
 
 <label for="member_private_dating">Private Dating</label>
-<var id="member_private_dating"><?php echo ($member->getPrivateDating()) ? 'ON' : 'off'; ?></var><br />
+<?php echo select_tag('private_dating', options_for_select(array("0" => 'off', "1" => 'ON'), ($member->getPrivateDating()) ? '1' : '0')) ?><br />
 
 <label for="member_only_full">Only VIP</label>
 <var id="member_only_full"><?php echo ($member->getContactOnlyFullMembers()) ? 'ON' : 'off'; ?></var><br />
